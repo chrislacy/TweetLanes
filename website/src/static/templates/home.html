@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}
+Tweet Lanes for Android
+{% endblock %}
+
+{% block maincontent %}
+    
+    <div class="centerColumn">
+      
+      <div class="leftColumn">
+
+        <div style="position: relative; ">
+          
+          <img src="https://s3.amazonaws.com/tweetlanes/galaxy_nexus.png" style="position:absolute; z-index:1;" width="346" height="585">
+
+          <div id="fade" class="pics">
+            <img src="https://s3.amazonaws.com/tweetlanes/screenshot_1.png" style="position:absolute; z-index:3;" width="346" height="585">
+            <img src="https://s3.amazonaws.com/tweetlanes/screenshot_2.png" style="position:absolute; z-index:3;" width="346" height="585">
+        </div>
+
+
+          
+          <img src="https://s3.amazonaws.com/tweetlanes/galaxy_nexus_glass.png" style="position:absolute; z-index:6;top:0;left:0;" width="346" height="585">
+        </div>
+        </div>
+
+        <div class="rightColumn">
+
+<div style="display:block;height: 300px;background-image:url('https://s3.amazonaws.com/tweetlanes/tweet_lanes_logo_180.png');background-repeat: no-repeat;background-position: top right;">
+
+  <!--
+ <img src="https://s3.amazonaws.com/tweetlanes/tweet_lanes_logo_512.png" width="512" height="512">
+-->
+
+<div class="title1 fr">Tweet Lanes</div>
+<div class="title2 fr">Pure Twitter, Pure Android.</div>
+</div>
+
+  <div id="text-overlay" style="font-size: 16px;">
+    
+    <strong></strong>
+    <br><br>
+  </div>
+  <div style="color: #999;font-size:13px;text-align:center;width: 172px;margin: 0px auto;padding-top:20px">
+    
+      <a href="http://play.google.com/store/apps/details?id=com.tweetlanes.android" target="_blank"> 
+        <img alt="Android app on Google Play" src="http://www.android.com/images/brand/android_app_on_play_logo_large.png" />
+      </a>
+      <br>
+      (yes, it's free)
+  </div>
+
+
+<div style="padding-top:80px">
+      <div style="width:168px; margin:0 auto;" >
+
+        <a href="https://twitter.com/TweetLanes" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @TweetLanes</a>
+        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="http://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>  
+      </div><br>
+    </div>
+
+  </div>
+
+
+        </div>
+
+    <div style="clear:both;"></div>
+
+{% endblock %}
+
+
+{% block post_body_block %}
+
+<script type="text/javascript"> 
+
+    $(document).ready(function() {
+
+      $('#fade').cycle();
+    });
+</script>
+
+{% endblock %}
+
+
+</html>

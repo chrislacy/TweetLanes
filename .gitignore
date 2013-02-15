@@ -1,0 +1,12 @@
+android/client/bin/*
+android/client/gen/*
+android/samples/SocialNetLib/bin/*
+android/samples/SocialNetLib/gen/*
+android/libraries/SupportLibraryV4/bin/*
+android/libraries/SupportLibraryV4/gen/*
+.DS_Store
+R.java
+.metadata/*
+*.pyc
+
+

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.tweetlanes.android"
+    android:versionCode="39"
+    android:versionName="0.72.0">
+    
+    <uses-sdk android:targetSdkVersion="14"
+        android:minSdkVersion="14" />
+    
+    
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<uses-permission android:name="com.android.vending.BILLING" />
+	<uses-feature android:name="android.permission.CAMERA" android:required="false" />
+	<!-- <uses-permission android:name="android.permission.READ_LOGS"/>	-->
+	
+    <application 
+        android:label="@string/app_launcher_name"
+        android:theme="@android:style/Theme.NoTitleBar"
+        android:icon="@drawable/ic_launcher" 
+    	android:name=".App"
+         >
+         
+        <receiver android:name=".AppBroadcastReceiver">  
+		    <intent-filter>  
+		        <action android:name="android.intent.action.BOOT_COMPLETED" />  
+		    </intent-filter>  
+		</receiver>
+        
+        <activity 
+            android:name=".view.BootActivity"
+            >
+            <intent-filter android:label="@string/app_launcher_name">
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        
+        <activity android:name=".view.HomeActivity"
+            >
+            
+            <intent-filter>
+			   <action android:name="android.intent.action.SEND" />
+			   <category android:name="android.intent.category.DEFAULT" />
+			   <data android:mimeType="text/plain" />
+			   <data android:mimeType="image/*" />
+			</intent-filter>
+        </activity>
+         
+        <activity 
+            android:name=".view.ProfileActivity"
+            android:windowSoftInputMode="stateUnchanged"
+			 >
+            <intent-filter>
+			    <category android:name="android.intent.category.DEFAULT" />
+			    <action android:name="android.intent.action.VIEW" />
+			    <data android:scheme="com.tweetlanes.android.profile" />  
+			</intent-filter>
+        </activity>
+        
+        <activity
+            android:name=".view.SearchActivity"
+            >
+            <intent-filter>
+			    <category android:name="android.intent.category.DEFAULT" />
+			    <action android:name="android.intent.action.VIEW" />
+			    <data android:scheme="com.tweetlanes.android.search" />  
+			</intent-filter>
+        </activity>
+        
+        <activity
+            android:name=".view.TweetSpotlightActivity"
+            android:label="@string/app_tweet_spotlight_activity_name"
+            >
+        </activity>
+        
+        <activity
+            android:name=".view.ImageViewActivity"
+            android:theme="@android:style/Theme.Holo"
+            >
+            <intent-filter>
+			    <category android:name="android.intent.category.DEFAULT" />
+			    <action android:name="android.intent.action.VIEW" />
+			    <data android:scheme="com.tweetlanes.android.mediaview" />  
+			</intent-filter>
+        </activity>
+        
+        <activity
+            android:name=".view.TutorialActivity"
+            android:theme="@style/Theme.TweetLanes.Light" 
+            android:label="@string/tutorial_title"
+            >
+        </activity>
+        
+        <activity
+            android:name=".view.DirectMessageActivity"
+            android:theme="@style/Theme.TweetLanes.Light" 
+            >
+        </activity>
+
+         <activity android:name=".view.SettingsActivity"
+                android:label="@string/title_settings">
+        </activity>
+        
+         <activity android:name=".view.TwitterAuthActivity"
+             android:theme="@style/Theme.TweetLanes.Light" 
+             android:noHistory="true">
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.BROWSABLE" />
+				<data android:scheme="tweetlanes-auth-callback:///" android:host="callback" />
+			</intent-filter>
+		</activity>
+		
+         <activity android:name=".view.AppDotNetAuthActivity"
+             android:theme="@style/Theme.TweetLanes.Light" 
+             android:noHistory="true">
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.BROWSABLE" />
+				<data android:scheme="appdotnet-auth-callback:///" android:host="callback" />
+			</intent-filter>
+		</activity>
+        
+         <service
+			android:name=".service.BackgroundService"
+			android:label="@string/label_backend_service">
+			<intent-filter>
+				<category android:name="android.intent.category.DEFAULT"/>
+			</intent-filter>
+		</service>
+         
+        <!-- Start of Crittercism.com Code -->
+		<activity android:name="com.crittercism.NewFeedbackSpringboardActivity" android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" android:screenOrientation="portrait"></activity>
+		<activity android:name="com.crittercism.NewFeedbackIssueListActivity" android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" android:screenOrientation="portrait"></activity>
+		<activity android:name="com.crittercism.NewFeedbackQuestionListActivity" android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" android:screenOrientation="portrait"></activity>
+		<activity android:name="com.crittercism.NewFeedbackItemDetailsActivity" android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" android:screenOrientation="portrait"></activity>
+		<activity android:name="com.crittercism.NewFeedbackCreateActivity" android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" android:screenOrientation="portrait"></activity>
+		<activity android:name="com.crittercism.NotificationActivity" android:screenOrientation="portrait"/>
+		<!-- End of Crittercism.com Code -->
+		         
+         
+         
+    </application>
+
+    
+    
+</manifest>
