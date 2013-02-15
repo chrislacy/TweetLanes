@@ -52,7 +52,7 @@ public class Constant {
 	/*
 	 * 
 	 */
-	// Key & Secret for "Tweet Lanes for Android" project. https://dev.twitter.com/apps/416163
+	// Create a new key/secret here: https://dev.twitter.com/apps 
 	public static final String CONSUMER_KEY = "kAo1LpowVbkbxUx6YSR5g";
 	public static final String CONSUMER_SECRET= "uY5bfj5XGtLUZmFIEOQrFlbFgwhuYv4wMWF2Z5QhGE";
 	
