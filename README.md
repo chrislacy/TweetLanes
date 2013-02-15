@@ -84,3 +84,15 @@ The following copyright notice is used in all files:
  * limitations under the License.
  */
 ```
+
+
+### Contributions
+
+Contributions are most welcome. In fact, they are actively encouraged. 
+
+[Have a read here](https://github.com/chrislacy/TweetLanes/wiki/What-needs-to-be-done) for what I consider to be the most pressing tasks in need to attention.
+
+
+### Note
+
+I retain the copyright and ownership of the Tweet Lanes name. If you choose to release a fork of this code, please use a different name for your project.
