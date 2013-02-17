@@ -4,9 +4,7 @@ Tweet Lanes is a fully functional Twitter client, targeted at Android devices ru
 
 ![Tweet Lanes](https://s3.amazonaws.com/tweetlanes/tweetlanes_github_promo_shot.png)
 
-<a href="https://play.google.com/store/apps/details?id=com.tweetlanes.android">
-<img src="https://developer.android.com/images/brand/en_app_rgb_wo_60.png" border="0">
-</a>
+[![Tweet Lanes on the Google Play Store](https://developer.android.com/images/brand/en_app_rgb_wo_60.png)](https://play.google.com/store/apps/details?id=com.tweetlanes.android)
 
 
 This project contains the full source code to:
