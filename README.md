@@ -30,8 +30,9 @@ Tweet Lanes uses the following open-source software:
 * [Android-PullToRefresh](https://github.com/chrisbanes/Android-PullToRefresh), Copyright 2013 Chris Banes.
 * [AOSP](http://source.android.com/), Copyright 2008-2013 Android Open Source Project.
 * [GestureImageView](https://github.com/jasonpolites/gesture-imageview), Copyright 2012 Jason Polites.
-* [Twidere](https://github.com/mariotaku/twidere), Copyright (C) 2012 Mariotaku Lee.
 * [Prime](https://github.com/DHuckaby/Prime), Copyright (C) 2012 Daniel Huckaby.
+* [Twidere](https://github.com/mariotaku/twidere), Copyright (C) 2012 Mariotaku Lee.
+* [Twitter4J](https://github.com/yusuke/twitter4j), Copyright 2007-2013 Yusuke Yamamoto.
 * [UrlImageViewHelper](https://github.com/koush/UrlImageViewHelper), Copyright 2013 Koushik Dutta.
 * [ViewPagerIndicator](https://github.com/JakeWharton/Android-ViewPagerIndicator), Copyright 2012 Jake Wharton.
 
