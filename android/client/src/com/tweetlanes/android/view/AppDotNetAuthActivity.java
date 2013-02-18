@@ -16,8 +16,6 @@
 
 package com.tweetlanes.android.view;
 
-import org.twitter4j.auth.RequestToken;
-
 import com.crittercism.app.Crittercism;
 
 import org.tweetalib.android.TwitterManager;

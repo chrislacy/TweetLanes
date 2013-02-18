@@ -24,7 +24,6 @@ import org.asynctasktex.AsyncTaskEx;
 
 import org.socialnetlib.android.AppdotnetApi;
 import org.tweetalib.android.ConnectionStatus;
-import org.tweetalib.android.TwitterConstant.StatusesType;
 import org.tweetalib.android.TwitterContentHandle;
 import org.tweetalib.android.TwitterFetchResult;
 import org.tweetalib.android.TwitterPaging;

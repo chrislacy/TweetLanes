@@ -27,8 +27,6 @@ import org.twitter4j.User;
 import org.twitter4j.conf.Configuration;
 import org.twitter4j.internal.http.HttpResponse;
 
-import android.util.Log;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;

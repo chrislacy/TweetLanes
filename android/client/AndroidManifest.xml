@@ -136,6 +136,25 @@
 			</intent-filter>
 		</service>
          
+         <service
+            android:name=".dashclock.TweetLanesExtension"
+            android:label="@string/extension_title"
+            android:permission="com.google.android.apps.dashclock.permission.READ_EXTENSION_DATA" >
+            <intent-filter>
+                <action android:name="com.google.android.apps.dashclock.Extension" />
+            </intent-filter>
+
+            <meta-data
+                android:name="protocolVersion"
+                android:value="1" />
+            <meta-data
+                android:name="description"
+                android:value="@string/extension_description" />
+            <meta-data
+                android:name="settingsActivity"
+                android:value=".tweetlanessettingsactivity" />
+        </service>
+         
         <!-- Start of Crittercism.com Code -->
 		<activity android:name="com.crittercism.NewFeedbackSpringboardActivity" android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" android:screenOrientation="portrait"></activity>
 		<activity android:name="com.crittercism.NewFeedbackIssueListActivity" android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" android:screenOrientation="portrait"></activity>
@@ -144,6 +163,7 @@
 		<activity android:name="com.crittercism.NewFeedbackCreateActivity" android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" android:screenOrientation="portrait"></activity>
 		<activity android:name="com.crittercism.NotificationActivity" android:screenOrientation="portrait"/>
 		<!-- End of Crittercism.com Code -->
+		<activity android:name=".dashclock.TweetLanesSettingsActivity"></activity>
 		         
          
          

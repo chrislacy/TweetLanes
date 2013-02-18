@@ -22,7 +22,6 @@ import org.appdotnet4j.model.AdnUser;
 import org.asynctasktex.AsyncTaskEx;
 
 import org.socialnetlib.android.AppdotnetApi;
-import org.socialnetlib.android.SocialNetConstant;
 import org.tweetalib.android.model.TwitterUser;
 
 import org.twitter4j.Twitter;

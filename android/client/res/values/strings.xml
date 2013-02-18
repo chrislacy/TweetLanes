@@ -341,5 +341,7 @@
     <string name="description_permission_access_service">Tweet Lanes service</string>
     <string name="label_permission_access_service">Tweet Lanes service</string>
     <string name="label_backend_service">Tweet Lanes Notifications</string>
+    <string name="extension_title">TweetLanes</string>
+    <string name="extension_description">Unread tweets, DMs, and mentions</string>
 </resources>
 

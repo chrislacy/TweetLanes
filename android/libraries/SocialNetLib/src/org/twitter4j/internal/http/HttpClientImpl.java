@@ -21,8 +21,6 @@ import org.twitter4j.conf.ConfigurationContext;
 import org.twitter4j.internal.logging.Logger;
 import org.twitter4j.internal.util.z_T4JInternalStringUtil;
 
-import android.util.Log;
-
 import java.io.BufferedInputStream;
 import java.io.DataOutputStream;
 import java.io.FileInputStream;

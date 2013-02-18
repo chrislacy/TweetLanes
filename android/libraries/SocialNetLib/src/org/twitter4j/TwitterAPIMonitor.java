@@ -15,7 +15,6 @@
  */
 package org.twitter4j;
 
-import org.twitter4j.conf.ConfigurationContext;
 import org.twitter4j.internal.logging.Logger;
 import org.twitter4j.management.APIStatistics;
 import org.twitter4j.management.APIStatisticsMBean;
