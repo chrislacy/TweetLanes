@@ -48,6 +48,7 @@ import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -440,7 +441,10 @@ public class TweetFeedItemView extends LinearLayout {
                     
                     // If this is a link, don't pass the touch back to the system. TwitterLinkify will handle these links, 
                     // and by passing false back we ensure the TweetFeedItemView instance is not selected int the parent ListView
-                    if (link.length != 0) {
+                    
+                    // bug fix (devisnik) for: no switch to action mode when longpressing on a link
+                    // only handle link if touch is not a long press
+                    if (event.getDownTime() < ViewConfiguration.getLongPressTimeout() && link.length != 0) {
                     	if (mCallbacks != null) {
                 			mCallbacks.onUrlClicked(mTwitterStatus);
                 		}
