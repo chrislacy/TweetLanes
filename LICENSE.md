@@ -1,13 +1,5 @@
 # License
 
-Tweet Lanes is dual licensed. 
-
-For non-commercial uses: Apache License, Version 2.0.
-
-For commercial uses: You must [buy a license for a very nominal fee](http://www.tweetlanes.com/buy_source_license). 
-
-The following copyright notice is used in all files:
-
 ```
 /*
  * Copyright (C) 2013 Chris Lacy
