@@ -1113,9 +1113,19 @@ class TwitterImpl extends TwitterBaseImpl implements Twitter {
      * {@inheritDoc}
      */
     public boolean existsFriendship(String userA, String userB) throws TwitterException {
-        return -1 != get(conf.getRestBaseURL() + "friendships/exists.json",
-                getParameterArray("user_a", userA, "user_b", userB)).
-                asString().indexOf("true");
+        try
+        {
+	    	return get(conf.getRestBaseURL() + "friendships/show.json",
+	                getParameterArray("source_screen_name", userA, "target_screen_name", userB))
+	                .asJSONObject()
+	                .getJSONObject("relationship")
+	                .getJSONObject("target")
+	                .getBoolean("followed_by");
+        }
+        catch (JSONException e)
+        {
+        	return false;
+        }
     }
 
     /**
