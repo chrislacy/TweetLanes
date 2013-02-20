@@ -788,7 +788,7 @@ class TwitterImpl extends TwitterBaseImpl implements Twitter {
     public ResponseList<UserList> getAllUserLists(String screenName)
             throws TwitterException {
         return factory.createUserListList(get(conf.getRestBaseURL()
-                + "lists/all.json?screen_name=" + screenName));
+                + "lists/list.json?screen_name=" + screenName));
     }
 
     /**
@@ -797,7 +797,7 @@ class TwitterImpl extends TwitterBaseImpl implements Twitter {
     public ResponseList<UserList> getAllUserLists(long userId)
             throws TwitterException {
         return factory.createUserListList(get(conf.getRestBaseURL()
-                + "lists/all.json?user_id=" + userId));
+                + "lists/list.json?user_id=" + userId));
     }
 
     /*List Members Methods*/
