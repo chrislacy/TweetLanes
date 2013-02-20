@@ -600,6 +600,7 @@ public abstract class SocialNetApi {
 		mFetchBooleans.getFriendshipExists(userScreenName, userScreenNameToCheck, callback, mConnectionStatus);
 	}
 
+	public abstract SocialNetConstant.Type getSocialNetType();
 	
 	public TwitterFetchLists 	getFetchListsInstance() 	{ return mFetchLists; }
 	public TwitterFetchStatus 	getFetchStatusInstance() 	{ return mFetchStatus; }

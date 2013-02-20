@@ -200,4 +200,8 @@ public class AppdotnetApi extends SocialNetApi {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public SocialNetConstant.Type getSocialNetType() {
+		return SocialNetConstant.Type.Appdotnet;
+	}
 }

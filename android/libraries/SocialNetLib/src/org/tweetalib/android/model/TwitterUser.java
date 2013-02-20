@@ -17,6 +17,7 @@
 package org.tweetalib.android.model;
 
 import org.appdotnet4j.model.AdnUser;
+import org.socialnetlib.android.SocialNetConstant;
 import org.tweetalib.android.TwitterManager.ProfileImageSize;
 import twitter4j.User;
 
@@ -41,6 +42,7 @@ public class TwitterUser {
 		mListedCount = user.getListedCount();
 		mVerified = user.isVerified();
 		mProtected = user.isProtected();
+		mSocialNetType = SocialNetConstant.Type.Twitter;
 	}
 	
 	public TwitterUser(AdnUser user) {
@@ -53,6 +55,7 @@ public class TwitterUser {
 		mProfileImageUrl = user.mAvatarUrl;
 		mCoverImageUrl = user.mCoverUrl;
 		mDescription = user.mDescription;
+		mSocialNetType = SocialNetConstant.Type.Appdotnet;
 	}
 
 	public TwitterUser(TwitterUser user) {
@@ -70,6 +73,7 @@ public class TwitterUser {
 		mListedCount = user.getListedCount();
 		mVerified = user.getVerified();
 		mProtected = user.getProtected();
+		mSocialNetType = user.getSocialNetType();
 	}
 
 	public long		getId()				{ return mId; }
@@ -86,6 +90,7 @@ public class TwitterUser {
 	public int		getListedCount()	{ return mListedCount; }
 	public boolean	getVerified()		{ return mVerified; }
 	public boolean 	getProtected()		{ return mProtected; }
+	public SocialNetConstant.Type getSocialNetType() { return mSocialNetType; }
 	
 	public String 	getProfileImageUrl(ProfileImageSize size) {
 		if (mProfileImageUrl != null) {
@@ -112,6 +117,6 @@ public class TwitterUser {
 	private int		mFavoritesCount;
 	private int		mListedCount;
 	private boolean	mVerified;
-	private boolean mProtected; 
-	
+	private boolean mProtected;
+	private SocialNetConstant.Type mSocialNetType;
 }

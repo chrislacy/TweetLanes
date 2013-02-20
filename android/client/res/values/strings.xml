@@ -24,6 +24,7 @@
     <string name="credits_app_copyright">Copyright 2013, Chris Lacy.</string>
     
     <string name="authorize_twitter_account">Authorize Twitter Account</string>
+    <string name="authorize_appdotnet_account">Authorize App.net Account</string>
     
     <string name="action_follow">Follow</string>
     <string name="action_unfollow">Unfollow</string>
@@ -341,5 +342,6 @@
     <string name="description_permission_access_service">Tweet Lanes service</string>
     <string name="label_permission_access_service">Tweet Lanes service</string>
     <string name="label_backend_service">Tweet Lanes Notifications</string>
+    <string name="select_account_type">Pick an account to add</string>
 </resources>
 

@@ -20,7 +20,7 @@ public class TwitterFetchResult {
 
 	boolean mSuccessful;
 	String mErrorMessage;
-	
+		
 	/*
 	 * 
 	 */

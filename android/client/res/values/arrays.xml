@@ -63,5 +63,9 @@
         <item>username_name</item>
         <item>name_username</item>  
     </string-array>
+    <string-array name="accounttype_list">
+        <item >Twitter</item>
+        <item >App.net</item>
+    </string-array>
     
 </resources>

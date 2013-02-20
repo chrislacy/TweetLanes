@@ -107,22 +107,17 @@ public class ProfileFragment extends BaseLaneFragment {
             Bundle savedInstanceState) {
 
         super.onCreateView(inflater, container, savedInstanceState);
-
-        mProfileView = inflater
-                .inflate(
-                        Constant.SOCIAL_NET_TYPE == SocialNetConstant.Type.Appdotnet ? R.layout.profile_adn
-                                : R.layout.profile, null);
-
+		
         if (getArguments().getString("userId") != null) {
             Long userId = Long.parseLong(getArguments().getString("userId"));
             mUser = TwitterManager.get().getUser(userId);
         }
 
-        if (mFollowsLoggedInUser == null && mUser != null
-                && mFriendshipCallback == null) {
-
-            String currentUserScreenName = getBaseLaneActivity().getApp()
-                    .getCurrentAccountScreenName();
+		mProfileView = inflater.inflate(mUser.getSocialNetType() == SocialNetConstant.Type.Appdotnet ? R.layout.profile_adn : R.layout.profile, null);
+		
+		if (mFollowsLoggedInUser == null && mUser != null && mFriendshipCallback == null) {
+			
+			String currentUserScreenName = getBaseLaneActivity().getApp().getCurrentAccountScreenName();
             if (currentUserScreenName != null) {
                 mFriendshipCallback = TwitterManager.get()
                         .getFetchBooleansInstance().new FinishedCallback() {

@@ -61,6 +61,17 @@ import com.tweetlanes.android.Constant;
 import com.tweetlanes.android.R;
 import com.tweetlanes.android.model.AccountDescriptor;
 import com.tweetlanes.android.model.LaneDescriptor;
+
+import org.socialnetlib.android.SocialNetConstant;
+import org.tweetalib.android.TwitterFetchLists.FinishedCallback;
+import org.tweetalib.android.TwitterFetchResult;
+import org.tweetalib.android.TwitterFetchUsers;
+import org.tweetalib.android.model.TwitterLists;
+import org.tweetalib.android.model.TwitterStatus;
+import org.tweetalib.android.model.TwitterStatusUpdate;
+import org.tweetalib.android.model.TwitterUsers;
+import org.tweetalib.android.TwitterManager;
+
 import com.tweetlanes.android.service.BackgroundService;
 import com.tweetlanes.android.widget.viewpagerindicator.TitleProvider;
 
@@ -534,14 +545,20 @@ public class HomeActivity extends BaseLaneActivity {
 	 * 
 	 */
     private void showAddAccount() {
-
-        // Intent i = new Intent(getApplicationContext(),
-        // AddAccountActivity.class);
-        Intent intent = new Intent(getApplicationContext(),
-                TwitterAuthActivity.class);
-        startActivity(intent);
+    	AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
+    	
+    	builder.setTitle(R.string.select_account_type)
+    		.setItems(R.array.accounttype_list, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+    				Intent intent = new Intent(getApplicationContext(), which == 0 ? TwitterAuthActivity.class : AppDotNetAuthActivity.class);
+  				
+    				startActivity(intent);
     }
-
+    		});
+        
+        builder.create().show();
+    }
+	
     /*
 	 * 
 	 */

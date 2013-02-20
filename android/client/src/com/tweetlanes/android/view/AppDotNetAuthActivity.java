@@ -11,6 +11,11 @@
 
 package com.tweetlanes.android.view;
 
+import twitter4j.auth.RequestToken;
+import org.socialnetlib.android.SocialNetConstant;
+
+import com.crittercism.app.Crittercism;
+
 import org.tweetalib.android.TwitterManager;
 import org.tweetalib.android.TwitterSignIn.GetOAuthAccessTokenCallback;
 import org.tweetalib.android.model.TwitterUser;
@@ -43,9 +48,9 @@ public class AppDotNetAuthActivity extends Activity {
 
         setTheme(AppSettings.get().getCurrentThemeStyle());
 
-        getActionBar().setTitle(R.string.authorize_twitter_account);
+		getActionBar().setTitle(R.string.authorize_appdotnet_account);
 
-        String url = "https://alpha.app.net/oauth/authenticate?client_id=xQpysWPFrnqrhHFnNGgrbcR6utBFgzpk&response_type=token&redirect_uri=http://lacytest.appspot.com/twitter/oauth_callback&scope=stream,email,write_post,follow,messages";
+		String url = "https://alpha.app.net/oauth/authenticate?client_id=" + Constant.APPDOTNET_CONSUMER_KEY +"&response_type=token&redirect_uri=tweetlanes-auth-callback:///&scope=stream,email,write_post,follow,messages";
 
         setContentView(R.layout.twitter_auth_signin);
 
@@ -78,7 +83,7 @@ public class AppDotNetAuthActivity extends Activity {
     void onSuccessfulLogin(TwitterUser user, String accessToken,
             String accessTokenSecret) {
         App app = (App) getApplication();
-        app.onPostSignIn(user, accessToken, accessTokenSecret);
+		app.onPostSignIn(user, accessToken, accessTokenSecret, SocialNetConstant.Type.Appdotnet);
         app.restartApp(this);
     }
 

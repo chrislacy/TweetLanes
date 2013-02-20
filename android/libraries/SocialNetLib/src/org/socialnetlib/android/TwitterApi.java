@@ -101,6 +101,11 @@ public class TwitterApi extends SocialNetApi {
 		mOAuth = null;
 	}
 
+	public SocialNetConstant.Type getSocialNetType() {
+		return SocialNetConstant.Type.Twitter;
+	}
+
+	
 	/*
 	 * Used for https://dev.twitter.com/docs/auth/oauth/oauth-echo
 	 */

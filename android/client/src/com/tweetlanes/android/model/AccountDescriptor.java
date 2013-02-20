@@ -44,18 +44,19 @@ public class AccountDescriptor {
     static final String KEY_LIST_ID = "id";
     static final String KEY_LIST_NAME = "name";
     static final String KEY_DISPLAYED_LANES = "displayedLanes";
-
+	static final String KEY_SOCIAL_NET_TYPE = "socialNetType";
     /*
 	 * 
 	 */
-    public AccountDescriptor(TwitterUser user, String oAuthToken,
-            String oAuthSecret) {
+	public AccountDescriptor(TwitterUser user, String oAuthToken, String oAuthSecret, SocialNetConstant.Type oSocialNetType) {
         mId = user.getId();
         mScreenName = user.getScreenName();
         mOAuthToken = oAuthToken;
         mOAuthSecret = oAuthSecret;
         mInitialLaneIndex = null;
+		mSocialNetType = oSocialNetType;
         initCommon(null);
+		
     }
 
     /*
@@ -76,6 +77,12 @@ public class AccountDescriptor {
             } else {
                 mInitialLaneIndex = null;
             }
+			if (object.has(KEY_SOCIAL_NET_TYPE)) {
+				mSocialNetType = (SocialNetConstant.Type)object.get(KEY_SOCIAL_NET_TYPE);
+			}
+			else {
+				mSocialNetType = SocialNetConstant.Type.Twitter;
+			}
             if (object.has(KEY_LISTS)) {
                 mLists = new ArrayList<List>();
                 String listsAsString = object.getString(KEY_LISTS);
@@ -154,7 +161,7 @@ public class AccountDescriptor {
                         TwitterConstant.ContentType.STATUSES,
                         TwitterConstant.StatusesType.USER_TIMELINE)));
 
-        if (Constant.SOCIAL_NET_TYPE == SocialNetConstant.Type.Twitter) {
+		if (mSocialNetType == SocialNetConstant.Type.Twitter) {
             mLaneDefinitions.add(new LaneDescriptor(
                     Constant.LaneType.USER_PROFILE_TIMELINE, App.getContext()
                             .getString(R.string.lane_user_retweets_of_me),
@@ -170,14 +177,7 @@ public class AccountDescriptor {
                         TwitterConstant.ContentType.STATUSES,
                         TwitterConstant.StatusesType.USER_HOME_TIMELINE)));
 
-        mLaneDefinitions.add(new LaneDescriptor(
-                Constant.LaneType.USER_MENTIONS, App.getContext().getString(
-                        R.string.lane_user_mentions),
-                new TwitterContentHandleBase(
-                        TwitterConstant.ContentType.STATUSES,
-                        TwitterConstant.StatusesType.USER_MENTIONS)));
-
-        if (Constant.SOCIAL_NET_TYPE == SocialNetConstant.Type.Appdotnet) {
+		if (mSocialNetType == SocialNetConstant.Type.Appdotnet) {
             mLaneDefinitions.add(new LaneDescriptor(
                     Constant.LaneType.GLOBAL_FEED, App.getContext().getString(
                             R.string.lane_user_global_feed),
@@ -186,7 +186,7 @@ public class AccountDescriptor {
                             TwitterConstant.StatusesType.GLOBAL_FEED)));
         }
 
-        if (Constant.SOCIAL_NET_TYPE == SocialNetConstant.Type.Twitter) {
+		if (mSocialNetType == SocialNetConstant.Type.Twitter) {
             mLaneDefinitions.add(new LaneDescriptor(
                     Constant.LaneType.DIRECT_MESSAGES, App.getContext()
                             .getString(R.string.lane_direct_messages),
@@ -437,6 +437,14 @@ public class AccountDescriptor {
         mLaneDefinitionsDirty = value;
     }
 
+	public SocialNetConstant.Type getSocialNetType() {
+		return mSocialNetType;
+	}
+
+	public void setSocialNetType(SocialNetConstant.Type mSocialNetType) {
+		this.mSocialNetType = mSocialNetType;
+	}
+
     /*
 	 * 
 	 */
@@ -458,7 +466,8 @@ public class AccountDescriptor {
     private Integer mInitialLaneIndex;
     private ArrayList<List> mLists;
     private boolean mShouldRefreshLists;
-
+	private SocialNetConstant.Type mSocialNetType;
+	
     /*
      * Stripped version of the List class. Possibly should use TwitterList, but
      * I thought I thought it best to save the string space of that much larger

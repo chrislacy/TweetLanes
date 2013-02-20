@@ -59,7 +59,6 @@ public class TwitterManager {
 	 * 
 	 */
 	TwitterManager(SocialNetConstant.Type socialNetType, String consumerKey, String consumerSecret) {
-		
 		switch (socialNetType) {
 			case Twitter:
 				mApi = new TwitterApi(socialNetType, consumerKey, consumerSecret);
@@ -74,14 +73,15 @@ public class TwitterManager {
 		}
 	}
 	
-	
+	public SocialNetConstant.Type getSocialNetType() {
+		return mApi.getSocialNetType();
+	}
 	
 	/*
 	 * 
 	 */
 	public void setOAuthTokenWithSecret(String oAuthToken, String oAuthSecret, boolean cancelPending) {
-		
-		mApi.setOAuthTokenWithSecret(oAuthToken, oAuthSecret, cancelPending);
+			mApi.setOAuthTokenWithSecret(oAuthToken, oAuthSecret, cancelPending);
 	}
 	
 	/*

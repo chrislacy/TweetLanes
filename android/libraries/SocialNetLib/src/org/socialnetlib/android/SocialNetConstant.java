@@ -20,7 +20,6 @@ public class SocialNetConstant {
 
 	public enum Type {
 		Twitter,
-		Appdotnet,
-	};
-	
+		Appdotnet
+	}		
 }
