@@ -415,7 +415,7 @@ public class TwitterFetchStatuses {
 						
 						case USER_MENTIONS:
 						{
-							ResponseList<twitter4j.Status> statuses = twitter.getMentions(paging);
+							ResponseList<twitter4j.Status> statuses = twitter.getMentionsTimeline(paging);
 							contentFeed = setStatuses(input.mContentHandle, statuses);
 							break;
 						}
