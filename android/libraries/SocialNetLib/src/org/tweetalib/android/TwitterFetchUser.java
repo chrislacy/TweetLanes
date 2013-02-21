@@ -25,9 +25,9 @@ import org.socialnetlib.android.AppdotnetApi;
 import org.socialnetlib.android.SocialNetConstant;
 import org.tweetalib.android.model.TwitterUser;
 
-import org.twitter4j.Twitter;
-import org.twitter4j.TwitterException;
-import org.twitter4j.User;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.User;
 
 
 public class TwitterFetchUser {

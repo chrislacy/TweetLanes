@@ -445,7 +445,7 @@ public abstract class ComposeBaseFragment extends Fragment {
 		
         int length = mStatusValidator.getTweetLength(string);
         if (length > 0) {
-        	int remaining = Validator.MAX_STATUS_LENGTH - length;
+        	int remaining = Validator.MAX_TWEET_LENGTH - length;
         	if (_mComposeDefault != null && _mComposeDefault.getMediaFilePath() != null) {
         		remaining -= SHORT_URL_LENGTH_HTTPS - 1;
         	}

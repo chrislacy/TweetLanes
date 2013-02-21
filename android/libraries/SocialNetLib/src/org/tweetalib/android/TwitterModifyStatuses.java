@@ -24,8 +24,8 @@ import org.tweetalib.android.TwitterConstant.StatusesType;
 import org.tweetalib.android.model.TwitterStatus;
 import org.tweetalib.android.model.TwitterStatuses;
 
-import org.twitter4j.Twitter;
-import org.twitter4j.TwitterException;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
 
 
 public class TwitterModifyStatuses {
@@ -209,7 +209,7 @@ public class TwitterModifyStatuses {
 								TwitterStatus twitterStatus = input.mStatuses.getStatus(i);
 								if (twitterStatus.mIsFavorited != favorite) {
 									try {
-										org.twitter4j.Status status;
+										twitter4j.Status status;
 										if (favorite) {
 											status = twitter.createFavorite(twitterStatus.mId);
 										} else {

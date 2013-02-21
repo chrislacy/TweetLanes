@@ -23,7 +23,7 @@ import org.socialnetlib.android.AppdotnetApi;
 import org.socialnetlib.android.SocialNetApi;
 import org.socialnetlib.android.SocialNetConstant;
 import org.socialnetlib.android.TwitterApi;
-import org.twitter4j.auth.RequestToken;
+import twitter4j.auth.RequestToken;
 
 import org.tweetalib.android.callback.TwitterFetchDirectMessagesFinishedCallback;
 import org.tweetalib.android.callback.TwitterFetchStatusesFinishedCallback;

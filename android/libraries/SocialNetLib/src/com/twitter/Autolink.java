@@ -11,23 +11,23 @@ import java.util.Map;
  */
 public class Autolink {
   /** Default CSS class for auto-linked list URLs */
-  public static final String DEFAULT_LIST_CLASS = null;//"tweet-url list-slug";
+  public static final String DEFAULT_LIST_CLASS = "tweet-url list-slug";
   /** Default CSS class for auto-linked username URLs */
-  public static final String DEFAULT_USERNAME_CLASS = null;//"tweet-url username";
+  public static final String DEFAULT_USERNAME_CLASS = "tweet-url username";
   /** Default CSS class for auto-linked hashtag URLs */
-  public static final String DEFAULT_HASHTAG_CLASS = null;//"tweet-url hashtag";
+  public static final String DEFAULT_HASHTAG_CLASS = "tweet-url hashtag";
   /** Default CSS class for auto-linked cashtag URLs */
-  public static final String DEFAULT_CASHTAG_CLASS = null;//"tweet-url cashtag";
+  public static final String DEFAULT_CASHTAG_CLASS = "tweet-url cashtag";
   /** Default href for username links (the username without the @ will be appended) */
-  public static final String DEFAULT_USERNAME_URL_BASE = "com.tweetlanes.android.profile://";
+  public static final String DEFAULT_USERNAME_URL_BASE = "https://twitter.com/";
   /** Default href for list links (the username/list without the @ will be appended) */
-  public static final String DEFAULT_LIST_URL_BASE = "com.tweetlanes.android.profile://";
+  public static final String DEFAULT_LIST_URL_BASE = "https://twitter.com/";
   /** Default href for hashtag links (the hashtag without the # will be appended) */
-  public static final String DEFAULT_HASHTAG_URL_BASE = "com.tweetlanes.android.search://";
+  public static final String DEFAULT_HASHTAG_URL_BASE = "https://twitter.com/#!/search?q=%23";
   /** Default href for cashtag links (the cashtag without the $ will be appended) */
-  public static final String DEFAULT_CASHTAG_URL_BASE = "com.tweetlanes.android.search://";
+  public static final String DEFAULT_CASHTAG_URL_BASE = "https://twitter.com/#!/search?q=%24";
   /** Default attribute for invisible span tag */
-  public static final String DEFAULT_INVISIBLE_TAG_ATTRS = null;//"style='position:absolute;left:-9999px;'";
+  public static final String DEFAULT_INVISIBLE_TAG_ATTRS = "style='position:absolute;left:-9999px;'";
 
   public static interface LinkAttributeModifier {
     public void modify(Entity entity, Map<String, String> attributes);
@@ -145,11 +145,9 @@ public class Autolink {
     CharSequence hashtag = entity.getValue();
 
     Map<String, String> attrs = new LinkedHashMap<String, String>();
-    attrs.put("href", hashtagUrlBase + "#" + hashtag);
-    //attrs.put("title", "#" + hashtag);
-    if (hashtagClass != null) {
-    	attrs.put("class", hashtagClass);
-    }
+    attrs.put("href", hashtagUrlBase + hashtag);
+    attrs.put("title", "#" + hashtag);
+    attrs.put("class", hashtagClass);
 
     linkToTextWithSymbol(entity, hashChar, hashtag, attrs, builder);
   }
@@ -159,10 +157,8 @@ public class Autolink {
 
     Map<String, String> attrs = new LinkedHashMap<String, String>();
     attrs.put("href", cashtagUrlBase + cashtag);
-    //attrs.put("title", "$" + cashtag);
-    if (cashtagClass != null) {
-    	attrs.put("class", cashtagClass);
-    }
+    attrs.put("title", "$" + cashtag);
+    attrs.put("class", cashtagClass);
 
     linkToTextWithSymbol(entity, "$", cashtag, attrs, builder);
   }
@@ -175,14 +171,10 @@ public class Autolink {
     Map<String, String> attrs = new LinkedHashMap<String, String>();
     if (entity.listSlug != null) {
       mention += entity.listSlug;
-      if (listClass != null) {
-    	  attrs.put("class", listClass);
-      }
+      attrs.put("class", listClass);
       attrs.put("href", listUrlBase + mention);
     } else {
-      if (usernameClass != null) {
-        attrs.put("class", usernameClass);
-      }
+      attrs.put("class", usernameClass);
       attrs.put("href", usernameUrlBase + mention);
     }
 
@@ -239,7 +231,7 @@ public class Autolink {
         String afterDisplayURL = entity.expandedURL.substring(diplayURLIndexInExpandedURL + displayURLSansEllipses.length());
         String precedingEllipsis = entity.displayURL.startsWith("…") ? "…" : "";
         String followingEllipsis = entity.displayURL.endsWith("…") ? "…" : "";
-        String invisibleSpan = "<span " + (invisibleTagAttrs == null ? "" : invisibleTagAttrs) + ">";
+        String invisibleSpan = "<span " + invisibleTagAttrs + ">";
 
         StringBuilder sb = new StringBuilder("<span class='tco-ellipsis'>");
         sb.append(precedingEllipsis);

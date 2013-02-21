@@ -18,7 +18,7 @@ package org.tweetalib.android.model;
 
 import java.util.ArrayList;
 
-import org.twitter4j.IDs;
+import twitter4j.IDs;
 
 public class TwitterIds {
 

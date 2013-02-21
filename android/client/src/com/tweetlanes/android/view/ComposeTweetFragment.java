@@ -280,7 +280,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
 		if (status != null) {
 			int statusLength = mStatusValidator.getTweetLength(status);
 			if (mStatusValidator.isValidTweet(status) == false) {
-				showSimpleAlert(mStatusValidator.getTweetLength(status) <= Validator.MAX_STATUS_LENGTH ? 
+				showSimpleAlert(mStatusValidator.getTweetLength(status) <= Validator.MAX_TWEET_LENGTH ? 
         	    		R.string.alert_status_invalid : R.string.alert_status_too_long);
 			} else if (statusLength > 0) {
 				// Too long:

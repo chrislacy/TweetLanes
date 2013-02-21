@@ -17,7 +17,7 @@
 package org.tweetalib.android;
 
 import org.appdotnet4j.model.AdnPaging;
-import org.twitter4j.Paging;
+import twitter4j.Paging;
 
 import android.util.Log;
 

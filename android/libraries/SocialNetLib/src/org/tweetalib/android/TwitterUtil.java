@@ -23,30 +23,30 @@ import java.util.Date;
 
 import org.appdotnet4j.model.AdnPost;
 import org.tweetalib.android.model.TwitterMediaEntity;
-import org.twitter4j.MediaEntity;
-import org.twitter4j.Paging;
-import org.twitter4j.Query;
-import org.twitter4j.Status;
-import org.twitter4j.Tweet;
-import org.twitter4j.URLEntity;
-import org.twitter4j.UserMentionEntity;
+import twitter4j.MediaEntity;
+import twitter4j.Paging;
+import twitter4j.Query;
+import twitter4j.Status;
+import twitter4j.URLEntity;
+import twitter4j.UserMentionEntity;
 
 import com.twitter.Autolink;
 import com.twitter.AutolinkEx;
 
 public class TwitterUtil {
 
-	private static AutolinkEx mAutolinkEx;
+	private static AutolinkEx mAutolinkEx; 
 	private static Autolink mAutolink; 
 	
 	private static void initCommon() {
+		
 		if (mAutolinkEx == null) {
 			mAutolinkEx = new AutolinkEx();
 			mAutolinkEx.setNoFollow(false);
 			mAutolinkEx.setUsernameIncludeSymbol(true);
 			mAutolinkEx.setUrlTarget("_blank");
 		}
-		
+
 		if (mAutolink == null) {
 			mAutolink = new Autolink();
 			mAutolink.setNoFollow(false);
@@ -80,7 +80,7 @@ public class TwitterUtil {
 	/*
 	 * 
 	 */
-	public static String getStatusMarkup(Tweet tweet) {
+	public static String getStatusMarkup(Status tweet) {
 		return getStatusMarkup(tweet.getText(), null, tweet.getMediaEntities(), tweet.getURLEntities());
 	}
 	
@@ -186,9 +186,9 @@ public class TwitterUtil {
 		if (paging.getSinceId() > -1) {
 			query.setSinceId(paging.getSinceId());
 		}
-		if (paging.getPage() != 1 && paging.getPage() != -1) {
+		/*if (paging.getPage() != 1 && paging.getPage() != -1) {
 			query.setPage(paging.getPage());
-		}
+		}*/
 		
 		return query;
 	}

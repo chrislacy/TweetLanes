@@ -28,9 +28,8 @@ import org.json.JSONObject;
 import org.tweetalib.android.TwitterUtil;
 import org.tweetalib.android.widget.URLSpanNoUnderline;
 
-import org.twitter4j.Status;
-import org.twitter4j.Tweet;
-import org.twitter4j.UserMentionEntity;
+import twitter4j.Status;
+import twitter4j.UserMentionEntity;
 
 
 import android.text.Html;
@@ -72,22 +71,18 @@ public class TwitterStatus implements Comparable<TwitterStatus>{
 	/*
 	 * 
 	 */
-	public TwitterStatus(Tweet tweet) {
+	/*public TwitterStatus(Status tweet) {
 		mId = tweet.getId();
-		mUserId = tweet.getFromUserId();
-		mUserScreenName = tweet.getFromUser();
-		mAuthorId = tweet.getFromUserId();
+		mUserId = tweet.getUser().getId();
+		mUserScreenName = tweet.getUser().getName();
+		mAuthorId = tweet.getUser().getId();
 		mSource = TwitterUtil.stripMarkup(tweet.getSource());
 		mStatus = tweet.getText();
 		setStatusMarkup(tweet);
 		mCreatedAt = tweet.getCreatedAt();
 		mUserMentions = TwitterUtil.getUserMentions(tweet.getUserMentionEntities());
-		try {
-			mProfileImageUrl = new URL(tweet.getProfileImageUrl());
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		}
-	}
+		mProfileImageUrl = tweet.getUser().getProfileImageURL();
+	}*/
 	
 	/*
 	 * 
@@ -159,12 +154,7 @@ public class TwitterStatus implements Comparable<TwitterStatus>{
 		mInReplyToStatusId = post.mInReplyTo;
 		
 		if (post.mUser.mAvatarUrl != null) {
-			try {
-				mProfileImageUrl = new URL(post.mUser.mAvatarUrl);
-			} catch (MalformedURLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			mProfileImageUrl = post.mUser.mAvatarUrl;
 		}
 		mSource = post.mSource;
 		mUserId = post.mUser.mId;
@@ -203,12 +193,7 @@ public class TwitterStatus implements Comparable<TwitterStatus>{
 			if (object.has(KEY_PROFILE_IMAGE_URL)) {
 				String url = object.getString(KEY_PROFILE_IMAGE_URL);
 				if (url != null) {
-					try {
-						mProfileImageUrl = new URL(url);
-					} catch (MalformedURLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+					mProfileImageUrl = url;
 				}
 			}
 			
@@ -378,7 +363,7 @@ public class TwitterStatus implements Comparable<TwitterStatus>{
 	private String mAuthorScreenName;
 	public long mFavoriteCount;
 	public Date mCreatedAt;
-	public URL mProfileImageUrl;
+	public String mProfileImageUrl;
 	public long mId;
 	public Long mInReplyToStatusId;
 	public Long mInReplyToUserId;
@@ -548,12 +533,6 @@ public class TwitterStatus implements Comparable<TwitterStatus>{
 	 */
 	void setStatusMarkup(Status status) {
 		mStatusFullMarkup = TwitterUtil.getStatusMarkup(status, mMediaEntity);
-		mStatusFullSpanned = URLSpanNoUnderline.stripUnderlines(Html.fromHtml(mStatusFullMarkup + " "));
-		
-	}
-	
-	void setStatusMarkup(Tweet tweet) {
-		mStatusFullMarkup = TwitterUtil.getStatusMarkup(tweet);
 		mStatusFullSpanned = URLSpanNoUnderline.stripUnderlines(Html.fromHtml(mStatusFullMarkup + " "));
 	}
 	

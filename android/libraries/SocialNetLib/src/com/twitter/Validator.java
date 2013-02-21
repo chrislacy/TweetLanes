@@ -6,10 +6,7 @@ import java.text.Normalizer;
  * A class for validating Tweet texts.
  */
 public class Validator {
-  
   public static final int MAX_TWEET_LENGTH = 140;
-  public static final int MAX_APPDOTNET_POST_LENGTH = 256;
-  public static int MAX_STATUS_LENGTH = MAX_TWEET_LENGTH;
 
   protected int shortUrlLength = 20;
   protected int shortUrlLengthHttps = 21;
@@ -41,7 +38,7 @@ public class Validator {
       }
     }
 
-    return getTweetLength(text) <= MAX_STATUS_LENGTH;
+    return getTweetLength(text) <= MAX_TWEET_LENGTH;
   }
 
   public int getShortUrlLength() {

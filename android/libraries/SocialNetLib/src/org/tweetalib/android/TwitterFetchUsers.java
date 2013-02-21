@@ -26,12 +26,12 @@ import org.tweetalib.android.model.TwitterIds;
 import org.tweetalib.android.model.TwitterUser;
 import org.tweetalib.android.model.TwitterUsers;
 
-import org.twitter4j.IDs;
-import org.twitter4j.Paging;
-import org.twitter4j.ResponseList;
-import org.twitter4j.Twitter;
-import org.twitter4j.TwitterException;
-import org.twitter4j.User;
+import twitter4j.IDs;
+import twitter4j.Paging;
+import twitter4j.ResponseList;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.User;
 
 public class TwitterFetchUsers {
 
@@ -437,11 +437,12 @@ public class TwitterFetchUsers {
 						
 						case RETWEETED_BY:
 						{
-							if (paging == null) {
+							/*if (paging == null) {
 								paging = TwitterPaging.createGetMostRecent(50).getT4JPaging();
 							}
 							long statusId = Long.parseLong(input.mContentHandle.getIdentifier());
 							users = twitter.getRetweetedBy(statusId, paging);
+							break;*/
 							break;
 						}
 						

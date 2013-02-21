@@ -16,7 +16,7 @@
 
 package org.tweetalib.android.model;
 
-import org.twitter4j.UserList;
+import twitter4j.UserList;
 
 public class TwitterList implements Comparable<TwitterList> {
 
