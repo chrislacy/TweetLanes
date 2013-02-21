@@ -11,12 +11,8 @@
 
 package com.tweetlanes.android.view;
 
-<<<<<<< HEAD
 import twitter4j.auth.RequestToken;
-=======
 import org.socialnetlib.android.SocialNetConstant;
-import org.twitter4j.auth.RequestToken;
->>>>>>> Part way through app.net changes.
 
 import com.crittercism.app.Crittercism;
 import org.tweetalib.android.TwitterManager;
