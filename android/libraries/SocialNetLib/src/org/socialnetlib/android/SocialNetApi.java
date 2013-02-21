@@ -50,10 +50,10 @@ import org.tweetalib.android.model.TwitterStatusUpdate;
 import org.tweetalib.android.model.TwitterStatuses;
 import org.tweetalib.android.model.TwitterUser;
 import org.tweetalib.android.model.TwitterUsers;
-import org.twitter4j.Twitter;
-import org.twitter4j.TwitterException;
-import org.twitter4j.User;
-import org.twitter4j.auth.RequestToken;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.User;
+import twitter4j.auth.RequestToken;
 
 public abstract class SocialNetApi {
 	

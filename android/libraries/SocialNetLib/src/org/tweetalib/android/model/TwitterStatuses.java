@@ -27,11 +27,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.tweetalib.android.model.TwitterStatusesFilter.FilterType;
-import org.twitter4j.QueryResult;
-import org.twitter4j.ResponseList;
-import org.twitter4j.Status;
-import org.twitter4j.Tweet;
-import org.twitter4j.User;
+import twitter4j.QueryResult;
+import twitter4j.ResponseList;
+import twitter4j.Status;
+import twitter4j.User;
 
 public class TwitterStatuses {
 	
@@ -233,10 +232,10 @@ public class TwitterStatuses {
 	 */
 	public void add(QueryResult result) {
 		
-		List<Tweet> tweets = result.getTweets();
+		List<Status> tweets = result.getTweets();
 		if (tweets != null) {
 			for (int i=0; i< tweets.size(); i++) {
-                Tweet tweet = tweets.get(i);
+                Status tweet = tweets.get(i);
                 add(new TwitterStatus(tweet));
             }
 		}
@@ -255,7 +254,7 @@ public class TwitterStatuses {
 	/*
 	 * 
 	 */
-	public void add(ResponseList<org.twitter4j.Status> statuses, AddUserCallback addUserCallback) {
+	public void add(ResponseList<twitter4j.Status> statuses, AddUserCallback addUserCallback) {
 		
 		TwitterStatus firstItem = size() > 0 ? get(0) : null;
 		int addCount = 0;

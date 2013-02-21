@@ -19,8 +19,8 @@ package org.tweetalib.android.model;
 import java.util.Date;
 
 import org.tweetalib.android.TwitterUtil;
-import org.twitter4j.DirectMessage;
-import org.twitter4j.User;
+import twitter4j.DirectMessage;
+import twitter4j.User;
 
 import android.text.Html;
 import android.text.Spanned;

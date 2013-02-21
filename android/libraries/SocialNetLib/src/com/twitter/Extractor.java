@@ -156,8 +156,7 @@ public class Extractor {
     entities.addAll(extractURLsWithIndices(text));
     entities.addAll(extractHashtagsWithIndices(text, false));
     entities.addAll(extractMentionsOrListsWithIndices(text));
-    // Lacy: Remove cashtags for now, at least until I know what they are...
-    //entities.addAll(extractCashtagsWithIndices(text));
+    entities.addAll(extractCashtagsWithIndices(text));
 
     removeOverlappingEntities(entities);
     return entities;

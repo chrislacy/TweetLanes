@@ -21,7 +21,7 @@ import org.appdotnet4j.model.AdnPostCompose;
 import org.appdotnet4j.model.AdnPosts;
 import org.appdotnet4j.model.AdnUser;
 import org.tweetalib.android.model.TwitterUser;
-import org.twitter4j.Twitter;
+import twitter4j.Twitter;
 
 import com.turbomanage.httpclient.BasicHttpClient;
 import com.turbomanage.httpclient.HttpResponse;
@@ -37,7 +37,7 @@ public class AppdotnetApi extends SocialNetApi {
 	public AppdotnetApi(SocialNetConstant.Type type, String consumerKey, String consumerSecret) {
 		super(type, consumerKey, consumerSecret);
 		
-		Validator.MAX_STATUS_LENGTH = Validator.MAX_APPDOTNET_POST_LENGTH;
+		//Validator.MAX_TWEET_LENGTH = 256;
 	}
 
 	@Override

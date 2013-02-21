@@ -26,10 +26,10 @@ import org.tweetalib.android.TwitterConstant.StatusType;
 import org.tweetalib.android.model.TwitterStatus;
 import org.tweetalib.android.model.TwitterStatusUpdate;
 
-import org.twitter4j.StatusUpdate;
-import org.twitter4j.Twitter;
-import org.twitter4j.TwitterException;
-import org.twitter4j.User;
+import twitter4j.StatusUpdate;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.User;
 
 public class TwitterFetchStatus {
 
@@ -230,7 +230,7 @@ public class TwitterFetchStatus {
 		@Override
 		protected FetchStatusTaskOutput doInBackground(FetchStatusTaskInput... inputArray) {
 
-			org.twitter4j.Status status = null;
+			twitter4j.Status status = null;
 			FetchStatusTaskInput input = inputArray[0];
 			Twitter twitter = getTwitterInstance();
 			String errorDescription = null;

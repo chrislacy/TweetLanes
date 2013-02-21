@@ -34,14 +34,14 @@ import org.tweetalib.android.model.TwitterStatus;
 import org.tweetalib.android.model.TwitterStatuses;
 import org.tweetalib.android.model.TwitterStatuses.AddUserCallback;
 
-import org.twitter4j.Paging;
-import org.twitter4j.Query;
-import org.twitter4j.QueryResult;
-import org.twitter4j.RelatedResults;
-import org.twitter4j.ResponseList;
-import org.twitter4j.Twitter;
-import org.twitter4j.TwitterException;
-import org.twitter4j.User;
+import twitter4j.Paging;
+import twitter4j.Query;
+import twitter4j.QueryResult;
+import twitter4j.RelatedResults;
+import twitter4j.ResponseList;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.User;
 
 public class TwitterFetchStatuses {
 
@@ -129,7 +129,7 @@ public class TwitterFetchStatuses {
 	/*
 	 * 
 	 */
-	TwitterStatuses setStatuses(TwitterContentHandle contentHandle, ResponseList<org.twitter4j.Status> statuses) {
+	TwitterStatuses setStatuses(TwitterContentHandle contentHandle, ResponseList<twitter4j.Status> statuses) {
 		TwitterStatuses feed = getStatuses(contentHandle);
 		AddUserCallback addUserCallback = new AddUserCallback() {
 
@@ -400,7 +400,7 @@ public class TwitterFetchStatuses {
 					switch (input.mContentHandle.getStatusesType()) {
 						case USER_HOME_TIMELINE:
 						{	
-							ResponseList<org.twitter4j.Status> statuses;
+							ResponseList<twitter4j.Status> statuses;
 							statuses = twitter.getHomeTimeline(paging);
 							contentFeed = setStatuses(input.mContentHandle, statuses);
 							break;
@@ -408,14 +408,14 @@ public class TwitterFetchStatuses {
 							
 						case USER_TIMELINE:
 						{
-							ResponseList<org.twitter4j.Status> statuses = twitter.getUserTimeline(input.mContentHandle.getScreenName(), paging);
+							ResponseList<twitter4j.Status> statuses = twitter.getUserTimeline(input.mContentHandle.getScreenName(), paging);
 							contentFeed = setStatuses(input.mContentHandle, statuses);
 							break;
 						}
 						
 						case USER_MENTIONS:
 						{
-							ResponseList<org.twitter4j.Status> statuses = twitter.getMentions(paging);
+							ResponseList<twitter4j.Status> statuses = twitter.getMentions(paging);
 							contentFeed = setStatuses(input.mContentHandle, statuses);
 							break;
 						}
@@ -425,7 +425,7 @@ public class TwitterFetchStatuses {
 							String listIdAsString = input.mContentHandle.getIdentifier();
 							try {
 								int listId = Integer.valueOf(listIdAsString);
-								ResponseList<org.twitter4j.Status> statuses = twitter.getUserListStatuses(listId, paging);
+								ResponseList<twitter4j.Status> statuses = twitter.getUserListStatuses(listId, paging);
 								contentFeed = setStatuses(input.mContentHandle, statuses);								
 							} catch (NumberFormatException e) {
 							}
@@ -434,14 +434,14 @@ public class TwitterFetchStatuses {
 						
 						case USER_FAVORITES:
 						{
-							ResponseList<org.twitter4j.Status> statuses = twitter.getFavorites(input.mContentHandle.getScreenName(), paging);
+							ResponseList<twitter4j.Status> statuses = twitter.getFavorites(input.mContentHandle.getScreenName(), paging);
 							contentFeed = setStatuses(input.mContentHandle, statuses);
 							break;
 						}
 						
 						case RETWEETS_OF_ME:
 						{
-							ResponseList<org.twitter4j.Status> statuses = twitter.getRetweetsOfMe(paging);
+							ResponseList<twitter4j.Status> statuses = twitter.getRetweetsOfMe(paging);
 							contentFeed = setStatuses(input.mContentHandle, statuses);
 							break;
 						}
@@ -513,14 +513,14 @@ public class TwitterFetchStatuses {
 							if (relatedResults != null) {
 								TwitterStatuses statuses = new TwitterStatuses();
 								
-								ResponseList<org.twitter4j.Status> conversation = relatedResults.getTweetsWithConversation();
+								ResponseList<twitter4j.Status> conversation = relatedResults.getTweetsWithConversation();
 								if (conversation != null && conversation.size() > 0) {
 									statuses.add(conversation, addUserCallback);
 								}
 								
 								statuses.add(new TwitterStatus(twitter.showStatus(statusId)));
 								
-								ResponseList<org.twitter4j.Status> replies = relatedResults.getTweetsWithReply();
+								ResponseList<twitter4j.Status> replies = relatedResults.getTweetsWithReply();
 								if (replies != null && replies.size() > 0) {
 									statuses.add(replies, addUserCallback);
 								}

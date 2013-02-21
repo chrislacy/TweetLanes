@@ -22,10 +22,10 @@ import org.asynctasktex.AsyncTaskEx;
 
 import org.tweetalib.android.model.TwitterLists;
 
-import org.twitter4j.ResponseList;
-import org.twitter4j.Twitter;
-import org.twitter4j.TwitterException;
-import org.twitter4j.UserList;
+import twitter4j.ResponseList;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.UserList;
 
 public class TwitterFetchLists {
 
@@ -222,10 +222,10 @@ public class TwitterFetchLists {
 			if (twitter != null) {
 				try {
 					if (input.mUserId != null) {
-						ResponseList<UserList> lists = twitter.getAllUserLists(input.mUserId);
+						ResponseList<UserList> lists = twitter.getUserLists(input.mUserId);
 						result = new TwitterLists(lists);
 					} else if (input.mScreenName != null) {
-						ResponseList<UserList> lists = twitter.getAllUserLists(input.mScreenName);
+						ResponseList<UserList> lists = twitter.getUserLists(input.mScreenName);
 						result = new TwitterLists(lists);
 					}
 				} catch (TwitterException e) {

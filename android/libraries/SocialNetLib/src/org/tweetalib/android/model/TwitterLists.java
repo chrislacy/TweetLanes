@@ -19,8 +19,8 @@ package org.tweetalib.android.model;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import org.twitter4j.ResponseList;
-import org.twitter4j.UserList;
+import twitter4j.ResponseList;
+import twitter4j.UserList;
 
 public class TwitterLists {
 

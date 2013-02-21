@@ -18,7 +18,7 @@ package org.tweetalib.android.model;
 
 import org.appdotnet4j.model.AdnUser;
 import org.tweetalib.android.TwitterManager.ProfileImageSize;
-import org.twitter4j.User;
+import twitter4j.User;
 
 public class TwitterUser {
 	

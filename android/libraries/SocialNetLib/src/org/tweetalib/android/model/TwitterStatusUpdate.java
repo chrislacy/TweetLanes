@@ -19,7 +19,7 @@ package org.tweetalib.android.model;
 import java.io.File;
 
 import org.appdotnet4j.model.AdnPostCompose;
-import org.twitter4j.StatusUpdate;
+import twitter4j.StatusUpdate;
 
 public class TwitterStatusUpdate {
 

@@ -21,9 +21,9 @@ import java.net.URL;
 import org.appdotnet4j.model.AdnPost;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.twitter4j.MediaEntity;
-import org.twitter4j.Status;
-import org.twitter4j.URLEntity;
+import twitter4j.MediaEntity;
+import twitter4j.Status;
+import twitter4j.URLEntity;
 
 import android.net.Uri;
 
@@ -77,12 +77,12 @@ public class TwitterMediaEntity {
 		} else if (status.getURLEntities() != null) {
 			for (URLEntity urlEntity : status.getURLEntities()) {
 				// This shouldn't be necessary, but is
-				URL expandedUrl = urlEntity.getExpandedURL();
+				String expandedUrl = urlEntity.getExpandedURL();
 				if (expandedUrl == null) {
 					continue;
 				}
 				
-				TwitterMediaEntity entity = getTwitterMediaEntityFromUrl(urlEntity.getURL().toString(), urlEntity.getExpandedURL().toString());
+				TwitterMediaEntity entity = getTwitterMediaEntityFromUrl(urlEntity.getURL(), urlEntity.getExpandedURL());
 				if (entity != null) {
 					return entity;
 				}

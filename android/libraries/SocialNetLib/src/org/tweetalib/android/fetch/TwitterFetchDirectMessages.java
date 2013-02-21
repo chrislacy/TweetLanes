@@ -28,12 +28,12 @@ import org.tweetalib.android.model.TwitterDirectMessages.AddUserCallback;
 
 import org.asynctasktex.AsyncTaskEx;
 
-import org.twitter4j.DirectMessage;
-import org.twitter4j.Paging;
-import org.twitter4j.ResponseList;
-import org.twitter4j.Twitter;
-import org.twitter4j.TwitterException;
-import org.twitter4j.User;
+import twitter4j.DirectMessage;
+import twitter4j.Paging;
+import twitter4j.ResponseList;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.User;
 
 
 public class TwitterFetchDirectMessages {
