@@ -108,12 +108,17 @@ public class ProfileFragment extends BaseLaneFragment {
 
         super.onCreateView(inflater, container, savedInstanceState);
 		
+		SocialNetConstant.Type socialNetType = SocialNetConstant.Type.Twitter;
+		
         if (getArguments().getString("userId") != null) {
             Long userId = Long.parseLong(getArguments().getString("userId"));
             mUser = TwitterManager.get().getUser(userId);
-        }
+			if (mUser != null) {
+				socialNetType = mUser.getSocialNetType();
+			}
+		}
 
-		mProfileView = inflater.inflate(mUser.getSocialNetType() == SocialNetConstant.Type.Appdotnet ? R.layout.profile_adn : R.layout.profile, null);
+		mProfileView = inflater.inflate(socialNetType == SocialNetConstant.Type.Appdotnet ? R.layout.profile_adn : R.layout.profile, null);
 		
 		if (mFollowsLoggedInUser == null && mUser != null && mFriendshipCallback == null) {
 			

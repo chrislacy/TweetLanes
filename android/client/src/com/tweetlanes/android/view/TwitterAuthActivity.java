@@ -139,6 +139,8 @@ public class TwitterAuthActivity extends Activity {
                             .getQueryParameter("oauth_verifier");
                     onOAuthVerifier(oauthVerifier);
 
+	                TwitterManager.get().setSocialNetType(SocialNetConstant.Type.Twitter, Constant.TWITTER_CONSUMER_KEY, Constant.TWITTER_CONSUMER_SECRET);
+	                
                     return true;
                 }
                 return false;

@@ -399,7 +399,7 @@ public class App extends Application {
 			{
 				TwitterManager.initModule(oSocialNetType,
 					oSocialNetType == SocialNetConstant.Type.Twitter ? Constant.TWITTER_CONSUMER_KEY : Constant.APPDOTNET_CONSUMER_KEY,
-					oSocialNetType == SocialNetConstant.Type.Twitter ? Constant.TWITTER_CONSUMER_SECRET : Constant.TWITTER_CONSUMER_SECRET,
+					oSocialNetType == SocialNetConstant.Type.Twitter ? Constant.TWITTER_CONSUMER_SECRET : Constant.APPDOTNET_CONSUMER_SECRET,
 					oAuthToken, oAuthSecret, mConnectionStatusCallbacks);
 			}
 		}
@@ -463,11 +463,16 @@ public class App extends Application {
 		mAccounts = new ArrayList<AccountDescriptor>();
 		updateTwitterAccountCount();
 		
+		SocialNetConstant.Type socialNetType = SocialNetConstant.Type.Twitter;
 		AccountDescriptor currentAccountDescriptor = getCurrentAccount();
 		if (currentAccountDescriptor != null) {
-			TwitterManager.initModule(currentAccountDescriptor.getSocialNetType(),
-				currentAccountDescriptor.getSocialNetType() == SocialNetConstant.Type.Twitter ? Constant.TWITTER_CONSUMER_KEY : Constant.APPDOTNET_CONSUMER_KEY,
-				currentAccountDescriptor.getSocialNetType() == SocialNetConstant.Type.Twitter ? Constant.TWITTER_CONSUMER_SECRET : Constant.TWITTER_CONSUMER_SECRET,
+			socialNetType = currentAccountDescriptor.getSocialNetType();
+			if (socialNetType == null) {
+				socialNetType = SocialNetConstant.Type.Twitter;
+			}
+			TwitterManager.initModule(socialNetType,
+				socialNetType == SocialNetConstant.Type.Twitter ? Constant.TWITTER_CONSUMER_KEY : Constant.APPDOTNET_CONSUMER_KEY,
+				socialNetType == SocialNetConstant.Type.Twitter ? Constant.TWITTER_CONSUMER_SECRET : Constant.TWITTER_CONSUMER_SECRET,
 				currentAccountDescriptor.getOAuthToken(), currentAccountDescriptor.getOAuthSecret(), mConnectionStatusCallbacks);
 		} else {
 			TwitterManager.initModule(SocialNetConstant.Type.Twitter,
@@ -494,7 +499,7 @@ public class App extends Application {
                 new TwitterContentHandleBase(
                         TwitterConstant.ContentType.STATUSES,
                         TwitterConstant.StatusesType.SCREEN_NAME_SEARCH)));
-		if (currentAccountDescriptor.getSocialNetType() == SocialNetConstant.Type.Twitter) {
+		if (socialNetType == SocialNetConstant.Type.Twitter) {
             mProfileLaneDefinitions.add(new LaneDescriptor(
                     Constant.LaneType.PROFILE_FAVORITES, getContext()
                             .getString(R.string.lane_profile_favorites),
@@ -512,7 +517,7 @@ public class App extends Application {
                 new TwitterContentHandleBase(
                         TwitterConstant.ContentType.STATUSES,
                         TwitterConstant.StatusesType.STATUS_SEARCH)));
-		if (currentAccountDescriptor.getSocialNetType() == SocialNetConstant.Type.Twitter) {
+		if (socialNetType == SocialNetConstant.Type.Twitter) {
             mSearchLaneDefinitions.add(new LaneDescriptor(
                     Constant.LaneType.SEARCH_PERSON, getContext().getString(
                             R.string.lane_search_people),

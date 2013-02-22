@@ -59,23 +59,25 @@ public class TwitterManager {
 	 * 
 	 */
 	TwitterManager(SocialNetConstant.Type socialNetType, String consumerKey, String consumerSecret) {
-		switch (socialNetType) {
-			case Twitter:
-				mApi = new TwitterApi(socialNetType, consumerKey, consumerSecret);
-				break;
-				
-			case Appdotnet:
-				mApi = new AppdotnetApi(socialNetType, consumerKey, consumerSecret);
-				break;
-				
-			default:
-				break;
-		}
+		setSocialNetType(socialNetType, consumerKey, consumerSecret);
 	}
 	
 	public SocialNetConstant.Type getSocialNetType() {
 		return mApi.getSocialNetType();
 	}
+
+	public void setSocialNetType(SocialNetConstant.Type socialNetType, String consumerKey, String consumerSecret) {
+		switch (socialNetType) {
+		case Appdotnet:
+			mApi = new AppdotnetApi(socialNetType, consumerKey, consumerSecret);
+			break;
+			
+		default:
+			mApi = new TwitterApi(socialNetType, consumerKey, consumerSecret);
+			break;
+		}
+	}
+	
 	
 	/*
 	 * 

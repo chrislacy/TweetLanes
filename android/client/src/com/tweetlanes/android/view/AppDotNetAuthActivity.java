@@ -11,7 +11,6 @@
 
 package com.tweetlanes.android.view;
 
-import twitter4j.auth.RequestToken;
 import org.socialnetlib.android.SocialNetConstant;
 
 import com.crittercism.app.Crittercism;
@@ -60,14 +59,11 @@ public class AppDotNetAuthActivity extends Activity {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 if (url.contains("#access_token")) {
-                    String accessToken = url
-                            .replace(
-                                    "http://lacytest.appspot.com/twitter/oauth_callback#access_token=",
-                                    "");
-
+	            	String accessToken = url.replace("tweetlanes-auth-callback:///#access_token=", "");
+	                
                     setContentView(R.layout.loading);
-                    TwitterManager.get().getOAuthAccessToken(null, accessToken,
-                            mGetOAuthAccessTokenCallback);
+	                TwitterManager.get().setSocialNetType(SocialNetConstant.Type.Appdotnet, Constant.APPDOTNET_CONSUMER_KEY, Constant.APPDOTNET_CONSUMER_SECRET);
+	                TwitterManager.get().getOAuthAccessToken(null, accessToken, mGetOAuthAccessTokenCallback);
                 }
                 return false;
             }

@@ -316,8 +316,6 @@ public class TwitterSignIn {
 
 			FetchOAuthAccessTokenTaskInput input = inputArray[0];
 			
-			//String callbackURL = App.getContext().getString(R.string.twitter_callback);
-			//String callbackUrl = "tweetlanes-auth-callback:///";
 			try
 			{
 				String accessToken = null;

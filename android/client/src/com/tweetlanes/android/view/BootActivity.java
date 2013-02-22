@@ -120,7 +120,7 @@ public class BootActivity extends Activity {
         int accountCount = getApp().getAccountCount();
         if (accountCount == 0) {
 			
-			Intent intent = new Intent(getApplicationContext(), getApp().getCurrentAccount().getSocialNetType() == SocialNetConstant.Type.Twitter ? TwitterAuthActivity.class : AppDotNetAuthActivity.class);
+			Intent intent = new Intent(getApplicationContext(), TwitterAuthActivity.class);
             overridePendingTransition(0, 0);
             intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivity(intent);
