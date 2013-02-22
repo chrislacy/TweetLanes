@@ -9,4 +9,9 @@ R.java
 .metadata/*
 *.pyc
 
-
+bin/*
+.classpath
+.project
+.gitignore
+.settings
+tests
