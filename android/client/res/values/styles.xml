@@ -33,7 +33,7 @@
         
     </style>
     
-    <style name="Theme.TweetLanes.LightDarkActionBars" parent="android:Theme.Holo.Light.DarkActionBars">
+    <style name="Theme.TweetLanes.LightDarkActionBars" parent="android:Theme.Holo.Light.DarkActionBar">
         
     </style>
     
