@@ -1,6 +1,14 @@
 [Tweet Lanes Release Notes]
 
-Note: To report bugs or make feature requests, either contact me on Twitter @chrismlacy or click the "Send Feedback" button in the app.
+Note: To report bugs or make feature requests, either contact the official Twitter @TweetLanes or click the "Send Feedback" button in the app.
+
+Version 0.72.1, February 22, 2013
+=================================
+- Updated source code to be follow the new project coding standards
+- Upgraded to latest twitter4j which fixes:
+ * Follow/Unfollow button
+ * Lists
+ * Discussions
 
 Version 0.72.0, February 15, 2013
 =================================
