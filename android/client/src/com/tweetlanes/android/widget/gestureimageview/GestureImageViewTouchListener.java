@@ -1,17 +1,12 @@
 /*
- * Copyright (c) 2012 Jason Polites
- * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *     http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright (c) 2012 Jason Polites Licensed under the Apache License, Version
+ * 2.0 (the "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law
+ * or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
  */
 package com.tweetlanes.android.widget.gestureimageview;
 
@@ -25,516 +20,503 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 
 public class GestureImageViewTouchListener implements OnTouchListener {
-	
-	private GestureImageView image;
-	private OnClickListener onClickListener;
-	
-	private final PointF current = new PointF();
-	private final PointF last = new PointF();
-	private final PointF next = new PointF();
-	private final PointF midpoint = new PointF();
-	
-	private final VectorF scaleVector = new VectorF();
-	private final VectorF pinchVector = new VectorF();
-	
-	private boolean touched = false;
-	private boolean inZoom = false;
-	
-	private float initialDistance;
-	private float lastScale = 1.0f;
-	private float currentScale = 1.0f;
-	
-	private float boundaryLeft = 0;
-	private float boundaryTop = 0;
-	private float boundaryRight = 0;
-	private float boundaryBottom = 0;
-	
-	private float maxScale = 5.0f;
-	private float minScale = 0.25f;
-	private float fitScaleHorizontal = 1.0f;
-	private float fitScaleVertical = 1.0f;
-	
-	private int canvasWidth = 0;
-	private int canvasHeight = 0;
-	
-	private float centerX = 0;
-	private float centerY = 0;
-	
-	private float startingScale = 0;
-	
-	private boolean canDragX = false;
-	private boolean canDragY = false;
-	
-	private boolean multiTouch = false;
-	
-	private int displayWidth;
-	private int displayHeight;
-	
-	private int imageWidth;
-	private int imageHeight;
-	
-	private FlingListener flingListener;
-	private FlingAnimation flingAnimation;
-	private ZoomAnimation zoomAnimation;
-	private MoveAnimation moveAnimation;
-	private GestureDetector tapDetector;
-	private GestureDetector flingDetector;
-	private GestureImageViewListener imageListener;
 
-	public GestureImageViewTouchListener(final GestureImageView image, int displayWidth, int displayHeight) {
-		super();
-		
-		this.image = image;
-		
-		this.displayWidth = displayWidth;
-		this.displayHeight = displayHeight;
-		
-		this.centerX = (float) displayWidth / 2.0f;
-		this.centerY = (float) displayHeight / 2.0f;
-		
-		this.imageWidth = image.getImageWidth();
-		this.imageHeight = image.getImageHeight();
-		
-		startingScale = image.getScale();
-		
-		currentScale = startingScale;
-		lastScale = startingScale;
-		
-		boundaryRight = displayWidth;
-		boundaryBottom = displayHeight;
-		boundaryLeft = 0;
-		boundaryTop = 0;
-		
-		next.x = image.getImageX();
-		next.y = image.getImageY();
-		
-		flingListener = new FlingListener();
-		flingAnimation = new FlingAnimation();
-		zoomAnimation = new ZoomAnimation();
-		moveAnimation = new MoveAnimation();
-		
-		flingAnimation.setListener(new FlingAnimationListener() {
-			@Override
-			public void onMove(float x, float y) {
-				handleDrag(current.x + x, current.y + y);
-			}
+    private GestureImageView mImage;
+    private OnClickListener mOnClickListener;
 
-			@Override
-			public void onComplete() {}
-		});
-		
-		zoomAnimation.setZoom(2.0f);
-		zoomAnimation.setZoomAnimationListener(new ZoomAnimationListener() {
-			@Override
-			public void onZoom(float scale, float x, float y) {
-				if(scale <= maxScale && scale >= minScale) {
-					handleScale(scale, x, y);
-				}
-			}
+    private final PointF mCurrent = new PointF();
+    private final PointF mLast = new PointF();
+    private final PointF mNext = new PointF();
+    private final PointF mMidpoint = new PointF();
 
-			@Override
-			public void onComplete() {
-				inZoom = false;
-				handleUp();
-			}
-		});
-		
-		moveAnimation.setMoveAnimationListener(new MoveAnimationListener() {
-			
-			@Override
-			public void onMove(float x, float y) {
-				image.setPosition(x, y);
-				image.redraw();
-			}
-		});
-		
-		tapDetector = new GestureDetector(image.getContext(), new SimpleOnGestureListener() {
-			@Override
-			public boolean onDoubleTap(MotionEvent e) {
-				startZoom(e);
-				return true;
-			}
+    private final VectorF mScaleVector = new VectorF();
+    private final VectorF mPinchVector = new VectorF();
 
-			@Override
-			public boolean onSingleTapConfirmed(MotionEvent e) {
-				if(!inZoom) {
-					if(onClickListener != null) {
-						onClickListener.onClick(image);
-						return true;
-					}
-				}
+    private boolean mTouched = false;
+    private boolean mInZoom = false;
 
-				return false;
-			}
-		});
-		
-		flingDetector = new GestureDetector(image.getContext(), flingListener);
-		imageListener = image.getGestureImageViewListener();
-		
-		calculateBoundaries();
-	}
-	
-	private void startFling() {
-		flingAnimation.setVelocityX(flingListener.getVelocityX());
-		flingAnimation.setVelocityY(flingListener.getVelocityY());
-		image.animationStart(flingAnimation);
-	}
-	
-	private void startZoom(MotionEvent e) {
-		inZoom = true;
-		zoomAnimation.reset();
-		
-		float zoomTo = 1.0f;
-		
-		if(image.isLandscape()) {
-			if(image.getDeviceOrientation() == Configuration.ORIENTATION_PORTRAIT) {
-				int scaledHeight = image.getScaledHeight();
-				
-				if(scaledHeight < canvasHeight) {
-					zoomTo = fitScaleVertical / currentScale;
-					zoomAnimation.setTouchX(e.getX());
-					zoomAnimation.setTouchY(image.getCenterY());
-				}
-				else {
-					zoomTo = fitScaleHorizontal / currentScale;
-					zoomAnimation.setTouchX(image.getCenterX());
-					zoomAnimation.setTouchY(image.getCenterY());
-				}
-			}
-			else {
-				int scaledWidth = image.getScaledWidth();
-				
-				if(scaledWidth == canvasWidth) {
-					zoomTo = currentScale*4.0f;
-					zoomAnimation.setTouchX(e.getX());
-					zoomAnimation.setTouchY(e.getY());
-				}
-				else if(scaledWidth < canvasWidth) {
-					zoomTo = fitScaleHorizontal / currentScale;
-					zoomAnimation.setTouchX(image.getCenterX());
-					zoomAnimation.setTouchY(e.getY());
-				}
-				else {
-					zoomTo = fitScaleHorizontal / currentScale;
-					zoomAnimation.setTouchX(image.getCenterX());
-					zoomAnimation.setTouchY(image.getCenterY());
-				}
-			}
-		}
-		else {
-			if(image.getDeviceOrientation() == Configuration.ORIENTATION_PORTRAIT) {
-				
-				int scaledHeight = image.getScaledHeight();
-				
-				if(scaledHeight == canvasHeight) {
-					zoomTo = currentScale*4.0f;
-					zoomAnimation.setTouchX(e.getX());
-					zoomAnimation.setTouchY(e.getY());
-				}
-				else if(scaledHeight < canvasHeight) {
-					zoomTo = fitScaleVertical / currentScale;
-					zoomAnimation.setTouchX(e.getX());
-					zoomAnimation.setTouchY(image.getCenterY());
-				}
-				else {
-					zoomTo = fitScaleVertical / currentScale;
-					zoomAnimation.setTouchX(image.getCenterX());
-					zoomAnimation.setTouchY(image.getCenterY());
-				}
-			}
-			else {
-				int scaledWidth = image.getScaledWidth();
-				
-				if(scaledWidth < canvasWidth) {
-					zoomTo = fitScaleHorizontal / currentScale;
-					zoomAnimation.setTouchX(image.getCenterX());
-					zoomAnimation.setTouchY(e.getY());
-				}
-				else {
-					zoomTo = fitScaleVertical / currentScale;
-					zoomAnimation.setTouchX(image.getCenterX());
-					zoomAnimation.setTouchY(image.getCenterY());
-				}
-			}
-		}
-		
-		zoomAnimation.setZoom(zoomTo);
-		image.animationStart(zoomAnimation);
-	}
-	
-	
-	private void stopAnimations() {
-		image.animationStop();
-	}
-	
-	@Override
-	public boolean onTouch(View v, MotionEvent event) {
+    private float mInitialDistance;
+    private float mLastScale = 1.0f;
+    private float mCurrentScale = 1.0f;
 
-		if(!inZoom) {
-			
-			if(!tapDetector.onTouchEvent(event)) {
-				if(event.getPointerCount() == 1 && flingDetector.onTouchEvent(event)) {
-					startFling();
-				}
-				 
-				if(event.getAction() == MotionEvent.ACTION_UP) {
-					handleUp();
-				}
-				else if(event.getAction() == MotionEvent.ACTION_DOWN) {
-					stopAnimations();
-					
-					last.x = event.getX();
-					last.y = event.getY();
-					
-					if(imageListener != null) {
-						imageListener.onTouch(last.x, last.y);
-					}
-					
-					touched = true;
-				}
-				else if(event.getAction() == MotionEvent.ACTION_MOVE) {
-					if(event.getPointerCount() > 1) {
-						multiTouch = true;
-						if(initialDistance > 0) {
-							
-							pinchVector.set(event);
-							pinchVector.calculateLength();
-							
-							float distance = pinchVector.length;
-							
-							if(initialDistance != distance) {
-								
-								float newScale = (distance / initialDistance) * lastScale;
-								
-								if(newScale <= maxScale) {
-									scaleVector.length *= newScale;
-									
-									scaleVector.calculateEndPoint();
-									
-									scaleVector.length /= newScale;
-									
-									float newX = scaleVector.end.x;
-									float newY = scaleVector.end.y;
-									
-									handleScale(newScale, newX, newY);
-								}
-							}
-						}
-						else {
-							initialDistance = MathUtils.distance(event);
-							
-							MathUtils.midpoint(event, midpoint);
-							
-							scaleVector.setStart(midpoint);
-							scaleVector.setEnd(next);
-							
-							scaleVector.calculateLength();
-							scaleVector.calculateAngle();
-							
-							scaleVector.length /= lastScale;
-						}
-					}
-					else {
-						if(!touched) {
-							touched = true;
-							last.x = event.getX();
-							last.y = event.getY();
-							next.x = image.getImageX();
-							next.y = image.getImageY();
-						}
-						else if(!multiTouch) {
-							if(handleDrag(event.getX(), event.getY())) {
-								image.redraw();
-							}
-						}
-					}
-				}
-			}
-		}
-		
-		return true;
-	}
-	
-	protected void handleUp() {
-		
-		multiTouch = false;
-		
-		initialDistance = 0;
-		lastScale = currentScale;
-		
-		if(!canDragX) {
-			next.x = centerX;
-		}
-		
-		if(!canDragY) {
-			next.y = centerY;
-		}
-		
-		boundCoordinates();
-		
-		if(!canDragX && !canDragY) {
-			
-			if(image.isLandscape()) {
-				currentScale = fitScaleHorizontal;
-				lastScale = fitScaleHorizontal;
-			}
-			else {
-				currentScale = fitScaleVertical;
-				lastScale = fitScaleVertical;
-			}			
-		}
+    private float mBoundaryLeft = 0;
+    private float mBoundaryTop = 0;
+    private float mBoundaryRight = 0;
+    private float mBoundaryBottom = 0;
 
-		image.setScale(currentScale);
-		image.setPosition(next.x, next.y);
-		
-		if(imageListener != null) {
-			imageListener.onScale(currentScale);
-			imageListener.onPosition(next.x, next.y);
-		}	
-		
-		image.redraw();
-	}
-	
-	protected void handleScale(float scale, float x, float y) {
-		
-		currentScale = scale;
+    private float mMaxScale = 5.0f;
+    private float mMinScale = 0.25f;
+    private float mFitScaleHorizontal = 1.0f;
+    private float mFitScaleVertical = 1.0f;
 
-		if(currentScale > maxScale) {
-			currentScale = maxScale;	
-		}
-		else if (currentScale < minScale) {
-			currentScale = minScale;
-		}
-		else {
-			next.x = x;
-			next.y = y;
-		}
-		
-		calculateBoundaries();
-		
-		image.setScale(currentScale);
-		image.setPosition(next.x, next.y);
-		
-		if(imageListener != null) {
-			imageListener.onScale(currentScale);
-			imageListener.onPosition(next.x, next.y);
-		}
-		
-		image.redraw();
-	}
-	
-	protected boolean handleDrag(float x, float y) {
-		current.x = x;
-		current.y = y;
-		
-		float diffX = (current.x - last.x);
-		float diffY = (current.y - last.y);
-		
-		if(diffX != 0 || diffY != 0) {
-			
-			if(canDragX) next.x += diffX;
-			if(canDragY) next.y += diffY;
-			
-			boundCoordinates();
-			
-			last.x = current.x;
-			last.y = current.y;
-			
-			if(canDragX || canDragY) {
-				image.setPosition(next.x, next.y);
-				
-				if(imageListener != null) {
-					imageListener.onPosition(next.x, next.y);
-				}					
-				
-				return true;
-			}
-		}
-		
-		return false;
-	}
-	
-	public void reset() {
-		currentScale = startingScale;
-		next.x = centerX;
-		next.y = centerY;
-		calculateBoundaries();
-		image.setScale(currentScale);
-		image.setPosition(next.x, next.y);
-		image.redraw();
-	}
-	
-	
-	public float getMaxScale() {
-		return maxScale;
-	}
+    private int mCanvasWidth = 0;
+    private int mCanvasHeight = 0;
 
-	public void setMaxScale(float maxScale) {
-		this.maxScale = maxScale;
-	}
+    private float mCenterX = 0;
+    private float mCenterY = 0;
 
-	public float getMinScale() {
-		return minScale;
-	}
+    private float mStartingScale = 0;
 
-	public void setMinScale(float minScale) {
-		this.minScale = minScale;
-	}
-	
-	public void setOnClickListener(OnClickListener onClickListener) {
-		this.onClickListener = onClickListener;
-	}
+    private boolean mCanDragX = false;
+    private boolean mCanDragY = false;
 
-	protected void setCanvasWidth(int canvasWidth) {
-		this.canvasWidth = canvasWidth;
-	}
-	
-	protected void setCanvasHeight(int canvasHeight) {
-		this.canvasHeight = canvasHeight;
-	}
+    private boolean mMultiTouch = false;
 
-	protected void setFitScaleHorizontal(float fitScale) {
-		this.fitScaleHorizontal = fitScale;
-	}
+    private int mDisplayWidth;
+    private int mDisplayHeight;
 
-	protected void setFitScaleVertical(float fitScaleVertical) {
-		this.fitScaleVertical = fitScaleVertical;
-	}
+    private int mImageWidth;
+    private int mImageHeight;
 
-	protected void boundCoordinates() {
-		if(next.x < boundaryLeft) {
-			next.x = boundaryLeft;
-		}
-		else if(next.x > boundaryRight) {
-			next.x = boundaryRight;
-		}
+    private FlingListener mFlingListener;
+    private FlingAnimation mFlingAnimation;
+    private ZoomAnimation mZoomAnimation;
+    private MoveAnimation mMoveAnimation;
+    private GestureDetector mTapDetector;
+    private GestureDetector mFlingDetector;
+    private GestureImageViewListener mImageListener;
 
-		if(next.y < boundaryTop) { 
-			next.y = boundaryTop;
-		}
-		else if(next.y > boundaryBottom) {
-			next.y = boundaryBottom;
-		}
-	}
-	
-	protected void calculateBoundaries() {
-		
-		int effectiveWidth = Math.round( (float) imageWidth * currentScale );
-		int effectiveHeight = Math.round( (float) imageHeight * currentScale );
-		
-		canDragX = effectiveWidth > displayWidth;
-		canDragY = effectiveHeight > displayHeight;
-		
-		if(canDragX) {
-			float diff = (float)(effectiveWidth - displayWidth) / 2.0f;
-			boundaryLeft = centerX - diff;
-			boundaryRight = centerX + diff;
-		}
-		
-		if(canDragY) {
-			float diff = (float)(effectiveHeight - displayHeight) / 2.0f;
-			boundaryTop = centerY - diff;
-			boundaryBottom = centerY + diff;
-		}
-	}
+    public GestureImageViewTouchListener(final GestureImageView image,
+            int displayWidth, int displayHeight) {
+        super();
+
+        this.mImage = image;
+
+        this.mDisplayWidth = displayWidth;
+        this.mDisplayHeight = displayHeight;
+
+        this.mCenterX = (float) displayWidth / 2.0f;
+        this.mCenterY = (float) displayHeight / 2.0f;
+
+        this.mImageWidth = image.getImageWidth();
+        this.mImageHeight = image.getImageHeight();
+
+        mStartingScale = image.getScale();
+
+        mCurrentScale = mStartingScale;
+        mLastScale = mStartingScale;
+
+        mBoundaryRight = displayWidth;
+        mBoundaryBottom = displayHeight;
+        mBoundaryLeft = 0;
+        mBoundaryTop = 0;
+
+        mNext.x = image.getImageX();
+        mNext.y = image.getImageY();
+
+        mFlingListener = new FlingListener();
+        mFlingAnimation = new FlingAnimation();
+        mZoomAnimation = new ZoomAnimation();
+        mMoveAnimation = new MoveAnimation();
+
+        mFlingAnimation.setListener(new FlingAnimationListener() {
+
+            @Override
+            public void onMove(float x, float y) {
+                handleDrag(mCurrent.x + x, mCurrent.y + y);
+            }
+
+            @Override
+            public void onComplete() {
+            }
+        });
+
+        mZoomAnimation.setZoom(2.0f);
+        mZoomAnimation.setZoomAnimationListener(new ZoomAnimationListener() {
+
+            @Override
+            public void onZoom(float scale, float x, float y) {
+                if (scale <= mMaxScale && scale >= mMinScale) {
+                    handleScale(scale, x, y);
+                }
+            }
+
+            @Override
+            public void onComplete() {
+                mInZoom = false;
+                handleUp();
+            }
+        });
+
+        mMoveAnimation.setMoveAnimationListener(new MoveAnimationListener() {
+
+            @Override
+            public void onMove(float x, float y) {
+                image.setPosition(x, y);
+                image.redraw();
+            }
+        });
+
+        mTapDetector = new GestureDetector(image.getContext(),
+                new SimpleOnGestureListener() {
+
+                    @Override
+                    public boolean onDoubleTap(MotionEvent e) {
+                        startZoom(e);
+                        return true;
+                    }
+
+                    @Override
+                    public boolean onSingleTapConfirmed(MotionEvent e) {
+                        if (!mInZoom) {
+                            if (mOnClickListener != null) {
+                                mOnClickListener.onClick(image);
+                                return true;
+                            }
+                        }
+
+                        return false;
+                    }
+                });
+
+        mFlingDetector = new GestureDetector(image.getContext(), mFlingListener);
+        mImageListener = image.getGestureImageViewListener();
+
+        calculateBoundaries();
+    }
+
+    private void startFling() {
+        mFlingAnimation.setVelocityX(mFlingListener.getVelocityX());
+        mFlingAnimation.setVelocityY(mFlingListener.getVelocityY());
+        mImage.animationStart(mFlingAnimation);
+    }
+
+    private void startZoom(MotionEvent e) {
+        mInZoom = true;
+        mZoomAnimation.reset();
+
+        float zoomTo = 1.0f;
+
+        if (mImage.isLandscape()) {
+            if (mImage.getDeviceOrientation() == Configuration.ORIENTATION_PORTRAIT) {
+                int scaledHeight = mImage.getScaledHeight();
+
+                if (scaledHeight < mCanvasHeight) {
+                    zoomTo = mFitScaleVertical / mCurrentScale;
+                    mZoomAnimation.setTouchX(e.getX());
+                    mZoomAnimation.setTouchY(mImage.getCenterY());
+                } else {
+                    zoomTo = mFitScaleHorizontal / mCurrentScale;
+                    mZoomAnimation.setTouchX(mImage.getCenterX());
+                    mZoomAnimation.setTouchY(mImage.getCenterY());
+                }
+            } else {
+                int scaledWidth = mImage.getScaledWidth();
+
+                if (scaledWidth == mCanvasWidth) {
+                    zoomTo = mCurrentScale * 4.0f;
+                    mZoomAnimation.setTouchX(e.getX());
+                    mZoomAnimation.setTouchY(e.getY());
+                } else if (scaledWidth < mCanvasWidth) {
+                    zoomTo = mFitScaleHorizontal / mCurrentScale;
+                    mZoomAnimation.setTouchX(mImage.getCenterX());
+                    mZoomAnimation.setTouchY(e.getY());
+                } else {
+                    zoomTo = mFitScaleHorizontal / mCurrentScale;
+                    mZoomAnimation.setTouchX(mImage.getCenterX());
+                    mZoomAnimation.setTouchY(mImage.getCenterY());
+                }
+            }
+        } else {
+            if (mImage.getDeviceOrientation() == Configuration.ORIENTATION_PORTRAIT) {
+
+                int scaledHeight = mImage.getScaledHeight();
+
+                if (scaledHeight == mCanvasHeight) {
+                    zoomTo = mCurrentScale * 4.0f;
+                    mZoomAnimation.setTouchX(e.getX());
+                    mZoomAnimation.setTouchY(e.getY());
+                } else if (scaledHeight < mCanvasHeight) {
+                    zoomTo = mFitScaleVertical / mCurrentScale;
+                    mZoomAnimation.setTouchX(e.getX());
+                    mZoomAnimation.setTouchY(mImage.getCenterY());
+                } else {
+                    zoomTo = mFitScaleVertical / mCurrentScale;
+                    mZoomAnimation.setTouchX(mImage.getCenterX());
+                    mZoomAnimation.setTouchY(mImage.getCenterY());
+                }
+            } else {
+                int scaledWidth = mImage.getScaledWidth();
+
+                if (scaledWidth < mCanvasWidth) {
+                    zoomTo = mFitScaleHorizontal / mCurrentScale;
+                    mZoomAnimation.setTouchX(mImage.getCenterX());
+                    mZoomAnimation.setTouchY(e.getY());
+                } else {
+                    zoomTo = mFitScaleVertical / mCurrentScale;
+                    mZoomAnimation.setTouchX(mImage.getCenterX());
+                    mZoomAnimation.setTouchY(mImage.getCenterY());
+                }
+            }
+        }
+
+        mZoomAnimation.setZoom(zoomTo);
+        mImage.animationStart(mZoomAnimation);
+    }
+
+    private void stopAnimations() {
+        mImage.animationStop();
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+
+        if (!mInZoom) {
+
+            if (!mTapDetector.onTouchEvent(event)) {
+                if (event.getPointerCount() == 1
+                        && mFlingDetector.onTouchEvent(event)) {
+                    startFling();
+                }
+
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    handleUp();
+                } else if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    stopAnimations();
+
+                    mLast.x = event.getX();
+                    mLast.y = event.getY();
+
+                    if (mImageListener != null) {
+                        mImageListener.onTouch(mLast.x, mLast.y);
+                    }
+
+                    mTouched = true;
+                } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
+                    if (event.getPointerCount() > 1) {
+                        mMultiTouch = true;
+                        if (mInitialDistance > 0) {
+
+                            mPinchVector.set(event);
+                            mPinchVector.calculateLength();
+
+                            float distance = mPinchVector.length;
+
+                            if (mInitialDistance != distance) {
+
+                                float newScale = (distance / mInitialDistance)
+                                        * mLastScale;
+
+                                if (newScale <= mMaxScale) {
+                                    mScaleVector.length *= newScale;
+
+                                    mScaleVector.calculateEndPoint();
+
+                                    mScaleVector.length /= newScale;
+
+                                    float newX = mScaleVector.end.x;
+                                    float newY = mScaleVector.end.y;
+
+                                    handleScale(newScale, newX, newY);
+                                }
+                            }
+                        } else {
+                            mInitialDistance = MathUtils.distance(event);
+
+                            MathUtils.midpoint(event, mMidpoint);
+
+                            mScaleVector.setStart(mMidpoint);
+                            mScaleVector.setEnd(mNext);
+
+                            mScaleVector.calculateLength();
+                            mScaleVector.calculateAngle();
+
+                            mScaleVector.length /= mLastScale;
+                        }
+                    } else {
+                        if (!mTouched) {
+                            mTouched = true;
+                            mLast.x = event.getX();
+                            mLast.y = event.getY();
+                            mNext.x = mImage.getImageX();
+                            mNext.y = mImage.getImageY();
+                        } else if (!mMultiTouch) {
+                            if (handleDrag(event.getX(), event.getY())) {
+                                mImage.redraw();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return true;
+    }
+
+    protected void handleUp() {
+
+        mMultiTouch = false;
+
+        mInitialDistance = 0;
+        mLastScale = mCurrentScale;
+
+        if (!mCanDragX) {
+            mNext.x = mCenterX;
+        }
+
+        if (!mCanDragY) {
+            mNext.y = mCenterY;
+        }
+
+        boundCoordinates();
+
+        if (!mCanDragX && !mCanDragY) {
+
+            if (mImage.isLandscape()) {
+                mCurrentScale = mFitScaleHorizontal;
+                mLastScale = mFitScaleHorizontal;
+            } else {
+                mCurrentScale = mFitScaleVertical;
+                mLastScale = mFitScaleVertical;
+            }
+        }
+
+        mImage.setScale(mCurrentScale);
+        mImage.setPosition(mNext.x, mNext.y);
+
+        if (mImageListener != null) {
+            mImageListener.onScale(mCurrentScale);
+            mImageListener.onPosition(mNext.x, mNext.y);
+        }
+
+        mImage.redraw();
+    }
+
+    protected void handleScale(float scale, float x, float y) {
+
+        mCurrentScale = scale;
+
+        if (mCurrentScale > mMaxScale) {
+            mCurrentScale = mMaxScale;
+        } else if (mCurrentScale < mMinScale) {
+            mCurrentScale = mMinScale;
+        } else {
+            mNext.x = x;
+            mNext.y = y;
+        }
+
+        calculateBoundaries();
+
+        mImage.setScale(mCurrentScale);
+        mImage.setPosition(mNext.x, mNext.y);
+
+        if (mImageListener != null) {
+            mImageListener.onScale(mCurrentScale);
+            mImageListener.onPosition(mNext.x, mNext.y);
+        }
+
+        mImage.redraw();
+    }
+
+    protected boolean handleDrag(float x, float y) {
+        mCurrent.x = x;
+        mCurrent.y = y;
+
+        float diffX = (mCurrent.x - mLast.x);
+        float diffY = (mCurrent.y - mLast.y);
+
+        if (diffX != 0 || diffY != 0) {
+
+            if (mCanDragX) mNext.x += diffX;
+            if (mCanDragY) mNext.y += diffY;
+
+            boundCoordinates();
+
+            mLast.x = mCurrent.x;
+            mLast.y = mCurrent.y;
+
+            if (mCanDragX || mCanDragY) {
+                mImage.setPosition(mNext.x, mNext.y);
+
+                if (mImageListener != null) {
+                    mImageListener.onPosition(mNext.x, mNext.y);
+                }
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public void reset() {
+        mCurrentScale = mStartingScale;
+        mNext.x = mCenterX;
+        mNext.y = mCenterY;
+        calculateBoundaries();
+        mImage.setScale(mCurrentScale);
+        mImage.setPosition(mNext.x, mNext.y);
+        mImage.redraw();
+    }
+
+    public float getMaxScale() {
+        return mMaxScale;
+    }
+
+    public void setMaxScale(float maxScale) {
+        this.mMaxScale = maxScale;
+    }
+
+    public float getMinScale() {
+        return mMinScale;
+    }
+
+    public void setMinScale(float minScale) {
+        this.mMinScale = minScale;
+    }
+
+    public void setOnClickListener(OnClickListener onClickListener) {
+        this.mOnClickListener = onClickListener;
+    }
+
+    protected void setCanvasWidth(int canvasWidth) {
+        this.mCanvasWidth = canvasWidth;
+    }
+
+    protected void setCanvasHeight(int canvasHeight) {
+        this.mCanvasHeight = canvasHeight;
+    }
+
+    protected void setFitScaleHorizontal(float fitScale) {
+        this.mFitScaleHorizontal = fitScale;
+    }
+
+    protected void setFitScaleVertical(float fitScaleVertical) {
+        this.mFitScaleVertical = fitScaleVertical;
+    }
+
+    protected void boundCoordinates() {
+        if (mNext.x < mBoundaryLeft) {
+            mNext.x = mBoundaryLeft;
+        } else if (mNext.x > mBoundaryRight) {
+            mNext.x = mBoundaryRight;
+        }
+
+        if (mNext.y < mBoundaryTop) {
+            mNext.y = mBoundaryTop;
+        } else if (mNext.y > mBoundaryBottom) {
+            mNext.y = mBoundaryBottom;
+        }
+    }
+
+    protected void calculateBoundaries() {
+
+        int effectiveWidth = Math.round((float) mImageWidth * mCurrentScale);
+        int effectiveHeight = Math.round((float) mImageHeight * mCurrentScale);
+
+        mCanDragX = effectiveWidth > mDisplayWidth;
+        mCanDragY = effectiveHeight > mDisplayHeight;
+
+        if (mCanDragX) {
+            float diff = (float) (effectiveWidth - mDisplayWidth) / 2.0f;
+            mBoundaryLeft = mCenterX - diff;
+            mBoundaryRight = mCenterX + diff;
+        }
+
+        if (mCanDragY) {
+            float diff = (float) (effectiveHeight - mDisplayHeight) / 2.0f;
+            mBoundaryTop = mCenterY - diff;
+            mBoundaryBottom = mCenterY + diff;
+        }
+    }
 }

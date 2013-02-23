@@ -1,107 +1,101 @@
 /*
- * Copyright (c) 2012 Jason Polites
- * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *     http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright (c) 2012 Jason Polites Licensed under the Apache License, Version
+ * 2.0 (the "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law
+ * or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
  */
 package com.tweetlanes.android.widget.gestureimageview;
 
-
 /**
  * @author Jason Polites
- *
+ * 
  */
 public class MoveAnimation implements Animation {
 
-	private boolean firstFrame = true;
-	
-	private float startX;
-	private float startY;
-	
-	private float targetX;
-	private float targetY;
-	private long animationTimeMS = 100;
-	private long totalTime = 0;
-	
-	private MoveAnimationListener moveAnimationListener;
-	
-	/* (non-Javadoc)
-	 * @see com.polites.android.Animation#update(com.polites.android.GestureImageView, long)
-	 */
-	@Override
-	public boolean update(GestureImageView view, long time) {
-		totalTime += time;
-		
-		if(firstFrame) {
-			firstFrame = false;
-			startX = view.getImageX();
-			startY = view.getImageY();
-		}
-		
-		if(totalTime < animationTimeMS) {
-			
-			float ratio = (float) totalTime / animationTimeMS;
-			
-			float newX = ((targetX - startX) * ratio) + startX;
-			float newY = ((targetY - startY) * ratio) + startY;
-			
-			if(moveAnimationListener != null) {
-				moveAnimationListener.onMove(newX, newY);
-			}
-			
-			return true;
-		}
-		else {
-			if(moveAnimationListener != null) {
-				moveAnimationListener.onMove(targetX, targetY);
-			}
-		}
-		
-		return false;
-	}
+    private boolean mFirstFrame = true;
 
-	public void reset() {
-		firstFrame = true;
-		totalTime = 0;
-	}
+    private float mStartX;
+    private float mStartY;
 
-	
-	public float getTargetX() {
-		return targetX;
-	}
+    private float mTargetX;
+    private float mTargetY;
+    private long mAnimationTimeMS = 100;
+    private long mTotalTime = 0;
 
-	
-	public void setTargetX(float targetX) {
-		this.targetX = targetX;
-	}
+    private MoveAnimationListener mMoveAnimationListener;
 
-	
-	public float getTargetY() {
-		return targetY;
-	}
-	
-	public void setTargetY(float targetY) {
-		this.targetY = targetY;
-	}
-	
-	public long getAnimationTimeMS() {
-		return animationTimeMS;
-	}
+    /*
+     * (non-Javadoc)
+     * @see
+     * com.polites.android.Animation#update(com.polites.android.GestureImageView
+     * , long)
+     */
+    @Override
+    public boolean update(GestureImageView view, long time) {
+        mTotalTime += time;
 
-	public void setAnimationTimeMS(long animationTimeMS) {
-		this.animationTimeMS = animationTimeMS;
-	}
-	
-	public void setMoveAnimationListener(MoveAnimationListener moveAnimationListener) {
-		this.moveAnimationListener = moveAnimationListener;
-	}
+        if (mFirstFrame) {
+            mFirstFrame = false;
+            mStartX = view.getImageX();
+            mStartY = view.getImageY();
+        }
+
+        if (mTotalTime < mAnimationTimeMS) {
+
+            float ratio = (float) mTotalTime / mAnimationTimeMS;
+
+            float newX = ((mTargetX - mStartX) * ratio) + mStartX;
+            float newY = ((mTargetY - mStartY) * ratio) + mStartY;
+
+            if (mMoveAnimationListener != null) {
+                mMoveAnimationListener.onMove(newX, newY);
+            }
+
+            return true;
+        } else {
+            if (mMoveAnimationListener != null) {
+                mMoveAnimationListener.onMove(mTargetX, mTargetY);
+            }
+        }
+
+        return false;
+    }
+
+    public void reset() {
+        mFirstFrame = true;
+        mTotalTime = 0;
+    }
+
+    public float getTargetX() {
+        return mTargetX;
+    }
+
+    public void setTargetX(float targetX) {
+        this.mTargetX = targetX;
+    }
+
+    public float getTargetY() {
+        return mTargetY;
+    }
+
+    public void setTargetY(float targetY) {
+        this.mTargetY = targetY;
+    }
+
+    public long getAnimationTimeMS() {
+        return mAnimationTimeMS;
+    }
+
+    public void setAnimationTimeMS(long animationTimeMS) {
+        this.mAnimationTimeMS = animationTimeMS;
+    }
+
+    public void setMoveAnimationListener(
+            MoveAnimationListener moveAnimationListener) {
+        this.mMoveAnimationListener = moveAnimationListener;
+    }
 }
