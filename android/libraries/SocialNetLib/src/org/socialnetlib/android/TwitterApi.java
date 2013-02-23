@@ -19,18 +19,18 @@ package org.socialnetlib.android;
 import java.util.List;
 
 import org.tweetalib.android.model.TwitterUser;
-import org.twitter4j.Twitter;
-import org.twitter4j.TwitterException;
-import org.twitter4j.TwitterFactory;
-import org.twitter4j.auth.OAuthAuthorization;
-import org.twitter4j.conf.Configuration;
-import org.twitter4j.conf.ConfigurationBuilder;
-import org.twitter4j.internal.http.HttpParameter;
-import org.twitter4j.media.MediaProvider;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.TwitterFactory;
+import twitter4j.auth.OAuthAuthorization;
+import twitter4j.conf.Configuration;
+import twitter4j.conf.ConfigurationBuilder;
+import twitter4j.internal.http.HttpParameter;
+import twitter4j.media.MediaProvider;
 
 public class TwitterApi extends SocialNetApi {
 
-	public static final String TWITTER_VERIFY_CREDENTIALS_JSON = "https://api.twitter.com/1/account/verify_credentials.json";
+	public static final String TWITTER_VERIFY_CREDENTIALS_JSON = "https://api.twitter.com/1.1/account/verify_credentials.json";
 	
 	private Twitter mSocNetApi;
 	private OAuthAuthorization mOAuth;
@@ -84,13 +84,13 @@ public class TwitterApi extends SocialNetApi {
 			  					.setOAuthConsumerSecret(mAppConsumerSecret)
 			  					.setOAuthAccessToken(mCurrentOAuthToken)
 			  					.setOAuthAccessTokenSecret(mCurrentOAuthSecret)
-			  					.setMediaProvider(MediaProvider.TWITTER.getName())
+			  					.setMediaProvider("TWITTER")
 								//.setJSONStoreEnabled(true)
 			  					.setIncludeEntitiesEnabled(true);
 			
 			Configuration configuration = configurationBuilder.build();
 			mSocNetApi = new TwitterFactory(configuration).getInstance();
-			mOAuth = new TwitterFactory(configuration).getOAuthAuthorization();
+			//mOAuth = new TwitterFactory(configuration).getOAuthAuthorization();
 		}
 		return mSocNetApi;
 	}

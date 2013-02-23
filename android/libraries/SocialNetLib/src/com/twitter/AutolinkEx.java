@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.tweetalib.android.model.TwitterMediaEntity;
-import org.twitter4j.MediaEntity;
-import org.twitter4j.URLEntity;
+import twitter4j.MediaEntity;
+import twitter4j.URLEntity;
 
 /**
  * A class for adding HTML links to hashtag, username and list references in Tweet text.

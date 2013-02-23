@@ -20,9 +20,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 
-import org.twitter4j.DirectMessage;
-import org.twitter4j.ResponseList;
-import org.twitter4j.User;
+import twitter4j.DirectMessage;
+import twitter4j.ResponseList;
+import twitter4j.User;
 
 public class TwitterDirectMessages {
 

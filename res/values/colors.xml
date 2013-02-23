@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2007 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+  
+          http://www.apache.org/licenses/LICENSE-2.0
+  
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<!-- This file contains resource definitions for solid colors.  In
+     addition to plain color resources (retrieved via Resources.getColor()
+     and friends), we are also using it to define drawables that are
+     a solid color. -->
+
+<resources>
+    <!-- Retrieved via Resources.getColor() and friends. -->
+    <color name="red">#f00</color>
+    <color name="white">#fff</color>
+
+    <!-- Retrieved via Resources.getDrawable() and friends. -->
+    <drawable name="semi_black">#80000000</drawable>
+    
+        <!-- Activity background color -->
+    <drawable name="class_zero_background">#7f040000</drawable>
+
+    <!-- text color -->
+    <drawable name="text_color_red">#ffff4444</drawable>
+    <drawable name="text_color_black">#ff000000</drawable>
+    <drawable name="text_color_offwhite">#55ffffff</drawable>
+    <drawable name="text_color_blue">#cc33b5e5</drawable>
+    <color name="text_hairline">#ffaaaaaa</color>
+    <color name="list_background">#fff1f1f1</color>
+    <color name="message_count_color">#66333333</color>
+    <color name="text_color_holo_blue">#cc33b5e5</color>
+    
+    <color name="holo_blue_back">#dd33b5e5</color>
+
+    <!-- Chat "sent time" text background -->
+    <color name="timestamp_color">#bf000000</color>
+
+    <!-- the background color used for unread conversation -->
+    <color name="unread_bgcolor">#ffffffff</color>
+    <color name="read_bgcolor">#ffeeeeee</color>
+    
+    <color name="vpi__background_holo_dark">#ff000000</color>
+    <color name="vpi__background_holo_light">#fff3f3f3</color>
+    <color name="vpi__bright_foreground_holo_dark">@color/vpi__background_holo_light</color>
+    <color name="vpi__bright_foreground_holo_light">@color/vpi__background_holo_dark</color>
+    <color name="vpi__bright_foreground_disabled_holo_dark">#ff4c4c4c</color>
+    <color name="vpi__bright_foreground_disabled_holo_light">#ffb2b2b2</color>
+    <color name="vpi__bright_foreground_inverse_holo_dark">@color/vpi__bright_foreground_holo_light</color>
+    <color name="vpi__bright_foreground_inverse_holo_light">@color/vpi__bright_foreground_holo_dark</color>
+    
+    
+    <color name="feed_seperator_color_light">#ffcccccc</color>
+    <color name="feed_seperator_color_dark">#ff4d4d4d</color>
+    
+    <!-- 
+    <color name="feed_seperator_color_light">#ffff0000</color>
+    <color name="feed_seperator_color_dark">#ff00ff00</color>
+	-->
+    
+</resources>

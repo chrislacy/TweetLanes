@@ -23,8 +23,10 @@ import org.asynctasktex.AsyncTaskEx;
 
 import org.tweetalib.android.TwitterConstant.BooleanType;
 
-import org.twitter4j.Twitter;
-import org.twitter4j.TwitterException;
+import twitter4j.Friendship;
+import twitter4j.ResponseList;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
 
 public class TwitterFetchBooleans {
 
@@ -213,8 +215,11 @@ public class TwitterFetchBooleans {
 					switch (input.mBooleanType) {
 						case FRIENDSHIP_EXISTS: {
 							if (input.mUserScreenName.toLowerCase().equals(input.mUserScreenNameToCheck.toLowerCase()) == false) {
-								result.add(twitter.existsFriendship(input.mUserScreenName, input.mUserScreenNameToCheck));
-								result.add(twitter.existsFriendship(input.mUserScreenNameToCheck, input.mUserScreenName));
+								ResponseList<Friendship> response = twitter.lookupFriendships(new String[] { input.mUserScreenName });
+								if (response != null && response.size() == 1) {
+									result.add(response.get(0).isFollowedBy());
+									result.add(response.get(0).isFollowing());
+								}
 							}
 							break;
 						}
