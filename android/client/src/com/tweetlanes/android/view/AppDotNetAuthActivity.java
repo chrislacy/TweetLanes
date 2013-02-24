@@ -11,6 +11,9 @@
 
 package com.tweetlanes.android.view;
 
+import java.util.concurrent.ExecutionException;
+
+import org.socialnetlib.android.AppdotnetApi;
 import org.socialnetlib.android.SocialNetConstant;
 
 import com.crittercism.app.Crittercism;
@@ -19,7 +22,15 @@ import org.tweetalib.android.TwitterManager;
 import org.tweetalib.android.TwitterSignIn.GetOAuthAccessTokenCallback;
 import org.tweetalib.android.model.TwitterUser;
 
+import twitter4j.auth.RequestToken;
+
+import com.tweetlanes.android.App;
+import com.tweetlanes.android.AppSettings;
+import com.tweetlanes.android.Constant;
+import com.tweetlanes.android.R;
+
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -63,10 +74,16 @@ public class AppDotNetAuthActivity extends Activity {
 	                
                     setContentView(R.layout.loading);
 	                TwitterManager.get().setSocialNetType(SocialNetConstant.Type.Appdotnet, Constant.APPDOTNET_CONSUMER_KEY, Constant.APPDOTNET_CONSUMER_SECRET);
-	                TwitterManager.get().getOAuthAccessToken(null, accessToken, mGetOAuthAccessTokenCallback);
-                }
-                return false;
-            }
+	                try {
+	                	TwitterUser user = new VerifyCredentialsTask().execute(accessToken).get();
+	                	onSuccessfulLogin(user, accessToken);
+	                }
+	                catch (Exception e) {
+	                	return false;
+	                }
+	            }
+	            return false;
+	        }
 
         });
 
@@ -76,25 +93,19 @@ public class AppDotNetAuthActivity extends Activity {
     /*
 	 * 
 	 */
-    void onSuccessfulLogin(TwitterUser user, String accessToken,
-            String accessTokenSecret) {
+	void onSuccessfulLogin(TwitterUser user, String accessToken) {
         App app = (App) getApplication();
-		app.onPostSignIn(user, accessToken, accessTokenSecret, SocialNetConstant.Type.Appdotnet);
+		app.onPostSignIn(user, accessToken, null, SocialNetConstant.Type.Appdotnet);
         app.restartApp(this);
     }
 
-    /*
-	 * 
-	 */
-    GetOAuthAccessTokenCallback mGetOAuthAccessTokenCallback = TwitterManager
-            .get().getSignInInstance().new GetOAuthAccessTokenCallback() {
-
+	private class VerifyCredentialsTask extends AsyncTask<String, Void, TwitterUser> {
         @Override
-        public void finished(boolean successful, TwitterUser user,
-                String accessToken, String accessTokenSecret) {
-            if (successful) {
-                onSuccessfulLogin(user, accessToken, accessTokenSecret);
+		protected TwitterUser doInBackground(String... accessTokens) {
+			if (accessTokens.length == 0) {
+				return null;
             }
+            return new AppdotnetApi(SocialNetConstant.Type.Appdotnet, Constant.APPDOTNET_CONSUMER_KEY, Constant.APPDOTNET_CONSUMER_SECRET).verifyCredentialsSync(accessTokens[0], null);
         }
-    };
+	}
 }

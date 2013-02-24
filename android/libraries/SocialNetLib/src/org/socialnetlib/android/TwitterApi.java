@@ -26,7 +26,6 @@ import twitter4j.auth.OAuthAuthorization;
 import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
 import twitter4j.internal.http.HttpParameter;
-import twitter4j.media.MediaProvider;
 
 public class TwitterApi extends SocialNetApi {
 
