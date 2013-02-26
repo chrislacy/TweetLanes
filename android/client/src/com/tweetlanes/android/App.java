@@ -139,7 +139,7 @@ public class App extends Application {
 	}
 
 	public void setCurrentAccount(Long id) {
-		SocialNetConstant.Type currentSocialNetType = getCurrentAccount().getSocialNetType();
+		SocialNetConstant.Type currentSocialNetType = getCurrentAccount() == null ? SocialNetConstant.Type.Twitter : getCurrentAccount().getSocialNetType();
 		mLastAccountIndex = mCurrentAccountIndex;
 		mCurrentAccountIndex = getAccountIndexById(id);
 		if (mCurrentAccountIndex == null) {
@@ -149,8 +149,7 @@ public class App extends Application {
 			if (account != null) {
 				if (account.getSocialNetType() == currentSocialNetType) {
 					TwitterManager.get()
-							.setOAuthTokenWithSecret(account.getOAuthToken(),
-							account.getOAuthSecret(), true);
+							.setOAuthTokenWithSecret(account.getOAuthToken(), account.getOAuthSecret(), true);
 				}
 				else {
 					TwitterManager.initModule(account.getSocialNetType(),
@@ -161,7 +160,11 @@ public class App extends Application {
 								account.getOAuthToken(),
 								account.getOAuthSecret(),
 								mConnectionStatusCallbacks);
+								
 				}
+				
+				//setLaneDefinitions(account.getSocialNetType());				
+				
 				final Editor edit = mPreferences.edit();
 				edit.putLong(SHARED_PREFERENCES_KEY_CURRENT_ACCOUNT_ID,
 						account.getId());
@@ -408,8 +411,7 @@ public class App extends Application {
 
 			updateTwitterAccountCount();
 			if (TwitterManager.get().getSocialNetType() == oSocialNetType) {
-				TwitterManager.get().setOAuthTokenWithSecret(oAuthToken,
-						oAuthSecret, true);
+				TwitterManager.get().setOAuthTokenWithSecret(oAuthToken, oAuthSecret, true);
 			} else {
 				TwitterManager
 						.initModule(
@@ -507,6 +509,14 @@ public class App extends Application {
 					mConnectionStatusCallbacks);
 		}
 
+		setLaneDefinitions(socialNetType);
+
+		AppSettings.initModule(mContext);
+
+		NotificationHelper.initModule();
+	}
+
+	private void setLaneDefinitions(SocialNetConstant.Type socialNetType) {
 		mProfileLaneDefinitions = new ArrayList<LaneDescriptor>();
 		mProfileLaneDefinitions
 				.add(new LaneDescriptor(Constant.LaneType.PROFILE_PROFILE,
@@ -572,12 +582,8 @@ public class App extends Application {
 				new TwitterContentHandleBase(TwitterConstant.ContentType.USERS,
 						TwitterConstant.UsersType.RETWEETED_BY)));
 		mTweetSpotlightLaneDefaultIndex = 0;
-
-		AppSettings.initModule(mContext);
-
-		NotificationHelper.initModule();
 	}
-
+	
 	/*
 	 * 
 	 */

@@ -13,6 +13,7 @@ package com.tweetlanes.android.view;
 
 import java.util.ArrayList;
 
+import org.socialnetlib.android.SocialNetConstant;
 import org.tweetalib.android.TwitterFetchLists.FinishedCallback;
 import org.tweetalib.android.TwitterFetchResult;
 import org.tweetalib.android.TwitterFetchUsers;
@@ -61,17 +62,6 @@ import com.tweetlanes.android.Constant;
 import com.tweetlanes.android.R;
 import com.tweetlanes.android.model.AccountDescriptor;
 import com.tweetlanes.android.model.LaneDescriptor;
-
-import org.socialnetlib.android.SocialNetConstant;
-import org.tweetalib.android.TwitterFetchLists.FinishedCallback;
-import org.tweetalib.android.TwitterFetchResult;
-import org.tweetalib.android.TwitterFetchUsers;
-import org.tweetalib.android.model.TwitterLists;
-import org.tweetalib.android.model.TwitterStatus;
-import org.tweetalib.android.model.TwitterStatusUpdate;
-import org.tweetalib.android.model.TwitterUsers;
-import org.tweetalib.android.TwitterManager;
-
 import com.tweetlanes.android.service.BackgroundService;
 import com.tweetlanes.android.widget.viewpagerindicator.TitleProvider;
 
@@ -92,59 +82,60 @@ public class HomeActivity extends BaseLaneActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        // StrictMode.setThreadPolicy(new
-        // StrictMode.ThreadPolicy.Builder().detectAll().penaltyLog().penaltyDialog().build());
-        // StrictMode.setThreadPolicy(new
-        // StrictMode.ThreadPolicy.Builder().detectAll().penaltyLog().build());
-        // StrictMode.setVmPolicy(new
-        // StrictMode.VmPolicy.Builder().detectAll().penaltyLog().build());
+	// StrictMode.setThreadPolicy(new
+	// StrictMode.ThreadPolicy.Builder().detectAll().penaltyLog().penaltyDialog().build());
+	// StrictMode.setThreadPolicy(new
+	// StrictMode.ThreadPolicy.Builder().detectAll().penaltyLog().build());
+	// StrictMode.setVmPolicy(new
+	// StrictMode.VmPolicy.Builder().detectAll().penaltyLog().build());
 
-        super.onCreate(savedInstanceState);
+	super.onCreate(savedInstanceState);
 
-        AccountDescriptor account = getApp().getCurrentAccount();
+	AccountDescriptor account = getApp().getCurrentAccount();
 
-        // Attempt at fixing a crash found in HomeActivity
-        if (account == null) {
-            Toast.makeText(getApplicationContext(),
-                    "No cached account found, restarting",
-                    Constant.DEFAULT_TOAST_DISPLAY_TIME).show();
-            restartApp();
-            return;
-        }
+	// Attempt at fixing a crash found in HomeActivity
+	if (account == null) {
+	    Toast.makeText(getApplicationContext(), "No cached account found, restarting",
+		    Constant.DEFAULT_TOAST_DISPLAY_TIME).show();
+	    restartApp();
+	    return;
+	}
 
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayUseLogoEnabled(true);
-        actionBar.setTitle(null);
-        actionBar.setDisplayShowTitleEnabled(false);
+	ActionBar actionBar = getActionBar();
+	actionBar.setDisplayUseLogoEnabled(true);
+	actionBar.setTitle(null);
+	actionBar.setDisplayShowTitleEnabled(false);
 
-        ArrayList<String> adapterList = new ArrayList<String>();
-        ArrayList<AccountDescriptor> accounts = getApp().getAccounts();
-        for (int i = 0; i < accounts.size(); i++) {
-            AccountDescriptor acc = accounts.get(i);
-            adapterList.add("@" + acc.getScreenName() + (acc.getSocialNetType() == SocialNetConstant.Type.Appdotnet ? " (App.net)" : " (Twitter)"));
-        }
-        adapterList.add(getString(R.string.add_account));
-        mAdapterStrings = adapterList.toArray(new String[adapterList.size()]);
+	ArrayList<String> adapterList = new ArrayList<String>();
+	ArrayList<AccountDescriptor> accounts = getApp().getAccounts();
+	for (int i = 0; i < accounts.size(); i++) {
+	    AccountDescriptor acc = accounts.get(i);
+	    adapterList.add("@"
+		    + acc.getScreenName()
+		    + (acc.getSocialNetType() == SocialNetConstant.Type.Appdotnet ? " (App.net)"
+			    : " (Twitter)"));
+	}
+	adapterList.add(getString(R.string.add_account));
+	mAdapterStrings = adapterList.toArray(new String[adapterList.size()]);
 
-        mSpinnerAdapter = new ArrayAdapter<String>(getBaseContext(),
-                android.R.layout.simple_spinner_dropdown_item, mAdapterStrings);
+	mSpinnerAdapter = new ArrayAdapter<String>(getBaseContext(),
+		android.R.layout.simple_spinner_dropdown_item, mAdapterStrings);
 
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-        actionBar.setListNavigationCallbacks(mSpinnerAdapter,
-                mOnNavigationListener);
-        actionBar.setSelectedNavigationItem(0);
+	actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+	actionBar.setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);
+	actionBar.setSelectedNavigationItem(0);
 
-        onCreateNavigationListener();
-        configureListNavigation();
+	onCreateNavigationListener();
+	configureListNavigation();
 
-        mViewSwitcher = (ViewSwitcher) findViewById(R.id.rootViewSwitcher);
-        updateViewVisibility();
+	mViewSwitcher = (ViewSwitcher) findViewById(R.id.rootViewSwitcher);
+	updateViewVisibility();
 
-        onCreateHandleIntents();
+	onCreateHandleIntents();
 
-        account.setDisplayedLaneDefinitionsDirty(false);
+	account.setDisplayedLaneDefinitionsDirty(false);
 
-        configureNotificationService();
+	configureNotificationService();
     }
 
     /*
@@ -152,54 +143,51 @@ public class HomeActivity extends BaseLaneActivity {
 	 */
     void onCreateHandleIntents() {
 
-        boolean turnSoftKeyboardOff = true;
+	boolean turnSoftKeyboardOff = true;
 
-        Intent intent = getIntent();
-        if (intent.getAction() == Intent.ACTION_SEND) {
+	Intent intent = getIntent();
+	if (intent.getAction() == Intent.ACTION_SEND) {
 
-            Bundle extras = intent.getExtras();
-            String type = intent.getType();
-            if (type.equals("text/plain") == true) {
+	    Bundle extras = intent.getExtras();
+	    String type = intent.getType();
+	    if (type.equals("text/plain") == true) {
 
-                String shareString = extras.getString(Intent.EXTRA_TEXT);
-                if (extras.containsKey(Intent.EXTRA_TEXT)) {
-                    shareString = extras.getString(Intent.EXTRA_SUBJECT) + " "
-                            + shareString;
-                }
-                beginShareStatus(shareString);
+		String shareString = extras.getString(Intent.EXTRA_TEXT);
+		if (extras.containsKey(Intent.EXTRA_TEXT)) {
+		    shareString = extras.getString(Intent.EXTRA_SUBJECT) + " " + shareString;
+		}
+		beginShareStatus(shareString);
 
-                turnSoftKeyboardOff = false;
-            } else if (type.contains("image/")) {
-                // From http://stackoverflow.com/a/2641363/328679
-                if (extras.containsKey(Intent.EXTRA_STREAM)) {
-                    Uri uri = (Uri) extras.getParcelable(Intent.EXTRA_STREAM);
-                    String scheme = uri.getScheme();
-                    if (scheme.equals("content")) {
-                        ContentResolver contentResolver = getContentResolver();
-                        Cursor cursor = contentResolver.query(uri, null, null,
-                                null, null);
-                        cursor.moveToFirst();
-                        try {
-                            String imagePath = cursor.getString(cursor
-                                    .getColumnIndexOrThrow(Images.Media.DATA));
-                            beginShareImage(imagePath);
-                        } catch (java.lang.IllegalArgumentException e) {
-                            Toast.makeText(this, R.string.picture_attach_error,
-                                    Toast.LENGTH_SHORT).show();
-                        }
+		turnSoftKeyboardOff = false;
+	    } else if (type.contains("image/")) {
+		// From http://stackoverflow.com/a/2641363/328679
+		if (extras.containsKey(Intent.EXTRA_STREAM)) {
+		    Uri uri = (Uri) extras.getParcelable(Intent.EXTRA_STREAM);
+		    String scheme = uri.getScheme();
+		    if (scheme.equals("content")) {
+			ContentResolver contentResolver = getContentResolver();
+			Cursor cursor = contentResolver.query(uri, null, null, null, null);
+			cursor.moveToFirst();
+			try {
+			    String imagePath = cursor.getString(cursor
+				    .getColumnIndexOrThrow(Images.Media.DATA));
+			    beginShareImage(imagePath);
+			} catch (java.lang.IllegalArgumentException e) {
+			    Toast.makeText(this, R.string.picture_attach_error, Toast.LENGTH_SHORT)
+				    .show();
+			}
 
-                        turnSoftKeyboardOff = false;
-                    }
-                }
-            }
-        }
+			turnSoftKeyboardOff = false;
+		    }
+		}
+	    }
+	}
 
-        if (turnSoftKeyboardOff == true) {
-            // Turn the soft-keyboard off. For some reason it wants to appear on
-            // screen by default when coming back from multitasking...
-            getWindow().setSoftInputMode(
-                    WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        }
+	if (turnSoftKeyboardOff == true) {
+	    // Turn the soft-keyboard off. For some reason it wants to appear on
+	    // screen by default when coming back from multitasking...
+	    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+	}
     }
 
     /*
@@ -208,33 +196,32 @@ public class HomeActivity extends BaseLaneActivity {
      */
     @Override
     protected void onResume() {
-        super.onResume();
+	super.onResume();
 
-        AccountDescriptor account = getApp().getCurrentAccount();
+	AccountDescriptor account = getApp().getCurrentAccount();
 
-        if (account.getDisplayedLaneDefinitionsDirty()) {
-            onLaneDataSetChanged();
-            account.setDisplayedLaneDefinitionsDirty(false);
-        }
+	if (account.getDisplayedLaneDefinitionsDirty()) {
+	    onLaneDataSetChanged();
+	    account.setDisplayedLaneDefinitionsDirty(false);
+	}
 
-        if (account.shouldRefreshLists() == true) {
-            mRefreshListsHandler.removeCallbacks(mRefreshListsTask);
-            mRefreshListsHandler.postDelayed(mRefreshListsTask,
-                    Constant.REFRESH_LISTS_WAIT_TIME);
-        }
+	if (account.shouldRefreshLists() == true) {
+	    mRefreshListsHandler.removeCallbacks(mRefreshListsTask);
+	    mRefreshListsHandler.postDelayed(mRefreshListsTask, Constant.REFRESH_LISTS_WAIT_TIME);
+	}
 
-        if (isComposing() == false) {
-            // Check we are using List navigation on the ActionBar. This will
-            // not be the case when ComposeTweet is present.
-            if (getActionBar().getNavigationMode() == android.app.ActionBar.NAVIGATION_MODE_LIST) {
-                /*
-                 * Integer accountIndex =
-                 * mSpinnerAdapter.getIndexOfAccount(getApp
-                 * ().getCurrentAccount()); if (accountIndex != null) {
-                 * getActionBar().setSelectedNavigationItem(accountIndex); }
-                 */
-            }
-        }
+	if (isComposing() == false) {
+	    // Check we are using List navigation on the ActionBar. This will
+	    // not be the case when ComposeTweet is present.
+	    if (getActionBar().getNavigationMode() == android.app.ActionBar.NAVIGATION_MODE_LIST) {
+		/*
+		 * Integer accountIndex =
+		 * mSpinnerAdapter.getIndexOfAccount(getApp
+		 * ().getCurrentAccount()); if (accountIndex != null) {
+		 * getActionBar().setSelectedNavigationItem(accountIndex); }
+		 */
+	    }
+	}
     }
 
     /*
@@ -243,14 +230,14 @@ public class HomeActivity extends BaseLaneActivity {
      */
     @Override
     protected void onPause() {
-        super.onPause();
+	super.onPause();
 
-        App app = getApp();
-        app.saveUpdatedAccountDescriptor(app.getCurrentAccount());
+	App app = getApp();
+	app.saveUpdatedAccountDescriptor(app.getCurrentAccount());
 
-        saveData(getCurrentLaneIndex());
+	saveData(getCurrentLaneIndex());
 
-        mRefreshListsHandler.removeCallbacks(mRefreshListsTask);
+	mRefreshListsHandler.removeCallbacks(mRefreshListsTask);
     }
 
     /*
@@ -260,15 +247,15 @@ public class HomeActivity extends BaseLaneActivity {
     @Override
     protected void onDestroy() {
 
-        mHomeLaneAdapter = null;
+	mHomeLaneAdapter = null;
 
-        try {
-            doUnbindService();
-        } catch (Throwable t) {
-            Log.e("HomeActivity", "Failed to unbind from the service", t);
-        }
+	try {
+	    doUnbindService();
+	} catch (Throwable t) {
+	    Log.e("HomeActivity", "Failed to unbind from the service", t);
+	}
 
-        super.onDestroy();
+	super.onDestroy();
     }
 
     /*
@@ -277,7 +264,7 @@ public class HomeActivity extends BaseLaneActivity {
      */
     @Override
     protected int getInitialLaneIndex() {
-        return getApp().getCurrentAccount().getInitialLaneIndex();
+	return getApp().getCurrentAccount().getInitialLaneIndex();
     }
 
     /*
@@ -286,22 +273,20 @@ public class HomeActivity extends BaseLaneActivity {
     @Override
     String getCachedData(int laneIndex) {
 
-        if (Constant.ENABLE_STATUS_CACHING == true) {
-            AccountDescriptor account = getApp().getCurrentAccount();
+	if (Constant.ENABLE_STATUS_CACHING == true) {
+	    AccountDescriptor account = getApp().getCurrentAccount();
 
-            LaneDescriptor laneDescriptor = account
-                    .getDisplayedLaneDefinition(laneIndex);
-            if (laneDescriptor != null) {
-                String cacheKey = laneDescriptor.getCacheKey(account
-                        .getScreenName());
-                String cachedData = getApp().getCachedData(cacheKey);
-                if (cachedData != null) {
-                    return cachedData;
-                }
-            }
-        }
+	    LaneDescriptor laneDescriptor = account.getDisplayedLaneDefinition(laneIndex);
+	    if (laneDescriptor != null) {
+		String cacheKey = laneDescriptor.getCacheKey(account.getScreenName());
+		String cachedData = getApp().getCachedData(cacheKey);
+		if (cachedData != null) {
+		    return cachedData;
+		}
+	    }
+	}
 
-        return null;
+	return null;
     }
 
     /*
@@ -311,10 +296,10 @@ public class HomeActivity extends BaseLaneActivity {
      */
     @Override
     protected PagerAdapter getAdapterForViewPager() {
-        if (mHomeLaneAdapter == null) {
-            mHomeLaneAdapter = new HomeLaneAdapter(getSupportFragmentManager());
-        }
-        return mHomeLaneAdapter;
+	if (mHomeLaneAdapter == null) {
+	    mHomeLaneAdapter = new HomeLaneAdapter(getSupportFragmentManager());
+	}
+	return mHomeLaneAdapter;
     }
 
     /*
@@ -325,7 +310,7 @@ public class HomeActivity extends BaseLaneActivity {
      */
     @Override
     protected FragmentStatePagerAdapter getFragmentStatePagerAdapter() {
-        return mHomeLaneAdapter;
+	return mHomeLaneAdapter;
     }
 
     /*
@@ -334,51 +319,50 @@ public class HomeActivity extends BaseLaneActivity {
      */
     @Override
     protected void onLaneChange(final int position, final int oldPosition) {
-        super.onLaneChange(position, oldPosition);
+	super.onLaneChange(position, oldPosition);
 
-        getApp().getCurrentAccount().setCurrentLaneIndex(position);
+	getApp().getCurrentAccount().setCurrentLaneIndex(position);
 
-        saveData(oldPosition);
+	saveData(oldPosition);
     }
 
     /*
 	 * 
 	 */
     private void saveData(final int position) {
-        final App app = getApp();
+	final App app = getApp();
 
-        new Thread(new Runnable() {
+	new Thread(new Runnable() {
 
-            public void run() {
-                if (app != null) {
-                    AccountDescriptor account = app.getCurrentAccount();
+	    public void run() {
+		if (app != null) {
+		    AccountDescriptor account = app.getCurrentAccount();
 
-                    BaseLaneFragment fragment = getFragmentAtIndex(position);
-                    final String toCache = fragment != null ? fragment
-                            .getDataToCache() : null;
+		    BaseLaneFragment fragment = getFragmentAtIndex(position);
+		    final String toCache = fragment != null ? fragment.getDataToCache() : null;
 
-                    app.saveUpdatedAccountDescriptor(account);
+		    app.saveUpdatedAccountDescriptor(account);
 
-                    if (toCache != null) {
-                        LaneDescriptor laneDescriptor = account
-                                .getDisplayedLaneDefinition(position);
-                        final String cacheKey = laneDescriptor != null ? laneDescriptor
-                                .getCacheKey(account.getScreenName()) : null;
-                        if (cacheKey != null) {
-                            app.cacheData(cacheKey, toCache);
-                        }
-                    }
-                }
-            }
-        }).start();
+		    if (toCache != null) {
+			LaneDescriptor laneDescriptor = account
+				.getDisplayedLaneDefinition(position);
+			final String cacheKey = laneDescriptor != null ? laneDescriptor
+				.getCacheKey(account.getScreenName()) : null;
+			if (cacheKey != null) {
+			    app.cacheData(cacheKey, toCache);
+			}
+		    }
+		}
+	    }
+	}).start();
     }
 
     /*
 	 * 
 	 */
     private void updateViewVisibility() {
-        mViewSwitcher.reset();
-        mViewSwitcher.setDisplayedChild(1);
+	mViewSwitcher.reset();
+	mViewSwitcher.setDisplayedChild(1);
     }
 
     /*
@@ -389,9 +373,9 @@ public class HomeActivity extends BaseLaneActivity {
      */
     @Override
     public boolean configureOptionsMenu(Menu menu) {
-        super.configureOptionsMenu(menu);
+	super.configureOptionsMenu(menu);
 
-        return configureListNavigation();
+	return configureListNavigation();
     }
 
     /*
@@ -400,7 +384,7 @@ public class HomeActivity extends BaseLaneActivity {
      */
     @Override
     public Integer getDefaultOptionsMenu() {
-        return R.menu.home_default_action_bar;
+	return R.menu.home_default_action_bar;
     }
 
     /*
@@ -412,74 +396,74 @@ public class HomeActivity extends BaseLaneActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if (super.onOptionsItemSelected(item) == true) {
-            return true;
-        }
+	if (super.onOptionsItemSelected(item) == true) {
+	    return true;
+	}
 
-        switch (item.getItemId()) {
+	switch (item.getItemId()) {
 
-        case R.id.action_settings:
-            showUserPreferences();
-            break;
+	case R.id.action_settings:
+	    showUserPreferences();
+	    break;
 
-        case R.id.action_buy_alp:
-            Intent browserIntent = new Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse("https://play.google.com/store/apps/details?id=com.chrislacy.actionlauncher.pro"));
-            startActivity(browserIntent);
-            break;
+	case R.id.action_buy_alp:
+	    Intent browserIntent = new Intent(
+		    Intent.ACTION_VIEW,
+		    Uri.parse("https://play.google.com/store/apps/details?id=com.chrislacy.actionlauncher.pro"));
+	    startActivity(browserIntent);
+	    break;
 
-        /*
-         * case R.id.action_promote: showPromote(); break;
-         */
+	/*
+	 * case R.id.action_promote: showPromote(); break;
+	 */
 
-        /*
-         * case CHOOSE_LANES: Toast.makeText(getApplicationContext(),
-         * getString(R.string.functionality_not_implemented),
-         * Constant.DEFAULT_TOAST_DISPLAY_TIME).show(); break;
-         */
+	/*
+	 * case CHOOSE_LANES: Toast.makeText(getApplicationContext(),
+	 * getString(R.string.functionality_not_implemented),
+	 * Constant.DEFAULT_TOAST_DISPLAY_TIME).show(); break;
+	 */
 
-        /*
-         * case R.id.action_send_feedback: Intent intent = new
-         * Intent(Intent.ACTION_SEND); intent.setType("plain/text"); String
-         * recipient[] = {"lacy@tweetlanes.com"};
-         * intent.putExtra(Intent.EXTRA_EMAIL, recipient);
-         * intent.putExtra(Intent.EXTRA_SUBJECT, "Tweet Lanes Feedback");
-         * //String userScreenName = getApp().getCurrentAccountScreenName();
-         * //intent.putExtra(Intent.EXTRA_TEXT, userScreenName != null ?
-         * "(Feedback sent by @" + userScreenName : ""); startActivity(intent);
-         * break;
-         */
+	/*
+	 * case R.id.action_send_feedback: Intent intent = new
+	 * Intent(Intent.ACTION_SEND); intent.setType("plain/text"); String
+	 * recipient[] = {"lacy@tweetlanes.com"};
+	 * intent.putExtra(Intent.EXTRA_EMAIL, recipient);
+	 * intent.putExtra(Intent.EXTRA_SUBJECT, "Tweet Lanes Feedback");
+	 * //String userScreenName = getApp().getCurrentAccountScreenName();
+	 * //intent.putExtra(Intent.EXTRA_TEXT, userScreenName != null ?
+	 * "(Feedback sent by @" + userScreenName : ""); startActivity(intent);
+	 * break;
+	 */
 
-        default:
-            return false;
-        }
+	default:
+	    return false;
+	}
 
-        return false;
+	return false;
     }
 
     /*
 	 * 
 	 */
     void onCreateNavigationListener() {
-        mOnNavigationListener = new OnNavigationListener() {
+	mOnNavigationListener = new OnNavigationListener() {
 
-            @Override
-            public boolean onNavigationItemSelected(int position, long itemId) {
+	    @Override
+	    public boolean onNavigationItemSelected(int position, long itemId) {
 
-                if (position == mSpinnerAdapter.getCount() - 1) {
-                    showAddAccount();
-                } else {
-                    ArrayList<AccountDescriptor> accounts = getApp().getAccounts();
-                    if (position < accounts.size()) {
-                        AccountDescriptor account = accounts.get(position);
-                        showAccount(account);
-                    }
-                }
+		if (position == mSpinnerAdapter.getCount() - 1) {
+		    showAddAccount();
+		} else {
+		    ArrayList<AccountDescriptor> accounts = getApp().getAccounts();
+		    if (position < accounts.size()) {
+			AccountDescriptor account = accounts.get(position);
+			showAccount(account);
+		    }
+		}
 
-                return true;
-            }
-        };
+		return true;
+	    }
+	};
     }
 
     /*
@@ -487,30 +471,31 @@ public class HomeActivity extends BaseLaneActivity {
 	 */
     private boolean configureListNavigation() {
 
-        if (mSpinnerAdapter == null) {
-            return false;
-        }
+	if (mSpinnerAdapter == null) {
+	    return false;
+	}
 
-        ActionBar actionBar = getActionBar();
-        actionBar.setNavigationMode(android.app.ActionBar.NAVIGATION_MODE_LIST);
-        actionBar.setListNavigationCallbacks(mSpinnerAdapter,
-                mOnNavigationListener);
+	ActionBar actionBar = getActionBar();
+	actionBar.setNavigationMode(android.app.ActionBar.NAVIGATION_MODE_LIST);
+	actionBar.setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);
 
-        int accountIndex = 0;
-        AccountDescriptor currentAccount = getApp().getCurrentAccount();
-        if (currentAccount != null) {
-            String testScreenName = "@"
-                    + currentAccount.getScreenName().toLowerCase();
-            for (int i = 0; i < mAdapterStrings.length; i++) {
-                if (testScreenName.equals(mAdapterStrings[i].toLowerCase())) {
-                    accountIndex = i;
-                    break;
-                }
-            }
-        }
-        actionBar.setSelectedNavigationItem(accountIndex);
-        actionBar.setDisplayHomeAsUpEnabled(false);
-        return true;
+	int accountIndex = 0;
+	AccountDescriptor currentAccount = getApp().getCurrentAccount();
+	if (currentAccount != null) {
+	    String testScreenName = "@"
+		    + currentAccount.getScreenName()
+		    + (currentAccount.getSocialNetType() == SocialNetConstant.Type.Appdotnet ? " (App.net)"
+			    : " (Twitter)");
+	    for (int i = 0; i < mAdapterStrings.length; i++) {
+		if (testScreenName.toLowerCase().equals(mAdapterStrings[i].toLowerCase())) {
+		    accountIndex = i;
+		    break;
+		}
+	    }
+	}
+	actionBar.setSelectedNavigationItem(accountIndex);
+	actionBar.setDisplayHomeAsUpEnabled(false);
+	return true;
     }
 
     /*
@@ -518,157 +503,154 @@ public class HomeActivity extends BaseLaneActivity {
      */
     private void showAccount(AccountDescriptor selectedAccount) {
 
-        AccountDescriptor currentAccount = getApp().getCurrentAccount();
+	AccountDescriptor currentAccount = getApp().getCurrentAccount();
 
-        if (currentAccount == null
-                || currentAccount.getId() != selectedAccount.getId()) {
+	if (currentAccount == null || currentAccount.getId() != selectedAccount.getId()) {
 
-            saveData(getCurrentLaneIndex());
+	    saveData(getCurrentLaneIndex());
 
-            clearFragmentsCache();
+	    clearFragmentsCache();
 
-            getApp().setCurrentAccount(selectedAccount.getId());
+	    getApp().setCurrentAccount(selectedAccount.getId());
 
-            // From http://stackoverflow.com/a/3419987/328679
-            Intent intent = getIntent();
-            overridePendingTransition(0, 0);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            finish();
+	    // From http://stackoverflow.com/a/3419987/328679
+	    Intent intent = getIntent();
+	    overridePendingTransition(0, 0);
+	    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+	    finish();
 
-            overridePendingTransition(0, 0);
-            startActivity(intent);
-        }
+	    overridePendingTransition(0, 0);
+	    startActivity(intent);
+	}
     }
 
     /*
 	 * 
 	 */
     private void showAddAccount() {
-    	AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
-    	
-    	builder.setTitle(R.string.select_account_type)
-    		.setItems(R.array.accounttype_list, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-    				Intent intent = new Intent(getApplicationContext(), which == 0 ? TwitterAuthActivity.class : AppDotNetAuthActivity.class);
-  				
-    				startActivity(intent);
+	AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
+
+	builder.setTitle(R.string.select_account_type).setItems(R.array.accounttype_list,
+		new DialogInterface.OnClickListener() {
+		    public void onClick(DialogInterface dialog, int which) {
+			Intent intent = new Intent(getApplicationContext(),
+				which == 0 ? TwitterAuthActivity.class
+					: AppDotNetAuthActivity.class);
+
+			startActivity(intent);
+		    }
+		});
+
+	builder.create().show();
     }
-    		});
-        
-        builder.create().show();
-    }
-	
+
     /*
 	 * 
 	 */
     public void showUserPreferences() {
-        startActivity(new Intent(this, SettingsActivity.class));
+	startActivity(new Intent(this, SettingsActivity.class));
     }
 
     /*
      * 
      */
     private void showFreeForLifeSuccess() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
+	AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
 
-        builder.setMessage(getString(R.string.free_for_life_success));
-        builder.setTitle(getString(R.string.success));
-        builder.setIcon(android.R.drawable.btn_star_big_on);
+	builder.setMessage(getString(R.string.free_for_life_success));
+	builder.setTitle(getString(R.string.success));
+	builder.setIcon(android.R.drawable.btn_star_big_on);
 
-        builder.setPositiveButton("OK", new Dialog.OnClickListener() {
+	builder.setPositiveButton("OK", new Dialog.OnClickListener() {
 
-            @Override
-            public void onClick(DialogInterface arg0, int arg1) {
+	    @Override
+	    public void onClick(DialogInterface arg0, int arg1) {
 
-            }
+	    }
 
-        });
+	});
 
-        builder.create().show();
+	builder.create().show();
     }
 
     /*
      * 
      */
     private void showFreeForLifeError() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
+	AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
 
-        builder.setMessage(getString(R.string.free_for_life_error));
-        builder.setIcon(0);
+	builder.setMessage(getString(R.string.free_for_life_error));
+	builder.setIcon(0);
 
-        builder.setPositiveButton("OK", new Dialog.OnClickListener() {
+	builder.setPositiveButton("OK", new Dialog.OnClickListener() {
 
-            @Override
-            public void onClick(DialogInterface arg0, int arg1) {
+	    @Override
+	    public void onClick(DialogInterface arg0, int arg1) {
 
-            }
+	    }
 
-        });
+	});
     }
 
     /*
      * 
      */
     public void showPromote() {
-        final View layout = View.inflate(this, R.layout.promote, null);
+	final View layout = View.inflate(this, R.layout.promote, null);
 
-        // final EditText promoStatus = ((EditText)
-        // layout.findViewById(R.id.promoStatusEditText));
-        // promoStatus.setText(R.string.free_for_life_promo_status);
+	// final EditText promoStatus = ((EditText)
+	// layout.findViewById(R.id.promoStatusEditText));
+	// promoStatus.setText(R.string.free_for_life_promo_status);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setIcon(0);
+	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+	builder.setIcon(0);
 
-        builder.setPositiveButton("Agree!", new Dialog.OnClickListener() {
+	builder.setPositiveButton("Agree!", new Dialog.OnClickListener() {
 
-            public void onClick(DialogInterface dialog, int which) {
+	    public void onClick(DialogInterface dialog, int which) {
 
-                TwitterFetchUsers.FinishedCallback callback = TwitterManager
-                        .get().getFetchUsersInstance().new FinishedCallback() {
+		TwitterFetchUsers.FinishedCallback callback = TwitterManager.get()
+			.getFetchUsersInstance().new FinishedCallback() {
 
-                    @Override
-                    public void finished(TwitterFetchResult result,
-                            TwitterUsers users) {
+		    @Override
+		    public void finished(TwitterFetchResult result, TwitterUsers users) {
 
-                        if (result.isSuccessful()) {
+			if (result.isSuccessful()) {
 
-                            String statusText = getString(R.string.promote_status_text);
-                            TwitterStatusUpdate statusUpdate = new TwitterStatusUpdate(
-                                    statusText);
+			    String statusText = getString(R.string.promote_status_text);
+			    TwitterStatusUpdate statusUpdate = new TwitterStatusUpdate(statusText);
 
-                            TwitterManager
-                                    .get()
-                                    .setStatus(
-                                            statusUpdate,
-                                            TwitterManager.get()
-                                                    .getFetchStatusInstance().new FinishedCallback() {
+			    TwitterManager
+				    .get()
+				    .setStatus(
+					    statusUpdate,
+					    TwitterManager.get().getFetchStatusInstance().new FinishedCallback() {
 
-                                                @Override
-                                                public void finished(
-                                                        TwitterFetchResult result,
-                                                        TwitterStatus status) {
+						@Override
+						public void finished(TwitterFetchResult result,
+							TwitterStatus status) {
 
-                                                    if (result.isSuccessful()) {
-                                                        showFreeForLifeSuccess();
-                                                    } else {
-                                                        showFreeForLifeError();
-                                                    }
-                                                }
-                                            });
-                        }
+						    if (result.isSuccessful()) {
+							showFreeForLifeSuccess();
+						    } else {
+							showFreeForLifeError();
+						    }
+						}
+					    });
+			}
 
-                    }
-                };
+		    }
+		};
 
-                getApp().triggerFollowPromoAccounts(callback);
-            }
-        });
-        builder.setNegativeButton("Cancel", null);
-        builder.setView(layout);
-        builder.setTitle("Promote Tweet Lanes!");
+		getApp().triggerFollowPromoAccounts(callback);
+	    }
+	});
+	builder.setNegativeButton("Cancel", null);
+	builder.setView(layout);
+	builder.setTitle("Promote Tweet Lanes!");
 
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
+	AlertDialog alertDialog = builder.create();
+	alertDialog.show();
     }
 
     /**
@@ -676,9 +658,9 @@ public class HomeActivity extends BaseLaneActivity {
      */
     OnClickListener mBackListener = new OnClickListener() {
 
-        public void onClick(View v) {
-            finish();
-        }
+	public void onClick(View v) {
+	    finish();
+	}
     };
 
     /*
@@ -687,137 +669,131 @@ public class HomeActivity extends BaseLaneActivity {
     private Handler mRefreshListsHandler = new Handler();
     private final Runnable mRefreshListsTask = new Runnable() {
 
-        public void run() {
+	public void run() {
 
-            mFetchListsCallback = TwitterManager.get().getFetchListsInstance().new FinishedCallback() {
+	    mFetchListsCallback = TwitterManager.get().getFetchListsInstance().new FinishedCallback() {
 
-                @Override
-                public void finished(boolean successful, TwitterLists lists) {
-                    mFetchListsCallback = null;
+		@Override
+		public void finished(boolean successful, TwitterLists lists) {
+		    mFetchListsCallback = null;
 
-                    if (successful == true) {
-                        boolean modified = getApp().onUserListsRefresh(lists);
-                        if (modified == true) {
-                            onLaneDataSetChanged();
-                        }
-                    }
-                }
-            };
+		    if (successful == true) {
+			boolean modified = getApp().onUserListsRefresh(lists);
+			if (modified == true) {
+			    onLaneDataSetChanged();
+			}
+		    }
+		}
+	    };
 
-            AccountDescriptor account = getApp().getCurrentAccount();
-            if (account != null) {
-                TwitterManager.get().getLists(account.getScreenName(),
-                        mFetchListsCallback);
-            }
-        }
+	    AccountDescriptor account = getApp().getCurrentAccount();
+	    if (account != null) {
+		TwitterManager.get().getLists(account.getScreenName(), mFetchListsCallback);
+	    }
+	}
     };
 
     /*
 	 * 
 	 */
     void onLaneDataSetChanged() {
-        if (mHomeLaneAdapter != null) {
-            mHomeLaneAdapter.notifyDataSetChanged();
-        }
-        if (mPageIndicator != null) {
-            mPageIndicator.notifyDataSetChanged();
-        }
-        getApp().getCurrentAccount().setDisplayedLaneDefinitionsDirty(false);
+	if (mHomeLaneAdapter != null) {
+	    mHomeLaneAdapter.notifyDataSetChanged();
+	}
+	if (mPageIndicator != null) {
+	    mPageIndicator.notifyDataSetChanged();
+	}
+	getApp().getCurrentAccount().setDisplayedLaneDefinitionsDirty(false);
     }
 
     /*
      * 
      */
-    class HomeLaneAdapter extends FragmentStatePagerAdapter implements
-            TitleProvider {
+    class HomeLaneAdapter extends FragmentStatePagerAdapter implements TitleProvider {
 
-        public HomeLaneAdapter(FragmentManager supportFragmentManager) {
-            super(supportFragmentManager);
-        }
+	public HomeLaneAdapter(FragmentManager supportFragmentManager) {
+	    super(supportFragmentManager);
+	}
 
-        @Override
-        public Fragment getItem(int position) {
-            Fragment result = null;
+	@Override
+	public Fragment getItem(int position) {
+	    Fragment result = null;
 
-            AccountDescriptor account = getApp().getCurrentAccount();
-            if (account != null) {
-                String screenName = account.getScreenName();
-                LaneDescriptor laneDescriptor = account
-                        .getDisplayedLaneDefinition(position);
-                switch (laneDescriptor.getLaneType()) {
-                case USER_HOME_TIMELINE:
-                case USER_PROFILE_TIMELINE:
-                case USER_MENTIONS:
-                case RETWEETS_OF_ME:
-                case USER_FAVORITES:
-                case GLOBAL_FEED:
-                    result = TweetFeedFragment.newInstance(position,
-                            laneDescriptor.getContentHandleBase(), screenName,
-                            Long.toString(account.getId()));
-                    break;
+	    AccountDescriptor account = getApp().getCurrentAccount();
+	    if (account != null) {
+		String screenName = account.getScreenName();
+		LaneDescriptor laneDescriptor = account.getDisplayedLaneDefinition(position);
+		switch (laneDescriptor.getLaneType()) {
+		case USER_HOME_TIMELINE:
+		case USER_PROFILE_TIMELINE:
+		case USER_MENTIONS:
+		case RETWEETS_OF_ME:
+		case USER_FAVORITES:
+		case GLOBAL_FEED:
+		    result = TweetFeedFragment.newInstance(position,
+			    laneDescriptor.getContentHandleBase(), screenName,
+			    Long.toString(account.getId()));
+		    break;
 
-                case USER_PROFILE:
-                    result = ProfileFragment.newInstance(position,
-                            account.getId());
-                    break;
+		case USER_PROFILE:
+		    result = ProfileFragment.newInstance(position, account.getId());
+		    break;
 
-                case USER_LIST_TIMELINE:
-                    result = TweetFeedFragment.newInstance(position,
-                            laneDescriptor.getContentHandleBase(), screenName,
-                            laneDescriptor.getIdentifier());
-                    break;
+		case USER_LIST_TIMELINE:
+		    result = TweetFeedFragment.newInstance(position,
+			    laneDescriptor.getContentHandleBase(), screenName,
+			    laneDescriptor.getIdentifier());
+		    break;
 
-                case FRIENDS:
-                case FOLLOWERS:
-                    result = UserFeedFragment.newInstance(position,
-                            laneDescriptor.getContentHandleBase(), screenName,
-                            null);
-                    break;
+		case FRIENDS:
+		case FOLLOWERS:
+		    result = UserFeedFragment.newInstance(position,
+			    laneDescriptor.getContentHandleBase(), screenName, null);
+		    break;
 
-                case DIRECT_MESSAGES:
-                    result = DirectMessageFeedFragment.newInstance(position,
-                            laneDescriptor.getContentHandleBase(), screenName,
-                            Long.toString(account.getId()), null);
-                    break;
+		case DIRECT_MESSAGES:
+		    result = DirectMessageFeedFragment.newInstance(position,
+			    laneDescriptor.getContentHandleBase(), screenName,
+			    Long.toString(account.getId()), null);
+		    break;
 
-                default:
-                    result = PlaceholderPagerFragment.newInstance(position,
-                            laneDescriptor.getLaneTitle(), position);
-                    break;
-                }
-            }
-            return result;
-        }
+		default:
+		    result = PlaceholderPagerFragment.newInstance(position,
+			    laneDescriptor.getLaneTitle(), position);
+		    break;
+		}
+	    }
+	    return result;
+	}
 
-        @Override
-        public int getCount() {
+	@Override
+	public int getCount() {
 
-            AccountDescriptor account = getApp().getCurrentAccount();
-            if (account != null) {
-                return account.getDisplayedLaneDefinitionsSize();
-            }
+	    AccountDescriptor account = getApp().getCurrentAccount();
+	    if (account != null) {
+		return account.getDisplayedLaneDefinitionsSize();
+	    }
 
-            return 0;
-        }
+	    return 0;
+	}
 
-        @Override
-        public String getTitle(int position) {
+	@Override
+	public String getTitle(int position) {
 
-            String result = null;
+	    String result = null;
 
-            AccountDescriptor account = getApp().getCurrentAccount();
-            if (account != null) {
-                result = account.getDisplayedLaneDefinition(position)
-                        .getLaneTitle().toUpperCase();
-            }
+	    AccountDescriptor account = getApp().getCurrentAccount();
+	    if (account != null) {
+		result = account.getDisplayedLaneDefinition(position).getLaneTitle().toUpperCase();
+	    }
 
-            return result;
-        }
+	    return result;
+	}
 
-        @Override
-        public int getItemPosition(Object object) {
-            return POSITION_NONE;
-        }
+	@Override
+	public int getItemPosition(Object object) {
+	    return POSITION_NONE;
+	}
     }
 
     /*
@@ -832,20 +808,20 @@ public class HomeActivity extends BaseLaneActivity {
      */
     class IncomingHandler extends Handler {
 
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-            case BackgroundService.MSG_SET_INT_VALUE:
-                // Log.d("Notifications", "Int Message: " + msg.arg1);
-                break;
-            case BackgroundService.MSG_SET_STRING_VALUE:
-                // String str1 = msg.getData().getString("str1");
-                // textStrValue.setText("Str Message: " + str1);
-                break;
-            default:
-                super.handleMessage(msg);
-            }
-        }
+	@Override
+	public void handleMessage(Message msg) {
+	    switch (msg.what) {
+	    case BackgroundService.MSG_SET_INT_VALUE:
+		// Log.d("Notifications", "Int Message: " + msg.arg1);
+		break;
+	    case BackgroundService.MSG_SET_STRING_VALUE:
+		// String str1 = msg.getData().getString("str1");
+		// textStrValue.setText("Str Message: " + str1);
+		break;
+	    default:
+		super.handleMessage(msg);
+	    }
+	}
     }
 
     /*
@@ -853,59 +829,57 @@ public class HomeActivity extends BaseLaneActivity {
      */
     private ServiceConnection mConnection = new ServiceConnection() {
 
-        public void onServiceConnected(ComponentName className, IBinder service) {
-            mService = new Messenger(service);
-            // textStatus.setText("Attached.");
-            try {
-                Message msg = Message.obtain(null,
-                        BackgroundService.MSG_REGISTER_CLIENT);
-                msg.replyTo = mMessenger;
-                mService.send(msg);
-            } catch (RemoteException e) {
-                // In this case the service has crashed before we could even do
-                // anything with it
-            }
-        }
+	public void onServiceConnected(ComponentName className, IBinder service) {
+	    mService = new Messenger(service);
+	    // textStatus.setText("Attached.");
+	    try {
+		Message msg = Message.obtain(null, BackgroundService.MSG_REGISTER_CLIENT);
+		msg.replyTo = mMessenger;
+		mService.send(msg);
+	    } catch (RemoteException e) {
+		// In this case the service has crashed before we could even do
+		// anything with it
+	    }
+	}
 
-        public void onServiceDisconnected(ComponentName className) {
-            // This is called when the connection with the service has been
-            // unexpectedly disconnected - process crashed.
-            mService = null;
-            // textStatus.setText("Disconnected.");
-        }
+	public void onServiceDisconnected(ComponentName className) {
+	    // This is called when the connection with the service has been
+	    // unexpectedly disconnected - process crashed.
+	    mService = null;
+	    // textStatus.setText("Disconnected.");
+	}
     };
 
     /*
 	 * 
 	 */
     void doBindService() {
-        bindService(new Intent(this, BackgroundService.class), mConnection,
-                Context.BIND_AUTO_CREATE);
-        mIsBound = true;
+	bindService(new Intent(this, BackgroundService.class), mConnection,
+		Context.BIND_AUTO_CREATE);
+	mIsBound = true;
     }
 
     /*
 	 * 
 	 */
     void doUnbindService() {
-        if (mIsBound) {
-            // If we have received the service, and hence registered with it,
-            // then now is the time to unregister.
-            if (mService != null) {
-                try {
-                    Message msg = Message.obtain(null,
-                            BackgroundService.MSG_UNREGISTER_CLIENT);
-                    msg.replyTo = mMessenger;
-                    mService.send(msg);
-                } catch (RemoteException e) {
-                    // There is nothing special we need to do if the service has
-                    // crashed.
-                }
-            }
-            // Detach our existing connection.
-            unbindService(mConnection);
-            mIsBound = false;
-        }
+	if (mIsBound) {
+	    // If we have received the service, and hence registered with it,
+	    // then now is the time to unregister.
+	    if (mService != null) {
+		try {
+		    Message msg = Message.obtain(null, BackgroundService.MSG_UNREGISTER_CLIENT);
+		    msg.replyTo = mMessenger;
+		    mService.send(msg);
+		} catch (RemoteException e) {
+		    // There is nothing special we need to do if the service has
+		    // crashed.
+		}
+	    }
+	    // Detach our existing connection.
+	    unbindService(mConnection);
+	    mIsBound = false;
+	}
     }
 
     /*
@@ -913,13 +887,13 @@ public class HomeActivity extends BaseLaneActivity {
      */
     private void configureNotificationService() {
 
-        // If the service is running when the activity starts, we want to
-        // automatically bind to it.
-        if (BackgroundService.isRunning()) {
-            doBindService();
-        } else {
-            startService(new Intent(this, BackgroundService.class));
-            doBindService();
-        }
+	// If the service is running when the activity starts, we want to
+	// automatically bind to it.
+	if (BackgroundService.isRunning()) {
+	    doBindService();
+	} else {
+	    startService(new Intent(this, BackgroundService.class));
+	    doBindService();
+	}
     }
 }
