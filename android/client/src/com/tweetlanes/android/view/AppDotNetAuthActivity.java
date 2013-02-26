@@ -11,18 +11,13 @@
 
 package com.tweetlanes.android.view;
 
-import java.util.concurrent.ExecutionException;
-
 import org.socialnetlib.android.AppdotnetApi;
 import org.socialnetlib.android.SocialNetConstant;
 
 import com.crittercism.app.Crittercism;
 
 import org.tweetalib.android.TwitterManager;
-import org.tweetalib.android.TwitterSignIn.GetOAuthAccessTokenCallback;
 import org.tweetalib.android.model.TwitterUser;
-
-import twitter4j.auth.RequestToken;
 
 import com.tweetlanes.android.App;
 import com.tweetlanes.android.AppSettings;
@@ -34,12 +29,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-
-import com.crittercism.app.Crittercism;
-import com.tweetlanes.android.App;
-import com.tweetlanes.android.AppSettings;
-import com.tweetlanes.android.Constant;
-import com.tweetlanes.android.R;
 
 public class AppDotNetAuthActivity extends Activity {
 

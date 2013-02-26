@@ -202,7 +202,7 @@ public class DirectMessageItemView extends LinearLayout {
         }
 
         if (AppSettings.get().downloadFeedImages()) {
-            String imageUrl = TwitterManager.getProfileImageUrl(
+            String imageUrl = TwitterManager.get().getProfileImageUrl(
                     (messageType == MessageType.SENT ? userScreenName
                             : directMessage.getOtherUserScreenName()),
                     TwitterManager.ProfileImageSize.BIGGER);

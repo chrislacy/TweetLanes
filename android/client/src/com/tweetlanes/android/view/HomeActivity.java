@@ -121,7 +121,7 @@ public class HomeActivity extends BaseLaneActivity {
         ArrayList<AccountDescriptor> accounts = getApp().getAccounts();
         for (int i = 0; i < accounts.size(); i++) {
             AccountDescriptor acc = accounts.get(i);
-            adapterList.add("@" + acc.getScreenName());
+            adapterList.add("@" + acc.getScreenName() + (acc.getSocialNetType() == SocialNetConstant.Type.Appdotnet ? " (App.net)" : " (Twitter)"));
         }
         adapterList.add(getString(R.string.add_account));
         mAdapterStrings = adapterList.toArray(new String[adapterList.size()]);
@@ -470,8 +470,7 @@ public class HomeActivity extends BaseLaneActivity {
                 if (position == mSpinnerAdapter.getCount() - 1) {
                     showAddAccount();
                 } else {
-                    ArrayList<AccountDescriptor> accounts = getApp()
-                            .getAccounts();
+                    ArrayList<AccountDescriptor> accounts = getApp().getAccounts();
                     if (position < accounts.size()) {
                         AccountDescriptor account = accounts.get(position);
                         showAccount(account);

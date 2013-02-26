@@ -11,6 +11,7 @@
 
 package com.tweetlanes.android.view;
 
+import org.tweetalib.android.TwitterManager;
 import org.tweetalib.android.TwitterManager.ProfileImageSize;
 import org.tweetalib.android.model.TwitterMediaEntity;
 import org.tweetalib.android.model.TwitterMediaEntity.Size;
@@ -331,15 +332,13 @@ public class TweetFeedItemView extends LinearLayout {
 
                 if (AppSettings.get().downloadFeedImages()) {
 
-                    LazyImageLoader profileImageLoader = callbacks
-                            .getProfileImageLoader();
+                    LazyImageLoader profileImageLoader = callbacks.getProfileImageLoader();
                     if (profileImageLoader != null) {
-                        String profileImageUrl = TwitterUser
+                        String profileImageUrl = TwitterManager.get()
                                 .getProfileImageUrl(
                                         mTwitterStatus.getAuthorScreenName(),
                                         ProfileImageSize.BIGGER);
-                        profileImageLoader.displayImage(profileImageUrl,
-                                mAvatar);
+                        profileImageLoader.displayImage(profileImageUrl, mAvatar);
                     }
                 }
 

@@ -132,8 +132,8 @@ public class TwitterAuthActivity extends Activity {
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 // String scheme = getResources().getString(
                 // R.string.twitter_callback );
-                String scheme = "tweetlanes-auth-callback";
-                if (url.contains(scheme)) {
+                String path = "tweetlanes-auth-callback";
+                if (url.contains(path)) {
                     Uri uri = Uri.parse(url);
                     String oauthVerifier = uri
                             .getQueryParameter("oauth_verifier");

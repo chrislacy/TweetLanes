@@ -35,6 +35,9 @@ public class AdnUser {
 	public AdnUser(String jsonAsString) {
 		try {
 			JSONObject object = new JSONObject(jsonAsString);
+			if (object.has("data")) {
+				object = object.getJSONObject("data");
+			}
 			mId = object.getLong("id");
 			mUserName = object.getString("username");
 			mName = object.getString("name");

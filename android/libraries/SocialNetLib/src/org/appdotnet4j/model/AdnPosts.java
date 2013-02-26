@@ -20,6 +20,7 @@ import java.util.ArrayList;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 public class AdnPosts {
 
@@ -30,14 +31,12 @@ public class AdnPosts {
 		mPosts = new ArrayList<AdnPost>();
 		
 		try {
-			JSONArray jsonArray = new JSONArray(jsonAsString);
+			JSONArray jsonArray = new JSONObject(jsonAsString).getJSONArray("data");
 			for (int i = 0; i < jsonArray.length(); i++) {
 				//JSONObject postObject = jsonArray.getJSONObject(i);
 				String listString = jsonArray.getString(i);
 				AdnPost post = new AdnPost(listString);
-				if (post.mIsDeleted == false) {
-					mPosts.add(post);
-				}
+				mPosts.add(post);
 			}
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block

@@ -33,11 +33,13 @@ public class AdnPost {
 	public AdnUser mUser;
 	public Date mCreatedAt;
 	public String mSource;
-	public boolean mIsDeleted; 
 	
 	public AdnPost(String jsonAsString) {
 		try {
 			JSONObject object = new JSONObject(jsonAsString);
+			if (object.has("data")) {
+				object = object.getJSONObject("data");
+			}
 			mId = object.getLong("id");
 			if (object.has("reply_to")) {
 				try {
@@ -52,13 +54,6 @@ public class AdnPost {
 				mText = " ";
 			}
 			
-			if (object.has("is_deleted")) {
-				try {
-					// This value comes back as 'null' when no value. 
-					mIsDeleted = object.getBoolean("is_deleted");
-				} catch (JSONException e) {}
-			}
-
 			String createdAtString = object.getString("created_at");
 			mCreatedAt = TwitterUtil.iso6801StringToDate(createdAtString);
 			

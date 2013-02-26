@@ -99,8 +99,25 @@ public class TwitterUser {
 		return getProfileImageUrl(mScreenName, size);
 	}
 	
-	public static String getProfileImageUrl(String screenName, ProfileImageSize size) {
-		return "https://api.twitter.com/1/users/profile_image/" + screenName + "?size=" + size.toString().toLowerCase();
+	public String getProfileImageUrl(String screenName, ProfileImageSize size) {
+		if (mSocialNetType == SocialNetConstant.Type.Appdotnet) {
+			String w = "";
+			switch (size) {
+			case MINI:
+				w = "?w=32";
+				break;
+			case NORMAL:
+				w = "?w=48";
+				break;
+			case BIGGER:
+				w = "?w=73";
+				break;
+			}
+			return "https://alpha-api.app.net/stream/0/users/@" + screenName + "/avatar" + w;
+		}
+		else {
+			return "https://api.twitter.com/1/users/profile_image/" + screenName + "?size=" + size.toString().toLowerCase();
+		}
 	}
 	
 	private long 	mId;

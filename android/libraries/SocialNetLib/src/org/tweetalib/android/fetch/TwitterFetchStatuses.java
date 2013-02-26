@@ -144,6 +144,9 @@ public class TwitterFetchStatuses {
 			}
 		};
 		
+		if (feed == null) {
+			feed = new TwitterStatuses();
+		}
 		feed.add(statuses, addUserCallback);
 		return feed;
 	}
@@ -165,6 +168,10 @@ public class TwitterFetchStatuses {
 				mCallbacks.addUser(user);
 			}
 		};
+		
+		if (feed == null) {
+			feed = new TwitterStatuses();
+		}
 		
 		if (posts != null && posts.mPosts != null && posts.mPosts.size() > 0) {
 			feed.add(posts, addUserCallback);

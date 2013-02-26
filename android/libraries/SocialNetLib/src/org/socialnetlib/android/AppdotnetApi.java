@@ -152,6 +152,11 @@ public class AppdotnetApi extends SocialNetApi {
 	 * 
 	 */
 	private AdnPosts getPosts(String path, ParameterMap params) {
+		if (params == null) {
+			params = new ParameterMap();
+		}
+		params.add("include_deleted", "0");
+		params.add("include_muted", "0");
 		String streamString = doGet(path, params);
         if (streamString != null) {
         	AdnPosts posts = new AdnPosts(streamString);
