@@ -303,7 +303,7 @@ public class TwitterFetchUsers {
 
     public void updateFriendshipUserIds(long currentUserId, ArrayList<Long> userIdsToUpdate,
 	    boolean create, FinishedCallback callback, ConnectionStatus connectionStatus) {
-	if (connectionStatus.isOnline() == false) {
+	if (connectionStatus != null && connectionStatus.isOnline() == false) {
 	    if (callback != null) {
 		callback.finished(
 			new TwitterFetchResult(false, connectionStatus

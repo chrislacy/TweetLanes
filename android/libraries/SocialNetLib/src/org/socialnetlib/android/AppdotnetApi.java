@@ -259,6 +259,22 @@ public class AppdotnetApi extends SocialNetApi {
 	return null;
     }
 
+    public AdnPost setAdnRepost(long existingPostId) {
+	BasicHttpClient httpClient = getHttpClient();
+
+	HttpResponse httpResponse = httpClient.post(
+		"/stream/0/posts/" + existingPostId + "/repost", null);
+
+	if (isResponseValid(httpResponse)) {
+	    String postAsString = httpResponse.getBodyAsString();
+	    if (postAsString != null) {
+		return new AdnPost(postAsString);
+	    }
+	}
+
+	return null;
+    }
+
     @Override
     Twitter getAndConfigureApiInstance() {
 	return null;
