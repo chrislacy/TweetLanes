@@ -34,8 +34,6 @@ public class AppdotnetApi extends SocialNetApi {
 	 */
     public AppdotnetApi(SocialNetConstant.Type type, String consumerKey, String consumerSecret) {
 	super(type, consumerKey, consumerSecret);
-
-	// Validator.MAX_TWEET_LENGTH = 256;
     }
 
     @Override
@@ -283,6 +281,59 @@ public class AppdotnetApi extends SocialNetApi {
 	    }
 	}
 
+	return null;
+    }
+
+    public AdnUser setAdnFollow(String username, boolean follow) {
+	if (follow) {
+	    return followUser(username);
+	} else {
+	    return unfollowUser(username);
+	}
+    }
+
+    public AdnUser setAdnFollow(long userId, boolean follow) {
+	if (follow) {
+	    return followUser(userId);
+	} else {
+	    return unfollowUser(userId);
+	}
+    }
+
+    private AdnUser followUser(long userId) {
+	BasicHttpClient httpClient = getHttpClient();
+	HttpResponse httpResponse = httpClient.post("/stream/0/users/" + userId + "/follow", null);
+	if (isResponseValid(httpResponse)) {
+	    String userAsString = httpResponse.getBodyAsString();
+	    if (userAsString != null) {
+		return new AdnUser(userAsString);
+	    }
+	}
+	return null;
+    }
+
+    private AdnUser followUser(String username) {
+	BasicHttpClient httpClient = getHttpClient();
+	HttpResponse httpResponse = httpClient.post("/stream/0/users/@" + username + "/follow",
+		null);
+	if (isResponseValid(httpResponse)) {
+	    String userAsString = httpResponse.getBodyAsString();
+	    if (userAsString != null) {
+		return new AdnUser(userAsString);
+	    }
+	}
+	return null;
+    }
+
+    private AdnUser unfollowUser(long userId) {
+	BasicHttpClient httpClient = getHttpClient();
+	httpClient.delete("/stream/0/users/" + userId + "/follow", null);
+	return null;
+    }
+
+    private AdnUser unfollowUser(String username) {
+	BasicHttpClient httpClient = getHttpClient();
+	httpClient.delete("/stream/0/users/@" + username + "/follow", null);
 	return null;
     }
 
