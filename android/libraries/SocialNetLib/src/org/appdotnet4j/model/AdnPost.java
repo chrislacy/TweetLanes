@@ -29,6 +29,8 @@ public class AdnPost {
     public Date mCreatedAt;
     public String mSource;
     public boolean mIsDeleted;
+    public boolean mIsRetweet;
+    public AdnUser mOriginalAuthor;
 
     public AdnPost(String jsonAsString) {
 	try {
@@ -36,6 +38,21 @@ public class AdnPost {
 	    if (object.has("data")) {
 		object = object.getJSONObject("data");
 	    }
+
+	    // It's possible to have a status with no text (likely when items
+	    // are deleted)
+	    mText = object.getString("text");
+	    if (mText == null) {
+		mText = " ";
+	    }
+
+	    if (object.has("repost_of")) {
+		mIsRetweet = true;
+		AdnPost repost = new AdnPost(object.getJSONObject("repost_of").toString());
+		mOriginalAuthor = repost.mUser;
+		mText = repost.mText;
+	    }
+
 	    mId = object.getLong("id");
 	    if (object.has("reply_to")) {
 		try {
@@ -43,13 +60,6 @@ public class AdnPost {
 		    mInReplyTo = object.getLong("reply_to");
 		} catch (JSONException e) {
 		}
-	    }
-
-	    // It's possible to have a status with no text (likely when items
-	    // are deleted)
-	    mText = object.getString("text");
-	    if (mText == null) {
-		mText = " ";
 	    }
 
 	    if (object.has("is_deleted")) {
