@@ -197,16 +197,15 @@ public class AccountDescriptor {
 				    TwitterConstant.StatusesType.USER_LIST_TIMELINE)));
 		}
 	    }
-
-	    // Add the final batch
-	    mLaneDefinitions.add(new LaneDescriptor(Constant.LaneType.FRIENDS, App.getContext()
-		    .getString(R.string.lane_friends), new TwitterContentHandleBase(
-		    TwitterConstant.ContentType.USERS, TwitterConstant.UsersType.FRIENDS)));
-	    mLaneDefinitions.add(new LaneDescriptor(Constant.LaneType.FOLLOWERS, App.getContext()
-		    .getString(R.string.lane_followers), new TwitterContentHandleBase(
-		    TwitterConstant.ContentType.USERS, TwitterConstant.UsersType.FOLLOWERS)));
 	}
 
+	// Add the final batch
+	mLaneDefinitions.add(new LaneDescriptor(Constant.LaneType.FRIENDS, App.getContext()
+		.getString(R.string.lane_friends), new TwitterContentHandleBase(
+		TwitterConstant.ContentType.USERS, TwitterConstant.UsersType.FRIENDS)));
+	mLaneDefinitions.add(new LaneDescriptor(Constant.LaneType.FOLLOWERS, App.getContext()
+		.getString(R.string.lane_followers), new TwitterContentHandleBase(
+		TwitterConstant.ContentType.USERS, TwitterConstant.UsersType.FOLLOWERS)));
 	mLaneDefinitions
 		.add(new LaneDescriptor(Constant.LaneType.USER_FAVORITES, App.getContext()
 			.getString(R.string.lane_user_favorites), new TwitterContentHandleBase(

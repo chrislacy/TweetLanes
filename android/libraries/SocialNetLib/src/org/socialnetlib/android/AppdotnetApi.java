@@ -15,6 +15,10 @@ import org.appdotnet4j.model.AdnPost;
 import org.appdotnet4j.model.AdnPostCompose;
 import org.appdotnet4j.model.AdnPosts;
 import org.appdotnet4j.model.AdnUser;
+import org.appdotnet4j.model.AdnUsers;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.tweetalib.android.model.TwitterUser;
 
 import twitter4j.Twitter;
@@ -109,6 +113,53 @@ public class AppdotnetApi extends SocialNetApi {
 	return null;
     }
 
+    public long[] getAdnFollowing() {
+	String userIds = doGet("/stream/0/users/me/following/ids", null);
+	if (userIds != null) {
+	    try {
+		JSONArray array = new JSONObject(userIds).getJSONArray("data");
+		long[] ids = new long[array.length()];
+		for (int i = 0; i < array.length(); ++i) {
+		    ids[i] = array.getLong(i);
+		}
+		return ids;
+	    } catch (JSONException e) {
+		return null;
+	    }
+	}
+
+	return null;
+    }
+
+    public long[] getAdnFollowedBy() {
+	String userIds = doGet("/stream/0/users/me/followers/ids", null);
+	if (userIds != null) {
+	    try {
+		JSONArray array = new JSONObject(userIds).getJSONArray("data");
+		long[] ids = new long[array.length()];
+		for (int i = 0; i < array.length(); ++i) {
+		    ids[i] = array.getLong(i);
+		}
+		return ids;
+	    } catch (JSONException e) {
+		return null;
+	    }
+	}
+
+	return null;
+    }
+
+    public AdnUsers getAdnMultipleUsers(long[] ids) {
+	StringBuilder sb = new StringBuilder();
+	for (int i = 0; i < ids.length; ++i) {
+	    if (i != 0) {
+		sb.append(',');
+	    }
+	    sb.append(ids[i]);
+	}
+	return getUsers("/stream/0/users", new ParameterMap().add("ids", sb.toString()));
+    }
+
     /*
 	 * 
 	 */
@@ -161,6 +212,19 @@ public class AppdotnetApi extends SocialNetApi {
 	if (streamString != null) {
 	    AdnPosts posts = new AdnPosts(streamString);
 	    return posts;
+	}
+
+	return null;
+    }
+
+    private AdnUsers getUsers(String path, ParameterMap params) {
+	if (params == null) {
+	    params = new ParameterMap();
+	}
+	String userString = doGet(path, params);
+	if (userString != null) {
+	    AdnUsers users = new AdnUsers(userString);
+	    return users;
 	}
 
 	return null;
