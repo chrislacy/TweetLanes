@@ -479,6 +479,47 @@ public class TwitterFetchUsers {
 		    setUsers(input.mContentHandle, ids);
 		    break;
 		}
+
+		case UPDATE_FRIENDSHIP: {
+		    twitterUsers = new TwitterUsers();
+
+		    if (input.mScreenNames != null) {
+			for (String screenName : input.mScreenNames) {
+			    AdnUser user = null;
+			    // We can't follow ourself...
+			    if (screenName.toLowerCase().equals(
+				    input.mContentHandle.getScreenName().toLowerCase()) == false) {
+				if (input.mCreateFriendship) {
+				    user = appdotnet.setAdnFollow(screenName, true);
+				} else {
+				    user = appdotnet.setAdnFollow(screenName, false);
+				}
+			    }
+			    if (user != null) {
+				twitterUsers.add(new TwitterUser(user));
+			    }
+			}
+		    } else if (input.mUserIds != null) {
+
+			long currentUserId = Long.parseLong(input.mContentHandle.getScreenName());
+
+			for (Long userId : input.mUserIds) {
+			    AdnUser user = null;
+			    // We can't follow ourself...
+			    if (currentUserId != userId) {
+				if (input.mCreateFriendship) {
+				    user = appdotnet.setAdnFollow(userId, true);
+				} else {
+				    user = appdotnet.setAdnFollow(userId, false);
+				}
+			    }
+			    if (user != null) {
+				twitterUsers.add(new TwitterUser(user));
+			    }
+			}
+		    }
+		}
+
 		}
 
 		if (ids != null) {
