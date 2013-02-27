@@ -215,7 +215,7 @@ public class TwitterFetchStatuses {
 	    TwitterFetchStatusesFinishedCallback callback, ConnectionStatus connectionStatus,
 	    int priorityOffset) {
 
-	if (connectionStatus.isOnline() == false) {
+	if (connectionStatus == null || connectionStatus.isOnline() == false) {
 	    if (callback != null) {
 		callback.finished(
 			new TwitterFetchResult(false, connectionStatus
@@ -331,6 +331,7 @@ public class TwitterFetchStatuses {
 		    break;
 		}
 
+		case SCREEN_NAME_SEARCH:
 		case USER_MENTIONS: {
 		    String userIdAsString = input.mContentHandle.getIdentifier();
 		    try {

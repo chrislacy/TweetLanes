@@ -113,6 +113,17 @@ public class AppdotnetApi extends SocialNetApi {
 	return null;
     }
 
+    public TwitterUser getAdnUser(String userName) {
+
+	String userString = doGet("/stream/0/users/@" + userName, null);
+	if (userString != null) {
+	    AdnUser user = new AdnUser(userString);
+	    return new TwitterUser(user);
+	}
+
+	return null;
+    }
+
     public long[] getAdnFollowing() {
 	String userIds = doGet("/stream/0/users/me/following/ids", null);
 	if (userIds != null) {

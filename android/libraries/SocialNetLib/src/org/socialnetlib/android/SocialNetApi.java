@@ -168,6 +168,10 @@ public abstract class SocialNetApi {
 	    public Twitter getTwitterInstance() {
 		return SocialNetApi.this.getAndConfigureApiInstance();
 	    }
+
+	    public AppdotnetApi getAppdotnetInstance() {
+		return SocialNetApi.this.getAppdotnetApi();
+	    }
 	};
 
 	mFetchBooleans.setWorkerCallbacks(callbacks);
