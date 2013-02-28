@@ -408,6 +408,34 @@ public class TwitterFetchStatuses {
                     statuses = null;
                 }
 
+                case FULL_CONVERSATION: {
+                    long statusId = Long.parseLong(input.mContentHandle
+                            .getIdentifier());
+
+                    AddUserCallback addUserCallback = new AddUserCallback() {
+
+                        @Override
+                        public void addUser(User user) {
+                            mCallbacks.addUser(user);
+                        }
+
+                        @Override
+                        public void addUser(AdnUser user) {
+                            mCallbacks.addUser(user);
+                        }
+                    };
+
+                    AdnPosts conversation = appdotnetApi
+                            .getAdnConversation(statusId);
+                    if (conversation != null && conversation.mPosts.size() > 0) {
+                        TwitterStatuses statuses = new TwitterStatuses();
+                        statuses.add(conversation, addUserCallback);
+                        contentFeed = setStatuses(input.mContentHandle,
+                                statuses, true);
+                    }
+                }
+                    break;
+
                 default:
                     break;
                 }

@@ -176,6 +176,10 @@ public class AppdotnetApi extends SocialNetApi {
                 new ParameterMap().add("ids", sb.toString()));
     }
 
+    public AdnUsers getUsersWhoReposted(long postId) {
+        return getUsers("/stream/0/posts/" + postId + "/reposters", null);
+    }
+
     /*
 	 * 
 	 */
@@ -213,6 +217,10 @@ public class AppdotnetApi extends SocialNetApi {
 	 */
     public AdnPosts getAdnTagPosts(String tag) {
         return getPosts("/stream/0/posts/tag/" + tag, null);
+    }
+
+    public AdnPosts getAdnConversation(long postId) {
+        return getPosts("/stream/0/posts/" + postId + "/replies", null);
     }
 
     /*

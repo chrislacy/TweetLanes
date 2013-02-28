@@ -491,6 +491,7 @@ public class TwitterFetchUsers {
 
             if (appdotnet != null) {
                 long[] ids = null;
+                AdnUsers users = null;
 
                 switch (usersType) {
                 case FRIENDS: {
@@ -502,6 +503,17 @@ public class TwitterFetchUsers {
                 case FOLLOWERS: {
                     ids = appdotnet.getAdnFollowedBy();
                     setUsers(input.mContentHandle, ids);
+                    break;
+                }
+
+                case RETWEETED_BY: {
+                    try {
+                        long postId = Long.valueOf(input.mContentHandle
+                                .getIdentifier());
+                        users = appdotnet.getUsersWhoReposted(postId);
+                        setUsers(input.mContentHandle, ids);
+                    } catch (NumberFormatException e) {
+                    }
                     break;
                 }
 
@@ -560,20 +572,21 @@ public class TwitterFetchUsers {
                         longArray[i] = ids[i];
                     }
 
-                    AdnUsers users = appdotnet.getAdnMultipleUsers(longArray);
-
-                    if (users != null && twitterUsers == null) {
-                        twitterUsers = new TwitterUsers();
-                        for (AdnUser user : users.mUsers) {
-                            mWorkerCallbacks.addUser(user);
-                            twitterUsers.add(new TwitterUser(user));
-                        }
-                    }
-                    return new FetchUsersTaskOutput(new TwitterFetchResult(
-                            errorDescription == null ? true : false,
-                            errorDescription), input.mCallbackHandle,
-                            twitterUsers);
+                    users = appdotnet.getAdnMultipleUsers(longArray);
                 }
+                if (users != null && users.mUsers != null
+                        && users.mUsers.size() > 0 && twitterUsers == null) {
+                    twitterUsers = new TwitterUsers();
+                    for (AdnUser user : users.mUsers) {
+                        mWorkerCallbacks.addUser(user);
+                        twitterUsers.add(new TwitterUser(user));
+                    }
+                }
+
+                return new FetchUsersTaskOutput(new TwitterFetchResult(
+                        errorDescription == null ? true : false,
+                        errorDescription), input.mCallbackHandle, twitterUsers);
+
             } else if (twitter != null) {
 
                 IDs userIds = null;
@@ -601,14 +614,19 @@ public class TwitterFetchUsers {
                     }
 
                     case RETWEETED_BY: {
-                        /*
-                         * if (paging == null) { paging =
-                         * TwitterPaging.createGetMostRecent(50).getT4JPaging();
-                         * } long statusId =
-                         * Long.parseLong(input.mContentHandle.getIdentifier());
-                         * users = twitter.getRetweetedBy(statusId, paging);
-                         * break;
-                         */
+                        long statusId = Long.parseLong(input.mContentHandle
+                                .getIdentifier());
+                        ResponseList<twitter4j.Status> statuses = twitter
+                                .getRetweets(statusId);
+
+                        if (statuses != null) {
+                            twitterUsers = new TwitterUsers();
+                            for (twitter4j.Status status : statuses) {
+                                mWorkerCallbacks.addUser(status.getUser());
+                                twitterUsers.add(new TwitterUser(status
+                                        .getUser()));
+                            }
+                        }
                         break;
                     }
 
