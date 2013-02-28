@@ -8,15 +8,15 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Parameter map knows offers convenience methods for chaining add()s
- * as well as URL encoding. 
+ * Parameter map knows offers convenience methods for chaining add()s as well as
+ * URL encoding.
  * 
  * @author David M. Chandler
  */
 public class ParameterMap implements Map<String, String> {
-    
+
     private Map<String, String> map = new HashMap<String, String>();
-    
+
     @Override
     public void clear() {
         map.clear();
@@ -88,7 +88,7 @@ public class ParameterMap implements Map<String, String> {
         map.put(name, value);
         return this;
     }
-    
+
     /**
      * Returns URL encoded data
      * 
@@ -113,7 +113,7 @@ public class ParameterMap implements Map<String, String> {
         }
         return sb.toString();
     }
-    
+
     /**
      * Return a URL encoded byte array in UTF-8 charset.
      * 
@@ -128,5 +128,5 @@ public class ParameterMap implements Map<String, String> {
         }
         return bytes;
     }
-    
+
 }

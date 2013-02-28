@@ -10,32 +10,43 @@ import com.turbomanage.httpclient.RequestLogger;
 import java.net.HttpURLConnection;
 
 /**
- * HTTP client for Android providing both synchronous (blocking) and asynchronous
- * interfaces so it can be used on or off the UI thread.
+ * HTTP client for Android providing both synchronous (blocking) and
+ * asynchronous interfaces so it can be used on or off the UI thread.
  * 
- * <p>Sample usage:</p>
+ * <p>
+ * Sample usage:
+ * </p>
  * 
- * <p>Synchronous (for use off the UI thread in an {@link AsyncTask} or {@link Runnable})</p>
+ * <p>
+ * Synchronous (for use off the UI thread in an {@link AsyncTask} or
+ * {@link Runnable})
+ * </p>
+ * 
  * <pre>
- *    AndroidHttpClient httpClient = new AndroidHttpClient("http://www.google.com");
- *    ParameterMap params = httpClient.newParams().add("q", "GOOG");
- *    HttpResponse httpResponse = httpClient.get("/finance", params);
- *    System.out.println(httpResponse.getBodyAsString());
+ * AndroidHttpClient httpClient = new AndroidHttpClient(&quot;http://www.google.com&quot;);
+ * ParameterMap params = httpClient.newParams().add(&quot;q&quot;, &quot;GOOG&quot;);
+ * HttpResponse httpResponse = httpClient.get(&quot;/finance&quot;, params);
+ * System.out.println(httpResponse.getBodyAsString());
  * </pre>
  * 
- * <p>Asynchronous (can be used anywhere, automatically wraps in an {@link AsyncTask})</p>
+ * <p>
+ * Asynchronous (can be used anywhere, automatically wraps in an
+ * {@link AsyncTask})
+ * </p>
+ * 
  * <pre>
- *    AndroidHttpClient httpClient = new AndroidHttpClient("http://www.google.com");
- *    ParameterMap params = httpClient.newParams().add("q", "GOOG");
- *    httpClient.setMaxRetries(3);
- *    httpClient.get("/finance", params, new AsyncCallback() {
- *        public void onComplete(HttpResponse httpResponse) {
- *            System.out.println(httpResponse.getBodyAsString());
- *        }
- *        public void onError(Exception e) {
- *            e.printStackTrace();
- *        }
- *    });
+ * AndroidHttpClient httpClient = new AndroidHttpClient(&quot;http://www.google.com&quot;);
+ * ParameterMap params = httpClient.newParams().add(&quot;q&quot;, &quot;GOOG&quot;);
+ * httpClient.setMaxRetries(3);
+ * httpClient.get(&quot;/finance&quot;, params, new AsyncCallback() {
+ *     public void onComplete(HttpResponse httpResponse) {
+ *         System.out.println(httpResponse.getBodyAsString());
+ *     }
+ * 
+ *     public void onError(Exception e) {
+ *         e.printStackTrace();
+ *     }
+ * });
  * </pre>
  * 
  * @author David M. Chandler
@@ -45,7 +56,7 @@ public class AndroidHttpClient extends AsyncHttpClient {
     static {
         disableConnectionReuseIfNecessary();
     }
-    
+
     /**
      * Constructs a new client with empty baseUrl. When used this way, the path
      * passed to a request method must be the complete URL.
@@ -61,7 +72,7 @@ public class AndroidHttpClient extends AsyncHttpClient {
     public AndroidHttpClient(String baseUrl) {
         super(new AsyncTaskFactory(), baseUrl);
     }
-    
+
     /**
      * Constructs a client with baseUrl and custom {@link RequestHandler}.
      * 

@@ -23,22 +23,23 @@ public class AdnUsers {
 
     public AdnUsers(String jsonAsString) {
 
-	mUsers = new ArrayList<AdnUser>();
+        mUsers = new ArrayList<AdnUser>();
 
-	try {
-	    JSONArray jsonArray = new JSONObject(jsonAsString).getJSONArray("data");
-	    for (int i = 0; i < jsonArray.length(); i++) {
-		String listString = jsonArray.getString(i);
-		AdnUser user = new AdnUser(listString);
-		mUsers.add(user);
-	    }
-	} catch (JSONException e) {
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
-	}
+        try {
+            JSONArray jsonArray = new JSONObject(jsonAsString)
+                    .getJSONArray("data");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                String listString = jsonArray.getString(i);
+                AdnUser user = new AdnUser(listString);
+                mUsers.add(user);
+            }
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
-	if (mUsers.size() == 0) {
-	    mUsers = null;
-	}
+        if (mUsers.size() == 0) {
+            mUsers = null;
+        }
     }
 }

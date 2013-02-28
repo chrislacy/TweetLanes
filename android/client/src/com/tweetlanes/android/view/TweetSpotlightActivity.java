@@ -47,6 +47,7 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
 
     /*
      * (non-Javadoc)
+     * 
      * @see android.support.v4.app.FragmentActivity#onCreate(android.os.Bundle)
      */
     @Override
@@ -104,6 +105,7 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
 
     /*
      * (non-Javadoc)
+     * 
      * @see
      * com.tweetlanes.android.view.BaseLaneActivity#getAdapterForViewPager()
      */
@@ -118,6 +120,7 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
 
     /*
      * (non-Javadoc)
+     * 
      * @see
      * com.tweetlanes.android.view.BaseLaneActivity#getFragmentStatePagerAdapter
      * ()
@@ -167,6 +170,7 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
 
     /*
      * (non-Javadoc)
+     * 
      * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
      */
     @Override

@@ -23,26 +23,27 @@ public class AdnPosts {
 
     public AdnPosts(String jsonAsString) {
 
-	mPosts = new ArrayList<AdnPost>();
+        mPosts = new ArrayList<AdnPost>();
 
-	try {
-	    JSONArray jsonArray = new JSONObject(jsonAsString).getJSONArray("data");
-	    for (int i = 0; i < jsonArray.length(); i++) {
-		// JSONObject postObject = jsonArray.getJSONObject(i);
-		String listString = jsonArray.getString(i);
-		AdnPost post = new AdnPost(listString);
-		if (!post.mIsDeleted) {
-		    mPosts.add(post);
-		}
-	    }
-	} catch (JSONException e) {
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
-	}
+        try {
+            JSONArray jsonArray = new JSONObject(jsonAsString)
+                    .getJSONArray("data");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                // JSONObject postObject = jsonArray.getJSONObject(i);
+                String listString = jsonArray.getString(i);
+                AdnPost post = new AdnPost(listString);
+                if (!post.mIsDeleted) {
+                    mPosts.add(post);
+                }
+            }
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
-	if (mPosts.size() == 0) {
-	    mPosts = null;
-	}
+        if (mPosts.size() == 0) {
+            mPosts = null;
+        }
     }
 
 }

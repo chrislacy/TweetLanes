@@ -65,6 +65,7 @@ public class SearchActivity extends BaseLaneActivity {
 
     /*
      * (non-Javadoc)
+     * 
      * @see
      * com.tweetlanes.android.view.BaseLaneActivity#getAdapterForViewPager()
      */
@@ -83,6 +84,7 @@ public class SearchActivity extends BaseLaneActivity {
 
     /*
      * (non-Javadoc)
+     * 
      * @see
      * com.tweetlanes.android.view.BaseLaneActivity#getFragmentStatePagerAdapter
      * ()
@@ -176,6 +178,7 @@ public class SearchActivity extends BaseLaneActivity {
 
     /*
      * (non-Javadoc)
+     * 
      * @see
      * android.widget.SearchView.OnQueryTextListener#onQueryTextSubmit(java.
      * lang.String)

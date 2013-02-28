@@ -332,13 +332,15 @@ public class TweetFeedItemView extends LinearLayout {
 
                 if (AppSettings.get().downloadFeedImages()) {
 
-                    LazyImageLoader profileImageLoader = callbacks.getProfileImageLoader();
+                    LazyImageLoader profileImageLoader = callbacks
+                            .getProfileImageLoader();
                     if (profileImageLoader != null) {
                         String profileImageUrl = TwitterManager.get()
                                 .getProfileImageUrl(
                                         mTwitterStatus.getAuthorScreenName(),
                                         ProfileImageSize.BIGGER);
-                        profileImageLoader.displayImage(profileImageUrl, mAvatar);
+                        profileImageLoader.displayImage(profileImageUrl,
+                                mAvatar);
                     }
                 }
 

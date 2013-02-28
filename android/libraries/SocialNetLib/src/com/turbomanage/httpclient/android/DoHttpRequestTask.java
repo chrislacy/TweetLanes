@@ -1,4 +1,3 @@
-
 package com.turbomanage.httpclient.android;
 
 import android.os.AsyncTask;
@@ -11,11 +10,13 @@ import com.turbomanage.httpclient.HttpResponse;
 
 /**
  * AsyncTask that wraps an HttpRequest. Designed to be used in conjunction with
- * {@link AsyncHttpClient} so that requests can be made off the UI thread. 
+ * {@link AsyncHttpClient} so that requests can be made off the UI thread.
  * 
  * @author David M. Chandler
  */
-public class DoHttpRequestTask extends AsyncTask<HttpRequest, Void, HttpResponse> implements AsyncRequestExecutor {
+public class DoHttpRequestTask extends
+        AsyncTask<HttpRequest, Void, HttpResponse> implements
+        AsyncRequestExecutor {
 
     private AsyncHttpClient client;
     private AsyncCallback callback;
@@ -38,8 +39,7 @@ public class DoHttpRequestTask extends AsyncTask<HttpRequest, Void, HttpResponse
             if (params != null && params.length > 0) {
                 HttpRequest httpRequest = params[0];
                 return client.tryMany(httpRequest);
-            }
-            else {
+            } else {
                 throw new IllegalArgumentException(
                         "DoHttpRequestTask takes exactly one argument of type HttpRequest");
             }
@@ -62,7 +62,8 @@ public class DoHttpRequestTask extends AsyncTask<HttpRequest, Void, HttpResponse
     }
 
     /**
-     * Needed in order for this Task class to implement the {@link AsyncRequestExecutor} interface.
+     * Needed in order for this Task class to implement the
+     * {@link AsyncRequestExecutor} interface.
      * 
      * @see com.turbomanage.httpclient.AsyncRequestExecutor#execute(com.turbomanage.httpclient.HttpRequest)
      */

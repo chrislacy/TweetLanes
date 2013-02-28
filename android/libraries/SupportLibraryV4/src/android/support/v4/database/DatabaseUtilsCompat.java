@@ -1,17 +1,17 @@
 /*
  * Copyright (C) 2011 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package android.support.v4.database;
@@ -43,16 +43,18 @@ public class DatabaseUtilsCompat {
     }
 
     /**
-     * Appends one set of selection args to another. This is useful when adding a selection
-     * argument to a user provided set.
+     * Appends one set of selection args to another. This is useful when adding
+     * a selection argument to a user provided set.
      */
-    public static String[] appendSelectionArgs(String[] originalValues, String[] newValues) {
+    public static String[] appendSelectionArgs(String[] originalValues,
+            String[] newValues) {
         if (originalValues == null || originalValues.length == 0) {
             return newValues;
         }
-        String[] result = new String[originalValues.length + newValues.length ];
+        String[] result = new String[originalValues.length + newValues.length];
         System.arraycopy(originalValues, 0, result, 0, originalValues.length);
-        System.arraycopy(newValues, 0, result, originalValues.length, newValues.length);
+        System.arraycopy(newValues, 0, result, originalValues.length,
+                newValues.length);
         return result;
     }
 }

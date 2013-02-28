@@ -1,4 +1,3 @@
-
 package com.turbomanage.httpclient;
 
 import java.io.IOException;
@@ -8,9 +7,8 @@ import java.util.Map;
 
 /**
  * Default {@link RequestLogger} used by {@link BasicHttpClient}. In recent
- * versions of Android, log() gets directed to LogCat so this can
- * work for Android, too.
- * http://stackoverflow.com/questions/2220547/why-doesnt-system
+ * versions of Android, log() gets directed to LogCat so this can work for
+ * Android, too. http://stackoverflow.com/questions/2220547/why-doesnt-system
  * -out-println-work-in-android
  * 
  * @author David M. Chandler
@@ -19,13 +17,16 @@ public class ConsoleRequestLogger implements RequestLogger {
 
     /*
      * (non-Javadoc)
+     * 
      * @see com.turbomanage.httpclient.RequestLogger#isLoggingEnabled()
      */
     public boolean isLoggingEnabled() {
         return false;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.turbomanage.httpclient.RequestLogger#log(java.lang.String)
      */
     @Override
@@ -35,11 +36,13 @@ public class ConsoleRequestLogger implements RequestLogger {
 
     /*
      * (non-Javadoc)
+     * 
      * @see com.turbomanage.httpclient.RequestLogger#logRequest(java.net.
      * HttpURLConnection, java.lang.Object)
      */
     @Override
-    public void logRequest(HttpURLConnection uc, Object content) throws IOException {
+    public void logRequest(HttpURLConnection uc, Object content)
+            throws IOException {
         log("=== HTTP Request ===");
         log(uc.getRequestMethod() + " " + uc.getURL().toString());
         if (content instanceof String) {
@@ -50,6 +53,7 @@ public class ConsoleRequestLogger implements RequestLogger {
 
     /*
      * (non-Javadoc)
+     * 
      * @see com.turbomanage.httpclient.RequestLogger#logResponse(java.net.
      * HttpURLConnection)
      */

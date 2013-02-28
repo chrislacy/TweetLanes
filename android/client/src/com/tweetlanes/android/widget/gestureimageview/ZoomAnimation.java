@@ -40,6 +40,7 @@ public class ZoomAnimation implements Animation {
 
     /*
      * (non-Javadoc)
+     * 
      * @see
      * com.polites.android.Animation#update(com.polites.android.GestureImageView
      * , long)

@@ -33,77 +33,78 @@ public class AdnPost {
     public AdnUser mOriginalAuthor;
 
     public AdnPost(String jsonAsString) {
-	try {
-	    JSONObject object = new JSONObject(jsonAsString);
-	    if (object.has("data")) {
-		object = object.getJSONObject("data");
-	    }
+        try {
+            JSONObject object = new JSONObject(jsonAsString);
+            if (object.has("data")) {
+                object = object.getJSONObject("data");
+            }
 
-	    // It's possible to have a status with no text (likely when items
-	    // are deleted)
-	    mText = object.getString("text");
-	    if (mText == null) {
-		mText = " ";
-	    }
+            // It's possible to have a status with no text (likely when items
+            // are deleted)
+            mText = object.getString("text");
+            if (mText == null) {
+                mText = " ";
+            }
 
-	    if (object.has("repost_of")) {
-		mIsRetweet = true;
-		AdnPost repost = new AdnPost(object.getJSONObject("repost_of").toString());
-		mOriginalAuthor = repost.mUser;
-		mText = repost.mText;
-	    }
+            if (object.has("repost_of")) {
+                mIsRetweet = true;
+                AdnPost repost = new AdnPost(object.getJSONObject("repost_of")
+                        .toString());
+                mOriginalAuthor = repost.mUser;
+                mText = repost.mText;
+            }
 
-	    mId = object.getLong("id");
-	    if (object.has("reply_to")) {
-		try {
-		    // This value comes back as 'null' when no value.
-		    mInReplyTo = object.getLong("reply_to");
-		} catch (JSONException e) {
-		}
-	    }
+            mId = object.getLong("id");
+            if (object.has("reply_to")) {
+                try {
+                    // This value comes back as 'null' when no value.
+                    mInReplyTo = object.getLong("reply_to");
+                } catch (JSONException e) {
+                }
+            }
 
-	    if (object.has("is_deleted")) {
-		try {
-		    // This value comes back as 'null' when no value.
-		    mIsDeleted = object.getBoolean("is_deleted");
-		} catch (JSONException e) {
-		}
-	    }
+            if (object.has("is_deleted")) {
+                try {
+                    // This value comes back as 'null' when no value.
+                    mIsDeleted = object.getBoolean("is_deleted");
+                } catch (JSONException e) {
+                }
+            }
 
-	    String createdAtString = object.getString("created_at");
-	    mCreatedAt = TwitterUtil.iso6801StringToDate(createdAtString);
+            String createdAtString = object.getString("created_at");
+            mCreatedAt = TwitterUtil.iso6801StringToDate(createdAtString);
 
-	    if (object.has("user")) {
-		String userString = object.getString("user");
-		mUser = new AdnUser(userString);
-	    }
+            if (object.has("user")) {
+                String userString = object.getString("user");
+                mUser = new AdnUser(userString);
+            }
 
-	    if (object.has("source")) {
-		JSONObject source = object.getJSONObject("source");
-		mSource = source.getString("name");
-	    }
+            if (object.has("source")) {
+                JSONObject source = object.getJSONObject("source");
+                mSource = source.getString("name");
+            }
 
-	    if (object.has("entities")) {
-		JSONObject entities = object.getJSONObject("entities");
-		if (entities.has("mentions")) {
-		    JSONArray jsonArray = entities.getJSONArray("mentions");
-		    for (int i = 0; i < jsonArray.length(); i++) {
-			JSONObject mention = jsonArray.getJSONObject(i);
-			if (mention.has("id") && mention.has("name")) {
-			    Long id = mention.getLong("id");
-			    String username = mention.getString("name");
-			    // HACK
-			    TwitterManager.addUserIdentifier(username, id);
-			}
-		    }
-		}
-	    }
+            if (object.has("entities")) {
+                JSONObject entities = object.getJSONObject("entities");
+                if (entities.has("mentions")) {
+                    JSONArray jsonArray = entities.getJSONArray("mentions");
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject mention = jsonArray.getJSONObject(i);
+                        if (mention.has("id") && mention.has("name")) {
+                            Long id = mention.getLong("id");
+                            String username = mention.getString("name");
+                            // HACK
+                            TwitterManager.addUserIdentifier(username, id);
+                        }
+                    }
+                }
+            }
 
-	} catch (JSONException e) {
-	    e.printStackTrace();
-	} catch (ParseException e) {
-	    e.printStackTrace();
-	}
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
 }

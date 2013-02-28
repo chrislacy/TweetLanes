@@ -29,50 +29,51 @@ public class AdnUser {
     public boolean mCurrentUserFollows;
 
     public AdnUser(String jsonAsString) {
-	try {
-	    JSONObject object = new JSONObject(jsonAsString);
-	    if (object.has("data")) {
-		object = object.getJSONObject("data");
-	    }
-	    mId = object.getLong("id");
-	    mUserName = object.getString("username");
-	    mName = object.getString("name");
+        try {
+            JSONObject object = new JSONObject(jsonAsString);
+            if (object.has("data")) {
+                object = object.getJSONObject("data");
+            }
+            mId = object.getLong("id");
+            mUserName = object.getString("username");
+            mName = object.getString("name");
 
-	    if (object.has("description")) {
-		try {
-		    JSONObject description = object.getJSONObject("description");
-		    mDescription = description.getString("text");
-		} catch (JSONException e) {
-		}
-	    }
+            if (object.has("description")) {
+                try {
+                    JSONObject description = object
+                            .getJSONObject("description");
+                    mDescription = description.getString("text");
+                } catch (JSONException e) {
+                }
+            }
 
-	    if (object.has("counts")) {
-		JSONObject counts = object.getJSONObject("counts");
-		mFollowersCount = counts.getInt("followers");
-		mFollowingCount = counts.getInt("following");
-		mPostCount = counts.getInt("posts");
-	    }
+            if (object.has("counts")) {
+                JSONObject counts = object.getJSONObject("counts");
+                mFollowersCount = counts.getInt("followers");
+                mFollowingCount = counts.getInt("following");
+                mPostCount = counts.getInt("posts");
+            }
 
-	    if (object.has("avatar_image")) {
-		JSONObject avatar = object.getJSONObject("avatar_image");
-		mAvatarUrl = avatar.getString("url");
-	    }
+            if (object.has("avatar_image")) {
+                JSONObject avatar = object.getJSONObject("avatar_image");
+                mAvatarUrl = avatar.getString("url");
+            }
 
-	    if (object.has("cover_image")) {
-		JSONObject cover = object.getJSONObject("cover_image");
-		mCoverUrl = cover.getString("url");
-	    }
+            if (object.has("cover_image")) {
+                JSONObject cover = object.getJSONObject("cover_image");
+                mCoverUrl = cover.getString("url");
+            }
 
-	    if (object.has("follows_you")) {
-		mFollowsCurrentUser = object.getBoolean("follows_you");
-	    }
+            if (object.has("follows_you")) {
+                mFollowsCurrentUser = object.getBoolean("follows_you");
+            }
 
-	    if (object.has("you_follow")) {
-		mCurrentUserFollows = object.getBoolean("you_follow");
-	    }
-	} catch (JSONException e) {
-	    e.printStackTrace();
-	}
+            if (object.has("you_follow")) {
+                mCurrentUserFollows = object.getBoolean("you_follow");
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 }

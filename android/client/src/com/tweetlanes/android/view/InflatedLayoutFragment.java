@@ -54,6 +54,7 @@ public class InflatedLayoutFragment extends Fragment {
 
     /*
      * (non-Javadoc)
+     * 
      * @see
      * android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater,
      * android.view.ViewGroup, android.os.Bundle)
@@ -80,6 +81,7 @@ public class InflatedLayoutFragment extends Fragment {
 
     /*
      * (non-Javadoc)
+     * 
      * @see
      * android.support.v4.app.Fragment#onSaveInstanceState(android.os.Bundle)
      */

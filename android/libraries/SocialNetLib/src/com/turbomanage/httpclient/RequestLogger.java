@@ -1,4 +1,3 @@
-
 package com.turbomanage.httpclient;
 
 import java.io.IOException;
@@ -10,14 +9,14 @@ import java.net.HttpURLConnection;
  * @author David M. Chandler
  */
 public interface RequestLogger {
-    
+
     /**
      * Determine whether requests should be logged.
      * 
      * @return true if enabled
      */
     boolean isLoggingEnabled();
-    
+
     /**
      * Writes a log message.
      * 
@@ -32,7 +31,8 @@ public interface RequestLogger {
      * @param content
      * @throws IOException
      */
-    void logRequest(HttpURLConnection urlConnection, Object content) throws IOException;
+    void logRequest(HttpURLConnection urlConnection, Object content)
+            throws IOException;
 
     /**
      * Logs the HTTP response.
@@ -41,5 +41,5 @@ public interface RequestLogger {
      * @throws IOException
      */
     void logResponse(HttpResponse httpResponse);
-    
+
 }

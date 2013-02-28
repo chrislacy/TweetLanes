@@ -293,6 +293,7 @@ public final class TweetSpotlightFragment extends BaseLaneFragment {
 
     /*
      * (non-Javadoc)
+     * 
      * @see
      * com.tweetlanes.android.view.BaseLaneFragment#triggerInitialDownload()
      */
@@ -302,6 +303,7 @@ public final class TweetSpotlightFragment extends BaseLaneFragment {
 
     /*
      * (non-Javadoc)
+     * 
      * @see com.tweetlanes.android.view.BaseLaneFragment#onJumpToTop()
      */
     @Override
@@ -310,6 +312,7 @@ public final class TweetSpotlightFragment extends BaseLaneFragment {
 
     /*
      * (non-Javadoc)
+     * 
      * @see com.tweetlanes.android.view.BaseLaneFragment#clearLocalCache()
      */
     @Override
@@ -319,6 +322,7 @@ public final class TweetSpotlightFragment extends BaseLaneFragment {
 
     /*
      * (non-Javadoc)
+     * 
      * @see com.tweetlanes.android.view.BaseLaneFragment#getContentToCache()
      */
     @Override

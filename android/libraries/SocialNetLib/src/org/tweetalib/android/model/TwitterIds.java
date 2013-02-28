@@ -18,33 +18,33 @@ import twitter4j.IDs;
 public class TwitterIds {
 
     public TwitterIds() {
-	mIds = new ArrayList<Long>();
+        mIds = new ArrayList<Long>();
 
     }
 
     public int getIdCount() {
-	return mIds.size();
+        return mIds.size();
     }
 
     public Long getId(int index) {
-	return mIds.get(index);
+        return mIds.get(index);
     }
 
     private ArrayList<Long> mIds;
 
     public void add(IDs ids) {
-	long[] idsArray = ids.getIDs();
-	for (long id : idsArray) {
-	    mIds.add(id);
-	}
+        long[] idsArray = ids.getIDs();
+        for (long id : idsArray) {
+            mIds.add(id);
+        }
     }
 
     public void add(long[] ids) {
-	if (ids == null) {
-	    return;
-	}
-	for (long id : ids) {
-	    mIds.add(id);
-	}
+        if (ids == null) {
+            return;
+        }
+        for (long id : ids) {
+            mIds.add(id);
+        }
     }
 }

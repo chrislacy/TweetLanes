@@ -6,54 +6,56 @@ import java.text.Normalizer;
  * A class for validating Tweet texts.
  */
 public class Validator {
-  public static final int MAX_TWEET_LENGTH = 140;
+    public static final int MAX_TWEET_LENGTH = 140;
 
-  protected int shortUrlLength = 20;
-  protected int shortUrlLengthHttps = 21;
+    protected int shortUrlLength = 20;
+    protected int shortUrlLengthHttps = 21;
 
-  private Extractor extractor = new Extractor();
+    private Extractor extractor = new Extractor();
 
-  public int getTweetLength(String text) {
-    text = Normalizer.normalize(text, Normalizer.Form.NFC);
-    int length = text.codePointCount(0, text.length());
+    public int getTweetLength(String text) {
+        text = Normalizer.normalize(text, Normalizer.Form.NFC);
+        int length = text.codePointCount(0, text.length());
 
-    for (Extractor.Entity urlEntity : extractor.extractURLsWithIndices(text)) {
-      length += urlEntity.start - urlEntity.end;
-      length += urlEntity.value.toLowerCase().startsWith("https://") ? shortUrlLengthHttps : shortUrlLength;
+        for (Extractor.Entity urlEntity : extractor
+                .extractURLsWithIndices(text)) {
+            length += urlEntity.start - urlEntity.end;
+            length += urlEntity.value.toLowerCase().startsWith("https://") ? shortUrlLengthHttps
+                    : shortUrlLength;
+        }
+
+        return length;
     }
 
-    return length;
-  }
+    public boolean isValidTweet(String text) {
+        if (text == null || text.isEmpty()) {
+            return false;
+        }
 
-  public boolean isValidTweet(String text) {
-    if (text == null || text.isEmpty()) {
-      return false;
+        for (char c : text.toCharArray()) {
+            if (c == '\uFFFE' || c == '\uuFEFF' || // BOM
+                    c == '\uFFFF' || // Special
+                    (c >= '\u202A' && c <= '\u202E')) { // Direction change
+                return false;
+            }
+        }
+
+        return getTweetLength(text) <= MAX_TWEET_LENGTH;
     }
 
-    for (char c : text.toCharArray()) {
-      if (c == '\uFFFE' || c == '\uuFEFF' ||   // BOM
-          c == '\uFFFF' ||                     // Special
-          (c >= '\u202A' && c <= '\u202E')) {  // Direction change
-        return false;
-      }
+    public int getShortUrlLength() {
+        return shortUrlLength;
     }
 
-    return getTweetLength(text) <= MAX_TWEET_LENGTH;
-  }
+    public void setShortUrlLength(int shortUrlLength) {
+        this.shortUrlLength = shortUrlLength;
+    }
 
-  public int getShortUrlLength() {
-    return shortUrlLength;
-  }
+    public int getShortUrlLengthHttps() {
+        return shortUrlLengthHttps;
+    }
 
-  public void setShortUrlLength(int shortUrlLength) {
-    this.shortUrlLength = shortUrlLength;
-  }
-
-  public int getShortUrlLengthHttps() {
-    return shortUrlLengthHttps;
-  }
-
-  public void setShortUrlLengthHttps(int shortUrlLengthHttps) {
-    this.shortUrlLengthHttps = shortUrlLengthHttps;
-  }
+    public void setShortUrlLengthHttps(int shortUrlLengthHttps) {
+        this.shortUrlLengthHttps = shortUrlLengthHttps;
+    }
 }

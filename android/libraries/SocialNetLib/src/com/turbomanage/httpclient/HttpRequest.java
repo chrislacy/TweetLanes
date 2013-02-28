@@ -6,18 +6,17 @@ package com.turbomanage.httpclient;
  * @author David M. Chandler
  */
 public abstract class HttpRequest {
-    
+
     public static final String URLENCODED = "application/x-www-form-urlencoded;charset=UTF-8";
     public static final String MULTIPART = "multipart/form-data";
-    
+
     protected String path = ""; // avoid null in URL
     protected HttpMethod httpMethod;
     protected String contentType;
     protected byte[] content;
-    
+
     /**
-     * Constructs a request with optional params appended
-     * to the query string.
+     * Constructs a request with optional params appended to the query string.
      * 
      * @param path
      * @param params
@@ -36,15 +35,15 @@ public abstract class HttpRequest {
     public String getPath() {
         return path;
     }
-    
+
     public HttpMethod getHttpMethod() {
         return httpMethod;
     }
-    
+
     public String getContentType() {
         return contentType;
     }
-    
+
     public byte[] getContent() {
         return content;
     }

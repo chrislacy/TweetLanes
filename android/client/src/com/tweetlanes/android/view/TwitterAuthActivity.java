@@ -44,6 +44,7 @@ public class TwitterAuthActivity extends Activity {
 
     /*
      * (non-Javadoc)
+     * 
      * @see android.app.Activity#onCreate(android.os.Bundle)
      */
     @Override
@@ -98,7 +99,8 @@ public class TwitterAuthActivity extends Activity {
 	 */
     void onSuccessfulLogin(TwitterUser user, String accessToken,
             String accessTokenSecret) {
-		getApp().onPostSignIn(user, accessToken, accessTokenSecret, SocialNetConstant.Type.Twitter);
+        getApp().onPostSignIn(user, accessToken, accessTokenSecret,
+                SocialNetConstant.Type.Twitter);
         getApp().restartApp(this);
     }
 
@@ -139,8 +141,11 @@ public class TwitterAuthActivity extends Activity {
                             .getQueryParameter("oauth_verifier");
                     onOAuthVerifier(oauthVerifier);
 
-	                TwitterManager.get().setSocialNetType(SocialNetConstant.Type.Twitter, Constant.TWITTER_CONSUMER_KEY, Constant.TWITTER_CONSUMER_SECRET);
-	                
+                    TwitterManager.get().setSocialNetType(
+                            SocialNetConstant.Type.Twitter,
+                            Constant.TWITTER_CONSUMER_KEY,
+                            Constant.TWITTER_CONSUMER_SECRET);
+
                     return true;
                 }
                 return false;
@@ -161,6 +166,7 @@ public class TwitterAuthActivity extends Activity {
 
     /*
      * (non-Javadoc)
+     * 
      * @see android.app.Activity#onActivityResult(int, int,
      * android.content.Intent)
      */

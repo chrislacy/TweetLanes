@@ -47,6 +47,7 @@ public class ProfileActivity extends BaseLaneActivity {
 
     /*
      * (non-Javadoc)
+     * 
      * @see
      * com.tweetlanes.android.view.BaseLaneActivity#onCreate(android.os.Bundle)
      */
@@ -108,6 +109,7 @@ public class ProfileActivity extends BaseLaneActivity {
 
     /*
      * (non-Javadoc)
+     * 
      * @see com.tweetlanes.android.view.BaseLaneActivity#onDestroy()
      */
     @Override
@@ -132,6 +134,7 @@ public class ProfileActivity extends BaseLaneActivity {
 
     /*
      * (non-Javadoc)
+     * 
      * @see
      * com.tweetlanes.android.view.BaseLaneActivity#getAdapterForViewPager()
      */
@@ -145,6 +148,7 @@ public class ProfileActivity extends BaseLaneActivity {
 
     /*
      * (non-Javadoc)
+     * 
      * @see
      * com.tweetlanes.android.view.BaseLaneActivity#getFragmentStatePagerAdapter
      * ()
@@ -235,6 +239,7 @@ public class ProfileActivity extends BaseLaneActivity {
 
     /*
      * (non-Javadoc)
+     * 
      * @see
      * com.tweetlanes.android.view.BaseLaneActivity#onOptionsItemSelected(android
      * .view.MenuItem)

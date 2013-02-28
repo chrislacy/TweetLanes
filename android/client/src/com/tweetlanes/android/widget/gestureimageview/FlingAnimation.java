@@ -27,6 +27,7 @@ public class FlingAnimation implements Animation {
 
     /*
      * (non-Javadoc)
+     * 
      * @see
      * com.polites.android.Transformer#update(com.polites.android.GestureImageView
      * , long)

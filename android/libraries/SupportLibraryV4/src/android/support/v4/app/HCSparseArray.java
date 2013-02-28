@@ -1,24 +1,24 @@
 /*
  * Copyright (C) 2011 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package android.support.v4.app;
 
 /**
- * A copy of Honeycomb's {@link android.util.SparseArray}, that
- * provides a removeAt() method.
+ * A copy of Honeycomb's {@link android.util.SparseArray}, that provides a
+ * removeAt() method.
  */
 class HCSparseArray<E> {
     private static final Object DELETED = new Object();
@@ -32,9 +32,9 @@ class HCSparseArray<E> {
     }
 
     /**
-     * Creates a new SparseArray containing no mappings that will not
-     * require any additional memory allocation to store the specified
-     * number of mappings.
+     * Creates a new SparseArray containing no mappings that will not require
+     * any additional memory allocation to store the specified number of
+     * mappings.
      */
     public HCSparseArray(int initialCapacity) {
         initialCapacity = idealIntArraySize(initialCapacity);
@@ -45,19 +45,19 @@ class HCSparseArray<E> {
     }
 
     /**
-     * Gets the Object mapped from the specified key, or <code>null</code>
-     * if no such mapping has been made.
+     * Gets the Object mapped from the specified key, or <code>null</code> if no
+     * such mapping has been made.
      */
     public E get(int key) {
         return get(key, null);
     }
 
     /**
-     * Gets the Object mapped from the specified key, or the specified Object
-     * if no such mapping has been made.
+     * Gets the Object mapped from the specified key, or the specified Object if
+     * no such mapping has been made.
      */
     @SuppressWarnings("unchecked")
-	public E get(int key, E valueIfKeyNotFound) {
+    public E get(int key, E valueIfKeyNotFound) {
         int i = binarySearch(mKeys, 0, mSize, key);
 
         if (i < 0 || mValues[i] == DELETED) {
@@ -97,7 +97,7 @@ class HCSparseArray<E> {
             mGarbage = true;
         }
     }
-    
+
     private void gc() {
         // Log.e("SparseArray", "gc start with " + mSize);
 
@@ -126,9 +126,8 @@ class HCSparseArray<E> {
     }
 
     /**
-     * Adds a mapping from the specified key to the specified value,
-     * replacing the previous mapping from the specified key if there
-     * was one.
+     * Adds a mapping from the specified key to the specified value, replacing
+     * the previous mapping from the specified key if there was one.
      */
     public void put(int key, E value) {
         int i = binarySearch(mKeys, 0, mSize, key);
@@ -178,8 +177,8 @@ class HCSparseArray<E> {
     }
 
     /**
-     * Returns the number of key-value mappings that this SparseArray
-     * currently stores.
+     * Returns the number of key-value mappings that this SparseArray currently
+     * stores.
      */
     public int size() {
         if (mGarbage) {
@@ -190,9 +189,9 @@ class HCSparseArray<E> {
     }
 
     /**
-     * Given an index in the range <code>0...size()-1</code>, returns
-     * the key from the <code>index</code>th key-value mapping that this
-     * SparseArray stores.  
+     * Given an index in the range <code>0...size()-1</code>, returns the key
+     * from the <code>index</code>th key-value mapping that this SparseArray
+     * stores.
      */
     public int keyAt(int index) {
         if (mGarbage) {
@@ -201,14 +200,14 @@ class HCSparseArray<E> {
 
         return mKeys[index];
     }
-    
+
     /**
-     * Given an index in the range <code>0...size()-1</code>, returns
-     * the value from the <code>index</code>th key-value mapping that this
-     * SparseArray stores.  
+     * Given an index in the range <code>0...size()-1</code>, returns the value
+     * from the <code>index</code>th key-value mapping that this SparseArray
+     * stores.
      */
     @SuppressWarnings("unchecked")
-	public E valueAt(int index) {
+    public E valueAt(int index) {
         if (mGarbage) {
             gc();
         }
@@ -217,9 +216,9 @@ class HCSparseArray<E> {
     }
 
     /**
-     * Given an index in the range <code>0...size()-1</code>, sets a new
-     * value for the <code>index</code>th key-value mapping that this
-     * SparseArray stores.  
+     * Given an index in the range <code>0...size()-1</code>, sets a new value
+     * for the <code>index</code>th key-value mapping that this SparseArray
+     * stores.
      */
     public void setValueAt(int index, E value) {
         if (mGarbage) {
@@ -228,11 +227,10 @@ class HCSparseArray<E> {
 
         mValues[index] = value;
     }
-    
+
     /**
-     * Returns the index for which {@link #keyAt} would return the
-     * specified key, or a negative number if the specified
-     * key is not mapped.
+     * Returns the index for which {@link #keyAt} would return the specified
+     * key, or a negative number if the specified key is not mapped.
      */
     public int indexOfKey(int key) {
         if (mGarbage) {
@@ -243,12 +241,10 @@ class HCSparseArray<E> {
     }
 
     /**
-     * Returns an index for which {@link #valueAt} would return the
-     * specified key, or a negative number if no keys map to the
-     * specified value.
-     * Beware that this is a linear search, unlike lookups by key,
-     * and that multiple keys can map to the same value and this will
-     * find only one of them.
+     * Returns an index for which {@link #valueAt} would return the specified
+     * key, or a negative number if no keys map to the specified value. Beware
+     * that this is a linear search, unlike lookups by key, and that multiple
+     * keys can map to the same value and this will find only one of them.
      */
     public int indexOfValue(E value) {
         if (mGarbage) {
@@ -256,8 +252,7 @@ class HCSparseArray<E> {
         }
 
         for (int i = 0; i < mSize; i++)
-            if (mValues[i] == value)
-                return i;
+            if (mValues[i] == value) return i;
 
         return -1;
     }
@@ -278,8 +273,8 @@ class HCSparseArray<E> {
     }
 
     /**
-     * Puts a key/value pair into the array, optimizing for the case where
-     * the key is greater than all existing keys in the array.
+     * Puts a key/value pair into the array, optimizing for the case where the
+     * key is greater than all existing keys in the array.
      */
     public void append(int key, E value) {
         if (mSize != 0 && key <= mKeys[mSize - 1]) {
@@ -310,7 +305,7 @@ class HCSparseArray<E> {
         mValues[pos] = value;
         mSize = pos + 1;
     }
-    
+
     private static int binarySearch(int[] a, int start, int len, int key) {
         int high = start + len, low = start - 1, guess;
 
@@ -333,16 +328,15 @@ class HCSparseArray<E> {
 
     static int idealByteArraySize(int need) {
         for (int i = 4; i < 32; i++)
-            if (need <= (1 << i) - 12)
-                return (1 << i) - 12;
+            if (need <= (1 << i) - 12) return (1 << i) - 12;
 
         return need;
     }
-    
+
     static int idealIntArraySize(int need) {
         return idealByteArraySize(need * 4) / 4;
     }
-    
+
     private int[] mKeys;
     private Object[] mValues;
     private int mSize;

@@ -7,7 +7,7 @@ package com.turbomanage.httpclient;
  * @author David M. Chandler
  */
 public interface AsyncRequestExecutor {
-    
+
     void execute(HttpRequest httpRequest);
-    
+
 }

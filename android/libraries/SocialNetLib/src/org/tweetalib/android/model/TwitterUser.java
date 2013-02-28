@@ -20,154 +20,156 @@ import twitter4j.User;
 public class TwitterUser {
 
     public TwitterUser(User user) {
-	mId = user.getId();
-	mScreenName = user.getScreenName();
-	mName = user.getName();
-	mDescription = user.getDescription();
-	if (user.getLocation() != null && user.getLocation().equals("") == false) {
-	    mLocation = user.getLocation();
-	}
-	if (user.getURL() != null) {
-	    mUrl = user.getURL().toString();
-	}
+        mId = user.getId();
+        mScreenName = user.getScreenName();
+        mName = user.getName();
+        mDescription = user.getDescription();
+        if (user.getLocation() != null
+                && user.getLocation().equals("") == false) {
+            mLocation = user.getLocation();
+        }
+        if (user.getURL() != null) {
+            mUrl = user.getURL().toString();
+        }
 
-	mStatusesCount = user.getStatusesCount();
-	mFriendsCount = user.getFriendsCount();
-	mFollowersCount = user.getFollowersCount();
-	mFavoritesCount = user.getFavouritesCount();
-	mListedCount = user.getListedCount();
-	mVerified = user.isVerified();
-	mProtected = user.isProtected();
-	mSocialNetType = SocialNetConstant.Type.Twitter;
+        mStatusesCount = user.getStatusesCount();
+        mFriendsCount = user.getFriendsCount();
+        mFollowersCount = user.getFollowersCount();
+        mFavoritesCount = user.getFavouritesCount();
+        mListedCount = user.getListedCount();
+        mVerified = user.isVerified();
+        mProtected = user.isProtected();
+        mSocialNetType = SocialNetConstant.Type.Twitter;
     }
 
     public TwitterUser(AdnUser user) {
-	mId = user.mId;
-	mScreenName = user.mUserName;
-	mName = user.mName;
-	mFollowersCount = user.mFollowersCount;
-	mFriendsCount = user.mFollowingCount;
-	mStatusesCount = user.mPostCount;
-	mProfileImageUrl = user.mAvatarUrl;
-	mCoverImageUrl = user.mCoverUrl;
-	mDescription = user.mDescription;
-	mSocialNetType = SocialNetConstant.Type.Appdotnet;
-	mCurrentUserFollows = user.mCurrentUserFollows;
-	mFollowsCurrentUser = user.mFollowsCurrentUser;
+        mId = user.mId;
+        mScreenName = user.mUserName;
+        mName = user.mName;
+        mFollowersCount = user.mFollowersCount;
+        mFriendsCount = user.mFollowingCount;
+        mStatusesCount = user.mPostCount;
+        mProfileImageUrl = user.mAvatarUrl;
+        mCoverImageUrl = user.mCoverUrl;
+        mDescription = user.mDescription;
+        mSocialNetType = SocialNetConstant.Type.Appdotnet;
+        mCurrentUserFollows = user.mCurrentUserFollows;
+        mFollowsCurrentUser = user.mFollowsCurrentUser;
     }
 
     public TwitterUser(TwitterUser user) {
-	mId = user.getId();
-	mScreenName = user.getScreenName();
-	mName = user.getName();
-	mDescription = user.getDescription();
-	mLocation = user.getLocation();
-	mUrl = user.getUrl();
+        mId = user.getId();
+        mScreenName = user.getScreenName();
+        mName = user.getName();
+        mDescription = user.getDescription();
+        mLocation = user.getLocation();
+        mUrl = user.getUrl();
 
-	mStatusesCount = user.getStatusesCount();
-	mFriendsCount = user.getFriendsCount();
-	mFollowersCount = user.getFollowersCount();
-	mFavoritesCount = user.getFavoritesCount();
-	mListedCount = user.getListedCount();
-	mVerified = user.getVerified();
-	mProtected = user.getProtected();
-	mSocialNetType = user.getSocialNetType();
+        mStatusesCount = user.getStatusesCount();
+        mFriendsCount = user.getFriendsCount();
+        mFollowersCount = user.getFollowersCount();
+        mFavoritesCount = user.getFavoritesCount();
+        mListedCount = user.getListedCount();
+        mVerified = user.getVerified();
+        mProtected = user.getProtected();
+        mSocialNetType = user.getSocialNetType();
     }
 
     public long getId() {
-	return mId;
+        return mId;
     }
 
     public String getScreenName() {
-	return mScreenName;
+        return mScreenName;
     }
 
     public String getName() {
-	return mName;
+        return mName;
     }
 
     public String getDescription() {
-	return mDescription;
+        return mDescription;
     }
 
     public String getCoverImageUrl() {
-	return mCoverImageUrl;
+        return mCoverImageUrl;
     }
 
     public String getLocation() {
-	return mLocation;
+        return mLocation;
     }
 
     public String getUrl() {
-	return mUrl;
+        return mUrl;
     }
 
     public int getStatusesCount() {
-	return mStatusesCount;
+        return mStatusesCount;
     }
 
     public int getFriendsCount() {
-	return mFriendsCount;
+        return mFriendsCount;
     }
 
     public int getFollowersCount() {
-	return mFollowersCount;
+        return mFollowersCount;
     }
 
     public int getFavoritesCount() {
-	return mFavoritesCount;
+        return mFavoritesCount;
     }
 
     public int getListedCount() {
-	return mListedCount;
+        return mListedCount;
     }
 
     public boolean getVerified() {
-	return mVerified;
+        return mVerified;
     }
 
     public boolean getProtected() {
-	return mProtected;
+        return mProtected;
     }
 
     public boolean getFollowsCurrentUser() {
-	return mFollowsCurrentUser;
+        return mFollowsCurrentUser;
     }
 
     public boolean getCurrentUserFollows() {
-	return mCurrentUserFollows;
+        return mCurrentUserFollows;
     }
 
     public SocialNetConstant.Type getSocialNetType() {
-	return mSocialNetType;
+        return mSocialNetType;
     }
 
     public String getProfileImageUrl(ProfileImageSize size) {
-	if (mProfileImageUrl != null) {
-	    return mProfileImageUrl;
-	}
-	return getProfileImageUrl(mScreenName, size);
+        if (mProfileImageUrl != null) {
+            return mProfileImageUrl;
+        }
+        return getProfileImageUrl(mScreenName, size);
     }
 
     public String getProfileImageUrl(String screenName, ProfileImageSize size) {
-	if (mSocialNetType == SocialNetConstant.Type.Appdotnet) {
-	    String w = "";
-	    switch (size) {
-	    case MINI:
-		w = "?w=32";
-		break;
-	    case NORMAL:
-		w = "?w=48";
-		break;
-	    case BIGGER:
-		w = "?w=73";
-		break;
-	    }
-	    return "https://alpha-api.app.net/stream/0/users/@" + screenName + "/avatar" + w;
-	} else {
-	    return "https://api.twitter.com/1/users/profile_image/" + screenName + "?size="
-		    + size.toString().toLowerCase();
-	}
+        if (mSocialNetType == SocialNetConstant.Type.Appdotnet) {
+            String w = "";
+            switch (size) {
+            case MINI:
+                w = "?w=32";
+                break;
+            case NORMAL:
+                w = "?w=48";
+                break;
+            case BIGGER:
+                w = "?w=73";
+                break;
+            }
+            return "https://alpha-api.app.net/stream/0/users/@" + screenName
+                    + "/avatar" + w;
+        } else {
+            return "https://api.twitter.com/1/users/profile_image/"
+                    + screenName + "?size=" + size.toString().toLowerCase();
+        }
     }
 
     private long mId;

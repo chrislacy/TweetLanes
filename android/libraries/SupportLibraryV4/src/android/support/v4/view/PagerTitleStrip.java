@@ -1,17 +1,17 @@
 /*
  * Copyright (C) 2011 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package android.support.v4.view;
@@ -28,17 +28,16 @@ import android.view.ViewParent;
 import android.widget.TextView;
 
 /**
- * PagerTitleStrip is a non-interactive indicator of the current, next,
- * and previous pages of a {@link ViewPager}. It is intended to be used as a
- * child view of a ViewPager widget in your XML layout.
- * Add it as a child of a ViewPager in your layout file and set its
- * android:layout_gravity to TOP or BOTTOM to pin it to the top or bottom
- * of the ViewPager. The title from each page is supplied by the method
- * {@link PagerAdapter#getPageTitle(int)} in the adapter supplied to
- * the ViewPager.
+ * PagerTitleStrip is a non-interactive indicator of the current, next, and
+ * previous pages of a {@link ViewPager}. It is intended to be used as a child
+ * view of a ViewPager widget in your XML layout. Add it as a child of a
+ * ViewPager in your layout file and set its android:layout_gravity to TOP or
+ * BOTTOM to pin it to the top or bottom of the ViewPager. The title from each
+ * page is supplied by the method {@link PagerAdapter#getPageTitle(int)} in the
+ * adapter supplied to the ViewPager.
  */
 public class PagerTitleStrip extends ViewGroup implements ViewPager.Decor {
-    //private static final String TAG = "PagerTitleStrip";
+    // private static final String TAG = "PagerTitleStrip";
 
     ViewPager mPager;
     private TextView mPrevText;
@@ -55,12 +54,11 @@ public class PagerTitleStrip extends ViewGroup implements ViewPager.Decor {
     private final PageListener mPageListener = new PageListener();
 
     private static final int[] ATTRS = new int[] {
-        android.R.attr.textAppearance,
-        android.R.attr.textColor,
-        android.R.attr.textSize
-    };
+            android.R.attr.textAppearance, android.R.attr.textColor,
+            android.R.attr.textSize };
 
-    private static final int SIDE_ALPHA = 0x99; // single-byte alpha, 0 = invisible, FF = opaque
+    private static final int SIDE_ALPHA = 0x99; // single-byte alpha, 0 =
+                                                // invisible, FF = opaque
     private static final int TEXT_SPACING = 16; // dip
 
     public PagerTitleStrip(Context context) {
@@ -96,7 +94,8 @@ public class PagerTitleStrip extends ViewGroup implements ViewPager.Decor {
         a.recycle();
 
         final int defaultColor = mPrevText.getTextColors().getDefaultColor();
-        final int transparentColor = (SIDE_ALPHA << 24) | (defaultColor & 0xFFFFFF);
+        final int transparentColor = (SIDE_ALPHA << 24)
+                | (defaultColor & 0xFFFFFF);
         mPrevText.setTextColor(transparentColor);
         mNextText.setTextColor(transparentColor);
 
@@ -148,7 +147,8 @@ public class PagerTitleStrip extends ViewGroup implements ViewPager.Decor {
         }
         mPrevText.setText(text);
 
-        mCurrText.setText(adapter != null ? adapter.getPageTitle(currentItem) : null);
+        mCurrText.setText(adapter != null ? adapter.getPageTitle(currentItem)
+                : null);
 
         text = null;
         if (currentItem + 1 < itemCount && adapter != null) {
@@ -158,10 +158,12 @@ public class PagerTitleStrip extends ViewGroup implements ViewPager.Decor {
 
         // Measure everything
         final int width = getWidth() - getPaddingLeft() - getPaddingRight();
-        final int childHeight = getHeight() - getPaddingTop() - getPaddingBottom();
-        final int childWidthSpec = MeasureSpec.makeMeasureSpec((int) (width * 0.8f),
-                MeasureSpec.AT_MOST);
-        final int childHeightSpec = MeasureSpec.makeMeasureSpec(childHeight, MeasureSpec.EXACTLY);
+        final int childHeight = getHeight() - getPaddingTop()
+                - getPaddingBottom();
+        final int childWidthSpec = MeasureSpec.makeMeasureSpec(
+                (int) (width * 0.8f), MeasureSpec.AT_MOST);
+        final int childHeightSpec = MeasureSpec.makeMeasureSpec(childHeight,
+                MeasureSpec.EXACTLY);
         mPrevText.measure(childWidthSpec, childHeightSpec);
         mCurrText.measure(childWidthSpec, childHeightSpec);
         mNextText.measure(childWidthSpec, childHeightSpec);
@@ -223,21 +225,23 @@ public class PagerTitleStrip extends ViewGroup implements ViewPager.Decor {
         if (currOffset > 1.f) {
             currOffset -= 1.f;
         }
-        final int currCenter = stripWidth - textPaddedRight - (int) (contentWidth * currOffset);
+        final int currCenter = stripWidth - textPaddedRight
+                - (int) (contentWidth * currOffset);
         final int currLeft = currCenter - currWidth / 2;
         final int currRight = currLeft + currWidth;
 
-        mCurrText.layout(currLeft, paddingTop, currRight,
-                paddingTop + mCurrText.getMeasuredHeight());
+        mCurrText.layout(currLeft, paddingTop, currRight, paddingTop
+                + mCurrText.getMeasuredHeight());
 
-        final int prevLeft = Math.min(paddingLeft, currLeft - mScaledTextSpacing - prevWidth);
-        mPrevText.layout(prevLeft, paddingTop, prevLeft + prevWidth,
-                paddingTop + mPrevText.getMeasuredHeight());
+        final int prevLeft = Math.min(paddingLeft, currLeft
+                - mScaledTextSpacing - prevWidth);
+        mPrevText.layout(prevLeft, paddingTop, prevLeft + prevWidth, paddingTop
+                + mPrevText.getMeasuredHeight());
 
         final int nextLeft = Math.max(stripWidth - paddingRight - nextWidth,
                 currRight + mScaledTextSpacing);
-        mNextText.layout(nextLeft, paddingTop, nextLeft + nextWidth,
-                paddingTop + mNextText.getMeasuredHeight());
+        mNextText.layout(nextLeft, paddingTop, nextLeft + nextWidth, paddingTop
+                + mNextText.getMeasuredHeight());
 
         mLastKnownPositionOffset = positionOffset;
         mUpdatingPositions = false;
@@ -264,9 +268,10 @@ public class PagerTitleStrip extends ViewGroup implements ViewPager.Decor {
         padding = getPaddingTop() + getPaddingBottom();
         childHeight -= padding;
 
-        final int childWidthSpec = MeasureSpec.makeMeasureSpec((int) (widthSize * 0.8f),
-                MeasureSpec.AT_MOST);
-        final int childHeightSpec = MeasureSpec.makeMeasureSpec(childHeight, heightMode);
+        final int childWidthSpec = MeasureSpec.makeMeasureSpec(
+                (int) (widthSize * 0.8f), MeasureSpec.AT_MOST);
+        final int childHeightSpec = MeasureSpec.makeMeasureSpec(childHeight,
+                heightMode);
 
         mPrevText.measure(childWidthSpec, childHeightSpec);
         mCurrText.measure(childWidthSpec, childHeightSpec);
@@ -276,7 +281,8 @@ public class PagerTitleStrip extends ViewGroup implements ViewPager.Decor {
             setMeasuredDimension(widthSize, heightSize);
         } else {
             int textHeight = mCurrText.getMeasuredHeight();
-            setMeasuredDimension(widthSize, Math.max(minHeight, textHeight + padding));
+            setMeasuredDimension(widthSize,
+                    Math.max(minHeight, textHeight + padding));
         }
     }
 
@@ -287,14 +293,16 @@ public class PagerTitleStrip extends ViewGroup implements ViewPager.Decor {
         }
     }
 
-    private class PageListener extends DataSetObserver implements ViewPager.OnPageChangeListener,
-            ViewPager.OnAdapterChangeListener {
+    private class PageListener extends DataSetObserver implements
+            ViewPager.OnPageChangeListener, ViewPager.OnAdapterChangeListener {
         private int mScrollState;
 
         @Override
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        public void onPageScrolled(int position, float positionOffset,
+                int positionOffsetPixels) {
             if (positionOffset > 0.5f) {
-                // Consider ourselves to be on the next page when we're 50% of the way there.
+                // Consider ourselves to be on the next page when we're 50% of
+                // the way there.
                 position++;
             }
             updateTextPositions(position, positionOffset);
@@ -314,7 +322,8 @@ public class PagerTitleStrip extends ViewGroup implements ViewPager.Decor {
         }
 
         @Override
-        public void onAdapterChanged(PagerAdapter oldAdapter, PagerAdapter newAdapter) {
+        public void onAdapterChanged(PagerAdapter oldAdapter,
+                PagerAdapter newAdapter) {
             updateAdapter(oldAdapter, newAdapter);
         }
 

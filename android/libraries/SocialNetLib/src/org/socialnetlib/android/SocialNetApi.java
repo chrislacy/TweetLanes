@@ -55,7 +55,8 @@ public abstract class SocialNetApi {
 
     public abstract void init();
 
-    public abstract TwitterUser verifyCredentialsSync(String oAuthToken, String oAuthSecret);
+    public abstract TwitterUser verifyCredentialsSync(String oAuthToken,
+            String oAuthSecret);
 
     abstract Twitter getAndConfigureApiInstance();
 
@@ -78,23 +79,24 @@ public abstract class SocialNetApi {
     private TwitterSignIn mSignIn;
     private ConnectionStatus mConnectionStatus;
 
-    SocialNetApi(SocialNetConstant.Type type, String consumerKey, String consumerSecret) {
+    SocialNetApi(SocialNetConstant.Type type, String consumerKey,
+            String consumerSecret) {
 
-	mType = type;
-	mAppConsumerKey = consumerKey;
-	mAppConsumerSecret = consumerSecret;
+        mType = type;
+        mAppConsumerKey = consumerKey;
+        mAppConsumerSecret = consumerSecret;
 
-	init();
+        init();
 
-	initFetchBooleans();
-	initFetchDirectMessages();
-	initFetchStatus();
-	initFetchStatuses();
-	initFetchUser();
-	initFetchUsers();
-	initFetchLists();
-	initModifyStatuses();
-	initSignIn();
+        initFetchBooleans();
+        initFetchDirectMessages();
+        initFetchStatus();
+        initFetchStatuses();
+        initFetchUser();
+        initFetchUsers();
+        initFetchLists();
+        initModifyStatuses();
+        initSignIn();
     }
 
     /*
@@ -102,26 +104,26 @@ public abstract class SocialNetApi {
 	 */
     private void initFetchStatus() {
 
-	mFetchStatus = new TwitterFetchStatus();
+        mFetchStatus = new TwitterFetchStatus();
 
-	FetchStatusWorkerCallbacks callbacks = new FetchStatusWorkerCallbacks() {
+        FetchStatusWorkerCallbacks callbacks = new FetchStatusWorkerCallbacks() {
 
-	    public Twitter getTwitterInstance() {
-		return SocialNetApi.this.getAndConfigureApiInstance();
-	    }
+            public Twitter getTwitterInstance() {
+                return SocialNetApi.this.getAndConfigureApiInstance();
+            }
 
-	    @Override
-	    public void addUser(User user) {
-		cacheUser(user);
-	    }
+            @Override
+            public void addUser(User user) {
+                cacheUser(user);
+            }
 
-	    @Override
-	    public AppdotnetApi getAppdotnetApi() {
-		return SocialNetApi.this.getAppdotnetApi();
-	    }
-	};
+            @Override
+            public AppdotnetApi getAppdotnetApi() {
+                return SocialNetApi.this.getAppdotnetApi();
+            }
+        };
 
-	mFetchStatus.setWorkerCallbacks(callbacks);
+        mFetchStatus.setWorkerCallbacks(callbacks);
     }
 
     /*
@@ -129,52 +131,52 @@ public abstract class SocialNetApi {
 	 */
     private void initFetchStatuses() {
 
-	mFetchStatuses = new TwitterFetchStatuses();
+        mFetchStatuses = new TwitterFetchStatuses();
 
-	FetchStatusesWorkerCallbacks callbacks = new FetchStatusesWorkerCallbacks() {
+        FetchStatusesWorkerCallbacks callbacks = new FetchStatusesWorkerCallbacks() {
 
-	    public Twitter getTwitterInstance() {
-		return SocialNetApi.this.getAndConfigureApiInstance();
-	    }
+            public Twitter getTwitterInstance() {
+                return SocialNetApi.this.getAndConfigureApiInstance();
+            }
 
-	    @Override
-	    public void addUser(User user) {
-		cacheUser(user);
-	    }
+            @Override
+            public void addUser(User user) {
+                cacheUser(user);
+            }
 
-	    @Override
-	    public void addUser(AdnUser user) {
-		cacheUser(user);
-	    }
+            @Override
+            public void addUser(AdnUser user) {
+                cacheUser(user);
+            }
 
-	    @Override
-	    public AppdotnetApi getAppdotnetApi() {
-		return SocialNetApi.this.getAppdotnetApi();
-	    }
+            @Override
+            public AppdotnetApi getAppdotnetApi() {
+                return SocialNetApi.this.getAppdotnetApi();
+            }
 
-	};
+        };
 
-	mFetchStatuses.setWorkerCallbacks(callbacks);
+        mFetchStatuses.setWorkerCallbacks(callbacks);
     }
 
     /*
 	 * 
 	 */
     private void initFetchBooleans() {
-	mFetchBooleans = new TwitterFetchBooleans();
+        mFetchBooleans = new TwitterFetchBooleans();
 
-	FetchBooleansWorkerCallbacks callbacks = new FetchBooleansWorkerCallbacks() {
+        FetchBooleansWorkerCallbacks callbacks = new FetchBooleansWorkerCallbacks() {
 
-	    public Twitter getTwitterInstance() {
-		return SocialNetApi.this.getAndConfigureApiInstance();
-	    }
+            public Twitter getTwitterInstance() {
+                return SocialNetApi.this.getAndConfigureApiInstance();
+            }
 
-	    public AppdotnetApi getAppdotnetInstance() {
-		return SocialNetApi.this.getAppdotnetApi();
-	    }
-	};
+            public AppdotnetApi getAppdotnetInstance() {
+                return SocialNetApi.this.getAppdotnetApi();
+            }
+        };
 
-	mFetchBooleans.setWorkerCallbacks(callbacks);
+        mFetchBooleans.setWorkerCallbacks(callbacks);
     }
 
     /*
@@ -182,513 +184,542 @@ public abstract class SocialNetApi {
 	 */
     private void initFetchDirectMessages() {
 
-	mFetchDirectMessages = new TwitterFetchDirectMessages();
+        mFetchDirectMessages = new TwitterFetchDirectMessages();
 
-	FetchMessagesWorkerCallbacks callbacks = new FetchMessagesWorkerCallbacks() {
+        FetchMessagesWorkerCallbacks callbacks = new FetchMessagesWorkerCallbacks() {
 
-	    public Twitter getTwitterInstance() {
-		return SocialNetApi.this.getAndConfigureApiInstance();
-	    }
+            public Twitter getTwitterInstance() {
+                return SocialNetApi.this.getAndConfigureApiInstance();
+            }
 
-	    @Override
-	    public void addUser(User user) {
-		cacheUser(user);
-	    }
-	};
+            @Override
+            public void addUser(User user) {
+                cacheUser(user);
+            }
+        };
 
-	mFetchDirectMessages.setWorkerCallbacks(callbacks);
+        mFetchDirectMessages.setWorkerCallbacks(callbacks);
     }
 
     /*
 	 * 
 	 */
     private void initSignIn() {
-	mSignIn = new TwitterSignIn();
+        mSignIn = new TwitterSignIn();
 
-	SignInWorkerCallbacks callbacks = new SignInWorkerCallbacks() {
+        SignInWorkerCallbacks callbacks = new SignInWorkerCallbacks() {
 
-	    @Override
-	    public String getConsumerKey() {
-		return mAppConsumerKey;
-	    }
+            @Override
+            public String getConsumerKey() {
+                return mAppConsumerKey;
+            }
 
-	    @Override
-	    public String getConsumerSecret() {
-		return mAppConsumerSecret;
-	    }
+            @Override
+            public String getConsumerSecret() {
+                return mAppConsumerSecret;
+            }
 
-	    @Override
-	    public TwitterUser verifyCredentials(String accessToken, String accessTokenSecret) {
-		return verifyCredentialsSync(accessToken, accessTokenSecret);
-	    }
+            @Override
+            public TwitterUser verifyCredentials(String accessToken,
+                    String accessTokenSecret) {
+                return verifyCredentialsSync(accessToken, accessTokenSecret);
+            }
 
-	    @Override
-	    public Type getType() {
-		return mType;
-	    }
+            @Override
+            public Type getType() {
+                return mType;
+            }
 
-	};
+        };
 
-	mSignIn.setWorkerCallbacks(callbacks);
+        mSignIn.setWorkerCallbacks(callbacks);
     }
 
     /*
 	 * 
 	 */
     private void initFetchUser() {
-	mFetchUser = new TwitterFetchUser();
+        mFetchUser = new TwitterFetchUser();
 
-	FetchUserWorkerCallbacks callbacks = new FetchUserWorkerCallbacks() {
+        FetchUserWorkerCallbacks callbacks = new FetchUserWorkerCallbacks() {
 
-	    @Override
-	    public Twitter getTwitterInstance() {
-		return SocialNetApi.this.getAndConfigureApiInstance();
-	    }
+            @Override
+            public Twitter getTwitterInstance() {
+                return SocialNetApi.this.getAndConfigureApiInstance();
+            }
 
-	    @Override
-	    public AppdotnetApi getAppdotnetApi() {
-		return SocialNetApi.this.getAppdotnetApi();
-	    }
+            @Override
+            public AppdotnetApi getAppdotnetApi() {
+                return SocialNetApi.this.getAppdotnetApi();
+            }
 
-	};
+        };
 
-	mFetchUser.setWorkerCallbacks(callbacks);
+        mFetchUser.setWorkerCallbacks(callbacks);
     }
 
     protected AppdotnetApi getAppdotnetApi() {
 
-	if (mType == SocialNetConstant.Type.Appdotnet) {
-	    return (AppdotnetApi) this;
-	}
+        if (mType == SocialNetConstant.Type.Appdotnet) {
+            return (AppdotnetApi) this;
+        }
 
-	return null;
+        return null;
     }
 
     /*
 	 * 
 	 */
     private void initFetchUsers() {
-	mFetchUsers = new TwitterFetchUsers();
+        mFetchUsers = new TwitterFetchUsers();
 
-	FetchUsersWorkerCallbacks callbacks = new FetchUsersWorkerCallbacks() {
+        FetchUsersWorkerCallbacks callbacks = new FetchUsersWorkerCallbacks() {
 
-	    @Override
-	    public Twitter getTwitterInstance() {
-		return SocialNetApi.this.getAndConfigureApiInstance();
-	    }
+            @Override
+            public Twitter getTwitterInstance() {
+                return SocialNetApi.this.getAndConfigureApiInstance();
+            }
 
-	    @Override
-	    public AppdotnetApi getAppdotnetInstance() {
-		return SocialNetApi.this.getAppdotnetApi();
-	    }
+            @Override
+            public AppdotnetApi getAppdotnetInstance() {
+                return SocialNetApi.this.getAppdotnetApi();
+            }
 
-	    @Override
-	    public void addUser(User user) {
-		cacheUser(user);
-	    }
+            @Override
+            public void addUser(User user) {
+                cacheUser(user);
+            }
 
-	    @Override
-	    public void addUser(AdnUser user) {
-		cacheUser(user);
-	    }
+            @Override
+            public void addUser(AdnUser user) {
+                cacheUser(user);
+            }
 
-	    @Override
-	    public TwitterUser getUser(Long userID) {
-		return mFetchUser.getUser(userID, null, mConnectionStatus);
-	    }
-	};
+            @Override
+            public TwitterUser getUser(Long userID) {
+                return mFetchUser.getUser(userID, null, mConnectionStatus);
+            }
+        };
 
-	mFetchUsers.setWorkerCallbacks(callbacks);
+        mFetchUsers.setWorkerCallbacks(callbacks);
     }
 
     /*
 	 * 
 	 */
     private void initFetchLists() {
-	mFetchLists = new TwitterFetchLists();
+        mFetchLists = new TwitterFetchLists();
 
-	FetchListsWorkerCallbacks callbacks = new FetchListsWorkerCallbacks() {
+        FetchListsWorkerCallbacks callbacks = new FetchListsWorkerCallbacks() {
 
-	    @Override
-	    public Twitter getTwitterInstance() {
-		return SocialNetApi.this.getAndConfigureApiInstance();
-	    }
+            @Override
+            public Twitter getTwitterInstance() {
+                return SocialNetApi.this.getAndConfigureApiInstance();
+            }
 
-	};
+        };
 
-	mFetchLists.setWorkerCallbacks(callbacks);
+        mFetchLists.setWorkerCallbacks(callbacks);
     }
 
     /*
 	 * 
 	 */
     private void initModifyStatuses() {
-	mModifyStatuses = new TwitterModifyStatuses();
+        mModifyStatuses = new TwitterModifyStatuses();
 
-	ModifyStatusesWorkerCallbacks callbacks = new ModifyStatusesWorkerCallbacks() {
+        ModifyStatusesWorkerCallbacks callbacks = new ModifyStatusesWorkerCallbacks() {
 
-	    @Override
-	    public Twitter getTwitterInstance() {
-		return SocialNetApi.this.getAndConfigureApiInstance();
-	    }
+            @Override
+            public Twitter getTwitterInstance() {
+                return SocialNetApi.this.getAndConfigureApiInstance();
+            }
 
-	};
+        };
 
-	mModifyStatuses.setWorkerCallbacks(callbacks);
+        mModifyStatuses.setWorkerCallbacks(callbacks);
     }
 
     /*
 	 * 
 	 */
     public boolean isAuthenticated() {
-	Twitter twitter = getAndConfigureApiInstance();
-	if (twitter == null) {
-	    return false;
-	}
+        Twitter twitter = getAndConfigureApiInstance();
+        if (twitter == null) {
+            return false;
+        }
 
-	try {
-	    twitter.getAccountSettings();
-	    return true;
-	} catch (TwitterException e) {
-	    return false;
-	}
+        try {
+            twitter.getAccountSettings();
+            return true;
+        } catch (TwitterException e) {
+            return false;
+        }
     }
 
     /*
 	 * 
 	 */
     private void cacheUser(User user) {
-	cacheUser(user, false);
+        cacheUser(user, false);
     }
 
     /*
 	 * 
 	 */
     private void cacheUser(User user, boolean forceUpdate) {
-	if (user != null) {
-	    mFetchUser.setUser(user, forceUpdate);
-	}
+        if (user != null) {
+            mFetchUser.setUser(user, forceUpdate);
+        }
     }
 
     /*
 	 * 
 	 */
     private void cacheUser(AdnUser user) {
-	cacheUser(user, false);
+        cacheUser(user, false);
     }
 
     /*
 	 * 
 	 */
     private void cacheUser(AdnUser user, boolean forceUpdate) {
-	if (user != null) {
-	    mFetchUser.setUser(user, forceUpdate);
-	}
+        if (user != null) {
+            mFetchUser.setUser(user, forceUpdate);
+        }
     }
 
     /*
 	 * 
 	 */
-    public void setOAuthTokenWithSecret(String oAuthToken, String oAuthSecret, boolean cancelPending) {
+    public void setOAuthTokenWithSecret(String oAuthToken, String oAuthSecret,
+            boolean cancelPending) {
 
-	if (oAuthToken == null && mCurrentOAuthToken == null) {
-	    return;
-	} else if (oAuthToken != null && mCurrentOAuthToken != null
-		&& oAuthToken.equals(mCurrentOAuthToken) == true) {
-	    return;
-	}
-	// if (oAuthSecret == null && mCurrentOAuthSecret == null) {
-	// return;
-	// }
-	else if (oAuthSecret != null && mCurrentOAuthSecret != null
-		&& oAuthSecret.equals(mCurrentOAuthSecret) == true) {
-	    return;
-	}
+        if (oAuthToken == null && mCurrentOAuthToken == null) {
+            return;
+        } else if (oAuthToken != null && mCurrentOAuthToken != null
+                && oAuthToken.equals(mCurrentOAuthToken) == true) {
+            return;
+        }
+        // if (oAuthSecret == null && mCurrentOAuthSecret == null) {
+        // return;
+        // }
+        else if (oAuthSecret != null && mCurrentOAuthSecret != null
+                && oAuthSecret.equals(mCurrentOAuthSecret) == true) {
+            return;
+        }
 
-	if (cancelPending == true) {
-	    if (oAuthToken == null) {
-		mFetchBooleans.clearCallbacks();
-		mFetchLists.clearCallbacks();
-		mFetchDirectMessages.clearCallbacks();
-		mFetchStatus.clearCallbacks();
-		mFetchStatuses.clearCallbacks();
-		mFetchUser.clearCallbacks();
-		mFetchUsers.clearCallbacks();
-		mModifyStatuses.clearCallbacks();
-		mSignIn.clearCallbacks();
-	    }
-	}
+        if (cancelPending == true) {
+            if (oAuthToken == null) {
+                mFetchBooleans.clearCallbacks();
+                mFetchLists.clearCallbacks();
+                mFetchDirectMessages.clearCallbacks();
+                mFetchStatus.clearCallbacks();
+                mFetchStatuses.clearCallbacks();
+                mFetchUser.clearCallbacks();
+                mFetchUsers.clearCallbacks();
+                mModifyStatuses.clearCallbacks();
+                mSignIn.clearCallbacks();
+            }
+        }
 
-	mCurrentOAuthToken = oAuthToken;
-	mCurrentOAuthSecret = oAuthSecret;
+        mCurrentOAuthToken = oAuthToken;
+        mCurrentOAuthSecret = oAuthSecret;
 
-	clearApiInstance();
-	getAndConfigureApiInstance();
+        clearApiInstance();
+        getAndConfigureApiInstance();
     }
 
     /*
 	 * 
 	 */
-    public void setConnectionStatus(ConnectionStatus.Callbacks connectionStatusCallbacks) {
-	mConnectionStatus = new ConnectionStatus(connectionStatusCallbacks);
+    public void setConnectionStatus(
+            ConnectionStatus.Callbacks connectionStatusCallbacks) {
+        mConnectionStatus = new ConnectionStatus(connectionStatusCallbacks);
     }
 
     /*
 	 * 
 	 */
     public ConnectionStatus getConnectionStatus() {
-	return mConnectionStatus;
+        return mConnectionStatus;
     }
 
     public TwitterStatuses getContentFeed(TwitterContentHandle handle) {
-	return mFetchStatuses.getStatuses(handle);
+        return mFetchStatuses.getStatuses(handle);
     }
 
     /*
 	 * 
 	 */
     public void getAuthUrl(TwitterSignIn.GetAuthUrlCallback callback) {
-	mSignIn.getAuthUrl(callback);
+        mSignIn.getAuthUrl(callback);
     }
 
-    public void getOAuthAccessToken(RequestToken requestToken, String oauthVerifier,
-	    TwitterSignIn.GetOAuthAccessTokenCallback callback) {
-	mSignIn.getOAuthAccessToken(requestToken, oauthVerifier, callback);
+    public void getOAuthAccessToken(RequestToken requestToken,
+            String oauthVerifier,
+            TwitterSignIn.GetOAuthAccessTokenCallback callback) {
+        mSignIn.getOAuthAccessToken(requestToken, oauthVerifier, callback);
     }
 
     /*
      * Will be null if no cached entry exists
      */
     public TwitterUser getUser(Long userId) {
-	return getUser(userId, null);
+        return getUser(userId, null);
     }
 
-    public TwitterUser getUser(Long userId, TwitterFetchUser.FinishedCallback callback) {
-	TwitterUser cachedUser = mFetchUser.getUser(userId, callback, mConnectionStatus);
-	return cachedUser;
+    public TwitterUser getUser(Long userId,
+            TwitterFetchUser.FinishedCallback callback) {
+        TwitterUser cachedUser = mFetchUser.getUser(userId, callback,
+                mConnectionStatus);
+        return cachedUser;
     }
 
-    public TwitterUser getUser(String screenName, TwitterFetchUser.FinishedCallback callback) {
-	TwitterUser cachedUser = mFetchUser.getUser(screenName, callback, mConnectionStatus);
-	return cachedUser;
+    public TwitterUser getUser(String screenName,
+            TwitterFetchUser.FinishedCallback callback) {
+        TwitterUser cachedUser = mFetchUser.getUser(screenName, callback,
+                mConnectionStatus);
+        return cachedUser;
     }
 
     public void verifyUser(TwitterFetchUser.FinishedCallback callback) {
-	mFetchUser.verifyUser(callback, mConnectionStatus);
+        mFetchUser.verifyUser(callback, mConnectionStatus);
     }
 
     /*
 	 * 
 	 */
-    public TwitterUsers getUsers(TwitterContentHandle contentHandle, TwitterPaging paging) {
-	TwitterUsers cachedUsers = mFetchUsers.getUsers(contentHandle, paging);
-	return cachedUsers;
+    public TwitterUsers getUsers(TwitterContentHandle contentHandle,
+            TwitterPaging paging) {
+        TwitterUsers cachedUsers = mFetchUsers.getUsers(contentHandle, paging);
+        return cachedUsers;
     }
 
-    public TwitterUsers getUsers(TwitterContentHandle contentHandle, TwitterPaging paging,
-	    TwitterFetchUsers.FinishedCallback callback) {
-	TwitterUsers cachedUsers = mFetchUsers.getUsers(contentHandle, paging, callback,
-		mConnectionStatus);
-	return cachedUsers;
-    }
-
-    /*
-	 * 
-	 */
-    public TwitterDirectMessages getDirectMessages(TwitterContentHandle contentHandle) {
-	TwitterDirectMessages cachedMessages = mFetchDirectMessages
-		.getDirectMessages(contentHandle);
-	return cachedMessages;
-    }
-
-    public TwitterDirectMessages getDirectMessages(TwitterContentHandle contentHandle,
-	    TwitterPaging paging, TwitterFetchDirectMessagesFinishedCallback callback) {
-	TwitterDirectMessages cachedMessages = mFetchDirectMessages.getDirectMessages(
-		contentHandle, paging, callback, mConnectionStatus);
-	return cachedMessages;
-    }
-
-    public void sendDirectMessage(long userId, String recipientScreenName, String statusText,
-	    TwitterFetchDirectMessagesFinishedCallback callback) {
-	mFetchDirectMessages.sendDirectMessage(userId, recipientScreenName, statusText, callback,
-		mConnectionStatus);
+    public TwitterUsers getUsers(TwitterContentHandle contentHandle,
+            TwitterPaging paging, TwitterFetchUsers.FinishedCallback callback) {
+        TwitterUsers cachedUsers = mFetchUsers.getUsers(contentHandle, paging,
+                callback, mConnectionStatus);
+        return cachedUsers;
     }
 
     /*
 	 * 
 	 */
-    public void updateFriendship(String currentUserScreenName, TwitterUser userToUpdate,
-	    boolean create, TwitterFetchUsers.FinishedCallback callback) {
-	mFetchUsers.updateFriendshipUser(currentUserScreenName, userToUpdate, create, callback,
-		mConnectionStatus);
+    public TwitterDirectMessages getDirectMessages(
+            TwitterContentHandle contentHandle) {
+        TwitterDirectMessages cachedMessages = mFetchDirectMessages
+                .getDirectMessages(contentHandle);
+        return cachedMessages;
     }
 
-    public void updateFriendship(String currentUserScreenName, TwitterUsers usersToUpdate,
-	    boolean create, TwitterFetchUsers.FinishedCallback callback) {
-	mFetchUsers.updateFriendshipUsers(currentUserScreenName, usersToUpdate, create, callback,
-		mConnectionStatus);
+    public TwitterDirectMessages getDirectMessages(
+            TwitterContentHandle contentHandle, TwitterPaging paging,
+            TwitterFetchDirectMessagesFinishedCallback callback) {
+        TwitterDirectMessages cachedMessages = mFetchDirectMessages
+                .getDirectMessages(contentHandle, paging, callback,
+                        mConnectionStatus);
+        return cachedMessages;
     }
 
-    public void updateFriendshipScreenName(String currentUserScreenName, String screenNameToUpdate,
-	    boolean create, TwitterFetchUsers.FinishedCallback callback) {
-	mFetchUsers.updateFriendshipScreenName(currentUserScreenName, screenNameToUpdate, create,
-		callback, mConnectionStatus);
+    public void sendDirectMessage(long userId, String recipientScreenName,
+            String statusText,
+            TwitterFetchDirectMessagesFinishedCallback callback) {
+        mFetchDirectMessages.sendDirectMessage(userId, recipientScreenName,
+                statusText, callback, mConnectionStatus);
+    }
+
+    /*
+	 * 
+	 */
+    public void updateFriendship(String currentUserScreenName,
+            TwitterUser userToUpdate, boolean create,
+            TwitterFetchUsers.FinishedCallback callback) {
+        mFetchUsers.updateFriendshipUser(currentUserScreenName, userToUpdate,
+                create, callback, mConnectionStatus);
+    }
+
+    public void updateFriendship(String currentUserScreenName,
+            TwitterUsers usersToUpdate, boolean create,
+            TwitterFetchUsers.FinishedCallback callback) {
+        mFetchUsers.updateFriendshipUsers(currentUserScreenName, usersToUpdate,
+                create, callback, mConnectionStatus);
+    }
+
+    public void updateFriendshipScreenName(String currentUserScreenName,
+            String screenNameToUpdate, boolean create,
+            TwitterFetchUsers.FinishedCallback callback) {
+        mFetchUsers.updateFriendshipScreenName(currentUserScreenName,
+                screenNameToUpdate, create, callback, mConnectionStatus);
     }
 
     public void updateFriendshipScreenNames(String currentUserScreenName,
-	    ArrayList<String> screenNamesToUpdate, boolean create,
-	    TwitterFetchUsers.FinishedCallback callback) {
-	mFetchUsers.updateFriendshipScreenNames(currentUserScreenName, screenNamesToUpdate, create,
-		callback, mConnectionStatus);
+            ArrayList<String> screenNamesToUpdate, boolean create,
+            TwitterFetchUsers.FinishedCallback callback) {
+        mFetchUsers.updateFriendshipScreenNames(currentUserScreenName,
+                screenNamesToUpdate, create, callback, mConnectionStatus);
     }
 
-    public void updateFriendshipUserId(long currentUserId, long userIdToUpdate, boolean create,
-	    TwitterFetchUsers.FinishedCallback callback) {
-	mFetchUsers.updateFriendshipUserId(currentUserId, userIdToUpdate, create, callback,
-		mConnectionStatus);
+    public void updateFriendshipUserId(long currentUserId, long userIdToUpdate,
+            boolean create, TwitterFetchUsers.FinishedCallback callback) {
+        mFetchUsers.updateFriendshipUserId(currentUserId, userIdToUpdate,
+                create, callback, mConnectionStatus);
     }
 
-    public void updateFriendshipUserIds(long currentUserId, ArrayList<Long> userIdsToUpdate,
-	    boolean create, TwitterFetchUsers.FinishedCallback callback) {
-	mFetchUsers.updateFriendshipUserIds(currentUserId, userIdsToUpdate, create, callback,
-		mConnectionStatus);
+    public void updateFriendshipUserIds(long currentUserId,
+            ArrayList<Long> userIdsToUpdate, boolean create,
+            TwitterFetchUsers.FinishedCallback callback) {
+        mFetchUsers.updateFriendshipUserIds(currentUserId, userIdsToUpdate,
+                create, callback, mConnectionStatus);
     }
 
     /*
 	 * 
 	 */
     public void createBlock(long currentUserId, Long userId,
-	    TwitterFetchUsers.FinishedCallback callback) {
-	mFetchUsers.createBlock(currentUserId, userId, callback, mConnectionStatus);
+            TwitterFetchUsers.FinishedCallback callback) {
+        mFetchUsers.createBlock(currentUserId, userId, callback,
+                mConnectionStatus);
     }
 
     public void createBlock(long currentUserId, ArrayList<Long> userIds,
-	    TwitterFetchUsers.FinishedCallback callback) {
-	mFetchUsers.createBlock(currentUserId, userIds, callback, mConnectionStatus);
+            TwitterFetchUsers.FinishedCallback callback) {
+        mFetchUsers.createBlock(currentUserId, userIds, callback,
+                mConnectionStatus);
     }
 
     /*
 	 * 
 	 */
     public void reportSpam(long currentUserId, Long userId,
-	    TwitterFetchUsers.FinishedCallback callback) {
-	mFetchUsers.reportSpam(currentUserId, userId, callback, mConnectionStatus);
+            TwitterFetchUsers.FinishedCallback callback) {
+        mFetchUsers.reportSpam(currentUserId, userId, callback,
+                mConnectionStatus);
     }
 
     public void reportSpam(long currentUserId, ArrayList<Long> userIds,
-	    TwitterFetchUsers.FinishedCallback callback) {
-	mFetchUsers.reportSpam(currentUserId, userIds, callback, mConnectionStatus);
+            TwitterFetchUsers.FinishedCallback callback) {
+        mFetchUsers.reportSpam(currentUserId, userIds, callback,
+                mConnectionStatus);
     }
 
     /*
 	 * 
 	 */
     public TwitterLists getLists(int userId) {
-	TwitterLists cachedLists = mFetchLists.getLists(userId, null);
-	return cachedLists;
+        TwitterLists cachedLists = mFetchLists.getLists(userId, null);
+        return cachedLists;
     }
 
-    public TwitterLists getLists(int userId, TwitterFetchLists.FinishedCallback callback) {
-	TwitterLists cachedLists = mFetchLists.getLists(userId, callback);
-	return cachedLists;
+    public TwitterLists getLists(int userId,
+            TwitterFetchLists.FinishedCallback callback) {
+        TwitterLists cachedLists = mFetchLists.getLists(userId, callback);
+        return cachedLists;
     }
 
     public TwitterLists getLists(String screenName) {
-	TwitterLists cachedLists = mFetchLists.getLists(screenName, null);
-	return cachedLists;
+        TwitterLists cachedLists = mFetchLists.getLists(screenName, null);
+        return cachedLists;
     }
 
-    public TwitterLists getLists(String screenName, TwitterFetchLists.FinishedCallback callback) {
-	TwitterLists cachedLists = mFetchLists.getLists(screenName, callback);
-	return cachedLists;
+    public TwitterLists getLists(String screenName,
+            TwitterFetchLists.FinishedCallback callback) {
+        TwitterLists cachedLists = mFetchLists.getLists(screenName, callback);
+        return cachedLists;
     }
 
     /*
 	 * 
 	 */
-    public TwitterStatus getStatus(long statusId, TwitterFetchStatus.FinishedCallback callback) {
-	return mFetchStatus.getStatus(statusId, callback, mConnectionStatus);
+    public TwitterStatus getStatus(long statusId,
+            TwitterFetchStatus.FinishedCallback callback) {
+        return mFetchStatus.getStatus(statusId, callback, mConnectionStatus);
     }
 
     /*
 	 * 
 	 */
     public void setStatus(TwitterStatusUpdate statusUpdate,
-	    TwitterFetchStatus.FinishedCallback callback) {
-	mFetchStatus.setStatus(statusUpdate, callback, mConnectionStatus);
+            TwitterFetchStatus.FinishedCallback callback) {
+        mFetchStatus.setStatus(statusUpdate, callback, mConnectionStatus);
     }
 
     /*
 	 * 
 	 */
-    public void setRetweet(long statusId, TwitterFetchStatus.FinishedCallback callback) {
-	mFetchStatus.setRetweet(statusId, callback, mConnectionStatus);
+    public void setRetweet(long statusId,
+            TwitterFetchStatus.FinishedCallback callback) {
+        mFetchStatus.setRetweet(statusId, callback, mConnectionStatus);
     }
 
     /*
 	 * 
 	 */
     public void setFavorite(TwitterStatus status, boolean isFavorite,
-	    TwitterModifyStatuses.FinishedCallback callback) {
-	mModifyStatuses.setFavorite(status, isFavorite, callback);
+            TwitterModifyStatuses.FinishedCallback callback) {
+        mModifyStatuses.setFavorite(status, isFavorite, callback);
     }
 
     public void setFavorite(TwitterStatuses statuses, boolean isFavorite,
-	    TwitterModifyStatuses.FinishedCallback callback) {
-	mModifyStatuses.setFavorite(statuses, isFavorite, callback);
+            TwitterModifyStatuses.FinishedCallback callback) {
+        mModifyStatuses.setFavorite(statuses, isFavorite, callback);
     }
 
     /*
 	 * 
 	 */
-    public void triggerFetchStatuses(TwitterContentHandle contentHandle, TwitterPaging paging,
-	    TwitterFetchStatusesFinishedCallback callback, int priorityOffset) {
-	mFetchStatuses.trigger(contentHandle, paging, callback, mConnectionStatus, priorityOffset);
+    public void triggerFetchStatuses(TwitterContentHandle contentHandle,
+            TwitterPaging paging,
+            TwitterFetchStatusesFinishedCallback callback, int priorityOffset) {
+        mFetchStatuses.trigger(contentHandle, paging, callback,
+                mConnectionStatus, priorityOffset);
     }
 
     /*
 	 * 
 	 */
-    public void cancelFetchStatuses(TwitterFetchStatusesFinishedCallback callback) {
-	mFetchStatuses.cancel(callback);
+    public void cancelFetchStatuses(
+            TwitterFetchStatusesFinishedCallback callback) {
+        mFetchStatuses.cancel(callback);
     }
 
     /*
 	 * 
 	 */
-    public void getFriendshipExists(String userScreenName, String userScreenNameToCheck,
-	    TwitterFetchBooleans.FinishedCallback callback) {
-	mFetchBooleans.getFriendshipExists(userScreenName, userScreenNameToCheck, callback,
-		mConnectionStatus);
+    public void getFriendshipExists(String userScreenName,
+            String userScreenNameToCheck,
+            TwitterFetchBooleans.FinishedCallback callback) {
+        mFetchBooleans.getFriendshipExists(userScreenName,
+                userScreenNameToCheck, callback, mConnectionStatus);
     }
 
     public abstract SocialNetConstant.Type getSocialNetType();
 
     public TwitterFetchLists getFetchListsInstance() {
-	return mFetchLists;
+        return mFetchLists;
     }
 
     public TwitterFetchStatus getFetchStatusInstance() {
-	return mFetchStatus;
+        return mFetchStatus;
     }
 
     public TwitterFetchBooleans getFetchBooleansInstance() {
-	return mFetchBooleans;
+        return mFetchBooleans;
     }
 
     public TwitterFetchUser getFetchUserInstance() {
-	return mFetchUser;
+        return mFetchUser;
     }
 
     public TwitterFetchUsers getFetchUsersInstance() {
-	return mFetchUsers;
+        return mFetchUsers;
     }
 
     public TwitterModifyStatuses getSetStatusesInstance() {
-	return mModifyStatuses;
+        return mModifyStatuses;
     }
 
     public TwitterSignIn getSignInInstance() {
-	return mSignIn;
+        return mSignIn;
     }
 }

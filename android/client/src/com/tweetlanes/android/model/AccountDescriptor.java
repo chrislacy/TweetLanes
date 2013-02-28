@@ -49,15 +49,15 @@ public class AccountDescriptor {
     /*
 	 * 
 	 */
-    public AccountDescriptor(TwitterUser user, String oAuthToken, String oAuthSecret,
-	    SocialNetConstant.Type oSocialNetType) {
-	mId = user.getId();
-	mScreenName = user.getScreenName();
-	mOAuthToken = oAuthToken;
-	mOAuthSecret = oAuthSecret;
-	mInitialLaneIndex = null;
-	mSocialNetType = oSocialNetType;
-	initCommon(null);
+    public AccountDescriptor(TwitterUser user, String oAuthToken,
+            String oAuthSecret, SocialNetConstant.Type oSocialNetType) {
+        mId = user.getId();
+        mScreenName = user.getScreenName();
+        mOAuthToken = oAuthToken;
+        mOAuthSecret = oAuthSecret;
+        mInitialLaneIndex = null;
+        mSocialNetType = oSocialNetType;
+        initCommon(null);
 
     }
 
@@ -66,51 +66,52 @@ public class AccountDescriptor {
 	 */
     public AccountDescriptor(String jsonAsString) {
 
-	try {
-	    JSONObject object = new JSONObject(jsonAsString);
-	    mId = object.getLong(KEY_ID);
-	    mScreenName = object.getString(KEY_SCREEN_NAME);
-	    mOAuthToken = object.getString(KEY_OAUTH_TOKEN);
-	    if (object.has(KEY_OAUTH_SECRET)) {
-		mOAuthSecret = object.getString(KEY_OAUTH_SECRET);
-	    }
-	    if (object.has(KEY_INITIAL_LANE_INDEX)) {
-		mInitialLaneIndex = object.getInt(KEY_INITIAL_LANE_INDEX);
-	    } else {
-		mInitialLaneIndex = null;
-	    }
-	    if (object.has(KEY_SOCIAL_NET_TYPE)) {
-		mSocialNetType = SocialNetConstant.Type.valueOf((String) object
-			.get(KEY_SOCIAL_NET_TYPE));
-	    } else {
-		mSocialNetType = SocialNetConstant.Type.Twitter;
-	    }
-	    if (object.has(KEY_LISTS)) {
-		mLists = new ArrayList<List>();
-		String listsAsString = object.getString(KEY_LISTS);
-		JSONArray jsonArray = new JSONArray(listsAsString);
-		for (int i = 0; i < jsonArray.length(); i++) {
-		    // JSONObject listObject = jsonArray.getJSONObject(i);
-		    String listString = jsonArray.getString(i);
-		    List list = new List(listString);
-		    mLists.add(list);
-		}
+        try {
+            JSONObject object = new JSONObject(jsonAsString);
+            mId = object.getLong(KEY_ID);
+            mScreenName = object.getString(KEY_SCREEN_NAME);
+            mOAuthToken = object.getString(KEY_OAUTH_TOKEN);
+            if (object.has(KEY_OAUTH_SECRET)) {
+                mOAuthSecret = object.getString(KEY_OAUTH_SECRET);
+            }
+            if (object.has(KEY_INITIAL_LANE_INDEX)) {
+                mInitialLaneIndex = object.getInt(KEY_INITIAL_LANE_INDEX);
+            } else {
+                mInitialLaneIndex = null;
+            }
+            if (object.has(KEY_SOCIAL_NET_TYPE)) {
+                mSocialNetType = SocialNetConstant.Type.valueOf((String) object
+                        .get(KEY_SOCIAL_NET_TYPE));
+            } else {
+                mSocialNetType = SocialNetConstant.Type.Twitter;
+            }
+            if (object.has(KEY_LISTS)) {
+                mLists = new ArrayList<List>();
+                String listsAsString = object.getString(KEY_LISTS);
+                JSONArray jsonArray = new JSONArray(listsAsString);
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    // JSONObject listObject = jsonArray.getJSONObject(i);
+                    String listString = jsonArray.getString(i);
+                    List list = new List(listString);
+                    mLists.add(list);
+                }
 
-	    }
-	    ArrayList<String> displayedLanes = new ArrayList<String>();
-	    if (object.has(KEY_DISPLAYED_LANES)) {
-		String displayedLanedAsString = object.getString(KEY_DISPLAYED_LANES);
-		JSONArray jsonArray = new JSONArray(displayedLanedAsString);
-		for (int i = 0; i < jsonArray.length(); i++) {
-		    String laneIdentifier = jsonArray.getString(i);
-		    displayedLanes.add(laneIdentifier);
-		}
+            }
+            ArrayList<String> displayedLanes = new ArrayList<String>();
+            if (object.has(KEY_DISPLAYED_LANES)) {
+                String displayedLanedAsString = object
+                        .getString(KEY_DISPLAYED_LANES);
+                JSONArray jsonArray = new JSONArray(displayedLanedAsString);
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    String laneIdentifier = jsonArray.getString(i);
+                    displayedLanes.add(laneIdentifier);
+                }
 
-	    }
-	    initCommon(displayedLanes);
-	} catch (JSONException e) {
-	    e.printStackTrace();
-	}
+            }
+            initCommon(displayedLanes);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     /*
@@ -118,30 +119,30 @@ public class AccountDescriptor {
 	 */
     private void initCommon(ArrayList<String> displayedLanes) {
 
-	mShouldRefreshLists = true;
+        mShouldRefreshLists = true;
 
-	mLaneDefinitions = new ArrayList<LaneDescriptor>();
-	if (mLists == null) {
-	    mLists = new ArrayList<List>();
-	}
-	configureLaneDefinitions(displayedLanes);
+        mLaneDefinitions = new ArrayList<LaneDescriptor>();
+        if (mLists == null) {
+            mLists = new ArrayList<List>();
+        }
+        configureLaneDefinitions(displayedLanes);
 
-	if (Constant.ENABLE_PROFILE_IMAGES) {
+        if (Constant.ENABLE_PROFILE_IMAGES) {
 
-	    FetchBitmapCallback callback = new FetchBitmapCallback() {
+            FetchBitmapCallback callback = new FetchBitmapCallback() {
 
-		@Override
-		public void finished(boolean successful, Bitmap bitmap) {
-		    if (successful == true && bitmap != null) {
-			mProfileImage = bitmap.copy(bitmap.getConfig(), false);
-		    }
-		}
+                @Override
+                public void finished(boolean successful, Bitmap bitmap) {
+                    if (successful == true && bitmap != null) {
+                        mProfileImage = bitmap.copy(bitmap.getConfig(), false);
+                    }
+                }
 
-	    };
-	    URLFetch.fetchBitmap(
-		    TwitterManager.get().getProfileImageUrl(mScreenName,
-			    TwitterManager.ProfileImageSize.BIGGER), callback);
-	}
+            };
+            URLFetch.fetchBitmap(
+                    TwitterManager.get().getProfileImageUrl(mScreenName,
+                            TwitterManager.ProfileImageSize.BIGGER), callback);
+        }
     }
 
     /*
@@ -149,84 +150,106 @@ public class AccountDescriptor {
 	 */
     private void configureLaneDefinitions(ArrayList<String> displayedLanes) {
 
-	mLaneDefinitions.clear();
+        mLaneDefinitions.clear();
 
-	mLaneDefinitions.add(new LaneDescriptor(Constant.LaneType.USER_PROFILE, App.getContext()
-		.getString(R.string.lane_user_profile), new TwitterContentHandleBase(
-		TwitterConstant.ContentType.USER)));
-	mLaneDefinitions.add(new LaneDescriptor(Constant.LaneType.USER_PROFILE_TIMELINE, App
-		.getContext().getString(R.string.lane_user_tweets), new TwitterContentHandleBase(
-		TwitterConstant.ContentType.STATUSES, TwitterConstant.StatusesType.USER_TIMELINE)));
+        mLaneDefinitions
+                .add(new LaneDescriptor(Constant.LaneType.USER_PROFILE, App
+                        .getContext().getString(R.string.lane_user_profile),
+                        new TwitterContentHandleBase(
+                                TwitterConstant.ContentType.USER)));
+        mLaneDefinitions.add(new LaneDescriptor(
+                Constant.LaneType.USER_PROFILE_TIMELINE, App.getContext()
+                        .getString(R.string.lane_user_tweets),
+                new TwitterContentHandleBase(
+                        TwitterConstant.ContentType.STATUSES,
+                        TwitterConstant.StatusesType.USER_TIMELINE)));
 
-	if (mSocialNetType == SocialNetConstant.Type.Twitter) {
-	    mLaneDefinitions.add(new LaneDescriptor(Constant.LaneType.USER_PROFILE_TIMELINE, App
-		    .getContext().getString(R.string.lane_user_retweets_of_me),
-		    new TwitterContentHandleBase(TwitterConstant.ContentType.STATUSES,
-			    TwitterConstant.StatusesType.RETWEETS_OF_ME)));
-	}
+        if (mSocialNetType == SocialNetConstant.Type.Twitter) {
+            mLaneDefinitions.add(new LaneDescriptor(
+                    Constant.LaneType.USER_PROFILE_TIMELINE, App.getContext()
+                            .getString(R.string.lane_user_retweets_of_me),
+                    new TwitterContentHandleBase(
+                            TwitterConstant.ContentType.STATUSES,
+                            TwitterConstant.StatusesType.RETWEETS_OF_ME)));
+        }
 
-	mLaneDefinitions.add(new LaneDescriptor(Constant.LaneType.USER_HOME_TIMELINE, App
-		.getContext().getString(R.string.lane_user_home), new TwitterContentHandleBase(
-		TwitterConstant.ContentType.STATUSES,
-		TwitterConstant.StatusesType.USER_HOME_TIMELINE)));
+        mLaneDefinitions.add(new LaneDescriptor(
+                Constant.LaneType.USER_HOME_TIMELINE, App.getContext()
+                        .getString(R.string.lane_user_home),
+                new TwitterContentHandleBase(
+                        TwitterConstant.ContentType.STATUSES,
+                        TwitterConstant.StatusesType.USER_HOME_TIMELINE)));
 
-	mLaneDefinitions.add(new LaneDescriptor(Constant.LaneType.USER_MENTIONS, App.getContext()
-		.getString(R.string.lane_user_mentions), new TwitterContentHandleBase(
-		TwitterConstant.ContentType.STATUSES, TwitterConstant.StatusesType.USER_MENTIONS)));
+        mLaneDefinitions.add(new LaneDescriptor(
+                Constant.LaneType.USER_MENTIONS, App.getContext().getString(
+                        R.string.lane_user_mentions),
+                new TwitterContentHandleBase(
+                        TwitterConstant.ContentType.STATUSES,
+                        TwitterConstant.StatusesType.USER_MENTIONS)));
 
-	if (mSocialNetType == SocialNetConstant.Type.Appdotnet) {
-	    mLaneDefinitions
-		    .add(new LaneDescriptor(Constant.LaneType.GLOBAL_FEED, App.getContext()
-			    .getString(R.string.lane_user_global_feed),
-			    new TwitterContentHandleBase(TwitterConstant.ContentType.STATUSES,
-				    TwitterConstant.StatusesType.GLOBAL_FEED)));
-	}
+        if (mSocialNetType == SocialNetConstant.Type.Appdotnet) {
+            mLaneDefinitions.add(new LaneDescriptor(
+                    Constant.LaneType.GLOBAL_FEED, App.getContext().getString(
+                            R.string.lane_user_global_feed),
+                    new TwitterContentHandleBase(
+                            TwitterConstant.ContentType.STATUSES,
+                            TwitterConstant.StatusesType.GLOBAL_FEED)));
+        }
 
-	if (mSocialNetType == SocialNetConstant.Type.Twitter) {
-	    mLaneDefinitions.add(new LaneDescriptor(Constant.LaneType.DIRECT_MESSAGES, App
-		    .getContext().getString(R.string.lane_direct_messages),
-		    new TwitterContentHandleBase(TwitterConstant.ContentType.DIRECT_MESSAGES,
-			    TwitterConstant.DirectMessagesType.ALL_MESSAGES)));
+        if (mSocialNetType == SocialNetConstant.Type.Twitter) {
+            mLaneDefinitions.add(new LaneDescriptor(
+                    Constant.LaneType.DIRECT_MESSAGES, App.getContext()
+                            .getString(R.string.lane_direct_messages),
+                    new TwitterContentHandleBase(
+                            TwitterConstant.ContentType.DIRECT_MESSAGES,
+                            TwitterConstant.DirectMessagesType.ALL_MESSAGES)));
 
-	    // Add lists
-	    for (List list : mLists) {
-		if (list.mId != null) {
-		    mLaneDefinitions.add(new LaneDescriptor(Constant.LaneType.USER_LIST_TIMELINE,
-			    list.mName, String.valueOf(list.mId), new TwitterContentHandleBase(
-				    TwitterConstant.ContentType.STATUSES,
-				    TwitterConstant.StatusesType.USER_LIST_TIMELINE)));
-		}
-	    }
-	}
+            // Add lists
+            for (List list : mLists) {
+                if (list.mId != null) {
+                    mLaneDefinitions
+                            .add(new LaneDescriptor(
+                                    Constant.LaneType.USER_LIST_TIMELINE,
+                                    list.mName,
+                                    String.valueOf(list.mId),
+                                    new TwitterContentHandleBase(
+                                            TwitterConstant.ContentType.STATUSES,
+                                            TwitterConstant.StatusesType.USER_LIST_TIMELINE)));
+                }
+            }
+        }
 
-	// Add the final batch
-	mLaneDefinitions.add(new LaneDescriptor(Constant.LaneType.FRIENDS, App.getContext()
-		.getString(R.string.lane_friends), new TwitterContentHandleBase(
-		TwitterConstant.ContentType.USERS, TwitterConstant.UsersType.FRIENDS)));
-	mLaneDefinitions.add(new LaneDescriptor(Constant.LaneType.FOLLOWERS, App.getContext()
-		.getString(R.string.lane_followers), new TwitterContentHandleBase(
-		TwitterConstant.ContentType.USERS, TwitterConstant.UsersType.FOLLOWERS)));
-	mLaneDefinitions
-		.add(new LaneDescriptor(Constant.LaneType.USER_FAVORITES, App.getContext()
-			.getString(R.string.lane_user_favorites), new TwitterContentHandleBase(
-			TwitterConstant.ContentType.STATUSES,
-			TwitterConstant.StatusesType.USER_FAVORITES)));
+        // Add the final batch
+        mLaneDefinitions.add(new LaneDescriptor(Constant.LaneType.FRIENDS, App
+                .getContext().getString(R.string.lane_friends),
+                new TwitterContentHandleBase(TwitterConstant.ContentType.USERS,
+                        TwitterConstant.UsersType.FRIENDS)));
+        mLaneDefinitions.add(new LaneDescriptor(Constant.LaneType.FOLLOWERS,
+                App.getContext().getString(R.string.lane_followers),
+                new TwitterContentHandleBase(TwitterConstant.ContentType.USERS,
+                        TwitterConstant.UsersType.FOLLOWERS)));
+        mLaneDefinitions.add(new LaneDescriptor(
+                Constant.LaneType.USER_FAVORITES, App.getContext().getString(
+                        R.string.lane_user_favorites),
+                new TwitterContentHandleBase(
+                        TwitterConstant.ContentType.STATUSES,
+                        TwitterConstant.StatusesType.USER_FAVORITES)));
 
-	if (displayedLanes != null && displayedLanes.size() > 0) {
-	    for (LaneDescriptor lane : mLaneDefinitions) {
-		boolean display = false;
-		for (String laneTitle : displayedLanes) {
-		    if (lane.getLaneTitle().equals(laneTitle)) {
-			display = true;
-			break;
-		    }
-		}
-		if (lane.getDisplay() != display) {
-		    lane.setDisplay(display);
-		    mLaneDefinitionsDirty = true;
-		}
-	    }
-	}
+        if (displayedLanes != null && displayedLanes.size() > 0) {
+            for (LaneDescriptor lane : mLaneDefinitions) {
+                boolean display = false;
+                for (String laneTitle : displayedLanes) {
+                    if (lane.getLaneTitle().equals(laneTitle)) {
+                        display = true;
+                        break;
+                    }
+                }
+                if (lane.getDisplay() != display) {
+                    lane.setDisplay(display);
+                    mLaneDefinitionsDirty = true;
+                }
+            }
+        }
     }
 
     /*
@@ -234,147 +257,149 @@ public class AccountDescriptor {
 	 */
     public boolean updateTwitterLists(TwitterLists twitterLists) {
 
-	mShouldRefreshLists = false;
-	if (mLists != null) {
-	    mLists.clear();
-	} else {
-	    mLists = new ArrayList<List>();
-	}
-	boolean changed = false;
-	if (twitterLists != null && twitterLists.getListCount() > 0) {
-	    for (int i = 0; i < twitterLists.getListCount(); i++) {
-		TwitterList twitterList = twitterLists.getList(i);
-		mLists.add(new List(twitterList));
-		boolean exists = false;
+        mShouldRefreshLists = false;
+        if (mLists != null) {
+            mLists.clear();
+        } else {
+            mLists = new ArrayList<List>();
+        }
+        boolean changed = false;
+        if (twitterLists != null && twitterLists.getListCount() > 0) {
+            for (int i = 0; i < twitterLists.getListCount(); i++) {
+                TwitterList twitterList = twitterLists.getList(i);
+                mLists.add(new List(twitterList));
+                boolean exists = false;
 
-		for (LaneDescriptor lane : mLaneDefinitions) {
+                for (LaneDescriptor lane : mLaneDefinitions) {
 
-		    if (lane.getLaneType() == LaneType.USER_LIST_TIMELINE) {
-			try {
-			    String laneIdAsString = lane.getIdentifier();
-			    Long id = Long.valueOf(laneIdAsString);
-			    if (id == twitterList.getId()) {
-				exists = true;
-				if (lane.getLaneTitle().equals(twitterList.getName()) == false) {
-				    changed = true;
-				    lane.setLaneTitle(twitterList.getName());
-				}
-				break;
-			    }
+                    if (lane.getLaneType() == LaneType.USER_LIST_TIMELINE) {
+                        try {
+                            String laneIdAsString = lane.getIdentifier();
+                            Long id = Long.valueOf(laneIdAsString);
+                            if (id == twitterList.getId()) {
+                                exists = true;
+                                if (lane.getLaneTitle().equals(
+                                        twitterList.getName()) == false) {
+                                    changed = true;
+                                    lane.setLaneTitle(twitterList.getName());
+                                }
+                                break;
+                            }
 
-			} catch (NumberFormatException e) {
-			    changed = true;
-			    break;
-			}
-		    }
-		}
+                        } catch (NumberFormatException e) {
+                            changed = true;
+                            break;
+                        }
+                    }
+                }
 
-		if (exists == false) {
-		    changed = true;
-		}
-	    }
-	}
+                if (exists == false) {
+                    changed = true;
+                }
+            }
+        }
 
-	if (changed == true) {
-	    configureLaneDefinitions(null);
-	}
+        if (changed == true) {
+            configureLaneDefinitions(null);
+        }
 
-	return changed;
+        return changed;
     }
 
     /*
      * (non-Javadoc)
+     * 
      * @see java.lang.Object#toString()
      */
     public String toString() {
-	JSONObject object = new JSONObject();
-	try {
-	    object.put(KEY_ID, mId);
-	    object.put(KEY_SCREEN_NAME, mScreenName);
-	    object.put(KEY_OAUTH_TOKEN, mOAuthToken);
-	    object.put(KEY_OAUTH_SECRET, mOAuthSecret);
-	    object.put(KEY_INITIAL_LANE_INDEX, mInitialLaneIndex);
-	    object.put(KEY_SOCIAL_NET_TYPE, mSocialNetType);
+        JSONObject object = new JSONObject();
+        try {
+            object.put(KEY_ID, mId);
+            object.put(KEY_SCREEN_NAME, mScreenName);
+            object.put(KEY_OAUTH_TOKEN, mOAuthToken);
+            object.put(KEY_OAUTH_SECRET, mOAuthSecret);
+            object.put(KEY_INITIAL_LANE_INDEX, mInitialLaneIndex);
+            object.put(KEY_SOCIAL_NET_TYPE, mSocialNetType);
 
-	    if (mLists.size() > 0) {
-		JSONArray listArray = new JSONArray();
-		for (List list : mLists) {
-		    listArray.put(list.toString());
-		}
-		object.put(KEY_LISTS, listArray);
-	    }
+            if (mLists.size() > 0) {
+                JSONArray listArray = new JSONArray();
+                for (List list : mLists) {
+                    listArray.put(list.toString());
+                }
+                object.put(KEY_LISTS, listArray);
+            }
 
-	    if (mLaneDefinitions != null && mLaneDefinitions.size() > 0) {
-		JSONArray laneDisplayArray = new JSONArray();
-		for (LaneDescriptor lane : mLaneDefinitions) {
-		    if (lane.getDisplay()) {
-			laneDisplayArray.put(lane.getLaneTitle());
-		    }
-		}
-		object.put(KEY_DISPLAYED_LANES, laneDisplayArray);
-	    }
+            if (mLaneDefinitions != null && mLaneDefinitions.size() > 0) {
+                JSONArray laneDisplayArray = new JSONArray();
+                for (LaneDescriptor lane : mLaneDefinitions) {
+                    if (lane.getDisplay()) {
+                        laneDisplayArray.put(lane.getLaneTitle());
+                    }
+                }
+                object.put(KEY_DISPLAYED_LANES, laneDisplayArray);
+            }
 
-	} catch (JSONException e) {
-	    e.printStackTrace();
-	}
-	return object.toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return object.toString();
     }
 
     /*
 	 * 
 	 */
     public long getId() {
-	return mId;
+        return mId;
     }
 
     public String getScreenName() {
-	return mScreenName;
+        return mScreenName;
     }
 
     public String getOAuthToken() {
-	return mOAuthToken;
+        return mOAuthToken;
     }
 
     public String getOAuthSecret() {
-	return mOAuthSecret;
+        return mOAuthSecret;
     }
 
     public Bitmap getProfileImage() {
-	return Constant.ENABLE_PROFILE_IMAGES ? mProfileImage : null;
+        return Constant.ENABLE_PROFILE_IMAGES ? mProfileImage : null;
     }
 
     /*
 	 * 
 	 */
     public int getInitialLaneIndex() {
-	if (mInitialLaneIndex != null
-		&& mInitialLaneIndex.intValue() < getDisplayedLaneDefinitionsSize()) {
-	    return mInitialLaneIndex;
-	}
+        if (mInitialLaneIndex != null
+                && mInitialLaneIndex.intValue() < getDisplayedLaneDefinitionsSize()) {
+            return mInitialLaneIndex;
+        }
 
-	int displayIndex = 0;
-	for (LaneDescriptor lane : mLaneDefinitions) {
-	    if (lane.getLaneType() == LaneType.USER_HOME_TIMELINE) {
-		return displayIndex;
-	    }
-	    displayIndex += 1;
-	}
+        int displayIndex = 0;
+        for (LaneDescriptor lane : mLaneDefinitions) {
+            if (lane.getLaneType() == LaneType.USER_HOME_TIMELINE) {
+                return displayIndex;
+            }
+            displayIndex += 1;
+        }
 
-	return 0;
+        return 0;
     }
 
     /*
 	 * 
 	 */
     public void setCurrentLaneIndex(int index) {
-	mInitialLaneIndex = index;
+        mInitialLaneIndex = index;
     }
 
     /*
 	 * 
 	 */
     public ArrayList<LaneDescriptor> getAllLaneDefinitions() {
-	return mLaneDefinitions;
+        return mLaneDefinitions;
     }
 
     /*
@@ -382,58 +407,58 @@ public class AccountDescriptor {
 	 */
     public LaneDescriptor getDisplayedLaneDefinition(int index) {
 
-	int displayedSize = 0;
-	for (LaneDescriptor lane : mLaneDefinitions) {
-	    if (lane.getDisplay()) {
-		if (displayedSize == index) {
-		    return lane;
-		}
-		displayedSize += 1;
-	    }
-	}
-	return null;
+        int displayedSize = 0;
+        for (LaneDescriptor lane : mLaneDefinitions) {
+            if (lane.getDisplay()) {
+                if (displayedSize == index) {
+                    return lane;
+                }
+                displayedSize += 1;
+            }
+        }
+        return null;
     }
 
     /*
 	 * 
 	 */
     public int getDisplayedLaneDefinitionsSize() {
-	int displayedSize = 0;
-	for (LaneDescriptor lane : mLaneDefinitions) {
-	    if (lane.getDisplay()) {
-		displayedSize += 1;
-	    }
-	}
-	return displayedSize;
+        int displayedSize = 0;
+        for (LaneDescriptor lane : mLaneDefinitions) {
+            if (lane.getDisplay()) {
+                displayedSize += 1;
+            }
+        }
+        return displayedSize;
     }
 
     /*
 	 * 
 	 */
     public boolean getDisplayedLaneDefinitionsDirty() {
-	return mLaneDefinitionsDirty;
+        return mLaneDefinitionsDirty;
     }
 
     /*
 	 * 
 	 */
     public void setDisplayedLaneDefinitionsDirty(boolean value) {
-	mLaneDefinitionsDirty = value;
+        mLaneDefinitionsDirty = value;
     }
 
     public SocialNetConstant.Type getSocialNetType() {
-	return mSocialNetType;
+        return mSocialNetType;
     }
 
     public void setSocialNetType(SocialNetConstant.Type mSocialNetType) {
-	this.mSocialNetType = mSocialNetType;
+        this.mSocialNetType = mSocialNetType;
     }
 
     /*
 	 * 
 	 */
     public boolean shouldRefreshLists() {
-	return mShouldRefreshLists;
+        return mShouldRefreshLists;
     }
 
     /*
@@ -444,7 +469,7 @@ public class AccountDescriptor {
     private String mOAuthToken;
     private String mOAuthSecret;
     private Bitmap mProfileImage; // Of size
-				  // TwitterManager.ProfileImageSize.BIGGER
+    // TwitterManager.ProfileImageSize.BIGGER
     private ArrayList<LaneDescriptor> mLaneDefinitions;
     private boolean mLaneDefinitionsDirty;
     private Integer mInitialLaneIndex;
@@ -459,33 +484,33 @@ public class AccountDescriptor {
      */
     private class List {
 
-	List(TwitterList twitterList) {
-	    mId = twitterList.getId();
-	    mName = twitterList.getName();
-	}
+        List(TwitterList twitterList) {
+            mId = twitterList.getId();
+            mName = twitterList.getName();
+        }
 
-	List(String jsonAsString) {
-	    try {
-		JSONObject object = new JSONObject(jsonAsString);
-		mId = object.getInt(KEY_LIST_ID);
-		mName = object.getString(KEY_LIST_NAME);
-	    } catch (JSONException e) {
-		e.printStackTrace();
-	    }
-	}
+        List(String jsonAsString) {
+            try {
+                JSONObject object = new JSONObject(jsonAsString);
+                mId = object.getInt(KEY_LIST_ID);
+                mName = object.getString(KEY_LIST_NAME);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
 
-	public String toString() {
-	    JSONObject object = new JSONObject();
-	    try {
-		object.put(KEY_LIST_NAME, mName);
-		object.put(KEY_LIST_ID, mId);
-	    } catch (JSONException e) {
-		e.printStackTrace();
-	    }
-	    return object.toString();
-	}
+        public String toString() {
+            JSONObject object = new JSONObject();
+            try {
+                object.put(KEY_LIST_NAME, mName);
+                object.put(KEY_LIST_ID, mId);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return object.toString();
+        }
 
-	Integer mId;
-	String mName;
+        Integer mId;
+        String mName;
     }
 }

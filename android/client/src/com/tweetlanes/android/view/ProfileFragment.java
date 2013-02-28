@@ -98,6 +98,7 @@ public class ProfileFragment extends BaseLaneFragment {
 
     /*
      * (non-Javadoc)
+     * 
      * @see
      * android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater,
      * android.view.ViewGroup, android.os.Bundle)
@@ -107,22 +108,27 @@ public class ProfileFragment extends BaseLaneFragment {
             Bundle savedInstanceState) {
 
         super.onCreateView(inflater, container, savedInstanceState);
-		
-		SocialNetConstant.Type socialNetType = SocialNetConstant.Type.Twitter;
-		
+
+        SocialNetConstant.Type socialNetType = SocialNetConstant.Type.Twitter;
+
         if (getArguments().getString("userId") != null) {
             Long userId = Long.parseLong(getArguments().getString("userId"));
             mUser = TwitterManager.get().getUser(userId);
-			if (mUser != null) {
-				socialNetType = mUser.getSocialNetType();
-			}
-		}
+            if (mUser != null) {
+                socialNetType = mUser.getSocialNetType();
+            }
+        }
 
-		mProfileView = inflater.inflate(socialNetType == SocialNetConstant.Type.Appdotnet ? R.layout.profile_adn : R.layout.profile, null);
-		
-		if (mFollowsLoggedInUser == null && mUser != null && mFriendshipCallback == null) {
-			
-			String currentUserScreenName = getBaseLaneActivity().getApp().getCurrentAccountScreenName();
+        mProfileView = inflater
+                .inflate(
+                        socialNetType == SocialNetConstant.Type.Appdotnet ? R.layout.profile_adn
+                                : R.layout.profile, null);
+
+        if (mFollowsLoggedInUser == null && mUser != null
+                && mFriendshipCallback == null) {
+
+            String currentUserScreenName = getBaseLaneActivity().getApp()
+                    .getCurrentAccountScreenName();
             if (currentUserScreenName != null) {
                 mFriendshipCallback = TwitterManager.get()
                         .getFetchBooleansInstance().new FinishedCallback() {
@@ -353,6 +359,7 @@ public class ProfileFragment extends BaseLaneFragment {
 
     /*
      * (non-Javadoc)
+     * 
      * @see
      * com.tweetlanes.android.view.BaseLaneFragment#triggerInitialDownload()
      */
@@ -393,6 +400,7 @@ public class ProfileFragment extends BaseLaneFragment {
 
     /*
      * (non-Javadoc)
+     * 
      * @see com.tweetlanes.android.view.BaseLaneFragment#onJumpToTop()
      */
     @Override
@@ -401,6 +409,7 @@ public class ProfileFragment extends BaseLaneFragment {
 
     /*
      * (non-Javadoc)
+     * 
      * @see com.tweetlanes.android.view.BaseLaneFragment#clearLocalCache()
      */
     @Override
@@ -410,6 +419,7 @@ public class ProfileFragment extends BaseLaneFragment {
 
     /*
      * (non-Javadoc)
+     * 
      * @see com.tweetlanes.android.view.BaseLaneFragment#getContentToCache()
      */
     @Override

@@ -12,8 +12,8 @@ import android.widget.EditText;
 
 import com.tweetlanes.android.AppSettings;
 import com.tweetlanes.android.R;
-// import android.graphics.Typeface;
 
+// import android.graphics.Typeface;
 
 public class EditClearText extends EditText {
 
@@ -115,6 +115,7 @@ public class EditClearText extends EditText {
 
     /*
      * (non-Javadoc)
+     * 
      * @see android.widget.TextView#onKeyPreIme(int, android.view.KeyEvent)
      */
     @Override
@@ -137,6 +138,7 @@ public class EditClearText extends EditText {
 
     /*
      * (non-Javadoc)
+     * 
      * @see android.view.View#onSizeChanged(int, int, int, int)
      */
     @Override

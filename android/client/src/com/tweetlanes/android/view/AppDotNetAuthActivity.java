@@ -34,6 +34,7 @@ public class AppDotNetAuthActivity extends Activity {
 
     /*
      * (non-Javadoc)
+     * 
      * @see android.app.Activity#onCreate(android.os.Bundle)
      */
     @Override
@@ -47,9 +48,11 @@ public class AppDotNetAuthActivity extends Activity {
 
         setTheme(AppSettings.get().getCurrentThemeStyle());
 
-		getActionBar().setTitle(R.string.authorize_appdotnet_account);
+        getActionBar().setTitle(R.string.authorize_appdotnet_account);
 
-		String url = "https://alpha.app.net/oauth/authenticate?client_id=" + Constant.APPDOTNET_CONSUMER_KEY +"&response_type=token&redirect_uri=tweetlanes-auth-callback:///&scope=stream,email,write_post,follow,messages";
+        String url = "https://alpha.app.net/oauth/authenticate?client_id="
+                + Constant.APPDOTNET_CONSUMER_KEY
+                + "&response_type=token&redirect_uri=tweetlanes-auth-callback:///&scope=stream,email,write_post,follow,messages";
 
         setContentView(R.layout.twitter_auth_signin);
 
@@ -59,20 +62,24 @@ public class AppDotNetAuthActivity extends Activity {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 if (url.contains("#access_token")) {
-	            	String accessToken = url.replace("tweetlanes-auth-callback:///#access_token=", "");
-	                
+                    String accessToken = url.replace(
+                            "tweetlanes-auth-callback:///#access_token=", "");
+
                     setContentView(R.layout.loading);
-	                TwitterManager.get().setSocialNetType(SocialNetConstant.Type.Appdotnet, Constant.APPDOTNET_CONSUMER_KEY, Constant.APPDOTNET_CONSUMER_SECRET);
-	                try {
-	                	TwitterUser user = new VerifyCredentialsTask().execute(accessToken).get();
-	                	onSuccessfulLogin(user, accessToken);
-	                }
-	                catch (Exception e) {
-	                	return false;
-	                }
-	            }
-	            return false;
-	        }
+                    TwitterManager.get().setSocialNetType(
+                            SocialNetConstant.Type.Appdotnet,
+                            Constant.APPDOTNET_CONSUMER_KEY,
+                            Constant.APPDOTNET_CONSUMER_SECRET);
+                    try {
+                        TwitterUser user = new VerifyCredentialsTask().execute(
+                                accessToken).get();
+                        onSuccessfulLogin(user, accessToken);
+                    } catch (Exception e) {
+                        return false;
+                    }
+                }
+                return false;
+            }
 
         });
 
@@ -82,19 +89,24 @@ public class AppDotNetAuthActivity extends Activity {
     /*
 	 * 
 	 */
-	void onSuccessfulLogin(TwitterUser user, String accessToken) {
+    void onSuccessfulLogin(TwitterUser user, String accessToken) {
         App app = (App) getApplication();
-		app.onPostSignIn(user, accessToken, null, SocialNetConstant.Type.Appdotnet);
+        app.onPostSignIn(user, accessToken, null,
+                SocialNetConstant.Type.Appdotnet);
         app.restartApp(this);
     }
 
-	private class VerifyCredentialsTask extends AsyncTask<String, Void, TwitterUser> {
+    private class VerifyCredentialsTask extends
+            AsyncTask<String, Void, TwitterUser> {
         @Override
-		protected TwitterUser doInBackground(String... accessTokens) {
-			if (accessTokens.length == 0) {
-				return null;
+        protected TwitterUser doInBackground(String... accessTokens) {
+            if (accessTokens.length == 0) {
+                return null;
             }
-            return new AppdotnetApi(SocialNetConstant.Type.Appdotnet, Constant.APPDOTNET_CONSUMER_KEY, Constant.APPDOTNET_CONSUMER_SECRET).verifyCredentialsSync(accessTokens[0], null);
+            return new AppdotnetApi(SocialNetConstant.Type.Appdotnet,
+                    Constant.APPDOTNET_CONSUMER_KEY,
+                    Constant.APPDOTNET_CONSUMER_SECRET).verifyCredentialsSync(
+                    accessTokens[0], null);
         }
-	}
+    }
 }

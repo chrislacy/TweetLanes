@@ -34,7 +34,7 @@ public class TwitterFetchBooleans {
 	 * 
 	 */
     public void clearCallbacks() {
-	mFinishedCallbackMap.clear();
+        mFinishedCallbackMap.clear();
     }
 
     /*
@@ -42,9 +42,9 @@ public class TwitterFetchBooleans {
 	 */
     public interface FetchBooleansWorkerCallbacks {
 
-	public Twitter getTwitterInstance();
+        public Twitter getTwitterInstance();
 
-	public AppdotnetApi getAppdotnetInstance();
+        public AppdotnetApi getAppdotnetInstance();
     }
 
     /*
@@ -52,7 +52,8 @@ public class TwitterFetchBooleans {
 	 */
     public interface FinishedCallbackInterface {
 
-	public void finished(TwitterFetchResult result, ArrayList<Boolean> returnValues);
+        public void finished(TwitterFetchResult result,
+                ArrayList<Boolean> returnValues);
 
     }
 
@@ -61,32 +62,32 @@ public class TwitterFetchBooleans {
 	 */
     public abstract class FinishedCallback implements FinishedCallbackInterface {
 
-	static final int kInvalidHandle = -1;
+        static final int kInvalidHandle = -1;
 
-	public FinishedCallback() {
-	    mHandle = kInvalidHandle;
-	}
+        public FinishedCallback() {
+            mHandle = kInvalidHandle;
+        }
 
-	void setHandle(int handle) {
-	    mHandle = handle;
-	}
+        void setHandle(int handle) {
+            mHandle = handle;
+        }
 
-	private int mHandle;
+        private int mHandle;
     }
 
     /*
 	 * 
 	 */
     public TwitterFetchBooleans() {
-	mFinishedCallbackMap = new HashMap<Integer, FinishedCallback>();
-	mFetchBooleanCallbackHandle = 0;
+        mFinishedCallbackMap = new HashMap<Integer, FinishedCallback>();
+        mFetchBooleanCallbackHandle = 0;
     }
 
     /*
 	 * 
 	 */
     public void setWorkerCallbacks(FetchBooleansWorkerCallbacks callbacks) {
-	mCallbacks = callbacks;
+        mCallbacks = callbacks;
     }
 
     /*
@@ -97,59 +98,61 @@ public class TwitterFetchBooleans {
 	 * 
 	 */
     FinishedCallback getFetchBooleanCallback(Integer callbackHandle) {
-	FinishedCallback callback = mFinishedCallbackMap.get(callbackHandle);
-	return callback;
+        FinishedCallback callback = mFinishedCallbackMap.get(callbackHandle);
+        return callback;
     }
 
     /*
 	 * 
 	 */
     void removeFetchBooleanCallback(FinishedCallback callback) {
-	if (mFinishedCallbackMap.containsValue(callback)) {
-	    mFinishedCallbackMap.remove(callback.mHandle);
-	}
+        if (mFinishedCallbackMap.containsValue(callback)) {
+            mFinishedCallbackMap.remove(callback.mHandle);
+        }
     }
 
     /*
 	 * 
 	 */
     Twitter getTwitterInstance() {
-	return mCallbacks.getTwitterInstance();
+        return mCallbacks.getTwitterInstance();
     }
 
     AppdotnetApi getAppdotnetInstance() {
-	return mCallbacks.getAppdotnetInstance();
+        return mCallbacks.getAppdotnetInstance();
     }
 
     /*
 	 * 
 	 */
-    public void getFriendshipExists(String userScreenName, String userScreenNameToCheck,
-	    FinishedCallback callback, ConnectionStatus connectionStatus) {
+    public void getFriendshipExists(String userScreenName,
+            String userScreenNameToCheck, FinishedCallback callback,
+            ConnectionStatus connectionStatus) {
 
-	triggerFetchBooleanTask(new FetchBooleanTaskInput(mFetchBooleanCallbackHandle,
-		connectionStatus, BooleanType.FRIENDSHIP_EXISTS, userScreenName,
-		userScreenNameToCheck), callback, connectionStatus);
+        triggerFetchBooleanTask(new FetchBooleanTaskInput(
+                mFetchBooleanCallbackHandle, connectionStatus,
+                BooleanType.FRIENDSHIP_EXISTS, userScreenName,
+                userScreenNameToCheck), callback, connectionStatus);
     }
 
     /*
 	 * 
 	 */
-    void triggerFetchBooleanTask(FetchBooleanTaskInput taskInput, FinishedCallback callback,
-	    ConnectionStatus connectionStatus) {
+    void triggerFetchBooleanTask(FetchBooleanTaskInput taskInput,
+            FinishedCallback callback, ConnectionStatus connectionStatus) {
 
-	if (connectionStatus.isOnline() == false) {
-	    if (callback != null) {
-		callback.finished(
-			new TwitterFetchResult(false, connectionStatus
-				.getErrorMessageNoConnection()), null);
-	    }
-	    return;
-	}
+        if (connectionStatus.isOnline() == false) {
+            if (callback != null) {
+                callback.finished(new TwitterFetchResult(false,
+                        connectionStatus.getErrorMessageNoConnection()), null);
+            }
+            return;
+        }
 
-	mFinishedCallbackMap.put(mFetchBooleanCallbackHandle, callback);
-	new FetchBooleanTask().execute(AsyncTaskEx.PRIORITY_MEDIUM, "Fetch Bools", taskInput);
-	mFetchBooleanCallbackHandle += 1;
+        mFinishedCallbackMap.put(mFetchBooleanCallbackHandle, callback);
+        new FetchBooleanTask().execute(AsyncTaskEx.PRIORITY_MEDIUM,
+                "Fetch Bools", taskInput);
+        mFetchBooleanCallbackHandle += 1;
     }
 
     /*
@@ -157,7 +160,7 @@ public class TwitterFetchBooleans {
 	 */
     public void cancel(FinishedCallback callback) {
 
-	removeFetchBooleanCallback(callback);
+        removeFetchBooleanCallback(callback);
     }
 
     /*
@@ -165,20 +168,21 @@ public class TwitterFetchBooleans {
 	 */
     class FetchBooleanTaskInput {
 
-	FetchBooleanTaskInput(Integer callbackHandle, ConnectionStatus connectionStatus,
-		BooleanType booleanType, String userScreenName, String userScreenNameToCheck) {
-	    mCallbackHandle = callbackHandle;
-	    mConnectionStatus = connectionStatus;
-	    mBooleanType = booleanType;
-	    mUserScreenName = userScreenName;
-	    mUserScreenNameToCheck = userScreenNameToCheck;
-	}
+        FetchBooleanTaskInput(Integer callbackHandle,
+                ConnectionStatus connectionStatus, BooleanType booleanType,
+                String userScreenName, String userScreenNameToCheck) {
+            mCallbackHandle = callbackHandle;
+            mConnectionStatus = connectionStatus;
+            mBooleanType = booleanType;
+            mUserScreenName = userScreenName;
+            mUserScreenNameToCheck = userScreenNameToCheck;
+        }
 
-	Integer mCallbackHandle;
-	ConnectionStatus mConnectionStatus;
-	BooleanType mBooleanType;
-	String mUserScreenName;
-	String mUserScreenNameToCheck;
+        Integer mCallbackHandle;
+        ConnectionStatus mConnectionStatus;
+        BooleanType mBooleanType;
+        String mUserScreenName;
+        String mUserScreenNameToCheck;
     }
 
     /*
@@ -186,101 +190,104 @@ public class TwitterFetchBooleans {
 	 */
     class FetchBooleanTaskOutput {
 
-	FetchBooleanTaskOutput(TwitterFetchResult result, Integer callbackHandle,
-		ArrayList<Boolean> returnValues) {
-	    mResult = result;
-	    mCallbackHandle = callbackHandle;
-	    if (returnValues != null) {
-		mReturnValues = new ArrayList<Boolean>(returnValues);
-	    }
-	}
+        FetchBooleanTaskOutput(TwitterFetchResult result,
+                Integer callbackHandle, ArrayList<Boolean> returnValues) {
+            mResult = result;
+            mCallbackHandle = callbackHandle;
+            if (returnValues != null) {
+                mReturnValues = new ArrayList<Boolean>(returnValues);
+            }
+        }
 
-	TwitterFetchResult mResult;
-	Integer mCallbackHandle;
-	ArrayList<Boolean> mReturnValues;
+        TwitterFetchResult mResult;
+        Integer mCallbackHandle;
+        ArrayList<Boolean> mReturnValues;
     }
 
     /*
 	 * 
 	 */
-    class FetchBooleanTask extends AsyncTaskEx<FetchBooleanTaskInput, Void, FetchBooleanTaskOutput> {
+    class FetchBooleanTask extends
+            AsyncTaskEx<FetchBooleanTaskInput, Void, FetchBooleanTaskOutput> {
 
-	@Override
-	protected FetchBooleanTaskOutput doInBackground(FetchBooleanTaskInput... inputArray) {
+        @Override
+        protected FetchBooleanTaskOutput doInBackground(
+                FetchBooleanTaskInput... inputArray) {
 
-	    ArrayList<Boolean> result = new ArrayList<Boolean>();
-	    FetchBooleanTaskInput input = inputArray[0];
-	    Twitter twitter = getTwitterInstance();
-	    AppdotnetApi appdotnet = getAppdotnetInstance();
-	    String errorDescription = null;
+            ArrayList<Boolean> result = new ArrayList<Boolean>();
+            FetchBooleanTaskInput input = inputArray[0];
+            Twitter twitter = getTwitterInstance();
+            AppdotnetApi appdotnet = getAppdotnetInstance();
+            String errorDescription = null;
 
-	    if (input.mConnectionStatus.isOnline() == false) {
-		return new FetchBooleanTaskOutput(new TwitterFetchResult(false,
-			input.mConnectionStatus.getErrorMessageNoConnection()),
-			input.mCallbackHandle, null);
-	    }
+            if (input.mConnectionStatus.isOnline() == false) {
+                return new FetchBooleanTaskOutput(new TwitterFetchResult(false,
+                        input.mConnectionStatus.getErrorMessageNoConnection()),
+                        input.mCallbackHandle, null);
+            }
 
-	    if (twitter != null) {
-		try {
-		    switch (input.mBooleanType) {
-		    case FRIENDSHIP_EXISTS: {
-			if (input.mUserScreenName.toLowerCase().equals(
-				input.mUserScreenNameToCheck.toLowerCase()) == false) {
-			    ResponseList<Friendship> response = twitter
-				    .lookupFriendships(new String[] { input.mUserScreenName });
-			    if (response != null && response.size() == 1) {
-				result.add(response.get(0).isFollowedBy());
-				result.add(response.get(0).isFollowing());
-			    }
-			}
-			break;
-		    }
-		    default:
-			break;
-		    }
+            if (twitter != null) {
+                try {
+                    switch (input.mBooleanType) {
+                    case FRIENDSHIP_EXISTS: {
+                        if (input.mUserScreenName.toLowerCase().equals(
+                                input.mUserScreenNameToCheck.toLowerCase()) == false) {
+                            ResponseList<Friendship> response = twitter
+                                    .lookupFriendships(new String[] { input.mUserScreenName });
+                            if (response != null && response.size() == 1) {
+                                result.add(response.get(0).isFollowedBy());
+                                result.add(response.get(0).isFollowing());
+                            }
+                        }
+                        break;
+                    }
+                    default:
+                        break;
+                    }
 
-		} catch (TwitterException e) {
-		    e.printStackTrace();
-		    errorDescription = e.getErrorMessage();
-		}
-	    } else if (appdotnet != null) {
-		switch (input.mBooleanType) {
-		case FRIENDSHIP_EXISTS: {
-		    if (input.mUserScreenName.toLowerCase().equals(
-			    input.mUserScreenNameToCheck.toLowerCase()) == false) {
-			TwitterUser user = appdotnet.getAdnUser(input.mUserScreenName);
-			if (user != null) {
-			    result.add(user.getFollowsCurrentUser());
-			    result.add(user.getCurrentUserFollows());
-			}
-		    }
-		    break;
-		}
-		default:
-		    break;
-		}
-	    }
+                } catch (TwitterException e) {
+                    e.printStackTrace();
+                    errorDescription = e.getErrorMessage();
+                }
+            } else if (appdotnet != null) {
+                switch (input.mBooleanType) {
+                case FRIENDSHIP_EXISTS: {
+                    if (input.mUserScreenName.toLowerCase().equals(
+                            input.mUserScreenNameToCheck.toLowerCase()) == false) {
+                        TwitterUser user = appdotnet
+                                .getAdnUser(input.mUserScreenName);
+                        if (user != null) {
+                            result.add(user.getFollowsCurrentUser());
+                            result.add(user.getCurrentUserFollows());
+                        }
+                    }
+                    break;
+                }
+                default:
+                    break;
+                }
+            }
 
-	    if (result.size() == 0) {
-		result = null;
-	    }
+            if (result.size() == 0) {
+                result = null;
+            }
 
-	    return new FetchBooleanTaskOutput(new TwitterFetchResult(
-		    errorDescription == null ? true : false, errorDescription),
-		    input.mCallbackHandle, result);
-	}
+            return new FetchBooleanTaskOutput(new TwitterFetchResult(
+                    errorDescription == null ? true : false, errorDescription),
+                    input.mCallbackHandle, result);
+        }
 
-	@Override
-	protected void onPostExecute(FetchBooleanTaskOutput output) {
+        @Override
+        protected void onPostExecute(FetchBooleanTaskOutput output) {
 
-	    FinishedCallback callback = getFetchBooleanCallback(output.mCallbackHandle);
-	    if (callback != null) {
-		callback.finished(output.mResult, output.mReturnValues);
-		removeFetchBooleanCallback(callback);
-	    }
+            FinishedCallback callback = getFetchBooleanCallback(output.mCallbackHandle);
+            if (callback != null) {
+                callback.finished(output.mResult, output.mReturnValues);
+                removeFetchBooleanCallback(callback);
+            }
 
-	    super.onPostExecute(output);
-	}
+            super.onPostExecute(output);
+        }
     }
 
 }

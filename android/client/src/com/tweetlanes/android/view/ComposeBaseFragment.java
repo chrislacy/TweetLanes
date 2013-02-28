@@ -48,25 +48,25 @@ public abstract class ComposeBaseFragment extends Fragment {
 	 */
     public interface ComposeListener {
 
-	public void onShowCompose();
+        public void onShowCompose();
 
-	public void onHideCompose();
+        public void onHideCompose();
 
-	public void onMediaAttach();
+        public void onMediaAttach();
 
-	public void onMediaDetach();
+        public void onMediaDetach();
 
-	public void onBackButtonPressed();
+        public void onBackButtonPressed();
 
-	public void onStatusUpdateRequest();
+        public void onStatusUpdateRequest();
 
-	public void onStatusUpdateSuccess();
+        public void onStatusUpdateSuccess();
 
-	public void onStatusHintUpdate();
+        public void onStatusHintUpdate();
 
-	public void saveDraft(String draftAsJsonString);
+        public void saveDraft(String draftAsJsonString);
 
-	public String getDraft();
+        public String getDraft();
     }
 
     // TODO: Replace with non-hardcoded values
@@ -89,129 +89,139 @@ public abstract class ComposeBaseFragment extends Fragment {
 	 * 
 	 */
     public App getApp() {
-	return (App) getActivity().getApplication();
+        return (App) getActivity().getApplication();
     }
 
     /*
      * (non-Javadoc)
+     * 
      * @see
      * android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater,
      * android.view.ViewGroup, android.os.Bundle)
      */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
 
-	View resultView = inflater.inflate(getLayoutResourceId(), null);
+        View resultView = inflater.inflate(getLayoutResourceId(), null);
 
-	mEditText = (EditClearText) resultView.findViewById(R.id.statusEditText);
-	mEditText.addTextChangedListener(mTextChangedListener);
-	mEditText.setOnFocusChangeListener(mOnFocusChangeListener);
-	mEditText.setEditClearTextListener(mEditClearTextListener);
+        mEditText = (EditClearText) resultView
+                .findViewById(R.id.statusEditText);
+        mEditText.addTextChangedListener(mTextChangedListener);
+        mEditText.setOnFocusChangeListener(mOnFocusChangeListener);
+        mEditText.setEditClearTextListener(mEditClearTextListener);
 
-	mSendButton = (ImageButton) resultView.findViewById(R.id.sendTweetButton);
-	mSendButton.setOnClickListener(mOnSendTweetClickListener);
+        mSendButton = (ImageButton) resultView
+                .findViewById(R.id.sendTweetButton);
+        mSendButton.setOnClickListener(mOnSendTweetClickListener);
 
-	mCharacterCountTextView = (TextView) resultView.findViewById(R.id.characterCount);
+        mCharacterCountTextView = (TextView) resultView
+                .findViewById(R.id.characterCount);
 
-	updateStatusHint();
+        updateStatusHint();
 
-	/*
-	 * int a = getStatusLength("       length"); int b =
-	 * getStatusLength("       length       "); int c = getStatusLength(
-	 * "Hi there. Hi there. Hi there. Hi there. Hi there. Hi there. Hi there. Hi there. Hi there. Hi there. Hi there. Hi there. Hi there. Hi there. Hi there. Hi there. Hi there."
-	 * ); int d = getStatusLength("   http://google.com/docs/maple/apple");
-	 * int e =
-	 * getStatusLength("http://google.com/docs/maple/apple/longlonglonglonglong"
-	 * ); int ee = getStatusLength(
-	 * "https://google.com/docs/maple/apple https://www.apple.com/buy_my_new_ipad?you_really_should"
-	 * ); int f = getStatusLength(
-	 * "https://google.com/docs/maple/apple https://www.apple.com/buy_my_new_ipad?you_really_should yes yes yes     "
-	 * ); int g = getStatusLength(
-	 * "https://google.com/docs/maple/apple https://www.apple.com/buy_my_new_ipad?you_really_should yes yes yes     ."
-	 * );
-	 */
+        /*
+         * int a = getStatusLength("       length"); int b =
+         * getStatusLength("       length       "); int c = getStatusLength(
+         * "Hi there. Hi there. Hi there. Hi there. Hi there. Hi there. Hi there. Hi there. Hi there. Hi there. Hi there. Hi there. Hi there. Hi there. Hi there. Hi there. Hi there."
+         * ); int d = getStatusLength("   http://google.com/docs/maple/apple");
+         * int e =
+         * getStatusLength("http://google.com/docs/maple/apple/longlonglonglonglong"
+         * ); int ee = getStatusLength(
+         * "https://google.com/docs/maple/apple https://www.apple.com/buy_my_new_ipad?you_really_should"
+         * ); int f = getStatusLength(
+         * "https://google.com/docs/maple/apple https://www.apple.com/buy_my_new_ipad?you_really_should yes yes yes     "
+         * ); int g = getStatusLength(
+         * "https://google.com/docs/maple/apple https://www.apple.com/buy_my_new_ipad?you_really_should yes yes yes     ."
+         * );
+         */
 
-	return resultView;
+        return resultView;
     }
 
     /*
      * (non-Javadoc)
+     * 
      * @see android.support.v4.app.Fragment#onPause()
      */
     @Override
     public void onPause() {
-	super.onPause();
+        super.onPause();
 
-	if (hasFocus()) {
-	    saveCurrentAsDraft();
-	}
+        if (hasFocus()) {
+            saveCurrentAsDraft();
+        }
     }
 
     /*
      * (non-Javadoc)
+     * 
      * @see android.support.v4.app.Fragment#onResume()
      */
     @Override
     public void onResume() {
-	super.onResume();
+        super.onResume();
 
-	if (hasFocus()) {
-	    showCompose();
-	    // showKeyboard();
-	    // mStatusEditText.requestFocus(View.FOCUS_DOWN);
-	}
+        if (hasFocus()) {
+            showCompose();
+            // showKeyboard();
+            // mStatusEditText.requestFocus(View.FOCUS_DOWN);
+        }
     }
 
     protected int getMaxPostLength() {
-	return getApp().getCurrentAccount().getSocialNetType() == SocialNetConstant.Type.Appdotnet ? 256
-		: 140;
+        return getApp().getCurrentAccount().getSocialNetType() == SocialNetConstant.Type.Appdotnet ? 256
+                : 140;
     }
 
     /*
 	 * 
 	 */
     void showToast(String message) {
-	if (getActivity() != null && getActivity().getApplicationContext() != null) {
-	    Toast.makeText(getActivity().getApplicationContext(), message,
-		    Constant.DEFAULT_TOAST_DISPLAY_TIME).show();
-	}
+        if (getActivity() != null
+                && getActivity().getApplicationContext() != null) {
+            Toast.makeText(getActivity().getApplicationContext(), message,
+                    Constant.DEFAULT_TOAST_DISPLAY_TIME).show();
+        }
     }
 
     /*
 	 * 
 	 */
     void showSimpleAlert(int stringID) {
-	AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-	alertDialog.setMessage(getString(stringID));
-	alertDialog.setButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+        AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
+                .create();
+        alertDialog.setMessage(getString(stringID));
+        alertDialog.setButton(getString(R.string.ok),
+                new DialogInterface.OnClickListener() {
 
-	    public void onClick(DialogInterface dialog, int which) {
-		return;
-	    }
-	});
-	alertDialog.show();
+                    public void onClick(DialogInterface dialog, int which) {
+                        return;
+                    }
+                });
+        alertDialog.show();
     }
 
     /*
 	 * 
 	 */
     public boolean hasFocus() {
-	return mHasFocus;
+        return mHasFocus;
     }
 
     /*
 	 * 
 	 */
     void setComposeTweetListener(ComposeListener listener) {
-	mListener = listener;
+        mListener = listener;
     }
 
     /*
 	 * 
 	 */
     String getFormattedStatus(String status) {
-	status.replaceAll("\\s+$", "");
-	return status;
+        status.replaceAll("\\s+$", "");
+        return status;
     }
 
     /*
@@ -219,8 +229,8 @@ public abstract class ComposeBaseFragment extends Fragment {
 	 */
     public boolean releaseFocus(boolean saveCurrentTweet) {
 
-	clearCompose(saveCurrentTweet);
-	return hideCompose();
+        clearCompose(saveCurrentTweet);
+        return hideCompose();
     }
 
     /*
@@ -228,37 +238,39 @@ public abstract class ComposeBaseFragment extends Fragment {
 	 */
     boolean hideCompose() {
 
-	if (mHasFocus == true) {
+        if (mHasFocus == true) {
 
-	    hideKeyboard();
+            hideKeyboard();
 
-	    if (mListener != null) {
-		mListener.onHideCompose();
-	    }
-	    onHideCompose();
+            if (mListener != null) {
+                mListener.onHideCompose();
+            }
+            onHideCompose();
 
-	    mHasFocus = false;
-	    return true;
-	}
-	return false;
+            mHasFocus = false;
+            return true;
+        }
+        return false;
     }
 
     /*
 	 * 
 	 */
     void showKeyboard() {
-	InputMethodManager inputMethodManager = (InputMethodManager) getActivity()
-		.getSystemService(Context.INPUT_METHOD_SERVICE);
-	inputMethodManager.showSoftInput(mEditText, InputMethodManager.SHOW_IMPLICIT);
-	// getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        InputMethodManager inputMethodManager = (InputMethodManager) getActivity()
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.showSoftInput(mEditText,
+                InputMethodManager.SHOW_IMPLICIT);
+        // getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
     }
 
     void hideKeyboard() {
-	InputMethodManager inputMethodManager = (InputMethodManager) getActivity()
-		.getSystemService(Context.INPUT_METHOD_SERVICE);
-	inputMethodManager.hideSoftInputFromWindow(mEditText.getWindowToken(), 0);
-	// inputMethodManager.hideSoftInputFromWindow(mStatusEditText.getApplicationWindowToken(),
-	// 0);
+        InputMethodManager inputMethodManager = (InputMethodManager) getActivity()
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(mEditText.getWindowToken(),
+                0);
+        // inputMethodManager.hideSoftInputFromWindow(mStatusEditText.getApplicationWindowToken(),
+        // 0);
     }
 
     /*
@@ -266,11 +278,11 @@ public abstract class ComposeBaseFragment extends Fragment {
 	 */
     OnFocusChangeListener mOnFocusChangeListener = new OnFocusChangeListener() {
 
-	public void onFocusChange(View v, boolean hasFocus) {
-	    if (hasFocus == true && mIgnoreFocusChange == false) {
-		showCompose();
-	    }
-	}
+        public void onFocusChange(View v, boolean hasFocus) {
+            if (hasFocus == true && mIgnoreFocusChange == false) {
+                showCompose();
+            }
+        }
     };
 
     /*
@@ -278,7 +290,7 @@ public abstract class ComposeBaseFragment extends Fragment {
      * coming back from the ActionBar Search
      */
     void setIgnoreFocusChange(boolean ignoreFocusChange) {
-	mIgnoreFocusChange = ignoreFocusChange;
+        mIgnoreFocusChange = ignoreFocusChange;
     }
 
     /*
@@ -286,20 +298,22 @@ public abstract class ComposeBaseFragment extends Fragment {
 	 */
     TextWatcher mTextChangedListener = new TextWatcher() {
 
-	public void afterTextChanged(Editable s) {
-	    String asString = s.toString();
-	    configureCharacterCountForString(asString);
-	    if (asString == null || asString.equals("") == true) {
-		setComposeTweetDefault(null);
-		updateStatusHint();
-	    }
-	}
+        public void afterTextChanged(Editable s) {
+            String asString = s.toString();
+            configureCharacterCountForString(asString);
+            if (asString == null || asString.equals("") == true) {
+                setComposeTweetDefault(null);
+                updateStatusHint();
+            }
+        }
 
-	public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-	}
+        public void beforeTextChanged(CharSequence s, int start, int count,
+                int after) {
+        }
 
-	public void onTextChanged(CharSequence s, int start, int before, int count) {
-	}
+        public void onTextChanged(CharSequence s, int start, int before,
+                int count) {
+        }
     };
 
     /*
@@ -307,11 +321,11 @@ public abstract class ComposeBaseFragment extends Fragment {
 	 */
     OnClickListener mOnSendTweetClickListener = new OnClickListener() {
 
-	@Override
-	public void onClick(View v) {
-	    String status = mEditText.getText().toString();
-	    onSendClick(status);
-	}
+        @Override
+        public void onClick(View v) {
+            String status = mEditText.getText().toString();
+            onSendClick(status);
+        }
     };
 
     protected abstract void onSendClick(String status);
@@ -321,47 +335,48 @@ public abstract class ComposeBaseFragment extends Fragment {
 	 */
     EditClearTextListener mEditClearTextListener = new EditClearTextListener() {
 
-	@Override
-	public boolean canClearText() {
-	    if (mShowStartTime != null) {
-		long diff = new Date().getTime() - mShowStartTime.longValue();
-		if (diff < 500) {
-		    return false;
-		}
-	    }
-	    return true;
-	}
+        @Override
+        public boolean canClearText() {
+            if (mShowStartTime != null) {
+                long diff = new Date().getTime() - mShowStartTime.longValue();
+                if (diff < 500) {
+                    return false;
+                }
+            }
+            return true;
+        }
 
-	@Override
-	public boolean onBackButtonPressed() {
-	    if (mListener != null) {
-		mListener.onBackButtonPressed();
-	    }
-	    hideCompose();
-	    return true;
-	}
+        @Override
+        public boolean onBackButtonPressed() {
+            if (mListener != null) {
+                mListener.onBackButtonPressed();
+            }
+            hideCompose();
+            return true;
+        }
 
-	@Override
-	public void onClearPressed() {
-	    clearCompose(false);
-	}
+        @Override
+        public void onClearPressed() {
+            clearCompose(false);
+        }
 
-	@Override
-	public void onTouch(View v, MotionEvent event) {
-	    if (mHasFocus == false) {
-		showCompose();
-	    }
-	}
+        @Override
+        public void onTouch(View v, MotionEvent event) {
+            if (mHasFocus == false) {
+                showCompose();
+            }
+        }
 
-	@Override
-	public void onSizeChanged(int xNew, int yNew, int xOld, int yOld, int xInitial, int yInitial) {
+        @Override
+        public void onSizeChanged(int xNew, int yNew, int xOld, int yOld,
+                int xInitial, int yInitial) {
 
-	    if (mEditText.getLineCount() >= 2) {
-		mCharacterCountTextView.setVisibility(View.VISIBLE);
-	    } else {
-		mCharacterCountTextView.setVisibility(View.GONE);
-	    }
-	}
+            if (mEditText.getLineCount() >= 2) {
+                mCharacterCountTextView.setVisibility(View.VISIBLE);
+            } else {
+                mCharacterCountTextView.setVisibility(View.GONE);
+            }
+        }
 
     };
 
@@ -370,60 +385,61 @@ public abstract class ComposeBaseFragment extends Fragment {
 	 */
     void clearCompose(boolean saveCurrentTweet) {
 
-	if (saveCurrentTweet) {
-	    saveCurrentAsDraft();
-	}
+        if (saveCurrentTweet) {
+            saveCurrentAsDraft();
+        }
 
-	setComposeTweetDefault(null);
-	if (mListener != null) {
-	    mListener.onMediaDetach();
-	}
+        setComposeTweetDefault(null);
+        if (mListener != null) {
+            mListener.onMediaDetach();
+        }
 
-	// NOTE: Changing these text values causes a crash during the copy/paste
-	// process.
-	mEditText.setText(null);
-	updateStatusHint();
+        // NOTE: Changing these text values causes a crash during the copy/paste
+        // process.
+        mEditText.setText(null);
+        updateStatusHint();
     }
 
     /*
 	 * 
 	 */
     void showCompose() {
-	showCompose(null);
+        showCompose(null);
     }
 
     void showCompose(String defaultStatus) {
 
-	if (mHasFocus == false) {
+        if (mHasFocus == false) {
 
-	    mHasFocus = true;
-	    mShowStartTime = new Date().getTime();
-	    if (defaultStatus == null) {
-		if (getComposeTweetDefault() == null && mListener != null) {
-		    String savedDraftAsJsonString = mListener.getDraft();
-		    if (savedDraftAsJsonString != null) {
-			setComposeTweetDefault(new ComposeTweetDefault(savedDraftAsJsonString));
-		    }
-		}
+            mHasFocus = true;
+            mShowStartTime = new Date().getTime();
+            if (defaultStatus == null) {
+                if (getComposeTweetDefault() == null && mListener != null) {
+                    String savedDraftAsJsonString = mListener.getDraft();
+                    if (savedDraftAsJsonString != null) {
+                        setComposeTweetDefault(new ComposeTweetDefault(
+                                savedDraftAsJsonString));
+                    }
+                }
 
-		if (getComposeTweetDefault() != null) {
-		    defaultStatus = getComposeTweetDefault().getStatus();
-		}
-	    }
-	    mEditText.setText(defaultStatus);
+                if (getComposeTweetDefault() != null) {
+                    defaultStatus = getComposeTweetDefault().getStatus();
+                }
+            }
+            mEditText.setText(defaultStatus);
 
-	    if (defaultStatus != null && defaultStatus.length() > 1) {
-		mEditText.setSelection(defaultStatus.length());
-	    }
+            if (defaultStatus != null && defaultStatus.length() > 1) {
+                mEditText.setSelection(defaultStatus.length());
+            }
 
-	    if (mListener != null) {
-		mListener.onShowCompose();
-	    }
+            if (mListener != null) {
+                mListener.onShowCompose();
+            }
 
-	    onShowCompose();
-	}
+            onShowCompose();
+        }
 
-	showKeyboard();
+        showKeyboard();
     }
 
     /*
@@ -431,13 +447,13 @@ public abstract class ComposeBaseFragment extends Fragment {
 	 */
     protected static String getStatusHintSnippet(String status, int maxLength) {
 
-	if (status.length() == 0) {
-	    return null;
-	} else if (status.length() < maxLength) {
-	    return status;
-	}
+        if (status.length() == 0) {
+            return null;
+        } else if (status.length() < maxLength) {
+            return status;
+        }
 
-	return status.substring(0, maxLength) + "É";
+        return status.substring(0, maxLength) + "É";
     }
 
     /*
@@ -446,26 +462,27 @@ public abstract class ComposeBaseFragment extends Fragment {
     protected ComposeTweetDefault _mComposeDefault;
 
     protected ComposeTweetDefault getComposeTweetDefault() {
-	return _mComposeDefault;
+        return _mComposeDefault;
     }
 
     /*
 	 * 
 	 */
-    protected void setComposeTweetDefault(ComposeTweetDefault composeTweetDefault) {
-	_mComposeDefault = composeTweetDefault;
+    protected void setComposeTweetDefault(
+            ComposeTweetDefault composeTweetDefault) {
+        _mComposeDefault = composeTweetDefault;
     }
 
     /*
 	 * 
 	 */
     public void setComposeDefault(ComposeTweetDefault other) {
-	if (other != null) {
-	    setComposeTweetDefault(new ComposeTweetDefault(other));
-	} else {
-	    setComposeTweetDefault(null);
-	}
-	updateStatusHint();
+        if (other != null) {
+            setComposeTweetDefault(new ComposeTweetDefault(other));
+        } else {
+            setComposeTweetDefault(null);
+        }
+        updateStatusHint();
     }
 
     /*
@@ -473,15 +490,16 @@ public abstract class ComposeBaseFragment extends Fragment {
 	 */
     void configureCharacterCountForString(String string) {
 
-	int length = mStatusValidator.getTweetLength(string);
-	if (length > 0) {
-	    int remaining = getMaxPostLength() - length;
-	    if (_mComposeDefault != null && _mComposeDefault.getMediaFilePath() != null) {
-		remaining -= SHORT_URL_LENGTH_HTTPS - 1;
-	    }
+        int length = mStatusValidator.getTweetLength(string);
+        if (length > 0) {
+            int remaining = getMaxPostLength() - length;
+            if (_mComposeDefault != null
+                    && _mComposeDefault.getMediaFilePath() != null) {
+                remaining -= SHORT_URL_LENGTH_HTTPS - 1;
+            }
 
-	    mCharacterCountTextView.setText("" + remaining);
-	}
+            mCharacterCountTextView.setText("" + remaining);
+        }
     }
 
     protected abstract void saveCurrentAsDraft();

@@ -1,4 +1,3 @@
-
 package com.turbomanage.httpclient;
 
 import java.io.IOException;
@@ -121,8 +120,8 @@ public abstract class AbstractHttpClient {
      * Execute a POST request with a chunk of data and return the response.
      * 
      * To include name-value pairs in the query string, add them to the path
-     * argument or use the constructor in {@link HttpPost}. This is not a 
-     * common use case, so it is not included here.
+     * argument or use the constructor in {@link HttpPost}. This is not a common
+     * use case, so it is not included here.
      * 
      * @param path
      * @param contentType
@@ -137,8 +136,8 @@ public abstract class AbstractHttpClient {
      * Execute a PUT request with the supplied content and return the response.
      * 
      * To include name-value pairs in the query string, add them to the path
-     * argument or use the constructor in {@link HttpPut}. This is not a 
-     * common use case, so it is not included here.
+     * argument or use the constructor in {@link HttpPut}. This is not a common
+     * use case, so it is not included here.
      * 
      * @param path
      * @param contentType
@@ -190,16 +189,20 @@ public abstract class AbstractHttpClient {
      * lifecycle defined as open, prepare, write, read. Each of these methods in
      * turn delegates to the {@link RequestHandler} associated with this client.
      * 
-     * @param path Whole or partial URL string, will be appended to baseUrl
-     * @param httpMethod Request method
-     * @param contentType MIME type of the request
-     * @param content Request data
+     * @param path
+     *            Whole or partial URL string, will be appended to baseUrl
+     * @param httpMethod
+     *            Request method
+     * @param contentType
+     *            MIME type of the request
+     * @param content
+     *            Request data
      * @return Response object
      * @throws HttpRequestException
      */
     @SuppressWarnings("finally")
-    protected HttpResponse doHttpMethod(String path, HttpMethod httpMethod, String contentType,
-            byte[] content) throws HttpRequestException {
+    protected HttpResponse doHttpMethod(String path, HttpMethod httpMethod,
+            String contentType, byte[] content) throws HttpRequestException {
 
         HttpURLConnection uc = null;
         HttpResponse httpResponse = null;
@@ -250,11 +253,12 @@ public abstract class AbstractHttpClient {
     }
 
     /**
-     * Validates a URL and opens a connection. This does not actually connect
-     * to a server, but rather opens it on the client only to allow writing
-     * to begin. Delegates the open operation to the {@link RequestHandler}.
+     * Validates a URL and opens a connection. This does not actually connect to
+     * a server, but rather opens it on the client only to allow writing to
+     * begin. Delegates the open operation to the {@link RequestHandler}.
      * 
-     * @param path Appended to this client's baseUrl
+     * @param path
+     *            Appended to this client's baseUrl
      * @return An open connection (or null)
      * @throws IOException
      */
@@ -263,16 +267,18 @@ public abstract class AbstractHttpClient {
         try {
             new URL(requestUrl);
         } catch (MalformedURLException e) {
-            throw new IllegalArgumentException(requestUrl + " is not a valid URL", e);
+            throw new IllegalArgumentException(requestUrl
+                    + " is not a valid URL", e);
         }
         return requestHandler.openConnection(requestUrl);
     }
 
-    protected void prepareConnection(HttpURLConnection urlConnection, HttpMethod httpMethod,
-            String contentType) throws IOException {
+    protected void prepareConnection(HttpURLConnection urlConnection,
+            HttpMethod httpMethod, String contentType) throws IOException {
         urlConnection.setConnectTimeout(connectionTimeout);
         urlConnection.setReadTimeout(readTimeout);
-        requestHandler.prepareConnection(urlConnection, httpMethod, contentType);
+        requestHandler
+                .prepareConnection(urlConnection, httpMethod, contentType);
     }
 
     /**
@@ -289,15 +295,19 @@ public abstract class AbstractHttpClient {
     }
 
     /**
-     * Writes the request to the server. Delegates I/O to the {@link RequestHandler}.
+     * Writes the request to the server. Delegates I/O to the
+     * {@link RequestHandler}.
      * 
      * @param urlConnection
-     * @param content to be written
+     * @param content
+     *            to be written
      * @return HTTP status code
-     * @throws Exception in order to force calling code to deal with possible
-     *             NPEs also
+     * @throws Exception
+     *             in order to force calling code to deal with possible NPEs
+     *             also
      */
-    protected int writeOutputStream(HttpURLConnection urlConnection, byte[] content) throws Exception {
+    protected int writeOutputStream(HttpURLConnection urlConnection,
+            byte[] content) throws Exception {
         OutputStream out = null;
         try {
             out = urlConnection.getOutputStream();
@@ -324,7 +334,8 @@ public abstract class AbstractHttpClient {
      * @return HttpResponse, may be null
      * @throws Exception
      */
-    protected HttpResponse readInputStream(HttpURLConnection urlConnection) throws Exception {
+    protected HttpResponse readInputStream(HttpURLConnection urlConnection)
+            throws Exception {
         InputStream in = null;
         byte[] responseBody = null;
         try {
@@ -345,14 +356,15 @@ public abstract class AbstractHttpClient {
     }
 
     /**
-     * Reads the error stream to get an HTTP status code like 404.
-     * Delegates I/O to the {@link RequestHandler}.
+     * Reads the error stream to get an HTTP status code like 404. Delegates I/O
+     * to the {@link RequestHandler}.
      * 
      * @param urlConnection
      * @return HttpResponse, may be null
      * @throws Exception
      */
-    protected HttpResponse readErrorStream(HttpURLConnection urlConnection) throws Exception {
+    protected HttpResponse readErrorStream(HttpURLConnection urlConnection)
+            throws Exception {
         InputStream err = null;
         byte[] responseBody = null;
         try {
@@ -419,7 +431,7 @@ public abstract class AbstractHttpClient {
     }
 
     /**
-     * Sets the logger to be used for each request. 
+     * Sets the logger to be used for each request.
      * 
      * @param logger
      */
@@ -443,14 +455,15 @@ public abstract class AbstractHttpClient {
      * is longer than the current timeout, the exception is assumed to be the
      * result of the timeout.
      * 
-     * @param t Any Throwable
+     * @param t
+     *            Any Throwable
      * @return true if caused by connection or read timeout
      */
     protected boolean isTimeoutException(Throwable t, long startTime) {
         long elapsedTime = System.currentTimeMillis() - startTime + 10; // fudge
         if (requestLogger.isLoggingEnabled()) {
-            requestLogger.log("ELAPSED TIME = " + elapsedTime + ", CT = " + connectionTimeout
-                    + ", RT = " + readTimeout);
+            requestLogger.log("ELAPSED TIME = " + elapsedTime + ", CT = "
+                    + connectionTimeout + ", RT = " + readTimeout);
         }
         if (isConnected) {
             return elapsedTime >= readTimeout;
@@ -458,7 +471,7 @@ public abstract class AbstractHttpClient {
             return elapsedTime >= connectionTimeout;
         }
     }
-    
+
     /**
      * Sets the connection timeout in ms. This is the amount of time that
      * {@link HttpURLConnection} will wait to successfully connect to the remote

@@ -36,7 +36,7 @@ public class TwitterFetchStatus {
 	 * 
 	 */
     public void clearCallbacks() {
-	mFinishedCallbackMap.clear();
+        mFinishedCallbackMap.clear();
     }
 
     /*
@@ -44,11 +44,11 @@ public class TwitterFetchStatus {
 	 */
     public interface FetchStatusWorkerCallbacks {
 
-	public Twitter getTwitterInstance();
+        public Twitter getTwitterInstance();
 
-	public AppdotnetApi getAppdotnetApi();
+        public AppdotnetApi getAppdotnetApi();
 
-	public void addUser(User user);
+        public void addUser(User user);
     }
 
     /*
@@ -56,7 +56,7 @@ public class TwitterFetchStatus {
 	 */
     public interface FinishedCallbackInterface {
 
-	public void finished(TwitterFetchResult result, TwitterStatus status);
+        public void finished(TwitterFetchResult result, TwitterStatus status);
 
     }
 
@@ -65,32 +65,32 @@ public class TwitterFetchStatus {
 	 */
     public abstract class FinishedCallback implements FinishedCallbackInterface {
 
-	static final int kInvalidHandle = -1;
+        static final int kInvalidHandle = -1;
 
-	public FinishedCallback() {
-	    mHandle = kInvalidHandle;
-	}
+        public FinishedCallback() {
+            mHandle = kInvalidHandle;
+        }
 
-	void setHandle(int handle) {
-	    mHandle = handle;
-	}
+        void setHandle(int handle) {
+            mHandle = handle;
+        }
 
-	private int mHandle;
+        private int mHandle;
     }
 
     /*
 	 * 
 	 */
     public TwitterFetchStatus() {
-	mFinishedCallbackMap = new HashMap<Integer, FinishedCallback>();
-	mFetchStatusCallbackHandle = 0;
+        mFinishedCallbackMap = new HashMap<Integer, FinishedCallback>();
+        mFetchStatusCallbackHandle = 0;
     }
 
     /*
 	 * 
 	 */
     public void setWorkerCallbacks(FetchStatusWorkerCallbacks callbacks) {
-	mCallbacks = callbacks;
+        mCallbacks = callbacks;
     }
 
     /*
@@ -101,78 +101,81 @@ public class TwitterFetchStatus {
 	 * 
 	 */
     FinishedCallback getFetchStatusCallback(Integer callbackHandle) {
-	FinishedCallback callback = mFinishedCallbackMap.get(callbackHandle);
-	return callback;
+        FinishedCallback callback = mFinishedCallbackMap.get(callbackHandle);
+        return callback;
     }
 
     /*
 	 * 
 	 */
     void removeFetchStatusCallback(FinishedCallback callback) {
-	if (mFinishedCallbackMap.containsValue(callback)) {
-	    mFinishedCallbackMap.remove(callback.mHandle);
-	}
+        if (mFinishedCallbackMap.containsValue(callback)) {
+            mFinishedCallbackMap.remove(callback.mHandle);
+        }
     }
 
     /*
 	 * 
 	 */
     Twitter getTwitterInstance() {
-	return mCallbacks.getTwitterInstance();
+        return mCallbacks.getTwitterInstance();
     }
 
     AppdotnetApi getAppdotnetApi() {
-	return mCallbacks.getAppdotnetApi();
+        return mCallbacks.getAppdotnetApi();
     }
 
     /*
 	 * 
 	 */
     public TwitterStatus getStatus(long statusId, FinishedCallback callback,
-	    ConnectionStatus connectionStatus) {
+            ConnectionStatus connectionStatus) {
 
-	triggerFetchStatusTask(new FetchStatusTaskInput(mFetchStatusCallbackHandle,
-		StatusType.GET_STATUS, statusId, connectionStatus), callback, connectionStatus);
-	return null;
+        triggerFetchStatusTask(new FetchStatusTaskInput(
+                mFetchStatusCallbackHandle, StatusType.GET_STATUS, statusId,
+                connectionStatus), callback, connectionStatus);
+        return null;
     }
 
     /*
 	 * 
 	 */
-    public void setStatus(TwitterStatusUpdate statusUpdate, FinishedCallback callback,
-	    ConnectionStatus connectionStatus) {
+    public void setStatus(TwitterStatusUpdate statusUpdate,
+            FinishedCallback callback, ConnectionStatus connectionStatus) {
 
-	triggerFetchStatusTask(new FetchStatusTaskInput(mFetchStatusCallbackHandle, statusUpdate,
-		connectionStatus), callback, connectionStatus);
+        triggerFetchStatusTask(new FetchStatusTaskInput(
+                mFetchStatusCallbackHandle, statusUpdate, connectionStatus),
+                callback, connectionStatus);
     }
 
     /*
 	 * 
 	 */
     public void setRetweet(long statusId, FinishedCallback callback,
-	    ConnectionStatus connectionStatus) {
-	triggerFetchStatusTask(new FetchStatusTaskInput(mFetchStatusCallbackHandle,
-		StatusType.SET_RETWEET, statusId, connectionStatus), callback, connectionStatus);
+            ConnectionStatus connectionStatus) {
+        triggerFetchStatusTask(new FetchStatusTaskInput(
+                mFetchStatusCallbackHandle, StatusType.SET_RETWEET, statusId,
+                connectionStatus), callback, connectionStatus);
     }
 
     /*
 	 * 
 	 */
-    void triggerFetchStatusTask(FetchStatusTaskInput taskInput, FinishedCallback callback,
-	    ConnectionStatus connectionStatus) {
+    void triggerFetchStatusTask(FetchStatusTaskInput taskInput,
+            FinishedCallback callback, ConnectionStatus connectionStatus) {
 
-	if (connectionStatus.isOnline() == false) {
-	    if (callback != null) {
-		callback.finished(
-			new TwitterFetchResult(false, connectionStatus
-				.getErrorMessageNoConnection()), null);
-	    }
-	    return;
-	}
+        if (connectionStatus.isOnline() == false) {
+            if (callback != null) {
+                callback.finished(new TwitterFetchResult(false,
+                        connectionStatus.getErrorMessageNoConnection()), null);
+            }
+            return;
+        }
 
-	mFinishedCallbackMap.put(mFetchStatusCallbackHandle, callback);
-	new FetchStatusTask().execute(AsyncTaskEx.PRIORITY_HIGHEST, "Fetch Status", taskInput);
-	mFetchStatusCallbackHandle += 1;
+        mFinishedCallbackMap.put(mFetchStatusCallbackHandle, callback);
+        new FetchStatusTask().execute(AsyncTaskEx.PRIORITY_HIGHEST,
+                "Fetch Status", taskInput);
+        mFetchStatusCallbackHandle += 1;
     }
 
     /*
@@ -180,7 +183,7 @@ public class TwitterFetchStatus {
 	 */
     public void cancel(FinishedCallback callback) {
 
-	removeFetchStatusCallback(callback);
+        removeFetchStatusCallback(callback);
     }
 
     /*
@@ -188,27 +191,28 @@ public class TwitterFetchStatus {
 	 */
     class FetchStatusTaskInput {
 
-	FetchStatusTaskInput(Integer callbackHandle, TwitterStatusUpdate statusUpdate,
-		ConnectionStatus connectionStatus) {
-	    mCallbackHandle = callbackHandle;
-	    mStatusUpdate = statusUpdate;
-	    mStatusType = StatusType.SET_STATUS;
-	    mConnectionStatus = connectionStatus;
-	}
+        FetchStatusTaskInput(Integer callbackHandle,
+                TwitterStatusUpdate statusUpdate,
+                ConnectionStatus connectionStatus) {
+            mCallbackHandle = callbackHandle;
+            mStatusUpdate = statusUpdate;
+            mStatusType = StatusType.SET_STATUS;
+            mConnectionStatus = connectionStatus;
+        }
 
-	FetchStatusTaskInput(Integer callbackHandle, StatusType statusType, long existingStatus,
-		ConnectionStatus connectionStatus) {
-	    mCallbackHandle = callbackHandle;
-	    mExistingStatusId = existingStatus;
-	    mStatusType = statusType;
-	    mConnectionStatus = connectionStatus;
-	}
+        FetchStatusTaskInput(Integer callbackHandle, StatusType statusType,
+                long existingStatus, ConnectionStatus connectionStatus) {
+            mCallbackHandle = callbackHandle;
+            mExistingStatusId = existingStatus;
+            mStatusType = statusType;
+            mConnectionStatus = connectionStatus;
+        }
 
-	Integer mCallbackHandle;
-	StatusType mStatusType;
-	TwitterStatusUpdate mStatusUpdate;
-	Long mExistingStatusId;
-	ConnectionStatus mConnectionStatus;
+        Integer mCallbackHandle;
+        StatusType mStatusType;
+        TwitterStatusUpdate mStatusUpdate;
+        Long mExistingStatusId;
+        ConnectionStatus mConnectionStatus;
     }
 
     /*
@@ -216,150 +220,155 @@ public class TwitterFetchStatus {
 	 */
     class FetchStatusTaskOutput {
 
-	FetchStatusTaskOutput(TwitterFetchResult result, Integer callbackHandle,
-		TwitterStatus status) {
-	    mResult = result;
-	    mCallbackHandle = callbackHandle;
-	    mStatus = status;
-	}
+        FetchStatusTaskOutput(TwitterFetchResult result,
+                Integer callbackHandle, TwitterStatus status) {
+            mResult = result;
+            mCallbackHandle = callbackHandle;
+            mStatus = status;
+        }
 
-	TwitterFetchResult mResult;
-	Integer mCallbackHandle;
-	TwitterStatus mStatus;
+        TwitterFetchResult mResult;
+        Integer mCallbackHandle;
+        TwitterStatus mStatus;
     }
 
     /*
 	 * 
 	 */
-    class FetchStatusTask extends AsyncTaskEx<FetchStatusTaskInput, Void, FetchStatusTaskOutput> {
+    class FetchStatusTask extends
+            AsyncTaskEx<FetchStatusTaskInput, Void, FetchStatusTaskOutput> {
 
-	@Override
-	protected FetchStatusTaskOutput doInBackground(FetchStatusTaskInput... inputArray) {
+        @Override
+        protected FetchStatusTaskOutput doInBackground(
+                FetchStatusTaskInput... inputArray) {
 
-	    FetchStatusTaskInput input = inputArray[0];
-	    Twitter twitter = getTwitterInstance();
-	    TwitterStatus twitterStatus = null;
-	    String errorDescription = null;
+            FetchStatusTaskInput input = inputArray[0];
+            Twitter twitter = getTwitterInstance();
+            TwitterStatus twitterStatus = null;
+            String errorDescription = null;
 
-	    if (input.mConnectionStatus.isOnline() == false) {
-		return new FetchStatusTaskOutput(new TwitterFetchResult(false,
-			input.mConnectionStatus.getErrorMessageNoConnection()),
-			input.mCallbackHandle, null);
-	    }
+            if (input.mConnectionStatus.isOnline() == false) {
+                return new FetchStatusTaskOutput(new TwitterFetchResult(false,
+                        input.mConnectionStatus.getErrorMessageNoConnection()),
+                        input.mCallbackHandle, null);
+            }
 
-	    AppdotnetApi appdotnetApi = getAppdotnetApi();
-	    if (appdotnetApi != null) {
-		AdnPost status = null;
-		switch (input.mStatusType) {
-		case SET_STATUS:
-		    AdnPostCompose post = input.mStatusUpdate.getAdnComposePost();
-		    appdotnetApi.setAdnStatus(post);
-		    break;
+            AppdotnetApi appdotnetApi = getAppdotnetApi();
+            if (appdotnetApi != null) {
+                AdnPost status = null;
+                switch (input.mStatusType) {
+                case SET_STATUS:
+                    AdnPostCompose post = input.mStatusUpdate
+                            .getAdnComposePost();
+                    appdotnetApi.setAdnStatus(post);
+                    break;
 
-		case GET_STATUS: {
-		    status = appdotnetApi.getAdnPost(input.mExistingStatusId);
-		    break;
-		}
+                case GET_STATUS: {
+                    status = appdotnetApi.getAdnPost(input.mExistingStatusId);
+                    break;
+                }
 
-		case SET_RETWEET: {
-		    status = appdotnetApi.setAdnRepost(input.mExistingStatusId);
-		    break;
-		}
+                case SET_RETWEET: {
+                    status = appdotnetApi.setAdnRepost(input.mExistingStatusId);
+                    break;
+                }
 
-		default:
-		    break;
-		}
+                default:
+                    break;
+                }
 
-		if (status != null) {
-		    twitterStatus = new TwitterStatus(status);
-		}
-	    } else if (twitter != null) {
-		twitter4j.Status status = null;
-		try {
+                if (status != null) {
+                    twitterStatus = new TwitterStatus(status);
+                }
+            } else if (twitter != null) {
+                twitter4j.Status status = null;
+                try {
 
-		    switch (input.mStatusType) {
-		    case GET_STATUS: {
-			status = twitter.showStatus(input.mExistingStatusId);
-			break;
-		    }
+                    switch (input.mStatusType) {
+                    case GET_STATUS: {
+                        status = twitter.showStatus(input.mExistingStatusId);
+                        break;
+                    }
 
-		    case SET_STATUS: {
-			StatusUpdate statusUpdate = input.mStatusUpdate.getT4JStatusUpdate();
-			status = twitter.updateStatus(statusUpdate);
+                    case SET_STATUS: {
+                        StatusUpdate statusUpdate = input.mStatusUpdate
+                                .getT4JStatusUpdate();
+                        status = twitter.updateStatus(statusUpdate);
 
-			/*
-			 * Configuration conf = getConfiguration();
-			 * ImageUploadFactory factory = new
-			 * ImageUploadFactory(conf); ImageUpload upload =
-			 * factory.getInstance(MediaProvider.YFROG); try { File
-			 * imageFile = input.mStatusUpdate.getMediaFile();
-			 * upload.upload(imageFile); } catch (Exception e) {
-			 * e.printStackTrace(); }
-			 */
+                        /*
+                         * Configuration conf = getConfiguration();
+                         * ImageUploadFactory factory = new
+                         * ImageUploadFactory(conf); ImageUpload upload =
+                         * factory.getInstance(MediaProvider.YFROG); try { File
+                         * imageFile = input.mStatusUpdate.getMediaFile();
+                         * upload.upload(imageFile); } catch (Exception e) {
+                         * e.printStackTrace(); }
+                         */
 
-			/*
-			 * WORKS String url = null; String mMediaFilePath =
-			 * input.mStatusUpdate.getMediaFilePath(); try {
-			 * InputStream mediaInputStream = new
-			 * BufferedInputStream(new
-			 * FileInputStream(mMediaFilePath)); ImageUploadFactory
-			 * factory = new ImageUploadFactory(getConfiguration());
-			 * ImageUpload upload =
-			 * factory.getInstance(MediaProvider.TWITTER); url =
-			 * upload.upload(input.mStatusUpdate.getMediaFilePath(),
-			 * mediaInputStream, "blerg"); } catch
-			 * (FileNotFoundException e) { e.printStackTrace(); }
-			 */
+                        /*
+                         * WORKS String url = null; String mMediaFilePath =
+                         * input.mStatusUpdate.getMediaFilePath(); try {
+                         * InputStream mediaInputStream = new
+                         * BufferedInputStream(new
+                         * FileInputStream(mMediaFilePath)); ImageUploadFactory
+                         * factory = new ImageUploadFactory(getConfiguration());
+                         * ImageUpload upload =
+                         * factory.getInstance(MediaProvider.TWITTER); url =
+                         * upload.upload(input.mStatusUpdate.getMediaFilePath(),
+                         * mediaInputStream, "blerg"); } catch
+                         * (FileNotFoundException e) { e.printStackTrace(); }
+                         */
 
-			/*
-			 * InputStream is =
-			 * getClass().getResourceAsStream(input.
-			 * mStatusUpdate.getMediaFilePath()); try {
-			 * ImageUploadFactory factory = new
-			 * ImageUploadFactory(); ImageUpload upload =
-			 * factory.getInstance(MediaProvider.TWITTER); url =
-			 * upload.upload(input.mStatusUpdate.getMediaFilePath(),
-			 * is, "blerg"); } finally { try { is.close(); } catch
-			 * (IOException e) { // TODO Auto-generated catch block
-			 * e.printStackTrace(); } }
-			 */
+                        /*
+                         * InputStream is =
+                         * getClass().getResourceAsStream(input.
+                         * mStatusUpdate.getMediaFilePath()); try {
+                         * ImageUploadFactory factory = new
+                         * ImageUploadFactory(); ImageUpload upload =
+                         * factory.getInstance(MediaProvider.TWITTER); url =
+                         * upload.upload(input.mStatusUpdate.getMediaFilePath(),
+                         * is, "blerg"); } finally { try { is.close(); } catch
+                         * (IOException e) { // TODO Auto-generated catch block
+                         * e.printStackTrace(); } }
+                         */
 
-			// status = twitter.showStatus(181681943774117888L);
-			break;
-		    }
+                        // status = twitter.showStatus(181681943774117888L);
+                        break;
+                    }
 
-		    case SET_RETWEET: {
-			status = twitter.retweetStatus(input.mExistingStatusId);
-			break;
-		    }
+                    case SET_RETWEET: {
+                        status = twitter.retweetStatus(input.mExistingStatusId);
+                        break;
+                    }
 
-		    }
+                    }
 
-		} catch (TwitterException e) {
-		    e.printStackTrace();
-		    errorDescription = e.getErrorMessage();
-		}
+                } catch (TwitterException e) {
+                    e.printStackTrace();
+                    errorDescription = e.getErrorMessage();
+                }
 
-		if (status != null) {
-		    twitterStatus = new TwitterStatus(status);
-		}
-	    }
+                if (status != null) {
+                    twitterStatus = new TwitterStatus(status);
+                }
+            }
 
-	    return new FetchStatusTaskOutput(new TwitterFetchResult(errorDescription == null ? true
-		    : false, errorDescription), input.mCallbackHandle, twitterStatus);
-	}
+            return new FetchStatusTaskOutput(new TwitterFetchResult(
+                    errorDescription == null ? true : false, errorDescription),
+                    input.mCallbackHandle, twitterStatus);
+        }
 
-	@Override
-	protected void onPostExecute(FetchStatusTaskOutput output) {
+        @Override
+        protected void onPostExecute(FetchStatusTaskOutput output) {
 
-	    FinishedCallback callback = getFetchStatusCallback(output.mCallbackHandle);
-	    if (callback != null) {
-		callback.finished(output.mResult, output.mStatus);
-		removeFetchStatusCallback(callback);
-	    }
+            FinishedCallback callback = getFetchStatusCallback(output.mCallbackHandle);
+            if (callback != null) {
+                callback.finished(output.mResult, output.mStatus);
+                removeFetchStatusCallback(callback);
+            }
 
-	    super.onPostExecute(output);
-	}
+            super.onPostExecute(output);
+        }
     }
 
 }

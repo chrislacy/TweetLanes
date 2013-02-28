@@ -1,17 +1,17 @@
 /*
  * Copyright (C) 2011 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package android.support.v4.view;
@@ -19,8 +19,8 @@ package android.support.v4.view;
 import android.view.KeyEvent;
 
 /**
- * Helper for accessing features in {@link KeyEvent} introduced after
- * API level 4 in a backwards compatible fashion.
+ * Helper for accessing features in {@link KeyEvent} introduced after API level
+ * 4 in a backwards compatible fashion.
  */
 public class KeyEventCompat {
     /**
@@ -28,7 +28,9 @@ public class KeyEventCompat {
      */
     interface KeyEventVersionImpl {
         public int normalizeMetaState(int metaState);
+
         public boolean metaStateHasModifiers(int metaState, int modifiers);
+
         public boolean metaStateHasNoModifiers(int metaState);
     }
 
@@ -36,10 +38,10 @@ public class KeyEventCompat {
      * Interface implementation that doesn't use anything about v4 APIs.
      */
     static class BaseKeyEventVersionImpl implements KeyEventVersionImpl {
-        private static final int META_MODIFIER_MASK =
-                KeyEvent.META_SHIFT_ON | KeyEvent.META_SHIFT_LEFT_ON | KeyEvent.META_SHIFT_RIGHT_ON
-                | KeyEvent.META_ALT_ON | KeyEvent.META_ALT_LEFT_ON | KeyEvent.META_ALT_RIGHT_ON
-                | KeyEvent.META_SYM_ON;
+        private static final int META_MODIFIER_MASK = KeyEvent.META_SHIFT_ON
+                | KeyEvent.META_SHIFT_LEFT_ON | KeyEvent.META_SHIFT_RIGHT_ON
+                | KeyEvent.META_ALT_ON | KeyEvent.META_ALT_LEFT_ON
+                | KeyEvent.META_ALT_RIGHT_ON | KeyEvent.META_SYM_ON;
 
         // Mask of all lock key meta states.
         private static final int META_ALL_MASK = META_MODIFIER_MASK;
@@ -72,14 +74,16 @@ public class KeyEventCompat {
             }
             return metaState & META_ALL_MASK;
         }
- 
+
         @Override
         public boolean metaStateHasModifiers(int metaState, int modifiers) {
             metaState = normalizeMetaState(metaState) & META_MODIFIER_MASK;
-            metaState = metaStateFilterDirectionalModifiers(metaState, modifiers,
-                    KeyEvent.META_SHIFT_ON, KeyEvent.META_SHIFT_LEFT_ON, KeyEvent.META_SHIFT_RIGHT_ON);
-            metaState = metaStateFilterDirectionalModifiers(metaState, modifiers,
-                    KeyEvent.META_ALT_ON, KeyEvent.META_ALT_LEFT_ON, KeyEvent.META_ALT_RIGHT_ON);
+            metaState = metaStateFilterDirectionalModifiers(metaState,
+                    modifiers, KeyEvent.META_SHIFT_ON,
+                    KeyEvent.META_SHIFT_LEFT_ON, KeyEvent.META_SHIFT_RIGHT_ON);
+            metaState = metaStateFilterDirectionalModifiers(metaState,
+                    modifiers, KeyEvent.META_ALT_ON, KeyEvent.META_ALT_LEFT_ON,
+                    KeyEvent.META_ALT_RIGHT_ON);
             return metaState == modifiers;
         }
 
@@ -97,10 +101,11 @@ public class KeyEventCompat {
         public int normalizeMetaState(int metaState) {
             return KeyEventCompatHoneycomb.normalizeMetaState(metaState);
         }
-        
+
         @Override
         public boolean metaStateHasModifiers(int metaState, int modifiers) {
-            return KeyEventCompatHoneycomb.metaStateHasModifiers(metaState, modifiers);
+            return KeyEventCompatHoneycomb.metaStateHasModifiers(metaState,
+                    modifiers);
         }
 
         @Override

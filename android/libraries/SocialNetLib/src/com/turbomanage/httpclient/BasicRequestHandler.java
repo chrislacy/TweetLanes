@@ -1,4 +1,3 @@
-
 package com.turbomanage.httpclient;
 
 import java.io.ByteArrayOutputStream;
@@ -13,9 +12,9 @@ import java.net.URL;
  * intended to be used for simple requests with small amounts of data only (a
  * few kB), as it does no buffering, chunking, streaming, etc. Only character
  * set supported is UTF-8. Only {@link String} content is supported. All
- * responses are treated as {@link String}s. This class is abstract so that
- * it can be easily extended in an anonymous inner class when constructing
- * a client.
+ * responses are treated as {@link String}s. This class is abstract so that it
+ * can be easily extended in an anonymous inner class when constructing a
+ * client.
  * 
  * @author David M. Chandler
  */
@@ -29,7 +28,7 @@ public abstract class BasicRequestHandler implements RequestHandler {
     public BasicRequestHandler() {
         this(new ConsoleRequestLogger());
     }
-    
+
     /**
      * Constructs a handler with supplied logger.
      * 
@@ -40,15 +39,16 @@ public abstract class BasicRequestHandler implements RequestHandler {
     }
 
     @Override
-    public HttpURLConnection openConnection(String urlString) throws IOException {
+    public HttpURLConnection openConnection(String urlString)
+            throws IOException {
         URL url = new URL(urlString);
         HttpURLConnection uc = (HttpURLConnection) url.openConnection();
         return uc;
     }
 
     @Override
-    public void prepareConnection(HttpURLConnection urlConnection, HttpMethod httpMethod,
-            String contentType) throws IOException {
+    public void prepareConnection(HttpURLConnection urlConnection,
+            HttpMethod httpMethod, String contentType) throws IOException {
         // Configure connection for request method
         urlConnection.setRequestMethod(httpMethod.getMethodName());
         urlConnection.setDoOutput(httpMethod.getDoOutput());
@@ -61,7 +61,8 @@ public abstract class BasicRequestHandler implements RequestHandler {
     }
 
     @Override
-    public void writeStream(OutputStream out, byte[] content) throws IOException {
+    public void writeStream(OutputStream out, byte[] content)
+            throws IOException {
         out.write(content);
     }
 

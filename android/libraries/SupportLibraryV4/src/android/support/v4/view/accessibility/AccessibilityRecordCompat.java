@@ -1,17 +1,17 @@
 /*
  * Copyright (C) 2011 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package android.support.v4.view.accessibility;
@@ -31,49 +31,94 @@ public class AccessibilityRecordCompat {
 
     static interface AccessibilityRecordImpl {
         public Object obtain();
+
         public Object obtain(Object record);
+
         public void setSource(Object record, View source);
+
         public Object getSource(Object record);
+
         public int getWindowId(Object record);
+
         public boolean isChecked(Object record);
+
         public void setChecked(Object record, boolean isChecked);
+
         public boolean isEnabled(Object record);
+
         public void setEnabled(Object record, boolean isEnabled);
+
         public boolean isPassword(Object record);
+
         public void setPassword(Object record, boolean isPassword);
+
         public boolean isFullScreen(Object record);
+
         public void setFullScreen(Object record, boolean isFullScreen);
+
         public boolean isScrollable(Object record);
+
         public void setScrollable(Object record, boolean scrollable);
+
         public int getItemCount(Object record);
+
         public void setItemCount(Object record, int itemCount);
+
         public int getCurrentItemIndex(Object record);
+
         public void setCurrentItemIndex(Object record, int currentItemIndex);
+
         public int getFromIndex(Object record);
+
         public void setFromIndex(Object record, int fromIndex);
+
         public int getToIndex(Object record);
+
         public void setToIndex(Object record, int toIndex);
+
         public int getScrollX(Object record);
+
         public void setScrollX(Object record, int scrollX);
+
         public int getScrollY(Object record);
+
         public void setScrollY(Object record, int scrollY);
+
         public int getMaxScrollX(Object record);
+
         public void setMaxScrollX(Object record, int maxScrollX);
+
         public int getMaxScrollY(Object record);
+
         public void setMaxScrollY(Object record, int maxScrollY);
+
         public int getAddedCount(Object record);
+
         public void setAddedCount(Object record, int addedCount);
+
         public int getRemovedCount(Object record);
+
         public void setRemovedCount(Object record, int removedCount);
+
         public CharSequence getClassName(Object record);
+
         public void setClassName(Object record, CharSequence className);
+
         public List<CharSequence> getText(Object record);
+
         public CharSequence getBeforeText(Object record);
+
         public void setBeforeText(Object record, CharSequence beforeText);
+
         public CharSequence getContentDescription(Object record);
-        public void setContentDescription(Object record, CharSequence contentDescription);
+
+        public void setContentDescription(Object record,
+                CharSequence contentDescription);
+
         public Parcelable getParcelableData(Object record);
+
         public void setParcelableData(Object record, Parcelable parcelableData);
+
         public void recycle(Object record);
     }
 
@@ -194,7 +239,8 @@ public class AccessibilityRecordCompat {
 
         }
 
-        public void setContentDescription(Object record, CharSequence contentDescription) {
+        public void setContentDescription(Object record,
+                CharSequence contentDescription) {
 
         }
 
@@ -298,12 +344,12 @@ public class AccessibilityRecordCompat {
 
         public int getMaxScrollX(Object record) {
             // TODO: Uncomment when these APIs become public
-            return 0;//AccessibilityRecordCompatIcs.getMaxScrollX(record);
+            return 0;// AccessibilityRecordCompatIcs.getMaxScrollX(record);
         }
 
         public int getMaxScrollY(Object record) {
             // TODO: Uncomment when these APIs become public
-            return 0;//AccessibilityRecordCompatIcs.getMaxScrollY(record);
+            return 0;// AccessibilityRecordCompatIcs.getMaxScrollY(record);
         }
 
         public Parcelable getParcelableData(Object record) {
@@ -378,12 +424,15 @@ public class AccessibilityRecordCompat {
             AccessibilityRecordCompatIcs.setClassName(record, className);
         }
 
-        public void setContentDescription(Object record, CharSequence contentDescription) {
-            AccessibilityRecordCompatIcs.setContentDescription(record, contentDescription);
+        public void setContentDescription(Object record,
+                CharSequence contentDescription) {
+            AccessibilityRecordCompatIcs.setContentDescription(record,
+                    contentDescription);
         }
 
         public void setCurrentItemIndex(Object record, int currentItemIndex) {
-            AccessibilityRecordCompatIcs.setCurrentItemIndex(record, currentItemIndex);
+            AccessibilityRecordCompatIcs.setCurrentItemIndex(record,
+                    currentItemIndex);
         }
 
         public void setEnabled(Object record, boolean isEnabled) {
@@ -403,17 +452,18 @@ public class AccessibilityRecordCompat {
         }
 
         public void setMaxScrollX(Object record, int maxScrollX) {
-//        TODO: Uncomment when these APIs become public
-//            AccessibilityRecordCompatIcs.setMaxScrollX(record, maxScrollX);
+            // TODO: Uncomment when these APIs become public
+            // AccessibilityRecordCompatIcs.setMaxScrollX(record, maxScrollX);
         }
 
         public void setMaxScrollY(Object record, int maxScrollY) {
-//        TODO: Uncomment when these APIs become public
-//            AccessibilityRecordCompatIcs.setMaxScrollY(record, maxScrollY);
+            // TODO: Uncomment when these APIs become public
+            // AccessibilityRecordCompatIcs.setMaxScrollY(record, maxScrollY);
         }
 
         public void setParcelableData(Object record, Parcelable parcelableData) {
-            AccessibilityRecordCompatIcs.setParcelableData(record, parcelableData);
+            AccessibilityRecordCompatIcs.setParcelableData(record,
+                    parcelableData);
         }
 
         public void setPassword(Object record, boolean isPassword) {
@@ -473,19 +523,20 @@ public class AccessibilityRecordCompat {
 
     /**
      * Returns a cached instance if such is available or a new one is
-     * instantiated. The instance is initialized with data from the
-     * given record.
-     *
+     * instantiated. The instance is initialized with data from the given
+     * record.
+     * 
      * @return An instance.
      */
-    public static AccessibilityRecordCompat obtain(AccessibilityRecordCompat record) {
-       return new AccessibilityRecordCompat(IMPL.obtain(record.mRecord));
+    public static AccessibilityRecordCompat obtain(
+            AccessibilityRecordCompat record) {
+        return new AccessibilityRecordCompat(IMPL.obtain(record.mRecord));
     }
 
     /**
      * Returns a cached instance if such is available or a new one is
      * instantiated.
-     *
+     * 
      * @return An instance.
      */
     public static AccessibilityRecordCompat obtain() {
@@ -494,25 +545,27 @@ public class AccessibilityRecordCompat {
 
     /**
      * Sets the event source.
-     *
-     * @param source The source.
-     *
-     * @throws IllegalStateException If called from an AccessibilityService.
+     * 
+     * @param source
+     *            The source.
+     * 
+     * @throws IllegalStateException
+     *             If called from an AccessibilityService.
      */
     public void setSource(View source) {
         IMPL.setSource(mRecord, source);
     }
 
     /**
-     * Gets the {@link android.view.accessibility.AccessibilityNodeInfo} of
-     * the event source.
+     * Gets the {@link android.view.accessibility.AccessibilityNodeInfo} of the
+     * event source.
      * <p>
      * <strong>Note:</strong> It is a client responsibility to recycle the
      * received info by calling
      * {@link android.view.accessibility.AccessibilityNodeInfo#recycle()
      * AccessibilityNodeInfo#recycle()} to avoid creating of multiple instances.
-     *</p>
-     *
+     * </p>
+     * 
      * @return The info of the source.
      */
     public AccessibilityNodeInfoCompat getSource() {
@@ -521,7 +574,7 @@ public class AccessibilityRecordCompat {
 
     /**
      * Gets the id of the window from which the event comes from.
-     *
+     * 
      * @return The window id.
      */
     public int getWindowId() {
@@ -530,7 +583,7 @@ public class AccessibilityRecordCompat {
 
     /**
      * Gets if the source is checked.
-     *
+     * 
      * @return True if the view is checked, false otherwise.
      */
     public boolean isChecked() {
@@ -539,10 +592,12 @@ public class AccessibilityRecordCompat {
 
     /**
      * Sets if the source is checked.
-     *
-     * @param isChecked True if the view is checked, false otherwise.
-     *
-     * @throws IllegalStateException If called from an AccessibilityService.
+     * 
+     * @param isChecked
+     *            True if the view is checked, false otherwise.
+     * 
+     * @throws IllegalStateException
+     *             If called from an AccessibilityService.
      */
     public void setChecked(boolean isChecked) {
         IMPL.setChecked(mRecord, isChecked);
@@ -550,7 +605,7 @@ public class AccessibilityRecordCompat {
 
     /**
      * Gets if the source is enabled.
-     *
+     * 
      * @return True if the view is enabled, false otherwise.
      */
     public boolean isEnabled() {
@@ -559,10 +614,12 @@ public class AccessibilityRecordCompat {
 
     /**
      * Sets if the source is enabled.
-     *
-     * @param isEnabled True if the view is enabled, false otherwise.
-     *
-     * @throws IllegalStateException If called from an AccessibilityService.
+     * 
+     * @param isEnabled
+     *            True if the view is enabled, false otherwise.
+     * 
+     * @throws IllegalStateException
+     *             If called from an AccessibilityService.
      */
     public void setEnabled(boolean isEnabled) {
         IMPL.setEnabled(mRecord, isEnabled);
@@ -570,7 +627,7 @@ public class AccessibilityRecordCompat {
 
     /**
      * Gets if the source is a password field.
-     *
+     * 
      * @return True if the view is a password field, false otherwise.
      */
     public boolean isPassword() {
@@ -579,10 +636,12 @@ public class AccessibilityRecordCompat {
 
     /**
      * Sets if the source is a password field.
-     *
-     * @param isPassword True if the view is a password field, false otherwise.
-     *
-     * @throws IllegalStateException If called from an AccessibilityService.
+     * 
+     * @param isPassword
+     *            True if the view is a password field, false otherwise.
+     * 
+     * @throws IllegalStateException
+     *             If called from an AccessibilityService.
      */
     public void setPassword(boolean isPassword) {
         IMPL.setPassword(mRecord, isPassword);
@@ -590,7 +649,7 @@ public class AccessibilityRecordCompat {
 
     /**
      * Gets if the source is taking the entire screen.
-     *
+     * 
      * @return True if the source is full screen, false otherwise.
      */
     public boolean isFullScreen() {
@@ -599,10 +658,12 @@ public class AccessibilityRecordCompat {
 
     /**
      * Sets if the source is taking the entire screen.
-     *
-     * @param isFullScreen True if the source is full screen, false otherwise.
-     *
-     * @throws IllegalStateException If called from an AccessibilityService.
+     * 
+     * @param isFullScreen
+     *            True if the source is full screen, false otherwise.
+     * 
+     * @throws IllegalStateException
+     *             If called from an AccessibilityService.
      */
     public void setFullScreen(boolean isFullScreen) {
         IMPL.setFullScreen(mRecord, isFullScreen);
@@ -610,7 +671,7 @@ public class AccessibilityRecordCompat {
 
     /**
      * Gets if the source is scrollable.
-     *
+     * 
      * @return True if the source is scrollable, false otherwise.
      */
     public boolean isScrollable() {
@@ -619,10 +680,12 @@ public class AccessibilityRecordCompat {
 
     /**
      * Sets if the source is scrollable.
-     *
-     * @param scrollable True if the source is scrollable, false otherwise.
-     *
-     * @throws IllegalStateException If called from an AccessibilityService.
+     * 
+     * @param scrollable
+     *            True if the source is scrollable, false otherwise.
+     * 
+     * @throws IllegalStateException
+     *             If called from an AccessibilityService.
      */
     public void setScrollable(boolean scrollable) {
         IMPL.setScrollable(mRecord, scrollable);
@@ -630,7 +693,7 @@ public class AccessibilityRecordCompat {
 
     /**
      * Gets the number of items that can be visited.
-     *
+     * 
      * @return The number of items.
      */
     public int getItemCount() {
@@ -639,10 +702,12 @@ public class AccessibilityRecordCompat {
 
     /**
      * Sets the number of items that can be visited.
-     *
-     * @param itemCount The number of items.
-     *
-     * @throws IllegalStateException If called from an AccessibilityService.
+     * 
+     * @param itemCount
+     *            The number of items.
+     * 
+     * @throws IllegalStateException
+     *             If called from an AccessibilityService.
      */
     public void setItemCount(int itemCount) {
         IMPL.setItemCount(mRecord, itemCount);
@@ -650,7 +715,7 @@ public class AccessibilityRecordCompat {
 
     /**
      * Gets the index of the source in the list of items the can be visited.
-     *
+     * 
      * @return The current item index.
      */
     public int getCurrentItemIndex() {
@@ -659,45 +724,49 @@ public class AccessibilityRecordCompat {
 
     /**
      * Sets the index of the source in the list of items that can be visited.
-     *
-     * @param currentItemIndex The current item index.
-     *
-     * @throws IllegalStateException If called from an AccessibilityService.
+     * 
+     * @param currentItemIndex
+     *            The current item index.
+     * 
+     * @throws IllegalStateException
+     *             If called from an AccessibilityService.
      */
     public void setCurrentItemIndex(int currentItemIndex) {
         IMPL.setCurrentItemIndex(mRecord, currentItemIndex);
     }
 
     /**
-     * Gets the index of the first character of the changed sequence,
-     * or the beginning of a text selection or the index of the first
-     * visible item when scrolling.
-     *
-     * @return The index of the first character or selection
-     *        start or the first visible item.
+     * Gets the index of the first character of the changed sequence, or the
+     * beginning of a text selection or the index of the first visible item when
+     * scrolling.
+     * 
+     * @return The index of the first character or selection start or the first
+     *         visible item.
      */
     public int getFromIndex() {
         return IMPL.getFromIndex(mRecord);
     }
 
     /**
-     * Sets the index of the first character of the changed sequence
-     * or the beginning of a text selection or the index of the first
-     * visible item when scrolling.
-     *
-     * @param fromIndex The index of the first character or selection
-     *        start or the first visible item.
-     *
-     * @throws IllegalStateException If called from an AccessibilityService.
+     * Sets the index of the first character of the changed sequence or the
+     * beginning of a text selection or the index of the first visible item when
+     * scrolling.
+     * 
+     * @param fromIndex
+     *            The index of the first character or selection start or the
+     *            first visible item.
+     * 
+     * @throws IllegalStateException
+     *             If called from an AccessibilityService.
      */
     public void setFromIndex(int fromIndex) {
         IMPL.setFromIndex(mRecord, fromIndex);
     }
 
     /**
-     * Gets the index of text selection end or the index of the last
-     * visible item when scrolling.
-     *
+     * Gets the index of text selection end or the index of the last visible
+     * item when scrolling.
+     * 
      * @return The index of selection end or last item index.
      */
     public int getToIndex() {
@@ -705,10 +774,11 @@ public class AccessibilityRecordCompat {
     }
 
     /**
-     * Sets the index of text selection end or the index of the last
-     * visible item when scrolling.
-     *
-     * @param toIndex The index of selection end or last item index.
+     * Sets the index of text selection end or the index of the last visible
+     * item when scrolling.
+     * 
+     * @param toIndex
+     *            The index of selection end or last item index.
      */
     public void setToIndex(int toIndex) {
         IMPL.setToIndex(mRecord, toIndex);
@@ -716,7 +786,7 @@ public class AccessibilityRecordCompat {
 
     /**
      * Gets the scroll offset of the source left edge in pixels.
-     *
+     * 
      * @return The scroll.
      */
     public int getScrollX() {
@@ -725,8 +795,9 @@ public class AccessibilityRecordCompat {
 
     /**
      * Sets the scroll offset of the source left edge in pixels.
-     *
-     * @param scrollX The scroll.
+     * 
+     * @param scrollX
+     *            The scroll.
      */
     public void setScrollX(int scrollX) {
         IMPL.setScrollX(mRecord, scrollX);
@@ -734,7 +805,7 @@ public class AccessibilityRecordCompat {
 
     /**
      * Gets the scroll offset of the source top edge in pixels.
-     *
+     * 
      * @return The scroll.
      */
     public int getScrollY() {
@@ -743,52 +814,53 @@ public class AccessibilityRecordCompat {
 
     /**
      * Sets the scroll offset of the source top edge in pixels.
-     *
-     * @param scrollY The scroll.
+     * 
+     * @param scrollY
+     *            The scroll.
      */
     public void setScrollY(int scrollY) {
         IMPL.setScrollY(mRecord, scrollY);
     }
 
-//  TODO: Uncomment when these APIs become public
-//    /**
-//     * Gets the max scroll offset of the source left edge in pixels.
-//     *
-//     * @return The max scroll.
-//     */
-//    public int getMaxScrollX() {
-//        return IMPL.getMaxScrollX(mRecord);
-//    }
-//    /**
-//     * Sets the max scroll offset of the source left edge in pixels.
-//     *
-//     * @param maxScrollX The max scroll.
-//     */
-//    public void setMaxScrollX(int maxScrollX) {
-//        IMPL.setMaxScrollX(mRecord, maxScrollX);
-//    }
-//
-//    /**
-//     * Gets the max scroll offset of the source top edge in pixels.
-//     *
-//     * @return The max scroll.
-//     */
-//    public int getMaxScrollY() {
-//        return IMPL.getMaxScrollY(mRecord);
-//    }
-//
-//    /**
-//     * Sets the max scroll offset of the source top edge in pixels.
-//     *
-//     * @param maxScrollY The max scroll.
-//     */
-//    public void setMaxScrollY(int maxScrollY) {
-//        IMPL.setMaxScrollY(mRecord, maxScrollY);
-//    }
+    // TODO: Uncomment when these APIs become public
+    // /**
+    // * Gets the max scroll offset of the source left edge in pixels.
+    // *
+    // * @return The max scroll.
+    // */
+    // public int getMaxScrollX() {
+    // return IMPL.getMaxScrollX(mRecord);
+    // }
+    // /**
+    // * Sets the max scroll offset of the source left edge in pixels.
+    // *
+    // * @param maxScrollX The max scroll.
+    // */
+    // public void setMaxScrollX(int maxScrollX) {
+    // IMPL.setMaxScrollX(mRecord, maxScrollX);
+    // }
+    //
+    // /**
+    // * Gets the max scroll offset of the source top edge in pixels.
+    // *
+    // * @return The max scroll.
+    // */
+    // public int getMaxScrollY() {
+    // return IMPL.getMaxScrollY(mRecord);
+    // }
+    //
+    // /**
+    // * Sets the max scroll offset of the source top edge in pixels.
+    // *
+    // * @param maxScrollY The max scroll.
+    // */
+    // public void setMaxScrollY(int maxScrollY) {
+    // IMPL.setMaxScrollY(mRecord, maxScrollY);
+    // }
 
     /**
      * Gets the number of added characters.
-     *
+     * 
      * @return The number of added characters.
      */
     public int getAddedCount() {
@@ -797,10 +869,12 @@ public class AccessibilityRecordCompat {
 
     /**
      * Sets the number of added characters.
-     *
-     * @param addedCount The number of added characters.
-     *
-     * @throws IllegalStateException If called from an AccessibilityService.
+     * 
+     * @param addedCount
+     *            The number of added characters.
+     * 
+     * @throws IllegalStateException
+     *             If called from an AccessibilityService.
      */
     public void setAddedCount(int addedCount) {
         IMPL.setAddedCount(mRecord, addedCount);
@@ -808,7 +882,7 @@ public class AccessibilityRecordCompat {
 
     /**
      * Gets the number of removed characters.
-     *
+     * 
      * @return The number of removed characters.
      */
     public int getRemovedCount() {
@@ -817,10 +891,12 @@ public class AccessibilityRecordCompat {
 
     /**
      * Sets the number of removed characters.
-     *
-     * @param removedCount The number of removed characters.
-     *
-     * @throws IllegalStateException If called from an AccessibilityService.
+     * 
+     * @param removedCount
+     *            The number of removed characters.
+     * 
+     * @throws IllegalStateException
+     *             If called from an AccessibilityService.
      */
     public void setRemovedCount(int removedCount) {
         IMPL.setRemovedCount(mRecord, removedCount);
@@ -828,7 +904,7 @@ public class AccessibilityRecordCompat {
 
     /**
      * Gets the class name of the source.
-     *
+     * 
      * @return The class name.
      */
     public CharSequence getClassName() {
@@ -837,10 +913,12 @@ public class AccessibilityRecordCompat {
 
     /**
      * Sets the class name of the source.
-     *
-     * @param className The lass name.
-     *
-     * @throws IllegalStateException If called from an AccessibilityService.
+     * 
+     * @param className
+     *            The lass name.
+     * 
+     * @throws IllegalStateException
+     *             If called from an AccessibilityService.
      */
     public void setClassName(CharSequence className) {
         IMPL.setClassName(mRecord, className);
@@ -849,7 +927,7 @@ public class AccessibilityRecordCompat {
     /**
      * Gets the text of the event. The index in the list represents the priority
      * of the text. Specifically, the lower the index the higher the priority.
-     *
+     * 
      * @return The text.
      */
     public List<CharSequence> getText() {
@@ -858,7 +936,7 @@ public class AccessibilityRecordCompat {
 
     /**
      * Sets the text before a change.
-     *
+     * 
      * @return The text before the change.
      */
     public CharSequence getBeforeText() {
@@ -867,10 +945,12 @@ public class AccessibilityRecordCompat {
 
     /**
      * Sets the text before a change.
-     *
-     * @param beforeText The text before the change.
-     *
-     * @throws IllegalStateException If called from an AccessibilityService.
+     * 
+     * @param beforeText
+     *            The text before the change.
+     * 
+     * @throws IllegalStateException
+     *             If called from an AccessibilityService.
      */
     public void setBeforeText(CharSequence beforeText) {
         IMPL.setBeforeText(mRecord, beforeText);
@@ -878,7 +958,7 @@ public class AccessibilityRecordCompat {
 
     /**
      * Gets the description of the source.
-     *
+     * 
      * @return The description.
      */
     public CharSequence getContentDescription() {
@@ -887,10 +967,12 @@ public class AccessibilityRecordCompat {
 
     /**
      * Sets the description of the source.
-     *
-     * @param contentDescription The description.
-     *
-     * @throws IllegalStateException If called from an AccessibilityService.
+     * 
+     * @param contentDescription
+     *            The description.
+     * 
+     * @throws IllegalStateException
+     *             If called from an AccessibilityService.
      */
     public void setContentDescription(CharSequence contentDescription) {
         IMPL.setContentDescription(mRecord, contentDescription);
@@ -898,7 +980,7 @@ public class AccessibilityRecordCompat {
 
     /**
      * Gets the {@link Parcelable} data.
-     *
+     * 
      * @return The parcelable data.
      */
     public Parcelable getParcelableData() {
@@ -907,10 +989,12 @@ public class AccessibilityRecordCompat {
 
     /**
      * Sets the {@link Parcelable} data of the event.
-     *
-     * @param parcelableData The parcelable data.
-     *
-     * @throws IllegalStateException If called from an AccessibilityService.
+     * 
+     * @param parcelableData
+     *            The parcelable data.
+     * 
+     * @throws IllegalStateException
+     *             If called from an AccessibilityService.
      */
     public void setParcelableData(Parcelable parcelableData) {
         IMPL.setParcelableData(mRecord, parcelableData);
@@ -922,8 +1006,9 @@ public class AccessibilityRecordCompat {
      * <strong>Note:</strong> You must not touch the object after calling this
      * function.
      * </p>
-     *
-     * @throws IllegalStateException If the record is already recycled.
+     * 
+     * @throws IllegalStateException
+     *             If the record is already recycled.
      */
     public void recycle() {
         IMPL.recycle(mRecord);
@@ -933,7 +1018,6 @@ public class AccessibilityRecordCompat {
     public int hashCode() {
         return (mRecord == null) ? 0 : mRecord.hashCode();
     }
-
 
     @Override
     public boolean equals(Object obj) {

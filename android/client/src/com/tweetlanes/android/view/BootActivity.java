@@ -79,6 +79,7 @@ public class BootActivity extends Activity {
     /*
      * private BroadcastReceiver mOAuthLoginStateChangeReceiver = new
      * BroadcastReceiver() {
+     * 
      * @Override public void onReceive(Context context, Intent intent) {
      * jumpToNext(); } };
      */
@@ -96,6 +97,7 @@ public class BootActivity extends Activity {
      * alertDialogBuilder.setView(message);
      * alertDialogBuilder.setOnCancelListener(new
      * DialogInterface.OnCancelListener() {
+     * 
      * @Override public void onCancel(DialogInterface dialog) { dialog.cancel();
      * mTermsDialog = null; finish(); } });
      * alertDialogBuilder.setPositiveButton(getString(R.string.ok), new
@@ -107,6 +109,7 @@ public class BootActivity extends Activity {
      * startActivity(intent); } });
      * alertDialogBuilder.setNegativeButton(getString(R.string.cancel), new
      * DialogInterface.OnClickListener() {
+     * 
      * @Override public void onClick(DialogInterface dialog, int which) {
      * dialog.cancel(); mTermsDialog = null; finish(); } }); mTermsDialog =
      * alertDialogBuilder.create(); mTermsDialog.show(); } }
@@ -119,8 +122,9 @@ public class BootActivity extends Activity {
 
         int accountCount = getApp().getAccountCount();
         if (accountCount == 0) {
-			
-			Intent intent = new Intent(getApplicationContext(), TwitterAuthActivity.class);
+
+            Intent intent = new Intent(getApplicationContext(),
+                    TwitterAuthActivity.class);
             overridePendingTransition(0, 0);
             intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivity(intent);

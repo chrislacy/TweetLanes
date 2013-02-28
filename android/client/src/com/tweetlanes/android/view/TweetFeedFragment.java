@@ -120,6 +120,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
     /*
      * (non-Javadoc)
+     * 
      * @see
      * android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater,
      * android.view.ViewGroup, android.os.Bundle)
@@ -265,6 +266,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
     /*
      * (non-Javadoc)
+     * 
      * @see com.tweetlanes.android.view.BaseLaneFragment#onJumpToTop()
      */
     @Override
@@ -283,6 +285,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
     /*
      * (non-Javadoc)
+     * 
      * @see com.tweetlanes.android.view.BaseLaneFragment#clearLocalCache()
      */
     @Override
@@ -293,6 +296,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
     /*
      * (non-Javadoc)
+     * 
      * @see com.tweetlanes.android.view.BaseLaneFragment#getContentToCache()
      */
     @Override
@@ -398,6 +402,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
     /*
      * (non-Javadoc)
+     * 
      * @see
      * com.tweetlanes.android.view.BaseLaneFragment#triggerInitialDownload()
      */
@@ -759,6 +764,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
     /*
      * (non-Javadoc)
+     * 
      * @see
      * android.support.v4.app.Fragment#onOptionsItemSelected(android.view.MenuItem
      * )
@@ -792,6 +798,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
     /*
      * (non-Javadoc)
+     * 
      * @see
      * com.tweetlanes.android.view.BaseLaneFragment#configureOptionsMenu(android
      * .view.Menu)
@@ -851,6 +858,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
     /*
      * (non-Javadoc)
+     * 
      * @see android.support.v4.app.Fragment#onDestroy()
      */
     @Override

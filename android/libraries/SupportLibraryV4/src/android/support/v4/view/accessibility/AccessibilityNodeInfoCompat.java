@@ -1,17 +1,17 @@
 /*
  * Copyright (C) 2011 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package android.support.v4.view.accessibility;
@@ -32,55 +32,104 @@ public class AccessibilityNodeInfoCompat {
 
     static interface AccessibilityNodeInfoImpl {
         public Object obtain();
+
         public Object obtain(View source);
+
         public Object obtain(Object info);
+
         public void setSource(Object info, View source);
+
         public int getWindowId(Object info);
+
         public int getChildCount(Object info);
+
         public Object getChild(Object info, int index);
+
         public void addChild(Object info, View child);
+
         public int getActions(Object info);
+
         public void addAction(Object info, int action);
+
         public boolean performAction(Object info, int action);
-        public List<Object> findAccessibilityNodeInfosByText(Object info, String text);
+
+        public List<Object> findAccessibilityNodeInfosByText(Object info,
+                String text);
+
         public Object getParent(Object info);
+
         public void setParent(Object info, View parent);
+
         public void getBoundsInParent(Object info, Rect outBounds);
+
         public void setBoundsInParent(Object info, Rect bounds);
+
         public void getBoundsInScreen(Object info, Rect outBounds);
+
         public void setBoundsInScreen(Object info, Rect bounds);
+
         public boolean isCheckable(Object info);
+
         public void setCheckable(Object info, boolean checkable);
+
         public boolean isChecked(Object info);
+
         public void setChecked(Object info, boolean checked);
+
         public boolean isFocusable(Object info);
+
         public void setFocusable(Object info, boolean focusable);
+
         public boolean isFocused(Object info);
+
         public void setFocused(Object info, boolean focused);
+
         public boolean isSelected(Object info);
+
         public void setSelected(Object info, boolean selected);
+
         public boolean isClickable(Object info);
+
         public void setClickable(Object info, boolean clickable);
+
         public boolean isLongClickable(Object info);
+
         public void setLongClickable(Object info, boolean longClickable);
+
         public boolean isEnabled(Object info);
+
         public void setEnabled(Object info, boolean enabled);
+
         public boolean isPassword(Object info);
+
         public void setPassword(Object info, boolean password);
+
         public boolean isScrollable(Object info);
+
         public void setScrollable(Object info, boolean scrollable);
+
         public CharSequence getPackageName(Object info);
+
         public void setPackageName(Object info, CharSequence packageName);
+
         public CharSequence getClassName(Object info);
+
         public void setClassName(Object info, CharSequence className);
+
         public CharSequence getText(Object info);
+
         public void setText(Object info, CharSequence text);
+
         public CharSequence getContentDescription(Object info);
-        public void setContentDescription(Object info, CharSequence contentDescription);
+
+        public void setContentDescription(Object info,
+                CharSequence contentDescription);
+
         public void recycle(Object info);
     }
 
-    static class AccessibilityNodeInfoStubImpl implements AccessibilityNodeInfoImpl {
+    static class AccessibilityNodeInfoStubImpl implements
+            AccessibilityNodeInfoImpl {
         public Object obtain() {
             return null;
         }
@@ -101,7 +150,8 @@ public class AccessibilityNodeInfoCompat {
 
         }
 
-        public List<Object> findAccessibilityNodeInfosByText(Object info, String text) {
+        public List<Object> findAccessibilityNodeInfosByText(Object info,
+                String text) {
             return Collections.emptyList();
         }
 
@@ -217,7 +267,8 @@ public class AccessibilityNodeInfoCompat {
 
         }
 
-        public void setContentDescription(Object info, CharSequence contentDescription) {
+        public void setContentDescription(Object info,
+                CharSequence contentDescription) {
 
         }
 
@@ -270,7 +321,8 @@ public class AccessibilityNodeInfoCompat {
         }
     }
 
-    static class AccessibilityNodeInfoIcsImpl extends AccessibilityNodeInfoStubImpl {
+    static class AccessibilityNodeInfoIcsImpl extends
+            AccessibilityNodeInfoStubImpl {
         @Override
         public Object obtain() {
             return AccessibilityNodeInfoCompatIcs.obtain();
@@ -297,8 +349,10 @@ public class AccessibilityNodeInfoCompat {
         }
 
         @Override
-        public List<Object> findAccessibilityNodeInfosByText(Object info, String text) {
-            return AccessibilityNodeInfoCompatIcs.findAccessibilityNodeInfosByText(info, text);
+        public List<Object> findAccessibilityNodeInfosByText(Object info,
+                String text) {
+            return AccessibilityNodeInfoCompatIcs
+                    .findAccessibilityNodeInfosByText(info, text);
         }
 
         @Override
@@ -442,8 +496,10 @@ public class AccessibilityNodeInfoCompat {
         }
 
         @Override
-        public void setContentDescription(Object info, CharSequence contentDescription) {
-            AccessibilityNodeInfoCompatIcs.setContentDescription(info, contentDescription);
+        public void setContentDescription(Object info,
+                CharSequence contentDescription) {
+            AccessibilityNodeInfoCompatIcs.setContentDescription(info,
+                    contentDescription);
         }
 
         @Override
@@ -463,7 +519,8 @@ public class AccessibilityNodeInfoCompat {
 
         @Override
         public void setLongClickable(Object info, boolean longClickable) {
-            AccessibilityNodeInfoCompatIcs.setLongClickable(info, longClickable);
+            AccessibilityNodeInfoCompatIcs
+                    .setLongClickable(info, longClickable);
         }
 
         @Override
@@ -550,7 +607,7 @@ public class AccessibilityNodeInfoCompat {
 
     /**
      * @return The wrapped actual implementation.
-     *
+     * 
      * @hide
      */
     public Object getImpl() {
@@ -560,7 +617,7 @@ public class AccessibilityNodeInfoCompat {
     /**
      * Returns a cached instance if such is available otherwise a new one and
      * sets the source.
-     *
+     * 
      * @return An instance.
      * @see #setSource(View)
      */
@@ -570,7 +627,7 @@ public class AccessibilityNodeInfoCompat {
 
     /**
      * Returns a cached instance if such is available otherwise a new one.
-     *
+     * 
      * @return An instance.
      */
     public static AccessibilityNodeInfoCompat obtain() {
@@ -580,18 +637,21 @@ public class AccessibilityNodeInfoCompat {
     /**
      * Returns a cached instance if such is available or a new one is create.
      * The returned instance is initialized from the given <code>info</code>.
-     *
-     * @param info The other info.
+     * 
+     * @param info
+     *            The other info.
      * @return An instance.
      */
-    public static AccessibilityNodeInfoCompat obtain(AccessibilityNodeInfoCompat info) {
+    public static AccessibilityNodeInfoCompat obtain(
+            AccessibilityNodeInfoCompat info) {
         return new AccessibilityNodeInfoCompat(IMPL.obtain(info.mInfo));
     }
 
     /**
      * Sets the source.
-     *
-     * @param source The info source.
+     * 
+     * @param source
+     *            The info source.
      */
     public void setSource(View source) {
         IMPL.setSource(mInfo, source);
@@ -599,7 +659,7 @@ public class AccessibilityNodeInfoCompat {
 
     /**
      * Gets the id of the window from which the info comes from.
-     *
+     * 
      * @return The window id.
      */
     public int getWindowId() {
@@ -608,7 +668,7 @@ public class AccessibilityNodeInfoCompat {
 
     /**
      * Gets the number of children.
-     *
+     * 
      * @return The child count.
      */
     public int getChildCount() {
@@ -622,11 +682,12 @@ public class AccessibilityNodeInfoCompat {
      * received info by calling {@link AccessibilityNodeInfoCompat#recycle()} to
      * avoid creating of multiple instances.
      * </p>
-     *
-     * @param index The child index.
+     * 
+     * @param index
+     *            The child index.
      * @return The child node.
-     * @throws IllegalStateException If called outside of an
-     *             AccessibilityService.
+     * @throws IllegalStateException
+     *             If called outside of an AccessibilityService.
      */
     public AccessibilityNodeInfoCompat getChild(int index) {
         return new AccessibilityNodeInfoCompat(IMPL.getChild(mInfo, index));
@@ -639,9 +700,11 @@ public class AccessibilityNodeInfoCompat {
      * {@link android.accessibilityservice.AccessibilityService}. This class is
      * made immutable before being delivered to an AccessibilityService.
      * </p>
-     *
-     * @param child The child.
-     * @throws IllegalStateException If called from an AccessibilityService.
+     * 
+     * @param child
+     *            The child.
+     * @throws IllegalStateException
+     *             If called from an AccessibilityService.
      */
     public void addChild(View child) {
         IMPL.addChild(mInfo, child);
@@ -649,7 +712,7 @@ public class AccessibilityNodeInfoCompat {
 
     /**
      * Gets the actions that can be performed on the node.
-     *
+     * 
      * @return The bit mask of with actions.
      * @see android.view.accessibility.AccessibilityNodeInfo#ACTION_FOCUS
      * @see android.view.accessibility.AccessibilityNodeInfo#ACTION_CLEAR_FOCUS
@@ -667,9 +730,11 @@ public class AccessibilityNodeInfoCompat {
      * {@link android.accessibilityservice.AccessibilityService}. This class is
      * made immutable before being delivered to an AccessibilityService.
      * </p>
-     *
-     * @param action The action.
-     * @throws IllegalStateException If called from an AccessibilityService.
+     * 
+     * @param action
+     *            The action.
+     * @throws IllegalStateException
+     *             If called from an AccessibilityService.
      */
     public void addAction(int action) {
         IMPL.addAction(mInfo, action);
@@ -681,30 +746,34 @@ public class AccessibilityNodeInfoCompat {
      * <strong>Note:</strong> An action can be performed only if the request is
      * made from an {@link android.accessibilityservice.AccessibilityService}.
      * </p>
-     *
-     * @param action The action to perform.
+     * 
+     * @param action
+     *            The action to perform.
      * @return True if the action was performed.
-     * @throws IllegalStateException If called outside of an
-     *             AccessibilityService.
+     * @throws IllegalStateException
+     *             If called outside of an AccessibilityService.
      */
     public boolean performAction(int action) {
         return IMPL.performAction(mInfo, action);
     }
 
     /**
-     * Finds {@link android.view.accessibility.AccessibilityNodeInfo}s by text. The match
-     * is case insensitive containment. The search is relative to this info i.e. this
-     * info is the root of the traversed tree.
+     * Finds {@link android.view.accessibility.AccessibilityNodeInfo}s by text.
+     * The match is case insensitive containment. The search is relative to this
+     * info i.e. this info is the root of the traversed tree.
      * <p>
      * <strong>Note:</strong> It is a client responsibility to recycle the
-     * received info by calling {@link android.view.accessibility.AccessibilityNodeInfo#recycle()}
-     * to avoid creating of multiple instances.
+     * received info by calling
+     * {@link android.view.accessibility.AccessibilityNodeInfo#recycle()} to
+     * avoid creating of multiple instances.
      * </p>
-     *
-     * @param text The searched text.
+     * 
+     * @param text
+     *            The searched text.
      * @return A list of node info.
      */
-    public List<AccessibilityNodeInfoCompat> findAccessibilityNodeInfosByText(String text) {
+    public List<AccessibilityNodeInfoCompat> findAccessibilityNodeInfosByText(
+            String text) {
         List<AccessibilityNodeInfoCompat> result = new ArrayList<AccessibilityNodeInfoCompat>();
         List<Object> infos = IMPL.findAccessibilityNodeInfosByText(mInfo, text);
         final int infoCount = infos.size();
@@ -719,10 +788,11 @@ public class AccessibilityNodeInfoCompat {
      * Gets the parent.
      * <p>
      * <strong>Note:</strong> It is a client responsibility to recycle the
-     * received info by calling {@link android.view.accessibility.AccessibilityNodeInfo#recycle()}
-     * to avoid creating of multiple instances.
+     * received info by calling
+     * {@link android.view.accessibility.AccessibilityNodeInfo#recycle()} to
+     * avoid creating of multiple instances.
      * </p>
-     *
+     * 
      * @return The parent.
      */
     public AccessibilityNodeInfoCompat getParent() {
@@ -736,9 +806,11 @@ public class AccessibilityNodeInfoCompat {
      * {@link android.accessibilityservice.AccessibilityService}. This class is
      * made immutable before being delivered to an AccessibilityService.
      * </p>
-     *
-     * @param parent The parent.
-     * @throws IllegalStateException If called from an AccessibilityService.
+     * 
+     * @param parent
+     *            The parent.
+     * @throws IllegalStateException
+     *             If called from an AccessibilityService.
      */
     public void setParent(View parent) {
         IMPL.setParent(mInfo, parent);
@@ -746,8 +818,9 @@ public class AccessibilityNodeInfoCompat {
 
     /**
      * Gets the node bounds in parent coordinates.
-     *
-     * @param outBounds The output node bounds.
+     * 
+     * @param outBounds
+     *            The output node bounds.
      */
     public void getBoundsInParent(Rect outBounds) {
         IMPL.getBoundsInParent(mInfo, outBounds);
@@ -760,9 +833,11 @@ public class AccessibilityNodeInfoCompat {
      * {@link android.accessibilityservice.AccessibilityService}. This class is
      * made immutable before being delivered to an AccessibilityService.
      * </p>
-     *
-     * @param bounds The node bounds.
-     *@throws IllegalStateException If called from an AccessibilityService.
+     * 
+     * @param bounds
+     *            The node bounds.
+     * @throws IllegalStateException
+     *             If called from an AccessibilityService.
      */
     public void setBoundsInParent(Rect bounds) {
         IMPL.setBoundsInParent(mInfo, bounds);
@@ -770,8 +845,9 @@ public class AccessibilityNodeInfoCompat {
 
     /**
      * Gets the node bounds in screen coordinates.
-     *
-     * @param outBounds The output node bounds.
+     * 
+     * @param outBounds
+     *            The output node bounds.
      */
     public void getBoundsInScreen(Rect outBounds) {
         IMPL.getBoundsInScreen(mInfo, outBounds);
@@ -784,9 +860,11 @@ public class AccessibilityNodeInfoCompat {
      * {@link android.accessibilityservice.AccessibilityService}. This class is
      * made immutable before being delivered to an AccessibilityService.
      * </p>
-     *
-     * @param bounds The node bounds.
-     * @throws IllegalStateException If called from an AccessibilityService.
+     * 
+     * @param bounds
+     *            The node bounds.
+     * @throws IllegalStateException
+     *             If called from an AccessibilityService.
      */
     public void setBoundsInScreen(Rect bounds) {
         IMPL.setBoundsInParent(mInfo, bounds);
@@ -794,7 +872,7 @@ public class AccessibilityNodeInfoCompat {
 
     /**
      * Gets whether this node is checkable.
-     *
+     * 
      * @return True if the node is checkable.
      */
     public boolean isCheckable() {
@@ -808,9 +886,11 @@ public class AccessibilityNodeInfoCompat {
      * {@link android.accessibilityservice.AccessibilityService}. This class is
      * made immutable before being delivered to an AccessibilityService.
      * </p>
-     *
-     * @param checkable True if the node is checkable.
-     * @throws IllegalStateException If called from an AccessibilityService.
+     * 
+     * @param checkable
+     *            True if the node is checkable.
+     * @throws IllegalStateException
+     *             If called from an AccessibilityService.
      */
     public void setCheckable(boolean checkable) {
         IMPL.setCheckable(mInfo, checkable);
@@ -818,7 +898,7 @@ public class AccessibilityNodeInfoCompat {
 
     /**
      * Gets whether this node is checked.
-     *
+     * 
      * @return True if the node is checked.
      */
     public boolean isChecked() {
@@ -832,9 +912,11 @@ public class AccessibilityNodeInfoCompat {
      * {@link android.accessibilityservice.AccessibilityService}. This class is
      * made immutable before being delivered to an AccessibilityService.
      * </p>
-     *
-     * @param checked True if the node is checked.
-     * @throws IllegalStateException If called from an AccessibilityService.
+     * 
+     * @param checked
+     *            True if the node is checked.
+     * @throws IllegalStateException
+     *             If called from an AccessibilityService.
      */
     public void setChecked(boolean checked) {
         IMPL.setChecked(mInfo, checked);
@@ -842,7 +924,7 @@ public class AccessibilityNodeInfoCompat {
 
     /**
      * Gets whether this node is focusable.
-     *
+     * 
      * @return True if the node is focusable.
      */
     public boolean isFocusable() {
@@ -856,9 +938,11 @@ public class AccessibilityNodeInfoCompat {
      * {@link android.accessibilityservice.AccessibilityService}. This class is
      * made immutable before being delivered to an AccessibilityService.
      * </p>
-     *
-     * @param focusable True if the node is focusable.
-     * @throws IllegalStateException If called from an AccessibilityService.
+     * 
+     * @param focusable
+     *            True if the node is focusable.
+     * @throws IllegalStateException
+     *             If called from an AccessibilityService.
      */
     public void setFocusable(boolean focusable) {
         IMPL.setFocusable(mInfo, focusable);
@@ -866,7 +950,7 @@ public class AccessibilityNodeInfoCompat {
 
     /**
      * Gets whether this node is focused.
-     *
+     * 
      * @return True if the node is focused.
      */
     public boolean isFocused() {
@@ -880,9 +964,11 @@ public class AccessibilityNodeInfoCompat {
      * {@link android.accessibilityservice.AccessibilityService}. This class is
      * made immutable before being delivered to an AccessibilityService.
      * </p>
-     *
-     * @param focused True if the node is focused.
-     * @throws IllegalStateException If called from an AccessibilityService.
+     * 
+     * @param focused
+     *            True if the node is focused.
+     * @throws IllegalStateException
+     *             If called from an AccessibilityService.
      */
     public void setFocused(boolean focused) {
         IMPL.setFocused(mInfo, focused);
@@ -890,7 +976,7 @@ public class AccessibilityNodeInfoCompat {
 
     /**
      * Gets whether this node is selected.
-     *
+     * 
      * @return True if the node is selected.
      */
     public boolean isSelected() {
@@ -904,9 +990,11 @@ public class AccessibilityNodeInfoCompat {
      * {@link android.accessibilityservice.AccessibilityService}. This class is
      * made immutable before being delivered to an AccessibilityService.
      * </p>
-     *
-     * @param selected True if the node is selected.
-     * @throws IllegalStateException If called from an AccessibilityService.
+     * 
+     * @param selected
+     *            True if the node is selected.
+     * @throws IllegalStateException
+     *             If called from an AccessibilityService.
      */
     public void setSelected(boolean selected) {
         IMPL.setSelected(mInfo, selected);
@@ -914,7 +1002,7 @@ public class AccessibilityNodeInfoCompat {
 
     /**
      * Gets whether this node is clickable.
-     *
+     * 
      * @return True if the node is clickable.
      */
     public boolean isClickable() {
@@ -928,9 +1016,11 @@ public class AccessibilityNodeInfoCompat {
      * {@link android.accessibilityservice.AccessibilityService}. This class is
      * made immutable before being delivered to an AccessibilityService.
      * </p>
-     *
-     * @param clickable True if the node is clickable.
-     * @throws IllegalStateException If called from an AccessibilityService.
+     * 
+     * @param clickable
+     *            True if the node is clickable.
+     * @throws IllegalStateException
+     *             If called from an AccessibilityService.
      */
     public void setClickable(boolean clickable) {
         IMPL.setClickable(mInfo, clickable);
@@ -938,7 +1028,7 @@ public class AccessibilityNodeInfoCompat {
 
     /**
      * Gets whether this node is long clickable.
-     *
+     * 
      * @return True if the node is long clickable.
      */
     public boolean isLongClickable() {
@@ -952,9 +1042,11 @@ public class AccessibilityNodeInfoCompat {
      * {@link android.accessibilityservice.AccessibilityService}. This class is
      * made immutable before being delivered to an AccessibilityService.
      * </p>
-     *
-     * @param longClickable True if the node is long clickable.
-     * @throws IllegalStateException If called from an AccessibilityService.
+     * 
+     * @param longClickable
+     *            True if the node is long clickable.
+     * @throws IllegalStateException
+     *             If called from an AccessibilityService.
      */
     public void setLongClickable(boolean longClickable) {
         IMPL.setLongClickable(mInfo, longClickable);
@@ -962,7 +1054,7 @@ public class AccessibilityNodeInfoCompat {
 
     /**
      * Gets whether this node is enabled.
-     *
+     * 
      * @return True if the node is enabled.
      */
     public boolean isEnabled() {
@@ -976,9 +1068,11 @@ public class AccessibilityNodeInfoCompat {
      * {@link android.accessibilityservice.AccessibilityService}. This class is
      * made immutable before being delivered to an AccessibilityService.
      * </p>
-     *
-     * @param enabled True if the node is enabled.
-     * @throws IllegalStateException If called from an AccessibilityService.
+     * 
+     * @param enabled
+     *            True if the node is enabled.
+     * @throws IllegalStateException
+     *             If called from an AccessibilityService.
      */
     public void setEnabled(boolean enabled) {
         IMPL.setEnabled(mInfo, enabled);
@@ -986,7 +1080,7 @@ public class AccessibilityNodeInfoCompat {
 
     /**
      * Gets whether this node is a password.
-     *
+     * 
      * @return True if the node is a password.
      */
     public boolean isPassword() {
@@ -1000,9 +1094,11 @@ public class AccessibilityNodeInfoCompat {
      * {@link android.accessibilityservice.AccessibilityService}. This class is
      * made immutable before being delivered to an AccessibilityService.
      * </p>
-     *
-     * @param password True if the node is a password.
-     * @throws IllegalStateException If called from an AccessibilityService.
+     * 
+     * @param password
+     *            True if the node is a password.
+     * @throws IllegalStateException
+     *             If called from an AccessibilityService.
      */
     public void setPassword(boolean password) {
         IMPL.setPassword(mInfo, password);
@@ -1010,7 +1106,7 @@ public class AccessibilityNodeInfoCompat {
 
     /**
      * Gets if the node is scrollable.
-     *
+     * 
      * @return True if the node is scrollable, false otherwise.
      */
     public boolean isScrollable() {
@@ -1024,9 +1120,11 @@ public class AccessibilityNodeInfoCompat {
      * {@link android.accessibilityservice.AccessibilityService}. This class is
      * made immutable before being delivered to an AccessibilityService.
      * </p>
-     *
-     * @param scrollable True if the node is scrollable, false otherwise.
-     * @throws IllegalStateException If called from an AccessibilityService.
+     * 
+     * @param scrollable
+     *            True if the node is scrollable, false otherwise.
+     * @throws IllegalStateException
+     *             If called from an AccessibilityService.
      */
     public void setScrollable(boolean scrollable) {
         IMPL.setScrollable(mInfo, scrollable);
@@ -1034,7 +1132,7 @@ public class AccessibilityNodeInfoCompat {
 
     /**
      * Gets the package this node comes from.
-     *
+     * 
      * @return The package name.
      */
     public CharSequence getPackageName() {
@@ -1048,9 +1146,11 @@ public class AccessibilityNodeInfoCompat {
      * {@link android.accessibilityservice.AccessibilityService}. This class is
      * made immutable before being delivered to an AccessibilityService.
      * </p>
-     *
-     * @param packageName The package name.
-     * @throws IllegalStateException If called from an AccessibilityService.
+     * 
+     * @param packageName
+     *            The package name.
+     * @throws IllegalStateException
+     *             If called from an AccessibilityService.
      */
     public void setPackageName(CharSequence packageName) {
         IMPL.setPackageName(mInfo, packageName);
@@ -1058,7 +1158,7 @@ public class AccessibilityNodeInfoCompat {
 
     /**
      * Gets the class this node comes from.
-     *
+     * 
      * @return The class name.
      */
     public CharSequence getClassName() {
@@ -1072,9 +1172,11 @@ public class AccessibilityNodeInfoCompat {
      * {@link android.accessibilityservice.AccessibilityService}. This class is
      * made immutable before being delivered to an AccessibilityService.
      * </p>
-     *
-     * @param className The class name.
-     * @throws IllegalStateException If called from an AccessibilityService.
+     * 
+     * @param className
+     *            The class name.
+     * @throws IllegalStateException
+     *             If called from an AccessibilityService.
      */
     public void setClassName(CharSequence className) {
         IMPL.setClassName(mInfo, className);
@@ -1082,7 +1184,7 @@ public class AccessibilityNodeInfoCompat {
 
     /**
      * Gets the text of this node.
-     *
+     * 
      * @return The text.
      */
     public CharSequence getText() {
@@ -1096,9 +1198,11 @@ public class AccessibilityNodeInfoCompat {
      * {@link android.accessibilityservice.AccessibilityService}. This class is
      * made immutable before being delivered to an AccessibilityService.
      * </p>
-     *
-     * @param text The text.
-     * @throws IllegalStateException If called from an AccessibilityService.
+     * 
+     * @param text
+     *            The text.
+     * @throws IllegalStateException
+     *             If called from an AccessibilityService.
      */
     public void setText(CharSequence text) {
         IMPL.setText(mInfo, text);
@@ -1106,7 +1210,7 @@ public class AccessibilityNodeInfoCompat {
 
     /**
      * Gets the content description of this node.
-     *
+     * 
      * @return The content description.
      */
     public CharSequence getContentDescription() {
@@ -1120,9 +1224,11 @@ public class AccessibilityNodeInfoCompat {
      * {@link android.accessibilityservice.AccessibilityService}. This class is
      * made immutable before being delivered to an AccessibilityService.
      * </p>
-     *
-     * @param contentDescription The content description.
-     * @throws IllegalStateException If called from an AccessibilityService.
+     * 
+     * @param contentDescription
+     *            The content description.
+     * @throws IllegalStateException
+     *             If called from an AccessibilityService.
      */
     public void setContentDescription(CharSequence contentDescription) {
         IMPL.setContentDescription(mInfo, contentDescription);
@@ -1131,9 +1237,11 @@ public class AccessibilityNodeInfoCompat {
     /**
      * Return an instance back to be reused.
      * <p>
-     * <strong>Note:</strong> You must not touch the object after calling this function.
-     *
-     * @throws IllegalStateException If the info is already recycled.
+     * <strong>Note:</strong> You must not touch the object after calling this
+     * function.
+     * 
+     * @throws IllegalStateException
+     *             If the info is already recycled.
      */
     public void recycle() {
         IMPL.recycle(mInfo);

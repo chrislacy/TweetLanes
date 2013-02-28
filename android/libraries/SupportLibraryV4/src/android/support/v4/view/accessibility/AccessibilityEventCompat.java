@@ -1,17 +1,17 @@
 /*
  * Copyright (C) 2011 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package android.support.v4.view.accessibility;
@@ -20,18 +20,21 @@ import android.os.Build;
 import android.view.accessibility.AccessibilityEvent;
 
 /**
- * Helper for accessing features in {@link AccessibilityEvent}
- * introduced after API level 4 in a backwards compatible fashion.
+ * Helper for accessing features in {@link AccessibilityEvent} introduced after
+ * API level 4 in a backwards compatible fashion.
  */
 public class AccessibilityEventCompat {
 
     static interface AccessibilityEventVersionImpl {
         public int getRecordCount(AccessibilityEvent event);
+
         public void appendRecord(AccessibilityEvent event, Object record);
+
         public Object getRecord(AccessibilityEvent event, int index);
     }
 
-    static class AccessibilityEventStubImpl implements AccessibilityEventVersionImpl {
+    static class AccessibilityEventStubImpl implements
+            AccessibilityEventVersionImpl {
 
         public void appendRecord(AccessibilityEvent event, Object record) {
 
@@ -105,7 +108,8 @@ public class AccessibilityEventCompat {
     public static final int TYPE_VIEW_SCROLLED = 0x00001000;
 
     /**
-     * Represents the event of changing the selection in an {@link android.widget.EditText}.
+     * Represents the event of changing the selection in an
+     * {@link android.widget.EditText}.
      */
     public static final int TYPE_VIEW_TEXT_SELECTION_CHANGED = 0x00002000;
 
@@ -118,7 +122,7 @@ public class AccessibilityEventCompat {
 
     /**
      * Gets the number of records contained in the event.
-     *
+     * 
      * @return The number of records.
      */
     public static int getRecordCount(AccessibilityEvent event) {
@@ -126,24 +130,29 @@ public class AccessibilityEventCompat {
     }
 
     /**
-     * Appends an {@link android.view.accessibility.AccessibilityRecord} to the end of
-     * event records.
-     *
-     * @param record The record to append.
-     *
-     * @throws IllegalStateException If called from an AccessibilityService.
+     * Appends an {@link android.view.accessibility.AccessibilityRecord} to the
+     * end of event records.
+     * 
+     * @param record
+     *            The record to append.
+     * 
+     * @throws IllegalStateException
+     *             If called from an AccessibilityService.
      */
-    public static void appendRecord(AccessibilityEvent event, AccessibilityRecordCompat record) {
+    public static void appendRecord(AccessibilityEvent event,
+            AccessibilityRecordCompat record) {
         IMPL.appendRecord(event, record.getImpl());
     }
 
     /**
      * Gets the record at a given index.
-     *
-     * @param index The index.
+     * 
+     * @param index
+     *            The index.
      * @return The record at the specified index.
      */
-    public static AccessibilityRecordCompat getRecord(AccessibilityEvent event, int index) {
+    public static AccessibilityRecordCompat getRecord(AccessibilityEvent event,
+            int index) {
         return new AccessibilityRecordCompat(IMPL.getRecord(event, index));
     }
 }
