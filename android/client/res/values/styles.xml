@@ -33,6 +33,10 @@
         
     </style>
     
+    <style name="Theme.TweetLanes.LightDarkActionBars" parent="android:Theme.Holo.Light.DarkActionBar">
+        
+    </style>
+    
     <style name="Theme.TweetLanes" parent="android:Theme.Holo">
         <item name="vpiListTabPageIndicatorStyle">@style/Widget.ListTabPageIndicator</item>  
         <item name="vpiTabPageIndicatorStyle">@style/Widget.TabPageIndicator</item>
