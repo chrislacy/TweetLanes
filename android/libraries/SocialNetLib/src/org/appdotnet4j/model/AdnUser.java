@@ -11,8 +11,8 @@
 
 package org.appdotnet4j.model;
 
-import org.tjson.JSONException;
-import org.tjson.JSONObject;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class AdnUser {
 

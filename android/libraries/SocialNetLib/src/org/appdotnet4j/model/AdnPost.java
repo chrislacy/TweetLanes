@@ -14,9 +14,9 @@ package org.appdotnet4j.model;
 import java.text.ParseException;
 import java.util.Date;
 
-import org.tjson.JSONArray;
-import org.tjson.JSONException;
-import org.tjson.JSONObject;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.tweetalib.android.TwitterManager;
 import org.tweetalib.android.TwitterUtil;
 

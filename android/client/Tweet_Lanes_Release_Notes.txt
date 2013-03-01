@@ -2,6 +2,10 @@
 
 Note: To report bugs or make feature requests, either contact the official Twitter @TweetLanes or click the "Send Feedback" button in the app.
 
+Version 0.73.0, ???
+=================================
+- App.net support
+
 Version 0.72.1, February 22, 2013
 =================================
 - Updated source code to be follow the new project coding standards
