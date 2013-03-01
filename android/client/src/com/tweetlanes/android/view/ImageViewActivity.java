@@ -36,7 +36,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.crittercism.app.Crittercism;
-import com.tweetlanes.android.App;
 import com.tweetlanes.android.Constant;
 import com.tweetlanes.android.R;
 import com.tweetlanes.android.util.Util;
@@ -56,7 +55,8 @@ public class ImageViewActivity extends FragmentActivity {
 	 */
     public static void createAndStartActivity(Activity currentActivity,
             String mediaUrl, String sourceUrl, String authorScreenName) {
-        Intent intent = new Intent(App.getContext(), ImageViewActivity.class);
+        Intent intent = new Intent(currentActivity,
+                ImageViewActivity.class);
         intent.putExtra(KEY_MEDIA_URL, mediaUrl);
         intent.putExtra(KEY_SOURCE_URL, sourceUrl);
         intent.putExtra(KEY_AUTHOR_SCREEN_NAME, authorScreenName);

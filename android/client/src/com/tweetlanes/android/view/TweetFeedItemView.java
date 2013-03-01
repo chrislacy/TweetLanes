@@ -40,7 +40,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.tweetlanes.android.App;
 import com.tweetlanes.android.AppSettings;
 import com.tweetlanes.android.AppSettings.StatusSize;
 import com.tweetlanes.android.R;
@@ -175,7 +174,7 @@ public class TweetFeedItemView extends LinearLayout {
             if (twitterStatus.mIsRetweet == true) {
                 String text = "Retweeted by " + twitterStatus.mUserName;
                 if (showTweetSource) {
-                    text += " " + App.getContext().getString(R.string.via)
+                    text += " " + mContext.getString(R.string.via)
                             + " " + mTwitterStatus.mSource;
                 }
                 mTweetDetailsView.setText(text);
@@ -185,7 +184,7 @@ public class TweetFeedItemView extends LinearLayout {
                         + twitterStatus.mRetweetCount + " times.");
             } else {
                 if (showTweetSource) {
-                    mTweetDetailsView.setText(App.getContext().getString(
+                    mTweetDetailsView.setText(mContext.getString(
                             R.string.via)
                             + " " + mTwitterStatus.mSource);
                 } else {

@@ -55,14 +55,9 @@ import com.tweetlanes.android.widget.urlimageviewhelper.URLImageViewHelper;
 // @ReportsCrashes(formKey = "dFBibVdkWVlKQ25rX01vV1dub1hjOXc6MQ")
 public class App extends Application {
 
-    private static Context mContext;
     private static int mAppVersionNumber;
     private static String mAppVersionName;
     private static boolean mActionLauncherInstalled;
-
-    public static Context getContext() {
-        return mContext;
-    }
 
     public static int getAppVersionNumber() {
         return mAppVersionNumber;
@@ -217,7 +212,7 @@ public class App extends Application {
                     String key = getAccountDescriptorKey(id);
                     String jsonAsString = mPreferences.getString(key, null);
                     if (jsonAsString != null) {
-                        AccountDescriptor account = new AccountDescriptor(
+                        AccountDescriptor account = new AccountDescriptor(this,
                                 jsonAsString);
                         mAccounts.add(account);
 
@@ -350,7 +345,7 @@ public class App extends Application {
                 final Editor edit = mPreferences.edit();
                 String userIdAsString = Long.toString(user.getId());
 
-                AccountDescriptor account = new AccountDescriptor(user,
+                AccountDescriptor account = new AccountDescriptor(this, user,
                         oAuthToken, oAuthSecret);
                 edit.putString(getAccountDescriptorKey(user.getId()),
                         account.toString());
@@ -408,7 +403,6 @@ public class App extends Application {
         Log.d("StatusCache", "*** New run");
 
         super.onCreate();
-        mContext = this;
 
         java.util.logging.Logger.getLogger("org.apache.http.wire").setLevel(
                 java.util.logging.Level.FINEST);
@@ -457,25 +451,25 @@ public class App extends Application {
         mProfileLaneDefinitions = new ArrayList<LaneDescriptor>();
         mProfileLaneDefinitions
                 .add(new LaneDescriptor(Constant.LaneType.PROFILE_PROFILE,
-                        getContext().getString(R.string.lane_profile_profile),
+                        getString(R.string.lane_profile_profile),
                         new TwitterContentHandleBase(
                                 TwitterConstant.ContentType.USER)));
         mProfileLaneDefinitions.add(new LaneDescriptor(
-                Constant.LaneType.PROFILE_PROFILE_TIMELINE, getContext()
-                        .getString(R.string.lane_profile_tweets),
+                Constant.LaneType.PROFILE_PROFILE_TIMELINE, 
+                        getString(R.string.lane_profile_tweets),
                 new TwitterContentHandleBase(
                         TwitterConstant.ContentType.STATUSES,
                         TwitterConstant.StatusesType.USER_TIMELINE)));
         mProfileLaneDefinitions.add(new LaneDescriptor(
-                Constant.LaneType.PROFILE_MENTIONS, getContext().getString(
+                Constant.LaneType.PROFILE_MENTIONS, getString(
                         R.string.lane_profile_mentions),
                 new TwitterContentHandleBase(
                         TwitterConstant.ContentType.STATUSES,
                         TwitterConstant.StatusesType.SCREEN_NAME_SEARCH)));
         if (Constant.SOCIAL_NET_TYPE == SocialNetConstant.Type.Twitter) {
             mProfileLaneDefinitions.add(new LaneDescriptor(
-                    Constant.LaneType.PROFILE_FAVORITES, getContext()
-                            .getString(R.string.lane_profile_favorites),
+                    Constant.LaneType.PROFILE_FAVORITES, 
+                            getString(R.string.lane_profile_favorites),
                     new TwitterContentHandleBase(
                             TwitterConstant.ContentType.STATUSES,
                             TwitterConstant.StatusesType.USER_FAVORITES)));
@@ -485,14 +479,14 @@ public class App extends Application {
         mSearchLaneDefinitions = new ArrayList<LaneDescriptor>();
 
         mSearchLaneDefinitions.add(new LaneDescriptor(
-                Constant.LaneType.SEARCH_TERM, getContext().getString(
+                Constant.LaneType.SEARCH_TERM, getString(
                         R.string.lane_search_tweets),
                 new TwitterContentHandleBase(
                         TwitterConstant.ContentType.STATUSES,
                         TwitterConstant.StatusesType.STATUS_SEARCH)));
         if (Constant.SOCIAL_NET_TYPE == SocialNetConstant.Type.Twitter) {
             mSearchLaneDefinitions.add(new LaneDescriptor(
-                    Constant.LaneType.SEARCH_PERSON, getContext().getString(
+                    Constant.LaneType.SEARCH_PERSON, getString(
                             R.string.lane_search_people),
                     new TwitterContentHandleBase(
                             TwitterConstant.ContentType.USERS,
@@ -502,19 +496,19 @@ public class App extends Application {
 
         mTweetSpotlightLaneDefinitions = new ArrayList<LaneDescriptor>();
         mTweetSpotlightLaneDefinitions.add(new LaneDescriptor(
-                Constant.LaneType.STATUS_SPOTLIGHT, getContext().getString(
+                Constant.LaneType.STATUS_SPOTLIGHT, getString(
                         R.string.lane_tweet_status),
                 new TwitterContentHandleBase(
                         TwitterConstant.ContentType.STATUS,
                         TwitterConstant.StatusType.GET_STATUS)));
         mTweetSpotlightLaneDefinitions.add(new LaneDescriptor(
-                Constant.LaneType.STATUS_CONVERSATION, getContext().getString(
+                Constant.LaneType.STATUS_CONVERSATION, getString(
                         R.string.lane_tweet_conversation),
                 new TwitterContentHandleBase(
                         TwitterConstant.ContentType.STATUS,
                         TwitterConstant.StatusesType.FULL_CONVERSATION)));
         mTweetSpotlightLaneDefinitions.add(new LaneDescriptor(
-                Constant.LaneType.STATUS_RETWEETED_BY, getContext().getString(
+                Constant.LaneType.STATUS_RETWEETED_BY, getString(
                         R.string.lane_tweet_retweeted_by),
                 new TwitterContentHandleBase(TwitterConstant.ContentType.USERS,
                         TwitterConstant.UsersType.RETWEETED_BY)));
@@ -540,7 +534,7 @@ public class App extends Application {
                     null, mConnectionStatusCallbacks);
         }
 
-        AppSettings.initModule(mContext);
+        AppSettings.initModule(this);
 
         NotificationHelper.initModule();
     }
@@ -564,7 +558,7 @@ public class App extends Application {
         public void handleError(TwitterFetchResult fetchResult) {
             Intent intent = new Intent("" + SystemEvent.DISPLAY_TOAST);
             intent.putExtra("message", fetchResult.getErrorMessage());
-            LocalBroadcastManager.getInstance(mContext).sendBroadcast(intent);
+            LocalBroadcastManager.getInstance(App.this).sendBroadcast(intent);
         }
     };
 
@@ -678,9 +672,7 @@ public class App extends Application {
 	 * 
 	 */
     public void clearImageCaches() {
-        if (mContext != null) {
-            URLImageViewHelper.emptyCache(mContext);
-        }
+        URLImageViewHelper.emptyCache(this);
 
         if (mProfileImageLoader != null) {
             mProfileImageLoader.clearFileCache();
