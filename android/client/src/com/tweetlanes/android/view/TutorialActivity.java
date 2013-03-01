@@ -151,7 +151,7 @@ public class TutorialActivity extends FragmentActivity {
         }
 
         @Override
-        public void onPageSelected(int laneIndex, int oldPosition) {
+        public void onPageSelected(int laneIndex) {
 
             Resources res = getResources();
             String[] titles = res.getStringArray(R.array.tutorial_titles);

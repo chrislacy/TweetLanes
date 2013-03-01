@@ -766,7 +766,7 @@ public class BaseLaneActivity extends FragmentActivity implements
         }
 
         @Override
-        public void onPageSelected(int position, int oldPosition) {
+        public void onPageSelected(int position) {
             if (mLaneFragmentHashMap != null
                     && mLaneFragmentHashMap.containsKey(position)) {
 
@@ -778,7 +778,7 @@ public class BaseLaneActivity extends FragmentActivity implements
                 mCurrentActionMode.finish();
             }
 
-            onLaneChange(position, oldPosition);
+            onLaneChange(position, -1);
         }
     };
 
