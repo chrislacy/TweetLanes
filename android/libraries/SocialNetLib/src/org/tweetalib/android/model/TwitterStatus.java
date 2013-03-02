@@ -542,7 +542,7 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
     void setStatusMarkup(AdnPost post) {
         mStatusFullMarkup = TwitterUtil.getStatusMarkup(post, mMediaEntity);
         mStatusFullSpanned = URLSpanNoUnderline.stripUnderlines(Html
-                .fromHtml(mStatusFullMarkup + " "));
+                .fromHtml(mStatusFullMarkup.replace("\n", "<br/>") + " "));
     }
 
     /*
