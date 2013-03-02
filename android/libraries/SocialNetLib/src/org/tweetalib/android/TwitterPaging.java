@@ -1,12 +1,12 @@
 /*
  * Copyright (C) 2013 Chris Lacy
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -16,17 +16,16 @@
 
 package org.tweetalib.android;
 
+import android.util.Log;
 import org.appdotnet4j.model.AdnPaging;
 import twitter4j.Paging;
-
-import android.util.Log;
 
 public class TwitterPaging {
 
     public static final int DEFAULT_STATUS_COUNT = 50;
 
     /*
-	 * 
+     *
 	 */
     public static TwitterPaging createGetOlder(long statusId) {
         return new TwitterPaging(null, null, null, statusId);
@@ -45,7 +44,7 @@ public class TwitterPaging {
     }
 
     /*
-	 * 
+     *
 	 */
     public TwitterPaging(Integer page, Integer count, Long sinceId, Long maxId) {
         if (page != null) {
@@ -58,8 +57,8 @@ public class TwitterPaging {
         }
         if (maxId != null && maxId > 0) {
             mMaxId = maxId - 1; // Decrement by 1 so we don't fetch the current
-                                // tweet again. Bit of
-                                // a hack...
+            // tweet again. Bit of
+            // a hack...
             // TODO: Fix me
             if (mMaxId < 0) {
                 Log.d("ERROR", "mMaxId is " + mMaxId.longValue()
@@ -78,7 +77,7 @@ public class TwitterPaging {
     }
 
     /*
-	 * 
+     *
 	 */
     public Paging getT4JPaging() {
         Paging result = new Paging();
@@ -118,24 +117,40 @@ public class TwitterPaging {
     }
 
     public AdnPaging getAdnPaging() {
-        /*
-         * AdnPaging result = new AdnPaging(); if (mMaxId == null && mSinceId ==
-         * null) {
-         * 
-         * if (mPage != null) { result.mPage = mPage; } else { result.mPage = 1;
-         * } } else { if (mMaxId != null) { if (mMaxId.longValue() >= 0) {
-         * result.setMaxId(mMaxId); } else { Log.d("ERROR", "mMaxId is " +
-         * mMaxId.longValue() + ", must be >= 0"); } } if (mSinceId != null) {
-         * if (mSinceId.longValue() >= 0) { result.setSinceId(mSinceId); } else
-         * { Log.d("ERROR", "mSinceId is " + mSinceId.longValue() +
-         * ", must be >= 0"); } } }
-         * 
-         * if (mCount != null) { result.setCount(mCount); } else {
-         * result.setCount(DEFAULT_STATUS_COUNT); }
-         * 
-         * return result;
-         */
-        return null;
+
+        AdnPaging result = new AdnPaging(1);
+        if (mMaxId == null && mSinceId == null) {
+            if (mPage != null) {
+                result.mPage = mPage;
+            } else {
+                result.mPage = 1;
+            }
+        } else {
+            if (mMaxId != null) {
+                if (mMaxId.longValue() >= 0) {
+                    result.setMaxId(mMaxId);
+                } else {
+                    Log.d("ERROR", "mMaxId is " +
+                            mMaxId.longValue() + ", must be >= 0");
+                }
+            }
+            if (mSinceId != null) {
+                if (mSinceId.longValue() >= 0) {
+                    result.setSinceId(mSinceId);
+                } else {
+                    Log.d("ERROR", "mSinceId is " + mSinceId.longValue() +
+                            ", must be >= 0");
+                }
+            }
+        }
+
+        if (mCount != null) {
+            result.setCount(mCount);
+        } else {
+            result.setCount(DEFAULT_STATUS_COUNT);
+        }
+
+        return result;
     }
 
     public Integer getPage() {

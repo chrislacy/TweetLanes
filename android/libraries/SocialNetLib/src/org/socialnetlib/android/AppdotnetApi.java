@@ -11,29 +11,23 @@
 
 package org.socialnetlib.android;
 
-import org.appdotnet4j.model.AdnPost;
-import org.appdotnet4j.model.AdnPostCompose;
-import org.appdotnet4j.model.AdnPosts;
-import org.appdotnet4j.model.AdnUser;
-import org.appdotnet4j.model.AdnUsers;
+import com.turbomanage.httpclient.BasicHttpClient;
+import com.turbomanage.httpclient.HttpResponse;
+import com.turbomanage.httpclient.ParameterMap;
+import org.appdotnet4j.model.*;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.tweetalib.android.model.TwitterUser;
-
 import twitter4j.Twitter;
-
-import com.turbomanage.httpclient.BasicHttpClient;
-import com.turbomanage.httpclient.HttpResponse;
-import com.turbomanage.httpclient.ParameterMap;
 
 public class AppdotnetApi extends SocialNetApi {
 
     /*
-	 * 
+     *
 	 */
     public AppdotnetApi(SocialNetConstant.Type type, String consumerKey,
-            String consumerSecret) {
+                        String consumerSecret) {
         super(type, consumerKey, consumerSecret);
     }
 
@@ -85,14 +79,14 @@ public class AppdotnetApi extends SocialNetApi {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * org.socialnetlib.android.SocialNetApi#verifyCredentialsSync(java.lang
      * .String, java.lang.String)
      */
     @Override
     public TwitterUser verifyCredentialsSync(String oAuthToken,
-            String oAuthSecret) {
+                                             String oAuthSecret) {
 
         String userString = doGet("/stream/0/users/me", null, oAuthToken);
         if (userString != null) {
@@ -104,7 +98,7 @@ public class AppdotnetApi extends SocialNetApi {
     }
 
     /*
-	 * 
+	 *
 	 */
     public TwitterUser getAdnUser(long userId) {
 
@@ -181,57 +175,67 @@ public class AppdotnetApi extends SocialNetApi {
     }
 
     /*
-	 * 
+	 *
 	 */
-    public AdnPosts getAdnStream() {
-        return getPosts("/stream/0/posts/stream", null);
+    public AdnPosts getAdnStream(AdnPaging paging) {
+        return getPosts("/stream/0/posts/stream", null, paging);
     }
 
     /*
-	 * 
+	 *
 	 */
-    public AdnPosts getAdnGlobalStream() {
-        return getPosts("/stream/0/posts/stream/global", null);
+    public AdnPosts getAdnGlobalStream(AdnPaging paging) {
+        return getPosts("/stream/0/posts/stream/global", null, paging);
     }
 
     /*
-	 * 
+	 *
 	 */
-    public AdnPosts getAdnMentions(int userId) {
-        return getPosts("/stream/0/users/" + userId + "/mentions", null);
+    public AdnPosts getAdnMentions(int userId, AdnPaging paging) {
+        return getPosts("/stream/0/users/" + userId + "/mentions", null, paging);
     }
 
     /*
-	 * 
+	 *
 	 */
-    public AdnPosts getAdnUserStream(int userId) {
-        return getPosts("/stream/0/users/" + userId + "/posts", null);
+    public AdnPosts getAdnUserStream(int userId, AdnPaging paging) {
+        return getPosts("/stream/0/users/" + userId + "/posts", null, paging);
     }
 
-    public AdnPosts getAdnFavorites(String userId) {
-        return getPosts("/stream/0/users/" + userId + "/stars", null);
+    public AdnPosts getAdnFavorites(String userId, AdnPaging paging) {
+        return getPosts("/stream/0/users/" + userId + "/stars", null, paging);
     }
 
     /*
-	 * 
+	 *
 	 */
-    public AdnPosts getAdnTagPosts(String tag) {
-        return getPosts("/stream/0/posts/tag/" + tag, null);
+    public AdnPosts getAdnTagPosts(String tag, AdnPaging paging) {
+        return getPosts("/stream/0/posts/tag/" + tag, null, paging);
     }
 
-    public AdnPosts getAdnConversation(long postId) {
-        return getPosts("/stream/0/posts/" + postId + "/replies", null);
+    public AdnPosts getAdnConversation(long postId, AdnPaging paging) {
+        return getPosts("/stream/0/posts/" + postId + "/replies", null, paging);
     }
 
     /*
-	 * 
+	 *
 	 */
-    private AdnPosts getPosts(String path, ParameterMap params) {
+    private AdnPosts getPosts(String path, ParameterMap params, AdnPaging paging) {
+        if (paging == null) {
+            paging = new AdnPaging(1);
+        }
+
         if (params == null) {
             params = new ParameterMap();
         }
         params.add("include_deleted", "0");
         params.add("include_muted", "0");
+        if (paging.getSinceId() > 0) {
+            params.add("since_id", String.valueOf(paging.getSinceId()));
+        }
+        if (paging.getMaxId() > 0) {
+            params.add("before_id", String.valueOf(paging.getMaxId()));
+        }
         String streamString = doGet(path, params);
         if (streamString != null) {
             AdnPosts posts = new AdnPosts(streamString);
@@ -255,7 +259,7 @@ public class AppdotnetApi extends SocialNetApi {
     }
 
     /*
-	 * 
+	 *
 	 */
     public AdnPost getAdnPost(long id) {
         String postString = doGet("/stream/0/posts/" + id, null);
