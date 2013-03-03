@@ -129,17 +129,11 @@ public class TwitterPaging {
             if (mMaxId != null) {
                 if (mMaxId.longValue() >= 0) {
                     result.setMaxId(mMaxId);
-                } else {
-                    Log.d("ERROR", "mMaxId is " +
-                            mMaxId.longValue() + ", must be >= 0");
                 }
             }
             if (mSinceId != null) {
                 if (mSinceId.longValue() >= 0) {
                     result.setSinceId(mSinceId);
-                } else {
-                    Log.d("ERROR", "mSinceId is " + mSinceId.longValue() +
-                            ", must be >= 0");
                 }
             }
         }

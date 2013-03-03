@@ -120,7 +120,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater,
      * android.view.ViewGroup, android.os.Bundle)
@@ -181,7 +181,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     private void configureInitialStatuses() {
         boolean autoUpdateStatuses = false;
@@ -216,7 +216,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     void fetchNewestTweets() {
         if (mNewestTweetId != null) {
@@ -225,7 +225,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     void fetchNewestTweets(final long sinceStatusId, Long maxStatusId) {
         if (mTweetDataRefreshCallback == null) {
@@ -266,7 +266,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.tweetlanes.android.view.BaseLaneFragment#onJumpToTop()
      */
     @Override
@@ -285,7 +285,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.tweetlanes.android.view.BaseLaneFragment#clearLocalCache()
      */
     @Override
@@ -296,7 +296,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.tweetlanes.android.view.BaseLaneFragment#getContentToCache()
      */
     @Override
@@ -361,7 +361,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     boolean configureCachedStatuses() {
 
@@ -402,7 +402,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * com.tweetlanes.android.view.BaseLaneFragment#triggerInitialDownload()
      */
@@ -428,7 +428,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     private BroadcastReceiver mVolumeUpKeyDownReceiver = new BroadcastReceiver() {
 
@@ -450,7 +450,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     };
 
     /*
-	 * 
+	 *
 	 */
     private BroadcastReceiver mVolumeDownKeyDownReceiver = new BroadcastReceiver() {
 
@@ -472,14 +472,14 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     };
 
     /*
-	 * 
+	 *
 	 */
     enum ScrollDirection {
         UNKNOWN, TO_NEWER, TO_OLDER,
     };
 
     /*
-	 * 
+	 *
 	 */
     private class ScrollTracker {
 
@@ -541,7 +541,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     private ScrollTracker mScrollTracker = new ScrollTracker();
 
     /*
-	 * 
+	 *
 	 */
     private OnScrollListener mTweetFeedOnScrollListener = new OnScrollListener() {
 
@@ -575,7 +575,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     };
 
     /*
-	 * 
+	 *
 	 */
     private OnLastItemVisibleListener mTweetFeedOnLastItemVisibleListener = new OnLastItemVisibleListener() {
 
@@ -626,7 +626,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     int mCurrentFirstVisibleItem = 0;
 
     /*
-	 * 
+	 *
 	 */
     void beginListHeadingCount() {
         if (mTwitterStatusIdWhenRefreshed == null) {
@@ -642,7 +642,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     OnClickListener mListHeadingHideImageOnClickListener = new OnClickListener() {
 
@@ -654,7 +654,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     };
 
     /*
-	 * 
+	 *
 	 */
     void setListHeadingVisiblilty(int value) {
         mListHeadingTextView.setVisibility(value);
@@ -662,7 +662,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     void updateListHeading(int firstVisibleItem) {
 
@@ -689,7 +689,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     private TwitterStatus getVisibleStatus() {
 
@@ -714,7 +714,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     private void onRefreshFinished(TwitterFetchResult result,
             TwitterStatuses feed) {
@@ -752,7 +752,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     private OnRefreshListener mTweetFeedOnRefreshListener = new OnRefreshListener() {
 
@@ -764,7 +764,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * android.support.v4.app.Fragment#onOptionsItemSelected(android.view.MenuItem
      * )
@@ -798,7 +798,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * com.tweetlanes.android.view.BaseLaneFragment#configureOptionsMenu(android
      * .view.Menu)
@@ -858,7 +858,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see android.support.v4.app.Fragment#onDestroy()
      */
     @Override
@@ -873,7 +873,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     private void updateViewVisibility(boolean loadHasFinished) {
 
@@ -919,13 +919,9 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         mNewestTweetId = null;
         mOldestTweetId = null;
 
-        // int oldSize = _mStatusFeed != null ? _mStatusFeed.getStatusCount() :
-        // 0;
-
         if (statuses == null) {
             _mStatusFeed = null;
         } else {
-            // _mStatusFeed = statuses;
             _mStatusFeed = new TwitterStatuses(statuses);
         }
 
@@ -933,10 +929,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                 && _mCachedStatusFeed.getStatusCount() > 0) {
             _mStatusFeed.insert(_mCachedStatusFeed);
         }
-        // int newSize = _mStatusFeed.getStatusCount();
-        // Log.d("Statuses", "Old: " + oldSize + ", New: " + newSize +
-        // ", Cached: " + (_mCachedStatusFeed != null ?
-        // _mCachedStatusFeed.getStatusCount() : 0));
+
         if (_mStatusFeed != null && _mStatusFeed.getStatusCount() > 0) {
             mNewestTweetId = _mStatusFeed.getStatus(0).mId;
             mOldestTweetId = _mStatusFeed.getStatus(_mStatusFeed
@@ -969,7 +962,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     };
 
     /*
-	 * 
+	 *
 	 */
     private boolean onTweetFeedItemSingleTap(View view, int position) {
 
@@ -990,7 +983,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     private void onTweetFeedItemLongPress(View view, int position) {
 
@@ -1032,7 +1025,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     private TwitterStatuses getSelectedStatuses() {
 
@@ -1050,7 +1043,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     private TwitterStatus getFirstSelectedStatus() {
 
@@ -1066,14 +1059,14 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     enum ItemSelectedState {
         NONE, SOME, ALL
     }
 
     /*
-	 * 
+	 *
 	 */
     private ItemSelectedState getSelectedFavoriteState() {
 
@@ -1097,7 +1090,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     private class MultipleTweetSelectionCallback implements
             ListView.MultiChoiceModeListener {
@@ -1314,7 +1307,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         }
 
         /*
-         * 
+         *
          */
         void storeMenuItems(Menu menu) {
             for (int i = 0; i < menu.size(); i++) {
@@ -1327,7 +1320,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         }
 
         /*
-         * 
+         *
          */
         void setIsFavorited(boolean favorited) {
             if (mFavoriteMenuItem != null) {
@@ -1348,7 +1341,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     }
 
     /*
-     * 
+     *
      */
     public boolean showConversationView(TwitterStatus status) {
 
@@ -1362,7 +1355,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     }
 
     /*
-     * 
+     *
      */
     private class TweetFeedListAdapter extends BaseAdapter {
 
@@ -1373,7 +1366,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         /**
          * The number of items in the list is determined by the number of
          * speeches in our array.
-         * 
+         *
          * @see android.widget.ListAdapter#getCount()
          */
         public int getCount() {
@@ -1393,7 +1386,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
          * sufficent to get at the data. If we were using a more complex data
          * structure, we would return whatever object represents one row in the
          * list.
-         * 
+         *
          * @see android.widget.ListAdapter#getItem(int)
          */
         public Object getItem(int position) {
@@ -1402,7 +1395,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
         /**
          * Use the array index as a unique id.
-         * 
+         *
          * @see android.widget.ListAdapter#getItemId(int)
          */
         public long getItemId(int position) {
@@ -1429,7 +1422,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         }
 
         /*
-         * 
+         *
          */
         View getTweetFeedView(int position, View convertView) {
 
@@ -1530,7 +1523,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         }
 
         /*
-         * 
+         *
          */
         View getLoadMoreView(View convertView) {
 

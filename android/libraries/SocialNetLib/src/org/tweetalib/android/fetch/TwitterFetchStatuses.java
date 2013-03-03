@@ -391,7 +391,7 @@ public class TwitterFetchStatuses {
                     };
 
                     AdnPosts conversation = appdotnetApi.getAdnConversation(statusId, paging);
-                    if (conversation != null && conversation.mPosts.size() > 0) {
+                    if (conversation != null && conversation.mPosts != null && conversation.mPosts.size() > 0) {
                         TwitterStatuses statuses = new TwitterStatuses();
                         statuses.add(conversation, addUserCallback);
                         contentFeed = setStatuses(input.mContentHandle, statuses, true);
