@@ -32,6 +32,8 @@ public class AdnPost {
     public boolean mIsRetweet;
     public AdnUser mOriginalAuthor;
 
+    public AdnPost() {}
+
     public AdnPost(String jsonAsString) {
         try {
             JSONObject object = new JSONObject(jsonAsString);

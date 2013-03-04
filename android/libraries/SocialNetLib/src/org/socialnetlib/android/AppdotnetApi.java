@@ -202,6 +202,10 @@ public class AppdotnetApi extends SocialNetApi {
         return getPosts("/stream/0/users/" + userId + "/posts", null, paging);
     }
 
+    public AdnInteractions getAdnInteractions() {
+        return getInteractions("/stream/0/users/me/interactions", null);
+    }
+
     public AdnPosts getAdnFavorites(String userId, AdnPaging paging) {
         return getPosts("/stream/0/users/" + userId + "/stars", null, paging);
     }
@@ -240,6 +244,19 @@ public class AppdotnetApi extends SocialNetApi {
         if (streamString != null) {
             AdnPosts posts = new AdnPosts(streamString);
             return posts;
+        }
+
+        return null;
+    }
+
+    private AdnInteractions getInteractions(String path, ParameterMap params) {
+        if (params == null) {
+            params = new ParameterMap();
+        }
+        String interactionString = doGet(path, params);
+        if (interactionString!= null) {
+            AdnInteractions interactions = new AdnInteractions(interactionString);
+            return interactions;
         }
 
         return null;

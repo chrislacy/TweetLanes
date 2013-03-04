@@ -47,7 +47,7 @@ public class AccountDescriptor {
     static final String KEY_SOCIAL_NET_TYPE = "socialNetType";
 
     /*
-	 * 
+	 *
 	 */
     public AccountDescriptor(TwitterUser user, String oAuthToken,
             String oAuthSecret, SocialNetConstant.Type oSocialNetType) {
@@ -62,7 +62,7 @@ public class AccountDescriptor {
     }
 
     /*
-	 * 
+	 *
 	 */
     public AccountDescriptor(String jsonAsString) {
 
@@ -115,7 +115,7 @@ public class AccountDescriptor {
     }
 
     /*
-	 * 
+	 *
 	 */
     private void initCommon(ArrayList<String> displayedLanes) {
 
@@ -146,7 +146,7 @@ public class AccountDescriptor {
     }
 
     /*
-	 * 
+	 *
 	 */
     private void configureLaneDefinitions(ArrayList<String> displayedLanes) {
 
@@ -159,19 +159,19 @@ public class AccountDescriptor {
                                 TwitterConstant.ContentType.USER)));
         mLaneDefinitions.add(new LaneDescriptor(
                 Constant.LaneType.USER_PROFILE_TIMELINE, App.getContext()
-                        .getString(R.string.lane_user_tweets),
+                        .getString(mSocialNetType == SocialNetConstant.Type.Twitter ? R.string.lane_user_tweets : R
+                                .string.lane_user_tweets_adn),
                 new TwitterContentHandleBase(
                         TwitterConstant.ContentType.STATUSES,
                         TwitterConstant.StatusesType.USER_TIMELINE)));
 
-        if (mSocialNetType == SocialNetConstant.Type.Twitter) {
-            mLaneDefinitions.add(new LaneDescriptor(
-                    Constant.LaneType.USER_PROFILE_TIMELINE, App.getContext()
-                            .getString(R.string.lane_user_retweets_of_me),
-                    new TwitterContentHandleBase(
-                            TwitterConstant.ContentType.STATUSES,
-                            TwitterConstant.StatusesType.RETWEETS_OF_ME)));
-        }
+        mLaneDefinitions.add(new LaneDescriptor(
+                Constant.LaneType.USER_PROFILE_TIMELINE, App.getContext()
+                        .getString(mSocialNetType == SocialNetConstant.Type.Twitter ? R.string
+                                .lane_user_retweets_of_me :  R.string.lane_user_retweets_of_me_adn),
+                new TwitterContentHandleBase(
+                        TwitterConstant.ContentType.STATUSES,
+                        TwitterConstant.StatusesType.RETWEETS_OF_ME)));
 
         mLaneDefinitions.add(new LaneDescriptor(
                 Constant.LaneType.USER_HOME_TIMELINE, App.getContext()
@@ -253,7 +253,7 @@ public class AccountDescriptor {
     }
 
     /*
-	 * 
+	 *
 	 */
     public boolean updateTwitterLists(TwitterLists twitterLists) {
 
@@ -308,7 +308,7 @@ public class AccountDescriptor {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     public String toString() {
@@ -346,7 +346,7 @@ public class AccountDescriptor {
     }
 
     /*
-	 * 
+	 *
 	 */
     public long getId() {
         return mId;
@@ -369,7 +369,7 @@ public class AccountDescriptor {
     }
 
     /*
-	 * 
+	 *
 	 */
     public int getInitialLaneIndex() {
         if (mInitialLaneIndex != null
@@ -389,21 +389,21 @@ public class AccountDescriptor {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void setCurrentLaneIndex(int index) {
         mInitialLaneIndex = index;
     }
 
     /*
-	 * 
+	 *
 	 */
     public ArrayList<LaneDescriptor> getAllLaneDefinitions() {
         return mLaneDefinitions;
     }
 
     /*
-	 * 
+	 *
 	 */
     public LaneDescriptor getDisplayedLaneDefinition(int index) {
 
@@ -420,7 +420,7 @@ public class AccountDescriptor {
     }
 
     /*
-	 * 
+	 *
 	 */
     public int getDisplayedLaneDefinitionsSize() {
         int displayedSize = 0;
@@ -433,14 +433,14 @@ public class AccountDescriptor {
     }
 
     /*
-	 * 
+	 *
 	 */
     public boolean getDisplayedLaneDefinitionsDirty() {
         return mLaneDefinitionsDirty;
     }
 
     /*
-	 * 
+	 *
 	 */
     public void setDisplayedLaneDefinitionsDirty(boolean value) {
         mLaneDefinitionsDirty = value;
@@ -455,14 +455,14 @@ public class AccountDescriptor {
     }
 
     /*
-	 * 
+	 *
 	 */
     public boolean shouldRefreshLists() {
         return mShouldRefreshLists;
     }
 
     /*
-	 * 
+	 *
 	 */
     private long mId;
     private String mScreenName;

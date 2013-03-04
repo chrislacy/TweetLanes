@@ -44,7 +44,7 @@ import com.twitter.Validator;
 public abstract class ComposeBaseFragment extends Fragment {
 
     /*
-	 * 
+	 *
 	 */
     public interface ComposeListener {
 
@@ -86,7 +86,7 @@ public abstract class ComposeBaseFragment extends Fragment {
     boolean mUpdatingStatus = false;
 
     /*
-	 * 
+	 *
 	 */
     public App getApp() {
         return (App) getActivity().getApplication();
@@ -94,7 +94,7 @@ public abstract class ComposeBaseFragment extends Fragment {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater,
      * android.view.ViewGroup, android.os.Bundle)
@@ -141,7 +141,7 @@ public abstract class ComposeBaseFragment extends Fragment {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see android.support.v4.app.Fragment#onPause()
      */
     @Override
@@ -155,7 +155,7 @@ public abstract class ComposeBaseFragment extends Fragment {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see android.support.v4.app.Fragment#onResume()
      */
     @Override
@@ -175,7 +175,7 @@ public abstract class ComposeBaseFragment extends Fragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     void showToast(String message) {
         if (getActivity() != null
@@ -186,7 +186,7 @@ public abstract class ComposeBaseFragment extends Fragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     void showSimpleAlert(int stringID) {
         AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
@@ -203,21 +203,21 @@ public abstract class ComposeBaseFragment extends Fragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     public boolean hasFocus() {
         return mHasFocus;
     }
 
     /*
-	 * 
+	 *
 	 */
     void setComposeTweetListener(ComposeListener listener) {
         mListener = listener;
     }
 
     /*
-	 * 
+	 *
 	 */
     String getFormattedStatus(String status) {
         status.replaceAll("\\s+$", "");
@@ -225,7 +225,7 @@ public abstract class ComposeBaseFragment extends Fragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     public boolean releaseFocus(boolean saveCurrentTweet) {
 
@@ -234,7 +234,7 @@ public abstract class ComposeBaseFragment extends Fragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     boolean hideCompose() {
 
@@ -254,7 +254,7 @@ public abstract class ComposeBaseFragment extends Fragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     void showKeyboard() {
         InputMethodManager inputMethodManager = (InputMethodManager) getActivity()
@@ -274,7 +274,7 @@ public abstract class ComposeBaseFragment extends Fragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     OnFocusChangeListener mOnFocusChangeListener = new OnFocusChangeListener() {
 
@@ -294,7 +294,7 @@ public abstract class ComposeBaseFragment extends Fragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     TextWatcher mTextChangedListener = new TextWatcher() {
 
@@ -317,7 +317,7 @@ public abstract class ComposeBaseFragment extends Fragment {
     };
 
     /*
-	 * 
+	 *
 	 */
     OnClickListener mOnSendTweetClickListener = new OnClickListener() {
 
@@ -331,7 +331,7 @@ public abstract class ComposeBaseFragment extends Fragment {
     protected abstract void onSendClick(String status);
 
     /*
-	 * 
+	 *
 	 */
     EditClearTextListener mEditClearTextListener = new EditClearTextListener() {
 
@@ -381,7 +381,7 @@ public abstract class ComposeBaseFragment extends Fragment {
     };
 
     /*
-	 * 
+	 *
 	 */
     void clearCompose(boolean saveCurrentTweet) {
 
@@ -401,7 +401,7 @@ public abstract class ComposeBaseFragment extends Fragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     void showCompose() {
         showCompose(null);
@@ -443,7 +443,7 @@ public abstract class ComposeBaseFragment extends Fragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     protected static String getStatusHintSnippet(String status, int maxLength) {
 
@@ -453,11 +453,11 @@ public abstract class ComposeBaseFragment extends Fragment {
             return status;
         }
 
-        return status.substring(0, maxLength) + "É";
+        return status.substring(0, maxLength) + "â€¦";
     }
 
     /*
-	 * 
+	 *
 	 */
     protected ComposeTweetDefault _mComposeDefault;
 
@@ -466,7 +466,7 @@ public abstract class ComposeBaseFragment extends Fragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     protected void setComposeTweetDefault(
             ComposeTweetDefault composeTweetDefault) {
@@ -474,7 +474,7 @@ public abstract class ComposeBaseFragment extends Fragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void setComposeDefault(ComposeTweetDefault other) {
         if (other != null) {
@@ -486,7 +486,7 @@ public abstract class ComposeBaseFragment extends Fragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     void configureCharacterCountForString(String string) {
 

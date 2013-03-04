@@ -11,9 +11,7 @@
 
 package org.tweetalib.android.fetch;
 
-import org.appdotnet4j.model.AdnPaging;
-import org.appdotnet4j.model.AdnPosts;
-import org.appdotnet4j.model.AdnUser;
+import org.appdotnet4j.model.*;
 import org.asynctasktex.AsyncTaskEx;
 import org.socialnetlib.android.AppdotnetApi;
 import org.tweetalib.android.*;
@@ -202,7 +200,7 @@ public class TwitterFetchStatuses {
     public void trigger(TwitterContentHandle contentHandle, TwitterPaging paging,
             TwitterFetchStatusesFinishedCallback callback, ConnectionStatus connectionStatus, int priorityOffset) {
 
-        if (connectionStatus == null || connectionStatus.isOnline() == false) {
+        if (connectionStatus != null && connectionStatus.isOnline() == false) {
             if (callback != null) {
                 callback.finished(new TwitterFetchResult(false, connectionStatus.getErrorMessageNoConnection()), null);
             }
@@ -277,7 +275,7 @@ public class TwitterFetchStatuses {
             FetchStatusesTaskInput input = inputArray[0];
             String errorDescription = null;
 
-            if (input.mConnectionStatus.isOnline() == false) {
+            if (input.mConnectionStatus != null && input.mConnectionStatus.isOnline() == false) {
                 return new FetchStatusesTaskOutput(
                         new TwitterFetchResult(false, input.mConnectionStatus.getErrorMessageNoConnection()),
                         input.mCallbackHandle, null);
@@ -312,6 +310,21 @@ public class TwitterFetchStatuses {
                     } catch (NumberFormatException e) {
                     }
                     break;
+                }
+
+                case RETWEETS_OF_ME: {
+                        AdnInteractions interactions = appdotnetApi.getAdnInteractions();
+                        AdnPosts posts = new AdnPosts();
+                        if (interactions != null && interactions.mInteractions != null) {
+                            for (AdnInteraction interaction : interactions.mInteractions) {
+                                if (!interaction.mAction.equals("reply")) {
+                                    if (interaction.mPosts != null && interaction.mPosts.mPosts != null) {
+                                        posts.mPosts.addAll(interaction.mPosts.mPosts);
+                                    }
+                                }
+                            }
+                        }
+                        contentFeed = setStatuses(input.mContentHandle, posts);
                 }
 
                 case SCREEN_NAME_SEARCH:

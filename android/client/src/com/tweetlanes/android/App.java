@@ -166,7 +166,7 @@ public class App extends Application {
 
                 }
 
-                // setLaneDefinitions(account.getSocialNetType());
+                setLaneDefinitions(account.getSocialNetType());
 
                 final Editor edit = mPreferences.edit();
                 edit.putLong(SHARED_PREFERENCES_KEY_CURRENT_ACCOUNT_ID,
@@ -275,7 +275,7 @@ public class App extends Application {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void saveTweetDraft(String draftAsJsonString) {
         final Editor edit = mPreferences.edit();
@@ -290,7 +290,7 @@ public class App extends Application {
     }
 
     /*
-	 * 
+	 *
 	 */
     public String getTweetDraftAsString() {
 
@@ -309,7 +309,7 @@ public class App extends Application {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void setTutorialCompleted() {
         final Editor edit = mPreferences.edit();
@@ -318,7 +318,7 @@ public class App extends Application {
     }
 
     /*
-	 * 
+	 *
 	 */
     public boolean getTutorialCompleted() {
         boolean tutorialCompleted = mPreferences.getBoolean(
@@ -327,7 +327,7 @@ public class App extends Application {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void saveUpdatedAccountDescriptor(AccountDescriptor account) {
         final Editor edit = mPreferences.edit();
@@ -337,7 +337,7 @@ public class App extends Application {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void cacheData(String key, String toCache) {
         if (Constant.UPDATE_CACHED_STATUSES) {
@@ -348,7 +348,7 @@ public class App extends Application {
     }
 
     /*
-	 * 
+	 *
 	 */
     public String getCachedData(String key) {
         String cachedData = mPreferences.getString(key, null);
@@ -356,7 +356,7 @@ public class App extends Application {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void onPostSignIn(TwitterUser user, String oAuthToken,
             String oAuthSecret, SocialNetConstant.Type oSocialNetType) {
@@ -529,7 +529,8 @@ public class App extends Application {
                                 TwitterConstant.ContentType.USER)));
         mProfileLaneDefinitions.add(new LaneDescriptor(
                 Constant.LaneType.PROFILE_PROFILE_TIMELINE, getContext()
-                        .getString(R.string.lane_profile_tweets),
+                        .getString(socialNetType == SocialNetConstant.Type.Twitter ? R.string.lane_profile_tweets : R
+                                .string.lane_profile_tweets_adn),
                 new TwitterContentHandleBase(
                         TwitterConstant.ContentType.STATUSES,
                         TwitterConstant.StatusesType.USER_TIMELINE)));
@@ -552,7 +553,8 @@ public class App extends Application {
 
         mSearchLaneDefinitions.add(new LaneDescriptor(
                 Constant.LaneType.SEARCH_TERM, getContext().getString(
-                        R.string.lane_search_tweets),
+                        socialNetType == SocialNetConstant.Type.Twitter ? R.string.lane_search_tweets : R.string
+                                .lane_search_tweets_adn),
                 new TwitterContentHandleBase(
                         TwitterConstant.ContentType.STATUSES,
                         TwitterConstant.StatusesType.STATUS_SEARCH)));
@@ -569,7 +571,8 @@ public class App extends Application {
         mTweetSpotlightLaneDefinitions = new ArrayList<LaneDescriptor>();
         mTweetSpotlightLaneDefinitions.add(new LaneDescriptor(
                 Constant.LaneType.STATUS_SPOTLIGHT, getContext().getString(
-                        R.string.lane_tweet_status),
+                        socialNetType == SocialNetConstant.Type.Twitter ? R.string.lane_tweet_status : R.string
+                                .lane_tweet_status_adn),
                 new TwitterContentHandleBase(
                         TwitterConstant.ContentType.STATUS,
                         TwitterConstant.StatusType.GET_STATUS)));
@@ -588,7 +591,7 @@ public class App extends Application {
     }
 
     /*
-	 * 
+	 *
 	 */
     ConnectionStatus.Callbacks mConnectionStatusCallbacks = new ConnectionStatus.Callbacks() {
 
@@ -615,7 +618,7 @@ public class App extends Application {
     }
 
     /*
-	 * 
+	 *
 	 */
     public boolean isOnline() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -629,7 +632,7 @@ public class App extends Application {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see android.app.Application#onTerminate()
      */
     @Override
@@ -642,7 +645,7 @@ public class App extends Application {
     }
 
     /*
-	 * 
+	 *
 	 */
     public boolean onUserListsRefresh(TwitterLists lists) {
 
@@ -660,7 +663,7 @@ public class App extends Application {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void triggerFollowPromoAccounts(
             TwitterFetchUsers.FinishedCallback callback) {
@@ -672,7 +675,7 @@ public class App extends Application {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void restartApp(Activity currentActivity) {
         Intent intent = getBaseContext().getPackageManager()
@@ -685,7 +688,7 @@ public class App extends Application {
     }
 
     /*
-	 * 
+	 *
 	 */
     private LazyImageLoader mProfileImageLoader, mPreviewImageLoader;
 
@@ -703,7 +706,7 @@ public class App extends Application {
     }
 
     /*
-	 * 
+	 *
 	 */
     public LazyImageLoader getProfileImageLoader() {
         if (mProfileImageLoader == null) {
@@ -718,7 +721,7 @@ public class App extends Application {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void clearImageCaches() {
         if (mContext != null) {

@@ -21,8 +21,26 @@ public class AdnUsers {
 
     public ArrayList<AdnUser> mUsers;
 
-    public AdnUsers(String jsonAsString) {
+    public AdnUsers(JSONArray jsonArray) {
+        mUsers = new ArrayList<AdnUser>();
 
+        try {
+            for (int i = 0; i < jsonArray.length(); i++) {
+                String listString = jsonArray.getString(i);
+                AdnUser user = new AdnUser(listString);
+                mUsers.add(user);
+            }
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        if (mUsers.size() == 0) {
+            mUsers = null;
+        }
+    }
+
+    public AdnUsers(String jsonAsString) {
         mUsers = new ArrayList<AdnUser>();
 
         try {

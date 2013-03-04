@@ -76,7 +76,7 @@ public class HomeActivity extends BaseLaneActivity {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * com.tweetlanes.android.view.BaseLaneActivity#onCreate(android.os.Bundle)
      */
@@ -143,7 +143,7 @@ public class HomeActivity extends BaseLaneActivity {
     }
 
     /*
-	 * 
+	 *
 	 */
     void onCreateHandleIntents() {
 
@@ -199,7 +199,7 @@ public class HomeActivity extends BaseLaneActivity {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.tweetlanes.android.view.BaseLaneActivity#onResume()
      */
     @Override
@@ -235,7 +235,7 @@ public class HomeActivity extends BaseLaneActivity {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.tweetlanes.android.view.BaseLaneActivity#onPause()
      */
     @Override
@@ -252,7 +252,7 @@ public class HomeActivity extends BaseLaneActivity {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see android.support.v4.app.FragmentActivity#onDestroy()
      */
     @Override
@@ -271,7 +271,7 @@ public class HomeActivity extends BaseLaneActivity {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.tweetlanes.android.view.BaseLaneActivity#getInitialLaneIndex()
      */
     @Override
@@ -280,7 +280,7 @@ public class HomeActivity extends BaseLaneActivity {
     }
 
     /*
-	 * 
+	 *
 	 */
     @Override
     String getCachedData(int laneIndex) {
@@ -305,7 +305,7 @@ public class HomeActivity extends BaseLaneActivity {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * com.tweetlanes.android.view.BaseLaneActivity#getAdapterForViewPager()
      */
@@ -319,7 +319,7 @@ public class HomeActivity extends BaseLaneActivity {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * com.tweetlanes.android.view.BaseLaneActivity#getFragmentStatePagerAdapter
      * ()
@@ -331,7 +331,7 @@ public class HomeActivity extends BaseLaneActivity {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.tweetlanes.android.view.BaseLaneActivity#onLaneChange(int)
      */
     @Override
@@ -344,7 +344,7 @@ public class HomeActivity extends BaseLaneActivity {
     }
 
     /*
-	 * 
+	 *
 	 */
     private void saveData(final int position) {
         final App app = getApp();
@@ -376,7 +376,7 @@ public class HomeActivity extends BaseLaneActivity {
     }
 
     /*
-	 * 
+	 *
 	 */
     private void updateViewVisibility() {
         mViewSwitcher.reset();
@@ -385,7 +385,7 @@ public class HomeActivity extends BaseLaneActivity {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * com.tweetlanes.android.view.BaseLaneActivity#configureOptionsMenu(android
      * .view.Menu)
@@ -399,7 +399,7 @@ public class HomeActivity extends BaseLaneActivity {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.tweetlanes.android.view.BaseLaneActivity#getDefaultOptionsMenu()
      */
     @Override
@@ -409,7 +409,7 @@ public class HomeActivity extends BaseLaneActivity {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * com.tweetlanes.android.view.BaseLaneActivity#onOptionsItemSelected(android
      * .view.MenuItem)
@@ -464,7 +464,7 @@ public class HomeActivity extends BaseLaneActivity {
     }
 
     /*
-	 * 
+	 *
 	 */
     void onCreateNavigationListener() {
         mOnNavigationListener = new OnNavigationListener() {
@@ -489,7 +489,7 @@ public class HomeActivity extends BaseLaneActivity {
     }
 
     /*
-	 * 
+	 *
 	 */
     private boolean configureListNavigation() {
 
@@ -523,11 +523,15 @@ public class HomeActivity extends BaseLaneActivity {
     }
 
     /*
-     * 
+     *
      */
     private void showAccount(AccountDescriptor selectedAccount) {
 
-        AccountDescriptor currentAccount = getApp().getCurrentAccount();
+        App app = getApp();
+        AccountDescriptor currentAccount = app.getCurrentAccount();
+        app.saveUpdatedAccountDescriptor(currentAccount);
+
+        saveData(getCurrentLaneIndex());
 
         if (currentAccount == null
                 || currentAccount.getId() != selectedAccount.getId()) {
@@ -536,7 +540,7 @@ public class HomeActivity extends BaseLaneActivity {
 
             clearFragmentsCache();
 
-            getApp().setCurrentAccount(selectedAccount.getId());
+            app.setCurrentAccount(selectedAccount.getId());
 
             // From http://stackoverflow.com/a/3419987/328679
             Intent intent = getIntent();
@@ -550,7 +554,7 @@ public class HomeActivity extends BaseLaneActivity {
     }
 
     /*
-	 * 
+	 *
 	 */
     private void showAddAccount() {
         AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
@@ -571,14 +575,14 @@ public class HomeActivity extends BaseLaneActivity {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void showUserPreferences() {
         startActivity(new Intent(this, SettingsActivity.class));
     }
 
     /*
-     * 
+     *
      */
     private void showFreeForLifeSuccess() {
         AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
@@ -600,7 +604,7 @@ public class HomeActivity extends BaseLaneActivity {
     }
 
     /*
-     * 
+     *
      */
     private void showFreeForLifeError() {
         AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
@@ -619,7 +623,7 @@ public class HomeActivity extends BaseLaneActivity {
     }
 
     /*
-     * 
+     *
      */
     public void showPromote() {
         final View layout = View.inflate(this, R.layout.promote, null);
@@ -725,7 +729,7 @@ public class HomeActivity extends BaseLaneActivity {
     };
 
     /*
-	 * 
+	 *
 	 */
     void onLaneDataSetChanged() {
         if (mHomeLaneAdapter != null) {
@@ -738,7 +742,7 @@ public class HomeActivity extends BaseLaneActivity {
     }
 
     /*
-     * 
+     *
      */
     class HomeLaneAdapter extends FragmentStatePagerAdapter implements
             TitleProvider {
@@ -833,14 +837,14 @@ public class HomeActivity extends BaseLaneActivity {
     }
 
     /*
-	 * 
+	 *
 	 */
     Messenger mService = null;
     boolean mIsBound;
     final Messenger mMessenger = new Messenger(new IncomingHandler());
 
     /*
-     * 
+     *
      */
     class IncomingHandler extends Handler {
 
@@ -861,7 +865,7 @@ public class HomeActivity extends BaseLaneActivity {
     }
 
     /*
-     * 
+     *
      */
     private ServiceConnection mConnection = new ServiceConnection() {
 
@@ -888,7 +892,7 @@ public class HomeActivity extends BaseLaneActivity {
     };
 
     /*
-	 * 
+	 *
 	 */
     void doBindService() {
         bindService(new Intent(this, BackgroundService.class), mConnection,
@@ -897,7 +901,7 @@ public class HomeActivity extends BaseLaneActivity {
     }
 
     /*
-	 * 
+	 *
 	 */
     void doUnbindService() {
         if (mIsBound) {
@@ -921,7 +925,7 @@ public class HomeActivity extends BaseLaneActivity {
     }
 
     /*
-     * 
+     *
      */
     private void configureNotificationService() {
 
