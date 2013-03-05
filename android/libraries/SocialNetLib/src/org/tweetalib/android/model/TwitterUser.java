@@ -55,6 +55,7 @@ public class TwitterUser {
         mSocialNetType = SocialNetConstant.Type.Appdotnet;
         mCurrentUserFollows = user.mCurrentUserFollows;
         mFollowsCurrentUser = user.mFollowsCurrentUser;
+        mFavoritesCount = user.mFavoritesCount;
     }
 
     public TwitterUser(TwitterUser user) {

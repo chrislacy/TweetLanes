@@ -27,6 +27,7 @@ public class AdnUser {
     public String mCoverUrl;
     public boolean mFollowsCurrentUser;
     public boolean mCurrentUserFollows;
+    public int mFavoritesCount;
 
     public AdnUser(String jsonAsString) {
         try {
@@ -52,6 +53,7 @@ public class AdnUser {
                 mFollowersCount = counts.getInt("followers");
                 mFollowingCount = counts.getInt("following");
                 mPostCount = counts.getInt("posts");
+                mFavoritesCount = counts.getInt("stars");
             }
 
             if (object.has("avatar_image")) {
