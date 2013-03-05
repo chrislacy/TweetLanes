@@ -34,7 +34,7 @@ public class AppDotNetAuthActivity extends Activity {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see android.app.Activity#onCreate(android.os.Bundle)
      */
     @Override
@@ -52,7 +52,8 @@ public class AppDotNetAuthActivity extends Activity {
 
         String url = "https://alpha.app.net/oauth/authenticate?client_id="
                 + Constant.APPDOTNET_CONSUMER_KEY
-                + "&response_type=token&redirect_uri=tweetlanes-auth-callback:///&scope=stream,email,write_post,follow,messages";
+                + "&response_type=token&redirect_uri=tweetlanes-auth-callback:///&scope=stream,email,write_post," +
+                "follow,messages";
 
         setContentView(R.layout.twitter_auth_signin);
 
@@ -87,7 +88,7 @@ public class AppDotNetAuthActivity extends Activity {
     }
 
     /*
-	 * 
+	 *
 	 */
     void onSuccessfulLogin(TwitterUser user, String accessToken) {
         App app = (App) getApplication();

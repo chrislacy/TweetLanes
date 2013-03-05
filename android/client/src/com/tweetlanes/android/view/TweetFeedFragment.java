@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.socialnetlib.android.SocialNetConstant;
 import org.tweetalib.android.TwitterConstant;
 import org.tweetalib.android.TwitterConstant.StatusesType;
 import org.tweetalib.android.TwitterContentHandle;
@@ -594,18 +595,15 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                                     setStatusFeed(feed, true);
                                 }
 
-                                if (mRefreshingOldestTweetId != null
-                                        && mOldestTweetId != null
-                                        && mRefreshingOldestTweetId.longValue() == mOldestTweetId
-                                                .longValue()) {
+                                if (mRefreshingOldestTweetId != null && mOldestTweetId != null &&
+                                        mRefreshingOldestTweetId.longValue() == mOldestTweetId.longValue()) {
                                     mMoreStatusesAvailable = false;
                                 }
                                 mRefreshingOldestTweetId = null;
                                 mTweetDataLoadMoreCallback = null;
 
                                 if (mTweetFeedListAdapter != null) {
-                                    mTweetFeedListAdapter
-                                            .notifyDataSetChanged();
+                                    mTweetFeedListAdapter.notifyDataSetChanged();
                                 }
                             }
                         };
@@ -666,6 +664,8 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 	 */
     void updateListHeading(int firstVisibleItem) {
 
+        SocialNetConstant.Type socialNetType = getApp().getCurrentAccount().getSocialNetType();
+
         // Add 1 so that we don't display the 'x new tweets' on the first tweet
         if (mTwitterStatusIdWhenRefreshed != null && firstVisibleItem > 1) {
             if (mScrollTracker.getLastScrollDirection() == ScrollDirection.TO_OLDER) {
@@ -676,8 +676,10 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                     mListHeadingTextView
                             .setText((firstVisibleItem - 1)
                                     + " "
-                                    + getString(firstVisibleItem == 2 ? R.string.new_tweet
-                                            : R.string.new_tweets));
+                                    + getString(firstVisibleItem == 2 ? socialNetType == SocialNetConstant.Type
+                                    .Twitter ?  R.string.new_tweet : R.string.new_post
+                                            : socialNetType == SocialNetConstant.Type
+                                    .Twitter ?  R.string.new_tweets : R.string.new_posts));
                 }
             }
         } else {
@@ -823,22 +825,25 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                 if (menuItem.getItemId() == R.id.action_feed_filter) {
                     SubMenu subMenu = menuItem.getSubMenu();
                     if (subMenu != null) {
+                        SocialNetConstant.Type socialNetType = getApp().getCurrentAccount().getSocialNetType();
                         int subMenuSize = subMenu.size();
                         for (int j = 0; j < subMenuSize; j++) {
                             MenuItem subMenuItem = subMenu.getItem(j);
                             switch (subMenuItem.getItemId()) {
                             case R.id.action_replies_visibility:
+
                                 subMenuItem
-                                        .setTitle(getString(getBaseLaneActivity().mStatusesFilter
-                                                .getShowReplies() ? R.string.action_hide_replies
-                                                : R.string.action_show_replies));
+                                        .setTitle(getString(getBaseLaneActivity().mStatusesFilter.getShowReplies() ?
+                                                R.string.action_hide_replies : R.string.action_show_replies));
                                 break;
 
                             case R.id.action_retweets_visibility:
                                 subMenuItem
                                         .setTitle(getString(getBaseLaneActivity().mStatusesFilter
-                                                .getShowRetweets() ? R.string.action_hide_retweets
-                                                : R.string.action_show_retweets));
+                                                .getShowRetweets() ? socialNetType == SocialNetConstant.Type.Twitter ?
+                                                R.string.action_hide_retweets : R.string.action_hide_retweets_adn
+                                                : socialNetType == SocialNetConstant.Type.Twitter ?
+                                                R.string.action_show_retweets : R.string.action_show_retweets_adn));
                                 break;
 
                             default:
@@ -1518,7 +1523,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             boolean showRetweetCount = mContentHandle.getStatusesType() == TwitterConstant.StatusesType.RETWEETS_OF_ME;
 
             tweetFeedItemView.configure(item, position + 1, callbacks, true,
-                    showRetweetCount, showConversationView(item), false, true);
+                    showRetweetCount, showConversationView(item), false, true, getApp().getCurrentAccount().getSocialNetType());
             return tweetFeedItemView;
         }
 
@@ -1535,8 +1540,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             if (getStatusFeed() == null || getFilteredStatusCount() == 0) {
                 mode = LoadMoreView.Mode.NONE_FOUND;
             } else {
-                mode = mMoreStatusesAvailable == true ? LoadMoreView.Mode.LOADING
-                        : LoadMoreView.Mode.NO_MORE;
+                mode = mMoreStatusesAvailable == true ? LoadMoreView.Mode.LOADING : LoadMoreView.Mode.NO_MORE;
             }
 
             loadMoreView.configure(mode);

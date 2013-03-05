@@ -38,6 +38,9 @@ public class AppdotnetApi extends SocialNetApi {
     }
 
     boolean isResponseValid(HttpResponse httpResponse) {
+        if (httpResponse == null) {
+            return false;
+        }
         int status = httpResponse.getStatus();
         if (status >= 200 && status < 300) {
             return true;

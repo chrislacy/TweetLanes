@@ -38,14 +38,14 @@ public class TwitterFetchUsers {
     private HashMap<Integer, FinishedCallback> mFinishedCallbackMap;
 
     /*
-	 * 
+	 *
 	 */
     public void clearCallbacks() {
         mFinishedCallbackMap.clear();
     }
 
     /*
-	 * 
+	 *
 	 */
     public interface FetchUsersWorkerCallbacks {
 
@@ -61,7 +61,7 @@ public class TwitterFetchUsers {
     }
 
     /*
-	 * 
+	 *
 	 */
     public interface FinishedCallbackInterface {
 
@@ -70,7 +70,7 @@ public class TwitterFetchUsers {
     }
 
     /*
-	 * 
+	 *
 	 */
     public abstract class FinishedCallback implements FinishedCallbackInterface {
 
@@ -88,7 +88,7 @@ public class TwitterFetchUsers {
     }
 
     /*
-	 * 
+	 *
 	 */
     public TwitterFetchUsers() {
         mFinishedCallbackMap = new HashMap<Integer, FinishedCallback>();
@@ -98,14 +98,14 @@ public class TwitterFetchUsers {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void setWorkerCallbacks(FetchUsersWorkerCallbacks callbacks) {
         mWorkerCallbacks = callbacks;
     }
 
     /*
-	 * 
+	 *
 	 */
     FinishedCallback getFetchUsersCallback(Integer callbackHandle) {
         FinishedCallback callback = mFinishedCallbackMap.get(callbackHandle);
@@ -113,7 +113,7 @@ public class TwitterFetchUsers {
     }
 
     /*
-	 * 
+	 *
 	 */
     void removeFetchUsersCallback(FinishedCallback callback) {
         if (mFinishedCallbackMap.containsValue(callback)) {
@@ -122,7 +122,7 @@ public class TwitterFetchUsers {
     }
 
     /*
-	 * 
+	 *
 	 */
     Twitter getTwitterInstance() {
         return mWorkerCallbacks.getTwitterInstance();
@@ -133,7 +133,7 @@ public class TwitterFetchUsers {
     }
 
     /*
-	 * 
+	 *
 	 */
     TwitterIds setUsers(TwitterContentHandle contentHandle, IDs ids) {
         TwitterIds twitterIds = getUserIds(contentHandle);
@@ -148,7 +148,7 @@ public class TwitterFetchUsers {
     }
 
     /*
-	 * 
+	 *
 	 */
     TwitterIds getUserIds(TwitterContentHandle handle) {
 
@@ -165,7 +165,7 @@ public class TwitterFetchUsers {
     }
 
     /*
-	 * 
+	 *
 	 */
     public TwitterUsers getUsers(TwitterContentHandle contentHandle,
             TwitterPaging paging) {
@@ -188,7 +188,7 @@ public class TwitterFetchUsers {
     }
 
     /*
-	 * 
+	 *
 	 */
     public TwitterUsers getUsers(TwitterContentHandle contentHandle,
             TwitterPaging paging, FinishedCallback callback,
@@ -205,7 +205,7 @@ public class TwitterFetchUsers {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void trigger(TwitterContentHandle contentHandle,
             TwitterPaging paging, FinishedCallback callback,
@@ -231,7 +231,7 @@ public class TwitterFetchUsers {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void cancel(FinishedCallback callback) {
 
@@ -239,7 +239,7 @@ public class TwitterFetchUsers {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void updateFriendshipUser(String currentUserScreenName,
             TwitterUser userToUpdate, boolean create,
@@ -260,7 +260,7 @@ public class TwitterFetchUsers {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void updateFriendshipScreenName(String currentUserScreenName,
             String screenNameToUpdate, boolean create,
@@ -300,7 +300,7 @@ public class TwitterFetchUsers {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void updateFriendshipUserId(long currentUserId, Long userIdToUpdate,
             boolean create, FinishedCallback callback,
@@ -337,7 +337,7 @@ public class TwitterFetchUsers {
     }
 
     /*
-	 * 
+	 *
 	 */
     private void createBlockOrReportSpam(UsersType usersType,
             long currentUserId, Long userId, FinishedCallback callback,
@@ -373,7 +373,7 @@ public class TwitterFetchUsers {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void reportSpam(long currentUserId, Long userId,
             FinishedCallback callback, ConnectionStatus connectionStatus) {
@@ -388,7 +388,7 @@ public class TwitterFetchUsers {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void createBlock(long currentUserId, Long userId,
             FinishedCallback callback, ConnectionStatus connectionStatus) {
@@ -403,7 +403,7 @@ public class TwitterFetchUsers {
     }
 
     /*
-	 * 
+	 *
 	 */
     class FetchUsersTaskInput {
 
@@ -449,7 +449,7 @@ public class TwitterFetchUsers {
     }
 
     /*
-	 * 
+	 *
 	 */
     class FetchUsersTaskOutput {
 
@@ -466,7 +466,7 @@ public class TwitterFetchUsers {
     }
 
     /*
-	 * 
+	 *
 	 */
     class FetchUsersTask extends
             AsyncTaskEx<FetchUsersTaskInput, Void, FetchUsersTaskOutput> {
@@ -481,7 +481,7 @@ public class TwitterFetchUsers {
             AppdotnetApi appdotnet = getAppdotnetInstance();
             String errorDescription = null;
 
-            if (input.mConnectionStatus.isOnline() == false) {
+            if (input.mConnectionStatus != null && input.mConnectionStatus.isOnline() == false) {
                 return new FetchUsersTaskOutput(new TwitterFetchResult(false,
                         input.mConnectionStatus.getErrorMessageNoConnection()),
                         input.mCallbackHandle, null);

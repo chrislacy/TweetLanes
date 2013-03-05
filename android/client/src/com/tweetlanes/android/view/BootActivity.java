@@ -74,69 +74,27 @@ public class BootActivity extends Activity {
     }
 
     /*
-	 * 
+	 *
 	 */
     /*
      * private BroadcastReceiver mOAuthLoginStateChangeReceiver = new
      * BroadcastReceiver() {
-     * 
+     *
      * @Override public void onReceive(Context context, Intent intent) {
      * jumpToNext(); } };
      */
 
     /*
-	 * 
-	 */
-    /*
-     * AlertDialog mTermsDialog; void showTermsDialog() { if (mTermsDialog ==
-     * null) { AlertDialog.Builder alertDialogBuilder = new
-     * AlertDialog.Builder(this); final TextView message = new TextView(this);
-     * message.setText(Html.fromHtml(getString(R.string.alert_accept_tos)));
-     * message.setMovementMethod(LinkMovementMethod.getInstance());
-     * message.setPadding(40, 10, 40, 10); message.setTextSize(18);
-     * alertDialogBuilder.setView(message);
-     * alertDialogBuilder.setOnCancelListener(new
-     * DialogInterface.OnCancelListener() {
-     * 
-     * @Override public void onCancel(DialogInterface dialog) { dialog.cancel();
-     * mTermsDialog = null; finish(); } });
-     * alertDialogBuilder.setPositiveButton(getString(R.string.ok), new
-     * DialogInterface.OnClickListener() { public void onClick(DialogInterface
-     * dialog,int id) { dialog.cancel(); mTermsDialog = null; Intent intent =
-     * new Intent(getApplicationContext(), TwitterAuthActivity.class);
-     * overridePendingTransition(0, 0);
-     * intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-     * startActivity(intent); } });
-     * alertDialogBuilder.setNegativeButton(getString(R.string.cancel), new
-     * DialogInterface.OnClickListener() {
-     * 
-     * @Override public void onClick(DialogInterface dialog, int which) {
-     * dialog.cancel(); mTermsDialog = null; finish(); } }); mTermsDialog =
-     * alertDialogBuilder.create(); mTermsDialog.show(); } }
-     */
-
-    /*
-	 * 
+	 *
 	 */
     void jumpToNext() {
 
         int accountCount = getApp().getAccountCount();
         if (accountCount == 0) {
-
-            Intent intent = new Intent(getApplicationContext(),
-                    TwitterAuthActivity.class);
+            Intent intent = new Intent(getApplicationContext(), NewAccountActivity.class);
             overridePendingTransition(0, 0);
             intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivity(intent);
-
-            /*
-             * if (getApp().getOAuthLoginState() == OAuthLoginState.NONE) {
-             * getApp().setOAuthLoginState(OAuthLoginState.REQUESTING_TOKEN);
-             * mLastStartedClass = PrepareRequestTokenActivity.class; Intent i =
-             * new Intent(getApplicationContext(),
-             * PrepareRequestTokenActivity.class); startActivity(i); } else {
-             * setContentView(R.layout.loading); }
-             */
         } else {
             if (TwitterManager.get().hasValidTwitterInstance() == true) {
                 if (mLastStartedClass != HomeActivity.class) {

@@ -72,12 +72,15 @@ public class AdnInteraction {
                         post.mId += unqiueId;
                         post.mText = userString + " " + verb + " the following post:\n\n" + post.mText;
                         post.mUser = mUsers.mUsers.get(0);
+                        post.mInReplyTo = null;
+                        post.mCreatedAt = mCreatedAt;
                     }
                 }
             }
             else if (mAction.equals("follow") && mUsers != null && mUsers.mUsers != null) {
                 mPosts = new AdnPosts();
                 String userString = "";
+                long id = 0;
                 for (AdnUser user : mUsers.mUsers) {
                     if (userString.equals("")) {
                         userString = "@" + user.mUserName;
@@ -85,9 +88,10 @@ public class AdnInteraction {
                     else {
                         userString += ", " + "@" + user.mUserName;
                     }
+                    id += user.mId;
                 }
                 AdnPost meta = new AdnPost();
-                meta.mId = unqiueId;
+                meta.mId = unqiueId + id;
                 meta.mText = userString + " started following you.";
                 meta.mCreatedAt = mCreatedAt;
                 meta.mUser = mUsers.mUsers.get(0);

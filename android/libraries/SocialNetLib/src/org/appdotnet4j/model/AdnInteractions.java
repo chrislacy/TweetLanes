@@ -30,7 +30,9 @@ public class AdnInteractions {
             for (int i = 0; i < jsonArray.length(); i++) {
                 String listString = jsonArray.getString(i);
                 AdnInteraction interaction = new AdnInteraction(listString);
-                mInteractions.add(interaction);
+                if (!interaction.mAction.equals("reply")) {
+                    mInteractions.add(interaction);
+                }
             }
         } catch (JSONException e) {
             // TODO Auto-generated catch block
@@ -42,4 +44,16 @@ public class AdnInteractions {
         }
     }
 
+    public AdnPosts getAsPosts() {
+        AdnPosts posts = new AdnPosts();
+        if (mInteractions != null) {
+            for (AdnInteraction interaction : mInteractions) {
+                if (interaction.mPosts != null && interaction.mPosts.mPosts != null) {
+                    posts.mPosts.addAll(interaction.mPosts.mPosts);
+                }
+            }
+        }
+
+        return posts;
+    }
 }

@@ -11,12 +11,12 @@
 
 package com.tweetlanes.android.view;
 
+import org.socialnetlib.android.SocialNetConstant;
 import org.tweetalib.android.TwitterManager;
 import org.tweetalib.android.TwitterManager.ProfileImageSize;
 import org.tweetalib.android.model.TwitterMediaEntity;
 import org.tweetalib.android.model.TwitterMediaEntity.Size;
 import org.tweetalib.android.model.TwitterStatus;
-import org.tweetalib.android.model.TwitterUser;
 
 import android.app.Activity;
 import android.content.Context;
@@ -75,7 +75,7 @@ public class TweetFeedItemView extends LinearLayout {
     private boolean mConversationExpanded;
 
     /*
-     * 
+     *
      */
     public interface Callbacks {
 
@@ -97,7 +97,7 @@ public class TweetFeedItemView extends LinearLayout {
     }
 
     /*
-     * 
+     *
      */
     public TweetFeedItemView(Context context) {
         super(context);
@@ -119,12 +119,12 @@ public class TweetFeedItemView extends LinearLayout {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void configure(TwitterStatus twitterStatus, int position,
             Callbacks callbacks, boolean loadsTweetSpotlight,
             boolean showRetweetCount, boolean showConversationView,
-            boolean isConversationItem, boolean resize) {
+            boolean isConversationItem, boolean resize, final SocialNetConstant.Type socialNetType) {
 
         StatusSize statusSize = AppSettings.get().getCurrentStatusSize();
 
@@ -173,8 +173,11 @@ public class TweetFeedItemView extends LinearLayout {
 
             boolean showTweetSource = AppSettings.get().showTweetSource();
 
+            String verb = socialNetType == SocialNetConstant.Type .Twitter ? "Retweeted" : "Reposted";
+
             if (twitterStatus.mIsRetweet == true) {
-                String text = "Retweeted by " + twitterStatus.mUserName;
+
+                String text = verb + " by " + twitterStatus.mUserName;
                 if (showTweetSource) {
                     text += " " + App.getContext().getString(R.string.via)
                             + " " + mTwitterStatus.mSource;
@@ -182,7 +185,7 @@ public class TweetFeedItemView extends LinearLayout {
                 mTweetDetailsView.setText(text);
             } else if (showRetweetCount == true
                     && twitterStatus.mRetweetCount > 0) {
-                mTweetDetailsView.setText("Retweeted "
+                mTweetDetailsView.setText(verb + " "
                         + twitterStatus.mRetweetCount + " times.");
             } else {
                 if (showTweetSource) {
@@ -205,14 +208,14 @@ public class TweetFeedItemView extends LinearLayout {
                     @Override
                     public void onClick(View v) {
                         mConversationExpanded = !mConversationExpanded;
-                        configureConversationView();
+                        configureConversationView(socialNetType);
                     }
                 });
 
                 if (showConversationView) {
                     insertConversationView();
                     mConversationView.setVisibility(GONE);
-                    configureConversationView();
+                    configureConversationView(socialNetType);
                 }
             } else {
                 mConversationToggle.setVisibility(GONE);
@@ -377,7 +380,7 @@ public class TweetFeedItemView extends LinearLayout {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void insertConversationView() {
         if (mConversationView == null) {
@@ -389,7 +392,7 @@ public class TweetFeedItemView extends LinearLayout {
     }
 
     /*
-     * 
+     *
      */
     public void setPreviewImage(TwitterMediaEntity mediaEntity,
             Callbacks callbacks) {
@@ -482,7 +485,7 @@ public class TweetFeedItemView extends LinearLayout {
     }
 
     /*
-	 * 
+	 *
 	 */
     OnTouchListener mStatusOnTouchListener = new OnTouchListener() {
 
@@ -538,7 +541,7 @@ public class TweetFeedItemView extends LinearLayout {
     };
 
     /*
-	 * 
+	 *
 	 */
     OnTouchListener mOnTouchListener = new OnTouchListener() {
 
@@ -549,7 +552,7 @@ public class TweetFeedItemView extends LinearLayout {
     };
 
     /*
-	 * 
+	 *
 	 */
     GestureDetector mGestureDetector = new GestureDetector(
             new GestureDetector.SimpleOnGestureListener() {
@@ -583,7 +586,7 @@ public class TweetFeedItemView extends LinearLayout {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void onProfileImageClick() {
         Intent profileIntent = new Intent(mContext, ProfileActivity.class);
@@ -601,9 +604,9 @@ public class TweetFeedItemView extends LinearLayout {
     }
 
     /*
-	 * 
+	 *
 	 */
-    public void configureConversationView() {
+    public void configureConversationView(SocialNetConstant.Type socialNetType) {
 
         insertConversationView();
 
@@ -631,7 +634,7 @@ public class TweetFeedItemView extends LinearLayout {
                         public LazyImageLoader getPreviewImageLoader() {
                             return mCallbacks.getPreviewImageLoader();
                         }
-                    });
+                    }, socialNetType);
         } else {
             mConversationView.setVisibility(GONE);
             int drawable = AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Dark ? R.drawable.ic_action_expand_dark
@@ -645,7 +648,7 @@ public class TweetFeedItemView extends LinearLayout {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void onLoadTweetSpotlight() {
         if (mLoadsTweetSpotlight == true) {

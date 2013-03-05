@@ -557,21 +557,7 @@ public class HomeActivity extends BaseLaneActivity {
 	 *
 	 */
     private void showAddAccount() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
-
-        builder.setTitle(R.string.select_account_type).setItems(
-                R.array.accounttype_list,
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(getApplicationContext(),
-                                which == 0 ? TwitterAuthActivity.class
-                                        : AppDotNetAuthActivity.class);
-
-                        startActivity(intent);
-                    }
-                });
-
-        builder.create().show();
+        startActivity(new Intent(this, NewAccountActivity.class));
     }
 
     /*
@@ -722,8 +708,7 @@ public class HomeActivity extends BaseLaneActivity {
 
             AccountDescriptor account = getApp().getCurrentAccount();
             if (account != null) {
-                TwitterManager.get().getLists(account.getScreenName(),
-                        mFetchListsCallback);
+                TwitterManager.get().getLists(account.getScreenName(), mFetchListsCallback);
             }
         }
     };
@@ -764,9 +749,9 @@ public class HomeActivity extends BaseLaneActivity {
                 case USER_HOME_TIMELINE:
                 case USER_PROFILE_TIMELINE:
                 case USER_MENTIONS:
-                case RETWEETS_OF_ME:
                 case USER_FAVORITES:
                 case GLOBAL_FEED:
+                case RETWEETS_OF_ME:
                     result = TweetFeedFragment.newInstance(position,
                             laneDescriptor.getContentHandleBase(), screenName,
                             Long.toString(account.getId()));

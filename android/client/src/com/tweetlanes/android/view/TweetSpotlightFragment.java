@@ -138,7 +138,7 @@ public final class TweetSpotlightFragment extends BaseLaneFragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     private void updateViewVisibility() {
 
@@ -159,7 +159,7 @@ public final class TweetSpotlightFragment extends BaseLaneFragment {
     }
 
     /*
-     * 
+     *
      */
     private void onStatusRefresh(TwitterStatus status) {
         if (mTweetFeedListAdapter != null) {
@@ -170,7 +170,7 @@ public final class TweetSpotlightFragment extends BaseLaneFragment {
     }
 
     /*
-     * 
+     *
      */
     private class TweetFeedListAdapter extends BaseAdapter {
 
@@ -181,7 +181,7 @@ public final class TweetSpotlightFragment extends BaseLaneFragment {
         /**
          * The number of items in the list is determined by the number of
          * speeches in our array.
-         * 
+         *
          * @see android.widget.ListAdapter#getCount()
          */
         public int getCount() {
@@ -193,7 +193,7 @@ public final class TweetSpotlightFragment extends BaseLaneFragment {
          * sufficent to get at the data. If we were using a more complex data
          * structure, we would return whatever object represents one row in the
          * list.
-         * 
+         *
          * @see android.widget.ListAdapter#getItem(int)
          */
         public Object getItem(int position) {
@@ -202,7 +202,7 @@ public final class TweetSpotlightFragment extends BaseLaneFragment {
 
         /**
          * Use the array index as a unique id.
-         * 
+         *
          * @see android.widget.ListAdapter#getItemId(int)
          */
         public long getItemId(int position) {
@@ -226,7 +226,7 @@ public final class TweetSpotlightFragment extends BaseLaneFragment {
         }
 
         /*
-         * 
+         *
          */
         View getTweetFeedView(int position, View convertView) {
 
@@ -280,7 +280,7 @@ public final class TweetSpotlightFragment extends BaseLaneFragment {
             };
 
             tweetFeedItemView.configure(item, position + 1, callbacks, false,
-                    true, false, false, false);
+                    true, false, false, false, getApp().getCurrentAccount().getSocialNetType());
             return tweetFeedItemView;
         }
 
@@ -293,7 +293,7 @@ public final class TweetSpotlightFragment extends BaseLaneFragment {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * com.tweetlanes.android.view.BaseLaneFragment#triggerInitialDownload()
      */
@@ -303,7 +303,7 @@ public final class TweetSpotlightFragment extends BaseLaneFragment {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.tweetlanes.android.view.BaseLaneFragment#onJumpToTop()
      */
     @Override
@@ -312,7 +312,7 @@ public final class TweetSpotlightFragment extends BaseLaneFragment {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.tweetlanes.android.view.BaseLaneFragment#clearLocalCache()
      */
     @Override
@@ -322,7 +322,7 @@ public final class TweetSpotlightFragment extends BaseLaneFragment {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.tweetlanes.android.view.BaseLaneFragment#getContentToCache()
      */
     @Override

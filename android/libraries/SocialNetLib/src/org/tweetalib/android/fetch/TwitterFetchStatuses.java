@@ -179,7 +179,6 @@ public class TwitterFetchStatuses {
 	 *
 	 */
     public TwitterStatuses getStatuses(TwitterContentHandle handle) {
-
         if (mStatusesHashMap != null) {
             TwitterStatuses feed = mStatusesHashMap.get(handle.getKey());
             if (feed == null) {
@@ -313,18 +312,10 @@ public class TwitterFetchStatuses {
                 }
 
                 case RETWEETS_OF_ME: {
-                        AdnInteractions interactions = appdotnetApi.getAdnInteractions();
-                        AdnPosts posts = new AdnPosts();
-                        if (interactions != null && interactions.mInteractions != null) {
-                            for (AdnInteraction interaction : interactions.mInteractions) {
-                                if (!interaction.mAction.equals("reply")) {
-                                    if (interaction.mPosts != null && interaction.mPosts.mPosts != null) {
-                                        posts.mPosts.addAll(interaction.mPosts.mPosts);
-                                    }
-                                }
-                            }
-                        }
-                        contentFeed = setStatuses(input.mContentHandle, posts);
+                    AdnInteractions interactions = appdotnetApi.getAdnInteractions();
+                    AdnPosts posts = interactions.getAsPosts();
+                    contentFeed = setStatuses(input.mContentHandle, posts);
+                    break;
                 }
 
                 case SCREEN_NAME_SEARCH:
@@ -365,24 +356,27 @@ public class TwitterFetchStatuses {
                 case PREVIOUS_CONVERSATION: {
                     TwitterStatuses statuses = new TwitterStatuses();
                     long statusId = Long.parseLong(input.mContentHandle.getIdentifier());
-                    TwitterStatus status = new TwitterStatus(appdotnetApi.getAdnPost(statusId));
-                    if (status.mInReplyToStatusId != null) {
-                        long inReplyToStatusId = status.mInReplyToStatusId;
-                        for (int i = 0; i < 4; i++) {
-                            TwitterStatus reply = new TwitterStatus(appdotnetApi.getAdnPost(inReplyToStatusId));
-                            statuses.add(reply, false);
-                            if (reply.mInReplyToStatusId != null) {
-                                inReplyToStatusId = reply.mInReplyToStatusId;
-                            } else {
-                                break;
+                    AdnPost post = appdotnetApi.getAdnPost(statusId);
+                    if (post != null) {
+                        TwitterStatus status = new TwitterStatus(post);
+                        if (status.mInReplyToStatusId != null) {
+                            long inReplyToStatusId = status.mInReplyToStatusId;
+                            for (int i = 0; i < 4; i++) {
+                                TwitterStatus reply = new TwitterStatus(appdotnetApi.getAdnPost(inReplyToStatusId));
+                                statuses.add(reply, false);
+                                if (reply.mInReplyToStatusId != null) {
+                                    inReplyToStatusId = reply.mInReplyToStatusId;
+                                } else {
+                                    break;
+                                }
                             }
                         }
-                    }
 
-                    statuses.add(status, false);
-                    if (statuses.getStatusCount() > 0) {
-                        statuses.sort();
-                        contentFeed = setStatuses(input.mContentHandle, statuses, false);
+                        statuses.add(status, false);
+                        if (statuses.getStatusCount() > 0) {
+                            statuses.sort();
+                            contentFeed = setStatuses(input.mContentHandle, statuses, false);
+                        }
                     }
                     statuses = null;
                 }

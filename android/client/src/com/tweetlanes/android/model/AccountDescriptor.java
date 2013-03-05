@@ -166,7 +166,7 @@ public class AccountDescriptor {
                         TwitterConstant.StatusesType.USER_TIMELINE)));
 
         mLaneDefinitions.add(new LaneDescriptor(
-                Constant.LaneType.USER_PROFILE_TIMELINE, App.getContext()
+                Constant.LaneType.RETWEETS_OF_ME, App.getContext()
                         .getString(mSocialNetType == SocialNetConstant.Type.Twitter ? R.string
                                 .lane_user_retweets_of_me :  R.string.lane_user_retweets_of_me_adn),
                 new TwitterContentHandleBase(
