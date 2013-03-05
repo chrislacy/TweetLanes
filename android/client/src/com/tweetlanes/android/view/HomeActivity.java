@@ -288,11 +288,17 @@ public class HomeActivity extends BaseLaneActivity {
         if (Constant.ENABLE_STATUS_CACHING == true) {
             AccountDescriptor account = getApp().getCurrentAccount();
 
+
             LaneDescriptor laneDescriptor = account
                     .getDisplayedLaneDefinition(laneIndex);
             if (laneDescriptor != null) {
-                String cacheKey = laneDescriptor.getCacheKey(account
-                        .getScreenName());
+                // Never cache app.net interactions
+                if (account.getSocialNetType() == SocialNetConstant.Type.Appdotnet && laneDescriptor.getLaneType() ==
+                        Constant.LaneType.RETWEETS_OF_ME) {
+                    return null;
+                }
+
+                String cacheKey = laneDescriptor.getCacheKey(account.getScreenName());
                 String cachedData = getApp().getCachedData(cacheKey);
                 if (cachedData != null) {
                     return cachedData;

@@ -38,7 +38,7 @@ public class AdnInteraction {
             mCreatedAt = TwitterUtil.iso6801StringToDate(eventDateString);
 
             // more like "unique" Id.
-            long unqiueId = Long.valueOf(eventDateString.replaceAll("\\D", ""));
+            long unqiueId = Long.valueOf(eventDateString.replaceAll("-|:|Z|T", ""));
 
             mUsers = new AdnUsers(object.getJSONArray("users"));
 
@@ -69,7 +69,7 @@ public class AdnInteraction {
                                 userString += ", " + "@" + user.mUserName;
                             }
                         }
-                        post.mId += unqiueId;
+                        post.mId = unqiueId;
                         post.mText = userString + " " + verb + " the following post:\n\n" + post.mText;
                         post.mUser = mUsers.mUsers.get(0);
                         post.mInReplyTo = null;
@@ -91,7 +91,7 @@ public class AdnInteraction {
                     id += user.mId;
                 }
                 AdnPost meta = new AdnPost();
-                meta.mId = unqiueId + id;
+                meta.mId = unqiueId;
                 meta.mText = userString + " started following you.";
                 meta.mCreatedAt = mCreatedAt;
                 meta.mUser = mUsers.mUsers.get(0);
