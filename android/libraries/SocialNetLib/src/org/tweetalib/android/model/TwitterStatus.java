@@ -29,7 +29,7 @@ import android.text.Spanned;
 public class TwitterStatus implements Comparable<TwitterStatus> {
 
     /*
-	 * 
+	 *
 	 */
     public TwitterStatus(TwitterStatus other) {
         mAuthorId = other.mAuthorId;
@@ -59,7 +59,7 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
     }
 
     /*
-	 * 
+	 *
 	 */
     /*
      * public TwitterStatus(Status tweet) { mId = tweet.getId(); mUserId =
@@ -72,7 +72,7 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
      */
 
     /*
-	 * 
+	 *
 	 */
     public TwitterStatus(Status status) {
         mCreatedAt = status.getCreatedAt();
@@ -167,7 +167,7 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
     }
 
     /*
-	 * 
+	 *
 	 */
     public TwitterStatus(String jsonAsString) {
 
@@ -269,7 +269,7 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
     }
 
     /*
-	 * 
+	 *
 	 */
     public String toString() {
 
@@ -331,7 +331,7 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
     }
 
     /*
-	 * 
+	 *
 	 */
     private final String KEY_AUTHOR_ID = "mAuthorId";
     private final String KEY_AUTHOR_NAME = "mAuthorName";
@@ -358,7 +358,7 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
     private final String KEY_MEDIA_ENTITY = "mMediaEntity";
 
     /*
-	 * 
+	 *
 	 */
     public long mAuthorId;
     private String mAuthorName;
@@ -423,7 +423,7 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
      */
 
     /*
-	 * 
+	 *
 	 */
     public String getTwitterComStatusUrl() {
         return "http://twitter.com/" + getAuthorScreenName() + "/status/" + mId;
@@ -431,7 +431,7 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
     public int compareTo(TwitterStatus other) {
@@ -443,7 +443,7 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
     }
 
     /*
-	 * 
+	 *
 	 */
     private boolean compareString(String string1, String string2) {
         if (string1 == null) {
@@ -474,7 +474,7 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
     }
 
     /*
-	 * 
+	 *
 	 */
     public boolean isEqualTo(TwitterStatus other) {
 
@@ -525,18 +525,18 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
     }
 
     /*
-	 * 
+	 *
 	 */
     void setStatusMarkup(Status status) {
         mStatusFullMarkup = TwitterUtil.getStatusMarkup(status, mMediaEntity);
         mStatusFullSpanned = URLSpanNoUnderline.stripUnderlines(Html
-                .fromHtml(mStatusFullMarkup + " "));
+                .fromHtml(mStatusFullMarkup.replace("\n", "<br/>") + " "));
     }
 
     void setStatusMarkup(String full) {
         mStatusFullMarkup = full;
         mStatusFullSpanned = URLSpanNoUnderline.stripUnderlines(Html
-                .fromHtml(mStatusFullMarkup + " "));
+                .fromHtml(mStatusFullMarkup.replace("\n", "<br/>") + " "));
     }
 
     void setStatusMarkup(AdnPost post) {
