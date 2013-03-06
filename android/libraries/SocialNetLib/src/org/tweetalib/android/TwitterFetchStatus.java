@@ -33,14 +33,14 @@ public class TwitterFetchStatus {
     private HashMap<Integer, FinishedCallback> mFinishedCallbackMap;
 
     /*
-	 * 
+	 *
 	 */
     public void clearCallbacks() {
         mFinishedCallbackMap.clear();
     }
 
     /*
-	 * 
+	 *
 	 */
     public interface FetchStatusWorkerCallbacks {
 
@@ -52,7 +52,7 @@ public class TwitterFetchStatus {
     }
 
     /*
-	 * 
+	 *
 	 */
     public interface FinishedCallbackInterface {
 
@@ -61,7 +61,7 @@ public class TwitterFetchStatus {
     }
 
     /*
-	 * 
+	 *
 	 */
     public abstract class FinishedCallback implements FinishedCallbackInterface {
 
@@ -79,7 +79,7 @@ public class TwitterFetchStatus {
     }
 
     /*
-	 * 
+	 *
 	 */
     public TwitterFetchStatus() {
         mFinishedCallbackMap = new HashMap<Integer, FinishedCallback>();
@@ -87,18 +87,18 @@ public class TwitterFetchStatus {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void setWorkerCallbacks(FetchStatusWorkerCallbacks callbacks) {
         mCallbacks = callbacks;
     }
 
     /*
-	 * 
+	 *
 	 */
 
     /*
-	 * 
+	 *
 	 */
     FinishedCallback getFetchStatusCallback(Integer callbackHandle) {
         FinishedCallback callback = mFinishedCallbackMap.get(callbackHandle);
@@ -106,7 +106,7 @@ public class TwitterFetchStatus {
     }
 
     /*
-	 * 
+	 *
 	 */
     void removeFetchStatusCallback(FinishedCallback callback) {
         if (mFinishedCallbackMap.containsValue(callback)) {
@@ -115,7 +115,7 @@ public class TwitterFetchStatus {
     }
 
     /*
-	 * 
+	 *
 	 */
     Twitter getTwitterInstance() {
         return mCallbacks.getTwitterInstance();
@@ -126,7 +126,7 @@ public class TwitterFetchStatus {
     }
 
     /*
-	 * 
+	 *
 	 */
     public TwitterStatus getStatus(long statusId, FinishedCallback callback,
             ConnectionStatus connectionStatus) {
@@ -138,7 +138,7 @@ public class TwitterFetchStatus {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void setStatus(TwitterStatusUpdate statusUpdate,
             FinishedCallback callback, ConnectionStatus connectionStatus) {
@@ -149,7 +149,7 @@ public class TwitterFetchStatus {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void setRetweet(long statusId, FinishedCallback callback,
             ConnectionStatus connectionStatus) {
@@ -159,7 +159,7 @@ public class TwitterFetchStatus {
     }
 
     /*
-	 * 
+	 *
 	 */
     void triggerFetchStatusTask(FetchStatusTaskInput taskInput,
             FinishedCallback callback, ConnectionStatus connectionStatus) {
@@ -179,7 +179,7 @@ public class TwitterFetchStatus {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void cancel(FinishedCallback callback) {
 
@@ -187,7 +187,7 @@ public class TwitterFetchStatus {
     }
 
     /*
-	 * 
+	 *
 	 */
     class FetchStatusTaskInput {
 
@@ -216,7 +216,7 @@ public class TwitterFetchStatus {
     }
 
     /*
-	 * 
+	 *
 	 */
     class FetchStatusTaskOutput {
 
@@ -233,7 +233,7 @@ public class TwitterFetchStatus {
     }
 
     /*
-	 * 
+	 *
 	 */
     class FetchStatusTask extends
             AsyncTaskEx<FetchStatusTaskInput, Void, FetchStatusTaskOutput> {
@@ -258,8 +258,7 @@ public class TwitterFetchStatus {
                 AdnPost status = null;
                 switch (input.mStatusType) {
                 case SET_STATUS:
-                    AdnPostCompose post = input.mStatusUpdate
-                            .getAdnComposePost();
+                    AdnPostCompose post = input.mStatusUpdate.getAdnComposePost();
                     appdotnetApi.setAdnStatus(post);
                     break;
 

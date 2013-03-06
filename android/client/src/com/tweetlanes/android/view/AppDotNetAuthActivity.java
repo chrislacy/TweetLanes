@@ -52,7 +52,7 @@ public class AppDotNetAuthActivity extends Activity {
 
         String url = "https://alpha.app.net/oauth/authenticate?client_id="
                 + Constant.APPDOTNET_CONSUMER_KEY
-                + "&response_type=token&redirect_uri=tweetlanes-auth-callback:///&scope=stream,email,write_post," +
+                + "&response_type=token&redirect_uri=tweetlanes-auth-callback:///&scope=stream,write_post," +
                 "follow,messages";
 
         setContentView(R.layout.twitter_auth_signin);

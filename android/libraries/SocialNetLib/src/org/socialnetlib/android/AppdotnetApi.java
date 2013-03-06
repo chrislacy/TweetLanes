@@ -21,6 +21,10 @@ import org.json.JSONObject;
 import org.tweetalib.android.model.TwitterUser;
 import twitter4j.Twitter;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+
 public class AppdotnetApi extends SocialNetApi {
 
     /*
@@ -79,6 +83,22 @@ public class AppdotnetApi extends SocialNetApi {
         }
         return null;
     }
+
+    String doPost(String path, JSONObject json) {
+        byte[] data = json.toString().getBytes();
+
+        HttpResponse httpResponse = getHttpClient().post(path, "application/json", data);
+        if (isResponseValid(httpResponse)) {
+            String body = httpResponse.getBodyAsString();
+            return body;
+        }
+        return null;
+    }
+
+    String doPost(String path, JSONObject json, String fileToken) {
+        return doPost(path + "?file_token=" + fileToken, json);
+    }
+
 
     /*
      * (non-Javadoc)
@@ -291,19 +311,82 @@ public class AppdotnetApi extends SocialNetApi {
     }
 
     public AdnPost setAdnStatus(AdnPostCompose compose) {
-        BasicHttpClient httpClient = getHttpClient();
-        ParameterMap params = httpClient.newParams().add("text", compose.mText);
-        if (compose.mInReplyTo != null) {
-            params = params.add("reply_to", compose.mInReplyTo.toString());
+        JSONObject post;
+        String fileToken = null;
+        try {
+
+            post = new JSONObject()
+                .put("text", compose.mText)
+                .put("reply_to", compose.mInReplyTo);
+
+
+            if (compose.mMediaFile != null) {
+                AdnFile file = setAdnFile(compose.mMediaFile);
+
+                JSONObject ann = new JSONObject();
+                ann.put("type", "net.app.core.oembed");
+                ann.put("value", new JSONObject()
+                        .put("+net.app.core.file", new JSONObject()
+                                .put("file_id", file.mId)
+                                .put("file_token", file.mFileToken)
+                                .put("format", "oembed")
+                        )
+                );
+                post.put("annotations", new JSONArray().put(ann));
+            }
+
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+            return null;
         }
 
-        HttpResponse httpResponse = httpClient.post("/stream/0/posts", params);
-        if (isResponseValid(httpResponse)) {
-            String postAsString = httpResponse.getBodyAsString();
-            if (postAsString != null) {
-                return new AdnPost(postAsString);
+        String bodyAsString = fileToken == null ? doPost("/stream/0/posts", post) : doPost("/stream/0/posts", post,
+                fileToken);
+        if (bodyAsString != null) {
+            return new AdnPost(bodyAsString);
+        }
+
+        return null;
+    }
+
+    private AdnFile setAdnFile(File file) {
+        JSONObject json;
+        try {
+            json = new JSONObject()
+                .put("kind", "image")
+                .put("type", "com.tweetlanes.image")
+                .put("public", "0")
+                .put("name", file.getName());
+
+            JSONObject response = new JSONObject(doPost("/stream/0/files", json));
+            if (response.has("data")) {
+                response = response.getJSONObject("data");
+            }
+
+            String id = response.getString("id");
+            String fileToken = response.getString("file_token");
+            byte[] data = AppdotnetApi.readFile(file);
+
+            BasicHttpClient httpClient = getHttpClient();
+            HttpResponse httpResponse = httpClient.put("/stream/0/files/" + id + "/content?file_token=" + fileToken,
+                    "image/jpeg", data);
+
+            if (isResponseValid(httpResponse)) {
+                return new AdnFile(id, fileToken);
             }
         }
+        catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+
+
 
         return null;
     }
@@ -391,5 +474,25 @@ public class AppdotnetApi extends SocialNetApi {
 
     public SocialNetConstant.Type getSocialNetType() {
         return SocialNetConstant.Type.Appdotnet;
+    }
+
+    private static byte[] readFile (File file) throws IOException {
+        // Open file
+        RandomAccessFile f = new RandomAccessFile(file, "r");
+
+        try {
+            // Get and check length
+            long longlength = f.length();
+            int length = (int) longlength;
+            if (length != longlength) throw new IOException("File size >= 2 GB");
+
+            // Read file and return data
+            byte[] data = new byte[length];
+            f.readFully(data);
+            return data;
+        }
+        finally {
+            f.close();
+        }
     }
 }
