@@ -112,6 +112,7 @@
     <string name="lane_tweet_conversation">Discussion</string>
     <string name="lane_tweet_favorited_by">Favorited By</string>
     <string name="lane_tweet_retweeted_by">Retweeted By</string>
+    <string name="lane_tweet_retweeted_by_adn">Reposted By</string>
 
     <string name="status_count">Tweets</string>
     <string name="posts_count">Posts</string>

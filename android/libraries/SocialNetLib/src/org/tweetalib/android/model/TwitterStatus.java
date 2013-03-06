@@ -14,6 +14,7 @@ package org.tweetalib.android.model;
 import java.util.ArrayList;
 import java.util.Date;
 
+import org.appdotnet4j.model.AdnMedia;
 import org.appdotnet4j.model.AdnPost;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -47,6 +48,7 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
         if (other.mMediaEntity != null) {
             mMediaEntity = new TwitterMediaEntity(other.mMediaEntity);
         }
+        mAdnMedia = other.mAdnMedia;
         mProfileImageUrl = other.mProfileImageUrl;
         mRetweetCount = other.mRetweetCount;
         mSource = other.mSource;
@@ -160,7 +162,7 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
 
         mIsRetweet = post.mIsRetweet;
 
-        mMediaEntity = TwitterMediaEntity.createMediaEntity(post);
+        mAdnMedia = post.mEmbeddedMedia;
         mStatus = post.mText;
         setStatusMarkup(post);
 
@@ -249,6 +251,9 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
                 mMediaEntity = TwitterMediaEntity.createFromString(object
                         .getString(KEY_MEDIA_ENTITY));
             }
+            if (object.has(KEY_ADN_MEDIA_ENTITY)) {
+                mAdnMedia = new AdnMedia(object.getString(KEY_ADN_MEDIA_ENTITY));
+            }
 
             if (object.has(KEY_STATUS_SLIM_MARKUP)) {
                 String statusFullMarkup = null;
@@ -323,6 +328,9 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
             if (mMediaEntity != null) {
                 object.put(KEY_MEDIA_ENTITY, mMediaEntity.toString());
             }
+            if (mAdnMedia != null) {
+                object.put(KEY_ADN_MEDIA_ENTITY, mAdnMedia.toString());
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -356,6 +364,7 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
     private final String KEY_USER_NAME = "mUserName";
     private final String KEY_USER_MENTIONS = "mUserMentions";
     private final String KEY_MEDIA_ENTITY = "mMediaEntity";
+    private final String KEY_ADN_MEDIA_ENTITY = "mAdnMedia";
 
     /*
 	 *
@@ -387,6 +396,7 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
     public String mUserName;
     public String[] mUserMentions;
     public TwitterMediaEntity mMediaEntity;
+    public AdnMedia mAdnMedia;
 
     public String getAuthorName() {
         return mAuthorName != null ? mAuthorName : mUserName;

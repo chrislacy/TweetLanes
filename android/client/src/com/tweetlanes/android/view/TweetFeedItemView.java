@@ -11,6 +11,7 @@
 
 package com.tweetlanes.android.view;
 
+import org.appdotnet4j.model.AdnMedia;
 import org.socialnetlib.android.SocialNetConstant;
 import org.tweetalib.android.TwitterManager;
 import org.tweetalib.android.TwitterManager.ProfileImageSize;
@@ -376,7 +377,7 @@ public class TweetFeedItemView extends LinearLayout {
             mAuthorNameTextView.setOnTouchListener(mOnTouchListener);
         }
 
-        setPreviewImage(twitterStatus.mMediaEntity, callbacks);
+        setPreviewImage(twitterStatus.mMediaEntity, twitterStatus.mAdnMedia, callbacks);
     }
 
     /*
@@ -394,93 +395,88 @@ public class TweetFeedItemView extends LinearLayout {
     /*
      *
      */
-    public void setPreviewImage(TwitterMediaEntity mediaEntity,
+    public void setPreviewImage(TwitterMediaEntity mediaEntity, AdnMedia adnMedia,
             Callbacks callbacks) {
 
         mPreviewImageContainer = (RelativeLayout) findViewById(R.id.preview_image_container);
 
-        if (AppSettings.get().downloadFeedImages() == false) {
+        if ((mediaEntity == null && adnMedia == null) || AppSettings.get().downloadFeedImages() == false) {
             if (mPreviewImageContainer != null) {
                 mPreviewImageContainer.setVisibility(View.GONE);
             }
             return;
         }
 
+        String mediaUrl = adnMedia != null ? adnMedia.mUrl : mediaEntity.getMediaUrl(Size.LARGE);
+        String thumbUrl = adnMedia != null ? adnMedia.mThumbnailUrl : mediaEntity.getMediaUrl(Size.THUMB);
+        TwitterMediaEntity.Source source = adnMedia != null ? null : mediaEntity.getSource();
+
         if (mPreviewImageContainer != null) {
-            if (mediaEntity != null) {
-                final boolean isVideo = mTwitterStatus.mMediaEntity.getSource() == TwitterMediaEntity.Source.YOUTUBE;
+            final boolean isVideo = source == TwitterMediaEntity.Source.YOUTUBE;
 
-                mPreviewImageContainer.setVisibility(View.VISIBLE);
-                mPreviewImageView = (ImageView) findViewById(R.id.preview_image_view);
-                if (mPreviewImageView == null) {
-                    mPreviewImageView = (ImageView) findViewById(R.id.preview_large_image_view);
-                    String mediaUrl = mediaEntity
-                            .getMediaUrl(TwitterMediaEntity.Size.LARGE);
-                    URLImageViewHelper.setURLDrawable(mPreviewImageView,
-                            mediaUrl, new URLImageViewHelper.Callback() {
+            mPreviewImageContainer.setVisibility(View.VISIBLE);
+            mPreviewImageView = (ImageView) findViewById(R.id.preview_image_view);
+            if (mPreviewImageView == null) {
+                mPreviewImageView = (ImageView) findViewById(R.id.preview_large_image_view);
+                URLImageViewHelper.setURLDrawable(mPreviewImageView,
+                        mediaUrl, new URLImageViewHelper.Callback() {
 
-                                @Override
-                                public void onComplete(boolean success) {
-                                    if (success == false) {
-                                    }
+                            @Override
+                            public void onComplete(boolean success) {
+                                if (success == false) {
                                 }
-                            });
-                } else {
-                    String mediaUrl = mediaEntity
-                            .getMediaUrl(TwitterMediaEntity.Size.THUMB);
-                    // mPreviewImageView.setImageURL(mediaUrl);
-                    LazyImageLoader previewImageLoader = callbacks
-                            .getPreviewImageLoader();
-                    if (previewImageLoader != null) {
-                        previewImageLoader.displayImage(mediaUrl,
-                                mPreviewImageView);
-                    }
-                }
-
-                // UrlImageViewHelper.setUrlDrawable(mPreviewImageView,
-                // mediaEntity.getMediaUrl(size));
-                mPreviewImageView.setVisibility(VISIBLE);
-                mPreviewImageView.setOnClickListener(new OnClickListener() {
-
-                    @Override
-                    public void onClick(View v) {
-
-                        if (mTwitterStatus != null) {
-                            if (isVideo) {
-                                Intent viewIntent = new Intent(
-                                        Intent.ACTION_VIEW,
-                                        Uri.parse(mTwitterStatus.mMediaEntity
-                                                .getExpandedUrl()));
-                                mCallbacks.getActivity().startActivity(
-                                        viewIntent);
-                            } else {
-                                ImageViewActivity.createAndStartActivity(
-                                        mCallbacks.getActivity(),
-                                        mTwitterStatus.mMediaEntity
-                                                .getMediaUrl(Size.LARGE),
-                                        mTwitterStatus.mMediaEntity
-                                                .getExpandedUrl(),
-                                        mTwitterStatus.getAuthorScreenName());
                             }
+                        });
+            } else {
+                LazyImageLoader previewImageLoader = callbacks
+                        .getPreviewImageLoader();
+                if (previewImageLoader != null) {
+                    previewImageLoader.displayImage(thumbUrl,
+                            mPreviewImageView);
+                }
+            }
+
+            mPreviewImageView.setVisibility(VISIBLE);
+            mPreviewImageView.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+
+                    String url = mTwitterStatus.mAdnMedia != null ? mTwitterStatus.mAdnMedia.mUrl : mTwitterStatus
+                            .mMediaEntity.getMediaUrl(Size.LARGE);
+                    String expandedUrl = mTwitterStatus.mAdnMedia != null ? mTwitterStatus.mAdnMedia.mExpandedUrl :
+                            mTwitterStatus.mMediaEntity.getExpandedUrl();
+
+                    if (mTwitterStatus != null) {
+                        if (isVideo) {
+                            Intent viewIntent = new Intent(
+                                    Intent.ACTION_VIEW,
+                                    Uri.parse(expandedUrl));
+                            mCallbacks.getActivity().startActivity(
+                                    viewIntent);
+                        } else {
+                            ImageViewActivity.createAndStartActivity(
+                                    mCallbacks.getActivity(),
+                                    url,
+                                    expandedUrl,
+                                    mTwitterStatus.getAuthorScreenName());
                         }
                     }
-                });
-
-                mPreviewPlayImageView = (ImageView) findViewById(R.id.preview_image_play_view);
-                if (mPreviewPlayImageView != null) {
-                    mPreviewPlayImageView.setVisibility(isVideo ? View.VISIBLE
-                            : View.GONE);
                 }
+            });
 
-                // Bit of hack, but reduce the status right padding element when
-                // displaying an image
-                mStatusTextView.setPadding(mStatusTextView.getPaddingLeft(),
-                        mStatusTextView.getPaddingTop(),
-                        (int) Util.convertDpToPixel(6, mContext),
-                        mStatusTextView.getPaddingRight());
-            } else {
-                mPreviewImageContainer.setVisibility(View.GONE);
+            mPreviewPlayImageView = (ImageView) findViewById(R.id.preview_image_play_view);
+            if (mPreviewPlayImageView != null) {
+                mPreviewPlayImageView.setVisibility(isVideo ? View.VISIBLE
+                        : View.GONE);
             }
+
+            // Bit of hack, but reduce the status right padding element when
+            // displaying an image
+            mStatusTextView.setPadding(mStatusTextView.getPaddingLeft(),
+                    mStatusTextView.getPaddingTop(),
+                    (int) Util.convertDpToPixel(6, mContext),
+                    mStatusTextView.getPaddingRight());
         }
     }
 

@@ -31,6 +31,7 @@ public class AdnPost {
     public boolean mIsDeleted;
     public boolean mIsRetweet;
     public AdnUser mOriginalAuthor;
+    public AdnMedia mEmbeddedMedia;
 
     public AdnPost() {}
 
@@ -54,6 +55,7 @@ public class AdnPost {
                         .toString());
                 mOriginalAuthor = repost.mUser;
                 mText = repost.mText;
+                mEmbeddedMedia = repost.mEmbeddedMedia;
             }
 
             mId = object.getLong("id");
@@ -97,6 +99,19 @@ public class AdnPost {
                             String username = mention.getString("name");
                             // HACK
                             TwitterManager.addUserIdentifier(username, id);
+                        }
+                    }
+                }
+            }
+
+            if (object.has("annotations")) {
+                JSONArray annotations = object.getJSONArray("annotations");
+                for (int i = 0; i < annotations.length(); i++) {
+                    JSONObject annotation = annotations.getJSONObject(i);
+                    if (annotation.getString("type").equals("net.app.core.oembed") && annotation.has("value")) {
+                        JSONObject value = annotation.getJSONObject("value");
+                        if (value.has("thumbnail_url")) {
+                            mEmbeddedMedia = new AdnMedia(value.toString());
                         }
                     }
                 }

@@ -584,7 +584,8 @@ public class App extends Application {
                         TwitterConstant.StatusesType.FULL_CONVERSATION)));
         mTweetSpotlightLaneDefinitions.add(new LaneDescriptor(
                 Constant.LaneType.STATUS_RETWEETED_BY, getContext().getString(
-                        R.string.lane_tweet_retweeted_by),
+                socialNetType == SocialNetConstant.Type.Twitter ? R.string.lane_tweet_retweeted_by : R.string
+                        .lane_tweet_retweeted_by_adn),
                 new TwitterContentHandleBase(TwitterConstant.ContentType.USERS,
                         TwitterConstant.UsersType.RETWEETED_BY)));
         mTweetSpotlightLaneDefaultIndex = 0;

@@ -237,6 +237,7 @@ public class AppdotnetApi extends SocialNetApi {
         }
         params.add("include_deleted", "0");
         params.add("include_muted", "0");
+        params.add("include_post_annotations", "1");
         if (paging.getSinceId() > 0) {
             params.add("since_id", String.valueOf(paging.getSinceId()));
         }
