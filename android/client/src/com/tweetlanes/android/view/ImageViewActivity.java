@@ -23,6 +23,7 @@ import java.util.Date;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -31,6 +32,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,7 +43,8 @@ import com.tweetlanes.android.Constant;
 import com.tweetlanes.android.R;
 import com.tweetlanes.android.util.Util;
 import com.tweetlanes.android.widget.gestureimageview.GestureImageView;
-import com.tweetlanes.android.widget.urlimageviewhelper.URLImageViewHelper;
+import com.tweetlanes.android.widget.urlimageviewhelper.UrlImageViewCallback;
+import com.tweetlanes.android.widget.urlimageviewhelper.UrlImageViewHelper;
 
 public class ImageViewActivity extends FragmentActivity {
 
@@ -84,20 +87,21 @@ public class ImageViewActivity extends FragmentActivity {
         setContentView(R.layout.image_view);
 
         mZoomableImageView = (GestureImageView) findViewById(R.id.image_view);
-        URLImageViewHelper.setURLDrawable(mZoomableImageView, imageUrl,
-                new URLImageViewHelper.Callback() {
-
-                    @Override
-                    public void onComplete(boolean success) {
-
-                        ProgressBar loadingView = (ProgressBar) findViewById(R.id.imageViewLoading);
+        UrlImageViewHelper.setUrlDrawable(mZoomableImageView, imageUrl,
+                new UrlImageViewCallback() {
+					
+					@Override
+					public void onLoaded(ImageView imageView, Drawable loadedDrawable,
+							String url, boolean loadedFromCache) {
+						ProgressBar loadingView = (ProgressBar) findViewById(R.id.imageViewLoading);
                         loadingView.setVisibility(View.GONE);
-                        if (success == false) {
+                        if (loadedDrawable == null) {
                             TextView errorTextView = (TextView) findViewById(R.id.errorTextView);
                             errorTextView.setVisibility(View.VISIBLE);
                         }
-                    }
-                });
+						
+					}
+				}); 
 
         getActionBar().setTitle("@" + getAuthorScreenName() + "'s image");
         getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -148,7 +152,7 @@ public class ImageViewActivity extends FragmentActivity {
             if (mediaUrl != null) {
                 String toastMessage = getString(R.string.image_not_loaded);
 
-                String existingFilename = URLImageViewHelper
+                String existingFilename = UrlImageViewHelper
                         .getFilenameForUrl(mediaUrl);
                 if (existingFilename != null) {
                     File existingFile = getFileStreamPath(existingFilename);
