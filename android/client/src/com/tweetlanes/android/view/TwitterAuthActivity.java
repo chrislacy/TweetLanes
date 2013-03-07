@@ -44,7 +44,7 @@ public class TwitterAuthActivity extends Activity {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see android.app.Activity#onCreate(android.os.Bundle)
      */
     @Override
@@ -60,13 +60,16 @@ public class TwitterAuthActivity extends Activity {
 
         setContentView(R.layout.loading);
 
+        TwitterManager.get().setSignInSocialNetType(Constant.TWITTER_CONSUMER_KEY,
+                Constant.TWITTER_CONSUMER_SECRET, SocialNetConstant.Type.Twitter);
+
         TwitterManager.get().getAuthUrl(mGetAuthUrlCallback);
 
         getActionBar().setTitle(R.string.authorize_twitter_account);
     }
 
     /*
-	 * 
+	 *
 	 */
     GetAuthUrlCallback mGetAuthUrlCallback = TwitterManager.get()
             .getSignInInstance().new GetAuthUrlCallback() {
@@ -80,7 +83,7 @@ public class TwitterAuthActivity extends Activity {
     };
 
     /*
-	 * 
+	 *
 	 */
     GetOAuthAccessTokenCallback mGetOAuthAccessTokenCallback = TwitterManager
             .get().getSignInInstance().new GetOAuthAccessTokenCallback() {
@@ -95,7 +98,7 @@ public class TwitterAuthActivity extends Activity {
     };
 
     /*
-	 * 
+	 *
 	 */
     void onSuccessfulLogin(TwitterUser user, String accessToken,
             String accessTokenSecret) {
@@ -105,14 +108,14 @@ public class TwitterAuthActivity extends Activity {
     }
 
     /*
-	 * 
+	 *
 	 */
     public App getApp() {
         return (App) getApplication();
     }
 
     /*
-	 * 
+	 *
 	 */
     void getAuthUrlCallback(String url, RequestToken requestToken) {
 
@@ -166,7 +169,7 @@ public class TwitterAuthActivity extends Activity {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see android.app.Activity#onActivityResult(int, int,
      * android.content.Intent)
      */
@@ -185,7 +188,7 @@ public class TwitterAuthActivity extends Activity {
     }
 
     /*
-	 * 
+	 *
 	 */
     void onOAuthVerifier(String oauthVerifier) {
         setContentView(R.layout.loading);

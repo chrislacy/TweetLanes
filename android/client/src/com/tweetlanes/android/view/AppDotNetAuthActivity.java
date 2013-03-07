@@ -11,6 +11,8 @@
 
 package com.tweetlanes.android.view;
 
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import org.socialnetlib.android.AppdotnetApi;
 import org.socialnetlib.android.SocialNetConstant;
 
@@ -50,12 +52,20 @@ public class AppDotNetAuthActivity extends Activity {
 
         getActionBar().setTitle(R.string.authorize_appdotnet_account);
 
-        String url = "https://alpha.app.net/oauth/authenticate?client_id="
+        TwitterManager.get().setSignInSocialNetType(Constant.APPDOTNET_CONSUMER_KEY,
+                Constant.APPDOTNET_CONSUMER_SECRET, SocialNetConstant.Type.Appdotnet);
+
+        String url = "https://account.app.net/oauth/authenticate?client_id="
                 + Constant.APPDOTNET_CONSUMER_KEY
                 + "&response_type=token&redirect_uri=tweetlanes-auth-callback:///&scope=stream,write_post," +
                 "follow,messages";
 
         setContentView(R.layout.twitter_auth_signin);
+
+        CookieSyncManager.createInstance(this);
+        CookieManager cookieManager = CookieManager.getInstance();
+        cookieManager.removeAllCookie();
+        cookieManager.setAcceptCookie(true);
 
         WebView webView = (WebView) findViewById(R.id.twitter_auth_signin_webview);
         webView.setWebViewClient(new WebViewClient() {

@@ -96,11 +96,11 @@ public abstract class SocialNetApi {
         initFetchUsers();
         initFetchLists();
         initModifyStatuses();
-        initSignIn();
+        mSignIn = new TwitterSignIn();
     }
 
     /*
-	 * 
+	 *
 	 */
     private void initFetchStatus() {
 
@@ -127,7 +127,7 @@ public abstract class SocialNetApi {
     }
 
     /*
-	 * 
+	 *
 	 */
     private void initFetchStatuses() {
 
@@ -160,7 +160,7 @@ public abstract class SocialNetApi {
     }
 
     /*
-	 * 
+	 *
 	 */
     private void initFetchBooleans() {
         mFetchBooleans = new TwitterFetchBooleans();
@@ -180,7 +180,7 @@ public abstract class SocialNetApi {
     }
 
     /*
-	 * 
+	 *
 	 */
     private void initFetchDirectMessages() {
 
@@ -202,21 +202,21 @@ public abstract class SocialNetApi {
     }
 
     /*
-	 * 
+	 *
 	 */
-    private void initSignIn() {
+    public void initSignIn(final String consumerKey, final String consumerSecret, final SocialNetConstant.Type type) {
         mSignIn = new TwitterSignIn();
 
         SignInWorkerCallbacks callbacks = new SignInWorkerCallbacks() {
 
             @Override
             public String getConsumerKey() {
-                return mAppConsumerKey;
+                return consumerKey;
             }
 
             @Override
             public String getConsumerSecret() {
-                return mAppConsumerSecret;
+                return consumerSecret;
             }
 
             @Override
@@ -227,7 +227,7 @@ public abstract class SocialNetApi {
 
             @Override
             public Type getType() {
-                return mType;
+                return type;
             }
 
         };
@@ -236,7 +236,7 @@ public abstract class SocialNetApi {
     }
 
     /*
-	 * 
+	 *
 	 */
     private void initFetchUser() {
         mFetchUser = new TwitterFetchUser();
@@ -268,7 +268,7 @@ public abstract class SocialNetApi {
     }
 
     /*
-	 * 
+	 *
 	 */
     private void initFetchUsers() {
         mFetchUsers = new TwitterFetchUsers();
@@ -305,7 +305,7 @@ public abstract class SocialNetApi {
     }
 
     /*
-	 * 
+	 *
 	 */
     private void initFetchLists() {
         mFetchLists = new TwitterFetchLists();
@@ -323,7 +323,7 @@ public abstract class SocialNetApi {
     }
 
     /*
-	 * 
+	 *
 	 */
     private void initModifyStatuses() {
         mModifyStatuses = new TwitterModifyStatuses();
@@ -341,7 +341,7 @@ public abstract class SocialNetApi {
     }
 
     /*
-	 * 
+	 *
 	 */
     public boolean isAuthenticated() {
         Twitter twitter = getAndConfigureApiInstance();
@@ -358,14 +358,14 @@ public abstract class SocialNetApi {
     }
 
     /*
-	 * 
+	 *
 	 */
     private void cacheUser(User user) {
         cacheUser(user, false);
     }
 
     /*
-	 * 
+	 *
 	 */
     private void cacheUser(User user, boolean forceUpdate) {
         if (user != null) {
@@ -374,14 +374,14 @@ public abstract class SocialNetApi {
     }
 
     /*
-	 * 
+	 *
 	 */
     private void cacheUser(AdnUser user) {
         cacheUser(user, false);
     }
 
     /*
-	 * 
+	 *
 	 */
     private void cacheUser(AdnUser user, boolean forceUpdate) {
         if (user != null) {
@@ -390,7 +390,7 @@ public abstract class SocialNetApi {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void setOAuthTokenWithSecret(String oAuthToken, String oAuthSecret,
             boolean cancelPending) {
@@ -419,7 +419,6 @@ public abstract class SocialNetApi {
                 mFetchUser.clearCallbacks();
                 mFetchUsers.clearCallbacks();
                 mModifyStatuses.clearCallbacks();
-                mSignIn.clearCallbacks();
             }
         }
 
@@ -431,7 +430,7 @@ public abstract class SocialNetApi {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void setConnectionStatus(
             ConnectionStatus.Callbacks connectionStatusCallbacks) {
@@ -439,7 +438,7 @@ public abstract class SocialNetApi {
     }
 
     /*
-	 * 
+	 *
 	 */
     public ConnectionStatus getConnectionStatus() {
         return mConnectionStatus;
@@ -450,7 +449,7 @@ public abstract class SocialNetApi {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void getAuthUrl(TwitterSignIn.GetAuthUrlCallback callback) {
         mSignIn.getAuthUrl(callback);
@@ -488,7 +487,7 @@ public abstract class SocialNetApi {
     }
 
     /*
-	 * 
+	 *
 	 */
     public TwitterUsers getUsers(TwitterContentHandle contentHandle,
             TwitterPaging paging) {
@@ -504,7 +503,7 @@ public abstract class SocialNetApi {
     }
 
     /*
-	 * 
+	 *
 	 */
     public TwitterDirectMessages getDirectMessages(
             TwitterContentHandle contentHandle) {
@@ -530,7 +529,7 @@ public abstract class SocialNetApi {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void updateFriendship(String currentUserScreenName,
             TwitterUser userToUpdate, boolean create,
@@ -574,7 +573,7 @@ public abstract class SocialNetApi {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void createBlock(long currentUserId, Long userId,
             TwitterFetchUsers.FinishedCallback callback) {
@@ -589,7 +588,7 @@ public abstract class SocialNetApi {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void reportSpam(long currentUserId, Long userId,
             TwitterFetchUsers.FinishedCallback callback) {
@@ -604,7 +603,7 @@ public abstract class SocialNetApi {
     }
 
     /*
-	 * 
+	 *
 	 */
     public TwitterLists getLists(int userId) {
         TwitterLists cachedLists = mFetchLists.getLists(userId, null);
@@ -629,7 +628,7 @@ public abstract class SocialNetApi {
     }
 
     /*
-	 * 
+	 *
 	 */
     public TwitterStatus getStatus(long statusId,
             TwitterFetchStatus.FinishedCallback callback) {
@@ -637,7 +636,7 @@ public abstract class SocialNetApi {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void setStatus(TwitterStatusUpdate statusUpdate,
             TwitterFetchStatus.FinishedCallback callback) {
@@ -645,7 +644,7 @@ public abstract class SocialNetApi {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void setRetweet(long statusId,
             TwitterFetchStatus.FinishedCallback callback) {
@@ -653,7 +652,7 @@ public abstract class SocialNetApi {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void setFavorite(TwitterStatus status, boolean isFavorite,
             TwitterModifyStatuses.FinishedCallback callback) {
@@ -666,7 +665,7 @@ public abstract class SocialNetApi {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void triggerFetchStatuses(TwitterContentHandle contentHandle,
             TwitterPaging paging,
@@ -676,7 +675,7 @@ public abstract class SocialNetApi {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void cancelFetchStatuses(
             TwitterFetchStatusesFinishedCallback callback) {
@@ -684,7 +683,7 @@ public abstract class SocialNetApi {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void getFriendshipExists(String userScreenName,
             String userScreenNameToCheck,
