@@ -46,18 +46,12 @@ public class AdnInteraction {
                 mPosts = new AdnPosts(object.getJSONArray("objects"));
                 if (mPosts != null && mPosts.mPosts != null) {
                     String verb = "somethinged";
-                    switch (mAction) {
-                    case "repost":
+                    if (mAction.equals("repost")) {
                         verb = "reposted";
-                        break;
-
-                    case "star":
-                        verb = "starred";
-                        break;
-
-                    case "reply":
-                        verb = "replied to";
-                        break;
+                    } else if (mAction.equals("star")) {
+                    	verb = "starred";
+                    } else if (mAction.equals("reply")) {
+                    	verb = "replied to";
                     }
                     for (AdnPost post : mPosts.mPosts) {
                         String userString = "";
