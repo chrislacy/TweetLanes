@@ -20,6 +20,19 @@ The only items used in the Play Store build of Tweet Lanes _not_ present in this
 * The Play Store key used to sign the application.
 
 
+# Twitter app credentials
+
+To build the app and use it you will need to [create a Twitter application](https://dev.twitter.com/apps).
+Don't worry about the callback url, just put a valid http url.
+
+Once you create it, go to it's settings.
+Inside *Application Type*:
+
+ * Make sure _Allow this application to be used to Sign in with Twitter_ is checked
+ * Set the _Access_ to Read, Write and Access direct messages
+
+Now that you have the Twitter app created, open the java file: [android/client/src/com/tweetlanes/android/Constant.java](https://github.com/chrislacy/TweetLanes/blob/master/android/client/src/com/tweetlanes/android/Constant.java) and modify you _CONSUMER_KEY_ and _CONSUMER_SECRET_ variables with the ones from your Twitter app.
+
 
 ##### Developed By
 * Chris Lacy - [@chrismlacy](http://twitter.com/chrismlacy), [+Chris Lacy](https://plus.google.com/104649936579980037256/posts), <lacy@tweetlanes.com>
