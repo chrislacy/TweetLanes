@@ -44,22 +44,25 @@ public class AccountDescriptor {
     static final String KEY_LIST_ID = "id";
     static final String KEY_LIST_NAME = "name";
     static final String KEY_DISPLAYED_LANES = "displayedLanes";
+    static final String KEY_SOCIAL_NET_TYPE = "socialNetType";
 
     /*
-	 * 
+	 *
 	 */
     public AccountDescriptor(TwitterUser user, String oAuthToken,
-            String oAuthSecret) {
+            String oAuthSecret, SocialNetConstant.Type oSocialNetType) {
         mId = user.getId();
         mScreenName = user.getScreenName();
         mOAuthToken = oAuthToken;
         mOAuthSecret = oAuthSecret;
         mInitialLaneIndex = null;
+        mSocialNetType = oSocialNetType;
         initCommon(null);
+
     }
 
     /*
-	 * 
+	 *
 	 */
     public AccountDescriptor(String jsonAsString) {
 
@@ -75,6 +78,12 @@ public class AccountDescriptor {
                 mInitialLaneIndex = object.getInt(KEY_INITIAL_LANE_INDEX);
             } else {
                 mInitialLaneIndex = null;
+            }
+            if (object.has(KEY_SOCIAL_NET_TYPE)) {
+                mSocialNetType = SocialNetConstant.Type.valueOf((String) object
+                        .get(KEY_SOCIAL_NET_TYPE));
+            } else {
+                mSocialNetType = SocialNetConstant.Type.Twitter;
             }
             if (object.has(KEY_LISTS)) {
                 mLists = new ArrayList<List>();
@@ -106,7 +115,7 @@ public class AccountDescriptor {
     }
 
     /*
-	 * 
+	 *
 	 */
     private void initCommon(ArrayList<String> displayedLanes) {
 
@@ -130,13 +139,14 @@ public class AccountDescriptor {
                 }
 
             };
-            URLFetch.fetchBitmap(TwitterManager.getProfileImageUrl(mScreenName,
-                    TwitterManager.ProfileImageSize.BIGGER), callback);
+            URLFetch.fetchBitmap(
+                    TwitterManager.get().getProfileImageUrl(mScreenName,
+                            TwitterManager.ProfileImageSize.BIGGER), callback);
         }
     }
 
     /*
-	 * 
+	 *
 	 */
     private void configureLaneDefinitions(ArrayList<String> displayedLanes) {
 
@@ -149,19 +159,19 @@ public class AccountDescriptor {
                                 TwitterConstant.ContentType.USER)));
         mLaneDefinitions.add(new LaneDescriptor(
                 Constant.LaneType.USER_PROFILE_TIMELINE, App.getContext()
-                        .getString(R.string.lane_user_tweets),
+                        .getString(mSocialNetType == SocialNetConstant.Type.Twitter ? R.string.lane_user_tweets : R
+                                .string.lane_user_tweets_adn),
                 new TwitterContentHandleBase(
                         TwitterConstant.ContentType.STATUSES,
                         TwitterConstant.StatusesType.USER_TIMELINE)));
 
-        if (Constant.SOCIAL_NET_TYPE == SocialNetConstant.Type.Twitter) {
-            mLaneDefinitions.add(new LaneDescriptor(
-                    Constant.LaneType.USER_PROFILE_TIMELINE, App.getContext()
-                            .getString(R.string.lane_user_retweets_of_me),
-                    new TwitterContentHandleBase(
-                            TwitterConstant.ContentType.STATUSES,
-                            TwitterConstant.StatusesType.RETWEETS_OF_ME)));
-        }
+        mLaneDefinitions.add(new LaneDescriptor(
+                Constant.LaneType.RETWEETS_OF_ME, App.getContext()
+                        .getString(mSocialNetType == SocialNetConstant.Type.Twitter ? R.string
+                                .lane_user_retweets_of_me :  R.string.lane_user_retweets_of_me_adn),
+                new TwitterContentHandleBase(
+                        TwitterConstant.ContentType.STATUSES,
+                        TwitterConstant.StatusesType.RETWEETS_OF_ME)));
 
         mLaneDefinitions.add(new LaneDescriptor(
                 Constant.LaneType.USER_HOME_TIMELINE, App.getContext()
@@ -177,7 +187,7 @@ public class AccountDescriptor {
                         TwitterConstant.ContentType.STATUSES,
                         TwitterConstant.StatusesType.USER_MENTIONS)));
 
-        if (Constant.SOCIAL_NET_TYPE == SocialNetConstant.Type.Appdotnet) {
+        if (mSocialNetType == SocialNetConstant.Type.Appdotnet) {
             mLaneDefinitions.add(new LaneDescriptor(
                     Constant.LaneType.GLOBAL_FEED, App.getContext().getString(
                             R.string.lane_user_global_feed),
@@ -186,7 +196,7 @@ public class AccountDescriptor {
                             TwitterConstant.StatusesType.GLOBAL_FEED)));
         }
 
-        if (Constant.SOCIAL_NET_TYPE == SocialNetConstant.Type.Twitter) {
+        if (mSocialNetType == SocialNetConstant.Type.Twitter) {
             mLaneDefinitions.add(new LaneDescriptor(
                     Constant.LaneType.DIRECT_MESSAGES, App.getContext()
                             .getString(R.string.lane_direct_messages),
@@ -207,26 +217,23 @@ public class AccountDescriptor {
                                             TwitterConstant.StatusesType.USER_LIST_TIMELINE)));
                 }
             }
-
-            // Add the final batch
-            mLaneDefinitions.add(new LaneDescriptor(Constant.LaneType.FRIENDS,
-                    App.getContext().getString(R.string.lane_friends),
-                    new TwitterContentHandleBase(
-                            TwitterConstant.ContentType.USERS,
-                            TwitterConstant.UsersType.FRIENDS)));
-            mLaneDefinitions.add(new LaneDescriptor(
-                    Constant.LaneType.FOLLOWERS, App.getContext().getString(
-                            R.string.lane_followers),
-                    new TwitterContentHandleBase(
-                            TwitterConstant.ContentType.USERS,
-                            TwitterConstant.UsersType.FOLLOWERS)));
-            mLaneDefinitions.add(new LaneDescriptor(
-                    Constant.LaneType.USER_FAVORITES, App.getContext()
-                            .getString(R.string.lane_user_favorites),
-                    new TwitterContentHandleBase(
-                            TwitterConstant.ContentType.STATUSES,
-                            TwitterConstant.StatusesType.USER_FAVORITES)));
         }
+
+        // Add the final batch
+        mLaneDefinitions.add(new LaneDescriptor(Constant.LaneType.FRIENDS, App
+                .getContext().getString(R.string.lane_friends),
+                new TwitterContentHandleBase(TwitterConstant.ContentType.USERS,
+                        TwitterConstant.UsersType.FRIENDS)));
+        mLaneDefinitions.add(new LaneDescriptor(Constant.LaneType.FOLLOWERS,
+                App.getContext().getString(R.string.lane_followers),
+                new TwitterContentHandleBase(TwitterConstant.ContentType.USERS,
+                        TwitterConstant.UsersType.FOLLOWERS)));
+        mLaneDefinitions.add(new LaneDescriptor(
+                Constant.LaneType.USER_FAVORITES, App.getContext().getString(
+                        R.string.lane_user_favorites),
+                new TwitterContentHandleBase(
+                        TwitterConstant.ContentType.STATUSES,
+                        TwitterConstant.StatusesType.USER_FAVORITES)));
 
         if (displayedLanes != null && displayedLanes.size() > 0) {
             for (LaneDescriptor lane : mLaneDefinitions) {
@@ -246,7 +253,7 @@ public class AccountDescriptor {
     }
 
     /*
-	 * 
+	 *
 	 */
     public boolean updateTwitterLists(TwitterLists twitterLists) {
 
@@ -301,6 +308,7 @@ public class AccountDescriptor {
 
     /*
      * (non-Javadoc)
+     *
      * @see java.lang.Object#toString()
      */
     public String toString() {
@@ -311,6 +319,7 @@ public class AccountDescriptor {
             object.put(KEY_OAUTH_TOKEN, mOAuthToken);
             object.put(KEY_OAUTH_SECRET, mOAuthSecret);
             object.put(KEY_INITIAL_LANE_INDEX, mInitialLaneIndex);
+            object.put(KEY_SOCIAL_NET_TYPE, mSocialNetType);
 
             if (mLists.size() > 0) {
                 JSONArray listArray = new JSONArray();
@@ -337,7 +346,7 @@ public class AccountDescriptor {
     }
 
     /*
-	 * 
+	 *
 	 */
     public long getId() {
         return mId;
@@ -360,7 +369,7 @@ public class AccountDescriptor {
     }
 
     /*
-	 * 
+	 *
 	 */
     public int getInitialLaneIndex() {
         if (mInitialLaneIndex != null
@@ -380,21 +389,21 @@ public class AccountDescriptor {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void setCurrentLaneIndex(int index) {
         mInitialLaneIndex = index;
     }
 
     /*
-	 * 
+	 *
 	 */
     public ArrayList<LaneDescriptor> getAllLaneDefinitions() {
         return mLaneDefinitions;
     }
 
     /*
-	 * 
+	 *
 	 */
     public LaneDescriptor getDisplayedLaneDefinition(int index) {
 
@@ -411,7 +420,7 @@ public class AccountDescriptor {
     }
 
     /*
-	 * 
+	 *
 	 */
     public int getDisplayedLaneDefinitionsSize() {
         int displayedSize = 0;
@@ -424,40 +433,49 @@ public class AccountDescriptor {
     }
 
     /*
-	 * 
+	 *
 	 */
     public boolean getDisplayedLaneDefinitionsDirty() {
         return mLaneDefinitionsDirty;
     }
 
     /*
-	 * 
+	 *
 	 */
     public void setDisplayedLaneDefinitionsDirty(boolean value) {
         mLaneDefinitionsDirty = value;
     }
 
+    public SocialNetConstant.Type getSocialNetType() {
+        return mSocialNetType;
+    }
+
+    public void setSocialNetType(SocialNetConstant.Type mSocialNetType) {
+        this.mSocialNetType = mSocialNetType;
+    }
+
     /*
-	 * 
+	 *
 	 */
     public boolean shouldRefreshLists() {
         return mShouldRefreshLists;
     }
 
     /*
-	 * 
+	 *
 	 */
     private long mId;
     private String mScreenName;
     private String mOAuthToken;
     private String mOAuthSecret;
     private Bitmap mProfileImage; // Of size
-                                  // TwitterManager.ProfileImageSize.BIGGER
+    // TwitterManager.ProfileImageSize.BIGGER
     private ArrayList<LaneDescriptor> mLaneDefinitions;
     private boolean mLaneDefinitionsDirty;
     private Integer mInitialLaneIndex;
     private ArrayList<List> mLists;
     private boolean mShouldRefreshLists;
+    private SocialNetConstant.Type mSocialNetType;
 
     /*
      * Stripped version of the List class. Possibly should use TwitterList, but

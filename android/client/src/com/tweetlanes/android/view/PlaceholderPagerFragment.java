@@ -47,6 +47,7 @@ public final class PlaceholderPagerFragment extends BaseLaneFragment {
 
     /*
      * (non-Javadoc)
+     * 
      * @see
      * android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater,
      * android.view.ViewGroup, android.os.Bundle)
@@ -84,6 +85,7 @@ public final class PlaceholderPagerFragment extends BaseLaneFragment {
 
     /*
      * (non-Javadoc)
+     * 
      * @see
      * com.tweetlanes.android.view.BaseLaneFragment#triggerInitialDownload()
      */
@@ -93,6 +95,7 @@ public final class PlaceholderPagerFragment extends BaseLaneFragment {
 
     /*
      * (non-Javadoc)
+     * 
      * @see com.tweetlanes.android.view.BaseLaneFragment#onJumpToTop()
      */
     @Override
@@ -101,6 +104,7 @@ public final class PlaceholderPagerFragment extends BaseLaneFragment {
 
     /*
      * (non-Javadoc)
+     * 
      * @see com.tweetlanes.android.view.BaseLaneFragment#clearLocalCache()
      */
     @Override
@@ -109,6 +113,7 @@ public final class PlaceholderPagerFragment extends BaseLaneFragment {
 
     /*
      * (non-Javadoc)
+     * 
      * @see com.tweetlanes.android.view.BaseLaneFragment#getContentToCache()
      */
     @Override

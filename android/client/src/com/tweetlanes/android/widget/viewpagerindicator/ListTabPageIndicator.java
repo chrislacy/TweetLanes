@@ -132,10 +132,10 @@ public class ListTabPageIndicator extends ListView implements PageIndicator {
     }
 
     @Override
-    public void onPageSelected(int position, int oldPosition) {
+    public void onPageSelected(int position) {
         setCurrentItem(position);
         if (mListener != null) {
-            mListener.onPageSelected(position, oldPosition);
+            mListener.onPageSelected(position);
         }
     }
 

@@ -76,7 +76,7 @@ public class UserFeedItemView extends LinearLayout {
 
         mAvatar = (QuickContactDivot) findViewById(R.id.avatar);
         if (AppSettings.get().downloadFeedImages()) {
-            String imageUrl = TwitterManager.getProfileImageUrl(
+            String imageUrl = TwitterManager.get().getProfileImageUrl(
                     user.getScreenName(),
                     TwitterManager.ProfileImageSize.BIGGER);
             // UrlImageViewHelper.setUrlDrawable(avatar, imageUrl,

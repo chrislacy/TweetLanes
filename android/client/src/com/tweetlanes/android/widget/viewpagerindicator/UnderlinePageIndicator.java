@@ -350,7 +350,7 @@ public class UnderlinePageIndicator extends View implements PageIndicator {
     }
 
     @Override
-    public void onPageSelected(int position, int oldPosition) {
+    public void onPageSelected(int position) {
         if (mScrollState == ViewPager.SCROLL_STATE_IDLE) {
             mCurrentPage = position;
             mPositionOffset = 0;
@@ -358,7 +358,7 @@ public class UnderlinePageIndicator extends View implements PageIndicator {
             mFadeRunnable.run();
         }
         if (mListener != null) {
-            mListener.onPageSelected(position, oldPosition);
+            mListener.onPageSelected(position);
         }
     }
 

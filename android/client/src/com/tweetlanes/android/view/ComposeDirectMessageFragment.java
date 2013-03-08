@@ -30,7 +30,6 @@ import com.tweetlanes.android.R;
 import com.tweetlanes.android.model.AccountDescriptor;
 import com.tweetlanes.android.model.ComposeTweetDefault;
 import com.tweetlanes.android.util.Util;
-import com.twitter.Validator;
 
 public class ComposeDirectMessageFragment extends ComposeBaseFragment {
 
@@ -40,6 +39,7 @@ public class ComposeDirectMessageFragment extends ComposeBaseFragment {
 
     /*
      * (non-Javadoc)
+     * 
      * @see
      * com.tweetlanes.android.view.ComposeBaseFragment#onCreateView(android.
      * view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
@@ -229,6 +229,7 @@ public class ComposeDirectMessageFragment extends ComposeBaseFragment {
 
     /*
      * (non-Javadoc)
+     * 
      * @see
      * com.tweetlanes.android.view.ComposeBaseFragment#onSendClick(java.lang
      * .String)
@@ -242,7 +243,7 @@ public class ComposeDirectMessageFragment extends ComposeBaseFragment {
             if (otherUserScreenName == null) {
                 showSimpleAlert(R.string.alert_direct_message_no_recipient);
             } else if (mStatusValidator.isValidTweet(status) == false) {
-                showSimpleAlert(mStatusValidator.getTweetLength(status) <= Validator.MAX_TWEET_LENGTH ? R.string.alert_direct_message_invalid
+                showSimpleAlert(mStatusValidator.getTweetLength(status) <= getMaxPostLength() ? R.string.alert_direct_message_invalid
                         : R.string.alert_direct_message_too_long);
             } else if (statusLength > 0) {
 
@@ -330,6 +331,7 @@ public class ComposeDirectMessageFragment extends ComposeBaseFragment {
 
     /*
      * (non-Javadoc)
+     * 
      * @see com.tweetlanes.android.view.ComposeBaseFragment#onShowCompose()
      */
     @Override
@@ -351,6 +353,7 @@ public class ComposeDirectMessageFragment extends ComposeBaseFragment {
 
     /*
      * (non-Javadoc)
+     * 
      * @see com.tweetlanes.android.view.ComposeBaseFragment#onHideCompose()
      */
     @Override
@@ -360,6 +363,7 @@ public class ComposeDirectMessageFragment extends ComposeBaseFragment {
 
     /*
      * (non-Javadoc)
+     * 
      * @see
      * com.tweetlanes.android.view.ComposeBaseFragment#getLayoutResourceId()
      */

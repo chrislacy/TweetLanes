@@ -13,6 +13,7 @@ package com.tweetlanes.android.view;
 
 import java.io.File;
 
+import org.socialnetlib.android.SocialNetConstant;
 import org.tweetalib.android.TwitterFetchResult;
 import org.tweetalib.android.TwitterFetchStatus.FinishedCallback;
 import org.tweetalib.android.TwitterManager;
@@ -37,7 +38,6 @@ import com.tweetlanes.android.NotificationHelper;
 import com.tweetlanes.android.R;
 import com.tweetlanes.android.model.ComposeTweetDefault;
 import com.tweetlanes.android.util.Util;
-import com.twitter.Validator;
 
 public class ComposeTweetFragment extends ComposeBaseFragment {
 
@@ -45,6 +45,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
 
     /*
      * (non-Javadoc)
+     *
      * @see
      * com.tweetlanes.android.view.ComposeBaseFragment#onCreateView(android.
      * view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
@@ -63,7 +64,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     @Override
     protected void setComposeTweetDefault(
@@ -73,7 +74,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     @Override
     protected void updateComposeTweetDefault() {
@@ -91,7 +92,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     @Override
     protected String getTweetDefaultDraft() {
@@ -106,7 +107,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     @Override
     protected void setTweetDefaultFromDraft(String tweetDraftAsJson) {
@@ -118,7 +119,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     FinishedCallback mOnSetStatusCallback = TwitterManager.get()
             .getFetchStatusInstance().new FinishedCallback() {
@@ -190,7 +191,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
     };
 
     /*
-	 * 
+	 *
 	 */
     String getDefaultQuoteStatus(TwitterStatus statusToQuote) {
         if (statusToQuote.mStatus.length() > 0) {
@@ -219,7 +220,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     Long getInReplyToId() {
 
@@ -230,7 +231,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     String getMediaFilePath() {
         if (getComposeTweetDefault() != null) {
@@ -240,7 +241,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     @Override
     protected void saveCurrentAsDraft() {
@@ -269,6 +270,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
 
     /*
      * (non-Javadoc)
+     *
      * @see
      * com.tweetlanes.android.view.ComposeBaseFragment#clearCompose(boolean)
      */
@@ -281,6 +283,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
 
     /*
      * (non-Javadoc)
+     *
      * @see
      * com.tweetlanes.android.view.ComposeBaseFragment#onSendClick(java.lang
      * .String)
@@ -290,7 +293,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
         if (status != null) {
             int statusLength = mStatusValidator.getTweetLength(status);
             if (mStatusValidator.isValidTweet(status) == false) {
-                showSimpleAlert(mStatusValidator.getTweetLength(status) <= Validator.MAX_TWEET_LENGTH ? R.string.alert_status_invalid
+                showSimpleAlert(mStatusValidator.getTweetLength(status) <= getMaxPostLength() ? R.string.alert_status_invalid
                         : R.string.alert_status_too_long);
             } else if (statusLength > 0) {
                 // Too long:
@@ -340,7 +343,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     private String getStatusHint(ComposeTweetDefault composeTweetDefault) {
 
@@ -354,13 +357,16 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
                     hint = getString(R.string.compose_tweet_reply_to) + " "
                             + getStatusHintSnippet(lastStatus, 20);
                 } else {
+                    SocialNetConstant.Type socialNetType = getApp().getCurrentAccount().getSocialNetType();
                     String[] words = lastStatus.split(" ");
                     if (words.length == 1 && words[0].length() > 0
                             && words[0].charAt(0) == '@') {
-                        hint = getString(R.string.compose_tweet_to_user_hint)
+                        hint = getString(socialNetType == SocialNetConstant.Type.Twitter ?  R.string
+                                .compose_tweet_to_user_hint : R.string.compose_tweet_to_user_hint_adn)
                                 + " " + getStatusHintSnippet(words[0], 18);
                     } else {
-                        hint = getString(R.string.compose_tweet_finish) + " \""
+                        hint = getString(socialNetType == SocialNetConstant.Type.Twitter ? R.string
+                                .compose_tweet_finish :  R.string.compose_tweet_finish_adn) + " \""
                                 + getStatusHintSnippet(lastStatus, 16) + "\"";
                     }
                 }
@@ -371,7 +377,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     @Override
     protected void updateStatusHint() {
@@ -392,7 +398,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
             }
         }
 
-        if (hint == null) {
+        if (hint == null && isAdded()) {
             hint = getString(R.string.compose_tweet_default_hint);
         }
 
@@ -404,7 +410,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     void setMediaFilePath(String filePath) {
 
@@ -419,7 +425,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     private void setMediaPreviewVisibility() {
         mAttachImagePreview.setVisibility(View.GONE);
@@ -445,7 +451,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void beginQuote(TwitterStatus statusToQuote) {
         setComposeTweetDefault(null);
@@ -454,7 +460,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void beginShare(String initialShareString) {
         setComposeTweetDefault(null);
@@ -463,7 +469,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     TwitterStatus mRetweetStatus;
 
@@ -509,6 +515,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
 
     /*
      * (non-Javadoc)
+     *
      * @see
      * com.tweetlanes.android.view.ComposeBaseFragment#getLayoutResourceId()
      */
@@ -519,6 +526,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
 
     /*
      * (non-Javadoc)
+     *
      * @see com.tweetlanes.android.view.ComposeBaseFragment#onShowCompose()
      */
     @Override
@@ -528,6 +536,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
 
     /*
      * (non-Javadoc)
+     *
      * @see com.tweetlanes.android.view.ComposeBaseFragment#onHideCompose()
      */
     @Override

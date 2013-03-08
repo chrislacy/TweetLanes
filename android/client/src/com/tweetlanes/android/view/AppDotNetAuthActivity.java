@@ -11,25 +11,32 @@
 
 package com.tweetlanes.android.view;
 
-import org.tweetalib.android.TwitterManager;
-import org.tweetalib.android.TwitterSignIn.GetOAuthAccessTokenCallback;
-import org.tweetalib.android.model.TwitterUser;
-
-import android.app.Activity;
-import android.os.Bundle;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
+import org.socialnetlib.android.AppdotnetApi;
+import org.socialnetlib.android.SocialNetConstant;
 
 import com.crittercism.app.Crittercism;
+
+import org.tweetalib.android.TwitterManager;
+import org.tweetalib.android.model.TwitterUser;
+
 import com.tweetlanes.android.App;
 import com.tweetlanes.android.AppSettings;
 import com.tweetlanes.android.Constant;
 import com.tweetlanes.android.R;
 
+import android.app.Activity;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+
 public class AppDotNetAuthActivity extends Activity {
 
     /*
      * (non-Javadoc)
+     *
      * @see android.app.Activity#onCreate(android.os.Bundle)
      */
     @Override
@@ -43,11 +50,22 @@ public class AppDotNetAuthActivity extends Activity {
 
         setTheme(AppSettings.get().getCurrentThemeStyle());
 
-        getActionBar().setTitle(R.string.authorize_twitter_account);
+        getActionBar().setTitle(R.string.authorize_appdotnet_account);
 
-        String url = "https://alpha.app.net/oauth/authenticate?client_id=xQpysWPFrnqrhHFnNGgrbcR6utBFgzpk&response_type=token&redirect_uri=http://lacytest.appspot.com/twitter/oauth_callback&scope=stream,email,write_post,follow,messages";
+        TwitterManager.get().setSignInSocialNetType(Constant.APPDOTNET_CONSUMER_KEY,
+                Constant.APPDOTNET_CONSUMER_SECRET, SocialNetConstant.Type.Appdotnet);
+
+        String url = "https://account.app.net/oauth/authenticate?client_id="
+                + Constant.APPDOTNET_CONSUMER_KEY
+                + "&response_type=token&redirect_uri=tweetlanes-auth-callback:///&scope=stream,write_post," +
+                "follow,messages";
 
         setContentView(R.layout.twitter_auth_signin);
+
+        CookieSyncManager.createInstance(this);
+        CookieManager cookieManager = CookieManager.getInstance();
+        cookieManager.removeAllCookie();
+        cookieManager.setAcceptCookie(true);
 
         WebView webView = (WebView) findViewById(R.id.twitter_auth_signin_webview);
         webView.setWebViewClient(new WebViewClient() {
@@ -55,14 +73,21 @@ public class AppDotNetAuthActivity extends Activity {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 if (url.contains("#access_token")) {
-                    String accessToken = url
-                            .replace(
-                                    "http://lacytest.appspot.com/twitter/oauth_callback#access_token=",
-                                    "");
+                    String accessToken = url.replace(
+                            "tweetlanes-auth-callback:///#access_token=", "");
 
                     setContentView(R.layout.loading);
-                    TwitterManager.get().getOAuthAccessToken(null, accessToken,
-                            mGetOAuthAccessTokenCallback);
+                    TwitterManager.get().setSocialNetType(
+                            SocialNetConstant.Type.Appdotnet,
+                            Constant.APPDOTNET_CONSUMER_KEY,
+                            Constant.APPDOTNET_CONSUMER_SECRET);
+                    try {
+                        TwitterUser user = new VerifyCredentialsTask().execute(
+                                accessToken).get();
+                        onSuccessfulLogin(user, accessToken);
+                    } catch (Exception e) {
+                        return false;
+                    }
                 }
                 return false;
             }
@@ -73,27 +98,26 @@ public class AppDotNetAuthActivity extends Activity {
     }
 
     /*
-	 * 
+	 *
 	 */
-    void onSuccessfulLogin(TwitterUser user, String accessToken,
-            String accessTokenSecret) {
+    void onSuccessfulLogin(TwitterUser user, String accessToken) {
         App app = (App) getApplication();
-        app.onPostSignIn(user, accessToken, accessTokenSecret);
+        app.onPostSignIn(user, accessToken, null,
+                SocialNetConstant.Type.Appdotnet);
         app.restartApp(this);
     }
 
-    /*
-	 * 
-	 */
-    GetOAuthAccessTokenCallback mGetOAuthAccessTokenCallback = TwitterManager
-            .get().getSignInInstance().new GetOAuthAccessTokenCallback() {
-
+    private class VerifyCredentialsTask extends
+            AsyncTask<String, Void, TwitterUser> {
         @Override
-        public void finished(boolean successful, TwitterUser user,
-                String accessToken, String accessTokenSecret) {
-            if (successful) {
-                onSuccessfulLogin(user, accessToken, accessTokenSecret);
+        protected TwitterUser doInBackground(String... accessTokens) {
+            if (accessTokens.length == 0) {
+                return null;
             }
+            return new AppdotnetApi(SocialNetConstant.Type.Appdotnet,
+                    Constant.APPDOTNET_CONSUMER_KEY,
+                    Constant.APPDOTNET_CONSUMER_SECRET).verifyCredentialsSync(
+                    accessTokens[0], null);
         }
-    };
+    }
 }

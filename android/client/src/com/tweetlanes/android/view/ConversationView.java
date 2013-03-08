@@ -11,6 +11,7 @@
 
 package com.tweetlanes.android.view;
 
+import org.socialnetlib.android.SocialNetConstant;
 import org.tweetalib.android.TwitterConstant;
 import org.tweetalib.android.TwitterContentHandle;
 import org.tweetalib.android.TwitterContentHandleBase;
@@ -40,9 +41,10 @@ public class ConversationView extends LinearLayout {
     private TwitterStatuses mConversationStatuses;
     private LinearLayout mConversationView;
     private LayoutInflater mInflater;
+    private SocialNetConstant.Type mSocialNetType;
 
     /*
-     * 
+     *
      */
     public ConversationView(Context context) {
         super(context);
@@ -72,14 +74,15 @@ public class ConversationView extends LinearLayout {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void configure(TwitterStatus twitterStatus, LayoutInflater inflater,
-            Callbacks callbacks) {
+            Callbacks callbacks, SocialNetConstant.Type socialNetType) {
 
         mTwitterStatus = twitterStatus;
         mInflater = inflater;
         mCallbacks = callbacks;
+        mSocialNetType = socialNetType;
 
         mLoadingView = (RelativeLayout) findViewById(R.id.conversation_feed_loading);
         mConversationView = (LinearLayout) findViewById(R.id.conversation_feed_loaded);
@@ -114,7 +117,7 @@ public class ConversationView extends LinearLayout {
     }
 
     /*
-	 * 
+	 *
 	 */
     private void setStatuses(TwitterStatuses statuses) {
 
@@ -135,7 +138,7 @@ public class ConversationView extends LinearLayout {
     }
 
     /*
-	 * 
+	 *
 	 */
     private void updateViewVisibility(boolean loadHasFinished) {
 
@@ -163,7 +166,7 @@ public class ConversationView extends LinearLayout {
     }
 
     /*
-     * 
+     *
      */
     View getTweetFeedView(int position, TwitterStatus item) {
 
@@ -214,13 +217,12 @@ public class ConversationView extends LinearLayout {
 
         };
 
-        tweetFeedItemView.configure(item, position, callbacks, true, false,
-                false, true, false);
+        tweetFeedItemView.configure(item, position, callbacks, true, false, false, true, false, mSocialNetType);
         return tweetFeedItemView;
     }
 
     /*
-     * 
+     *
      */
     View getLoadMoreView() {
 

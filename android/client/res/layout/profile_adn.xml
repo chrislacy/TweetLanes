@@ -27,7 +27,7 @@
             android:layout_height="fill_parent"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_contact_picture" />
-        
+
         <ImageView
             android:id="@+id/profileImage"
             android:layout_width="100dp"
@@ -39,7 +39,7 @@
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 		    android:layout_width="fill_parent"
 		    android:layout_height="40dp"
-		    android:background="#77000000" 
+		    android:background="#77000000"
 		    android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true">
@@ -59,7 +59,7 @@
             android:textColor="#fff"
             android:layout_toRightOf="@id/private_account_image"
             />
-       
+
         <TextView
             android:id="@+id/followState"
             android:layout_height="30dp"
@@ -73,7 +73,7 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textSize="13sp"
             android:textColor="#fff" />
-        
+
         <RelativeLayout
 	        android:layout_width="86dp"
 	        android:layout_height="match_parent"
@@ -86,9 +86,9 @@
 	            android:layout_alignParentBottom="true"
 	            android:layout_marginBottom="4dip"
 	            android:layout_marginTop="4dip"
-	            android:background="#fff" 
+	            android:background="#fff"
 	            />
-	       
+
 	        <Button
 	            android:id="@+id/friendship_button"
 	            android:layout_width="match_parent"
@@ -98,10 +98,10 @@
 	            android:background="?android:attr/selectableItemBackground"
 	            android:text="@string/action_unfollow"
 	            android:textColor="#fff"
-	            android:layout_alignParentBottom="true" 
+	            android:layout_alignParentBottom="true"
 	            android:layout_toRightOf="@+id/friendship_divider"/>
 	    </RelativeLayout>
-        
+
         </RelativeLayout>
     </RelativeLayout>
 
@@ -113,27 +113,27 @@
         android:paddingRight="20dip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="The person's bio goes here. It could be anywhere up to 160 characters in length, which is anywhere up to and including the length of this wordly, informative string" 
+        android:text="The person's bio goes here. It could be anywhere up to 160 characters in length, which is anywhere up to and including the length of this wordly, informative string"
     	android:linksClickable="true"
     	 />
 
-    	<LinearLayout 
+    	<LinearLayout
           	android:layout_width="fill_parent"
         	android:layout_height="wrap_content"
         	android:orientation="vertical"
         	android:id="@+id/detailsLayout">
-    
+
       <TextView
             style="?android:attr/listSeparatorTextViewStyle"
             android:text="@string/details"
             android:layout_marginTop="5dip"
         />
-    
+
       <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     	android:id="@+id/details_table_layout"
     	android:layout_width="fill_parent"
     	android:layout_height="fill_parent" >
- 
+
 	    <TableRow
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
@@ -142,14 +142,14 @@
         	android:paddingTop="5dp"
 	        android:paddingBottom="5dp"
         	 >
-	 
+
 	        <TextView
 	            android:text="@string/posts_count"
 	            android:layout_width="fill_parent"
 	            android:layout_height="fill_parent"
-	            android:layout_weight=".7" 
+	            android:layout_weight=".7"
 	            />
-	 
+
 	         <TextView
 	            android:id="@+id/tweetCountLabel"
 	            android:text="777"
@@ -158,7 +158,7 @@
 	            android:layout_height="fill_parent"
 	            />
 	    </TableRow>
-	 
+
 	    <TableRow
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
@@ -167,14 +167,14 @@
         	android:paddingTop="5dp"
 	        android:paddingBottom="5dp"
         	 >
-	 
+
 	        <TextView
 	            android:text="@string/friends_count"
 	            android:layout_width="fill_parent"
 	            android:layout_height="fill_parent"
-	            android:layout_weight=".7" 
+	            android:layout_weight=".7"
 			/>
-	 
+
 	         <TextView
 	            android:id="@+id/followingCountLabel"
 	            android:text="888"
@@ -183,7 +183,7 @@
 	            android:layout_height="fill_parent"
 	            />
 	    </TableRow>
-	    
+
 	    <TableRow
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
@@ -192,14 +192,14 @@
         	android:paddingTop="5dp"
 	        android:paddingBottom="5dp"
         	  >
-	 
+
 	        <TextView
 	            android:text="@string/following_count"
 	            android:layout_width="fill_parent"
 	            android:layout_height="fill_parent"
-	            android:layout_weight=".7" 
+	            android:layout_weight=".7"
 	            />
-	 
+
 	         <TextView
 	            android:id="@+id/followersCountLabel"
 	            android:text="54455"
@@ -208,12 +208,37 @@
 	            android:layout_height="fill_parent"
 	            />
 	    </TableRow>
-	 
+
+          <TableRow
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:paddingLeft="20dip"
+              android:paddingRight="20dip"
+              android:paddingTop="5dp"
+              android:paddingBottom="5dp"
+              >
+
+              <TextView
+                  android:text="@string/favorites_count"
+                  android:layout_width="fill_parent"
+                  android:layout_height="fill_parent"
+                  android:layout_weight=".7"
+
+                  />
+
+              <TextView
+                  android:id="@+id/favorites_count"
+                  android:text="45"
+                  android:layout_gravity="center_vertical|right"
+                  android:layout_width="fill_parent"
+                  android:layout_height="fill_parent"
+                  />
+          </TableRow>
 	</TableLayout>
-      
+
       </LinearLayout>
-      
-      <LinearLayout 
+
+      <LinearLayout
           	android:layout_width="fill_parent"
         	android:layout_height="wrap_content"
         	android:orientation="vertical"
@@ -234,8 +259,8 @@
 	            android:text="Manchester, UK"
 	             />
       </LinearLayout>
-      
-      <LinearLayout 
+
+      <LinearLayout
           	android:layout_width="fill_parent"
         	android:layout_height="wrap_content"
         	android:orientation="vertical"
@@ -257,6 +282,6 @@
 	            android:linksClickable="true"
 	             />
       </LinearLayout>
-      
+
 </LinearLayout>
 </ScrollView>

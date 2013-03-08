@@ -161,7 +161,7 @@ public class BackgroundService extends Service {
 
     class IncomingHandler extends Handler { // Handler of incoming messages from
 
-                                            // clients.
+        // clients.
 
         @Override
         public void handleMessage(Message msg) {

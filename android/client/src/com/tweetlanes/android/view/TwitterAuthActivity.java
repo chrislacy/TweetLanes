@@ -11,6 +11,10 @@
 
 package com.tweetlanes.android.view;
 
+import twitter4j.auth.RequestToken;
+import org.socialnetlib.android.SocialNetConstant;
+
+import com.crittercism.app.Crittercism;
 import org.tweetalib.android.TwitterManager;
 import org.tweetalib.android.TwitterSignIn.GetAuthUrlCallback;
 import org.tweetalib.android.TwitterSignIn.GetOAuthAccessTokenCallback;
@@ -40,6 +44,7 @@ public class TwitterAuthActivity extends Activity {
 
     /*
      * (non-Javadoc)
+     *
      * @see android.app.Activity#onCreate(android.os.Bundle)
      */
     @Override
@@ -55,13 +60,16 @@ public class TwitterAuthActivity extends Activity {
 
         setContentView(R.layout.loading);
 
+        TwitterManager.get().setSignInSocialNetType(Constant.TWITTER_CONSUMER_KEY,
+                Constant.TWITTER_CONSUMER_SECRET, SocialNetConstant.Type.Twitter);
+
         TwitterManager.get().getAuthUrl(mGetAuthUrlCallback);
 
         getActionBar().setTitle(R.string.authorize_twitter_account);
     }
 
     /*
-	 * 
+	 *
 	 */
     GetAuthUrlCallback mGetAuthUrlCallback = TwitterManager.get()
             .getSignInInstance().new GetAuthUrlCallback() {
@@ -75,7 +83,7 @@ public class TwitterAuthActivity extends Activity {
     };
 
     /*
-	 * 
+	 *
 	 */
     GetOAuthAccessTokenCallback mGetOAuthAccessTokenCallback = TwitterManager
             .get().getSignInInstance().new GetOAuthAccessTokenCallback() {
@@ -90,23 +98,24 @@ public class TwitterAuthActivity extends Activity {
     };
 
     /*
-	 * 
+	 *
 	 */
     void onSuccessfulLogin(TwitterUser user, String accessToken,
             String accessTokenSecret) {
-        getApp().onPostSignIn(user, accessToken, accessTokenSecret);
+        getApp().onPostSignIn(user, accessToken, accessTokenSecret,
+                SocialNetConstant.Type.Twitter);
         getApp().restartApp(this);
     }
 
     /*
-	 * 
+	 *
 	 */
     public App getApp() {
         return (App) getApplication();
     }
 
     /*
-	 * 
+	 *
 	 */
     void getAuthUrlCallback(String url, RequestToken requestToken) {
 
@@ -128,12 +137,17 @@ public class TwitterAuthActivity extends Activity {
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 // String scheme = getResources().getString(
                 // R.string.twitter_callback );
-                String scheme = "tweetlanes-auth-callback";
-                if (url.contains(scheme)) {
+                String path = "tweetlanes-auth-callback";
+                if (url.contains(path)) {
                     Uri uri = Uri.parse(url);
                     String oauthVerifier = uri
                             .getQueryParameter("oauth_verifier");
                     onOAuthVerifier(oauthVerifier);
+
+                    TwitterManager.get().setSocialNetType(
+                            SocialNetConstant.Type.Twitter,
+                            Constant.TWITTER_CONSUMER_KEY,
+                            Constant.TWITTER_CONSUMER_SECRET);
 
                     return true;
                 }
@@ -155,6 +169,7 @@ public class TwitterAuthActivity extends Activity {
 
     /*
      * (non-Javadoc)
+     *
      * @see android.app.Activity#onActivityResult(int, int,
      * android.content.Intent)
      */
@@ -173,7 +188,7 @@ public class TwitterAuthActivity extends Activity {
     }
 
     /*
-	 * 
+	 *
 	 */
     void onOAuthVerifier(String oauthVerifier) {
         setContentView(R.layout.loading);

@@ -13,6 +13,7 @@ package com.tweetlanes.android.view;
 
 import java.util.ArrayList;
 
+import org.socialnetlib.android.SocialNetConstant;
 import org.tweetalib.android.TwitterFetchLists.FinishedCallback;
 import org.tweetalib.android.TwitterFetchResult;
 import org.tweetalib.android.TwitterFetchUsers;
@@ -75,6 +76,7 @@ public class HomeActivity extends BaseLaneActivity {
 
     /*
      * (non-Javadoc)
+     *
      * @see
      * com.tweetlanes.android.view.BaseLaneActivity#onCreate(android.os.Bundle)
      */
@@ -110,7 +112,11 @@ public class HomeActivity extends BaseLaneActivity {
         ArrayList<AccountDescriptor> accounts = getApp().getAccounts();
         for (int i = 0; i < accounts.size(); i++) {
             AccountDescriptor acc = accounts.get(i);
-            adapterList.add("@" + acc.getScreenName());
+            adapterList
+                    .add("@"
+                            + acc.getScreenName()
+                            + (acc.getSocialNetType() == SocialNetConstant.Type.Appdotnet ? " (App.net)"
+                                    : " (Twitter)"));
         }
         adapterList.add(getString(R.string.add_account));
         mAdapterStrings = adapterList.toArray(new String[adapterList.size()]);
@@ -137,7 +143,7 @@ public class HomeActivity extends BaseLaneActivity {
     }
 
     /*
-	 * 
+	 *
 	 */
     void onCreateHandleIntents() {
 
@@ -193,6 +199,7 @@ public class HomeActivity extends BaseLaneActivity {
 
     /*
      * (non-Javadoc)
+     *
      * @see com.tweetlanes.android.view.BaseLaneActivity#onResume()
      */
     @Override
@@ -228,6 +235,7 @@ public class HomeActivity extends BaseLaneActivity {
 
     /*
      * (non-Javadoc)
+     *
      * @see com.tweetlanes.android.view.BaseLaneActivity#onPause()
      */
     @Override
@@ -244,6 +252,7 @@ public class HomeActivity extends BaseLaneActivity {
 
     /*
      * (non-Javadoc)
+     *
      * @see android.support.v4.app.FragmentActivity#onDestroy()
      */
     @Override
@@ -262,6 +271,7 @@ public class HomeActivity extends BaseLaneActivity {
 
     /*
      * (non-Javadoc)
+     *
      * @see com.tweetlanes.android.view.BaseLaneActivity#getInitialLaneIndex()
      */
     @Override
@@ -270,7 +280,7 @@ public class HomeActivity extends BaseLaneActivity {
     }
 
     /*
-	 * 
+	 *
 	 */
     @Override
     String getCachedData(int laneIndex) {
@@ -278,11 +288,17 @@ public class HomeActivity extends BaseLaneActivity {
         if (Constant.ENABLE_STATUS_CACHING == true) {
             AccountDescriptor account = getApp().getCurrentAccount();
 
+
             LaneDescriptor laneDescriptor = account
                     .getDisplayedLaneDefinition(laneIndex);
             if (laneDescriptor != null) {
-                String cacheKey = laneDescriptor.getCacheKey(account
-                        .getScreenName());
+                // Never cache app.net interactions
+                if (account.getSocialNetType() == SocialNetConstant.Type.Appdotnet && laneDescriptor.getLaneType() ==
+                        Constant.LaneType.RETWEETS_OF_ME) {
+                    return null;
+                }
+
+                String cacheKey = laneDescriptor.getCacheKey(account.getScreenName());
                 String cachedData = getApp().getCachedData(cacheKey);
                 if (cachedData != null) {
                     return cachedData;
@@ -295,6 +311,7 @@ public class HomeActivity extends BaseLaneActivity {
 
     /*
      * (non-Javadoc)
+     *
      * @see
      * com.tweetlanes.android.view.BaseLaneActivity#getAdapterForViewPager()
      */
@@ -308,6 +325,7 @@ public class HomeActivity extends BaseLaneActivity {
 
     /*
      * (non-Javadoc)
+     *
      * @see
      * com.tweetlanes.android.view.BaseLaneActivity#getFragmentStatePagerAdapter
      * ()
@@ -319,6 +337,7 @@ public class HomeActivity extends BaseLaneActivity {
 
     /*
      * (non-Javadoc)
+     *
      * @see com.tweetlanes.android.view.BaseLaneActivity#onLaneChange(int)
      */
     @Override
@@ -331,7 +350,7 @@ public class HomeActivity extends BaseLaneActivity {
     }
 
     /*
-	 * 
+	 *
 	 */
     private void saveData(final int position) {
         final App app = getApp();
@@ -363,7 +382,7 @@ public class HomeActivity extends BaseLaneActivity {
     }
 
     /*
-	 * 
+	 *
 	 */
     private void updateViewVisibility() {
         mViewSwitcher.reset();
@@ -372,6 +391,7 @@ public class HomeActivity extends BaseLaneActivity {
 
     /*
      * (non-Javadoc)
+     *
      * @see
      * com.tweetlanes.android.view.BaseLaneActivity#configureOptionsMenu(android
      * .view.Menu)
@@ -385,6 +405,7 @@ public class HomeActivity extends BaseLaneActivity {
 
     /*
      * (non-Javadoc)
+     *
      * @see com.tweetlanes.android.view.BaseLaneActivity#getDefaultOptionsMenu()
      */
     @Override
@@ -394,6 +415,7 @@ public class HomeActivity extends BaseLaneActivity {
 
     /*
      * (non-Javadoc)
+     *
      * @see
      * com.tweetlanes.android.view.BaseLaneActivity#onOptionsItemSelected(android
      * .view.MenuItem)
@@ -448,7 +470,7 @@ public class HomeActivity extends BaseLaneActivity {
     }
 
     /*
-	 * 
+	 *
 	 */
     void onCreateNavigationListener() {
         mOnNavigationListener = new OnNavigationListener() {
@@ -473,7 +495,7 @@ public class HomeActivity extends BaseLaneActivity {
     }
 
     /*
-	 * 
+	 *
 	 */
     private boolean configureListNavigation() {
 
@@ -490,9 +512,12 @@ public class HomeActivity extends BaseLaneActivity {
         AccountDescriptor currentAccount = getApp().getCurrentAccount();
         if (currentAccount != null) {
             String testScreenName = "@"
-                    + currentAccount.getScreenName().toLowerCase();
+                    + currentAccount.getScreenName()
+                    + (currentAccount.getSocialNetType() == SocialNetConstant.Type.Appdotnet ? " (App.net)"
+                            : " (Twitter)");
             for (int i = 0; i < mAdapterStrings.length; i++) {
-                if (testScreenName.equals(mAdapterStrings[i].toLowerCase())) {
+                if (testScreenName.toLowerCase().equals(
+                        mAdapterStrings[i].toLowerCase())) {
                     accountIndex = i;
                     break;
                 }
@@ -504,11 +529,15 @@ public class HomeActivity extends BaseLaneActivity {
     }
 
     /*
-     * 
+     *
      */
     private void showAccount(AccountDescriptor selectedAccount) {
 
-        AccountDescriptor currentAccount = getApp().getCurrentAccount();
+        App app = getApp();
+        AccountDescriptor currentAccount = app.getCurrentAccount();
+        app.saveUpdatedAccountDescriptor(currentAccount);
+
+        saveData(getCurrentLaneIndex());
 
         if (currentAccount == null
                 || currentAccount.getId() != selectedAccount.getId()) {
@@ -517,7 +546,7 @@ public class HomeActivity extends BaseLaneActivity {
 
             clearFragmentsCache();
 
-            getApp().setCurrentAccount(selectedAccount.getId());
+            app.setCurrentAccount(selectedAccount.getId());
 
             // From http://stackoverflow.com/a/3419987/328679
             Intent intent = getIntent();
@@ -531,26 +560,21 @@ public class HomeActivity extends BaseLaneActivity {
     }
 
     /*
-	 * 
+	 *
 	 */
     private void showAddAccount() {
-
-        // Intent i = new Intent(getApplicationContext(),
-        // AddAccountActivity.class);
-        Intent intent = new Intent(getApplicationContext(),
-                TwitterAuthActivity.class);
-        startActivity(intent);
+        startActivity(new Intent(this, NewAccountActivity.class));
     }
 
     /*
-	 * 
+	 *
 	 */
     public void showUserPreferences() {
         startActivity(new Intent(this, SettingsActivity.class));
     }
 
     /*
-     * 
+     *
      */
     private void showFreeForLifeSuccess() {
         AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
@@ -572,7 +596,7 @@ public class HomeActivity extends BaseLaneActivity {
     }
 
     /*
-     * 
+     *
      */
     private void showFreeForLifeError() {
         AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
@@ -591,7 +615,7 @@ public class HomeActivity extends BaseLaneActivity {
     }
 
     /*
-     * 
+     *
      */
     public void showPromote() {
         final View layout = View.inflate(this, R.layout.promote, null);
@@ -690,14 +714,13 @@ public class HomeActivity extends BaseLaneActivity {
 
             AccountDescriptor account = getApp().getCurrentAccount();
             if (account != null) {
-                TwitterManager.get().getLists(account.getScreenName(),
-                        mFetchListsCallback);
+                TwitterManager.get().getLists(account.getScreenName(), mFetchListsCallback);
             }
         }
     };
 
     /*
-	 * 
+	 *
 	 */
     void onLaneDataSetChanged() {
         if (mHomeLaneAdapter != null) {
@@ -710,7 +733,7 @@ public class HomeActivity extends BaseLaneActivity {
     }
 
     /*
-     * 
+     *
      */
     class HomeLaneAdapter extends FragmentStatePagerAdapter implements
             TitleProvider {
@@ -732,9 +755,9 @@ public class HomeActivity extends BaseLaneActivity {
                 case USER_HOME_TIMELINE:
                 case USER_PROFILE_TIMELINE:
                 case USER_MENTIONS:
-                case RETWEETS_OF_ME:
                 case USER_FAVORITES:
                 case GLOBAL_FEED:
+                case RETWEETS_OF_ME:
                     result = TweetFeedFragment.newInstance(position,
                             laneDescriptor.getContentHandleBase(), screenName,
                             Long.toString(account.getId()));
@@ -805,14 +828,14 @@ public class HomeActivity extends BaseLaneActivity {
     }
 
     /*
-	 * 
+	 *
 	 */
     Messenger mService = null;
     boolean mIsBound;
     final Messenger mMessenger = new Messenger(new IncomingHandler());
 
     /*
-     * 
+     *
      */
     class IncomingHandler extends Handler {
 
@@ -833,7 +856,7 @@ public class HomeActivity extends BaseLaneActivity {
     }
 
     /*
-     * 
+     *
      */
     private ServiceConnection mConnection = new ServiceConnection() {
 
@@ -860,7 +883,7 @@ public class HomeActivity extends BaseLaneActivity {
     };
 
     /*
-	 * 
+	 *
 	 */
     void doBindService() {
         bindService(new Intent(this, BackgroundService.class), mConnection,
@@ -869,7 +892,7 @@ public class HomeActivity extends BaseLaneActivity {
     }
 
     /*
-	 * 
+	 *
 	 */
     void doUnbindService() {
         if (mIsBound) {
@@ -893,7 +916,7 @@ public class HomeActivity extends BaseLaneActivity {
     }
 
     /*
-     * 
+     *
      */
     private void configureNotificationService() {
 

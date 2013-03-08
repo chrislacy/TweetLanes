@@ -11,13 +11,12 @@
 
 package com.tweetlanes.android;
 
-import org.socialnetlib.android.SocialNetConstant;
-
 import android.widget.Toast;
 
 public class Constant {
 
-    public static final SocialNetConstant.Type SOCIAL_NET_TYPE = SocialNetConstant.Type.Twitter;
+    // public static final SocialNetConstant.Type SOCIAL_NET_TYPE =
+    // SocialNetConstant.Type.Twitter;
 
     /*
      * App Version info
@@ -48,8 +47,10 @@ public class Constant {
 	 * 
 	 */
     // Create a new key/secret here: https://dev.twitter.com/apps
-    public static final String CONSUMER_KEY = "kAo1LpowVbkbxUx6YSR5g";
-    public static final String CONSUMER_SECRET = "uY5bfj5XGtLUZmFIEOQrFlbFgwhuYv4wMWF2Z5QhGE";
+    public static final String TWITTER_CONSUMER_KEY = "<secret goes here>";
+    public static final String TWITTER_CONSUMER_SECRET = "<secret goes here>";
+    public static final String APPDOTNET_CONSUMER_KEY = "<secret goes here>";
+    public static final String APPDOTNET_CONSUMER_SECRET = "<secret goes here>";
 
     public static final String REQUEST_URL = "http://api.twitter.com/oauth/request_token";
     public static final String ACCESS_URL = "http://api.twitter.com/oauth/access_token";

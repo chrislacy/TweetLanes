@@ -65,6 +65,7 @@ public class ImageViewActivity extends FragmentActivity {
 
     /*
      * (non-Javadoc)
+     * 
      * @see android.support.v4.app.FragmentActivity#onCreate(android.os.Bundle)
      */
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +106,7 @@ public class ImageViewActivity extends FragmentActivity {
 
     /*
      * (non-Javadoc)
+     * 
      * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
      */
     @Override
@@ -118,6 +120,7 @@ public class ImageViewActivity extends FragmentActivity {
 
     /*
      * (non-Javadoc)
+     * 
      * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
      */
     @Override

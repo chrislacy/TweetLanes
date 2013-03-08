@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.socialnetlib.android.SocialNetConstant;
 import org.tweetalib.android.TwitterManager;
 import org.tweetalib.android.model.TwitterStatus;
 import org.tweetalib.android.model.TwitterStatusesFilter;
@@ -91,7 +92,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     private ComposeBaseFragment mCurrentComposeFragment;
 
     /*
-	 * 
+	 *
 	 */
     public App getApp() {
         return (App) getApplication();
@@ -99,6 +100,7 @@ public class BaseLaneActivity extends FragmentActivity implements
 
     /*
      * (non-Javadoc)
+     *
      * @see android.support.v4.app.FragmentActivity#onCreate(android.os.Bundle)
      */
     @Override
@@ -208,6 +210,7 @@ public class BaseLaneActivity extends FragmentActivity implements
 
     /*
      * (non-Javadoc)
+     *
      * @see android.app.Activity#onPostCreate(android.os.Bundle)
      */
     @Override
@@ -219,6 +222,7 @@ public class BaseLaneActivity extends FragmentActivity implements
 
     /*
      * (non-Javadoc)
+     *
      * @see android.app.Activity#onRestoreInstanceState(android.os.Bundle)
      */
     @Override
@@ -228,6 +232,7 @@ public class BaseLaneActivity extends FragmentActivity implements
 
     /*
      * (non-Javadoc)
+     *
      * @see android.support.v4.app.FragmentActivity#onDestroy()
      */
     @Override
@@ -243,6 +248,7 @@ public class BaseLaneActivity extends FragmentActivity implements
 
     /*
      * (non-Javadoc)
+     *
      * @see android.support.v4.app.FragmentActivity#onResume()
      */
     @Override
@@ -260,6 +266,7 @@ public class BaseLaneActivity extends FragmentActivity implements
 
     /*
      * (non-Javadoc)
+     *
      * @see android.support.v4.app.FragmentActivity#onPause()
      */
     @Override
@@ -277,7 +284,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     }
 
     /*
-	 * 
+	 *
 	 */
     private BroadcastReceiver mDisplayToastReceiver = new BroadcastReceiver() {
 
@@ -292,7 +299,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     };
 
     /*
-	 * 
+	 *
 	 */
     void setCurrentComposeFragment(int type) {
         if (type == COMPOSE_DIRECT_MESSAGE) {
@@ -327,13 +334,13 @@ public class BaseLaneActivity extends FragmentActivity implements
     }
 
     /*
-	 * 
+	 *
 	 */
     private HashMap<Integer, BaseLaneFragment> mLaneFragmentHashMap = new HashMap<Integer, BaseLaneFragment>();
     private int activeInitialDownloadCount = 0;
 
     /*
-	 * 
+	 *
 	 */
     protected BaseLaneFragment getFragmentAtIndex(int index) {
         if (mLaneFragmentHashMap != null) {
@@ -344,7 +351,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     }
 
     /*
-	 * 
+	 *
 	 */
     protected void clearFragmentsCache() {
         if (mLaneFragmentHashMap != null) {
@@ -356,7 +363,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     }
 
     /*
-	 * 
+	 *
 	 */
     String getCachedData(int laneIndex) {
 
@@ -364,7 +371,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     }
 
     /*
-	 * 
+	 *
 	 */
     protected int getCurrentLaneIndex() {
         if (mViewPager != null) {
@@ -374,7 +381,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     }
 
     /*
-	 * 
+	 *
 	 */
     private int getLaneCount() {
         if (mViewPager != null) {
@@ -385,7 +392,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     }
 
     /*
-	 * 
+	 *
 	 */
     protected void onLaneFragmentInitialDownloadStateChange(
             BaseLaneFragment fragment) {
@@ -441,7 +448,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     }
 
     /*
-	 * 
+	 *
 	 */
     protected void onLaneChange(int position, int oldPosition) {
 
@@ -473,7 +480,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     }
 
     /*
-	 * 
+	 *
 	 */
     protected void onCurrentLaneReselected() {
 
@@ -489,7 +496,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     }
 
     /*
-	 * 
+	 *
 	 */
     protected boolean triggerNeighbourInitialDownload(int currentLane) {
 
@@ -528,7 +535,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     }
 
     /*
-	 * 
+	 *
 	 */
     ComposeListener mComposeTweetListener = new ComposeListener() {
 
@@ -547,7 +554,8 @@ public class BaseLaneActivity extends FragmentActivity implements
             actionBar
                     .setNavigationMode(android.app.ActionBar.NAVIGATION_MODE_STANDARD);
             actionBar.setDisplayShowTitleEnabled(true);
-            actionBar.setTitle(R.string.action_bar_tweet_compose_title);
+            actionBar.setTitle(getApp().getCurrentAccount().getSocialNetType() == SocialNetConstant.Type.Twitter ? R
+                    .string.action_bar_tweet_compose_title : R.string.action_bar_tweet_compose_title_adn);
             actionBar.setDisplayUseLogoEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowCustomEnabled(false);
@@ -625,7 +633,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     };
 
     /*
-	 * 
+	 *
 	 */
     ComposeListener mComposeDirectMessageListener = new ComposeListener() {
 
@@ -709,7 +717,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     };
 
     /*
-	 * 
+	 *
 	 */
     private void updateActionModeTitles() {
         if (mCurrentActionMode != null
@@ -719,7 +727,9 @@ public class BaseLaneActivity extends FragmentActivity implements
             if (mComposeTweetFragment != null) {
                 if (mComposeTweetFragment.getInReplyToId() == null) {
                     mCurrentActionMode
-                            .setTitle(R.string.action_bar_tweet_compose_title);
+                            .setTitle(getApp().getCurrentAccount().getSocialNetType() == SocialNetConstant.Type
+                                    .Twitter ? R.string.action_bar_tweet_compose_title : R.string
+                                    .action_bar_tweet_compose_title_adn);
                 } else {
                     mCurrentActionMode
                             .setTitle(R.string.action_bar_tweet_reply_compose_title);
@@ -730,7 +740,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     }
 
     /*
-	 * 
+	 *
 	 */
     MenuItem getMenuItem(int resourceId) {
 
@@ -747,7 +757,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     }
 
     /*
-	 * 
+	 *
 	 */
     OnPageChangeListener mOnPageChangeListener = new OnPageChangeListener() {
 
@@ -760,7 +770,7 @@ public class BaseLaneActivity extends FragmentActivity implements
         }
 
         @Override
-        public void onPageSelected(int position, int oldPosition) {
+        public void onPageSelected(int position) {
             if (mLaneFragmentHashMap != null
                     && mLaneFragmentHashMap.containsKey(position)) {
 
@@ -772,12 +782,12 @@ public class BaseLaneActivity extends FragmentActivity implements
                 mCurrentActionMode.finish();
             }
 
-            onLaneChange(position, oldPosition);
+            onLaneChange(position, -1);
         }
     };
 
     /*
-	 * 
+	 *
 	 */
     OnClickListener mLaneMaskOnClickListener = new OnClickListener() {
 
@@ -789,7 +799,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     };
 
     /*
-	 * 
+	 *
 	 */
     void restartApp() {
         Intent intent = getBaseContext().getPackageManager()
@@ -801,7 +811,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     }
 
     /*
-	 * 
+	 *
 	 */
     void restartActivity() {
         finish();
@@ -811,7 +821,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     }
 
     /*
-	 * 
+	 *
 	 */
     boolean composeReleaseFocus() {
 
@@ -827,7 +837,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     }
 
     /*
-	 * 
+	 *
 	 */
     boolean composeHasFocus() {
         if (mCurrentComposeFragment != null) {
@@ -837,7 +847,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     }
 
     /*
-	 * 
+	 *
 	 */
     boolean composeReleaseFocus(boolean forceCleanup) {
 
@@ -861,7 +871,7 @@ public class BaseLaneActivity extends FragmentActivity implements
 
     /**
      * Get a temporary file with a fixed (=known in advance) file name
-     * 
+     *
      * @param context
      *            activity context
      * @return a temp file in the external storage in a package-specific
@@ -881,7 +891,7 @@ public class BaseLaneActivity extends FragmentActivity implements
 
     /**
      * Get a temporary file with a unique file name
-     * 
+     *
      * @param context
      *            activity context
      * @return a temp file in the external storage in a package-specific
@@ -906,6 +916,7 @@ public class BaseLaneActivity extends FragmentActivity implements
 
     /*
      * (non-Javadoc)
+     *
      * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
      */
     /*
@@ -917,6 +928,7 @@ public class BaseLaneActivity extends FragmentActivity implements
 
     /*
      * (non-Javadoc)
+     *
      * @see
      * android.widget.SearchView.OnQueryTextListener#onQueryTextChange(java.
      * lang.String)
@@ -929,6 +941,7 @@ public class BaseLaneActivity extends FragmentActivity implements
 
     /*
      * (non-Javadoc)
+     *
      * @see
      * android.widget.SearchView.OnQueryTextListener#onQueryTextSubmit(java.
      * lang.String)
@@ -944,7 +957,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     }
 
     /*
-	 * 
+	 *
 	 */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -986,21 +999,21 @@ public class BaseLaneActivity extends FragmentActivity implements
     }
 
     /*
-	 * 
+	 *
 	 */
     protected PagerAdapter getAdapterForViewPager() {
         throw new RuntimeException("Derived class must implement me");
     }
 
     /*
-	 * 
+	 *
 	 */
     protected FragmentStatePagerAdapter getFragmentStatePagerAdapter() {
         throw new RuntimeException("Derived class must implement me");
     }
 
     /*
-	 * 
+	 *
 	 */
     private BroadcastReceiver mForceFragmentPagerAdapterRefreshReceiver = new BroadcastReceiver() {
 
@@ -1015,7 +1028,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     };
 
     /*
-	 * 
+	 *
 	 */
     private BroadcastReceiver mRestartAppReceiver = new BroadcastReceiver() {
 
@@ -1026,14 +1039,14 @@ public class BaseLaneActivity extends FragmentActivity implements
     };
 
     /*
-	 * 
+	 *
 	 */
     protected int getInitialLaneIndex() {
         return 0;
     }
 
     /*
-	 * 
+	 *
 	 */
     public String getPath(Uri uri) {
         String[] projection = { MediaStore.Images.Media.DATA };
@@ -1052,6 +1065,7 @@ public class BaseLaneActivity extends FragmentActivity implements
 
     /*
      * (non-Javadoc)
+     *
      * @see android.support.v4.app.FragmentActivity#onActivityResult(int, int,
      * android.content.Intent)
      */
@@ -1108,6 +1122,7 @@ public class BaseLaneActivity extends FragmentActivity implements
 
     /*
      * (non-Javadoc)
+     *
      * @see android.app.Activity#onActionModeStarted(android.view.ActionMode)
      */
     @Override
@@ -1119,6 +1134,7 @@ public class BaseLaneActivity extends FragmentActivity implements
 
     /*
      * (non-Javadoc)
+     *
      * @see android.app.Activity#onActionModeFinished(android.view.ActionMode)
      */
     @Override
@@ -1130,6 +1146,7 @@ public class BaseLaneActivity extends FragmentActivity implements
 
     /*
      * (non-Javadoc)
+     *
      * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
      */
     @Override
@@ -1155,7 +1172,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     }
 
     /*
-	 * 
+	 *
 	 */
     public boolean configureOptionsMenu(Menu menu) {
 
@@ -1187,7 +1204,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     }
 
     /*
-	 * 
+	 *
 	 */
     public Integer getDefaultOptionsMenu() {
         return R.menu.default_action_bar;
@@ -1195,6 +1212,7 @@ public class BaseLaneActivity extends FragmentActivity implements
 
     /*
      * (non-Javadoc)
+     *
      * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
      */
     @Override
@@ -1252,7 +1270,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     }
 
     /*
-	 * 
+	 *
 	 */
     public boolean isComposing() {
         return mCurrentComposeFragment != null
@@ -1260,7 +1278,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     }
 
     /*
-	 * 
+	 *
 	 */
     protected void configureActionBarSearchView(Menu menu) {
 
@@ -1296,7 +1314,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     }
 
     /*
-	 * 
+	 *
 	 */
     protected void finishCurrentActionMode() {
         if (mCurrentActionMode != null) {
@@ -1309,7 +1327,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     }
 
     /*
-	 * 
+	 *
 	 */
     protected void setDirectMessageOtherUserScreenName(
             String otherUserScreenName) {
@@ -1332,7 +1350,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     }
 
     /*
-	 * 
+	 *
 	 */
     protected void setComposeTweetDefault(ComposeTweetDefault composeDefault) {
         if (mComposeTweetFragment != null) {
@@ -1341,14 +1359,14 @@ public class BaseLaneActivity extends FragmentActivity implements
     }
 
     /*
-	 * 
+	 *
 	 */
     protected void setComposeTweetDefault() {
         setComposeTweetDefault(getComposeTweetDefault());
     }
 
     /*
-	 * 
+	 *
 	 */
     protected void setComposeDefault() {
         if (this.mCurrentComposeFragment == mComposeTweetFragment) {
@@ -1357,7 +1375,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     }
 
     /*
-	 * 
+	 *
 	 */
     protected void beginShareStatus(String initialStatus) {
         if (mComposeTweetFragment != null) {
@@ -1409,7 +1427,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     }
 
     /*
-	 * 
+	 *
 	 */
     public void shareSelected(TwitterStatus status) {
 
@@ -1471,7 +1489,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     }
 
     /*
-	 * 
+	 *
 	 */
     private void shareText(String string) {
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);

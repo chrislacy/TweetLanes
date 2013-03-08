@@ -83,15 +83,33 @@ public class Regex {
                     + "|[0-1][0-9]{2}|[1-9][0-9]|[1-9]|0)\\.(?:25[0-5]|2[0-4][0-9]|[0-1]"
                     + "[0-9]{2}|[1-9][0-9]|[1-9]|0)\\.(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}"
                     + "|[1-9][0-9]|[0-9])))"
-                    + "(?:\\:\\d{1,5})?)" // plus option port number
+                    + "(?:\\:\\d{1,5})?)" // plus
+                                          // option
+                                          // port
+                                          // number
                     + "(\\/(?:(?:[a-zA-Z0-9\\;\\/\\?\\:\\@\\&\\=\\#\\~" // plus
                                                                         // option
                                                                         // query
                                                                         // params
                     + "\\-\\.\\+\\!\\*\\'\\(\\)\\,\\_])|(?:\\%[a-fA-F0-9]{2}))*)?"
-                    + "(?:\\b|$)"); // and finally, a word boundary or end of
-                                    // input. This is to stop foo.sure from
-                                    // matching as foo.su
+                    + "(?:\\b|$)"); // and
+                                    // finally,
+                                    // a
+                                    // word
+                                    // boundary
+                                    // or
+                                    // end
+                                    // of
+                                    // input.
+                                    // This
+                                    // is
+                                    // to
+                                    // stop
+                                    // foo.sure
+                                    // from
+                                    // matching
+                                    // as
+                                    // foo.su
 
     public static final Pattern IP_ADDRESS_PATTERN = Pattern
             .compile("((25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9])\\.(25[0-5]|2[0-4]"

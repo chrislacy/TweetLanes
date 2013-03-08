@@ -166,10 +166,10 @@ public class TabPageIndicator extends HorizontalScrollView implements
     }
 
     @Override
-    public void onPageSelected(int position, int oldPosition) {
+    public void onPageSelected(int position) {
         setCurrentItem(position);
         if (mListener != null) {
-            mListener.onPageSelected(position, oldPosition);
+            mListener.onPageSelected(position);
         }
     }
 

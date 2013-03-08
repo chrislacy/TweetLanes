@@ -99,6 +99,7 @@ public class SettingsActivity extends PreferenceActivity implements
 
     /*
      * (non-Javadoc)
+     * 
      * @see android.preference.PreferenceActivity#onCreate(android.os.Bundle)
      */
     @Override
@@ -248,6 +249,7 @@ public class SettingsActivity extends PreferenceActivity implements
 
     /*
      * (non-Javadoc)
+     * 
      * @see android.app.Activity#onResume()
      */
     @Override
@@ -396,6 +398,7 @@ public class SettingsActivity extends PreferenceActivity implements
 
     /*
      * (non-Javadoc)
+     * 
      * @see android.app.Activity#onPause()
      */
     @Override
@@ -408,6 +411,7 @@ public class SettingsActivity extends PreferenceActivity implements
 
     /*
      * (non-Javadoc)
+     * 
      * @see android.content.SharedPreferences.OnSharedPreferenceChangeListener#
      * onSharedPreferenceChanged(android.content.SharedPreferences,
      * java.lang.String)
@@ -434,6 +438,7 @@ public class SettingsActivity extends PreferenceActivity implements
 
     /*
      * (non-Javadoc)
+     * 
      * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
      */
     @Override
