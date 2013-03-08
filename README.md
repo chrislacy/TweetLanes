@@ -17,27 +17,41 @@ This project contains the full source code to:
 The only items used in the Play Store build of Tweet Lanes _not_ present in this repository are:
 
 * The Twitter Application consumer and secret keys.
+* The App.net consumer and secret keys.
 * The Play Store key used to sign the application.
 
 
-# Twitter app credentials
+## Credentials
 
-To build the app and use it you will need to [create a Twitter application](https://dev.twitter.com/apps).
-Don't worry about the callback url, just put a valid http url.
+To build and use the app, you'll need to create your own Twitter application (and App.net application, if you have a developer account).
 
-Once you create it, go to it's settings.
-Inside *Application Type*:
+### Twitter
 
- * Make sure _Allow this application to be used to Sign in with Twitter_ is checked
- * Set the _Access_ to Read, Write and Access direct messages
+* [Create a Twitter application](https://dev.twitter.com/apps)
+* Don't worry about the callback url, just put a valid http url.
+* Once you create it, go to it's settings.
+* Inside *Application Type*:
 
-Now that you have the Twitter app created, open the java file: [android/client/src/com/tweetlanes/android/Constant.java](https://github.com/chrislacy/TweetLanes/blob/master/android/client/src/com/tweetlanes/android/Constant.java) and modify you _CONSUMER_KEY_ and _CONSUMER_SECRET_ variables with the ones from your Twitter app.
+	* Make sure _Allow this application to be used to Sign in with Twitter_ is checked
+	* Set the _Access_ to Read, Write and Access direct messages
+
+* Now that you have the Twitter app configured, open the java file: [android/client/src/com/tweetlanes/android/Constant.java](https://github.com/chrislacy/TweetLanes/blob/master/android/client/src/com/tweetlanes/android/Constant.java) and modify your _TWITTER_CONSUMER_KEY_ and _TWITTER_CONSUMER_SECRET_ variables with the ones from your Twitter app.
+
+### App.net
+
+App.net usage requires a similar set of steps.
+
+* [Create an App.net application](https://account.app.net/developer/app/create/)
+* Don't worry about the callback url, just put a valid http url.
+* Once you create it, go to it's settings.
+* Add the following callback URL: tweetlanes-auth-callback:///
+* Now that you have the App.net app configured, open the java file: [android/client/src/com/tweetlanes/android/Constant.java](https://github.com/chrislacy/TweetLanes/blob/master/android/client/src/com/tweetlanes/android/Constant.java) and modify your _APPDOTNET_CONSUMER_KEY_ and _APPDOTNET_CONSUMER_SECRET_ variables with the ones from your app.
 
 
-##### Developed By
+## Developed By
 * Chris Lacy - [@chrismlacy](http://twitter.com/chrismlacy), [+Chris Lacy](https://plus.google.com/104649936579980037256/posts), <lacy@tweetlanes.com>
 
-##### Credits
+## Credits
 Tweet Lanes uses the following open-source software:
 
 * [Android-PullToRefresh](https://github.com/chrisbanes/Android-PullToRefresh), Copyright 2013 Chris Banes.
@@ -49,7 +63,7 @@ Tweet Lanes uses the following open-source software:
 * [UrlImageViewHelper](https://github.com/koush/UrlImageViewHelper), Copyright 2013 Koushik Dutta.
 * [ViewPagerIndicator](https://github.com/JakeWharton/Android-ViewPagerIndicator), Copyright 2012 Jake Wharton.
 
-### Disclaimer
+## Disclaimer
 
 A few points to considering when browsing this code:
 
@@ -59,20 +73,17 @@ A few points to considering when browsing this code:
 In conclusion: there is currently some dog-awful code in this project. I know this only too well. Please try not to judge my coding ability on the worst parts, but do feel free to fork 'n fix :)
 
 
-### Usage
+## Usage
 
 `\android\client` contains the bulk of the code. This project is dependent on the following libraries:
 
 * `\android\libraries\SocialNetLib` - An abstracted library that interfaces with Twitter and App.net.
-* `\android\libraries\SupportLibraryv4` - A slightly modified copy of the [Android Support Library](http://developer.android.com/tools/extras/support-library.html).
 
 Additional notes: 
 
-* If building the project for yourself, I would suggest [creating a new Twitter application](https://dev.twitter.com/apps). Be sure to update `CONSUMER_KEY` and `CONSUMER_SECRET` with your new values.
-* The project is configured to use Twitter by default. If you want to use App.net, just set `SOCIAL_NET_TYPE` to `SocialNetConstant.Type.Appdotnet`, and update `CONSUMER_KEY` and `CONSUMER_SECRET` accordingly.
 * Configuration files for Eclipse are provided. If using Eclipse/ADT, you should be able to import the client and libraries straight in. 
 
-### License
+## License
 
 ```
 /*
@@ -93,13 +104,13 @@ Additional notes:
 ```
 
 
-### Contributions
+## Contributions
 
 Contributions are most welcome. In fact, they are actively encouraged. 
 
 [Have a read here](https://github.com/chrislacy/TweetLanes/wiki/What-needs-to-be-done) for what I consider to be the most pressing tasks in need to attention.
 
 
-### Note
+## Note
 
 I retain the copyright and ownership of the Tweet Lanes name. If you choose to release a fork of this code, please use a different name for your project.
