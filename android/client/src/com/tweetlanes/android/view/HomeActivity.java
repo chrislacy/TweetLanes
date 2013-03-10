@@ -298,7 +298,7 @@ public class HomeActivity extends BaseLaneActivity {
                     return null;
                 }
 
-                String cacheKey = laneDescriptor.getCacheKey(account.getScreenName());
+                String cacheKey = laneDescriptor.getCacheKey(account.getScreenName() + account.getId());
                 String cachedData = getApp().getCachedData(cacheKey);
                 if (cachedData != null) {
                     return cachedData;
