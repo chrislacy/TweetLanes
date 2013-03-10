@@ -1387,6 +1387,7 @@ public class BaseLaneActivity extends FragmentActivity implements
         mShareImagePath = imagePath;
         if (imagePath != null && mComposeTweetFragment != null) {
             mComposeTweetFragment.showCompose();
+            mComposeTweetFragment.setMediaFilePath(imagePath);
             // mComposeTweet.setMediaFilePath(imagePath);
         }
     }

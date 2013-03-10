@@ -12,6 +12,7 @@
 package com.tweetlanes.android.view;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.socialnetlib.android.SocialNetConstant;
 import org.tweetalib.android.TwitterFetchResult;
@@ -25,7 +26,10 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +44,8 @@ import com.tweetlanes.android.model.ComposeTweetDefault;
 import com.tweetlanes.android.util.Util;
 
 public class ComposeTweetFragment extends ComposeBaseFragment {
+	private static final int THUMBNAIL_WIDTH = 200;
+	private static final int THUMBNAIL_HEIGHT = 200;
 
     private ImageView mAttachImagePreview;
 
@@ -435,19 +441,80 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
             File imgFile = new File(_mComposeDefault.getMediaFilePath());
             if (imgFile.exists()) {
                 try {
-                    Bitmap bitmap = BitmapFactory.decodeFile(imgFile
-                            .getAbsolutePath());
-                    mAttachImagePreview.setImageBitmap(Bitmap
-                            .createScaledBitmap(bitmap, 200, 200, false));
+                    final BitmapFactory.Options options = new BitmapFactory.Options();
+                    options.inJustDecodeBounds = true;
+                    BitmapFactory.decodeFile(imgFile.getAbsolutePath(), options);
+
+                    options.inSampleSize = calculateInSampleSize(options, THUMBNAIL_WIDTH,
+                            THUMBNAIL_HEIGHT);
+
+                    options.inJustDecodeBounds = false;
+                    Bitmap bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath(), options);
+
+                    try {
+                        ExifInterface exif = new ExifInterface(imgFile.getAbsolutePath());
+                        int exifOrientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+                                ExifInterface.ORIENTATION_NORMAL);
+                        int rotationInDegrees = exifToDegrees(exifOrientation);
+                        if (rotationInDegrees != 0f) {
+                            Matrix matrix = new Matrix();
+                            matrix.preRotate(rotationInDegrees);
+                            bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(),
+                                    bitmap.getHeight(), matrix, true);
+                        }
+                    } catch (IOException e) {
+                        Log.e(ComposeTweetFragment.class.getName(), "could not get EXIF info", e);
+                    }
+
+                    mAttachImagePreview.setImageBitmap(Bitmap.createScaledBitmap(bitmap,
+                            THUMBNAIL_WIDTH, THUMBNAIL_HEIGHT, false));
                     mAttachImagePreview.setVisibility(View.VISIBLE);
 
                     if (mListener != null) {
                         mListener.onMediaAttach();
                     }
                 } catch (OutOfMemoryError e) {
+                    Log.e(ComposeTweetFragment.class.getName(), "out of memory when adding image",
+                            e);
                 }
             }
         }
+    }
+
+    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth,
+            int reqHeight) {
+        // Raw height and width of image
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+
+        if (height > reqHeight || width > reqWidth) {
+
+            // Calculate ratios of height and width to requested height and
+            // width
+            final int heightRatio = Math.round((float) height / (float) reqHeight);
+            final int widthRatio = Math.round((float) width / (float) reqWidth);
+
+            // Choose the smallest ratio as inSampleSize value, this will
+            // guarantee
+            // a final image with both dimensions larger than or equal to the
+            // requested height and width.
+            inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
+        }
+
+        return inSampleSize;
+    }
+
+    private static int exifToDegrees(final int exifOrientation) {
+        int degrees = 0;
+        if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_90) {
+            degrees = 90;
+        } else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_180) {
+            degrees = 180;
+        } else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_270) {
+            degrees = 270;
+        }
+        return degrees;
     }
 
     /*
