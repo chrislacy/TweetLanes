@@ -313,7 +313,10 @@ public class TwitterFetchStatuses {
 
                 case RETWEETS_OF_ME: {
                     AdnInteractions interactions = appdotnetApi.getAdnInteractions();
-                    AdnPosts posts = interactions.getAsPosts();
+                    AdnPosts posts = null;
+                    if (interactions != null) {
+                        posts = interactions.getAsPosts();
+                    }
                     contentFeed = setStatuses(input.mContentHandle, posts);
                     break;
                 }
