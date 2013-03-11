@@ -28,6 +28,10 @@ public class Validator {
     }
 
     public boolean isValidTweet(String text) {
+        return isValidTweet(text, MAX_TWEET_LENGTH);
+    }
+
+    public boolean isValidTweet(String text, int maxLength) {
         if (text == null || text.isEmpty()) {
             return false;
         }
@@ -40,7 +44,7 @@ public class Validator {
             }
         }
 
-        return getTweetLength(text) <= MAX_TWEET_LENGTH;
+        return getTweetLength(text) <= maxLength;
     }
 
     public int getShortUrlLength() {

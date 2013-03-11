@@ -147,7 +147,9 @@
     <string name="alert_share_title">Share</string>
     <string name="alert_share_message">\nHow would you like to share this Tweet?\n</string>
     <string name="alert_status_too_long">Your Tweet is too long and cannot be posted.\n\nTweets can be a maximum of 140 characters in length.</string>
-    <string name="alert_status_invalid">Your Tweet cannot be posted as it contains invalid characters.</string>
+    <string name="alert_status_too_long_adn">Your post is too long and cannot be posted.\n\nPosts can be a maximum of
+        256 characters in length.</string>
+    <string name="alert_status_invalid">Your status update cannot be posted as it contains invalid characters.</string>
     <string name="alert_direct_message_no_recipient">Please enter the Twitter username of the person to message.</string>
     <string name="alert_direct_message_too_long">The text of your Direct Message is too long and cannot be posted.\n\nYou message can be a maximum 140 characters in length.</string>
     <string name="alert_direct_message_invalid">Your Direct Message cannot be posted as it contains invalid characters.</string>

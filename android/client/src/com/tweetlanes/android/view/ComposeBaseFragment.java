@@ -79,7 +79,6 @@ public abstract class ComposeBaseFragment extends Fragment {
     Long mShowStartTime;
     Validator mStatusValidator = new Validator();
 
-    // NotificationHelper.Handle mSendingNotification;
     ComposeListener mListener;
     boolean mHasFocus = false;
     boolean mIgnoreFocusChange = false;
@@ -120,22 +119,6 @@ public abstract class ComposeBaseFragment extends Fragment {
 
         updateStatusHint();
 
-        /*
-         * int a = getStatusLength("       length"); int b =
-         * getStatusLength("       length       "); int c = getStatusLength(
-         * "Hi there. Hi there. Hi there. Hi there. Hi there. Hi there. Hi there. Hi there. Hi there. Hi there. Hi there. Hi there. Hi there. Hi there. Hi there. Hi there. Hi there."
-         * ); int d = getStatusLength("   http://google.com/docs/maple/apple");
-         * int e =
-         * getStatusLength("http://google.com/docs/maple/apple/longlonglonglonglong"
-         * ); int ee = getStatusLength(
-         * "https://google.com/docs/maple/apple https://www.apple.com/buy_my_new_ipad?you_really_should"
-         * ); int f = getStatusLength(
-         * "https://google.com/docs/maple/apple https://www.apple.com/buy_my_new_ipad?you_really_should yes yes yes     "
-         * ); int g = getStatusLength(
-         * "https://google.com/docs/maple/apple https://www.apple.com/buy_my_new_ipad?you_really_should yes yes yes     ."
-         * );
-         */
-
         return resultView;
     }
 
@@ -164,8 +147,6 @@ public abstract class ComposeBaseFragment extends Fragment {
 
         if (hasFocus()) {
             showCompose();
-            // showKeyboard();
-            // mStatusEditText.requestFocus(View.FOCUS_DOWN);
         }
     }
 
@@ -261,7 +242,6 @@ public abstract class ComposeBaseFragment extends Fragment {
                 .getSystemService(Context.INPUT_METHOD_SERVICE);
         inputMethodManager.showSoftInput(mEditText,
                 InputMethodManager.SHOW_IMPLICIT);
-        // getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
     }
 
     void hideKeyboard() {
@@ -269,8 +249,6 @@ public abstract class ComposeBaseFragment extends Fragment {
                 .getSystemService(Context.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(mEditText.getWindowToken(),
                 0);
-        // inputMethodManager.hideSoftInputFromWindow(mStatusEditText.getApplicationWindowToken(),
-        // 0);
     }
 
     /*
