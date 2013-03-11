@@ -25,7 +25,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ViewSwitcher;
 
-import com.tweetlanes.android.App;
 import com.tweetlanes.android.R;
 import com.tweetlanes.android.widget.viewpagerindicator.TitleProvider;
 
@@ -44,7 +43,8 @@ public class DirectMessageActivity extends BaseLaneActivity {
     public static void createAndStartActivity(Activity currentActivity,
             TwitterContentHandle contentHandle, long otherUserId,
             String otherUserScreenName) {
-        Intent intent = new Intent(App.getContext(),
+
+        Intent intent = new Intent(currentActivity,
                 DirectMessageActivity.class);
         intent.putExtra(KEY_HANDLE_BASE, contentHandle);
         intent.putExtra(KEY_OTHER_USER_ID, otherUserId);
