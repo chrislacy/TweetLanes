@@ -46,7 +46,7 @@ import com.tweetlanes.android.Constant.SystemEvent;
 import com.tweetlanes.android.model.AccountDescriptor;
 import com.tweetlanes.android.model.LaneDescriptor;
 import com.tweetlanes.android.util.LazyImageLoader;
-import com.tweetlanes.android.widget.urlimageviewhelper.URLImageViewHelper;
+import com.tweetlanes.android.widget.urlimageviewhelper.UrlImageViewHelper;
 
 // import org.acra.*;
 // import org.acra.annotation.*;
@@ -726,7 +726,8 @@ public class App extends Application {
 	 */
     public void clearImageCaches() {
         if (mContext != null) {
-            URLImageViewHelper.emptyCache(mContext);
+//            URLImageViewHelper.emptyCache(mContext);
+        	UrlImageViewHelper.cleanup(mContext);
         }
 
         if (mProfileImageLoader != null) {

@@ -39,7 +39,7 @@ import android.widget.TextView;
 import com.tweetlanes.android.Constant;
 import com.tweetlanes.android.R;
 import com.tweetlanes.android.util.Util;
-import com.tweetlanes.android.widget.urlimageviewhelper.URLImageViewHelper;
+import com.tweetlanes.android.widget.urlimageviewhelper.UrlImageViewHelper;
 
 public class ProfileFragment extends BaseLaneFragment {
 
@@ -213,7 +213,7 @@ public class ProfileFragment extends BaseLaneFragment {
             // TwitterManager.ProfileImageSize.ORIGINAL);
             String imageUrl = mUser
                     .getProfileImageUrl(TwitterManager.ProfileImageSize.ORIGINAL);
-            URLImageViewHelper.setURLDrawable(avatar, imageUrl,
+            UrlImageViewHelper.setUrlDrawable(avatar, imageUrl,
                     R.drawable.ic_contact_picture);
             // avatar.setImageURL(imageUrl);
 
@@ -222,7 +222,7 @@ public class ProfileFragment extends BaseLaneFragment {
             if (coverImage != null) {
                 String url = mUser.getCoverImageUrl();
                 if (url != null) {
-                    URLImageViewHelper.setURLDrawable(coverImage, url,
+                    UrlImageViewHelper.setUrlDrawable(coverImage, url,
                             R.drawable.ic_contact_picture);
                 }
             }
