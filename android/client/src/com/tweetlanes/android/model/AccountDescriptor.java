@@ -24,9 +24,9 @@ import org.tweetalib.android.model.TwitterList;
 import org.tweetalib.android.model.TwitterLists;
 import org.tweetalib.android.model.TwitterUser;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 
-import com.tweetlanes.android.App;
 import com.tweetlanes.android.Constant;
 import com.tweetlanes.android.Constant.LaneType;
 import com.tweetlanes.android.R;
@@ -49,7 +49,7 @@ public class AccountDescriptor {
     /*
 	 *
 	 */
-    public AccountDescriptor(TwitterUser user, String oAuthToken,
+    public AccountDescriptor(Context context, TwitterUser user, String oAuthToken,
             String oAuthSecret, SocialNetConstant.Type oSocialNetType) {
         mId = user.getId();
         mScreenName = user.getScreenName();
@@ -57,6 +57,7 @@ public class AccountDescriptor {
         mOAuthSecret = oAuthSecret;
         mInitialLaneIndex = null;
         mSocialNetType = oSocialNetType;
+		mContext = context;
         initCommon(null);
 
     }
@@ -64,7 +65,9 @@ public class AccountDescriptor {
     /*
 	 *
 	 */
-    public AccountDescriptor(String jsonAsString) {
+	public AccountDescriptor(Context context, String jsonAsString) {
+
+		mContext = context;
 
         try {
             JSONObject object = new JSONObject(jsonAsString);
@@ -153,12 +156,12 @@ public class AccountDescriptor {
         mLaneDefinitions.clear();
 
         mLaneDefinitions
-                .add(new LaneDescriptor(Constant.LaneType.USER_PROFILE, App
-                        .getContext().getString(R.string.lane_user_profile),
+                .add(new LaneDescriptor(Constant.LaneType.USER_PROFILE,
+                        mContext.getString(R.string.lane_user_profile),
                         new TwitterContentHandleBase(
                                 TwitterConstant.ContentType.USER)));
         mLaneDefinitions.add(new LaneDescriptor(
-                Constant.LaneType.USER_PROFILE_TIMELINE, App.getContext()
+                Constant.LaneType.USER_PROFILE_TIMELINE, mContext
                         .getString(mSocialNetType == SocialNetConstant.Type.Twitter ? R.string.lane_user_tweets : R
                                 .string.lane_user_tweets_adn),
                 new TwitterContentHandleBase(
@@ -166,30 +169,30 @@ public class AccountDescriptor {
                         TwitterConstant.StatusesType.USER_TIMELINE)));
 
         mLaneDefinitions.add(new LaneDescriptor(
-                Constant.LaneType.RETWEETS_OF_ME, App.getContext()
+                Constant.LaneType.RETWEETS_OF_ME, mContext
                         .getString(mSocialNetType == SocialNetConstant.Type.Twitter ? R.string
                                 .lane_user_retweets_of_me :  R.string.lane_user_retweets_of_me_adn),
                 new TwitterContentHandleBase(
                         TwitterConstant.ContentType.STATUSES,
                         TwitterConstant.StatusesType.RETWEETS_OF_ME)));
 
-        mLaneDefinitions.add(new LaneDescriptor(
-                Constant.LaneType.USER_HOME_TIMELINE, App.getContext()
-                        .getString(R.string.lane_user_home),
-                new TwitterContentHandleBase(
-                        TwitterConstant.ContentType.STATUSES,
-                        TwitterConstant.StatusesType.USER_HOME_TIMELINE)));
+		mLaneDefinitions.add(new LaneDescriptor(
+				Constant.LaneType.USER_HOME_TIMELINE, mContext
+						.getString(R.string.lane_user_home),
+				new TwitterContentHandleBase(
+						TwitterConstant.ContentType.STATUSES,
+						TwitterConstant.StatusesType.USER_HOME_TIMELINE)));
 
-        mLaneDefinitions.add(new LaneDescriptor(
-                Constant.LaneType.USER_MENTIONS, App.getContext().getString(
-                        R.string.lane_user_mentions),
-                new TwitterContentHandleBase(
-                        TwitterConstant.ContentType.STATUSES,
-                        TwitterConstant.StatusesType.USER_MENTIONS)));
+		mLaneDefinitions.add(new LaneDescriptor(
+				Constant.LaneType.USER_MENTIONS, mContext
+						.getString(R.string.lane_user_mentions),
+				new TwitterContentHandleBase(
+						TwitterConstant.ContentType.STATUSES,
+						TwitterConstant.StatusesType.USER_MENTIONS)));
 
         if (mSocialNetType == SocialNetConstant.Type.Appdotnet) {
             mLaneDefinitions.add(new LaneDescriptor(
-                    Constant.LaneType.GLOBAL_FEED, App.getContext().getString(
+                    Constant.LaneType.GLOBAL_FEED, mContext.getString(
                             R.string.lane_user_global_feed),
                     new TwitterContentHandleBase(
                             TwitterConstant.ContentType.STATUSES,
@@ -198,7 +201,7 @@ public class AccountDescriptor {
 
         if (mSocialNetType == SocialNetConstant.Type.Twitter) {
             mLaneDefinitions.add(new LaneDescriptor(
-                    Constant.LaneType.DIRECT_MESSAGES, App.getContext()
+                    Constant.LaneType.DIRECT_MESSAGES, mContext
                             .getString(R.string.lane_direct_messages),
                     new TwitterContentHandleBase(
                             TwitterConstant.ContentType.DIRECT_MESSAGES,
@@ -220,16 +223,16 @@ public class AccountDescriptor {
         }
 
         // Add the final batch
-        mLaneDefinitions.add(new LaneDescriptor(Constant.LaneType.FRIENDS, App
-                .getContext().getString(R.string.lane_friends),
+        mLaneDefinitions.add(new LaneDescriptor(Constant.LaneType.FRIENDS,
+                mContext.getString(R.string.lane_friends),
                 new TwitterContentHandleBase(TwitterConstant.ContentType.USERS,
                         TwitterConstant.UsersType.FRIENDS)));
         mLaneDefinitions.add(new LaneDescriptor(Constant.LaneType.FOLLOWERS,
-                App.getContext().getString(R.string.lane_followers),
+                mContext.getString(R.string.lane_followers),
                 new TwitterContentHandleBase(TwitterConstant.ContentType.USERS,
                         TwitterConstant.UsersType.FOLLOWERS)));
         mLaneDefinitions.add(new LaneDescriptor(
-                Constant.LaneType.USER_FAVORITES, App.getContext().getString(
+                Constant.LaneType.USER_FAVORITES, mContext.getString(
                         R.string.lane_user_favorites),
                 new TwitterContentHandleBase(
                         TwitterConstant.ContentType.STATUSES,
@@ -469,12 +472,13 @@ public class AccountDescriptor {
     private String mOAuthToken;
     private String mOAuthSecret;
     private Bitmap mProfileImage; // Of size
-    // TwitterManager.ProfileImageSize.BIGGER
+                                  // TwitterManager.ProfileImageSize.BIGGER
     private ArrayList<LaneDescriptor> mLaneDefinitions;
     private boolean mLaneDefinitionsDirty;
     private Integer mInitialLaneIndex;
     private ArrayList<List> mLists;
     private boolean mShouldRefreshLists;
+    private Context mContext;
     private SocialNetConstant.Type mSocialNetType;
 
     /*
