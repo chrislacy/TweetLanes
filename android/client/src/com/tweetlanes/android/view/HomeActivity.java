@@ -371,7 +371,7 @@ public class HomeActivity extends BaseLaneActivity {
                         LaneDescriptor laneDescriptor = account
                                 .getDisplayedLaneDefinition(position);
                         final String cacheKey = laneDescriptor != null ? laneDescriptor
-                                .getCacheKey(account.getScreenName()) : null;
+                                .getCacheKey(account.getScreenName() + account.getId()) : null;
                         if (cacheKey != null) {
                             app.cacheData(cacheKey, toCache);
                         }
