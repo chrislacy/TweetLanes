@@ -195,7 +195,7 @@
 
     <string-array name="tutorial_titles">
         <item>Welcome</item>
-        <item>Context Tweet Box</item>
+        <item>Context Box</item>
         <item>Multiple Selection</item>
         <item>VolScroll™</item>
         <item>Spam Controls</item>
@@ -204,33 +204,33 @@
     <string name="tutorial_thanks_title">- thank you!</string>
 
     <string name="tutorial_welcome_intro">Welcome to Tweet Lanes!</string>
-    <string name="tutorial_welcome_middle">"Tweet Lanes contains some subtle enhancements over any Twitter app you've used previously.\n\nLet's very quickly run through the most unique features of the app."</string>
+    <string name="tutorial_welcome_middle">"Tweet Lanes contains some subtle enhancements over any Twitter or App.net app you've used previously.\n\nLet's very quickly run through the most unique features of the app."</string>
     <string name="tutorial_welcome_swipe"><i>« Swipe to continue</i></string>
 
     <string name="tutorial_volscroll_intro">In addition to traditional touch scrolling, Tweet Lanes introduces a new way to navigate your feed - <i>VolScroll™</i>.\n\nBy clicking the volume up/down hardware keys, you can quickly navigate your timeline.</string>
     <string name="tutorial_volscroll_reasons">This is awesome because:</string>
     <string name="tutorial_volscroll_reason1">Using the volume keys is faster than touching your screen to scroll</string>
-    <string name="tutorial_volscroll_reason2">You only need to use one hand to hold the device and read tweets.</string>
+    <string name="tutorial_volscroll_reason2">You only need to use one hand to hold the device and read status updates.</string>
     <string name="tutorial_volscroll_footer">Give VolScroll a try - I think you\'ll like it!</string>
 
-    <string name="tutorial_images_intro">Tweets containing media from trusted sources are automatically previewed.\n\nSo instead of this:</string>
+    <string name="tutorial_images_intro">Status updates containing media from trusted sources are automatically previ ewed.\n\nSo instead of this:</string>
     <string name="tutorial_images_middle">You see this (much more helpful!):</string>
     <string name="tutorial_images_footer">\nNote that the media URL is also hidden to increase the legibility of the Tweet.</string>
     <string name="tutorial_images_sources">Preview images are displayed for:</string>
 
-    <string name="tutorial_compose_tweet_intro">There are no New Tweet or Reply buttons in Tweet Lanes, nor does a new screen load when writing a Tweet.</string>
-    <string name="tutorial_compose_tweet_context_sensitive">Instead, Tweets are created via the ever-present <i>Context Tweet Box</i>:</string>
-    <string name="tutorial_compose_tweet_hint">\nThe <i>Context Tweet Box</i> is a new concept, but fear not. You will learn very quickly how simple it makes writing Tweets!</string>
+    <string name="tutorial_compose_tweet_intro">There are no New Update or Reply buttons in Tweet Lanes, nor does a new screen load when writing an update.</string>
+    <string name="tutorial_compose_tweet_context_sensitive">Instead, status updates are created via the ever-present <i>Context Box</i>:</string>
+    <string name="tutorial_compose_tweet_hint">\nThe <i>Context Box</i> is a new concept, but fear not. You will learn very quickly how simple it makes writing updates!</string>
     <string name="tutorial_compose_tweet_footer">\n(Keep an eye on the hint if you are ever unsure!)</string>
 
-    <string name="tutorial_multiple_selection_intro1">Tweet Lanes allows you to interact with multiple tweets at the same time.</string>
+    <string name="tutorial_multiple_selection_intro1">Tweet Lanes allows you to interact with multiple statuses at the same time.</string>
     <string name="tutorial_multiple_selection_intro2">Consider the case where 2 people @mention you with the same question.</string>
-    <string name="tutorial_multiple_selection_intro3">To reply to both, select the Tweets&#8230;</string>
-    <string name="tutorial_multiple_selection_reply">&#8230;and the <i>Context Tweet Box</i> will allow you to reply to both with one tweet!</string>
+    <string name="tutorial_multiple_selection_intro3">To reply to both, select the updates&#8230;</string>
+    <string name="tutorial_multiple_selection_reply">&#8230;and the <i>Context Box</i> will allow you to reply to both with one update!</string>
 
-    <string name="tutorial_spam_control_intro">Everyone hates Twitter Spam.</string>
-    <string name="tutorial_spam_control_instruction1">Tweet Lanes makes dealing with Spammers as fast as possible.</string>
-    <string name="tutorial_spam_control_instruction2">Simply select the offending tweets, then report them for Spam!</string>
+    <string name="tutorial_spam_control_intro">Everyone hates Spam.</string>
+    <string name="tutorial_spam_control_instruction1">Tweet Lanes makes dealing with spammers as fast as possible.</string>
+    <string name="tutorial_spam_control_instruction2">Simply select the offending tweets, then report them for spam!</string>
 
     <string name="tutorial_thanks_intro">Thank you for trying out Tweet Lanes!\n\nIf you like the app, be sure to click <i>Promote</i> to help spread the word about it.</string>
     <string name="tutorial_thanks_feedback">\nTweet Lanes is also completely open source, so if you want to contribute to it, please feel free to do so!\n\nMany thanks,</string>
