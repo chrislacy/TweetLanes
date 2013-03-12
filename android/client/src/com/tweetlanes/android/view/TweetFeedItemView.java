@@ -579,12 +579,7 @@ public class TweetFeedItemView extends LinearLayout {
                 public boolean onDown(MotionEvent e) {
                     return true;
                 }
-            }) {
-    	
-    	public boolean onTouchEvent(MotionEvent event) {
-    		return super.onTouchEvent(event);
-    	};
-    };
+            });
 
     public TwitterStatus getTwitterStatus() {
         return mTwitterStatus;
