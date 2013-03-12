@@ -526,6 +526,10 @@ public class TweetFeedItemView extends LinearLayout {
                         if (mCallbacks != null) {
                             mCallbacks.onUrlClicked(mTwitterStatus);
                         }
+                        MotionEvent cancelEvent = MotionEvent.obtain(event);
+                        cancelEvent.setAction(MotionEvent.ACTION_CANCEL);
+						mGestureDetector.onTouchEvent(cancelEvent);
+						cancelEvent.recycle();
                         return false;
                     }
                 }
