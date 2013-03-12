@@ -521,7 +521,7 @@ public class TweetFeedItemView extends LinearLayout {
                     // bug fix (devisnik) for: no switch to action mode when
                     // longpressing on a link
                     // only handle link if touch is not a long press
-                    if (event.getDownTime() < ViewConfiguration
+                    if (event.getEventTime() - event.getDownTime() < ViewConfiguration
                             .getLongPressTimeout() && link.length != 0) {
                         if (mCallbacks != null) {
                             mCallbacks.onUrlClicked(mTwitterStatus);
@@ -575,7 +575,12 @@ public class TweetFeedItemView extends LinearLayout {
                 public boolean onDown(MotionEvent e) {
                     return true;
                 }
-            });
+            }) {
+    	
+    	public boolean onTouchEvent(MotionEvent event) {
+    		return super.onTouchEvent(event);
+    	};
+    };
 
     public TwitterStatus getTwitterStatus() {
         return mTwitterStatus;
