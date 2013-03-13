@@ -48,7 +48,7 @@ public class TwitterManager {
             String oAuthSecret,
             ConnectionStatus.Callbacks connectionStatusCallbacks) {
         mInstance = new TwitterManager(socNetType, consumerKey, consumerSecret);
-        mInstance.setOAuthTokenWithSecret(oAuthToken, oAuthSecret, false);
+        mInstance.setOAuthTokenWithSecret(oAuthToken, oAuthSecret, true);
         mInstance.setConnectionStatus(connectionStatusCallbacks);
     }
 

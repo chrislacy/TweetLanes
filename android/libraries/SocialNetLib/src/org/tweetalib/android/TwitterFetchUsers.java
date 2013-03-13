@@ -41,7 +41,9 @@ public class TwitterFetchUsers {
 	 *
 	 */
     public void clearCallbacks() {
-        mFinishedCallbackMap.clear();
+        if (mFinishedCallbackMap != null ) {
+            mFinishedCallbackMap.clear();
+        }
     }
 
     /*

@@ -1,12 +1,12 @@
 /*
  * Copyright (C) 2013 Chris Lacy
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -38,14 +38,16 @@ public class TwitterFetchUser {
     private HashMap<Integer, FinishedCallback> mFinishedCallbackMap;
 
     /*
-	 * 
+	 *
 	 */
     public void clearCallbacks() {
-        mFinishedCallbackMap.clear();
+        if (mFinishedCallbackMap != null ) {
+            mFinishedCallbackMap.clear();
+        }
     }
 
     /*
-	 * 
+	 *
 	 */
     public interface FetchUserWorkerCallbacks {
 
@@ -55,7 +57,7 @@ public class TwitterFetchUser {
     }
 
     /*
-	 * 
+	 *
 	 */
     public interface FinishedCallbackInterface {
 
@@ -64,7 +66,7 @@ public class TwitterFetchUser {
     }
 
     /*
-	 * 
+	 *
 	 */
     public abstract class FinishedCallback implements FinishedCallbackInterface {
 
@@ -82,7 +84,7 @@ public class TwitterFetchUser {
     }
 
     /*
-	 * 
+	 *
 	 */
     public TwitterFetchUser() {
         mFinishedCallbackMap = new HashMap<Integer, FinishedCallback>();
@@ -92,14 +94,14 @@ public class TwitterFetchUser {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void setWorkerCallbacks(FetchUserWorkerCallbacks callbacks) {
         mCallbacks = callbacks;
     }
 
     /*
-	 * 
+	 *
 	 */
     FinishedCallback getFetchStatusesCallback(Integer callbackHandle) {
         FinishedCallback callback = mFinishedCallbackMap.get(callbackHandle);
@@ -107,7 +109,7 @@ public class TwitterFetchUser {
     }
 
     /*
-	 * 
+	 *
 	 */
     void removeFetchStatusesCallback(FinishedCallback callback) {
         if (mFinishedCallbackMap.containsValue(callback)) {
@@ -116,7 +118,7 @@ public class TwitterFetchUser {
     }
 
     /*
-	 * 
+	 *
 	 */
     Twitter getTwitterInstance() {
         return mCallbacks.getTwitterInstance();
@@ -127,7 +129,7 @@ public class TwitterFetchUser {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void setUser(TwitterUser twitterUser) {
         if (mUserIdHashMap.containsKey(twitterUser.getId()) == false) {
@@ -166,7 +168,7 @@ public class TwitterFetchUser {
     }
 
     /*
-	 * 
+	 *
 	 */
     public TwitterUser getUser(Long userId, FinishedCallback callback,
             ConnectionStatus connectionStatus) {
@@ -193,7 +195,7 @@ public class TwitterFetchUser {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void verifyUser(FinishedCallback callback,
             ConnectionStatus connectionStatus) {
@@ -214,7 +216,7 @@ public class TwitterFetchUser {
     }
 
     /*
-	 * 
+	 *
 	 */
     private void trigger(Long userId, FinishedCallback callback,
             ConnectionStatus connectionStatus) {
@@ -259,7 +261,7 @@ public class TwitterFetchUser {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void cancel(FinishedCallback callback) {
 
@@ -267,7 +269,7 @@ public class TwitterFetchUser {
     }
 
     /*
-	 * 
+	 *
 	 */
     class FetchUserTaskInput {
 
@@ -301,7 +303,7 @@ public class TwitterFetchUser {
     }
 
     /*
-	 * 
+	 *
 	 */
     class FetchUserTaskOutput {
 
@@ -318,7 +320,7 @@ public class TwitterFetchUser {
     }
 
     /*
-	 * 
+	 *
 	 */
     class FetchUserTask extends
             AsyncTaskEx<FetchUserTaskInput, Void, FetchUserTaskOutput> {

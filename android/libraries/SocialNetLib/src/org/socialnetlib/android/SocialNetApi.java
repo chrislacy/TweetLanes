@@ -401,16 +401,12 @@ public abstract class SocialNetApi {
                 && oAuthToken.equals(mCurrentOAuthToken) == true) {
             return;
         }
-        // if (oAuthSecret == null && mCurrentOAuthSecret == null) {
-        // return;
-        // }
         else if (oAuthSecret != null && mCurrentOAuthSecret != null
                 && oAuthSecret.equals(mCurrentOAuthSecret) == true) {
             return;
         }
 
         if (cancelPending == true) {
-            if (oAuthToken == null) {
                 mFetchBooleans.clearCallbacks();
                 mFetchLists.clearCallbacks();
                 mFetchDirectMessages.clearCallbacks();
@@ -419,7 +415,6 @@ public abstract class SocialNetApi {
                 mFetchUser.clearCallbacks();
                 mFetchUsers.clearCallbacks();
                 mModifyStatuses.clearCallbacks();
-            }
         }
 
         mCurrentOAuthToken = oAuthToken;

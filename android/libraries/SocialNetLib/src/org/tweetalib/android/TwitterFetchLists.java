@@ -1,12 +1,12 @@
 /*
  * Copyright (C) 2013 Chris Lacy
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -35,14 +35,16 @@ public class TwitterFetchLists {
     private HashMap<Integer, FinishedCallback> mFinishedCallbackMap;
 
     /*
-	 * 
+	 *
 	 */
     public void clearCallbacks() {
-        mFinishedCallbackMap.clear();
+        if (mFinishedCallbackMap != null ) {
+            mFinishedCallbackMap.clear();
+        }
     }
 
     /*
-	 * 
+	 *
 	 */
     public interface FetchListsWorkerCallbacks {
 
@@ -50,7 +52,7 @@ public class TwitterFetchLists {
     }
 
     /*
-	 * 
+	 *
 	 */
     public interface FinishedCallbackInterface {
 
@@ -59,7 +61,7 @@ public class TwitterFetchLists {
     }
 
     /*
-	 * 
+	 *
 	 */
     public abstract class FinishedCallback implements FinishedCallbackInterface {
 
@@ -77,7 +79,7 @@ public class TwitterFetchLists {
     }
 
     /*
-	 * 
+	 *
 	 */
     public TwitterFetchLists() {
         mFinishedCallbackMap = new HashMap<Integer, FinishedCallback>();
@@ -87,14 +89,14 @@ public class TwitterFetchLists {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void setWorkerCallbacks(FetchListsWorkerCallbacks callbacks) {
         mCallbacks = callbacks;
     }
 
     /*
-	 * 
+	 *
 	 */
     FinishedCallback getFetchStatusesCallback(Integer callbackHandle) {
         FinishedCallback callback = mFinishedCallbackMap.get(callbackHandle);
@@ -102,7 +104,7 @@ public class TwitterFetchLists {
     }
 
     /*
-	 * 
+	 *
 	 */
     void removeFetchStatusesCallback(FinishedCallback callback) {
         if (mFinishedCallbackMap.containsValue(callback)) {
@@ -111,14 +113,14 @@ public class TwitterFetchLists {
     }
 
     /*
-	 * 
+	 *
 	 */
     Twitter getTwitterInstance() {
         return mCallbacks.getTwitterInstance();
     }
 
     /*
-	 * 
+	 *
 	 */
     public TwitterLists getLists(Integer userId, FinishedCallback callback) {
 
@@ -141,7 +143,7 @@ public class TwitterFetchLists {
     }
 
     /*
-	 * 
+	 *
 	 */
     private void trigger(Integer userId, FinishedCallback callback) {
 
@@ -168,7 +170,7 @@ public class TwitterFetchLists {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void cancel(FinishedCallback callback) {
 
@@ -176,7 +178,7 @@ public class TwitterFetchLists {
     }
 
     /*
-	 * 
+	 *
 	 */
     class FetchListsTaskInput {
 
@@ -196,7 +198,7 @@ public class TwitterFetchLists {
     }
 
     /*
-	 * 
+	 *
 	 */
     class FetchListsTaskOutput {
 
@@ -210,7 +212,7 @@ public class TwitterFetchLists {
     }
 
     /*
-	 * 
+	 *
 	 */
     class FetchListsTask extends
             AsyncTaskEx<FetchListsTaskInput, Void, FetchListsTaskOutput> {

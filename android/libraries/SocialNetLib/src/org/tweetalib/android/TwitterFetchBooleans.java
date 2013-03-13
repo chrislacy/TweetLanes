@@ -31,14 +31,16 @@ public class TwitterFetchBooleans {
     private HashMap<Integer, FinishedCallback> mFinishedCallbackMap;
 
     /*
-	 * 
+	 *
 	 */
     public void clearCallbacks() {
-        mFinishedCallbackMap.clear();
+        if (mFinishedCallbackMap != null) {
+            mFinishedCallbackMap.clear();
+        }
     }
 
     /*
-	 * 
+	 *
 	 */
     public interface FetchBooleansWorkerCallbacks {
 
@@ -48,7 +50,7 @@ public class TwitterFetchBooleans {
     }
 
     /*
-	 * 
+	 *
 	 */
     public interface FinishedCallbackInterface {
 
@@ -58,7 +60,7 @@ public class TwitterFetchBooleans {
     }
 
     /*
-	 * 
+	 *
 	 */
     public abstract class FinishedCallback implements FinishedCallbackInterface {
 
@@ -76,7 +78,7 @@ public class TwitterFetchBooleans {
     }
 
     /*
-	 * 
+	 *
 	 */
     public TwitterFetchBooleans() {
         mFinishedCallbackMap = new HashMap<Integer, FinishedCallback>();
@@ -84,18 +86,18 @@ public class TwitterFetchBooleans {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void setWorkerCallbacks(FetchBooleansWorkerCallbacks callbacks) {
         mCallbacks = callbacks;
     }
 
     /*
-	 * 
+	 *
 	 */
 
     /*
-	 * 
+	 *
 	 */
     FinishedCallback getFetchBooleanCallback(Integer callbackHandle) {
         FinishedCallback callback = mFinishedCallbackMap.get(callbackHandle);
@@ -103,7 +105,7 @@ public class TwitterFetchBooleans {
     }
 
     /*
-	 * 
+	 *
 	 */
     void removeFetchBooleanCallback(FinishedCallback callback) {
         if (mFinishedCallbackMap.containsValue(callback)) {
@@ -112,7 +114,7 @@ public class TwitterFetchBooleans {
     }
 
     /*
-	 * 
+	 *
 	 */
     Twitter getTwitterInstance() {
         return mCallbacks.getTwitterInstance();
@@ -123,7 +125,7 @@ public class TwitterFetchBooleans {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void getFriendshipExists(String userScreenName,
             String userScreenNameToCheck, FinishedCallback callback,
@@ -136,7 +138,7 @@ public class TwitterFetchBooleans {
     }
 
     /*
-	 * 
+	 *
 	 */
     void triggerFetchBooleanTask(FetchBooleanTaskInput taskInput,
             FinishedCallback callback, ConnectionStatus connectionStatus) {
@@ -156,7 +158,7 @@ public class TwitterFetchBooleans {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void cancel(FinishedCallback callback) {
 
@@ -164,7 +166,7 @@ public class TwitterFetchBooleans {
     }
 
     /*
-	 * 
+	 *
 	 */
     class FetchBooleanTaskInput {
 
@@ -186,7 +188,7 @@ public class TwitterFetchBooleans {
     }
 
     /*
-	 * 
+	 *
 	 */
     class FetchBooleanTaskOutput {
 
@@ -205,7 +207,7 @@ public class TwitterFetchBooleans {
     }
 
     /*
-	 * 
+	 *
 	 */
     class FetchBooleanTask extends
             AsyncTaskEx<FetchBooleanTaskInput, Void, FetchBooleanTaskOutput> {

@@ -88,6 +88,9 @@ public abstract class ComposeBaseFragment extends Fragment {
 	 *
 	 */
     public App getApp() {
+        if (getActivity() == null || getActivity().getApplication() == null) {
+            return null;
+        }
         return (App) getActivity().getApplication();
     }
 

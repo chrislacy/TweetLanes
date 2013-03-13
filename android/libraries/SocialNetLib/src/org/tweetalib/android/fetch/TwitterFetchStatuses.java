@@ -34,7 +34,13 @@ public class TwitterFetchStatuses {
      *
 	 */
     public void clearCallbacks() {
-        mFinishedCallbackMap.clear();
+        if (mFinishedCallbackMap != null ) {
+            for (Integer key : mFinishedCallbackMap.keySet()) {
+                TwitterFetchStatusesFinishedCallback callback = mFinishedCallbackMap.get(key);
+                cancel(callback);
+            }
+            mFinishedCallbackMap.clear();
+        }
     }
 
     /*

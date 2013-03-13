@@ -340,7 +340,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
 
         String hint = null;
 
-        if (composeTweetDefault != null) {
+        if (composeTweetDefault != null && getApp() != null) {
             String lastStatus = composeTweetDefault.getStatus();
             if (lastStatus != null) {
                 lastStatus = Util.trimLeftRight(lastStatus);

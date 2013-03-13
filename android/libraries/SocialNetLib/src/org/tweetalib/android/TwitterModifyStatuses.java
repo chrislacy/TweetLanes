@@ -1,12 +1,12 @@
 /*
  * Copyright (C) 2013 Chris Lacy
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -34,14 +34,16 @@ public class TwitterModifyStatuses {
     private HashMap<Integer, FinishedCallback> mFinishedCallbackMap;
 
     /*
-	 * 
+	 *
 	 */
     public void clearCallbacks() {
-        mFinishedCallbackMap.clear();
+        if (mFinishedCallbackMap != null ) {
+            mFinishedCallbackMap.clear();
+        }
     }
 
     /*
-	 * 
+	 *
 	 */
     public interface ModifyStatusesWorkerCallbacks {
 
@@ -49,7 +51,7 @@ public class TwitterModifyStatuses {
     }
 
     /*
-	 * 
+	 *
 	 */
     public interface FinishedCallbackInterface {
 
@@ -59,7 +61,7 @@ public class TwitterModifyStatuses {
     }
 
     /*
-	 * 
+	 *
 	 */
     public abstract class FinishedCallback implements FinishedCallbackInterface {
 
@@ -77,7 +79,7 @@ public class TwitterModifyStatuses {
     }
 
     /*
-	 * 
+	 *
 	 */
     public TwitterModifyStatuses() {
         mFinishedCallbackMap = new HashMap<Integer, FinishedCallback>();
@@ -85,18 +87,18 @@ public class TwitterModifyStatuses {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void setWorkerCallbacks(ModifyStatusesWorkerCallbacks callbacks) {
         mCallbacks = callbacks;
     }
 
     /*
-	 * 
+	 *
 	 */
 
     /*
-	 * 
+	 *
 	 */
     FinishedCallback getModifyStatusesCallback(Integer callbackHandle) {
         FinishedCallback callback = mFinishedCallbackMap.get(callbackHandle);
@@ -104,7 +106,7 @@ public class TwitterModifyStatuses {
     }
 
     /*
-	 * 
+	 *
 	 */
     void removeModifyStatusesCallback(FinishedCallback callback) {
         if (mFinishedCallbackMap.containsValue(callback)) {
@@ -113,7 +115,7 @@ public class TwitterModifyStatuses {
     }
 
     /*
-	 * 
+	 *
 	 */
     Twitter getTwitterInstance() {
         return mCallbacks.getTwitterInstance();
@@ -125,7 +127,7 @@ public class TwitterModifyStatuses {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void setFavorite(TwitterStatus status, boolean isFavorite,
             FinishedCallback callback) {
@@ -134,7 +136,7 @@ public class TwitterModifyStatuses {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void setFavorite(TwitterStatuses statuses, boolean isFavorite,
             FinishedCallback callback) {
@@ -150,7 +152,7 @@ public class TwitterModifyStatuses {
     }
 
     /*
-	 * 
+	 *
 	 */
     class ModifyStatusesTaskInput {
 
@@ -170,7 +172,7 @@ public class TwitterModifyStatuses {
     }
 
     /*
-	 * 
+	 *
 	 */
     class ModifyStatusesTaskOutput {
 
@@ -187,7 +189,7 @@ public class TwitterModifyStatuses {
     }
 
     /*
-	 * 
+	 *
 	 */
     class ModifyStatusesTask
             extends
