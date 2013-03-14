@@ -14,6 +14,7 @@ package org.tweetalib.android.fetch;
 import org.appdotnet4j.model.*;
 import org.asynctasktex.AsyncTaskEx;
 import org.socialnetlib.android.AppdotnetApi;
+import org.socialnetlib.android.SocialNetApi;
 import org.tweetalib.android.*;
 import org.tweetalib.android.callback.TwitterFetchStatusesFinishedCallback;
 import org.tweetalib.android.model.TwitterStatus;
@@ -207,7 +208,8 @@ public class TwitterFetchStatuses {
 
         if (connectionStatus != null && connectionStatus.isOnline() == false) {
             if (callback != null) {
-                callback.finished(new TwitterFetchResult(false, connectionStatus.getErrorMessageNoConnection()), null);
+                callback.finished(new TwitterFetchResult(false, connectionStatus.getErrorMessageNoConnection()),
+                        null, contentHandle);
             }
             return;
         }
@@ -255,14 +257,17 @@ public class TwitterFetchStatuses {
 	 */
     class FetchStatusesTaskOutput {
 
-        FetchStatusesTaskOutput(TwitterFetchResult result, Integer callbackHandle, TwitterStatuses feed) {
+        FetchStatusesTaskOutput(TwitterFetchResult result, Integer callbackHandle, TwitterStatuses feed,
+                TwitterContentHandle contentHandle) {
             mResult = result;
             mCallbackHandle = callbackHandle;
+            mContentHandle = contentHandle;
             mFeed = feed;
         }
 
         TwitterFetchResult mResult;
         Integer mCallbackHandle;
+        TwitterContentHandle mContentHandle;
         TwitterStatuses mFeed;
     }
 
@@ -283,7 +288,7 @@ public class TwitterFetchStatuses {
             if (input.mConnectionStatus != null && input.mConnectionStatus.isOnline() == false) {
                 return new FetchStatusesTaskOutput(
                         new TwitterFetchResult(false, input.mConnectionStatus.getErrorMessageNoConnection()),
-                        input.mCallbackHandle, null);
+                        input.mCallbackHandle, null, input.mContentHandle);
             }
 
             AppdotnetApi appdotnetApi = getAppdotnetApi();
@@ -571,13 +576,18 @@ public class TwitterFetchStatuses {
                     } catch (TwitterException e) {
                         e.printStackTrace();
                         errorDescription = e.getErrorMessage();
+                        if (errorDescription.contains("Rate limit exceeded")) {
+                            errorDescription += "\nTry again in " + e.getRateLimitStatus()
+                                    .getSecondsUntilReset()
+                                    + " " + "seconds";
+                        }
                     }
                 }
             }
 
             return new FetchStatusesTaskOutput(
                     new TwitterFetchResult(errorDescription == null ? true : false, errorDescription),
-                    input.mCallbackHandle, contentFeed);
+                    input.mCallbackHandle, contentFeed, input.mContentHandle);
         }
 
         @Override
@@ -585,7 +595,7 @@ public class TwitterFetchStatuses {
 
             TwitterFetchStatusesFinishedCallback callback = getFetchStatusesCallback(output.mCallbackHandle);
             if (callback != null) {
-                callback.finished(output.mResult, output.mFeed);
+                callback.finished(output.mResult, output.mFeed, output.mContentHandle);
                 removeFetchStatusesCallback(callback);
             }
 

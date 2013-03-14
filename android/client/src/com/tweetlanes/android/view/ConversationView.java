@@ -11,6 +11,7 @@
 
 package com.tweetlanes.android.view;
 
+import android.util.Log;
 import org.socialnetlib.android.SocialNetConstant;
 import org.tweetalib.android.TwitterConstant;
 import org.tweetalib.android.TwitterContentHandle;
@@ -105,7 +106,13 @@ public class ConversationView extends LinearLayout {
 
                         @Override
                         public void finished(TwitterFetchResult result,
-                                TwitterStatuses feed) {
+                                TwitterStatuses feed, TwitterContentHandle handle) {
+
+                            if (!mContentHandle.getKey().equals(handle.getKey())) {
+                                Log.w("Statuses", "content handle changed");
+                                return;
+                            }
+
                             if (result.isSuccessful()) {
                                 setStatuses(feed);
                             }

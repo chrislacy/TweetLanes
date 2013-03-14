@@ -20,7 +20,9 @@ public class AdnMedia {
             JSONObject object = new JSONObject(json);
             mThumbnailUrl = object.getString("thumbnail_url");
             mUrl = object.getString("url");
-            mExpandedUrl = object.getString("embeddable_url");
+            if (object.has("embeddable_url")) {
+                mExpandedUrl = object.getString("embeddable_url");
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }

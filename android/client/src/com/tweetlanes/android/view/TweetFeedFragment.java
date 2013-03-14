@@ -13,6 +13,7 @@ package com.tweetlanes.android.view;
 
 import java.util.ArrayList;
 
+import android.util.Log;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -233,8 +234,13 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             mTweetDataRefreshCallback = new TwitterFetchStatusesFinishedCallback() {
 
                 @Override
-                public void finished(TwitterFetchResult fetchResult,
-                        TwitterStatuses feed) {
+                public void finished(TwitterFetchResult fetchResult, TwitterStatuses feed,
+                        TwitterContentHandle contentHandle) {
+                    if (!String.valueOf(getApp().getCurrentAccount().getId()).equals(contentHandle.getIdentifier())
+                            || !getApp().getCurrentAccount().getScreenName().equals(contentHandle.getScreenName())) {
+                        Log.e("Statuses", "account changed, don't display statuses");
+                        return;
+                    }
 
                     beginListHeadingCount();
 
@@ -412,7 +418,13 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
             @Override
             public void finished(TwitterFetchResult fetchResult,
-                    TwitterStatuses feed) {
+                    TwitterStatuses feed, TwitterContentHandle handle) {
+                if (!String.valueOf(getApp().getCurrentAccount().getId()).equals(handle.getIdentifier())
+                        || !getApp().getCurrentAccount().getScreenName().equals(handle.getScreenName())) {
+                    Log.e("Statuses", "account changed, don't display statuses");
+                    return;
+                }
+
 
                 if (feed != null) {
                     setStatusFeed(feed, true);
@@ -589,7 +601,13 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
                             @Override
                             public void finished(TwitterFetchResult result,
-                                    TwitterStatuses feed) {
+                                    TwitterStatuses feed, TwitterContentHandle handle) {
+                                if (!String.valueOf(getApp().getCurrentAccount().getId()).equals(handle.getIdentifier
+                                        ()) || !getApp().getCurrentAccount().getScreenName().equals(handle
+                                        .getScreenName())) {
+                                    Log.e("Statuses", "account changed, don't display statuses");
+                                    return;
+                                }
 
                                 if (feed != null) {
                                     setStatusFeed(feed, true);
