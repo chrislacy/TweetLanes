@@ -6,60 +6,60 @@ import java.text.Normalizer;
  * A class for validating Tweet texts.
  */
 public class Validator {
-    public static final int MAX_TWEET_LENGTH = 140;
+  public static final int MAX_TWEET_LENGTH = 140;
 
-    protected int shortUrlLength = 20;
-    protected int shortUrlLengthHttps = 21;
+  protected int shortUrlLength = 22;
+  protected int shortUrlLengthHttps = 23;
 
-    private Extractor extractor = new Extractor();
+  private Extractor extractor = new Extractor();
 
-    public int getTweetLength(String text) {
-        text = Normalizer.normalize(text, Normalizer.Form.NFC);
-        int length = text.codePointCount(0, text.length());
+  public int getTweetLength(String text) {
+    text = Normalizer.normalize(text, Normalizer.Form.NFC);
+    int length = text.codePointCount(0, text.length());
 
         for (Extractor.Entity urlEntity : extractor
                 .extractURLsWithIndices(text)) {
-            length += urlEntity.start - urlEntity.end;
+      length += urlEntity.start - urlEntity.end;
             length += urlEntity.value.toLowerCase().startsWith("https://") ? shortUrlLengthHttps
                     : shortUrlLength;
-        }
-
-        return length;
     }
 
-    public boolean isValidTweet(String text) {
+    return length;
+  }
+
+  public boolean isValidTweet(String text) {
         return isValidTweet(text, MAX_TWEET_LENGTH);
     }
 
     public boolean isValidTweet(String text, int maxLength) {
-        if (text == null || text.isEmpty()) {
-            return false;
-        }
+    if (text == null || text.isEmpty()) {
+      return false;
+    }
 
-        for (char c : text.toCharArray()) {
-            if (c == '\uFFFE' || c == '\uuFEFF' || // BOM
-                    c == '\uFFFF' || // Special
-                    (c >= '\u202A' && c <= '\u202E')) { // Direction change
-                return false;
-            }
-        }
+    for (char c : text.toCharArray()) {
+      if (c == '\uFFFE' || c == '\uuFEFF' ||   // BOM
+          c == '\uFFFF' ||                     // Special
+          (c >= '\u202A' && c <= '\u202E')) {  // Direction change
+        return false;
+      }
+    }
 
         return getTweetLength(text) <= maxLength;
-    }
+  }
 
-    public int getShortUrlLength() {
-        return shortUrlLength;
-    }
+  public int getShortUrlLength() {
+    return shortUrlLength;
+  }
 
-    public void setShortUrlLength(int shortUrlLength) {
-        this.shortUrlLength = shortUrlLength;
-    }
+  public void setShortUrlLength(int shortUrlLength) {
+    this.shortUrlLength = shortUrlLength;
+  }
 
-    public int getShortUrlLengthHttps() {
-        return shortUrlLengthHttps;
-    }
+  public int getShortUrlLengthHttps() {
+    return shortUrlLengthHttps;
+  }
 
-    public void setShortUrlLengthHttps(int shortUrlLengthHttps) {
-        this.shortUrlLengthHttps = shortUrlLengthHttps;
-    }
+  public void setShortUrlLengthHttps(int shortUrlLengthHttps) {
+    this.shortUrlLengthHttps = shortUrlLengthHttps;
+  }
 }
