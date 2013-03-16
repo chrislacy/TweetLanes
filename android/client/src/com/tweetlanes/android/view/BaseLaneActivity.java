@@ -439,7 +439,7 @@ public class BaseLaneActivity extends FragmentActivity implements
         case DOWNLOADED:
             activeInitialDownloadCount = Math.max(0,
                     activeInitialDownloadCount - 1);
-            triggerNeighbourInitialDownload(currentLane);
+            //triggerNeighbourInitialDownload(currentLane);
             break;
 
         default:
@@ -472,7 +472,7 @@ public class BaseLaneActivity extends FragmentActivity implements
         }
 
         if (triggeredDownload == false) {
-            triggerNeighbourInitialDownload(position);
+            //triggerNeighbourInitialDownload(position);
         }
 
         setCurrentComposeFragment((fragment instanceof DirectMessageFeedFragment) ? COMPOSE_DIRECT_MESSAGE
@@ -499,8 +499,6 @@ public class BaseLaneActivity extends FragmentActivity implements
 	 *
 	 */
     protected boolean triggerNeighbourInitialDownload(int currentLane) {
-
-        // HomeLaneAdapter adapter = (HomeLaneAdapter)mViewPager.getAdapter();
 
         boolean triggeredDownload = false;
         if (currentLane > 0) {
