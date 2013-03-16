@@ -11,6 +11,7 @@
 
 package org.tweetalib.android.fetch;
 
+import android.util.Log;
 import org.appdotnet4j.model.*;
 import org.asynctasktex.AsyncTaskEx;
 import org.socialnetlib.android.AppdotnetApi;
@@ -438,9 +439,9 @@ public class TwitterFetchStatuses {
                     }
 
                     try {
-
                         switch (input.mContentHandle.getStatusesType()) {
                         case USER_HOME_TIMELINE: {
+                            Log.d("api-call", "getHomeTimeline");
                             ResponseList<twitter4j.Status> statuses;
                             statuses = twitter.getHomeTimeline(paging);
                             contentFeed = setStatuses(input.mContentHandle, statuses);
@@ -448,6 +449,7 @@ public class TwitterFetchStatuses {
                         }
 
                         case USER_TIMELINE: {
+                            Log.d("api-call", "getUserTimeline");
                             ResponseList<twitter4j.Status> statuses =
                                     twitter.getUserTimeline(input.mContentHandle.getScreenName(), paging);
                             contentFeed = setStatuses(input.mContentHandle, statuses);
@@ -455,6 +457,7 @@ public class TwitterFetchStatuses {
                         }
 
                         case USER_MENTIONS: {
+                            Log.d("api-call", "getMentionsTimeline");
                             ResponseList<twitter4j.Status> statuses = twitter.getMentionsTimeline(paging);
                             contentFeed = setStatuses(input.mContentHandle, statuses);
                             break;
@@ -463,6 +466,7 @@ public class TwitterFetchStatuses {
                         case USER_LIST_TIMELINE: {
                             String listIdAsString = input.mContentHandle.getIdentifier();
                             try {
+                                Log.d("api-call", "getUserListStatuses");
                                 int listId = Integer.valueOf(listIdAsString);
                                 ResponseList<twitter4j.Status> statuses = twitter.getUserListStatuses(listId, paging);
                                 contentFeed = setStatuses(input.mContentHandle, statuses);
@@ -472,6 +476,7 @@ public class TwitterFetchStatuses {
                         }
 
                         case USER_FAVORITES: {
+                            Log.d("api-call", "getFavorites");
                             ResponseList<twitter4j.Status> statuses =
                                     twitter.getFavorites(input.mContentHandle.getScreenName(), paging);
                             contentFeed = setStatuses(input.mContentHandle, statuses);
@@ -479,12 +484,14 @@ public class TwitterFetchStatuses {
                         }
 
                         case RETWEETS_OF_ME: {
+                            Log.d("api-call", "getRetweetsOfMe");
                             ResponseList<twitter4j.Status> statuses = twitter.getRetweetsOfMe(paging);
                             contentFeed = setStatuses(input.mContentHandle, statuses);
                             break;
                         }
 
                         case SCREEN_NAME_SEARCH: {
+                            Log.d("api-call", "search");
                             Query query = new Query("@" + input.mContentHandle.getScreenName());
                             query = TwitterUtil.updateQueryWithPaging(query, paging);
                             QueryResult result = twitter.search(query);
@@ -493,6 +500,7 @@ public class TwitterFetchStatuses {
                         }
 
                         case STATUS_SEARCH: {
+                            Log.d("api-call", "search");
                             Query query = new Query(input.mContentHandle.getScreenName());
                             query = TwitterUtil.updateQueryWithPaging(query, paging);
                             QueryResult result = twitter.search(query);
@@ -501,12 +509,14 @@ public class TwitterFetchStatuses {
                         }
 
                         case PREVIOUS_CONVERSATION: {
+                            Log.d("api-call", "showStatus");
                             TwitterStatuses statuses = new TwitterStatuses();
                             long statusId = Long.parseLong(input.mContentHandle.getIdentifier());
                             TwitterStatus status = new TwitterStatus(twitter.showStatus(statusId));
                             if (status.mInReplyToStatusId != null) {
                                 long inReplyToStatusId = status.mInReplyToStatusId;
                                 for (int i = 0; i < 4; i++) {
+                                    Log.d("api-call", "showStatus");
                                     TwitterStatus reply = new TwitterStatus(twitter.showStatus(inReplyToStatusId));
                                     statuses.add(reply, false);
                                     if (reply.mInReplyToStatusId != null) {
@@ -543,18 +553,22 @@ public class TwitterFetchStatuses {
                                 }
                             };
 
+                            Log.d("api-call", "getRelatedResults");
                             RelatedResults relatedResults = twitter.getRelatedResults(statusId);
                             if (relatedResults != null) {
                                 TwitterStatuses statuses = new TwitterStatuses();
 
+                                Log.d("api-call", "getTweetsWithConversation");
                                 ResponseList<twitter4j.Status> conversation =
                                         relatedResults.getTweetsWithConversation();
                                 if (conversation != null && conversation.size() > 0) {
                                     statuses.add(conversation, addUserCallback);
                                 }
 
+                                Log.d("api-call", "showStatus");
                                 statuses.add(new TwitterStatus(twitter.showStatus(statusId)));
 
+                                Log.d("api-call", "getTweetsWithReply");
                                 ResponseList<twitter4j.Status> replies = relatedResults.getTweetsWithReply();
                                 if (replies != null && replies.size() > 0) {
                                     statuses.add(replies, addUserCallback);
@@ -576,9 +590,9 @@ public class TwitterFetchStatuses {
                     } catch (TwitterException e) {
                         e.printStackTrace();
                         errorDescription = e.getErrorMessage();
-                        if (errorDescription.contains("Rate limit exceeded")) {
-                            errorDescription += "\nTry again in " + e.getRateLimitStatus()
-                                    .getSecondsUntilReset()
+                        Log.e("api-call", errorDescription, e);
+                        if (e.getRateLimitStatus() != null && e.getRateLimitStatus().getRemaining() <= 0) {
+                            errorDescription += "\nTry again in " + e.getRateLimitStatus().getSecondsUntilReset()
                                     + " " + "seconds";
                         }
                     }

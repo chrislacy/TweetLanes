@@ -18,6 +18,7 @@ package org.tweetalib.android;
 
 import java.util.HashMap;
 
+import android.util.Log;
 import org.asynctasktex.AsyncTaskEx;
 
 import org.tweetalib.android.model.TwitterLists;
@@ -226,6 +227,7 @@ public class TwitterFetchLists {
             Twitter twitter = getTwitterInstance();
             if (twitter != null) {
                 try {
+                    Log.d("api-call", "getUserLists");
                     if (input.mUserId != null) {
                         ResponseList<UserList> lists = twitter
                                 .getUserLists(input.mUserId);
@@ -236,6 +238,7 @@ public class TwitterFetchLists {
                         result = new TwitterLists(lists);
                     }
                 } catch (TwitterException e) {
+                    Log.e("api-call", e.getErrorMessage(), e);
                     e.printStackTrace();
                 }
             }

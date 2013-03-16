@@ -18,6 +18,7 @@ package org.tweetalib.android;
 
 import java.util.HashMap;
 
+import android.util.Log;
 import org.appdotnet4j.model.AdnUser;
 import org.asynctasktex.AsyncTaskEx;
 
@@ -345,8 +346,10 @@ public class TwitterFetchUser {
                     User user = null;
                     if (input.mVerifyCredentials != null
                             && input.mVerifyCredentials.booleanValue() == true) {
+                        Log.d("api-call", "verifyCredentials");
                         user = twitter.verifyCredentials();
                     } else {
+                        Log.d("api-call", "showUser");
                         if (input.mUserId != null) {
                             user = twitter.showUser(input.mUserId);
                         } else if (input.mScreenName != null) {
@@ -358,6 +361,11 @@ public class TwitterFetchUser {
                 } catch (TwitterException e) {
                     e.printStackTrace();
                     errorDescription = e.getErrorMessage();
+                    Log.e("api-call", errorDescription, e);
+                    if (e.getRateLimitStatus() != null && e.getRateLimitStatus().getRemaining() <= 0) {
+                        errorDescription += "\nTry again in " + e.getRateLimitStatus().getSecondsUntilReset()
+                                + " " + "seconds";
+                    }
                 }
             } else {
                 AppdotnetApi api = getAppdotnetApi();

@@ -13,6 +13,7 @@ package org.tweetalib.android;
 
 import java.util.HashMap;
 
+import android.util.Log;
 import org.appdotnet4j.model.AdnPost;
 import org.appdotnet4j.model.AdnPostCompose;
 import org.asynctasktex.AsyncTaskEx;
@@ -287,11 +288,13 @@ public class TwitterFetchStatus {
 
                     switch (input.mStatusType) {
                     case GET_STATUS: {
+                        Log.d("api-call", "showStatus");
                         status = twitter.showStatus(input.mExistingStatusId);
                         break;
                     }
 
                     case SET_STATUS: {
+                        Log.d("api-call", "updateStatus");
                         StatusUpdate statusUpdate = input.mStatusUpdate
                                 .getT4JStatusUpdate();
                         status = twitter.updateStatus(statusUpdate);
@@ -338,6 +341,7 @@ public class TwitterFetchStatus {
                     }
 
                     case SET_RETWEET: {
+                        Log.d("api-call", "retweetStatus");
                         status = twitter.retweetStatus(input.mExistingStatusId);
                         break;
                     }
@@ -347,6 +351,11 @@ public class TwitterFetchStatus {
                 } catch (TwitterException e) {
                     e.printStackTrace();
                     errorDescription = e.getErrorMessage();
+                    Log.e("api-call", errorDescription, e);
+                    if (e.getRateLimitStatus() != null && e.getRateLimitStatus().getRemaining() <= 0) {
+                        errorDescription += "\nTry again in " + e.getRateLimitStatus().getSecondsUntilReset()
+                                + " " + "seconds";
+                    }
                 }
 
                 if (status != null) {

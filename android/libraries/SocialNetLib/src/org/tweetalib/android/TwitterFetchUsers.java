@@ -14,6 +14,7 @@ package org.tweetalib.android;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import android.util.Log;
 import org.appdotnet4j.model.AdnUser;
 import org.appdotnet4j.model.AdnUsers;
 import org.asynctasktex.AsyncTaskEx;
@@ -604,18 +605,21 @@ public class TwitterFetchUsers {
                 try {
                     switch (usersType) {
                     case FRIENDS: {
+                        Log.d("api-call", "getFriendsIDs");
                         userIds = twitter.getFriendsIDs(-1);
                         setUsers(input.mContentHandle, userIds);
                         break;
                     }
 
                     case FOLLOWERS: {
+                        Log.d("api-call", "getFollowersIDs");
                         userIds = twitter.getFollowersIDs(-1);
                         setUsers(input.mContentHandle, userIds);
                         break;
                     }
 
                     case RETWEETED_BY: {
+                        Log.d("api-call", "getRetweets");
                         long statusId = Long.parseLong(input.mContentHandle
                                 .getIdentifier());
                         ResponseList<twitter4j.Status> statuses = twitter
@@ -633,6 +637,7 @@ public class TwitterFetchUsers {
                     }
 
                     case PEOPLE_SEARCH: {
+                        Log.d("api-call", "searchUsers");
                         String searchTerm = input.mContentHandle
                                 .getScreenName();
                         users = twitter.searchUsers(searchTerm, 0);
@@ -650,9 +655,11 @@ public class TwitterFetchUsers {
                                         input.mContentHandle.getScreenName()
                                                 .toLowerCase()) == false) {
                                     if (input.mCreateFriendship) {
+                                        Log.d("api-call", "createFriendship");
                                         user = twitter
                                                 .createFriendship(screenName);
                                     } else {
+                                        Log.d("api-call", "destroyFriendship");
                                         user = twitter
                                                 .destroyFriendship(screenName);
                                     }
@@ -672,8 +679,10 @@ public class TwitterFetchUsers {
                                 // We can't follow ourself...
                                 if (currentUserId != userId) {
                                     if (input.mCreateFriendship) {
+                                        Log.d("api-call", "createFriendship");
                                         user = twitter.createFriendship(userId);
                                     } else {
+                                        Log.d("api-call", "destroyFriendship");
                                         user = twitter
                                                 .destroyFriendship(userId);
                                     }
@@ -701,8 +710,10 @@ public class TwitterFetchUsers {
                             // We can't act on ourself...
                             if (currentUserId != userId) {
                                 if (usersType == UsersType.CREATE_BLOCK) {
+                                    Log.d("api-call", "createBlock");
                                     user = twitter.createBlock(userId);
                                 } else if (usersType == UsersType.REPORT_SPAM) {
+                                    Log.d("api-call", "reportSpam");
                                     user = twitter.reportSpam(userId);
                                 }
                                 if (user != null) {
@@ -736,6 +747,11 @@ public class TwitterFetchUsers {
                 } catch (TwitterException e) {
                     e.printStackTrace();
                     errorDescription = e.getErrorMessage();
+                    Log.e("api-call", errorDescription, e);
+                    if (e.getRateLimitStatus() != null && e.getRateLimitStatus().getRemaining() <= 0) {
+                        errorDescription += "\nTry again in " + e.getRateLimitStatus().getSecondsUntilReset()
+                                + " " + "seconds";
+                    }
                 }
 
                 if (users != null && twitterUsers == null) {
