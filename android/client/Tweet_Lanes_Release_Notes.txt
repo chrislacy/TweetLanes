@@ -2,7 +2,7 @@
 
 Note: To report bugs or make feature requests, either contact the official Twitter @TweetLanes or click the "Send Feedback" button in the app.
 
-Version 0.73.0, March ??, 2013
+Version 1.0.0, March 17, 2013
 =================================
 - App.net support
 - Bug fixes, including 4 by users like you! Fixes include:
