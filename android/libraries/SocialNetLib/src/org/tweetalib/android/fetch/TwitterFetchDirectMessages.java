@@ -18,6 +18,7 @@ package org.tweetalib.android.fetch;
 
 import java.util.HashMap;
 
+import android.util.Log;
 import org.tweetalib.android.ConnectionStatus;
 import org.tweetalib.android.TwitterContentHandle;
 import org.tweetalib.android.TwitterFetchResult;
@@ -267,6 +268,7 @@ public class TwitterFetchDirectMessages {
                 try {
                     if (input.mStatusText != null) {
 
+                        Log.d("api-call", "sendDirectMessage");
                         DirectMessage dm = twitter.sendDirectMessage(
                                 input.mRecipientScreenName, input.mStatusText);
                         messages = new TwitterDirectMessages(input.mUserId);
@@ -289,8 +291,10 @@ public class TwitterFetchDirectMessages {
                             // format. Handle this
                             // by getting sent and received and managing
                             // ourselves...
+                            Log.d("api-call", "getDirectMessages");
                             ResponseList<DirectMessage> receivedDirectMessages = twitter
                                     .getDirectMessages(paging);
+                            Log.d("api-call", "getSendDirectMessages");
                             ResponseList<DirectMessage> sentDirectMessages = twitter
                                     .getSentDirectMessages(paging);
 
@@ -314,6 +318,11 @@ public class TwitterFetchDirectMessages {
                 } catch (TwitterException e) {
                     e.printStackTrace();
                     errorDescription = e.getErrorMessage();
+                    Log.e("api-call", errorDescription, e);
+                    if (e.getRateLimitStatus() != null && e.getRateLimitStatus().getRemaining() <= 0) {
+                        errorDescription += "\nTry again in " + e.getRateLimitStatus().getSecondsUntilReset()
+                                + " " + "seconds";
+                    }
                 }
             }
 

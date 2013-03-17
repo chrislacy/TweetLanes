@@ -260,6 +260,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                 }
             };
 
+            Log.d("api-call", "--fetchNewestTweets(" + mContentHandle.getStatusesType().toString() + ")");
             TwitterPaging paging = new TwitterPaging(null, null, sinceStatusId,
                     maxStatusId);
             TwitterManager.get().triggerFetchStatuses(mContentHandle, paging,
@@ -435,6 +436,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             }
         };
 
+        Log.d("api-call", "--triggerInitialDownload((" + mContentHandle.getStatusesType().toString() + ")");
         TwitterManager.get().triggerFetchStatuses(mContentHandle, null,
                 mTweetDataRefreshCallback, getAsyncTaskPriorityOffset());
         setInitialDownloadState(InitialDownloadState.DOWNLOADING);
@@ -626,6 +628,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                             }
                         };
 
+                        Log.d("api-call", "--OnLastItemVisibleListener((" + mContentHandle.getStatusesType().toString() + ")");
                         TwitterManager.get().triggerFetchStatuses(
                                 mContentHandle,
                                 TwitterPaging.createGetOlder(mOldestTweetId),
