@@ -54,7 +54,7 @@ public class ImageViewActivity extends FragmentActivity {
     static final String KEY_AUTHOR_SCREEN_NAME = "authorScreenName";
 
     /*
-	 * 
+	 *
 	 */
     public static void createAndStartActivity(Activity currentActivity,
             String mediaUrl, String sourceUrl, String authorScreenName) {
@@ -68,7 +68,7 @@ public class ImageViewActivity extends FragmentActivity {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see android.support.v4.app.FragmentActivity#onCreate(android.os.Bundle)
      */
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +90,7 @@ public class ImageViewActivity extends FragmentActivity {
         mZoomableImageView = (GestureImageView) findViewById(R.id.image_view);
         UrlImageViewHelper.setUrlDrawable(mZoomableImageView, imageUrl,
                 new UrlImageViewCallback() {
-					
+
 					@Override
 					public void onLoaded(ImageView imageView, Drawable loadedDrawable,
 							String url, boolean loadedFromCache) {
@@ -100,9 +100,9 @@ public class ImageViewActivity extends FragmentActivity {
                             TextView errorTextView = (TextView) findViewById(R.id.errorTextView);
                             errorTextView.setVisibility(View.VISIBLE);
                         }
-						
+
 					}
-				}); 
+				});
 
         getActionBar().setTitle("@" + getAuthorScreenName() + "'s image");
         getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -110,7 +110,7 @@ public class ImageViewActivity extends FragmentActivity {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
      */
     @Override
@@ -124,7 +124,7 @@ public class ImageViewActivity extends FragmentActivity {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
      */
     @Override
@@ -162,33 +162,8 @@ public class ImageViewActivity extends FragmentActivity {
                     if (existingFile.exists()) {
                         toastMessage = getString(R.string.unknown_error);
                         try {
-                            String timeStamp = new SimpleDateFormat(
-                                    "yyyyMMdd_HHmmss").format(new Date());
-                            String newFileName = Constant.JPEG_FILE_PREFIX
-                                    + timeStamp + "_";
-
-                            File albumFile = Util.getAlbumDir("Tweet Lanes");
-                            File newFile = File.createTempFile(newFileName,
-                                    Constant.JPEG_FILE_SUFFIX, albumFile);
-
-                            String existingPath = existingFile
-                                    .getAbsolutePath();
-                            String newPath = newFile.getAbsolutePath();
-
-                            InputStream in = new FileInputStream(existingPath);
-                            OutputStream out = new FileOutputStream(newPath);
-                            Util.copyFile(in, out);
-                            in.close();
-                            in = null;
-                            out.flush();
-                            out.close();
-                            out = null;
-
-                            MediaStore.Images.Media.insertImage(
-                                    getContentResolver(), newPath, "Image",
-                                    null);
-                            // MediaScannerConnection.scanFile(context, new
-                            // String[]{newPath}, null, null);
+                            String existingPath = existingFile.getAbsolutePath();
+                            MediaStore.Images.Media.insertImage(getContentResolver(), existingPath, "Image", null);
                             toastMessage = getString(R.string.image_save_success);
                         } catch (FileNotFoundException e) {
                             e.printStackTrace();
@@ -217,7 +192,7 @@ public class ImageViewActivity extends FragmentActivity {
     }
 
     /*
-	 * 
+	 *
 	 */
     String getMediaUrl() {
         String mediaUrl = getIntent().getStringExtra(KEY_MEDIA_URL);
