@@ -72,7 +72,7 @@ public class TweetFeedItemView extends LinearLayout {
     private boolean mConversationExpanded;
 
     /*
-     * 
+     *
      */
     public interface Callbacks {
 
@@ -94,7 +94,7 @@ public class TweetFeedItemView extends LinearLayout {
     }
 
     /*
-     * 
+     *
      */
     public TweetFeedItemView(Context context) {
         super(context);
@@ -116,7 +116,7 @@ public class TweetFeedItemView extends LinearLayout {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void configure(TwitterStatus twitterStatus, int position, Callbacks callbacks, boolean loadsTweetSpotlight,
             boolean showRetweetCount, boolean showConversationView, boolean isConversationItem, boolean resize,
@@ -139,9 +139,8 @@ public class TweetFeedItemView extends LinearLayout {
                 Integer textSize = null;
                 if (statusSize == StatusSize.Small) {
                     textSize = 14;
-                } else if (statusSize == StatusSize.Large) {
-                    textSize = 18;
                 }
+                
                 if (textSize != null) {
                     mAuthorScreenNameTextView.setTextSize(
                             TypedValue.COMPLEX_UNIT_SP, textSize);
@@ -368,7 +367,7 @@ public class TweetFeedItemView extends LinearLayout {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void insertConversationView() {
         if (mConversationView == null) {
@@ -380,7 +379,7 @@ public class TweetFeedItemView extends LinearLayout {
     }
 
     /*
-     * 
+     *
      */
     public void setPreviewImage(TwitterMediaEntity mediaEntity, AdnMedia adnMedia, Callbacks callbacks) {
 
@@ -460,7 +459,7 @@ public class TweetFeedItemView extends LinearLayout {
     }
 
     /*
-	 * 
+	 *
 	 */
     OnTouchListener mStatusOnTouchListener = new OnTouchListener() {
 
@@ -520,7 +519,7 @@ public class TweetFeedItemView extends LinearLayout {
     };
 
     /*
-	 * 
+	 *
 	 */
     OnTouchListener mOnTouchListener = new OnTouchListener() {
 
@@ -531,7 +530,7 @@ public class TweetFeedItemView extends LinearLayout {
     };
 
     /*
-	 * 
+	 *
 	 */
     GestureDetector mGestureDetector = new GestureDetector(
             new GestureDetector.SimpleOnGestureListener() {
@@ -565,7 +564,7 @@ public class TweetFeedItemView extends LinearLayout {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void onProfileImageClick() {
         Intent profileIntent = new Intent(mContext, ProfileActivity.class);
@@ -583,7 +582,7 @@ public class TweetFeedItemView extends LinearLayout {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void configureConversationView(SocialNetConstant.Type socialNetType) {
 
@@ -627,7 +626,7 @@ public class TweetFeedItemView extends LinearLayout {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void onLoadTweetSpotlight() {
         if (mLoadsTweetSpotlight == true) {
