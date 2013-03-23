@@ -159,16 +159,30 @@ public class TwitterMediaEntity {
 	 */
     private static String getInstagramMediaUrl(String url) {
 
-        String instagramMatch = "://instagr.am/p/";
-        int startIndex = url.indexOf(instagramMatch);
-        if (startIndex > -1) {
-            startIndex += instagramMatch.length();
-            int endIndex = url.indexOf("/", startIndex);
-            if (endIndex > -1) {
-                String code = url.substring(startIndex, endIndex);
-                return "http://instagr.am/p/" + code + "/media/";
-            }
-        }
+    	if (url.indexOf("://instagr.am/p/") > -1 ) {
+	        String instagramMatch = "://instagr.am/p/";
+	        int startIndex = url.indexOf(instagramMatch);
+	        if (startIndex > -1) {
+	            startIndex += instagramMatch.length();
+	            int endIndex = url.indexOf("/", startIndex);
+	            if (endIndex > -1) {
+	                String code = url.substring(startIndex, endIndex);
+	                return "http://instagr.am/p/" + code + "/media/";
+	            }
+	        }
+    	}
+    	if (url.indexOf("://instagram.com/p/") > -1 ) {
+	        String instagramMatch = "://instagram.com/p/";
+	        int startIndex = url.indexOf(instagramMatch);
+	        if (startIndex > -1) {
+	            startIndex += instagramMatch.length();
+	            int endIndex = url.indexOf("/", startIndex);
+	            if (endIndex > -1) {
+	                String code = url.substring(startIndex, endIndex);
+	                return "http://instagram.com/p/" + code + "/media/";
+	            }
+	        }
+    	}
 
         return null;
     }
