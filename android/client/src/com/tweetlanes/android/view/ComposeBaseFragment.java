@@ -70,8 +70,8 @@ public abstract class ComposeBaseFragment extends Fragment {
     }
 
     // TODO: Replace with non-hardcoded values
-    final int SHORT_URL_LENGTH = 20;
-    final int SHORT_URL_LENGTH_HTTPS = 21;
+    final int SHORT_URL_LENGTH = 22;
+    final int SHORT_URL_LENGTH_HTTPS = 23;
 
     ImageButton mSendButton;
     EditClearText mEditText;
