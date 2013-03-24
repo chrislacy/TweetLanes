@@ -43,6 +43,7 @@ public class ConversationView extends LinearLayout {
     private LinearLayout mConversationView;
     private LayoutInflater mInflater;
     private SocialNetConstant.Type mSocialNetType;
+    private String mCurrentAccountKey;
 
     /*
      *
@@ -78,12 +79,13 @@ public class ConversationView extends LinearLayout {
 	 *
 	 */
     public void configure(TwitterStatus twitterStatus, LayoutInflater inflater,
-            Callbacks callbacks, SocialNetConstant.Type socialNetType) {
+            Callbacks callbacks, SocialNetConstant.Type socialNetType, String currentAccountKey) {
 
         mTwitterStatus = twitterStatus;
         mInflater = inflater;
         mCallbacks = callbacks;
         mSocialNetType = socialNetType;
+        mCurrentAccountKey = currentAccountKey;
 
         mLoadingView = (RelativeLayout) findViewById(R.id.conversation_feed_loading);
         mConversationView = (LinearLayout) findViewById(R.id.conversation_feed_loaded);
@@ -93,7 +95,7 @@ public class ConversationView extends LinearLayout {
                 TwitterConstant.StatusesType.PREVIOUS_CONVERSATION);
         mContentHandle = new TwitterContentHandle(base,
                 twitterStatus.mUserScreenName, Long.valueOf(mTwitterStatus.mId)
-                        .toString());
+                        .toString(), currentAccountKey);
 
         TwitterStatuses cachedStatuses = TwitterManager.get().getContentFeed(
                 mContentHandle);
@@ -224,7 +226,7 @@ public class ConversationView extends LinearLayout {
 
         };
 
-        tweetFeedItemView.configure(item, position, callbacks, true, false, false, true, false, mSocialNetType);
+        tweetFeedItemView.configure(item, position, callbacks, true, false, false, true, false, mSocialNetType, mCurrentAccountKey);
         return tweetFeedItemView;
     }
 

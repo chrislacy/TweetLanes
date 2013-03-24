@@ -157,6 +157,7 @@ public class App extends Application {
                                             : Constant.TWITTER_CONSUMER_SECRET,
                                     account.getOAuthToken(), account
                                             .getOAuthSecret(),
+                                    account.getAccountKey(),
                                     mConnectionStatusCallbacks);
 
                 }
@@ -171,6 +172,10 @@ public class App extends Application {
                 // TODO: Handle me
             }
         }
+    }
+
+    public String getCurrentAccountKey() {
+        return getCurrentAccount().getAccountKey();
     }
 
     public int getProfileLaneDefaultIndex() {
@@ -419,7 +424,7 @@ public class App extends Application {
                                         : Constant.APPDOTNET_CONSUMER_KEY,
                                 oSocialNetType == SocialNetConstant.Type.Twitter ? Constant.TWITTER_CONSUMER_SECRET
                                         : Constant.APPDOTNET_CONSUMER_SECRET,
-                                oAuthToken, oAuthSecret,
+                                oAuthToken, oAuthSecret, getCurrentAccountKey(),
                                 mConnectionStatusCallbacks);
             }
         }
@@ -499,11 +504,12 @@ public class App extends Application {
                                     : Constant.TWITTER_CONSUMER_SECRET,
                             currentAccountDescriptor.getOAuthToken(),
                             currentAccountDescriptor.getOAuthSecret(),
+                            currentAccountDescriptor.getAccountKey(),
                             mConnectionStatusCallbacks);
         } else {
             TwitterManager.initModule(SocialNetConstant.Type.Twitter,
                     Constant.TWITTER_CONSUMER_KEY,
-                    Constant.TWITTER_CONSUMER_SECRET, null, null,
+                    Constant.TWITTER_CONSUMER_SECRET, null, null, null,
                     mConnectionStatusCallbacks);
         }
 

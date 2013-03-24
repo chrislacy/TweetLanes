@@ -65,7 +65,7 @@ public class SearchActivity extends BaseLaneActivity {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * com.tweetlanes.android.view.BaseLaneActivity#getAdapterForViewPager()
      */
@@ -84,7 +84,7 @@ public class SearchActivity extends BaseLaneActivity {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * com.tweetlanes.android.view.BaseLaneActivity#getFragmentStatePagerAdapter
      * ()
@@ -95,7 +95,7 @@ public class SearchActivity extends BaseLaneActivity {
     }
 
     /*
-	 * 
+	 *
 	 */
     private void updateViewVisibility() {
 
@@ -123,7 +123,7 @@ public class SearchActivity extends BaseLaneActivity {
     }
 
     /*
-     * 
+     *
      */
     class SearchAdapter extends FragmentStatePagerAdapter implements
             TitleProvider {
@@ -142,13 +142,13 @@ public class SearchActivity extends BaseLaneActivity {
             case SEARCH_TERM:
                 result = TweetFeedFragment.newInstance(position,
                         laneDescriptor.getContentHandleBase(), mSearchTerm,
-                        null);
+                        null, getApp().getCurrentAccountKey());
                 break;
 
             case SEARCH_PERSON:
                 result = UserFeedFragment.newInstance(position,
                         laneDescriptor.getContentHandleBase(), mSearchTerm,
-                        null);
+                        null, getApp().getCurrentAccountKey());
                 break;
 
             default:
@@ -178,7 +178,7 @@ public class SearchActivity extends BaseLaneActivity {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * android.widget.SearchView.OnQueryTextListener#onQueryTextSubmit(java.
      * lang.String)

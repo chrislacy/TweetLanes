@@ -56,16 +56,16 @@ import com.tweetlanes.android.widget.pulltorefresh.PullToRefreshListView;
 public class UserFeedFragment extends BaseLaneFragment {
 
     /*
-	 * 
+	 *
 	 */
     public static UserFeedFragment newInstance(int laneIndex,
             final TwitterContentHandleBase handleBase, final String screenName,
-            final String laneIdentifier) {
+            final String laneIdentifier, final String currentAccountKey) {
 
         UserFeedFragment fragment = new UserFeedFragment();
 
         fragment.mContentHandle = TwitterManager.get().getContentHandle(
-                handleBase, screenName, laneIdentifier);
+                handleBase, screenName, laneIdentifier, currentAccountKey);
 
         fragment.configureBaseLaneFragment(laneIndex,
                 fragment.mContentHandle.getTypeAsString(),
@@ -100,7 +100,7 @@ public class UserFeedFragment extends BaseLaneFragment {
     private boolean mMoreUsersAvailable = true;
 
     /*
-	 * 
+	 *
 	 */
     public App getApp() {
         return (App) getActivity().getApplication();
@@ -108,7 +108,7 @@ public class UserFeedFragment extends BaseLaneFragment {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater,
      * android.view.ViewGroup, android.os.Bundle)
@@ -120,7 +120,7 @@ public class UserFeedFragment extends BaseLaneFragment {
         super.onCreateView(inflater, container, savedInstanceState);
 
         mContentHandle = TwitterManager.get().getContentHandle(
-                getContentHandleBase(), getScreenName(), getLaneIdentifier());
+                getContentHandleBase(), getScreenName(), getLaneIdentifier(), getApp().getCurrentAccountKey());
 
         if (mContentHandle == null) {
             // Occurs when coming back after the app was sleeping. Force refresh
@@ -188,7 +188,7 @@ public class UserFeedFragment extends BaseLaneFragment {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * android.support.v4.app.Fragment#onSaveInstanceState(android.os.Bundle)
      */
@@ -199,7 +199,7 @@ public class UserFeedFragment extends BaseLaneFragment {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see android.support.v4.app.Fragment#onDestroy()
      */
     @Override
@@ -221,7 +221,7 @@ public class UserFeedFragment extends BaseLaneFragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     private void setUserFeed(TwitterUsers users) {
 
@@ -240,14 +240,14 @@ public class UserFeedFragment extends BaseLaneFragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     private TwitterUsers getUserFeed() {
         return _mUsersFeed;
     }
 
     /*
-	 * 
+	 *
 	 */
     private void onRefreshComplete(TwitterUsers feed) {
 
@@ -259,7 +259,7 @@ public class UserFeedFragment extends BaseLaneFragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     private void updateViewVisibility(boolean loadHasFinished) {
 
@@ -276,7 +276,7 @@ public class UserFeedFragment extends BaseLaneFragment {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.tweetlanes.android.view.BaseLaneFragment#onJumpToTop()
      */
     @Override
@@ -292,7 +292,7 @@ public class UserFeedFragment extends BaseLaneFragment {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.tweetlanes.android.view.BaseLaneFragment#clearLocalCache()
      */
     @Override
@@ -302,7 +302,7 @@ public class UserFeedFragment extends BaseLaneFragment {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.tweetlanes.android.view.BaseLaneFragment#getContentToCache()
      */
     @Override
@@ -311,7 +311,7 @@ public class UserFeedFragment extends BaseLaneFragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     private OnScrollListener mUserFeedOnScrollListener = new OnScrollListener() {
 
@@ -337,7 +337,7 @@ public class UserFeedFragment extends BaseLaneFragment {
     };
 
     /*
-	 * 
+	 *
 	 */
     private OnLastItemVisibleListener mUserFeedOnLastItemVisibleListener = new OnLastItemVisibleListener() {
 
@@ -378,7 +378,7 @@ public class UserFeedFragment extends BaseLaneFragment {
     };
 
     /*
-	 * 
+	 *
 	 */
     private OnRefreshListener mUserFeedOnRefreshListener = new OnRefreshListener() {
 
@@ -418,7 +418,7 @@ public class UserFeedFragment extends BaseLaneFragment {
     };
 
     /*
-	 * 
+	 *
 	 */
     private final OnItemClickListener mOnUserFeedItemClickListener = new OnItemClickListener() {
 
@@ -441,7 +441,7 @@ public class UserFeedFragment extends BaseLaneFragment {
     };
 
     /*
-     * 
+     *
      */
     private class MultipleUserSelectionCallback implements
             ListView.MultiChoiceModeListener {
@@ -593,7 +593,7 @@ public class UserFeedFragment extends BaseLaneFragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     private void onUserFeedItemViewClick(int position, boolean checked) {
 
@@ -627,7 +627,7 @@ public class UserFeedFragment extends BaseLaneFragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     private TwitterUsers getSelectedUsers() {
 
@@ -644,7 +644,7 @@ public class UserFeedFragment extends BaseLaneFragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     /*
      * private TwitterUser getFirstSelectedUser() { for (int i = 0; i <
@@ -655,7 +655,7 @@ public class UserFeedFragment extends BaseLaneFragment {
      */
 
     /*
-     * 
+     *
      */
     public interface UserFeedItemViewCallbacks {
 
@@ -665,7 +665,7 @@ public class UserFeedFragment extends BaseLaneFragment {
     }
 
     /*
-     * 
+     *
      */
     private class UserFeedListAdapter extends BaseAdapter {
 
@@ -676,7 +676,7 @@ public class UserFeedFragment extends BaseLaneFragment {
         /**
          * The number of items in the list is determined by the number of
          * speeches in our array.
-         * 
+         *
          * @see android.widget.ListAdapter#getCount()
          */
         public int getCount() {
@@ -696,7 +696,7 @@ public class UserFeedFragment extends BaseLaneFragment {
          * sufficent to get at the data. If we were using a more complex data
          * structure, we would return whatever object represents one row in the
          * list.
-         * 
+         *
          * @see android.widget.ListAdapter#getItem(int)
          */
         public Object getItem(int position) {
@@ -705,7 +705,7 @@ public class UserFeedFragment extends BaseLaneFragment {
 
         /**
          * Use the array index as a unique id.
-         * 
+         *
          * @see android.widget.ListAdapter#getItemId(int)
          */
         public long getItemId(int position) {
@@ -734,7 +734,7 @@ public class UserFeedFragment extends BaseLaneFragment {
         }
 
         /*
-         * 
+         *
          */
         View getUserFeedItemView(int position, View convertView) {
 
@@ -765,7 +765,7 @@ public class UserFeedFragment extends BaseLaneFragment {
         }
 
         /*
-         * 
+         *
          */
         View getLoadMoreView(View convertView) {
 
@@ -794,7 +794,7 @@ public class UserFeedFragment extends BaseLaneFragment {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * com.tweetlanes.android.view.BaseLaneFragment#triggerInitialDownload()
      */

@@ -31,8 +31,8 @@ public class AppdotnetApi extends SocialNetApi {
      *
 	 */
     public AppdotnetApi(SocialNetConstant.Type type, String consumerKey,
-                        String consumerSecret) {
-        super(type, consumerKey, consumerSecret);
+                        String consumerSecret, String currentAccountKey) {
+        super(type, consumerKey, consumerSecret, currentAccountKey);
     }
 
     @Override

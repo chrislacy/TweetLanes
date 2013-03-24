@@ -11,30 +11,27 @@
 
 package com.tweetlanes.android.view;
 
-import twitter4j.auth.RequestToken;
-import org.socialnetlib.android.SocialNetConstant;
-
-import com.crittercism.app.Crittercism;
-import org.tweetalib.android.TwitterManager;
-import org.tweetalib.android.TwitterSignIn.GetAuthUrlCallback;
-import org.tweetalib.android.TwitterSignIn.GetOAuthAccessTokenCallback;
-import org.tweetalib.android.model.TwitterUser;
-
-import twitter4j.auth.RequestToken;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-
 import com.crittercism.app.Crittercism;
 import com.tweetlanes.android.App;
 import com.tweetlanes.android.AppSettings;
 import com.tweetlanes.android.Constant;
 import com.tweetlanes.android.R;
+import org.socialnetlib.android.SocialNetConstant;
+import org.socialnetlib.android.TwitterApi;
+import org.tweetalib.android.TwitterManager;
+import org.tweetalib.android.TwitterSignIn.GetAuthUrlCallback;
+import org.tweetalib.android.TwitterSignIn.GetOAuthAccessTokenCallback;
+import org.tweetalib.android.model.TwitterUser;
+import twitter4j.auth.RequestToken;
 
 public class TwitterAuthActivity extends Activity {
 
@@ -52,16 +49,15 @@ public class TwitterAuthActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         if (Constant.ENABLE_CRASH_TRACKING) {
-            Crittercism.init(getApplicationContext(),
-                    Constant.CRITTERCISM_APP_ID);
+            Crittercism.init(getApplicationContext(), Constant.CRITTERCISM_APP_ID);
         }
 
         setTheme(AppSettings.get().getCurrentThemeStyle());
 
         setContentView(R.layout.loading);
 
-        TwitterManager.get().setSignInSocialNetType(Constant.TWITTER_CONSUMER_KEY,
-                Constant.TWITTER_CONSUMER_SECRET, SocialNetConstant.Type.Twitter);
+        TwitterManager.get().setSignInSocialNetType(Constant.TWITTER_CONSUMER_KEY, Constant.TWITTER_CONSUMER_SECRET,
+                SocialNetConstant.Type.Twitter);
 
         TwitterManager.get().getAuthUrl(mGetAuthUrlCallback);
 
@@ -69,41 +65,35 @@ public class TwitterAuthActivity extends Activity {
     }
 
     /*
-	 *
-	 */
-    GetAuthUrlCallback mGetAuthUrlCallback = TwitterManager.get()
-            .getSignInInstance().new GetAuthUrlCallback() {
+     *
+	 */ GetAuthUrlCallback mGetAuthUrlCallback = TwitterManager.get().getSignInInstance().new GetAuthUrlCallback() {
 
         @Override
-        public void finished(boolean successful, String url,
-                RequestToken requestToken) {
+        public void finished(boolean successful, String url, RequestToken requestToken) {
             getAuthUrlCallback(url, requestToken);
 
         }
     };
 
     /*
-	 *
-	 */
-    GetOAuthAccessTokenCallback mGetOAuthAccessTokenCallback = TwitterManager
-            .get().getSignInInstance().new GetOAuthAccessTokenCallback() {
+     *
+	 */ GetOAuthAccessTokenCallback mGetOAuthAccessTokenCallback =
+            TwitterManager.get().getSignInInstance().new GetOAuthAccessTokenCallback() {
 
-        @Override
-        public void finished(boolean successful, TwitterUser user,
-                String accessToken, String accessTokenSecret) {
-            if (successful) {
-                onSuccessfulLogin(user, accessToken, accessTokenSecret);
-            }
-        }
-    };
+                @Override
+                public void finished(boolean successful, TwitterUser user, String accessToken,
+                        String accessTokenSecret) {
+                    if (successful) {
+                        onSuccessfulLogin(user, accessToken, accessTokenSecret);
+                    }
+                }
+            };
 
     /*
 	 *
 	 */
-    void onSuccessfulLogin(TwitterUser user, String accessToken,
-            String accessTokenSecret) {
-        getApp().onPostSignIn(user, accessToken, accessTokenSecret,
-                SocialNetConstant.Type.Twitter);
+    void onSuccessfulLogin(TwitterUser user, String accessToken, String accessTokenSecret) {
+        getApp().onPostSignIn(user, accessToken, accessTokenSecret, SocialNetConstant.Type.Twitter);
         getApp().restartApp(this);
     }
 
@@ -140,14 +130,11 @@ public class TwitterAuthActivity extends Activity {
                 String path = "tweetlanes-auth-callback";
                 if (url.contains(path)) {
                     Uri uri = Uri.parse(url);
-                    String oauthVerifier = uri
-                            .getQueryParameter("oauth_verifier");
+                    String oauthVerifier = uri.getQueryParameter("oauth_verifier");
                     onOAuthVerifier(oauthVerifier);
 
-                    TwitterManager.get().setSocialNetType(
-                            SocialNetConstant.Type.Twitter,
-                            Constant.TWITTER_CONSUMER_KEY,
-                            Constant.TWITTER_CONSUMER_SECRET);
+                    TwitterManager.get().setSocialNetType(SocialNetConstant.Type.Twitter, Constant.TWITTER_CONSUMER_KEY,
+                            Constant.TWITTER_CONSUMER_SECRET, null);
 
                     return true;
                 }
@@ -179,10 +166,8 @@ public class TwitterAuthActivity extends Activity {
 
         if (requestCode == TWITTER_AUTH_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
-                String oauthVerifier = (String) data.getExtras().get(
-                        "oauth_verifier");
-                TwitterManager.get().getOAuthAccessToken(mRequestToken,
-                        oauthVerifier, mGetOAuthAccessTokenCallback);
+                String oauthVerifier = (String) data.getExtras().get("oauth_verifier");
+                TwitterManager.get().getOAuthAccessToken(mRequestToken, oauthVerifier, mGetOAuthAccessTokenCallback);
             }
         }
     }
@@ -192,7 +177,6 @@ public class TwitterAuthActivity extends Activity {
 	 */
     void onOAuthVerifier(String oauthVerifier) {
         setContentView(R.layout.loading);
-        TwitterManager.get().getOAuthAccessToken(mRequestToken, oauthVerifier,
-                mGetOAuthAccessTokenCallback);
+        TwitterManager.get().getOAuthAccessToken(mRequestToken, oauthVerifier, mGetOAuthAccessTokenCallback);
     }
 }

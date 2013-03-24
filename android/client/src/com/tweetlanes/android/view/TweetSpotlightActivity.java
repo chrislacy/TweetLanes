@@ -47,7 +47,7 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see android.support.v4.app.FragmentActivity#onCreate(android.os.Bundle)
      */
     @Override
@@ -93,7 +93,7 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
     }
 
     /*
-	 * 
+	 *
 	 */
     @Override
     protected void onDestroy() {
@@ -105,7 +105,7 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * com.tweetlanes.android.view.BaseLaneActivity#getAdapterForViewPager()
      */
@@ -120,7 +120,7 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * com.tweetlanes.android.view.BaseLaneActivity#getFragmentStatePagerAdapter
      * ()
@@ -131,7 +131,7 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
     }
 
     /*
-	 * 
+	 *
 	 */
     @Override
     protected ComposeTweetDefault getComposeTweetDefault() {
@@ -144,7 +144,7 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
     }
 
     /*
-	 * 
+	 *
 	 */
     private void onGetStatus(TwitterStatus status) {
         mStatus = new TwitterStatus(status);
@@ -154,7 +154,7 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
     }
 
     /*
-	 * 
+	 *
 	 */
     private void updateViewVisibility() {
 
@@ -170,7 +170,7 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
      */
     @Override
@@ -241,7 +241,7 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
     }
 
     /*
-     * 
+     *
      */
     void storeMenuItems(Menu menu) {
         for (int i = 0; i < menu.size(); i++) {
@@ -266,7 +266,7 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
     }
 
     /*
-     * 
+     *
      */
     class TweetSpotlightAdapter extends FragmentStatePagerAdapter implements
             TitleProvider {
@@ -293,14 +293,16 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
                     result = TweetFeedFragment.newInstance(position,
                             laneDescriptor.getContentHandleBase(),
                             mStatus.getAuthorScreenName(),
-                            String.valueOf(mStatus.mId));
+                            String.valueOf(mStatus.mId),
+                            getApp().getCurrentAccountKey());
                     break;
 
                 case STATUS_RETWEETED_BY:
                     result = UserFeedFragment.newInstance(position,
                             laneDescriptor.getContentHandleBase(),
                             mStatus.getAuthorScreenName(),
-                            String.valueOf(mStatus.mId));
+                            String.valueOf(mStatus.mId),
+                            getApp().getCurrentAccountKey());
                     break;
 
                 default:

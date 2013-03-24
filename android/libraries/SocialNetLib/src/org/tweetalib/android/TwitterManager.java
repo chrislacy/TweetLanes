@@ -45,9 +45,9 @@ public class TwitterManager {
     // / TODO: This is probably too C++ ish. Will come back to this later...
     public static void initModule(SocialNetConstant.Type socNetType,
             String consumerKey, String consumerSecret, String oAuthToken,
-            String oAuthSecret,
+            String oAuthSecret, String currentAccountKey,
             ConnectionStatus.Callbacks connectionStatusCallbacks) {
-        mInstance = new TwitterManager(socNetType, consumerKey, consumerSecret);
+        mInstance = new TwitterManager(socNetType, consumerKey, consumerSecret, currentAccountKey);
         mInstance.setOAuthTokenWithSecret(oAuthToken, oAuthSecret, true);
         mInstance.setConnectionStatus(connectionStatusCallbacks);
     }
@@ -68,8 +68,8 @@ public class TwitterManager {
 	 *
 	 */
     TwitterManager(SocialNetConstant.Type socialNetType, String consumerKey,
-            String consumerSecret) {
-        setSocialNetType(socialNetType, consumerKey, consumerSecret);
+            String consumerSecret, String currentAccountKey) {
+        setSocialNetType(socialNetType, consumerKey, consumerSecret, currentAccountKey);
     }
 
     public SocialNetConstant.Type getSocialNetType() {
@@ -77,17 +77,19 @@ public class TwitterManager {
     }
 
     public void setSocialNetType(SocialNetConstant.Type socialNetType,
-            String consumerKey, String consumerSecret) {
+            String consumerKey, String consumerSecret, String currentAccountKey) {
         switch (socialNetType) {
         case Appdotnet:
-            mApi = new AppdotnetApi(socialNetType, consumerKey, consumerSecret);
+            mApi = new AppdotnetApi(socialNetType, consumerKey, consumerSecret, currentAccountKey);
             break;
 
         default:
-            mApi = new TwitterApi(socialNetType, consumerKey, consumerSecret);
+            mApi = new TwitterApi(socialNetType, consumerKey, consumerSecret, currentAccountKey);
             break;
         }
     }
+
+
 
     /*
 	 *
@@ -117,10 +119,10 @@ public class TwitterManager {
 	 */
     public TwitterContentHandle getContentHandle(
             TwitterContentHandleBase contentHandleBase, String screenName,
-            String identifier) {
+            String identifier, String currentAccountKey) {
 
         TwitterContentHandle handle = new TwitterContentHandle(
-                contentHandleBase, screenName, identifier);
+                contentHandleBase, screenName, identifier, currentAccountKey);
 
         return handle;
     }

@@ -71,12 +71,12 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
     public static TweetFeedFragment newInstance(int laneIndex,
             final TwitterContentHandleBase handleBase, final String screenName,
-            final String laneIdentifier) {
+            final String laneIdentifier, final String currentAccountKey) {
 
         TweetFeedFragment fragment = new TweetFeedFragment();
 
         fragment.mContentHandle = TwitterManager.get().getContentHandle(
-                handleBase, screenName, laneIdentifier);
+                handleBase, screenName, laneIdentifier, currentAccountKey);
 
         fragment.configureBaseLaneFragment(laneIndex,
                 fragment.mContentHandle.getTypeAsString(),
@@ -136,7 +136,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         mPreviewImageLoader = getApp().getPreviewImageLoader();
 
         mContentHandle = TwitterManager.get().getContentHandle(
-                getContentHandleBase(), getScreenName(), getLaneIdentifier());
+                getContentHandleBase(), getScreenName(), getLaneIdentifier(), getApp().getCurrentAccountKey());
 
         View resultView = inflater.inflate(R.layout.lane, null);
         configureLaneWidth(resultView);
@@ -236,8 +236,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                 @Override
                 public void finished(TwitterFetchResult fetchResult, TwitterStatuses feed,
                         TwitterContentHandle contentHandle) {
-                    if (!String.valueOf(getApp().getCurrentAccount().getId()).equals(contentHandle.getIdentifier())
-                            || !getApp().getCurrentAccount().getScreenName().equals(contentHandle.getScreenName())) {
+                    if (!contentHandle.getCurrentAccountKey().equals(getApp().getCurrentAccountKey())) {
                         Log.e("Statuses", "account changed, don't display statuses");
                         return;
                     }
@@ -420,8 +419,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             @Override
             public void finished(TwitterFetchResult fetchResult,
                     TwitterStatuses feed, TwitterContentHandle handle) {
-                if (!String.valueOf(getApp().getCurrentAccount().getId()).equals(handle.getIdentifier())
-                        || !getApp().getCurrentAccount().getScreenName().equals(handle.getScreenName())) {
+                if (!handle.getCurrentAccountKey().equals(getApp().getCurrentAccountKey())) {
                     Log.e("Statuses", "account changed, don't display statuses");
                     return;
                 }
@@ -604,9 +602,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                             @Override
                             public void finished(TwitterFetchResult result,
                                     TwitterStatuses feed, TwitterContentHandle handle) {
-                                if (!String.valueOf(getApp().getCurrentAccount().getId()).equals(handle.getIdentifier
-                                        ()) || !getApp().getCurrentAccount().getScreenName().equals(handle
-                                        .getScreenName())) {
+                                if (!handle.getCurrentAccountKey().equals(getApp().getCurrentAccountKey())) {
                                     Log.e("Statuses", "account changed, don't display statuses");
                                     return;
                                 }
@@ -1544,7 +1540,8 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             boolean showRetweetCount = mContentHandle.getStatusesType() == TwitterConstant.StatusesType.RETWEETS_OF_ME;
 
             tweetFeedItemView.configure(item, position + 1, callbacks, true,
-                    showRetweetCount, showConversationView(item), false, true, getApp().getCurrentAccount().getSocialNetType());
+                    showRetweetCount, showConversationView(item), false, true,
+                    getApp().getCurrentAccount().getSocialNetType(), getApp().getCurrentAccountKey());
             return tweetFeedItemView;
         }
 

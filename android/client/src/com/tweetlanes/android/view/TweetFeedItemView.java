@@ -120,7 +120,7 @@ public class TweetFeedItemView extends LinearLayout {
 	 */
     public void configure(TwitterStatus twitterStatus, int position, Callbacks callbacks, boolean loadsTweetSpotlight,
             boolean showRetweetCount, boolean showConversationView, boolean isConversationItem, boolean resize,
-            final SocialNetConstant.Type socialNetType) {
+            final SocialNetConstant.Type socialNetType, final String currentAccountKey) {
 
         StatusSize statusSize = AppSettings.get().getCurrentStatusSize();
 
@@ -140,7 +140,7 @@ public class TweetFeedItemView extends LinearLayout {
                 if (statusSize == StatusSize.Small) {
                     textSize = 14;
                 }
-                
+
                 if (textSize != null) {
                     mAuthorScreenNameTextView.setTextSize(
                             TypedValue.COMPLEX_UNIT_SP, textSize);
@@ -151,17 +151,6 @@ public class TweetFeedItemView extends LinearLayout {
         if (mAuthorNameTextView != null) {
             mAuthorNameTextView.setText(twitterStatus.getAuthorName());
         }
-        // mRetweetCountTextView =
-        // (TextView)findViewById(R.id.retweetCountLabel);
-        // if (mRetweetCountTextView != null) {
-        // mRetweetCountTextView.setText("" + twitterStatus.mRetweetCount);
-        // }
-        /*
-         * mFavoriteCountTextView =
-         * (TextView)findViewById(R.id.favoriteCountLabel); if
-         * (mFavoriteCountTextView != null) { mFavoriteCountTextView.setText(""
-         * + twitterStatus.getFavoriteCount()); }
-         */
 
         mTweetDetailsView = (TextView) findViewById(R.id.tweet_details);
         if (mTweetDetailsView != null) {
@@ -198,14 +187,14 @@ public class TweetFeedItemView extends LinearLayout {
                     @Override
                     public void onClick(View v) {
                         mConversationExpanded = !mConversationExpanded;
-                        configureConversationView(socialNetType);
+                        configureConversationView(socialNetType, currentAccountKey);
                     }
                 });
 
                 if (showConversationView) {
                     insertConversationView();
                     mConversationView.setVisibility(GONE);
-                    configureConversationView(socialNetType);
+                    configureConversationView(socialNetType, currentAccountKey);
                 }
             } else {
                 mConversationToggle.setVisibility(GONE);
@@ -584,7 +573,7 @@ public class TweetFeedItemView extends LinearLayout {
     /*
 	 *
 	 */
-    public void configureConversationView(SocialNetConstant.Type socialNetType) {
+    public void configureConversationView(SocialNetConstant.Type socialNetType, String currentAccountKey) {
 
         insertConversationView();
 
@@ -612,7 +601,7 @@ public class TweetFeedItemView extends LinearLayout {
                         public LazyImageLoader getPreviewImageLoader() {
                             return mCallbacks.getPreviewImageLoader();
                         }
-                    }, socialNetType);
+                    }, socialNetType, currentAccountKey);
         } else {
             mConversationView.setVisibility(GONE);
             int drawable = AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Dark ? R.drawable.ic_action_expand_dark

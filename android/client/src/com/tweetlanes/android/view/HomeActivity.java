@@ -760,7 +760,8 @@ public class HomeActivity extends BaseLaneActivity {
                 case RETWEETS_OF_ME:
                     result = TweetFeedFragment.newInstance(position,
                             laneDescriptor.getContentHandleBase(), screenName,
-                            Long.toString(account.getId()));
+                            Long.toString(account.getId()),
+                            getApp().getCurrentAccountKey());
                     break;
 
                 case USER_PROFILE:
@@ -771,20 +772,21 @@ public class HomeActivity extends BaseLaneActivity {
                 case USER_LIST_TIMELINE:
                     result = TweetFeedFragment.newInstance(position,
                             laneDescriptor.getContentHandleBase(), screenName,
-                            laneDescriptor.getIdentifier());
+                            laneDescriptor.getIdentifier(),
+                            getApp().getCurrentAccountKey());
                     break;
 
                 case FRIENDS:
                 case FOLLOWERS:
                     result = UserFeedFragment.newInstance(position,
                             laneDescriptor.getContentHandleBase(), screenName,
-                            null);
+                            null, getApp().getCurrentAccountKey());
                     break;
 
                 case DIRECT_MESSAGES:
                     result = DirectMessageFeedFragment.newInstance(position,
                             laneDescriptor.getContentHandleBase(), screenName,
-                            Long.toString(account.getId()), null);
+                            Long.toString(account.getId()), null, getApp().getCurrentAccountKey());
                     break;
 
                 default:

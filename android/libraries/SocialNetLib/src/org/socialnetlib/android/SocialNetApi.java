@@ -67,6 +67,7 @@ public abstract class SocialNetApi {
     String mCurrentOAuthSecret;
     String mAppConsumerKey;
     String mAppConsumerSecret;
+    String mCurrentAccountKey;
 
     private TwitterFetchBooleans mFetchBooleans;
     private TwitterFetchDirectMessages mFetchDirectMessages;
@@ -80,11 +81,12 @@ public abstract class SocialNetApi {
     private ConnectionStatus mConnectionStatus;
 
     SocialNetApi(SocialNetConstant.Type type, String consumerKey,
-            String consumerSecret) {
+            String consumerSecret, String currentAccountKey) {
 
         mType = type;
         mAppConsumerKey = consumerKey;
         mAppConsumerSecret = consumerSecret;
+        mCurrentAccountKey = currentAccountKey;
 
         init();
 
@@ -283,6 +285,11 @@ public abstract class SocialNetApi {
             @Override
             public AppdotnetApi getAppdotnetInstance() {
                 return SocialNetApi.this.getAppdotnetApi();
+            }
+
+            @Override
+            public String getCurrentAccountKey() {
+                return mCurrentAccountKey;
             }
 
             @Override

@@ -47,7 +47,7 @@ public class ProfileActivity extends BaseLaneActivity {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * com.tweetlanes.android.view.BaseLaneActivity#onCreate(android.os.Bundle)
      */
@@ -109,7 +109,7 @@ public class ProfileActivity extends BaseLaneActivity {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.tweetlanes.android.view.BaseLaneActivity#onDestroy()
      */
     @Override
@@ -124,7 +124,7 @@ public class ProfileActivity extends BaseLaneActivity {
     }
 
     /*
-	 * 
+	 *
 	 */
     @Override
     protected ComposeTweetDefault getComposeTweetDefault() {
@@ -134,7 +134,7 @@ public class ProfileActivity extends BaseLaneActivity {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * com.tweetlanes.android.view.BaseLaneActivity#getAdapterForViewPager()
      */
@@ -148,7 +148,7 @@ public class ProfileActivity extends BaseLaneActivity {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * com.tweetlanes.android.view.BaseLaneActivity#getFragmentStatePagerAdapter
      * ()
@@ -159,7 +159,7 @@ public class ProfileActivity extends BaseLaneActivity {
     }
 
     /*
-	 * 
+	 *
 	 */
     private void updateViewVisibility() {
 
@@ -180,7 +180,7 @@ public class ProfileActivity extends BaseLaneActivity {
     }
 
     /*
-	 * 
+	 *
 	 */
     @Override
     public boolean configureOptionsMenu(Menu menu) {
@@ -190,7 +190,7 @@ public class ProfileActivity extends BaseLaneActivity {
     }
 
     /*
-	 * 
+	 *
 	 */
     boolean configureActionBarView() {
 
@@ -239,7 +239,7 @@ public class ProfileActivity extends BaseLaneActivity {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * com.tweetlanes.android.view.BaseLaneActivity#onOptionsItemSelected(android
      * .view.MenuItem)
@@ -264,7 +264,7 @@ public class ProfileActivity extends BaseLaneActivity {
     }
 
     /*
-	 * 
+	 *
 	 */
     class ProfileAdapter extends FragmentStatePagerAdapter implements
             TitleProvider {
@@ -294,7 +294,8 @@ public class ProfileActivity extends BaseLaneActivity {
                             .newInstance(position,
                                     laneDescriptor.getContentHandleBase(),
                                     mUser.getScreenName(),
-                                    Long.toString(mUser.getId()));
+                                    Long.toString(mUser.getId()),
+                                    getApp().getCurrentAccountKey());
                     break;
 
                 default:

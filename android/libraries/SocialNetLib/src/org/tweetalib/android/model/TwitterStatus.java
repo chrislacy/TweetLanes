@@ -556,30 +556,6 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
     }
 
     /*
-     * void setStatusMarkup(Status status) { mStatusSlimMarkup =
-     * TwitterUtil.getStatusMarkup(status, mMediaEntity); mStatusSlimSpanned =
-     * URLSpanNoUnderline.stripUnderlines(Html.fromHtml(mStatusSlimMarkup +
-     * " ")); if (mMediaEntity != null) { mStatusFullMarkup =
-     * TwitterUtil.getStatusMarkup(status, null); mStatusFullSpanned =
-     * URLSpanNoUnderline.stripUnderlines(Html.fromHtml(mStatusFullMarkup +
-     * " ")); } } void setStatusMarkup(Tweet tweet) { mStatusSlimMarkup =
-     * TwitterUtil.getStatusMarkup(tweet); mStatusSlimSpanned =
-     * URLSpanNoUnderline.stripUnderlines(Html.fromHtml(mStatusSlimMarkup +
-     * " ")); } void setStatusMarkup(String slim, String full) {
-     * mStatusSlimMarkup = slim; mStatusSlimSpanned =
-     * URLSpanNoUnderline.stripUnderlines(Html.fromHtml(mStatusSlimMarkup +
-     * " ")); if (full != null) { mStatusFullMarkup = full; mStatusFullSpanned =
-     * URLSpanNoUnderline.stripUnderlines(Html.fromHtml(mStatusFullMarkup +
-     * " ")); } } void setStatusMarkup(AdnPost post) { mStatusSlimMarkup =
-     * TwitterUtil.getStatusMarkup(post, mMediaEntity); mStatusSlimSpanned =
-     * URLSpanNoUnderline.stripUnderlines(Html.fromHtml(mStatusSlimMarkup +
-     * " ")); if (mMediaEntity != null) { mStatusFullMarkup =
-     * TwitterUtil.getStatusMarkup(post, null); mStatusFullSpanned =
-     * URLSpanNoUnderline.stripUnderlines(Html.fromHtml(mStatusFullMarkup +
-     * " ")); } }
-     */
-
-    /*
      * HACKALERT: This exists only so that we can accurately reflect the
      * mIsFavorited value immediately after we set the value. For reasoning, see
      * here:

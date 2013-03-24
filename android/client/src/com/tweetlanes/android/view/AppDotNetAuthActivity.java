@@ -77,13 +77,16 @@ public class AppDotNetAuthActivity extends Activity {
                             "tweetlanes-auth-callback:///#access_token=", "");
 
                     setContentView(R.layout.loading);
-                    TwitterManager.get().setSocialNetType(
-                            SocialNetConstant.Type.Appdotnet,
-                            Constant.APPDOTNET_CONSUMER_KEY,
-                            Constant.APPDOTNET_CONSUMER_SECRET);
                     try {
                         TwitterUser user = new VerifyCredentialsTask().execute(
                                 accessToken).get();
+
+                        TwitterManager.get().setSocialNetType(
+                                SocialNetConstant.Type.Appdotnet,
+                                Constant.APPDOTNET_CONSUMER_KEY,
+                                Constant.APPDOTNET_CONSUMER_SECRET,
+                                user.getScreenName().toLowerCase() + "_appdotnet");
+
                         onSuccessfulLogin(user, accessToken);
                     } catch (Exception e) {
                         return false;
@@ -116,7 +119,8 @@ public class AppDotNetAuthActivity extends Activity {
             }
             return new AppdotnetApi(SocialNetConstant.Type.Appdotnet,
                     Constant.APPDOTNET_CONSUMER_KEY,
-                    Constant.APPDOTNET_CONSUMER_SECRET).verifyCredentialsSync(
+                    Constant.APPDOTNET_CONSUMER_SECRET,
+                    null).verifyCredentialsSync(
                     accessTokens[0], null);
         }
     }

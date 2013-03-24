@@ -56,6 +56,8 @@ public class TwitterFetchUsers {
 
         public AppdotnetApi getAppdotnetInstance();
 
+        public String getCurrentAccountKey();
+
         public void addUser(User user);
 
         public void addUser(AdnUser user);
@@ -292,7 +294,7 @@ public class TwitterFetchUsers {
         TwitterContentHandle contentHandle = new TwitterContentHandle(
                 new TwitterContentHandleBase(TwitterConstant.ContentType.USERS,
                         TwitterConstant.UsersType.UPDATE_FRIENDSHIP),
-                currentUserScreenName, Integer.toString(_mFriendshipCounter));
+                currentUserScreenName, Integer.toString(_mFriendshipCounter), mWorkerCallbacks.getCurrentAccountKey());
 
         mFinishedCallbackMap.put(mFetchUsersCallbackHandle, callback);
         new FetchUsersTask().execute(AsyncTaskEx.PRIORITY_MEDIUM,
@@ -330,7 +332,7 @@ public class TwitterFetchUsers {
                 new TwitterContentHandleBase(TwitterConstant.ContentType.USERS,
                         TwitterConstant.UsersType.UPDATE_FRIENDSHIP),
                 Long.toString(currentUserId),
-                Integer.toString(_mFriendshipCounter));
+                Integer.toString(_mFriendshipCounter), mWorkerCallbacks.getCurrentAccountKey());
 
         mFinishedCallbackMap.put(mFetchUsersCallbackHandle, callback);
         new FetchUsersTask().execute(AsyncTaskEx.PRIORITY_MEDIUM,
@@ -366,7 +368,7 @@ public class TwitterFetchUsers {
         TwitterContentHandle contentHandle = new TwitterContentHandle(
                 new TwitterContentHandleBase(TwitterConstant.ContentType.USERS,
                         usersType), Long.toString(currentUserId),
-                Integer.toString(_mFriendshipCounter));
+                Integer.toString(_mFriendshipCounter), mWorkerCallbacks.getCurrentAccountKey());
 
         mFinishedCallbackMap.put(mFetchUsersCallbackHandle, callback);
         new FetchUsersTask().execute(AsyncTaskEx.PRIORITY_MEDIUM,

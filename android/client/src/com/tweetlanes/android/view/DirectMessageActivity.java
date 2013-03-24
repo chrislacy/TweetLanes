@@ -38,7 +38,7 @@ public class DirectMessageActivity extends BaseLaneActivity {
     static final String KEY_OTHER_USER_SCREEN_NAME = "otherUserScreenName";
 
     /*
-	 * 
+	 *
 	 */
     public static void createAndStartActivity(Activity currentActivity,
             TwitterContentHandle contentHandle, long otherUserId,
@@ -54,7 +54,7 @@ public class DirectMessageActivity extends BaseLaneActivity {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see android.support.v4.app.FragmentActivity#onCreate(android.os.Bundle)
      */
     @Override
@@ -72,7 +72,7 @@ public class DirectMessageActivity extends BaseLaneActivity {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
      */
     @Override
@@ -93,7 +93,7 @@ public class DirectMessageActivity extends BaseLaneActivity {
     }
 
     /*
-	 * 
+	 *
 	 */
     @Override
     public boolean configureOptionsMenu(Menu menu) {
@@ -103,7 +103,7 @@ public class DirectMessageActivity extends BaseLaneActivity {
     }
 
     /*
-	 * 
+	 *
 	 */
     boolean configureActionBarView() {
 
@@ -117,7 +117,7 @@ public class DirectMessageActivity extends BaseLaneActivity {
     }
 
     /*
-	 * 
+	 *
 	 */
     TwitterContentHandle getContentHandle() {
         return (TwitterContentHandle) getIntent().getSerializableExtra(
@@ -134,7 +134,7 @@ public class DirectMessageActivity extends BaseLaneActivity {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.tweetlanes.android.view.BaseLaneActivity#getDefaultOptionsMenu()
      */
     @Override
@@ -144,7 +144,7 @@ public class DirectMessageActivity extends BaseLaneActivity {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * com.tweetlanes.android.view.BaseLaneActivity#getAdapterForViewPager()
      */
@@ -159,7 +159,7 @@ public class DirectMessageActivity extends BaseLaneActivity {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * com.tweetlanes.android.view.BaseLaneActivity#getFragmentStatePagerAdapter
      * ()
@@ -170,7 +170,7 @@ public class DirectMessageActivity extends BaseLaneActivity {
     }
 
     /*
-	 * 
+	 *
 	 */
     class DirectMessageLaneAdapter extends FragmentStatePagerAdapter implements
             TitleProvider {
@@ -184,7 +184,7 @@ public class DirectMessageActivity extends BaseLaneActivity {
             TwitterContentHandle contentHandle = getContentHandle();
             return DirectMessageFeedFragment.newInstance(position,
                     contentHandle, contentHandle.getScreenName(),
-                    contentHandle.getIdentifier(), getOtherUserId());
+                    contentHandle.getIdentifier(), getOtherUserId(), getApp().getCurrentAccountKey());
         }
 
         @Override

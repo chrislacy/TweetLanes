@@ -367,6 +367,11 @@ public class AccountDescriptor {
         return mOAuthSecret;
     }
 
+    public String getAccountKey() {
+        return mScreenName.toLowerCase() + "_" + (getSocialNetType() == SocialNetConstant.Type.Twitter ? "twitter" :
+                "appdotet");
+    }
+
     public Bitmap getProfileImage() {
         return Constant.ENABLE_PROFILE_IMAGES ? mProfileImage : null;
     }

@@ -280,7 +280,7 @@ public final class TweetSpotlightFragment extends BaseLaneFragment {
             };
 
             tweetFeedItemView.configure(item, position + 1, callbacks, false,
-                    true, false, false, false, getApp().getCurrentAccount().getSocialNetType());
+                    true, false, false, false, getApp().getCurrentAccount().getSocialNetType(), getApp().getCurrentAccountKey());
             return tweetFeedItemView;
         }
 

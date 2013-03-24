@@ -51,16 +51,16 @@ import com.tweetlanes.android.widget.pulltorefresh.PullToRefreshListView;
 public class DirectMessageFeedFragment extends BaseLaneFragment {
 
     /*
-	 * 
+	 *
 	 */
     public static DirectMessageFeedFragment newInstance(int laneIndex,
             final TwitterContentHandleBase handleBase, final String screenName,
-            final String laneIdentifier, final Long otherUserId) {
+            final String laneIdentifier, final Long otherUserId, final String currentAccountKey) {
 
         DirectMessageFeedFragment fragment = new DirectMessageFeedFragment();
 
         fragment.mContentHandle = TwitterManager.get().getContentHandle(
-                handleBase, screenName, laneIdentifier);
+                handleBase, screenName, laneIdentifier, currentAccountKey);
 
         fragment.configureBaseLaneFragment(laneIndex,
                 fragment.mContentHandle.getTypeAsString(),
@@ -97,7 +97,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
     private boolean mMoreDirectMessagesAvailable = true;
 
     /*
-	 * 
+	 *
 	 */
     public App getApp() {
         return (App) getActivity().getApplication();
@@ -105,7 +105,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater,
      * android.view.ViewGroup, android.os.Bundle)
@@ -117,7 +117,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
         super.onCreateView(inflater, container, savedInstanceState);
 
         mContentHandle = TwitterManager.get().getContentHandle(
-                getContentHandleBase(), getScreenName(), getLaneIdentifier());
+                getContentHandleBase(), getScreenName(), getLaneIdentifier(), getApp().getCurrentAccountKey());
         mDirectMessagesHandle = new TwitterDirectMessagesHandle(
                 getBaseLaneActivity().getApp().getCurrentAccount().getId(),
                 getOtherUserId());
@@ -187,7 +187,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * android.support.v4.app.Fragment#onSaveInstanceState(android.os.Bundle)
      */
@@ -198,7 +198,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see android.support.v4.app.Fragment#onDestroy()
      */
     @Override
@@ -225,7 +225,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     private void setDirectMessages(TwitterDirectMessages directMessages) {
 
@@ -256,14 +256,14 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     // private TwitterDirectMessages getDirectMessages() {
     // return _mDirectMessages;
     // }
 
     /*
-	 * 
+	 *
 	 */
     private void onRefreshComplete(TwitterDirectMessages feed) {
 
@@ -275,7 +275,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     private void updateViewVisibility(boolean loadHasFinished) {
 
@@ -293,7 +293,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.tweetlanes.android.view.BaseLaneFragment#onJumpToTop()
      */
     @Override
@@ -309,7 +309,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.tweetlanes.android.view.BaseLaneFragment#clearLocalCache()
      */
     @Override
@@ -319,7 +319,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.tweetlanes.android.view.BaseLaneFragment#getContentToCache()
      */
     @Override
@@ -328,7 +328,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     private OnScrollListener mOnScrollListener = new OnScrollListener() {
 
@@ -354,7 +354,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
     };
 
     /*
-	 * 
+	 *
 	 */
     private OnLastItemVisibleListener mOnLastItemVisibleListener = new OnLastItemVisibleListener() {
 
@@ -398,7 +398,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
     };
 
     /*
-	 * 
+	 *
 	 */
     private OnRefreshListener mOnRefreshListener = new OnRefreshListener() {
 
@@ -440,7 +440,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
     };
 
     /*
-	 * 
+	 *
 	 */
     private final OnItemClickListener mTweetFeedOnItemClickListener = new OnItemClickListener() {
 
@@ -451,7 +451,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
     };
 
     /*
-	 * 
+	 *
 	 */
     private void onDirectMessageItemViewClick(View view, int position) {
 
@@ -488,7 +488,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
     }
 
     /*
-     * 
+     *
      */
     public interface DirectMessageViewCallbacks {
 
@@ -498,7 +498,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
     }
 
     /*
-     * 
+     *
      */
     private class DirectMessageConversationListAdapter extends BaseAdapter {
 
@@ -509,7 +509,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
         /**
          * The number of items in the list is determined by the number of
          * speeches in our array.
-         * 
+         *
          * @see android.widget.ListAdapter#getCount()
          */
         public int getCount() {
@@ -535,7 +535,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
          * sufficent to get at the data. If we were using a more complex data
          * structure, we would return whatever object represents one row in the
          * list.
-         * 
+         *
          * @see android.widget.ListAdapter#getItem(int)
          */
         public Object getItem(int position) {
@@ -544,7 +544,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
 
         /**
          * Use the array index as a unique id.
-         * 
+         *
          * @see android.widget.ListAdapter#getItemId(int)
          */
         public long getItemId(int position) {
@@ -552,7 +552,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
         }
 
         /**
-         * 
+         *
          */
         public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -572,7 +572,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
         }
 
         /*
-         * 
+         *
          */
         View getDirectMessageFeedItemView(int position, View convertView) {
 
@@ -621,7 +621,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
         }
 
         /*
-         * 
+         *
          */
         View getLoadMoreView(View convertView) {
 
@@ -651,7 +651,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * com.tweetlanes.android.view.BaseLaneFragment#triggerInitialDownload()
      */
