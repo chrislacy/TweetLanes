@@ -1,12 +1,12 @@
 /*
  * Copyright (C) 2013 Chris Lacy
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -39,7 +39,7 @@ public class TwitterSignIn {
     private HashMap<Integer, GetOAuthAccessTokenCallback> mGetOAuthAccessTokenCallbackMap;
 
     /*
-	 * 
+	 *
 	 */
     public void clearCallbacks() {
         mGetAuthUrlCallbackMap.clear();
@@ -47,7 +47,7 @@ public class TwitterSignIn {
     }
 
     /*
-	 * 
+	 *
 	 */
     public interface SignInWorkerCallbacks {
 
@@ -62,7 +62,7 @@ public class TwitterSignIn {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void setWorkerCallbacks(SignInWorkerCallbacks callbacks) {
 
@@ -70,7 +70,7 @@ public class TwitterSignIn {
     }
 
     /*
-	 * 
+	 *
 	 */
     public interface GetAuthUrlCallbackInterface {
 
@@ -80,7 +80,7 @@ public class TwitterSignIn {
     }
 
     /*
-	 * 
+	 *
 	 */
     public abstract class GetAuthUrlCallback implements
             GetAuthUrlCallbackInterface {
@@ -99,7 +99,7 @@ public class TwitterSignIn {
     }
 
     /*
-	 * 
+	 *
 	 */
     public interface GetOAuthAccessTokenCallbackInterface {
 
@@ -109,7 +109,7 @@ public class TwitterSignIn {
     }
 
     /*
-	 * 
+	 *
 	 */
     public abstract class GetOAuthAccessTokenCallback implements
             GetOAuthAccessTokenCallbackInterface {
@@ -128,7 +128,7 @@ public class TwitterSignIn {
     }
 
     /*
-	 * 
+	 *
 	 */
     public TwitterSignIn() {
         mGetAuthUrlCallbackMap = new HashMap<Integer, GetAuthUrlCallback>();
@@ -139,7 +139,7 @@ public class TwitterSignIn {
     }
 
     /*
-	 * 
+	 *
 	 */
     GetAuthUrlCallback getAuthUrlCallback(Integer callbackHandle) {
         GetAuthUrlCallback callback = mGetAuthUrlCallbackMap
@@ -148,7 +148,7 @@ public class TwitterSignIn {
     }
 
     /*
-	 * 
+	 *
 	 */
     void removeAuthUrlCallback(GetAuthUrlCallback callback) {
         if (mGetAuthUrlCallbackMap.containsValue(callback)) {
@@ -157,7 +157,7 @@ public class TwitterSignIn {
     }
 
     /*
-	 * 
+	 *
 	 */
     GetOAuthAccessTokenCallback getOAuthAccessTokenCallback(
             Integer callbackHandle) {
@@ -167,7 +167,7 @@ public class TwitterSignIn {
     }
 
     /*
-	 * 
+	 *
 	 */
     void removeGetOAuthAccessTokenCallback(GetOAuthAccessTokenCallback callback) {
         if (mGetOAuthAccessTokenCallbackMap.containsValue(callback)) {
@@ -176,7 +176,7 @@ public class TwitterSignIn {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void getAuthUrl(GetAuthUrlCallback callback) {
 
@@ -191,7 +191,7 @@ public class TwitterSignIn {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void getOAuthAccessToken(RequestToken requestToken,
             String oauthVerifier, GetOAuthAccessTokenCallback callback) {
@@ -209,7 +209,7 @@ public class TwitterSignIn {
     }
 
     /*
-	 * 
+	 *
 	 */
     class FetchAuthUrlTaskInput {
 
@@ -221,7 +221,7 @@ public class TwitterSignIn {
     }
 
     /*
-	 * 
+	 *
 	 */
     class FetchAuthUrlTaskOutput {
 
@@ -238,7 +238,7 @@ public class TwitterSignIn {
     }
 
     /*
-	 * 
+	 *
 	 */
     class FetchAuthUrlTask extends
             AsyncTaskEx<FetchAuthUrlTaskInput, Void, FetchAuthUrlTaskOutput> {
@@ -282,7 +282,7 @@ public class TwitterSignIn {
     }
 
     /*
-	 * 
+	 *
 	 */
     class FetchOAuthAccessTokenTaskInput {
 
@@ -300,7 +300,7 @@ public class TwitterSignIn {
     }
 
     /*
-	 * 
+	 *
 	 */
     class FetchOAuthAccessTokenTaskOutput {
 
@@ -320,7 +320,7 @@ public class TwitterSignIn {
     }
 
     /*
-	 * 
+	 *
 	 */
     class FetchOAuthAccessTokenTask
             extends
@@ -339,8 +339,6 @@ public class TwitterSignIn {
                 switch (mCallbacks.getType()) {
                 case Twitter:
                     Twitter twitter = new TwitterFactory().getInstance();
-                    // twitter.setOAuthConsumer( OAUTH_CONSUMER_KEY,
-                    // OAUTH_CONSUMER_SECRET );
                     twitter.setOAuthConsumer(mCallbacks.getConsumerKey(),
                             mCallbacks.getConsumerSecret());
                     AccessToken at = twitter.getOAuthAccessToken(

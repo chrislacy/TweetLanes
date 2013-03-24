@@ -98,7 +98,10 @@ public abstract class SocialNetApi {
         initFetchUsers();
         initFetchLists();
         initModifyStatuses();
-        mSignIn = new TwitterSignIn();
+        if (mSignIn == null) {
+            mSignIn = new TwitterSignIn();
+            initSignIn(consumerKey, consumerSecret, type);
+        }
     }
 
     /*

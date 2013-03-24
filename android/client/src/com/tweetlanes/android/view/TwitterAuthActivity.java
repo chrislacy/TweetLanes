@@ -131,10 +131,11 @@ public class TwitterAuthActivity extends Activity {
                 if (url.contains(path)) {
                     Uri uri = Uri.parse(url);
                     String oauthVerifier = uri.getQueryParameter("oauth_verifier");
-                    onOAuthVerifier(oauthVerifier);
 
                     TwitterManager.get().setSocialNetType(SocialNetConstant.Type.Twitter, Constant.TWITTER_CONSUMER_KEY,
                             Constant.TWITTER_CONSUMER_SECRET, null);
+
+                    onOAuthVerifier(oauthVerifier);
 
                     return true;
                 }
