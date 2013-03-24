@@ -2,7 +2,16 @@
 
 Note: To report bugs or make feature requests, either contact the official Twitter @TweetLanes or click the "Send Feedback" button in the app.
 
-Version 1.0.0, March 17, 2013
+Version 1.0.1, March 25, 2013 (Bob Rocks edition)
+=================================
+- Bug and stability fixes, including:
+  * Feeds and statuses not loading  (thanks @RawkBob for the assist)
+  * Changed the API level back to 14 (Android 4.0)
+  * Better support for Instagram URLs (thanks @RawkBob for the code)
+  * Saving images created two copies (thanks @RawkBob code the code)
+  * Large font sizes clipping user names
+
+Version 1.0.0, March 17, 2013 (More than Twitter edition)
 =================================
 - App.net support
 - Bug fixes, including 4 by users like you! Fixes include:
@@ -12,7 +21,7 @@ Version 1.0.0, March 17, 2013
   * Updated open source libraries used
   * And more... see https://github.com/chrislacy/TweetLanes/issues?milestone=2&page=1&state=closed
 
-Version 0.72.1, February 22, 2013
+Version 0.72.1, February 22, 2013 ("Now Open" edition)
 =================================
 - Updated source code to be follow the new project coding standards
 - Upgraded to latest twitter4j which fixes:
