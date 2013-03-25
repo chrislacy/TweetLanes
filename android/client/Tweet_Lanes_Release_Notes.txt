@@ -8,7 +8,7 @@ Version 1.0.1, March 25, 2013 (Bob Rocks edition)
   * Feeds and statuses not loading  (thanks @RawkBob for the assist)
   * Changed the API level back to 14 (Android 4.0)
   * Better support for Instagram URLs (thanks @RawkBob for the code)
-  * Saving images created two copies (thanks @RawkBob code the code)
+  * Saving images created two copies (thanks @RawkBob for the code)
   * Large font sizes clipping user names
 
 Version 1.0.0, March 17, 2013 (More than Twitter edition)
