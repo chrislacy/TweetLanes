@@ -1087,6 +1087,8 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                                         }
                                     }
 
+                                    showToast(getString(value == 1 ? R.string.favorited_successfully : R.string
+                                            .unfavorited_successfully));
                                 }
                             }
 

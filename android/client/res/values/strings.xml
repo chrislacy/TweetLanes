@@ -165,6 +165,8 @@
 
     <string name="functionality_not_implemented">Sorry, but this feature isn\'t ready just yet. It\'s coming very soon though, I promise!</string>
     <string name="deleted_successfully">Status deleted successfully</string>
+    <string name="favorited_successfully">Favorited successfully</string>
+    <string name="unfavorited_successfully">Unfavorited successfully</string>
 
     <string name="retweet">Retweet</string>
     <string name="quote">Quote</string>

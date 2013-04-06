@@ -153,6 +153,8 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
         mUserId = post.mUser.mId;
         mUserName = post.mUser.mName;
         mUserScreenName = post.mUser.mUserName;
+        mIsFavorited = post.mIsFavorited;
+        mIsRetweetedByMe = post.mIsRetweetedByMe;
 
         if (post.mIsRetweet) {
             mAuthorId = post.mOriginalAuthor.mId;

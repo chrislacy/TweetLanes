@@ -17,7 +17,9 @@
 package org.tweetalib.android;
 
 import android.util.Log;
+import org.appdotnet4j.model.AdnPost;
 import org.asynctasktex.AsyncTaskEx;
+import org.socialnetlib.android.AppdotnetApi;
 import org.tweetalib.android.TwitterConstant.StatusesType;
 import org.tweetalib.android.model.TwitterStatus;
 import org.tweetalib.android.model.TwitterStatuses;
@@ -47,6 +49,7 @@ public class TwitterModifyStatuses {
     public interface ModifyStatusesWorkerCallbacks {
 
         public Twitter getTwitterInstance();
+        public AppdotnetApi getAppdotnetApi();
     }
 
     /*
@@ -155,6 +158,10 @@ public class TwitterModifyStatuses {
         mModifyStatusesCallbackHandle += 1;
     }
 
+    AppdotnetApi getAppdotnetApi() {
+        return mCallbacks.getAppdotnetApi();
+    }
+
     /*
 	 *
 	 */
@@ -206,7 +213,43 @@ public class TwitterModifyStatuses {
             Twitter twitter = getTwitterInstance();
             String errorDescription = null;
 
-            if (twitter != null) {
+            AppdotnetApi appdotnetApi = getAppdotnetApi();
+            if (appdotnetApi != null) {
+                switch (input.mStatusesType) {
+                case DELETE: {
+                    if (input.mStatuses != null) {
+                        for (int i = 0; i < input.mStatuses.getStatusCount(); i++) {
+                            TwitterStatus twitterStatus = input.mStatuses.getStatus(i);
+                            AdnPost post = appdotnetApi.deleteTweet(twitterStatus.mId);
+                            if (post == null) {
+                                errorDescription = "Unable to delete status";
+                            }
+                        }
+                    }
+                    break;
+                }
+
+                case SET_FAVORITE: {
+                    boolean favorite = input.mValue == 1 ? true : false;
+
+                    if (input.mStatuses != null) {
+                        for (int i = 0; i < input.mStatuses.getStatusCount(); i++) {
+                            TwitterStatus twitterStatus = input.mStatuses.getStatus(i);
+                            if (twitterStatus.mIsFavorited != favorite) {
+                                AdnPost post = appdotnetApi.setAdnFavorite(twitterStatus.mId, favorite);
+
+                                twitterStatus = new TwitterStatus(post);
+                                twitterStatus.setFavorite(favorite);
+
+                                contentFeed.add(twitterStatus);
+                            }
+                        }
+                    }
+                    break;
+                }
+                }
+            }
+            else if (twitter != null) {
 
                 try {
                     switch (input.mStatusesType) {

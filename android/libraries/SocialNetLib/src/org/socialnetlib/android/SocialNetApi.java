@@ -345,6 +345,11 @@ public abstract class SocialNetApi {
                 return SocialNetApi.this.getAndConfigureApiInstance();
             }
 
+            @Override
+            public AppdotnetApi getAppdotnetApi() {
+                return SocialNetApi.this.getAppdotnetApi();
+            }
+
         };
 
         mModifyStatuses.setWorkerCallbacks(callbacks);
