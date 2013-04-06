@@ -1,12 +1,12 @@
 /*
  * Copyright (C) 2013 Chris Lacy
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -40,7 +40,8 @@ public class TwitterConstant {
     }
 
     public enum StatusesType {
-        NONE, USER_TIMELINE, USER_HOME_TIMELINE, USER_MENTIONS, USER_LIST_TIMELINE, USER_FAVORITES, RETWEETS_OF_ME, SCREEN_NAME_SEARCH, STATUS_SEARCH, PREVIOUS_CONVERSATION, FULL_CONVERSATION, SET_FAVORITE, GLOBAL_FEED,
+        NONE, USER_TIMELINE, USER_HOME_TIMELINE, USER_MENTIONS, USER_LIST_TIMELINE, USER_FAVORITES, RETWEETS_OF_ME,
+        SCREEN_NAME_SEARCH, STATUS_SEARCH, PREVIOUS_CONVERSATION, FULL_CONVERSATION, SET_FAVORITE, GLOBAL_FEED, DELETE
     }
 
     public enum UsersType {

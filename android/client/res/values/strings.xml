@@ -34,6 +34,7 @@
     <string name="action_unfavorite">Unfavorite</string>
     <string name="action_block">Block User</string>
     <string name="action_report_for_spam">Report User for Spam</string>
+    <string name="action_delete_status">Delete</string>
     <string name="action_retweet">Retweet</string>
     <string name="action_reply">Reply</string>
     <string name="action_message">Message</string>
@@ -163,6 +164,7 @@
     <string name="alert_customize_lanes_title">Customize Lanes</string>
 
     <string name="functionality_not_implemented">Sorry, but this feature isn\'t ready just yet. It\'s coming very soon though, I promise!</string>
+    <string name="deleted_successfully">Status deleted successfully</string>
 
     <string name="retweet">Retweet</string>
     <string name="quote">Quote</string>

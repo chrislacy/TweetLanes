@@ -16,16 +16,15 @@
 
 package org.tweetalib.android;
 
-import java.util.HashMap;
-
+import android.util.Log;
 import org.asynctasktex.AsyncTaskEx;
-
 import org.tweetalib.android.TwitterConstant.StatusesType;
 import org.tweetalib.android.model.TwitterStatus;
 import org.tweetalib.android.model.TwitterStatuses;
-
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
+
+import java.util.HashMap;
 
 public class TwitterModifyStatuses {
 
@@ -34,16 +33,16 @@ public class TwitterModifyStatuses {
     private HashMap<Integer, FinishedCallback> mFinishedCallbackMap;
 
     /*
-	 *
+     *
 	 */
     public void clearCallbacks() {
-        if (mFinishedCallbackMap != null ) {
+        if (mFinishedCallbackMap != null) {
             mFinishedCallbackMap.clear();
         }
     }
 
     /*
-	 *
+     *
 	 */
     public interface ModifyStatusesWorkerCallbacks {
 
@@ -51,17 +50,16 @@ public class TwitterModifyStatuses {
     }
 
     /*
-	 *
+     *
 	 */
     public interface FinishedCallbackInterface {
 
-        public void finished(boolean successful, TwitterStatuses statuses,
-                Integer value);
+        public void finished(boolean successful, TwitterStatuses statuses, Integer value);
 
     }
 
     /*
-	 *
+     *
 	 */
     public abstract class FinishedCallback implements FinishedCallbackInterface {
 
@@ -79,7 +77,7 @@ public class TwitterModifyStatuses {
     }
 
     /*
-	 *
+     *
 	 */
     public TwitterModifyStatuses() {
         mFinishedCallbackMap = new HashMap<Integer, FinishedCallback>();
@@ -129,8 +127,7 @@ public class TwitterModifyStatuses {
     /*
 	 *
 	 */
-    public void setFavorite(TwitterStatus status, boolean isFavorite,
-            FinishedCallback callback) {
+    public void setFavorite(TwitterStatus status, boolean isFavorite, FinishedCallback callback) {
 
         setFavorite(new TwitterStatuses(status), isFavorite, callback);
     }
@@ -138,16 +135,23 @@ public class TwitterModifyStatuses {
     /*
 	 *
 	 */
-    public void setFavorite(TwitterStatuses statuses, boolean isFavorite,
-            FinishedCallback callback) {
+    public void setFavorite(TwitterStatuses statuses, boolean isFavorite, FinishedCallback callback) {
 
         mFinishedCallbackMap.put(mModifyStatusesCallbackHandle, callback);
-        new ModifyStatusesTask()
-                .execute(AsyncTaskEx.PRIORITY_HIGH, "Set Favorite",
-                        new ModifyStatusesTaskInput(
-                                mModifyStatusesCallbackHandle,
-                                StatusesType.SET_FAVORITE, statuses,
-                                isFavorite ? 1 : 0));
+        new ModifyStatusesTask().execute(AsyncTaskEx.PRIORITY_HIGH, "Set Favorite",
+                new ModifyStatusesTaskInput(mModifyStatusesCallbackHandle, StatusesType.SET_FAVORITE, statuses,
+                        isFavorite ? 1 : 0));
+        mModifyStatusesCallbackHandle += 1;
+    }
+
+    /*
+	 *
+	 */
+    public void deleteTweets(TwitterStatuses statuses, FinishedCallback callback) {
+
+        mFinishedCallbackMap.put(mModifyStatusesCallbackHandle, callback);
+        new ModifyStatusesTask().execute(AsyncTaskEx.PRIORITY_HIGH, "Delete",
+                new ModifyStatusesTaskInput(mModifyStatusesCallbackHandle, StatusesType.DELETE, statuses, 1));
         mModifyStatusesCallbackHandle += 1;
     }
 
@@ -156,8 +160,7 @@ public class TwitterModifyStatuses {
 	 */
     class ModifyStatusesTaskInput {
 
-        public ModifyStatusesTaskInput(Integer callbackHandle,
-                StatusesType statusesType, TwitterStatuses statuses,
+        public ModifyStatusesTaskInput(Integer callbackHandle, StatusesType statusesType, TwitterStatuses statuses,
                 Integer value) {
             mCallbackHandle = callbackHandle;
             mStatusesType = statusesType;
@@ -176,87 +179,97 @@ public class TwitterModifyStatuses {
 	 */
     class ModifyStatusesTaskOutput {
 
-        ModifyStatusesTaskOutput(Integer callbackHandle, TwitterStatuses feed,
+        ModifyStatusesTaskOutput(TwitterFetchResult result, Integer callbackHandle, TwitterStatuses feed,
                 Integer outputValue) {
             mCallbackHandle = callbackHandle;
             mFeed = feed;
             mValue = outputValue;
+            mResult = result;
         }
 
         Integer mCallbackHandle;
         TwitterStatuses mFeed;
         Integer mValue;
+        TwitterFetchResult mResult;
     }
 
     /*
 	 *
 	 */
-    class ModifyStatusesTask
-            extends
-            AsyncTaskEx<ModifyStatusesTaskInput, Void, ModifyStatusesTaskOutput> {
+    class ModifyStatusesTask extends AsyncTaskEx<ModifyStatusesTaskInput, Void, ModifyStatusesTaskOutput> {
 
         @Override
-        protected ModifyStatusesTaskOutput doInBackground(
-                ModifyStatusesTaskInput... inputArray) {
+        protected ModifyStatusesTaskOutput doInBackground(ModifyStatusesTaskInput... inputArray) {
 
-            TwitterStatuses contentFeed = null;
+            TwitterStatuses contentFeed = new TwitterStatuses();
             ModifyStatusesTaskInput input = inputArray[0];
             Twitter twitter = getTwitterInstance();
-            Integer outputValue = null;
+            String errorDescription = null;
 
             if (twitter != null) {
 
-                switch (input.mStatusesType) {
-
-                case SET_FAVORITE: {
-                    boolean favorite = input.mValue == 1 ? true : false;
-
-                    if (input.mStatuses != null) {
-
-                        contentFeed = new TwitterStatuses();
-
-                        for (int i = 0; i < input.mStatuses.getStatusCount(); i++) {
-                            TwitterStatus twitterStatus = input.mStatuses
-                                    .getStatus(i);
-                            if (twitterStatus.mIsFavorited != favorite) {
-                                try {
-                                    twitter4j.Status status;
-                                    if (favorite) {
-                                        status = twitter
-                                                .createFavorite(twitterStatus.mId);
-                                    } else {
-                                        status = twitter
-                                                .destroyFavorite(twitterStatus.mId);
-                                    }
-
-                                    // Yuck: See the comment for
-                                    // TwitterStatus.setFavorite() for
-                                    // reasons for this
-                                    twitterStatus = new TwitterStatus(status);
-                                    twitterStatus.setFavorite(favorite);
-
-                                    contentFeed.add(twitterStatus);
-                                    outputValue = input.mValue;
-
-                                } catch (TwitterException e) {
-                                    // we might get errors setting the favorite
-                                    // state to the same
-                                    // value again.
-                                    // Just ignore those ones...
-                                }
+                try {
+                    switch (input.mStatusesType) {
+                    case DELETE: {
+                        if (input.mStatuses != null) {
+                            for (int i = 0; i < input.mStatuses.getStatusCount(); i++) {
+                                TwitterStatus twitterStatus = input.mStatuses.getStatus(i);
+                                twitter.destroyStatus(twitterStatus.mId);
                             }
                         }
-
+                        break;
                     }
 
-                    break;
-                }
+                    case SET_FAVORITE: {
+                        boolean favorite = input.mValue == 1 ? true : false;
 
+                        if (input.mStatuses != null) {
+                            for (int i = 0; i < input.mStatuses.getStatusCount(); i++) {
+                                TwitterStatus twitterStatus = input.mStatuses.getStatus(i);
+                                if (twitterStatus.mIsFavorited != favorite) {
+                                    try {
+                                        twitter4j.Status status;
+                                        if (favorite) {
+                                            status = twitter.createFavorite(twitterStatus.mId);
+                                        } else {
+                                            status = twitter.destroyFavorite(twitterStatus.mId);
+                                        }
+
+                                        // Yuck: See the comment for
+                                        // TwitterStatus.setFavorite() for
+                                        // reasons for this
+                                        twitterStatus = new TwitterStatus(status);
+                                        twitterStatus.setFavorite(favorite);
+
+                                        contentFeed.add(twitterStatus);
+                                    } catch (TwitterException e) {
+                                        // we might get errors setting the favorite
+                                        // state to the same
+                                        // value again.
+                                        // Just ignore those ones...
+                                    }
+                                }
+                            }
+
+                        }
+
+                        break;
+                    }
+                    }
+                } catch (TwitterException e) {
+                    e.printStackTrace();
+                    errorDescription = e.getErrorMessage();
+                    Log.e("api-call", errorDescription, e);
+                    if (e.getRateLimitStatus() != null && e.getRateLimitStatus().getRemaining() <= 0) {
+                        errorDescription +=
+                                "\nTry again in " + e.getRateLimitStatus().getSecondsUntilReset() + " " + "seconds";
+                    }
                 }
             }
 
-            return new ModifyStatusesTaskOutput(input.mCallbackHandle,
-                    contentFeed, outputValue);
+            return new ModifyStatusesTaskOutput(
+                    new TwitterFetchResult(errorDescription == null ? true : false, errorDescription),
+                    input.mCallbackHandle, contentFeed, null);
         }
 
         @Override
@@ -264,7 +277,7 @@ public class TwitterModifyStatuses {
 
             FinishedCallback callback = getModifyStatusesCallback(output.mCallbackHandle);
             if (callback != null) {
-                callback.finished(true, output.mFeed, output.mValue);
+                callback.finished(output.mResult.mErrorMessage == null, output.mFeed, output.mValue);
                 removeModifyStatusesCallback(callback);
             }
 

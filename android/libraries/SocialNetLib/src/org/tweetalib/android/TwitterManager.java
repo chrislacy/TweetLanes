@@ -416,6 +416,11 @@ public class TwitterManager {
         mApi.setFavorite(statuses, isFavorite, callback);
     }
 
+    public void deleteTweet(TwitterStatuses statuses, TwitterModifyStatuses.FinishedCallback callback) {
+        mApi.deleteTweet(statuses, callback);
+    }
+
+
     /*
 	 *
 	 */

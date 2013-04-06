@@ -669,6 +669,11 @@ public abstract class SocialNetApi {
         mModifyStatuses.setFavorite(statuses, isFavorite, callback);
     }
 
+    public void deleteTweet(TwitterStatuses statuses, TwitterModifyStatuses.FinishedCallback callback) {
+        mModifyStatuses.deleteTweets(statuses, callback);
+    }
+
+
     /*
 	 *
 	 */
