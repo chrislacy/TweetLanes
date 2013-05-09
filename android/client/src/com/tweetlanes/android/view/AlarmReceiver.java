@@ -51,20 +51,13 @@ public class AlarmReceiver extends BroadcastReceiver {
                 String name = contentHandle.getScreenName();
                 int count = feed.getStatusCount();
 
-                // TODO: Set this "read" when the user clicks on the notification or scrolls to top of their lane
-                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
-                SharedPreferences.Editor edit = preferences.edit();
-                edit.putLong(SHARED_PREFERENCES_KEY_NOTIFICATION_LAST_MENTION_ID +  contentHandle
-                        .getCurrentAccountKey(), feed.getStatus(0).mId);
-                edit.commit();
-
                 TwitterStatus first = feed.getStatus(0);
-                String detail = feed.getStatusCount() == 1 ? "@" + first.getAuthorScreenName() + ": " + first.mStatus : "@" +
-                        name + " has " + count + " new " + "mentions";
+                String detail = feed.getStatusCount() == 1 ? "@" + first.getAuthorScreenName() + ": " + first.mStatus
+                        : "@" + name + " has " + count + " new " + "mentions";
 
                 String noun = feed.getStatusCount() == 1 ? "mention" : "mention";
-                Notifier.Notify("@" + name + ": " + count + " new " + noun, detail, true, notificationId,
-                        contentHandle.getCurrentAccountKey(), mContext);
+                Notifier.notify("@" + name + ": " + count + " new " + noun, detail, true, notificationId,
+                        contentHandle.getCurrentAccountKey(), feed.getStatus(0).mId, mContext);
             }
         }
     };

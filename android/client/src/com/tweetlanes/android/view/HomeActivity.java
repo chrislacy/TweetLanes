@@ -14,6 +14,9 @@ package com.tweetlanes.android.view;
 import java.util.ArrayList;
 
 import android.app.*;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import com.tweetlanes.android.*;
 import org.socialnetlib.android.SocialNetConstant;
 import org.tweetalib.android.TwitterFetchLists.FinishedCallback;
 import org.tweetalib.android.TwitterFetchResult;
@@ -47,9 +50,6 @@ import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
-import com.tweetlanes.android.App;
-import com.tweetlanes.android.Constant;
-import com.tweetlanes.android.R;
 import com.tweetlanes.android.model.AccountDescriptor;
 import com.tweetlanes.android.model.LaneDescriptor;
 import com.tweetlanes.android.widget.viewpagerindicator.TitleProvider;
@@ -63,6 +63,7 @@ public class HomeActivity extends BaseLaneActivity {
     FinishedCallback mFetchListsCallback;
     private OnNavigationListener mOnNavigationListener;
     private Integer mDefaultLaneOverride = null;
+    final String SHARED_PREFERENCES_KEY_NOTIFICATION_LAST_MENTION_ID = "notification_last_mention_id_v1_";
 
     /*
      * (non-Javadoc)
@@ -85,11 +86,19 @@ public class HomeActivity extends BaseLaneActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             String accountKey = extras.getString("account_key");
+            long postId = extras.getLong("post_id");
             String laneName = extras.getString("lane");
 
             if (accountKey != null) {
                 getIntent().removeExtra("account_key");
                 AccountDescriptor notificationAccount = getApp().getAccountByKey(accountKey);
+
+                // TODO: Set this "read" scrolls to top of their lane
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+                SharedPreferences.Editor edit = preferences.edit();
+                edit.putLong(SHARED_PREFERENCES_KEY_NOTIFICATION_LAST_MENTION_ID +  accountKey, postId);
+                edit.commit();
+
                 if (notificationAccount != null) {
                     if (notificationAccount.getId() == account.getId()) {
                         int index = account.getCurrentLaneIndex(Constant.LaneType.USER_MENTIONS);
@@ -155,28 +164,6 @@ public class HomeActivity extends BaseLaneActivity {
         onCreateHandleIntents();
 
         account.setDisplayedLaneDefinitionsDirty(false);
-
-        setupNotificationAlarm();
-        //cancelNotificationAlarm();
-    }
-
-    private void setupNotificationAlarm() {
-        //Create a new PendingIntent and add it to the AlarmManager
-        Intent intent = new Intent(this, AlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 12345, intent,
-                PendingIntent.FLAG_CANCEL_CURRENT);
-        AlarmManager am = (AlarmManager)getSystemService(Activity.ALARM_SERVICE);
-        am.setInexactRepeating(AlarmManager.RTC_WAKEUP, AlarmManager.INTERVAL_FIFTEEN_MINUTES,
-                AlarmManager.INTERVAL_FIFTEEN_MINUTES, pendingIntent);
-        //am.setInexactRepeating(AlarmManager.RTC_WAKEUP, 60000L, 60000L, pendingIntent);
-    }
-
-    private void cancelNotificationAlarm() {
-        Intent intent = new Intent(this, AlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 12345, intent,
-                PendingIntent.FLAG_CANCEL_CURRENT);
-        AlarmManager am = (AlarmManager)getSystemService(Activity.ALARM_SERVICE);
-        am.cancel(pendingIntent);
     }
 
     /*

@@ -3,14 +3,16 @@ package com.tweetlanes.android;
 import android.app.*;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
+import com.tweetlanes.android.view.AlarmReceiver;
 import com.tweetlanes.android.view.HomeActivity;
 
 public class Notifier {
 
-    public static void Notify(String title, String text, Boolean autoCancel, int id,
-            String accountKey, Context context) {
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
+    public static void notify(String title, String text, Boolean autoCancel, int id,
+            String accountKey, long postId, Context context) {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
                 .setTicker(text)
                 .setSmallIcon(R.drawable.notification_default)
                 .setAutoCancel(autoCancel)
@@ -18,17 +20,49 @@ public class Notifier {
                 .setContentTitle(title)
                 .setContentText(text);
 
+        Uri ringtone = AppSettings.get().getRingtoneUri();
+        if (ringtone != null) {
+            builder.setSound(ringtone);
+        }
+
         Intent resultIntent = new Intent(context, HomeActivity.class);
         resultIntent.putExtra("account_key", accountKey);
+        resultIntent.putExtra("post_id", postId);
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
         stackBuilder.addParentStack(HomeActivity.class);
         stackBuilder.addNextIntent(resultIntent);
         PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-        mBuilder.setContentIntent(resultPendingIntent);
-        NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context
+        builder.setContentIntent(resultPendingIntent);
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context
                 .NOTIFICATION_SERVICE);
-        mNotificationManager.notify(id, mBuilder.build());
+        notificationManager.notify(id, builder.build());
 
     }
+
+    public static void cancelAll(Context context) {
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context
+                .NOTIFICATION_SERVICE);
+        notificationManager.cancelAll();
+    }
+
+    public static void setupNotificationAlarm(Context context) {
+        //Create a new PendingIntent and add it to the AlarmManager
+        Intent intent = new Intent(context, AlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 12345, intent,
+                PendingIntent.FLAG_CANCEL_CURRENT);
+        AlarmManager am = (AlarmManager)context.getSystemService(Activity.ALARM_SERVICE);
+        am.setInexactRepeating(AlarmManager.RTC_WAKEUP, AlarmManager.INTERVAL_FIFTEEN_MINUTES,
+                AlarmManager.INTERVAL_FIFTEEN_MINUTES, pendingIntent);
+    }
+
+    public static void cancelNotificationAlarm(Context context) {
+        Intent intent = new Intent(context, AlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 12345, intent,
+                PendingIntent.FLAG_CANCEL_CURRENT);
+        AlarmManager am = (AlarmManager)context.getSystemService(Activity.ALARM_SERVICE);
+        am.cancel(pendingIntent);
+    }
+
+
 }
