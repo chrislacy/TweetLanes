@@ -196,6 +196,11 @@ public class AppSettings {
                 SettingsActivity.KEY_VOLSCROLL_PREFERENCE, DEFAULT_VOLSCROLL);
     }
 
+    public boolean isShowNotificationsEnabled() {
+        return mSharedPreferences.getBoolean(
+                SettingsActivity.KEY_SHOW_NOTIFICATIONS_PREFERENCE, DEFAULT_SHOW_NOTIFICATIONS);
+    }
+
     /*
 	 *
 	 */

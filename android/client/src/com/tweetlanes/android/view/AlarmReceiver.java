@@ -55,8 +55,15 @@ public class AlarmReceiver extends BroadcastReceiver {
                 String detail = feed.getStatusCount() == 1 ? "@" + first.getAuthorScreenName() + ": " + first.mStatus
                         : "@" + name + " has " + count + " new " + "mentions";
 
+                String fullDetail = "";
+                for (int i = 0; i < feed.getStatusCount(); ++i) {
+                    TwitterStatus status = feed.getStatus(i);
+                    fullDetail += status.mStatus + "\n";
+                }
+                fullDetail = fullDetail.substring(0, fullDetail.length() - 2);
+
                 String noun = feed.getStatusCount() == 1 ? "mention" : "mention";
-                Notifier.notify("@" + name + ": " + count + " new " + noun, detail, true, notificationId,
+                Notifier.notify("@" + name + ": " + count + " new " + noun, detail, fullDetail, true, notificationId,
                         contentHandle.getCurrentAccountKey(), feed.getStatus(0).mId, mContext);
             }
         }

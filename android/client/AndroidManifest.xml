@@ -135,6 +135,7 @@
 		</activity>
 
         <receiver android:name=".view.AlarmReceiver" />
+        <receiver android:name=".view.DeleteNotificationsReceiver" />
 
         <!-- Start of Crittercism.com Code -->
 		<activity android:name="com.crittercism.NewFeedbackSpringboardActivity" android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" android:screenOrientation="portrait"></activity>
