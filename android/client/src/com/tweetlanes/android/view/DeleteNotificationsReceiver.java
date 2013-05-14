@@ -3,9 +3,8 @@ package com.tweetlanes.android.view;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+import com.tweetlanes.android.Notifier;
 
 /**
  * Created with IntelliJ IDEA.
@@ -16,8 +15,6 @@ import android.preference.PreferenceManager;
  */
 public class DeleteNotificationsReceiver extends BroadcastReceiver {
 
-    final String SHARED_PREFERENCES_KEY_NOTIFICATION_LAST_MENTION_ID = "notification_last_mention_id_v1_";
-
     @Override
     public void onReceive(Context context, Intent intent) {
         Bundle extras = intent.getExtras();
@@ -25,10 +22,8 @@ public class DeleteNotificationsReceiver extends BroadcastReceiver {
             String accountKey = extras.getString("account_key");
             long postId = extras.getLong("post_id");
 
-            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-            SharedPreferences.Editor edit = preferences.edit();
-            edit.putLong(SHARED_PREFERENCES_KEY_NOTIFICATION_LAST_MENTION_ID + accountKey, postId);
-            edit.commit();
+            Notifier.saveLastNotificationActioned(context, accountKey, postId);
+
         }
     }
 }

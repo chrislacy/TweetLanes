@@ -63,7 +63,6 @@ public class HomeActivity extends BaseLaneActivity {
     FinishedCallback mFetchListsCallback;
     private OnNavigationListener mOnNavigationListener;
     private Integer mDefaultLaneOverride = null;
-    final String SHARED_PREFERENCES_KEY_NOTIFICATION_LAST_MENTION_ID = "notification_last_mention_id_v1_";
 
     /*
      * (non-Javadoc)
@@ -93,11 +92,7 @@ public class HomeActivity extends BaseLaneActivity {
                 getIntent().removeExtra("account_key");
                 AccountDescriptor notificationAccount = getApp().getAccountByKey(accountKey);
 
-                // TODO: Set this "read" scrolls to top of their lane
-                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-                SharedPreferences.Editor edit = preferences.edit();
-                edit.putLong(SHARED_PREFERENCES_KEY_NOTIFICATION_LAST_MENTION_ID +  accountKey, postId);
-                edit.commit();
+                Notifier.saveLastNotificationActioned(this, accountKey, postId);
 
                 if (notificationAccount != null) {
                     if (notificationAccount.getId() == account.getId()) {
@@ -119,7 +114,6 @@ public class HomeActivity extends BaseLaneActivity {
                 }
             }
         }
-
 
         super.onCreate(savedInstanceState);
 

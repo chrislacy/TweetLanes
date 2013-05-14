@@ -29,7 +29,6 @@ import java.util.ArrayList;
 public class AlarmReceiver extends BroadcastReceiver {
 
     final String SHARED_PREFERENCES_KEY_ACCOUNT_INDICES = "account_indices_key_v2";
-    final String SHARED_PREFERENCES_KEY_NOTIFICATION_LAST_MENTION_ID = "notification_last_mention_id_v1_";
 
     Context mContext;
 
@@ -51,26 +50,33 @@ public class AlarmReceiver extends BroadcastReceiver {
                 String name = contentHandle.getScreenName();
                 int count = feed.getStatusCount();
 
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+                long lastDisplayedMentionId = preferences.getLong(Notifier
+                        .SHARED_PREFERENCES_KEY_NOTIFICATION_LAST_DISPLAYED_MENTION_ID +
+                        contentHandle.getCurrentAccountKey(), 0);
+
                 TwitterStatus first = feed.getStatus(0);
-                String detail = feed.getStatusCount() == 1 ? "@" + first.getAuthorScreenName() + ": " + first.mStatus
-                        : "@" + name + " has " + count + " new " + "mentions";
 
-                String fullDetail = "";
-                for (int i = 0; i < feed.getStatusCount(); ++i) {
-                    TwitterStatus status = feed.getStatus(i);
-                    fullDetail += status.mStatus + "\n";
+                if (first.mId > lastDisplayedMentionId) {
+                    String detail = feed.getStatusCount() == 1 ? "@" + first.getAuthorScreenName() + ": " + first.mStatus
+                            : "@" + name + " has " + count + " new " + "mentions";
+
+                    String fullDetail = "";
+                    for (int i = 0; i < feed.getStatusCount(); ++i) {
+                        TwitterStatus status = feed.getStatus(i);
+                        fullDetail += status.mStatus + "\n";
+                    }
+                    fullDetail = fullDetail.substring(0, fullDetail.length() - 2);
+
+                    String noun = feed.getStatusCount() == 1 ? "mention" : "mention";
+                    Notifier.notify("@" + name + ": " + count + " new " + noun, detail, fullDetail, true, notificationId,
+                            contentHandle.getCurrentAccountKey(), feed.getStatus(0).mId, mContext);
                 }
-                fullDetail = fullDetail.substring(0, fullDetail.length() - 2);
-
-                String noun = feed.getStatusCount() == 1 ? "mention" : "mention";
-                Notifier.notify("@" + name + ": " + count + " new " + noun, detail, fullDetail, true, notificationId,
-                        contentHandle.getCurrentAccountKey(), feed.getStatus(0).mId, mContext);
             }
         }
     };
 
     private void notifyNewMessage() {
-
         TwitterManager manager = TwitterManager.get();
 
         for (AccountDescriptor account : getAccounts(mContext)) {
@@ -86,14 +92,15 @@ public class AlarmReceiver extends BroadcastReceiver {
             TwitterPaging paging;
 
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
-            long lastMentionId = preferences.getLong(SHARED_PREFERENCES_KEY_NOTIFICATION_LAST_MENTION_ID + account
-                    .getAccountKey(), 0);
+            long lastActionMentionId = preferences.getLong(Notifier
+                    .SHARED_PREFERENCES_KEY_NOTIFICATION_LAST_ACTIONED_MENTION_ID  +
+                    account.getAccountKey(), 0);
 
-            if (lastMentionId == 0) {
+            if (lastActionMentionId == 0) {
                 paging = TwitterPaging.createGetMostRecent();
             }
             else {
-                paging = TwitterPaging.createGetNewer(lastMentionId);
+                paging = TwitterPaging.createGetNewer(lastActionMentionId);
             }
 
             TwitterManager.get().triggerFetchStatuses(contentHandle, paging, callback, 1);
@@ -145,7 +152,6 @@ public class AlarmReceiver extends BroadcastReceiver {
     }
 
     ConnectionStatus.Callbacks mConnectionStatusCallbacks = new ConnectionStatus.Callbacks() {
-
         @Override
         public boolean isOnline() {
             return true;
