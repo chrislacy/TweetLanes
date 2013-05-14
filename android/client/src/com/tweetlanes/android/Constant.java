@@ -44,13 +44,13 @@ public class Constant {
     public static final int RESTORE_SAVED_DRAFT_SECONDS = 60 * 5;
 
     /*
-	 * 
+	 *
 	 */
     // Create a new key/secret here: https://dev.twitter.com/apps
-    public static final String TWITTER_CONSUMER_KEY = "<secret goes here>";
-    public static final String TWITTER_CONSUMER_SECRET = "<secret goes here>";
-    public static final String APPDOTNET_CONSUMER_KEY = "<secret goes here>";
-    public static final String APPDOTNET_CONSUMER_SECRET = "<secret goes here>";
+    public static final String TWITTER_CONSUMER_KEY = "PiE6GzsRZw4xAXzSAJAJg";
+    public static final String TWITTER_CONSUMER_SECRET = "YCHowuIwy8mFhSVUwOZvDXqssC58rw8NTN9LcttFyak";
+    public static final String APPDOTNET_CONSUMER_KEY = "kKWVXd8vAVS5Va7uf58zGBvenmLQpe49";
+    public static final String APPDOTNET_CONSUMER_SECRET = "gyVCKtAYHpkpssd6u6j4CMaQSa6xJwzt";
 
     public static final String REQUEST_URL = "https://api.twitter.com/oauth/request_token";
     public static final String ACCESS_URL = "https://api.twitter.com/oauth/access_token";
@@ -62,7 +62,7 @@ public class Constant {
             + "://" + OAUTH_CALLBACK_HOST;
 
     /*
-	 * 
+	 *
 	 */
     public static final long USER_ID_CHRISMLACY = 195348872;
     public static final long USER_ID_TWEETLANES = 482651243;
@@ -78,7 +78,7 @@ public class Constant {
     }
 
     /*
-	 * 
+	 *
 	 */
     public enum SystemEvent {
         // OAuthLoginStateChange,
@@ -86,13 +86,13 @@ public class Constant {
     }
 
     /*
-	 * 
+	 *
 	 */
     public static final int REQUEST_CODE_IMAGE_PICKER = 12345;
     public static final int REQUEST_CODE_CAMERA = 12346;
 
     /*
-	 * 
+	 *
 	 */
     public static final String CRITTERCISM_APP_ID = "4f6d53e0b093157b43000033";
 

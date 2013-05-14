@@ -25,7 +25,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.tweetlanes.android.Constant;
-import com.tweetlanes.android.NotificationHelper;
 import com.tweetlanes.android.R;
 import com.tweetlanes.android.model.AccountDescriptor;
 import com.tweetlanes.android.model.ComposeTweetDefault;
@@ -39,7 +38,7 @@ public class ComposeDirectMessageFragment extends ComposeBaseFragment {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * com.tweetlanes.android.view.ComposeBaseFragment#onCreateView(android.
      * view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
@@ -58,14 +57,14 @@ public class ComposeDirectMessageFragment extends ComposeBaseFragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void setOtherUserScreenName(String otherUserScreenName) {
         mOtherUserScreenName = otherUserScreenName;
     }
 
     /*
-	 * 
+	 *
 	 */
     private String getOtherUserScreenName() {
         String otherUserScreenName = mOtherUserScreenName;
@@ -87,7 +86,7 @@ public class ComposeDirectMessageFragment extends ComposeBaseFragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     @Override
     protected void updateComposeTweetDefault() {
@@ -104,7 +103,7 @@ public class ComposeDirectMessageFragment extends ComposeBaseFragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     @Override
     protected String getTweetDefaultDraft() {
@@ -119,7 +118,7 @@ public class ComposeDirectMessageFragment extends ComposeBaseFragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     @Override
     protected void setTweetDefaultFromDraft(String tweetDraftAsJson) {
@@ -131,20 +130,12 @@ public class ComposeDirectMessageFragment extends ComposeBaseFragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     TwitterFetchDirectMessagesFinishedCallback mOnSetStatusCallback = new TwitterFetchDirectMessagesFinishedCallback() {
 
         public void finished(TwitterFetchResult result,
                 TwitterDirectMessages messages) {
-
-            /*
-             * if (mSendingNotification != null) {
-             * NotificationHelper.get().cancel(getActivity(),
-             * mSendingNotification); mSendingNotification = null; }
-             */
-
-            NotificationHelper.Builder builder = null;
 
             mUpdatingStatus = false;
             mEditText.setEnabled(true);
@@ -153,22 +144,6 @@ public class ComposeDirectMessageFragment extends ComposeBaseFragment {
             if (result.isSuccessful()) {
                 releaseFocus(false);
 
-                /*
-                 * if (Constant.SHOW_NOTIFICATION_AFTER_TWEET_POSTED) { Intent i
-                 * = new Intent(getActivity().getApplicationContext(),
-                 * TweetSpotlightActivity.class);
-                 * i.putExtra(TweetSpotlightActivity.STATUS_ID_KEY,
-                 * Long.toString(status.getId())); PendingIntent pendingIntent =
-                 * PendingIntent.getActivity(getActivity(), 0, i,
-                 * PendingIntent.FLAG_UPDATE_CURRENT); builder =
-                 * NotificationHelper.get().new Builder(getActivity(), true);
-                 * builder.setContentIntent(pendingIntent);
-                 * builder.setContentTitle
-                 * (getString(R.string.tweet_posted_success));
-                 * builder.setContentText(status.getStatus());
-                 * builder.setTicker(getString(R.string.tweet_posted_success));
-                 * builder.setAutoCancel(true); } else {
-                 */
                 if (getActivity() != null
                         && getActivity().getApplicationContext() != null) {
                     Toast.makeText(getActivity().getApplicationContext(),
@@ -182,17 +157,6 @@ public class ComposeDirectMessageFragment extends ComposeBaseFragment {
                     mListener.onStatusUpdateSuccess();
                 }
 
-            } else if (result.getErrorMessage() != null) {
-                builder = NotificationHelper.get().new Builder(getActivity(),
-                        true);
-                builder.setContentTitle(getString(R.string.direct_message_posted_error));
-                builder.setContentText(result.getErrorMessage());
-                builder.setTicker(getString(R.string.direct_message_posted_error));
-                builder.setAutoCancel(true);
-            }
-
-            if (builder != null) {
-                NotificationHelper.get().notify(getActivity(), builder);
             }
 
             updateStatusHint();
@@ -200,7 +164,7 @@ public class ComposeDirectMessageFragment extends ComposeBaseFragment {
     };
 
     /*
-	 * 
+	 *
 	 */
     @Override
     protected void saveCurrentAsDraft() {
@@ -229,7 +193,7 @@ public class ComposeDirectMessageFragment extends ComposeBaseFragment {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * com.tweetlanes.android.view.ComposeBaseFragment#onSendClick(java.lang
      * .String)
@@ -278,7 +242,7 @@ public class ComposeDirectMessageFragment extends ComposeBaseFragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     private String getStatusHint(ComposeTweetDefault composeTweetDefault) {
 
@@ -297,7 +261,7 @@ public class ComposeDirectMessageFragment extends ComposeBaseFragment {
     }
 
     /*
-	 * 
+	 *
 	 */
     @Override
     protected void updateStatusHint() {
@@ -331,7 +295,7 @@ public class ComposeDirectMessageFragment extends ComposeBaseFragment {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.tweetlanes.android.view.ComposeBaseFragment#onShowCompose()
      */
     @Override
@@ -353,7 +317,7 @@ public class ComposeDirectMessageFragment extends ComposeBaseFragment {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.tweetlanes.android.view.ComposeBaseFragment#onHideCompose()
      */
     @Override
@@ -363,7 +327,7 @@ public class ComposeDirectMessageFragment extends ComposeBaseFragment {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * com.tweetlanes.android.view.ComposeBaseFragment#getLayoutResourceId()
      */

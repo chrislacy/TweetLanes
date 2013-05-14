@@ -52,6 +52,10 @@ public class TwitterManager {
         mInstance.setConnectionStatus(connectionStatusCallbacks);
     }
 
+    public static void initModule(TwitterManager instance) {
+        mInstance = instance;
+    }
+
     public static void deinitModule() {
         mInstance = null;
     }

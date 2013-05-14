@@ -13,6 +13,10 @@ package com.tweetlanes.android.view;
 
 import java.util.ArrayList;
 
+import android.app.*;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import com.tweetlanes.android.*;
 import org.socialnetlib.android.SocialNetConstant;
 import org.tweetalib.android.TwitterFetchLists.FinishedCallback;
 import org.tweetalib.android.TwitterFetchResult;
@@ -23,30 +27,19 @@ import org.tweetalib.android.model.TwitterStatus;
 import org.tweetalib.android.model.TwitterStatusUpdate;
 import org.tweetalib.android.model.TwitterUsers;
 
-import android.app.ActionBar;
 import android.app.ActionBar.OnNavigationListener;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.ComponentName;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.IBinder;
-import android.os.Message;
-import android.os.Messenger;
-import android.os.RemoteException;
 import android.provider.MediaStore.Images;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -57,12 +50,8 @@ import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
-import com.tweetlanes.android.App;
-import com.tweetlanes.android.Constant;
-import com.tweetlanes.android.R;
 import com.tweetlanes.android.model.AccountDescriptor;
 import com.tweetlanes.android.model.LaneDescriptor;
-import com.tweetlanes.android.service.BackgroundService;
 import com.tweetlanes.android.widget.viewpagerindicator.TitleProvider;
 
 public class HomeActivity extends BaseLaneActivity {
@@ -73,6 +62,7 @@ public class HomeActivity extends BaseLaneActivity {
     ViewSwitcher mViewSwitcher;
     FinishedCallback mFetchListsCallback;
     private OnNavigationListener mOnNavigationListener;
+    private Integer mDefaultLaneOverride = null;
 
     /*
      * (non-Javadoc)
@@ -90,9 +80,42 @@ public class HomeActivity extends BaseLaneActivity {
         // StrictMode.setVmPolicy(new
         // StrictMode.VmPolicy.Builder().detectAll().penaltyLog().build());
 
-        super.onCreate(savedInstanceState);
-
         AccountDescriptor account = getApp().getCurrentAccount();
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            String accountKey = extras.getString("account_key");
+            long postId = extras.getLong("post_id");
+            String laneName = extras.getString("lane");
+
+            if (accountKey != null) {
+                getIntent().removeExtra("account_key");
+                AccountDescriptor notificationAccount = getApp().getAccountByKey(accountKey);
+
+                Notifier.saveLastNotificationActioned(this, accountKey, postId);
+
+                if (notificationAccount != null) {
+                    if (notificationAccount.getId() == account.getId()) {
+                        int index = account.getCurrentLaneIndex(Constant.LaneType.USER_MENTIONS);
+                        if (index > -1) {
+                            mDefaultLaneOverride = index;
+                        }
+                    }
+                    else {
+                        showAccount(notificationAccount, Constant.LaneType.USER_MENTIONS);
+                    }
+                }
+            }
+            else if (laneName != null) {
+                getIntent().removeExtra("lane");
+                int index = account.getCurrentLaneIndex(Constant.LaneType.valueOf(laneName));
+                if (index > -1) {
+                    mDefaultLaneOverride = index;
+                }
+            }
+        }
+
+        super.onCreate(savedInstanceState);
 
         // Attempt at fixing a crash found in HomeActivity
         if (account == null) {
@@ -112,11 +135,8 @@ public class HomeActivity extends BaseLaneActivity {
         ArrayList<AccountDescriptor> accounts = getApp().getAccounts();
         for (int i = 0; i < accounts.size(); i++) {
             AccountDescriptor acc = accounts.get(i);
-            adapterList
-                    .add("@"
-                            + acc.getScreenName()
-                            + (acc.getSocialNetType() == SocialNetConstant.Type.Appdotnet ? " (App.net)"
-                                    : " (Twitter)"));
+            adapterList.add("@" + acc.getScreenName() +
+                    (acc.getSocialNetType() == SocialNetConstant.Type.Appdotnet ? " (App.net)" : " (Twitter)"));
         }
         adapterList.add(getString(R.string.add_account));
         mAdapterStrings = adapterList.toArray(new String[adapterList.size()]);
@@ -139,7 +159,12 @@ public class HomeActivity extends BaseLaneActivity {
 
         account.setDisplayedLaneDefinitionsDirty(false);
 
-        configureNotificationService();
+        if (AppSettings.get().isShowNotificationsEnabled()) {
+            Notifier.setupNotificationAlarm(this);
+        }
+        else {
+            Notifier.cancelNotificationAlarm(this);
+        }
     }
 
     /*
@@ -260,12 +285,6 @@ public class HomeActivity extends BaseLaneActivity {
 
         mHomeLaneAdapter = null;
 
-        try {
-            doUnbindService();
-        } catch (Throwable t) {
-            Log.e("HomeActivity", "Failed to unbind from the service", t);
-        }
-
         super.onDestroy();
     }
 
@@ -276,7 +295,15 @@ public class HomeActivity extends BaseLaneActivity {
      */
     @Override
     protected int getInitialLaneIndex() {
-        return getApp().getCurrentAccount().getInitialLaneIndex();
+        AccountDescriptor account = getApp().getCurrentAccount();
+
+        if (mDefaultLaneOverride != null) {
+            int lane = mDefaultLaneOverride.intValue();
+            mDefaultLaneOverride = null;
+            return lane;
+        }
+
+        return account.getInitialLaneIndex();
     }
 
     /*
@@ -485,7 +512,7 @@ public class HomeActivity extends BaseLaneActivity {
                             .getAccounts();
                     if (position < accounts.size()) {
                         AccountDescriptor account = accounts.get(position);
-                        showAccount(account);
+                        showAccount(account, null);
                     }
                 }
 
@@ -531,7 +558,7 @@ public class HomeActivity extends BaseLaneActivity {
     /*
      *
      */
-    private void showAccount(AccountDescriptor selectedAccount) {
+    private void showAccount(AccountDescriptor selectedAccount, Constant.LaneType lane) {
 
         App app = getApp();
         AccountDescriptor currentAccount = app.getCurrentAccount();
@@ -552,6 +579,9 @@ public class HomeActivity extends BaseLaneActivity {
             Intent intent = getIntent();
             overridePendingTransition(0, 0);
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            if (lane != null) {
+                intent.putExtra("lane", lane.name());
+            }
             finish();
 
             overridePendingTransition(0, 0);
@@ -826,109 +856,6 @@ public class HomeActivity extends BaseLaneActivity {
         @Override
         public int getItemPosition(Object object) {
             return POSITION_NONE;
-        }
-    }
-
-    /*
-	 *
-	 */
-    Messenger mService = null;
-    boolean mIsBound;
-    final Messenger mMessenger = new Messenger(new IncomingHandler());
-
-    /*
-     *
-     */
-    class IncomingHandler extends Handler {
-
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-            case BackgroundService.MSG_SET_INT_VALUE:
-                // Log.d("Notifications", "Int Message: " + msg.arg1);
-                break;
-            case BackgroundService.MSG_SET_STRING_VALUE:
-                // String str1 = msg.getData().getString("str1");
-                // textStrValue.setText("Str Message: " + str1);
-                break;
-            default:
-                super.handleMessage(msg);
-            }
-        }
-    }
-
-    /*
-     *
-     */
-    private ServiceConnection mConnection = new ServiceConnection() {
-
-        public void onServiceConnected(ComponentName className, IBinder service) {
-            mService = new Messenger(service);
-            // textStatus.setText("Attached.");
-            try {
-                Message msg = Message.obtain(null,
-                        BackgroundService.MSG_REGISTER_CLIENT);
-                msg.replyTo = mMessenger;
-                mService.send(msg);
-            } catch (RemoteException e) {
-                // In this case the service has crashed before we could even do
-                // anything with it
-            }
-        }
-
-        public void onServiceDisconnected(ComponentName className) {
-            // This is called when the connection with the service has been
-            // unexpectedly disconnected - process crashed.
-            mService = null;
-            // textStatus.setText("Disconnected.");
-        }
-    };
-
-    /*
-	 *
-	 */
-    void doBindService() {
-        bindService(new Intent(this, BackgroundService.class), mConnection,
-                Context.BIND_AUTO_CREATE);
-        mIsBound = true;
-    }
-
-    /*
-	 *
-	 */
-    void doUnbindService() {
-        if (mIsBound) {
-            // If we have received the service, and hence registered with it,
-            // then now is the time to unregister.
-            if (mService != null) {
-                try {
-                    Message msg = Message.obtain(null,
-                            BackgroundService.MSG_UNREGISTER_CLIENT);
-                    msg.replyTo = mMessenger;
-                    mService.send(msg);
-                } catch (RemoteException e) {
-                    // There is nothing special we need to do if the service has
-                    // crashed.
-                }
-            }
-            // Detach our existing connection.
-            unbindService(mConnection);
-            mIsBound = false;
-        }
-    }
-
-    /*
-     *
-     */
-    private void configureNotificationService() {
-
-        // If the service is running when the activity starts, we want to
-        // automatically bind to it.
-        if (BackgroundService.isRunning()) {
-            doBindService();
-        } else {
-            startService(new Intent(this, BackgroundService.class));
-            doBindService();
         }
     }
 }

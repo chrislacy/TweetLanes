@@ -13,6 +13,7 @@ package com.tweetlanes.android;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 
 import com.tweetlanes.android.view.SettingsActivity;
@@ -21,9 +22,9 @@ public class AppSettings {
 
     public static final boolean DEFAULT_DOWNLOAD_IMAGES = true;
     public static final boolean DEFAULT_VOLSCROLL = true;
-    public static final boolean DEFAULT_DIMSCREEN = false;
     public static final boolean DEFAULT_SHOW_TABLET_MARGIN = true;
     public static final boolean DEFAULT_SHOW_TWEET_SOURCE = false;
+    public static final boolean DEFAULT_SHOW_NOTIFICATIONS = false;
 
     private static final String STATUS_SIZE_EXTRA_SMALL = "Extra Small";
     private static final String STATUS_SIZE_SMALL = "Small";
@@ -49,45 +50,44 @@ public class AppSettings {
     public static final String NAME_DISPLAY_NAME = "name";
     public static final String NAME_DISPLAY_USERNAME_NAME = "username_name";
     public static final String NAME_DISPLAY_NAME_USERNAME = "name_username";
-    public static final String NAME_DISPLAY_DEFAULT = NAME_DISPLAY_USERNAME;
 
     /*
-	 * 
+	 *
 	 */
     public enum Theme {
         Holo_Dark, Holo_Light
     };
 
     /*
-	 * 
+	 *
 	 */
     public enum StatusSize {
         ExtraSmall, Small, Medium, Large, ExtraLarge,
     }
 
     /*
-	 * 
+	 *
 	 */
     public enum ProfileImageSize {
         Small, Medium, Large,
     }
 
     /*
-	 * 
+	 *
 	 */
     public enum NameDisplay {
         Username, Name, Username_Name, Name_Username,
     }
 
     /*
-	 * 
+	 *
 	 */
     public enum QuoteType {
         Standard, RT, Via,
     }
 
     /*
-	 * 
+	 *
 	 */
     private SharedPreferences mSharedPreferences;
     private Context mContext;
@@ -101,7 +101,7 @@ public class AppSettings {
     private QuoteType mQuoteType;
 
     /*
-	 * 
+	 *
 	 */
     AppSettings(Context context) {
         mContext = context;
@@ -109,7 +109,7 @@ public class AppSettings {
     }
 
     /*
-	 * 
+	 *
 	 */
     public boolean isDirty() {
         boolean old = mIsDirty;
@@ -118,7 +118,7 @@ public class AppSettings {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void refresh(String preferenceKey) {
         mIsDirty = false;
@@ -145,11 +145,6 @@ public class AppSettings {
                 PROFILE_IMAGE_SIZE_DEFAULT);
         setCurrentProfileImageSize(profileImageSize);
 
-        // String nameDisplay =
-        // mSharedPreferences.getString(SettingsActivity.KEY_NAME_DISPLAY_PREFERENCE,
-        // NAME_DISPLAY_DEFAULT);
-        // setCurrentNameDisplay(nameDisplay);
-
         String quoteType = mSharedPreferences.getString(
                 SettingsActivity.KEY_QUOTE_TYPE_PREFERENCE, QUOTE_TYPE_DEFAULT);
         setCurrentQuoteType(quoteType);
@@ -161,8 +156,6 @@ public class AppSettings {
             } else if (preferenceKey != null) {
                 if (preferenceKey
                         .equalsIgnoreCase(SettingsActivity.KEY_SHOW_TABLET_MARGIN_PREFERENCE)
-                        // ||
-                        // preferenceKey.equalsIgnoreCase(SettingsActivity.KEY_NAME_DISPLAY_PREFERENCE)
                         || preferenceKey
                                 .equalsIgnoreCase(SettingsActivity.KEY_CLEAR_IMAGE_CACHE_PREFERENCE)
                         || preferenceKey
@@ -178,7 +171,7 @@ public class AppSettings {
     }
 
     /*
-	 * 
+	 *
 	 */
     public boolean downloadFeedImages() {
         return mSharedPreferences.getBoolean(
@@ -187,7 +180,7 @@ public class AppSettings {
     }
 
     /*
-	 * 
+	 *
 	 */
     public boolean showTweetSource() {
         return mSharedPreferences.getBoolean(
@@ -196,25 +189,35 @@ public class AppSettings {
     }
 
     /*
-	 * 
+	 *
 	 */
     public boolean isVolScrollEnabled() {
         return mSharedPreferences.getBoolean(
                 SettingsActivity.KEY_VOLSCROLL_PREFERENCE, DEFAULT_VOLSCROLL);
     }
 
-    /*
-	 * 
-	 */
-    public boolean isDimScreenEnabled() {
-        // return
-        // mSharedPreferences.getBoolean(SettingsActivity.KEY_DIMSCREEN_PREFERENCE,
-        // DEFAULT_DIMSCREEN);
-        return true;
+    public boolean isShowNotificationsEnabled() {
+        return mSharedPreferences.getBoolean(
+                SettingsActivity.KEY_SHOW_NOTIFICATIONS_PREFERENCE, DEFAULT_SHOW_NOTIFICATIONS);
     }
 
     /*
-	 * 
+	 *
+	 */
+    public boolean isDimScreenEnabled() {
+        return true;
+    }
+
+    public Uri getRingtoneUri() {
+        String uri = mSharedPreferences.getString(SettingsActivity.KEY_RINGTONE_PREFERENCE, null);
+        if (uri == null) {
+            return null;
+        }
+        return Uri.parse(uri);
+    }
+
+    /*
+	 *
 	 */
     public boolean showTabletMargin() {
         if (mSharedPreferences != null
@@ -229,7 +232,7 @@ public class AppSettings {
     }
 
     /*
-	 * 
+	 *
 	 */
     public int getCurrentThemeStyle() {
         return mCurrentTheme == Theme.Holo_Dark ? R.style.Theme_TweetLanes
@@ -237,28 +240,28 @@ public class AppSettings {
     }
 
     /*
-	 * 
+	 *
 	 */
     public int getCurrentBorderColor() {
         return mCurrentTheme == Theme.Holo_Dark ? 0xff4d4d4d : 0xffcccccc;
     }
 
     /*
-	 * 
+	 *
 	 */
     public Theme getCurrentTheme() {
         return mCurrentTheme;
     }
 
     /*
-	 * 
+	 *
 	 */
     private void setCurrentTheme(Theme theme) {
         mCurrentTheme = theme;
     }
 
     /*
-	 * 
+	 *
 	 */
     void setCurrentStatusSize(String statusSize) {
         if (statusSize != null) {
@@ -280,14 +283,14 @@ public class AppSettings {
     }
 
     /*
-	 * 
+	 *
 	 */
     public StatusSize getCurrentStatusSize() {
         return mStatusSize;
     }
 
     /*
-	 * 
+	 *
 	 */
     void setCurrentProfileImageSize(String profileImageSize) {
         if (profileImageSize != null) {
@@ -304,14 +307,14 @@ public class AppSettings {
     }
 
     /*
-	 * 
+	 *
 	 */
     public ProfileImageSize getCurrentProfileImageSize() {
         return mProfileImageSize;
     }
 
     /*
-	 * 
+	 *
 	 */
     void setCurrentNameDisplay(String nameDisplay) {
         if (nameDisplay.equals(NAME_DISPLAY_USERNAME)) {
@@ -328,14 +331,14 @@ public class AppSettings {
     }
 
     /*
-	 * 
+	 *
 	 */
     NameDisplay getCurrentNameDisplay() {
         return mNameDisplay;
     }
 
     /*
-	 * 
+	 *
 	 */
     void setCurrentQuoteType(String quoteType) {
         if (quoteType.equals(QUOTE_TYPE_STANDARD)) {
@@ -350,28 +353,28 @@ public class AppSettings {
     }
 
     /*
-	 * 
+	 *
 	 */
     public QuoteType getCurrentQuoteType() {
         return mQuoteType;
     }
 
     /*
-	 * 
+	 *
 	 */
     public static void initModule(Context mContext) {
         mInstance = new AppSettings(mContext);
     }
 
     /*
-	 * 
+	 *
 	 */
     public static void deinitModule() {
         mInstance = null;
     }
 
     /*
-	 * 
+	 *
 	 */
     public static AppSettings get() {
         return mInstance;

@@ -19,7 +19,7 @@
     <string name="follows_you"><i>follows you</i></string>
 
     <string name="credits_oss_heading">Tweet Lanes uses the following open-source software:</string>
-    <string name="credits_oss_items"><a href="https://github.com/chrisbanes/Android-PullToRefresh">Android-PullToRefresh</a>, Copyright 2013 Chris Banes.\n<a href="https://plus.google.com/117064558166627683075/posts">AOSP</a>, Copyright 2008-2013, Android Open Source Project.\n<a href="https://github.com/jasonpolites/gesture-imageview">GestureImageView</a>, Copyright 2012 Jason Polites.\n<a href="https://github.com/mariotaku/twidere">Twidere</a>, Copyright (C) 2012 Mariotaku Lee.\n<a href="https://github.com/DHuckaby/Prime">Prime</a>, Copyright (C) 2012 Daniel Huckaby.\n<a href="https://github.com/koush/UrlImageViewHelper">UrlImageViewHelper</a>, Copyright 2013 Koushik Dutta.\n<a href="https://github.com/JakeWharton/Android-ViewPagerIndicator">ViewPagerIndicator</a>, Copyright 2012 Jake Wharton.\n</string>
+    <string name="credits_oss_items"><a href="https://github.com/chrisbanes/Android-PullToRefresh">Android-PullToRefresh</a>, Copyright 2013 Chris Banes.\n<a href="https://plus.google.com/117064558166627683075/posts">AOSP</a>, Copyright 2008-2013, Android Open Source Project.\n<a href="https://github.com/jasonpolites/gesture-imageview">GestureImageView</a>, Copyright 2012 Jason Polites.\n<a href="https://github.com/DHuckaby/Prime">Prime</a>, Copyright (C) 2012 Daniel Huckaby.\n<a href="https://github.com/koush/UrlImageViewHelper">UrlImageViewHelper</a>, Copyright 2013 Koushik Dutta.\n<a href="https://github.com/JakeWharton/Android-ViewPagerIndicator">ViewPagerIndicator</a>, Copyright 2012 Jake Wharton.\n</string>
     <string name="credits_art_items">Logo and promotional images created by <a href="https://plus.google.com/107629610345558527193/posts">Bruno Rime</a>. Used with permission.</string>
     <string name="credits_app_copyright">Copyright 2013, Chris Lacy.</string>
 
@@ -320,6 +320,13 @@
 
     <string name="title_version_preference">Tweet Lanes version</string>
     <string name="summary_version_preference"></string>
+
+    <string name="notification_preferences">Notifications</string>
+
+    <string name="show_notifications_preference">Enable Notifications</string>
+    <string name="summary_show_notifications_preference">Display notifications when you get new mentions</string>
+
+    <string name="ringtone_preference">Ringtone</string>
 
 	<string name="settings_never">Never</string>
 	<string name="settings_always">Always</string>

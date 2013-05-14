@@ -14,6 +14,7 @@ package com.tweetlanes.android;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.*;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.socialnetlib.android.SocialNetConstant;
@@ -26,8 +27,6 @@ import org.tweetalib.android.TwitterManager;
 import org.tweetalib.android.model.TwitterLists;
 import org.tweetalib.android.model.TwitterUser;
 
-import android.app.Activity;
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -48,20 +47,12 @@ import com.tweetlanes.android.model.LaneDescriptor;
 import com.tweetlanes.android.util.LazyImageLoader;
 import com.tweetlanes.android.widget.urlimageviewhelper.UrlImageViewHelper;
 
-// import org.acra.*;
-// import org.acra.annotation.*;
-
 // https://docs.google.com/spreadsheet/ccc?key=0Akm3k9q4H2IPdFBibVdkWVlKQ25rX01vV1dub1hjOXc
 // @ReportsCrashes(formKey = "dFBibVdkWVlKQ25rX01vV1dub1hjOXc6MQ")
 public class App extends Application {
 
-    private static int mAppVersionNumber;
     private static String mAppVersionName;
     private static boolean mActionLauncherInstalled;
-
-    public static int getAppVersionNumber() {
-        return mAppVersionNumber;
-    }
 
     public static String getAppVersionName() {
         return mAppVersionName;
@@ -73,41 +64,33 @@ public class App extends Application {
 
     private ArrayList<AccountDescriptor> mAccounts;
     private Integer mCurrentAccountIndex;
-    private Integer mLastAccountIndex;
 
     private ArrayList<LaneDescriptor> mProfileLaneDefinitions = null;
-    private int mProfileLaneDefaultIndex = 0;
 
     private ArrayList<LaneDescriptor> mSearchLaneDefinitions = null;
-    private int mSearchLaneDefaultIndex = 0;
 
     private ArrayList<LaneDescriptor> mTweetSpotlightLaneDefinitions = null;
-    private int mTweetSpotlightLaneDefaultIndex = 0;
 
     private SharedPreferences mPreferences;
-
-    /*
-     * public enum OAuthLoginState { NONE, REQUESTING_TOKEN, VERIFYING_TOKEN, }
-     * private OAuthLoginState mLoginState; public OAuthLoginState
-     * getOAuthLoginState() { return mLoginState; } public void
-     * setOAuthLoginState(OAuthLoginState state) { Intent intent = new Intent(""
-     * + SystemEvent.OAuthLoginStateChange);
-     * LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
-     * mLoginState = state; }
-     */
 
     public AccountDescriptor getCurrentAccount() {
         return mCurrentAccountIndex != null ? mAccounts
                 .get(mCurrentAccountIndex) : null;
     }
 
+    public AccountDescriptor getAccountByKey(String accountKey) {
+        for (AccountDescriptor account : mAccounts) {
+            if (account.getAccountKey().equals(accountKey)) {
+                return account;
+            }
+        }
+
+        return null;
+    }
+
     public String getCurrentAccountScreenName() {
         AccountDescriptor account = getCurrentAccount();
         return account != null ? account.getScreenName() : null;
-    }
-
-    public Integer getLastAccountKey() {
-        return mLastAccountIndex;
     }
 
     public int getAccountCount() {
@@ -136,7 +119,6 @@ public class App extends Application {
     public void setCurrentAccount(Long id) {
         SocialNetConstant.Type currentSocialNetType = getCurrentAccount() == null ? SocialNetConstant.Type.Twitter
                 : getCurrentAccount().getSocialNetType();
-        mLastAccountIndex = mCurrentAccountIndex;
         mCurrentAccountIndex = getAccountIndexById(id);
         if (mCurrentAccountIndex == null) {
             TwitterManager.get().setOAuthTokenWithSecret(null, null, true);
@@ -178,20 +160,12 @@ public class App extends Application {
         return getCurrentAccount().getAccountKey();
     }
 
-    public int getProfileLaneDefaultIndex() {
-        return mProfileLaneDefaultIndex;
-    }
-
     public ArrayList<LaneDescriptor> getProfileLaneDefinitions() {
         return mProfileLaneDefinitions;
     }
 
     public LaneDescriptor getProfileLaneDescriptor(int index) {
         return mProfileLaneDefinitions.get(index);
-    }
-
-    public int getSearchLaneDefaultIndex() {
-        return mSearchLaneDefaultIndex;
     }
 
     public ArrayList<LaneDescriptor> getSearchLaneDefinitions() {
@@ -202,20 +176,12 @@ public class App extends Application {
         return mSearchLaneDefinitions.get(index);
     }
 
-    public int getTweetSpotlightLaneDefaultIndex() {
-        return mTweetSpotlightLaneDefaultIndex;
-    }
-
     public ArrayList<LaneDescriptor> getTweetSpotlightLaneDefinitions() {
         return mTweetSpotlightLaneDefinitions;
     }
 
     public LaneDescriptor getTweetSpotlightLaneDescriptor(int index) {
         return mTweetSpotlightLaneDefinitions.get(index);
-    }
-
-    public SharedPreferences getPreferences() {
-        return mPreferences;
     }
 
     public void updateTwitterAccountCount() {
@@ -262,7 +228,7 @@ public class App extends Application {
     private final String SHARED_PREFERENCES_KEY_CURRENT_ACCOUNT_ID = "current_account_id_key_v2";
     private final String SHARED_PREFERENCES_KEY_TUTORIAL_COMPLETED = "tutorial_completed_v2";
 
-    private String getAccountDescriptorKey(Long id) {
+    public static String getAccountDescriptorKey(Long id) {
         return "account_descriptor_v2" + id.toString();
     }
 
@@ -462,7 +428,6 @@ public class App extends Application {
             PackageManager packageManager = getPackageManager();
             PackageInfo packageInfo = packageManager.getPackageInfo(
                     getPackageName(), 0);
-            mAppVersionNumber = packageInfo.versionCode;
             mAppVersionName = packageInfo.versionName;
 
             List<ApplicationInfo> apps = packageManager
@@ -516,8 +481,6 @@ public class App extends Application {
         setLaneDefinitions(socialNetType);
 
         AppSettings.initModule(this);
-
-        NotificationHelper.initModule();
     }
 
     private void setLaneDefinitions(SocialNetConstant.Type socialNetType) {
@@ -545,8 +508,6 @@ public class App extends Application {
                 new TwitterContentHandleBase(
                         TwitterConstant.ContentType.STATUSES,
                         TwitterConstant.StatusesType.USER_FAVORITES)));
-        mProfileLaneDefaultIndex = 0;
-
         mSearchLaneDefinitions = new ArrayList<LaneDescriptor>();
 
         mSearchLaneDefinitions.add(new LaneDescriptor(
@@ -563,7 +524,6 @@ public class App extends Application {
                     new TwitterContentHandleBase(
                             TwitterConstant.ContentType.USERS,
                             TwitterConstant.UsersType.PEOPLE_SEARCH)));
-            mSearchLaneDefaultIndex = 0;
         }
 
         mTweetSpotlightLaneDefinitions = new ArrayList<LaneDescriptor>();
@@ -586,7 +546,6 @@ public class App extends Application {
                         .lane_tweet_retweeted_by_adn),
                 new TwitterContentHandleBase(TwitterConstant.ContentType.USERS,
                         TwitterConstant.UsersType.RETWEETED_BY)));
-        mTweetSpotlightLaneDefaultIndex = 0;
     }
 
     /*
@@ -612,10 +571,6 @@ public class App extends Application {
         }
     };
 
-    public ConnectionStatus.Callbacks getConnectionStatusCallbacks() {
-        return mConnectionStatusCallbacks;
-    }
-
     /*
 	 *
 	 */
@@ -637,7 +592,6 @@ public class App extends Application {
     public void onTerminate() {
 
         TwitterManager.deinitModule();
-        NotificationHelper.deinitModule();
 
         super.onTerminate();
     }

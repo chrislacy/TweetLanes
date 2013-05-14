@@ -23,13 +23,8 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.CheckBoxPreference;
-import android.preference.ListPreference;
-import android.preference.Preference;
+import android.preference.*;
 import android.preference.Preference.OnPreferenceClickListener;
-import android.preference.PreferenceActivity;
-import android.preference.PreferenceCategory;
-import android.preference.PreferenceManager;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -42,11 +37,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.crittercism.app.Crittercism;
-import com.tweetlanes.android.App;
-import com.tweetlanes.android.AppSettings;
-import com.tweetlanes.android.Constant;
+import com.tweetlanes.android.*;
 import com.tweetlanes.android.Constant.LaneType;
-import com.tweetlanes.android.R;
 import com.tweetlanes.android.model.LaneDescriptor;
 
 public class SettingsActivity extends PreferenceActivity implements
@@ -57,41 +49,36 @@ public class SettingsActivity extends PreferenceActivity implements
     public static final String KEY_SHOW_TABLET_MARGIN_PREFERENCE = "showtabletmargin_preference";
     public static final String KEY_STATUS_SIZE_PREFERENCE = "statussize_preference";
     public static final String KEY_PROFILE_IMAGE_SIZE_PREFERENCE = "profileimagesize_preference";
-    // public static final String KEY_NAME_DISPLAY_PREFERENCE =
-    // "namedisplay_preference";
     public static final String KEY_VOLSCROLL_PREFERENCE = "volscroll_preference";
     public static final String KEY_DOWNLOADIMAGES_PREFERENCE = "downloadimages_preference";
     public static final String KEY_SHOW_TWEET_SOURCE_PREFERENCE = "showtweetsource_preference";
     public static final String KEY_QUOTE_TYPE_PREFERENCE = "quotetype_preference";
     public static final String KEY_CLEAR_IMAGE_CACHE_PREFERENCE = "clearimagecache_preference";
-    // public static final String KEY_DIMSCREEN_PREFERENCE =
-    // "dimscreen_preference";
-    public static final String KEY_FREEFORLIFE_PREFERENCE = "freeforlife_preference";
     public static final String KEY_CREDITS_PREFERENCE = "preference_credits";
     public static final String KEY_SOURCE_CODE_PREFERENCE = "preference_source";
     public static final String KEY_DONATE_PREFERENCE = "preference_donate";
     public static final String KEY_VERSION_PREFERENCE = "version_preference";
+    public static final String KEY_SHOW_NOTIFICATIONS_PREFERENCE = "shownotifications_preference";
+    public static final String KEY_RINGTONE_PREFERENCE = "ringtone_preference";
 
     private ListPreference mThemePreference;
     private Preference mCustomizeLanesPreference;
     private CheckBoxPreference mShowTabletMarginPreference;
     private ListPreference mStatusSizePreference;
     private ListPreference mProfileImageSizePreference;
-    // private ListPreference mNameDisplayPreference;
     private CheckBoxPreference mDownloadImagesPreference;
     private CheckBoxPreference mShowTweetSourcePreference;
     private ListPreference mQuoteTypePreference;
     private CheckBoxPreference mVolScrollPreference;
-    // private CheckBoxPreference mDimScreenPreference;
     private Preference mClearImageCachePreference;
-    // private Preference mFreeForLifePreference;
     private Preference mCreditsPreference;
     private Preference mSourceCodePreference;
     private Preference mDonatePreference;
     private Preference mVersionPreference;
+    private CheckBoxPreference mShowNotificationsPreference;
 
     /*
-	 * 
+	 *
 	 */
     public App getApp() {
         return (App) getApplication();
@@ -99,7 +86,7 @@ public class SettingsActivity extends PreferenceActivity implements
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see android.preference.PreferenceActivity#onCreate(android.os.Bundle)
      */
     @Override
@@ -139,8 +126,6 @@ public class SettingsActivity extends PreferenceActivity implements
                 .findPreference(KEY_STATUS_SIZE_PREFERENCE);
         mProfileImageSizePreference = (ListPreference) getPreferenceScreen()
                 .findPreference(KEY_PROFILE_IMAGE_SIZE_PREFERENCE);
-        // mNameDisplayPreference =
-        // (ListPreference)getPreferenceScreen().findPreference(KEY_NAME_DISPLAY_PREFERENCE);
         mDownloadImagesPreference = (CheckBoxPreference) getPreferenceScreen()
                 .findPreference(KEY_DOWNLOADIMAGES_PREFERENCE);
         mCustomizeLanesPreference = (Preference) getPreferenceScreen()
@@ -187,8 +172,6 @@ public class SettingsActivity extends PreferenceActivity implements
 
         mVolScrollPreference = (CheckBoxPreference) getPreferenceScreen()
                 .findPreference(KEY_VOLSCROLL_PREFERENCE);
-        // mDimScreenPreference =
-        // (CheckBoxPreference)getPreferenceScreen().findPreference(KEY_DIMSCREEN_PREFERENCE);
         mClearImageCachePreference = (Preference) getPreferenceScreen()
                 .findPreference(KEY_CLEAR_IMAGE_CACHE_PREFERENCE);
         mClearImageCachePreference
@@ -235,8 +218,6 @@ public class SettingsActivity extends PreferenceActivity implements
 
         mQuoteTypePreference = (ListPreference) getPreferenceScreen()
                 .findPreference(KEY_QUOTE_TYPE_PREFERENCE);
-        // mFreeForLifePreference =
-        // getPreferenceScreen().findPreference(KEY_FREEFORLIFE_PREFERENCE);
         mCreditsPreference = getPreferenceScreen().findPreference(
                 KEY_CREDITS_PREFERENCE);
         mSourceCodePreference = getPreferenceScreen().findPreference(
@@ -245,22 +226,18 @@ public class SettingsActivity extends PreferenceActivity implements
                 KEY_DONATE_PREFERENCE);
         mVersionPreference = getPreferenceScreen().findPreference(
                 KEY_VERSION_PREFERENCE);
+        mShowNotificationsPreference = (CheckBoxPreference) getPreferenceScreen()
+                .findPreference(KEY_SHOW_NOTIFICATIONS_PREFERENCE);
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see android.app.Activity#onResume()
      */
     @Override
     protected void onResume() {
         super.onResume();
-
-        // SharedPreferences toClearSharedPreferences =
-        // PreferenceManager.getDefaultSharedPreferences(this);
-        // SharedPreferences.Editor editor = toClearSharedPreferences.edit();
-        // toClearSharedPreferences.clear();
-        // toClearSharedPreferences.commit();
 
         SharedPreferences sharedPreferences = PreferenceManager
                 .getDefaultSharedPreferences(this);
@@ -288,11 +265,6 @@ public class SettingsActivity extends PreferenceActivity implements
         mProfileImageSizePreference.setSummary(mProfileImageSizePreference
                 .getEntry());
 
-        // if (mNameDisplayPreference.getEntry() == null) {
-        // mNameDisplayPreference.setValueIndex(0);
-        // }
-        // mNameDisplayPreference.setSummary(mNameDisplayPreference.getEntry());
-
         boolean showTweetSource = sharedPreferences.getBoolean(
                 KEY_SHOW_TWEET_SOURCE_PREFERENCE,
                 AppSettings.DEFAULT_SHOW_TWEET_SOURCE);
@@ -311,11 +283,6 @@ public class SettingsActivity extends PreferenceActivity implements
             mQuoteTypePreference.setValueIndex(0);
         }
         mQuoteTypePreference.setSummary(mQuoteTypePreference.getEntry());
-
-        // boolean dimScreen =
-        // sharedPreferences.getBoolean(KEY_DIMSCREEN_PREFERENCE,
-        // AppSettings.DEFAULT_DIMSCREEN);
-        // mDimScreenPreference.setChecked(dimScreen);
 
         mSourceCodePreference
                 .setOnPreferenceClickListener(new OnPreferenceClickListener() {
@@ -353,8 +320,6 @@ public class SettingsActivity extends PreferenceActivity implements
 
                         TextView ossTextView = (TextView) layout
                                 .findViewById(R.id.credits_oss_items);
-                        // ossTextView.setText(
-                        // Html.fromHtml(getString(R.string.credits_oss)));
                         ossTextView.setMovementMethod(LinkMovementMethod
                                 .getInstance());
 
@@ -363,20 +328,6 @@ public class SettingsActivity extends PreferenceActivity implements
                         artTextView.setMovementMethod(LinkMovementMethod
                                 .getInstance());
 
-                        /*
-                         * WebView webView =
-                         * (WebView)layout.findViewById(R.id.webView1); if
-                         * (webView != null) {
-                         * webView.getSettings().setJavaScriptEnabled(true);
-                         * String customHtml =
-                         * "<html><body><a href=\"https://twitter.com/chrismlacy\" class=\"twitter-follow-button\" data-show-count=\"false\">Follow @chrismlacy</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=\"http://platform.twitter.com/widgets.js\";fjs.parentNode.insertBefore(js,fjs);}}(document,\"script\",\"twitter-wjs\");</script></body></html>"
-                         * ; webView.loadData(customHtml, "text/html", "UTF-8");
-                         * //webView.loadData(readTextFromResource(R.raw.
-                         * credits_follow), "text/html", "utf-8"); }
-                         */
-
-                        // AlertDialog.Builder alertDialogBuilder = new
-                        // AlertDialog.Builder(SettingsActivity.this);
                         AlertDialog.Builder builder = new AlertDialog.Builder(
                                 SettingsActivity.this);
                         builder.setIcon(0);
@@ -392,13 +343,17 @@ public class SettingsActivity extends PreferenceActivity implements
 
         mVersionPreference.setSummary(App.getAppVersionName());
 
+        boolean showNotifications = sharedPreferences.getBoolean(
+                KEY_SHOW_NOTIFICATIONS_PREFERENCE, AppSettings.DEFAULT_SHOW_NOTIFICATIONS);
+        mShowNotificationsPreference.setChecked(showNotifications);
+
         getPreferenceScreen().getSharedPreferences()
                 .registerOnSharedPreferenceChangeListener(this);
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see android.app.Activity#onPause()
      */
     @Override
@@ -411,7 +366,7 @@ public class SettingsActivity extends PreferenceActivity implements
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see android.content.SharedPreferences.OnSharedPreferenceChangeListener#
      * onSharedPreferenceChanged(android.content.SharedPreferences,
      * java.lang.String)
@@ -434,11 +389,22 @@ public class SettingsActivity extends PreferenceActivity implements
                 startActivity(getIntent());
             }
         }
+        if (pref instanceof CheckBoxPreference) {
+            CheckBoxPreference cbPref = (CheckBoxPreference) pref;
+            if (cbPref == mShowNotificationsPreference) {
+                if (cbPref.isChecked()) {
+                    Notifier.setupNotificationAlarm(this);
+                }
+                else {
+                    Notifier.cancelNotificationAlarm(this);
+                }
+            }
+        }
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
      */
     @Override
@@ -458,7 +424,7 @@ public class SettingsActivity extends PreferenceActivity implements
     }
 
     /*
-	 * 
+	 *
 	 */
     public class LaneCustomizationAdapter extends ArrayAdapter<LaneDescriptor> {
 
