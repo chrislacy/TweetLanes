@@ -14,8 +14,6 @@ package com.tweetlanes.android.view;
 import java.util.ArrayList;
 
 import android.app.*;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import com.tweetlanes.android.*;
 import org.socialnetlib.android.SocialNetConstant;
 import org.tweetalib.android.TwitterFetchLists.FinishedCallback;

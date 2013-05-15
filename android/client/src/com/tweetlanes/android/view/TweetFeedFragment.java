@@ -12,12 +12,10 @@
 package com.tweetlanes.android.view;
 
 import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
+import android.content.*;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.*;
@@ -448,8 +446,6 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         TO_OLDER,
     }
 
-    ;
-
     /*
 	 *
 	 */
@@ -509,8 +505,6 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             return mFirstVisibleYOffset;
         }
     }
-
-    ;
 
     private ScrollTracker mScrollTracker = new ScrollTracker();
 
@@ -671,9 +665,18 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             if (visiblePosition < getStatusFeed().getStatusCount()) {
                 visibleStatus = getStatusFeed().getStatus(visiblePosition);
                 if (visibleStatus != null) {
-                    // Log.d("Statuses", "Visible Status: " +
-                    // Util.getPrettyDate(visibleStatus.getCreatedAt()) + ", " +
-                    // visibleStatus.getStatus());
+                     if (getLaneIndex() == getApp().getCurrentAccount().getCurrentLaneIndex(Constant.LaneType.USER_MENTIONS)) {
+                         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
+                         long lastDisplayedMentionId = preferences.getLong(Notifier
+                                 .SHARED_PREFERENCES_KEY_NOTIFICATION_LAST_DISPLAYED_MENTION_ID +
+                                 getApp().getCurrentAccountKey(), 0);
+
+                         if (visibleStatus.mId >= lastDisplayedMentionId) {
+                             Notifier.saveLastNotificationActioned(this.getActivity(),
+                                     getApp().getCurrentAccountKey(), visibleStatus.mId);
+                             Notifier.cancel(this.getActivity(), getApp().getCurrentAccountKey());
+                         }
+                     }
                 }
             }
         }

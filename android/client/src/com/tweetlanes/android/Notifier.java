@@ -61,10 +61,10 @@ public class Notifier {
         notificationManager.notify(id, builder.build());
     }
 
-    public static void cancelAll(Context context) {
+    public static void cancel(Context context, String accountKey) {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context
                 .NOTIFICATION_SERVICE);
-        notificationManager.cancelAll();
+        notificationManager.cancel(accountKey.hashCode());
     }
 
     public static void setupNotificationAlarm(Context context) {
