@@ -27,7 +27,6 @@ public class Constant {
      * Configuration values
      */
     public static final boolean ENABLE_PROFILE_IMAGES = false;
-    public static final boolean SHOW_NOTIFICATION_AFTER_TWEET_POSTED = false;
     public static boolean ENABLE_CRASH_TRACKING = true;
     public static final int CACHE_VERSION = 4;
     public static boolean ENABLE_STATUS_CACHING = true;

@@ -666,15 +666,15 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                 visibleStatus = getStatusFeed().getStatus(visiblePosition);
                 if (visibleStatus != null) {
                      if (getLaneIndex() == getApp().getCurrentAccount().getCurrentLaneIndex(Constant.LaneType.USER_MENTIONS)) {
-                         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
+                         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getBaseLaneActivity());
                          long lastDisplayedMentionId = preferences.getLong(Notifier
                                  .SHARED_PREFERENCES_KEY_NOTIFICATION_LAST_DISPLAYED_MENTION_ID +
                                  getApp().getCurrentAccountKey(), 0);
 
                          if (visibleStatus.mId >= lastDisplayedMentionId) {
-                             Notifier.saveLastNotificationActioned(this.getActivity(),
+                             Notifier.saveLastNotificationActioned(getBaseLaneActivity(),
                                      getApp().getCurrentAccountKey(), visibleStatus.mId);
-                             Notifier.cancel(this.getActivity(), getApp().getCurrentAccountKey());
+                             Notifier.cancel(getBaseLaneActivity(), getApp().getCurrentAccountKey());
                          }
                      }
                 }
