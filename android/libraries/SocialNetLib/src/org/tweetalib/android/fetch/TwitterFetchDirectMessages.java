@@ -135,7 +135,7 @@ public class TwitterFetchDirectMessages {
             TwitterFetchDirectMessagesFinishedCallback callback,
             ConnectionStatus connectionStatus) {
 
-        if (connectionStatus.isOnline() == false) {
+        if (connectionStatus != null && connectionStatus.isOnline() == false) {
             if (callback != null) {
                 callback.finished(new TwitterFetchResult(false,
                         connectionStatus.getErrorMessageNoConnection()), null);
@@ -164,7 +164,7 @@ public class TwitterFetchDirectMessages {
             String statusText,
             TwitterFetchDirectMessagesFinishedCallback callback,
             ConnectionStatus connectionStatus) {
-        if (connectionStatus.isOnline() == false) {
+        if (connectionStatus != null && connectionStatus.isOnline() == false) {
             if (callback != null) {
                 callback.finished(new TwitterFetchResult(false,
                         connectionStatus.getErrorMessageNoConnection()), null);
