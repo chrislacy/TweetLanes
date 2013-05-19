@@ -250,7 +250,7 @@ public class TwitterFetchStatus {
             TwitterStatus twitterStatus = null;
             String errorDescription = null;
 
-            if (input.mConnectionStatus.isOnline() == false) {
+            if (input.mConnectionStatus != null && input.mConnectionStatus.isOnline() == false) {
                 return new FetchStatusTaskOutput(new TwitterFetchResult(false,
                         input.mConnectionStatus.getErrorMessageNoConnection()),
                         input.mCallbackHandle, null);

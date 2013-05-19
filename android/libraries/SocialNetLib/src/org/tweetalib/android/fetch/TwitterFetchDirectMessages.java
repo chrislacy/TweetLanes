@@ -255,7 +255,7 @@ public class TwitterFetchDirectMessages {
             Twitter twitter = getTwitterInstance();
             String errorDescription = null;
 
-            if (input.mConnectionStatus.isOnline() == false) {
+            if (input.mConnectionStatus != null && input.mConnectionStatus.isOnline() == false) {
                 return new FetchDirectMessagesTaskOutput(
                         new TwitterFetchResult(false,
                                 input.mConnectionStatus

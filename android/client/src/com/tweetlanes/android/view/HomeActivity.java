@@ -301,6 +301,10 @@ public class HomeActivity extends BaseLaneActivity {
             return lane;
         }
 
+        if (account == null) {
+            return 0;
+        }
+
         return account.getInitialLaneIndex();
     }
 

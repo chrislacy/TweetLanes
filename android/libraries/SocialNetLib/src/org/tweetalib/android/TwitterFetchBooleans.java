@@ -222,7 +222,7 @@ public class TwitterFetchBooleans {
             AppdotnetApi appdotnet = getAppdotnetInstance();
             String errorDescription = null;
 
-            if (input.mConnectionStatus.isOnline() == false) {
+            if (input.mConnectionStatus != null && input.mConnectionStatus.isOnline() == false) {
                 return new FetchBooleanTaskOutput(new TwitterFetchResult(false,
                         input.mConnectionStatus.getErrorMessageNoConnection()),
                         input.mCallbackHandle, null);
