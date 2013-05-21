@@ -238,10 +238,11 @@ public class TwitterModifyStatuses {
                             if (twitterStatus.mIsFavorited != favorite) {
                                 AdnPost post = appdotnetApi.setAdnFavorite(twitterStatus.mId, favorite);
 
-                                twitterStatus = new TwitterStatus(post);
-                                twitterStatus.setFavorite(favorite);
-
-                                contentFeed.add(twitterStatus);
+                                if (post != null) {
+                                    twitterStatus = new TwitterStatus(post);
+                                    twitterStatus.setFavorite(favorite);
+                                    contentFeed.add(twitterStatus);
+                                }
                             }
                         }
                     }
