@@ -46,10 +46,10 @@ public class Constant {
 	 *
 	 */
     // Create a new key/secret here: https://dev.twitter.com/apps
-    public static final String TWITTER_CONSUMER_KEY = "PiE6GzsRZw4xAXzSAJAJg";
-    public static final String TWITTER_CONSUMER_SECRET = "YCHowuIwy8mFhSVUwOZvDXqssC58rw8NTN9LcttFyak";
-    public static final String APPDOTNET_CONSUMER_KEY = "kKWVXd8vAVS5Va7uf58zGBvenmLQpe49";
-    public static final String APPDOTNET_CONSUMER_SECRET = "gyVCKtAYHpkpssd6u6j4CMaQSa6xJwzt";
+    public static final String TWITTER_CONSUMER_KEY = "";
+    public static final String TWITTER_CONSUMER_SECRET = "";
+    public static final String APPDOTNET_CONSUMER_KEY = "";
+    public static final String APPDOTNET_CONSUMER_SECRET = "";
 
     public static final String REQUEST_URL = "https://api.twitter.com/oauth/request_token";
     public static final String ACCESS_URL = "https://api.twitter.com/oauth/access_token";
