@@ -21,10 +21,7 @@ import android.webkit.CookieSyncManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import com.crittercism.app.Crittercism;
-import com.tweetlanes.android.App;
-import com.tweetlanes.android.AppSettings;
-import com.tweetlanes.android.Constant;
-import com.tweetlanes.android.R;
+import com.tweetlanes.android.*;
 import org.socialnetlib.android.SocialNetConstant;
 import org.socialnetlib.android.TwitterApi;
 import org.tweetalib.android.TwitterManager;
@@ -56,7 +53,7 @@ public class TwitterAuthActivity extends Activity {
 
         setContentView(R.layout.loading);
 
-        TwitterManager.get().setSignInSocialNetType(Constant.TWITTER_CONSUMER_KEY, Constant.TWITTER_CONSUMER_SECRET,
+        TwitterManager.get().setSignInSocialNetType(ConsumerKeyConstants.TWITTER_CONSUMER_KEY, ConsumerKeyConstants.TWITTER_CONSUMER_SECRET,
                 SocialNetConstant.Type.Twitter);
 
         TwitterManager.get().getAuthUrl(mGetAuthUrlCallback);
@@ -132,8 +129,8 @@ public class TwitterAuthActivity extends Activity {
                     Uri uri = Uri.parse(url);
                     String oauthVerifier = uri.getQueryParameter("oauth_verifier");
 
-                    TwitterManager.get().setSocialNetType(SocialNetConstant.Type.Twitter, Constant.TWITTER_CONSUMER_KEY,
-                            Constant.TWITTER_CONSUMER_SECRET, null);
+                    TwitterManager.get().setSocialNetType(SocialNetConstant.Type.Twitter, ConsumerKeyConstants.TWITTER_CONSUMER_KEY,
+                            ConsumerKeyConstants.TWITTER_CONSUMER_SECRET, null);
 
                     onOAuthVerifier(oauthVerifier);
 

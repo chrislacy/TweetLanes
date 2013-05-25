@@ -133,10 +133,10 @@ public class App extends Application {
                     TwitterManager
                             .initModule(
                                     account.getSocialNetType(),
-                                    account.getSocialNetType() == SocialNetConstant.Type.Appdotnet ? Constant.APPDOTNET_CONSUMER_KEY
-                                            : Constant.TWITTER_CONSUMER_KEY,
-                                    account.getSocialNetType() == SocialNetConstant.Type.Appdotnet ? Constant.APPDOTNET_CONSUMER_SECRET
-                                            : Constant.TWITTER_CONSUMER_SECRET,
+                                    account.getSocialNetType() == SocialNetConstant.Type.Appdotnet ? ConsumerKeyConstants.APPDOTNET_CONSUMER_KEY
+                                            : ConsumerKeyConstants.TWITTER_CONSUMER_KEY,
+                                    account.getSocialNetType() == SocialNetConstant.Type.Appdotnet ? ConsumerKeyConstants.APPDOTNET_CONSUMER_SECRET
+                                            : ConsumerKeyConstants.TWITTER_CONSUMER_SECRET,
                                     account.getOAuthToken(), account
                                             .getOAuthSecret(),
                                     account.getAccountKey(),
@@ -386,10 +386,10 @@ public class App extends Application {
                 TwitterManager
                         .initModule(
                                 oSocialNetType,
-                                oSocialNetType == SocialNetConstant.Type.Twitter ? Constant.TWITTER_CONSUMER_KEY
-                                        : Constant.APPDOTNET_CONSUMER_KEY,
-                                oSocialNetType == SocialNetConstant.Type.Twitter ? Constant.TWITTER_CONSUMER_SECRET
-                                        : Constant.APPDOTNET_CONSUMER_SECRET,
+                                oSocialNetType == SocialNetConstant.Type.Twitter ? ConsumerKeyConstants.TWITTER_CONSUMER_KEY
+                                        : ConsumerKeyConstants.APPDOTNET_CONSUMER_KEY,
+                                oSocialNetType == SocialNetConstant.Type.Twitter ? ConsumerKeyConstants.TWITTER_CONSUMER_SECRET
+                                        : ConsumerKeyConstants.APPDOTNET_CONSUMER_SECRET,
                                 oAuthToken, oAuthSecret, getCurrentAccountKey(),
                                 mConnectionStatusCallbacks);
             }
@@ -463,18 +463,18 @@ public class App extends Application {
             TwitterManager
                     .initModule(
                             socialNetType,
-                            socialNetType == SocialNetConstant.Type.Twitter ? Constant.TWITTER_CONSUMER_KEY
-                                    : Constant.APPDOTNET_CONSUMER_KEY,
-                            socialNetType == SocialNetConstant.Type.Twitter ? Constant.TWITTER_CONSUMER_SECRET
-                                    : Constant.TWITTER_CONSUMER_SECRET,
+                            socialNetType == SocialNetConstant.Type.Twitter ? ConsumerKeyConstants.TWITTER_CONSUMER_KEY
+                                    : ConsumerKeyConstants.APPDOTNET_CONSUMER_KEY,
+                            socialNetType == SocialNetConstant.Type.Twitter ? ConsumerKeyConstants.TWITTER_CONSUMER_SECRET
+                                    : ConsumerKeyConstants.TWITTER_CONSUMER_SECRET,
                             currentAccountDescriptor.getOAuthToken(),
                             currentAccountDescriptor.getOAuthSecret(),
                             currentAccountDescriptor.getAccountKey(),
                             mConnectionStatusCallbacks);
         } else {
             TwitterManager.initModule(SocialNetConstant.Type.Twitter,
-                    Constant.TWITTER_CONSUMER_KEY,
-                    Constant.TWITTER_CONSUMER_SECRET, null, null, null,
+                    ConsumerKeyConstants.TWITTER_CONSUMER_KEY,
+                    ConsumerKeyConstants.TWITTER_CONSUMER_SECRET, null, null, null,
                     mConnectionStatusCallbacks);
         }
 

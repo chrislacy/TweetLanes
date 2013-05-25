@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import com.tweetlanes.android.App;
 import com.tweetlanes.android.Constant;
+import com.tweetlanes.android.ConsumerKeyConstants;
 import com.tweetlanes.android.Notifier;
 import com.tweetlanes.android.model.AccountDescriptor;
 import org.json.JSONArray;
@@ -114,8 +115,8 @@ public class AlarmReceiver extends BroadcastReceiver {
     private void initSocialNetLib(SocialNetConstant.Type socialNetType, String accountKey, String authToken,
             String authSecret) {
         TwitterManager.initModule(socialNetType,
-                socialNetType == SocialNetConstant.Type.Twitter ? Constant.TWITTER_CONSUMER_KEY : Constant.APPDOTNET_CONSUMER_KEY,
-                socialNetType == SocialNetConstant.Type.Twitter ? Constant.TWITTER_CONSUMER_SECRET : Constant.APPDOTNET_CONSUMER_SECRET,
+                socialNetType == SocialNetConstant.Type.Twitter ? ConsumerKeyConstants.TWITTER_CONSUMER_KEY : ConsumerKeyConstants.APPDOTNET_CONSUMER_KEY,
+                socialNetType == SocialNetConstant.Type.Twitter ? ConsumerKeyConstants.TWITTER_CONSUMER_SECRET : ConsumerKeyConstants.APPDOTNET_CONSUMER_SECRET,
                 authToken,
                 authSecret,
                 accountKey,
