@@ -1,4 +1,3 @@
-android/client/.idea/
 android/client/bin/
 android/client/gen/
 android/client/out/
@@ -12,8 +11,6 @@ android/client/proguard_logs/
 R.java
 .metadata/
 *.pyc
-*.iml
-
 bin/
 .classpath
 .project
