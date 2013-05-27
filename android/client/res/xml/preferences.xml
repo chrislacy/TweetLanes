@@ -6,7 +6,7 @@
     <PreferenceCategory
         android:key="category_display"
         android:title="@string/display_preferences">
-    
+
         <ListPreference
                 android:key="theme_preference"
                 android:title="@string/title_theme_preference"
@@ -20,12 +20,12 @@
 			android:key="customizelanes_preference"
 			android:title="@string/title_customizelanes_preference"
 			android:summary="@string/summary_customizelanes_preference"/>
-        
+
         <CheckBoxPreference
                 android:key="showtabletmargin_preference"
                 android:title="@string/title_showtabletmargin_preference"
                  />
-        
+
 		<ListPreference
         	android:key="statussize_preference"
             android:title="@string/title_statussize_preference"
@@ -34,7 +34,7 @@
             android:dialogTitle="@string/dialog_title_statussize_preference"
             android:defaultValue="medium"
              />
-		
+
 		<ListPreference
         	android:key="profileimagesize_preference"
             android:title="@string/title_profileimagesize_preference"
@@ -43,7 +43,7 @@
             android:dialogTitle="@string/dialog_title_profileimagesize_preference"
             android:defaultValue="medium"
              />
-		<!-- 
+		<!--
 		<ListPreference
         	android:key="namedisplay_preference"
             android:title="@string/title_namedisplay_preference"
@@ -53,17 +53,33 @@
             android:defaultValue="username"
              />
 		 -->
-		 
+
 		<CheckBoxPreference
                 android:key="showtweetsource_preference"
                 android:title="@string/title_showtweetsource_preference"
                 android:summary="@string/summary_showtweetsource_preference" />
-		
+
 	</PreferenceCategory>
-		
+
+    <PreferenceCategory
+        android:title="@string/notification_preferences">
+
+        <CheckBoxPreference
+            android:key="shownotifications_preference"
+            android:title="@string/show_notifications_preference"
+            android:summary="@string/summary_show_notifications_preference" />
+
+        <RingtonePreference android:showDefault="true"
+            android:key="ringtone_preference"
+            android:title="@string/ringtone_preference"
+            android:ringtoneType="notification">
+        </RingtonePreference>
+
+    </PreferenceCategory>
+
     <PreferenceCategory
         android:title="@string/other_preferences">
-    
+
 		<CheckBoxPreference
                 android:key="volscroll_preference"
                 android:title="@string/title_volscroll_preference"
@@ -77,30 +93,30 @@
             android:dialogTitle="@string/dialog_title_quote_preference"
             android:defaultValue="standard"
              />
-		
+
 		<CheckBoxPreference
                 android:key="downloadimages_preference"
                 android:title="@string/title_downloadimages_preference"
                 android:summary="@string/summary_downloadimages_preference" />
-		
+
        	<Preference
 			android:key="clearimagecache_preference"
 			android:title="@string/title_clearimagecache_preference"/>
-		
-		
-    	<!-- 
+
+
+    	<!--
         <Preference
             android:key="freeforlife_preference"
             android:title="@string/title_freeforlife_preference"
              />
-             
+
               -->
-        
+
      </PreferenceCategory>
-     
+
     <PreferenceCategory
         android:title="@string/help_preferences">
-    
+
         <Preference
 				android:key="preference_credits"
 				android:title="@string/settings_credits_title"/>
@@ -109,17 +125,17 @@
 			android:key="preference_source"
 			android:title="@string/settings_source_title"
 			android:summary="@string/settings_source_summary"/>
-         
+
           <Preference
 			android:key="preference_donate"
 			android:title="@string/settings_donate_title"/>
-        
+
         <Preference
             android:key="version_preference"
             android:title="@string/title_version_preference"
             android:summary="@string/summary_version_preference" />
-        
+
    	</PreferenceCategory>
-        
+
 </PreferenceScreen>
 

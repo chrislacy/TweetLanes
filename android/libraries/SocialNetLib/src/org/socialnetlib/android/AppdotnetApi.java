@@ -391,11 +391,10 @@ public class AppdotnetApi extends SocialNetApi {
         return null;
     }
 
-    public AdnPost setAdnRepost(long existingPostId) {
+    public AdnPost deleteTweet(long existingPostId) {
         BasicHttpClient httpClient = getHttpClient();
 
-        HttpResponse httpResponse = httpClient.post("/stream/0/posts/"
-                + existingPostId + "/repost", null);
+        HttpResponse httpResponse = httpClient.delete("/stream/0/posts/" + existingPostId, null);
 
         if (isResponseValid(httpResponse)) {
             String postAsString = httpResponse.getBodyAsString();
@@ -406,6 +405,43 @@ public class AppdotnetApi extends SocialNetApi {
 
         return null;
     }
+
+    public AdnPost setAdnRepost(long existingPostId) {
+        BasicHttpClient httpClient = getHttpClient();
+
+        HttpResponse httpResponse = httpClient.post("/stream/0/posts/" + existingPostId + "/repost", null);
+
+        if (isResponseValid(httpResponse)) {
+            String postAsString = httpResponse.getBodyAsString();
+            if (postAsString != null) {
+                return new AdnPost(postAsString);
+            }
+        }
+
+        return null;
+    }
+
+    public AdnPost setAdnFavorite(long existingPostId, boolean favorite) {
+        BasicHttpClient httpClient = getHttpClient();
+
+        HttpResponse httpResponse;
+        if (favorite) {
+            httpResponse = httpClient.post("/stream/0/posts/" + existingPostId + "/star", null);
+        }
+        else {
+            httpResponse = httpClient.delete("/stream/0/posts/" + existingPostId + "/star", null);
+        }
+
+        if (isResponseValid(httpResponse)) {
+            String postAsString = httpResponse.getBodyAsString();
+            if (postAsString != null) {
+                return new AdnPost(postAsString);
+            }
+        }
+
+        return null;
+    }
+
 
     public AdnUser setAdnFollow(String username, boolean follow) {
         if (follow) {

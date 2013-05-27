@@ -403,6 +403,21 @@ public class AccountDescriptor {
         mInitialLaneIndex = index;
     }
 
+    public int getCurrentLaneIndex(LaneType laneType) {
+        int visibleIndex = -1;
+        for (int i = 0; i < mLaneDefinitions.size(); ++i) {
+            LaneDescriptor lane = mLaneDefinitions.get(i);
+            if (lane.getDisplay()) {
+                visibleIndex++;
+            }
+            if (lane.getLaneType() == laneType) {
+                return visibleIndex;
+            }
+        }
+
+        return -1;
+    }
+
     /*
 	 *
 	 */

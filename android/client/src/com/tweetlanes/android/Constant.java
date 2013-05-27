@@ -15,9 +15,6 @@ import android.widget.Toast;
 
 public class Constant {
 
-    // public static final SocialNetConstant.Type SOCIAL_NET_TYPE =
-    // SocialNetConstant.Type.Twitter;
-
     /*
      * App Version info
      */
@@ -27,7 +24,6 @@ public class Constant {
      * Configuration values
      */
     public static final boolean ENABLE_PROFILE_IMAGES = false;
-    public static final boolean SHOW_NOTIFICATION_AFTER_TWEET_POSTED = false;
     public static boolean ENABLE_CRASH_TRACKING = true;
     public static final int CACHE_VERSION = 4;
     public static boolean ENABLE_STATUS_CACHING = true;
@@ -44,29 +40,10 @@ public class Constant {
     public static final int RESTORE_SAVED_DRAFT_SECONDS = 60 * 5;
 
     /*
-	 * 
-	 */
-    // Create a new key/secret here: https://dev.twitter.com/apps
-    public static final String TWITTER_CONSUMER_KEY = "<secret goes here>";
-    public static final String TWITTER_CONSUMER_SECRET = "<secret goes here>";
-    public static final String APPDOTNET_CONSUMER_KEY = "<secret goes here>";
-    public static final String APPDOTNET_CONSUMER_SECRET = "<secret goes here>";
-
-    public static final String REQUEST_URL = "https://api.twitter.com/oauth/request_token";
-    public static final String ACCESS_URL = "https://api.twitter.com/oauth/access_token";
-    public static final String AUTHORIZE_URL = "https://api.twitter.com/oauth/authorize";
-
-    public static final String OAUTH_CALLBACK_SCHEME = "x-oauthflow-twitter";
-    public static final String OAUTH_CALLBACK_HOST = "callback";
-    public static final String OAUTH_CALLBACK_URL = OAUTH_CALLBACK_SCHEME
-            + "://" + OAUTH_CALLBACK_HOST;
-
-    /*
-	 * 
+	 *
 	 */
     public static final long USER_ID_CHRISMLACY = 195348872;
     public static final long USER_ID_TWEETLANES = 482651243;
-    public static final long USER_ID_LACYMUFC = 377646103;
 
     // Note:
     // User == the person who signed in.
@@ -78,25 +55,20 @@ public class Constant {
     }
 
     /*
-	 * 
+	 *
 	 */
     public enum SystemEvent {
-        // OAuthLoginStateChange,
         VOLUME_UP_KEY_DOWN, VOLUME_DOWN_KEY_DOWN, FORCE_FRAGMENT_PAGER_ADAPTER_REFRESH, RESTART_APP, DISPLAY_TOAST,
     }
 
     /*
-	 * 
+	 *
 	 */
     public static final int REQUEST_CODE_IMAGE_PICKER = 12345;
     public static final int REQUEST_CODE_CAMERA = 12346;
 
     /*
-	 * 
+	 *
 	 */
     public static final String CRITTERCISM_APP_ID = "4f6d53e0b093157b43000033";
-
-    public static final String JPEG_FILE_PREFIX = "IMG_";
-    public static final String JPEG_FILE_SUFFIX = ".jpg";
-
 }

@@ -67,7 +67,7 @@ public class TweetMarkerAPI extends ApiService {
     }
 
     /*
-	 * 
+	 *
 	 */
     public interface APICallback {
 
@@ -75,7 +75,7 @@ public class TweetMarkerAPI extends ApiService {
     }
 
     /*
-	 * 
+	 *
 	 */
     public static void getLastRead(AccountDescriptor account,
             final ConnectionStatus.Callbacks connectionStatus,
@@ -93,7 +93,7 @@ public class TweetMarkerAPI extends ApiService {
         }
 
         /*
-		 * 
+		 *
 		 */
         AsyncTaskEx<AccountDescriptor, Void, TaskOutput> worker = new AsyncTaskEx<AccountDescriptor, Void, TaskOutput>() {
 
@@ -103,7 +103,7 @@ public class TweetMarkerAPI extends ApiService {
                 String screenName = "chrismlacy";// inputArray[0];
                 String errorDescription = null;
 
-                if (connectionStatus.isOnline() == false) {
+                if (connectionStatus != null && connectionStatus.isOnline() == false) {
                     return new TaskOutput(new TwitterFetchResult(false,
                             connectionStatus.getErrorMessageNoConnection()),
                             null);

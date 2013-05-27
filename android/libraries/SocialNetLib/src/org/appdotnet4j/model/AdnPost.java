@@ -30,6 +30,8 @@ public class AdnPost {
     public String mSource;
     public boolean mIsDeleted;
     public boolean mIsRetweet;
+    public boolean mIsRetweetedByMe;
+    public boolean mIsFavorited;
     public AdnUser mOriginalAuthor;
     public AdnMedia mEmbeddedMedia;
 
@@ -56,6 +58,14 @@ public class AdnPost {
                 mOriginalAuthor = repost.mUser;
                 mText = repost.mText;
                 mEmbeddedMedia = repost.mEmbeddedMedia;
+            }
+
+            if (object.has("you_reposted")) {
+                mIsRetweetedByMe = object.getBoolean("you_reposted");
+            }
+
+            if (object.has("you_starred")) {
+                mIsFavorited = object.getBoolean("you_starred");
             }
 
             mId = object.getLong("id");

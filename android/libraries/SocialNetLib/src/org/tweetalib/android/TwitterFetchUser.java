@@ -201,7 +201,7 @@ public class TwitterFetchUser {
     public void verifyUser(FinishedCallback callback,
             ConnectionStatus connectionStatus) {
 
-        if (connectionStatus.isOnline() == false) {
+        if (connectionStatus != null && connectionStatus.isOnline() == false) {
             if (callback != null) {
                 callback.finished(new TwitterFetchResult(false,
                         connectionStatus.getErrorMessageNoConnection()), null);
@@ -222,7 +222,7 @@ public class TwitterFetchUser {
     private void trigger(Long userId, FinishedCallback callback,
             ConnectionStatus connectionStatus) {
 
-        if (connectionStatus.isOnline() == false) {
+        if (connectionStatus != null && connectionStatus.isOnline() == false) {
             if (callback != null) {
                 callback.finished(new TwitterFetchResult(false,
                         connectionStatus.getErrorMessageNoConnection()), null);
@@ -333,7 +333,7 @@ public class TwitterFetchUser {
             TwitterUser result = null;
             FetchUserTaskInput input = inputArray[0];
 
-            if (input.mConnectionStatus.isOnline() == false) {
+            if (input.mConnectionStatus != null && input.mConnectionStatus.isOnline() == false) {
                 return new FetchUserTaskOutput(new TwitterFetchResult(false,
                         input.mConnectionStatus.getErrorMessageNoConnection()),
                         input.mCallbackHandle, null);

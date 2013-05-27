@@ -19,3 +19,4 @@ bin/
 .project
 .settings
 tests
+*.apk

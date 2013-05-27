@@ -2,6 +2,17 @@
 
 Note: To report bugs or make feature requests, either contact the official Twitter @TweetLanes or click the "Send Feedback" button in the app.
 
+Version 1.1.0, May 14, 2012 (New stuff edition)
+=================================
+- New features
+  * Notifications for mentions!
+  * Delete tweet/post
+  * App.net favorites
+- Bug fixes
+  * Removed open source code from Twidere, as it was license incompatible with Tweet Lanes
+  * Fix tutorial so scrolls properly (thanks AndrewCaul)
+  * App.net posts now show if you have favorited or reposted
+
 Version 1.0.1, March 25, 2013 (Bob Rocks edition)
 =================================
 - Bug and stability fixes, including:

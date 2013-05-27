@@ -38,7 +38,6 @@ import android.widget.Toast;
 
 import com.tweetlanes.android.AppSettings;
 import com.tweetlanes.android.Constant;
-import com.tweetlanes.android.NotificationHelper;
 import com.tweetlanes.android.R;
 import com.tweetlanes.android.model.ComposeTweetDefault;
 import com.tweetlanes.android.util.Util;
@@ -139,8 +138,6 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
              * mSendingNotification); mSendingNotification = null; }
              */
 
-            NotificationHelper.Builder builder = null;
-
             mUpdatingStatus = false;
             mEditText.setEnabled(true);
             mSendButton.setEnabled(true);
@@ -149,23 +146,6 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
 
             if (result.isSuccessful()) {
                 releaseFocus(false);
-
-                /*
-                 * if (Constant.SHOW_NOTIFICATION_AFTER_TWEET_POSTED) { Intent i
-                 * = new Intent(getActivity().getApplicationContext(),
-                 * TweetSpotlightActivity.class);
-                 * i.putExtra(TweetSpotlightActivity.STATUS_ID_KEY,
-                 * Long.toString(status.getId())); PendingIntent pendingIntent =
-                 * PendingIntent.getActivity(getActivity(), 0, i,
-                 * PendingIntent.FLAG_UPDATE_CURRENT); builder =
-                 * NotificationHelper.get().new Builder(getActivity(), true);
-                 * builder.setContentIntent(pendingIntent);
-                 * builder.setContentTitle
-                 * (getString(R.string.tweet_posted_success));
-                 * builder.setContentText(status.getStatus());
-                 * builder.setTicker(getString(R.string.tweet_posted_success));
-                 * builder.setAutoCancel(true); } else {
-                 */
                 if (getActivity() != null
                         && getActivity().getApplicationContext() != null) {
                     Toast.makeText(getActivity().getApplicationContext(),
@@ -179,18 +159,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
                     mListener.onStatusUpdateSuccess();
                 }
 
-            } else if (result.getErrorMessage() != null && activity != null) {
-                builder = NotificationHelper.get().new Builder(activity, true);
-                builder.setContentTitle(getString(R.string.tweet_posted_error));
-                builder.setContentText(result.getErrorMessage());
-                builder.setTicker(getString(R.string.tweet_posted_error));
-                builder.setAutoCancel(true);
             }
-
-            if (builder != null) {
-                NotificationHelper.get().notify(activity, builder);
-            }
-
             updateStatusHint();
         }
 

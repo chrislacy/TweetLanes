@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.tweetlanes.android"
-    android:versionCode="42"
-    android:versionName="1.0.1">
+    android:versionCode="44"
+    android:versionName="1.1.0">
 
     <uses-sdk android:targetSdkVersion="17"
         android:minSdkVersion="14" />
@@ -25,12 +25,6 @@
     	android:name=".App"
          >
 
-        <receiver android:name=".AppBroadcastReceiver">
-		    <intent-filter>
-		        <action android:name="android.intent.action.BOOT_COMPLETED" />
-		    </intent-filter>
-		</receiver>
-
         <activity
             android:name=".view.BootActivity"
             >
@@ -52,6 +46,7 @@
 
 
         <activity android:name=".view.HomeActivity"
+                  android:launchMode="singleTop"
             >
 
             <intent-filter>
@@ -139,13 +134,8 @@
 			</intent-filter>
 		</activity>
 
-         <service
-			android:name=".service.BackgroundService"
-			android:label="@string/label_backend_service">
-			<intent-filter>
-				<category android:name="android.intent.category.DEFAULT"/>
-			</intent-filter>
-		</service>
+        <receiver android:name=".view.AlarmReceiver" />
+        <receiver android:name=".view.DeleteNotificationsReceiver" />
 
         <!-- Start of Crittercism.com Code -->
 		<activity android:name="com.crittercism.NewFeedbackSpringboardActivity" android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" android:screenOrientation="portrait"></activity>

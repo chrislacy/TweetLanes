@@ -52,6 +52,10 @@ public class TwitterManager {
         mInstance.setConnectionStatus(connectionStatusCallbacks);
     }
 
+    public static void initModule(TwitterManager instance) {
+        mInstance = instance;
+    }
+
     public static void deinitModule() {
         mInstance = null;
     }
@@ -415,6 +419,11 @@ public class TwitterManager {
             TwitterModifyStatuses.FinishedCallback callback) {
         mApi.setFavorite(statuses, isFavorite, callback);
     }
+
+    public void deleteTweet(TwitterStatuses statuses, TwitterModifyStatuses.FinishedCallback callback) {
+        mApi.deleteTweet(statuses, callback);
+    }
+
 
     /*
 	 *

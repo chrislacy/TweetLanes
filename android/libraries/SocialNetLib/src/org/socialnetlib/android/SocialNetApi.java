@@ -345,6 +345,11 @@ public abstract class SocialNetApi {
                 return SocialNetApi.this.getAndConfigureApiInstance();
             }
 
+            @Override
+            public AppdotnetApi getAppdotnetApi() {
+                return SocialNetApi.this.getAppdotnetApi();
+            }
+
         };
 
         mModifyStatuses.setWorkerCallbacks(callbacks);
@@ -668,6 +673,11 @@ public abstract class SocialNetApi {
             TwitterModifyStatuses.FinishedCallback callback) {
         mModifyStatuses.setFavorite(statuses, isFavorite, callback);
     }
+
+    public void deleteTweet(TwitterStatuses statuses, TwitterModifyStatuses.FinishedCallback callback) {
+        mModifyStatuses.deleteTweets(statuses, callback);
+    }
+
 
     /*
 	 *

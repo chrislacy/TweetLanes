@@ -143,7 +143,7 @@ public class TwitterFetchBooleans {
     void triggerFetchBooleanTask(FetchBooleanTaskInput taskInput,
             FinishedCallback callback, ConnectionStatus connectionStatus) {
 
-        if (connectionStatus.isOnline() == false) {
+        if (connectionStatus != null && connectionStatus.isOnline() == false) {
             if (callback != null) {
                 callback.finished(new TwitterFetchResult(false,
                         connectionStatus.getErrorMessageNoConnection()), null);
@@ -222,7 +222,7 @@ public class TwitterFetchBooleans {
             AppdotnetApi appdotnet = getAppdotnetInstance();
             String errorDescription = null;
 
-            if (input.mConnectionStatus.isOnline() == false) {
+            if (input.mConnectionStatus != null && input.mConnectionStatus.isOnline() == false) {
                 return new FetchBooleanTaskOutput(new TwitterFetchResult(false,
                         input.mConnectionStatus.getErrorMessageNoConnection()),
                         input.mCallbackHandle, null);

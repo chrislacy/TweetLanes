@@ -13,6 +13,7 @@ package com.tweetlanes.android.view;
 
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
+import com.tweetlanes.android.*;
 import org.socialnetlib.android.AppdotnetApi;
 import org.socialnetlib.android.SocialNetConstant;
 
@@ -20,11 +21,6 @@ import com.crittercism.app.Crittercism;
 
 import org.tweetalib.android.TwitterManager;
 import org.tweetalib.android.model.TwitterUser;
-
-import com.tweetlanes.android.App;
-import com.tweetlanes.android.AppSettings;
-import com.tweetlanes.android.Constant;
-import com.tweetlanes.android.R;
 
 import android.app.Activity;
 import android.os.AsyncTask;
@@ -52,11 +48,11 @@ public class AppDotNetAuthActivity extends Activity {
 
         getActionBar().setTitle(R.string.authorize_appdotnet_account);
 
-        TwitterManager.get().setSignInSocialNetType(Constant.APPDOTNET_CONSUMER_KEY,
-                Constant.APPDOTNET_CONSUMER_SECRET, SocialNetConstant.Type.Appdotnet);
+        TwitterManager.get().setSignInSocialNetType(ConsumerKeyConstants.APPDOTNET_CONSUMER_KEY,
+                ConsumerKeyConstants.APPDOTNET_CONSUMER_SECRET, SocialNetConstant.Type.Appdotnet);
 
         String url = "https://account.app.net/oauth/authenticate?client_id="
-                + Constant.APPDOTNET_CONSUMER_KEY
+                + ConsumerKeyConstants.APPDOTNET_CONSUMER_KEY
                 + "&response_type=token&redirect_uri=tweetlanes-auth-callback:///&scope=stream,write_post," +
                 "follow,messages";
 
@@ -83,8 +79,8 @@ public class AppDotNetAuthActivity extends Activity {
 
                         TwitterManager.get().setSocialNetType(
                                 SocialNetConstant.Type.Appdotnet,
-                                Constant.APPDOTNET_CONSUMER_KEY,
-                                Constant.APPDOTNET_CONSUMER_SECRET,
+                                ConsumerKeyConstants.APPDOTNET_CONSUMER_KEY,
+                                ConsumerKeyConstants.APPDOTNET_CONSUMER_SECRET,
                                 user.getScreenName().toLowerCase() + "_appdotnet");
 
                         onSuccessfulLogin(user, accessToken);
@@ -118,8 +114,8 @@ public class AppDotNetAuthActivity extends Activity {
                 return null;
             }
             return new AppdotnetApi(SocialNetConstant.Type.Appdotnet,
-                    Constant.APPDOTNET_CONSUMER_KEY,
-                    Constant.APPDOTNET_CONSUMER_SECRET,
+                    ConsumerKeyConstants.APPDOTNET_CONSUMER_KEY,
+                    ConsumerKeyConstants.APPDOTNET_CONSUMER_SECRET,
                     null).verifyCredentialsSync(
                     accessTokens[0], null);
         }
