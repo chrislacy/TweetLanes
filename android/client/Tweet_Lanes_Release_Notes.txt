@@ -1,6 +1,44 @@
 [Tweet Lanes Release Notes]
 
-Note: To report bugs or make feature requests, either contact me on Twitter @chrismlacy or click the "Send Feedback" button in the app.
+Note: To report bugs or make feature requests, either contact the official Twitter @TweetLanes or click the "Send Feedback" button in the app.
+
+Version 1.1.1, May 27, 2012 (New stuff edition)
+=================================
+- New features
+  * Notifications for mentions!
+  * Delete tweet/post
+  * App.net favorites
+- Bug fixes
+  * Removed open source code from Twidere, as it was license incompatible with Tweet Lanes
+  * Fix tutorial so scrolls properly (thanks AndrewCaul)
+  * App.net posts now show if you have favorited or reposted
+
+Version 1.0.1, March 25, 2013 (Bob Rocks edition)
+=================================
+- Bug and stability fixes, including:
+  * Feeds and statuses not loading  (thanks @RawkBob for the assist)
+  * Changed the API level back to 14 (Android 4.0)
+  * Better support for Instagram URLs (thanks @RawkBob for the code)
+  * Saving images created two copies (thanks @RawkBob for the code)
+  * Large font sizes clipping user names
+
+Version 1.0.0, March 17, 2013 (More than Twitter edition)
+=================================
+- App.net support
+- Bug fixes, including 4 by users like you! Fixes include:
+  * Rate limit exceeded
+  * Switching accounts while loading statuses sometimes showed them in the new account's timeline
+  * Fixed sharing images in Android via Tweet Lanes app
+  * Updated open source libraries used
+  * And more... see https://github.com/chrislacy/TweetLanes/issues?milestone=2&page=1&state=closed
+
+Version 0.72.1, February 22, 2013 ("Now Open" edition)
+=================================
+- Updated source code to be follow the new project coding standards
+- Upgraded to latest twitter4j which fixes:
+ * Follow/Unfollow button
+ * Lists
+ * Discussions
 
 Version 0.72.0, February 15, 2013
 =================================
@@ -16,7 +54,7 @@ Version 0.70.5, September 20, 2012
  - Display who a tweet was retweeted by
  - Display the full Tweet discussion (including replies)
 - Twitter Display Guidelines changes:
- * Display the Retweet and/or Favorite icon on the tweet itself. Many thanks to Walter Genevrier for creating the icons. 
+ * Display the Retweet and/or Favorite icon on the tweet itself. Many thanks to Walter Genevrier for creating the icons.
  * Always Display the account's full name in addition to the @ username when displaying tweets
  * No longer hide a media URL from the displayed tweet text. Note that the media preview still displays.
 - Single tapping a user on the Following/Followers feed will load that user's profile. You must use the Android long-press paradigm to send a Tweet to that user (or multiple users if using multiple selection)
@@ -26,12 +64,12 @@ Version 0.70.5, September 20, 2012
  * The "retweeted by Chris Lacy via Tweet Lanes for Android" text no longer draws over the top of an image preview
  * If a tweet on the feed was retweeted, favorited or both, an image shows this status
  * Many stability fixes
- * Misc. performance improvements 
+ * Misc. performance improvements
 
 Version 0.63.3, 13 August, 2012
 ===============================
 - Lane Customization. Configure which lanes you want to display.
-- The Image Viewer now has a Save button, allowing you to save the image to the SD card. 
+- The Image Viewer now has a Save button, allowing you to save the image to the SD card.
   The image also appears in the Gallery in the "Tweet Lanes" folder.
 - Further scrolling optimizations
 - Add an option to display the app a tweet was sent from (eg, "via Tweet Lanes")
@@ -59,7 +97,7 @@ Version 0.6.1, 9 August, 2012
  * Alert the user if a gallery image can't be attached to a tweet for any reason.
  * Fix gray background present on the tablet version on short views
  * Fix bug where "null" could end up displaying as the Tweet draft
- * Stability improvements 
+ * Stability improvements
 
 Version 0.5.8, 1 August, 2012
 ===============================
@@ -117,11 +155,11 @@ Version 0.4.1, 18 July, 2012
 - Remembering your position in the Feed:
   * Initial release that handles remembering your position in the feed between sessions
   * Recently read tweets from the previous session are cached and loaded automatically when you restart
-  * App will attempt to load all the Tweets since you last loaded the app. There should no longer be gaps in your timeline. 
+  * App will attempt to load all the Tweets since you last loaded the app. There should no longer be gaps in your timeline.
   * When new Tweets are loaded, a banner is displayed at the top of your feed informing you how many new Tweets are available.
   * When new Tweets are loaded, the app no longer jumps to the top of your feed.
-  * Increase the maximum number of Tweets fetched during each API request from 20 to 50. 
-- Landscape mode has been enabled. 
+  * Increase the maximum number of Tweets fetched during each API request from 20 to 50.
+- Landscape mode has been enabled.
 - Tighten up the styling of the Tweet Feed.
 - Fix for viewing protected accounts. App also now displays a 'locked' icon for protected accounts.
 - Stability fixes
@@ -130,12 +168,12 @@ Version 0.4.1, 18 July, 2012
 Version 0.2.8
 ===============================
 - Add Share option.
-- Follow/unfollow users. 
+- Follow/unfollow users.
 
 
 Version 0.2.7
 ===============================
-- Conversation View working for all devices. 
+- Conversation View working for all devices.
 - Slight feed speed increase
 
 

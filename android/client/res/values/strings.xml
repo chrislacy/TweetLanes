@@ -19,11 +19,12 @@
     <string name="follows_you"><i>follows you</i></string>
     
     <string name="credits_oss_heading">Tweet Lanes uses the following open-source software:</string>
-    <string name="credits_oss_items"><a href="https://github.com/chrisbanes/Android-PullToRefresh">Android-PullToRefresh</a>, Copyright 2013 Chris Banes.\n<a href="https://plus.google.com/117064558166627683075/posts">AOSP</a>, Copyright 2008-2013, Android Open Source Project.\n<a href="https://github.com/jasonpolites/gesture-imageview">GestureImageView</a>, Copyright 2012 Jason Polites.\n<a href="https://github.com/mariotaku/twidere">Twidere</a>, Copyright (C) 2012 Mariotaku Lee.\n<a href="https://github.com/DHuckaby/Prime">Prime</a>, Copyright (C) 2012 Daniel Huckaby.\n<a href="https://github.com/koush/UrlImageViewHelper">UrlImageViewHelper</a>, Copyright 2013 Koushik Dutta.\n<a href="https://github.com/JakeWharton/Android-ViewPagerIndicator">ViewPagerIndicator</a>, Copyright 2012 Jake Wharton.\n</string>
+    <string name="credits_oss_items"><a href="https://github.com/chrisbanes/Android-PullToRefresh">Android-PullToRefresh</a>, Copyright 2013 Chris Banes.\n<a href="https://plus.google.com/117064558166627683075/posts">AOSP</a>, Copyright 2008-2013, Android Open Source Project.\n<a href="https://github.com/jasonpolites/gesture-imageview">GestureImageView</a>, Copyright 2012 Jason Polites.\n<a href="https://github.com/DHuckaby/Prime">Prime</a>, Copyright (C) 2012 Daniel Huckaby.\n<a href="https://github.com/koush/UrlImageViewHelper">UrlImageViewHelper</a>, Copyright 2013 Koushik Dutta.\n<a href="https://github.com/JakeWharton/Android-ViewPagerIndicator">ViewPagerIndicator</a>, Copyright 2012 Jake Wharton.\n</string>
     <string name="credits_art_items">Logo and promotional images created by <a href="https://plus.google.com/107629610345558527193/posts">Bruno Rime</a>. Used with permission.</string>
     <string name="credits_app_copyright">Copyright 2013, Chris Lacy.</string>
     
     <string name="authorize_twitter_account">Authorize Twitter Account</string>
+    <string name="authorize_appdotnet_account">Authorize App.net Account</string>
     
     <string name="action_follow">Follow</string>
     <string name="action_unfollow">Unfollow</string>
@@ -33,6 +34,7 @@
     <string name="action_unfavorite">Unfavorite</string>
     <string name="action_block">Block User</string>
     <string name="action_report_for_spam">Report User for Spam</string>
+    <string name="action_delete_status">Delete</string>
     <string name="action_retweet">Retweet</string>
     <string name="action_reply">Reply</string>
     <string name="action_message">Message</string>
@@ -47,8 +49,11 @@
 	<string name="action_hide_replies">Hide Replies</string>
 	<string name="action_show_retweets">Show Retweets</string>
 	<string name="action_hide_retweets">Hide Retweets</string>
+    <string name="action_show_retweets_adn">Show Reposts</string>
+    <string name="action_hide_retweets_adn">Hide Reposts</string>
     
 	<string name="action_bar_tweet_compose_title">New Tweet</string>
+    <string name="action_bar_tweet_compose_title_adn">New Post</string>
 	<string name="action_bar_tweet_reply_compose_title">Reply</string>
 	<string name="action_bar_direct_message_compose_title">New Direct Message</string>
     <string name="action_bar_search_title">Searching for </string>
@@ -60,6 +65,8 @@
 
     <string name="new_tweet">New Tweet</string>
     <string name="new_tweets">New Tweets</string>
+    <string name="new_post">New Post</string>
+    <string name="new_posts">New Posts</string>
     
     <string name="no_more_content">~</string>
     <string name="load_more">Tap to load more</string>
@@ -67,19 +74,22 @@
 
     <string name="compose_tweet_default_hint">What\'s happening?</string>
     <string name="compose_tweet_to_user_hint">Tweet to </string>
+    <string name="compose_tweet_to_user_hint_adn">Post at </string>
     <string name="compose_tweet_reply_to">Reply to </string>
     <string name="compose_tweet_finish">Send Tweet: </string>
+    <string name="compose_tweet_finish_adn">Send Post: </string>
     
     <string name="compose_direct_message_default_hint">New Direct Message</string>
     <string name="compose_direct_message_finish">Send DM: </string>
     
-    <string name="separator_accounts">Twitter Accounts</string>
     <string name="separator_more">More</string>
     <string name="add_account">Add Account</string>
     
     <string name="lane_user_home">Timeline</string>
     <string name="lane_user_tweets">My Tweets</string>
+    <string name="lane_user_tweets_adn">My Posts</string>
     <string name="lane_user_retweets_of_me">Retweets of Me</string>
+    <string name="lane_user_retweets_of_me_adn">Interactions</string>
     <string name="lane_user_favorites">My Favorites</string>
     <string name="lane_user_profile">My Profile</string>
     <string name="lane_user_mentions">\@ Mentions</string>
@@ -90,23 +100,26 @@
     
     <string name="lane_profile_profile">Profile</string>
     <string name="lane_profile_tweets">Tweets</string>
+    <string name="lane_profile_tweets_adn">Posts</string>
     <string name="lane_profile_mentions">\@ Mentions</string>
     <string name="lane_profile_favorites">Favorites</string>
     
     <string name="lane_search_tweets">Tweets</string>
+    <string name="lane_search_tweets_adn">Posts</string>
     <string name="lane_search_people">People</string>
     
     <string name="lane_tweet_status">Tweet</string>
+    <string name="lane_tweet_status_adn">Post</string>
     <string name="lane_tweet_conversation">Discussion</string>
     <string name="lane_tweet_favorited_by">Favorited By</string>
     <string name="lane_tweet_retweeted_by">Retweeted By</string>
+    <string name="lane_tweet_retweeted_by_adn">Reposted By</string>
     
     <string name="status_count">Tweets</string>
     <string name="posts_count">Posts</string>
     <string name="friends_count">Following</string>
     <string name="following_count">Followers</string>
     <string name="favorites_count">Favorites</string>
-    <string name="retweet_count">Retweets</string>
     
     <string name="load_more_label">Tap to load more</string>
     <string name="pull_to_refresh_pull_label">Pull to refresh&#8230;</string>
@@ -114,10 +127,10 @@
     <string name="pull_to_refresh_refreshing_label">Loading&#8230;</string>
     <string name="pull_to_refresh_tap_label">Tap to refresh&#8230;</string>
 
-    <string name="tweet_posted_success">Tweet posted</string>
-    <string name="tweet_posted_error">Failed to post Tweet</string>
-    <string name="posting_tweet">Posting Tweet</string>
-    <string name="posting_tweet_ongoing">Posting Tweet&#8230;</string>
+    <string name="tweet_posted_success">Status posted</string>
+    <string name="tweet_posted_error">Failed to post status</string>
+    <string name="posting_tweet">Posting</string>
+    <string name="posting_tweet_ongoing">Posting &#8230;</string>
     
     <string name="share_tweet">Tweet Text</string>
     <string name="share_tweet_link">Link to Tweet</string>
@@ -135,7 +148,9 @@
     <string name="alert_share_title">Share</string>
     <string name="alert_share_message">\nHow would you like to share this Tweet?\n</string>
     <string name="alert_status_too_long">Your Tweet is too long and cannot be posted.\n\nTweets can be a maximum of 140 characters in length.</string>
-    <string name="alert_status_invalid">Your Tweet cannot be posted as it contains invalid characters.</string>
+    <string name="alert_status_too_long_adn">Your post is too long and cannot be posted.\n\nPosts can be a maximum of
+        256 characters in length.</string>
+    <string name="alert_status_invalid">Your status update cannot be posted as it contains invalid characters.</string>
     <string name="alert_direct_message_no_recipient">Please enter the Twitter username of the person to message.</string>
     <string name="alert_direct_message_too_long">The text of your Direct Message is too long and cannot be posted.\n\nYou message can be a maximum 140 characters in length.</string>
     <string name="alert_direct_message_invalid">Your Direct Message cannot be posted as it contains invalid characters.</string>
@@ -149,6 +164,9 @@
     <string name="alert_customize_lanes_title">Customize Lanes</string>
     
     <string name="functionality_not_implemented">Sorry, but this feature isn\'t ready just yet. It\'s coming very soon though, I promise!</string>
+    <string name="deleted_successfully">Status deleted successfully</string>
+    <string name="favorited_successfully">Favorited successfully</string>
+    <string name="unfavorited_successfully">Unfavorited successfully</string>
     
     <string name="retweet">Retweet</string>
     <string name="quote">Quote</string>
@@ -181,7 +199,7 @@
     
     <string-array name="tutorial_titles">
         <item>Welcome</item>
-        <item>Context Tweet Box</item>
+        <item>Context Box</item>
         <item>Multiple Selection</item>
         <item>VolScroll™</item>
         <item>Spam Controls</item>
@@ -190,33 +208,33 @@
     <string name="tutorial_thanks_title">- thank you!</string>
     
     <string name="tutorial_welcome_intro">Welcome to Tweet Lanes!</string>
-    <string name="tutorial_welcome_middle">"Tweet Lanes contains some subtle enhancements over any Twitter app you've used previously.\n\nLet's very quickly run through the most unique features of the app."</string>
+    <string name="tutorial_welcome_middle">"Tweet Lanes contains some subtle enhancements over any Twitter or App.net app you've used previously.\n\nLet's very quickly run through the most unique features of the app."</string>
     <string name="tutorial_welcome_swipe"><i>« Swipe to continue</i></string>
         
     <string name="tutorial_volscroll_intro">In addition to traditional touch scrolling, Tweet Lanes introduces a new way to navigate your feed - <i>VolScroll™</i>.\n\nBy clicking the volume up/down hardware keys, you can quickly navigate your timeline.</string>
     <string name="tutorial_volscroll_reasons">This is awesome because:</string>
     <string name="tutorial_volscroll_reason1">Using the volume keys is faster than touching your screen to scroll</string>
-    <string name="tutorial_volscroll_reason2">You only need to use one hand to hold the device and read tweets.</string>
+    <string name="tutorial_volscroll_reason2">You only need to use one hand to hold the device and read status updates.</string>
     <string name="tutorial_volscroll_footer">Give VolScroll a try - I think you\'ll like it!</string>
     
-    <string name="tutorial_images_intro">Tweets containing media from trusted sources are automatically previewed.\n\nSo instead of this:</string>
+    <string name="tutorial_images_intro">Status updates containing media from trusted sources are automatically previ ewed.\n\nSo instead of this:</string>
     <string name="tutorial_images_middle">You see this (much more helpful!):</string>
     <string name="tutorial_images_footer">\nNote that the media URL is also hidden to increase the legibility of the Tweet.</string>
     <string name="tutorial_images_sources">Preview images are displayed for:</string>
     
-    <string name="tutorial_compose_tweet_intro">There are no New Tweet or Reply buttons in Tweet Lanes, nor does a new screen load when writing a Tweet.</string>
-    <string name="tutorial_compose_tweet_context_sensitive">Instead, Tweets are created via the ever-present <i>Context Tweet Box</i>:</string>
-    <string name="tutorial_compose_tweet_hint">\nThe <i>Context Tweet Box</i> is a new concept, but fear not. You will learn very quickly how simple it makes writing Tweets!</string>
+    <string name="tutorial_compose_tweet_intro">There are no New Update or Reply buttons in Tweet Lanes, nor does a new screen load when writing an update.</string>
+    <string name="tutorial_compose_tweet_context_sensitive">Instead, status updates are created via the ever-present <i>Context Box</i>:</string>
+    <string name="tutorial_compose_tweet_hint">\nThe <i>Context Box</i> is a new concept, but fear not. You will learn very quickly how simple it makes writing updates!</string>
     <string name="tutorial_compose_tweet_footer">\n(Keep an eye on the hint if you are ever unsure!)</string>
  
-    <string name="tutorial_multiple_selection_intro1">Tweet Lanes allows you to interact with multiple tweets at the same time.</string>
+    <string name="tutorial_multiple_selection_intro1">Tweet Lanes allows you to interact with multiple statuses at the same time.</string>
     <string name="tutorial_multiple_selection_intro2">Consider the case where 2 people @mention you with the same question.</string>
-    <string name="tutorial_multiple_selection_intro3">To reply to both, select the Tweets&#8230;</string>
-    <string name="tutorial_multiple_selection_reply">&#8230;and the <i>Context Tweet Box</i> will allow you to reply to both with one tweet!</string>
+    <string name="tutorial_multiple_selection_intro3">To reply to both, select the updates&#8230;</string>
+    <string name="tutorial_multiple_selection_reply">&#8230;and the <i>Context Box</i> will allow you to reply to both with one update!</string>
     
-    <string name="tutorial_spam_control_intro">Everyone hates Twitter Spam.</string>
-    <string name="tutorial_spam_control_instruction1">Tweet Lanes makes dealing with Spammers as fast as possible.</string>
-    <string name="tutorial_spam_control_instruction2">Simply select the offending tweets, then report them for Spam!</string>
+    <string name="tutorial_spam_control_intro">Everyone hates Spam.</string>
+    <string name="tutorial_spam_control_instruction1">Tweet Lanes makes dealing with spammers as fast as possible.</string>
+    <string name="tutorial_spam_control_instruction2">Simply select the offending tweets, then report them for spam!</string>
     
     <string name="tutorial_thanks_intro">Thank you for trying out Tweet Lanes!\n\nIf you like the app, be sure to click <i>Promote</i> to help spread the word about it.</string>
     <string name="tutorial_thanks_feedback">\nTweet Lanes is also completely open source, so if you want to contribute to it, please feel free to do so!\n\nMany thanks,</string>
@@ -303,6 +321,13 @@
     <string name="title_version_preference">Tweet Lanes version</string>
     <string name="summary_version_preference"></string>
 
+    <string name="notification_preferences">Notifications</string>
+
+    <string name="show_notifications_preference">Enable Notifications</string>
+    <string name="summary_show_notifications_preference">Display notifications when you get new mentions</string>
+
+    <string name="ringtone_preference">Ringtone</string>
+
 	<string name="settings_never">Never</string>
 	<string name="settings_always">Always</string>
 	<string name="settings_wifi">Wifi only</string>
@@ -320,8 +345,9 @@
 	<string name="settings_volume_controls">Volume button scrolling</string>
 	<string name="settings_volume_controls_summary">Scroll up and down using the volume buttons</string>
 	
-	<string name="title_showtweetsource_preference">Tweet Source</string>
-	<string name="summary_showtweetsource_preference">Display the name of the application the Tweet originated from</string>
+	<string name="title_showtweetsource_preference">Source</string>
+	<string name="summary_showtweetsource_preference">Display the name of the application the status update originated
+        from</string>
 
 	<string name="settings_image_loading">Image loading</string>
 	<string name="settings_image_preview">Image preview</string>
@@ -343,5 +369,11 @@
     <string name="label_backend_service">Tweet Lanes Notifications</string>
     <string name="extension_title">TweetLanes</string>
     <string name="extension_description">Unread tweets, DMs, and mentions</string>
+    <string name="select_account_type">What type of an account would you like to add?</string>
+    <string name="new_account_intro">Tweet Lanes supports two different social networks: Twitter
+        and App.net.</string>
+    <string name="new_account_intro2">To add an account, sign into one of the following services:</string>
+    <string name="new_account_twitter">Twitter</string>
+    <string name="new_account_adn">App.net</string>
 </resources>
 

@@ -6,13 +6,10 @@ import java.text.Normalizer;
  * A class for validating Tweet texts.
  */
 public class Validator {
-  
   public static final int MAX_TWEET_LENGTH = 140;
-  public static final int MAX_APPDOTNET_POST_LENGTH = 256;
-  public static int MAX_STATUS_LENGTH = MAX_TWEET_LENGTH;
 
-  protected int shortUrlLength = 20;
-  protected int shortUrlLengthHttps = 21;
+  protected int shortUrlLength = 22;
+  protected int shortUrlLengthHttps = 23;
 
   private Extractor extractor = new Extractor();
 
@@ -20,15 +17,21 @@ public class Validator {
     text = Normalizer.normalize(text, Normalizer.Form.NFC);
     int length = text.codePointCount(0, text.length());
 
-    for (Extractor.Entity urlEntity : extractor.extractURLsWithIndices(text)) {
+        for (Extractor.Entity urlEntity : extractor
+                .extractURLsWithIndices(text)) {
       length += urlEntity.start - urlEntity.end;
-      length += urlEntity.value.toLowerCase().startsWith("https://") ? shortUrlLengthHttps : shortUrlLength;
+            length += urlEntity.value.toLowerCase().startsWith("https://") ? shortUrlLengthHttps
+                    : shortUrlLength;
     }
 
     return length;
   }
 
   public boolean isValidTweet(String text) {
+        return isValidTweet(text, MAX_TWEET_LENGTH);
+    }
+
+    public boolean isValidTweet(String text, int maxLength) {
     if (text == null || text.isEmpty()) {
       return false;
     }
@@ -41,7 +44,7 @@ public class Validator {
       }
     }
 
-    return getTweetLength(text) <= MAX_STATUS_LENGTH;
+        return getTweetLength(text) <= maxLength;
   }
 
   public int getShortUrlLength() {

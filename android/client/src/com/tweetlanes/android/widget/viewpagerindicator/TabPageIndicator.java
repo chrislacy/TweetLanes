@@ -1,22 +1,14 @@
 /*
- * Copyright (C) 2011 The Android Open Source Project
- * Copyright (C) 2011 Jake Wharton
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright (C) 2011 The Android Open Source Project Copyright (C) 2011 Jake
+ * Wharton Licensed under the Apache License, Version 2.0 (the "License"); you
+ * may not use this file except in compliance with the License. You may obtain a
+ * copy of the License at http://www.apache.org/licenses/LICENSE-2.0 Unless
+ * required by applicable law or agreed to in writing, software distributed
+ * under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+ * CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
  */
 package com.tweetlanes.android.widget.viewpagerindicator;
-
-import com.tweetlanes.android.R;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
@@ -30,23 +22,29 @@ import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.tweetlanes.android.R;
+
 /**
  * This widget implements the dynamic action bar tab behavior that can change
  * across different configurations or circumstances.
  */
-public class TabPageIndicator extends HorizontalScrollView implements PageIndicator {
+public class TabPageIndicator extends HorizontalScrollView implements
+        PageIndicator {
+
     Runnable mTabSelector;
 
     private OnClickListener mTabClickListener = new OnClickListener() {
+
         public void onClick(View view) {
-            TabView tabView = (TabView)view;
-            
-            boolean clickedCurrentItem = mViewPager.getCurrentItem() == tabView.getIndex();
-            	
+            TabView tabView = (TabView) view;
+
+            boolean clickedCurrentItem = mViewPager.getCurrentItem() == tabView
+                    .getIndex();
+
             mViewPager.setCurrentItem(tabView.getIndex());
-            
+
             if (mTabCallbacks != null && clickedCurrentItem == true) {
-            	mTabCallbacks.onCurrentItemClicked();
+                mTabCallbacks.onCurrentItemClicked();
             }
         }
     };
@@ -71,7 +69,9 @@ public class TabPageIndicator extends HorizontalScrollView implements PageIndica
         mInflater = LayoutInflater.from(context);
 
         mTabLayout = new LinearLayout(getContext());
-        addView(mTabLayout, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.FILL_PARENT));
+        addView(mTabLayout, new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.FILL_PARENT));
     }
 
     @Override
@@ -81,11 +81,13 @@ public class TabPageIndicator extends HorizontalScrollView implements PageIndica
         setFillViewport(lockedExpanded);
 
         final int childCount = mTabLayout.getChildCount();
-        if (childCount > 1 && (widthMode == MeasureSpec.EXACTLY || widthMode == MeasureSpec.AT_MOST)) {
+        if (childCount > 1
+                && (widthMode == MeasureSpec.EXACTLY || widthMode == MeasureSpec.AT_MOST)) {
             if (childCount > 2) {
-            	// TweetLanes: Change max width so names don't get cut off
-            	//mMaxTabWidth = (int)(MeasureSpec.getSize(widthMeasureSpec) * 0.4f);
-            	mMaxTabWidth = (int)(MeasureSpec.getSize(widthMeasureSpec) * 0.5f);
+                // TweetLanes: Change max width so names don't get cut off
+                // mMaxTabWidth = (int)(MeasureSpec.getSize(widthMeasureSpec) *
+                // 0.4f);
+                mMaxTabWidth = (int) (MeasureSpec.getSize(widthMeasureSpec) * 0.5f);
             } else {
                 mMaxTabWidth = MeasureSpec.getSize(widthMeasureSpec) / 2;
             }
@@ -109,8 +111,10 @@ public class TabPageIndicator extends HorizontalScrollView implements PageIndica
             removeCallbacks(mTabSelector);
         }
         mTabSelector = new Runnable() {
+
             public void run() {
-                final int scrollPos = tabView.getLeft() - (getWidth() - tabView.getWidth()) / 2;
+                final int scrollPos = tabView.getLeft()
+                        - (getWidth() - tabView.getWidth()) / 2;
                 smoothScrollTo(scrollPos, 0);
                 mTabSelector = null;
             }
@@ -136,13 +140,15 @@ public class TabPageIndicator extends HorizontalScrollView implements PageIndica
     }
 
     private void addTab(String text, int index) {
-        //Workaround for not being able to pass a defStyle on pre-3.0
-        final TabView tabView = (TabView)mInflater.inflate(R.layout.vpi__tab, null);
+        // Workaround for not being able to pass a defStyle on pre-3.0
+        final TabView tabView = (TabView) mInflater.inflate(R.layout.vpi__tab,
+                null);
         tabView.init(this, text, index);
         tabView.setFocusable(true);
         tabView.setOnClickListener(mTabClickListener);
 
-        mTabLayout.addView(tabView, new LinearLayout.LayoutParams(0, LayoutParams.FILL_PARENT, 1));
+        mTabLayout.addView(tabView, new LinearLayout.LayoutParams(0,
+                LayoutParams.FILL_PARENT, 1));
     }
 
     @Override
@@ -160,10 +166,10 @@ public class TabPageIndicator extends HorizontalScrollView implements PageIndica
     }
 
     @Override
-    public void onPageSelected(int position, int oldPosition) {
+    public void onPageSelected(int position) {
         setCurrentItem(position);
         if (mListener != null) {
-            mListener.onPageSelected(position, oldPosition);
+            mListener.onPageSelected(position);
         }
     }
 
@@ -171,10 +177,12 @@ public class TabPageIndicator extends HorizontalScrollView implements PageIndica
     public void setViewPager(ViewPager view) {
         final PagerAdapter adapter = view.getAdapter();
         if (adapter == null) {
-            throw new IllegalStateException("ViewPager does not have adapter instance.");
+            throw new IllegalStateException(
+                    "ViewPager does not have adapter instance.");
         }
         if (!(adapter instanceof TitleProvider)) {
-            throw new IllegalStateException("ViewPager adapter must implement TitleProvider to be used with TitlePageIndicator.");
+            throw new IllegalStateException(
+                    "ViewPager adapter must implement TitleProvider to be used with TitlePageIndicator.");
         }
         mViewPager = view;
         view.setOnPageChangeListener(this);
@@ -183,8 +191,8 @@ public class TabPageIndicator extends HorizontalScrollView implements PageIndica
 
     public void notifyDataSetChanged() {
         mTabLayout.removeAllViews();
-        TitleProvider adapter = (TitleProvider)mViewPager.getAdapter();
-        final int count = ((PagerAdapter)adapter).getCount();
+        TitleProvider adapter = (TitleProvider) mViewPager.getAdapter();
+        final int count = ((PagerAdapter) adapter).getCount();
         for (int i = 0; i < count; i++) {
             addTab(adapter.getTitle(i), i);
         }
@@ -224,6 +232,7 @@ public class TabPageIndicator extends HorizontalScrollView implements PageIndica
     }
 
     public static class TabView extends LinearLayout {
+
         private TabPageIndicator mParent;
         private int mIndex;
 
@@ -235,7 +244,7 @@ public class TabPageIndicator extends HorizontalScrollView implements PageIndica
             mParent = parent;
             mIndex = index;
 
-            TextView textView = (TextView)findViewById(android.R.id.text1);
+            TextView textView = (TextView) findViewById(android.R.id.text1);
             textView.setText(text);
         }
 
@@ -244,8 +253,10 @@ public class TabPageIndicator extends HorizontalScrollView implements PageIndica
             super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
             // Re-measure if we went beyond our maximum size.
-            if (mParent.mMaxTabWidth > 0 && getMeasuredWidth() > mParent.mMaxTabWidth) {
-                super.onMeasure(MeasureSpec.makeMeasureSpec(mParent.mMaxTabWidth, MeasureSpec.EXACTLY),
+            if (mParent.mMaxTabWidth > 0
+                    && getMeasuredWidth() > mParent.mMaxTabWidth) {
+                super.onMeasure(MeasureSpec.makeMeasureSpec(
+                        mParent.mMaxTabWidth, MeasureSpec.EXACTLY),
                         heightMeasureSpec);
             }
         }
@@ -254,13 +265,15 @@ public class TabPageIndicator extends HorizontalScrollView implements PageIndica
             return mIndex;
         }
     }
-    
+
     public interface TabCallbacks {
-    	public void onCurrentItemClicked();
+
+        public void onCurrentItemClicked();
     };
+
     private TabCallbacks mTabCallbacks;
-    
+
     public void setTabCallbacks(TabCallbacks callbacks) {
-    	mTabCallbacks = callbacks;
+        mTabCallbacks = callbacks;
     }
 }

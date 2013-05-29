@@ -13,13 +13,14 @@ import android.widget.ImageView;
 import com.tweetlanes.android.AppSettings;
 import com.tweetlanes.android.R;
 
-public class QuickContactDivot extends ImageView implements Divot{
+public class QuickContactDivot extends ImageView implements Divot {
+
     private Drawable mDrawable;
     private int mDrawableIntrinsicWidth;
     private int mDrawableIntrinsicHeight;
     private int mPosition;
 
-    // The screen density.  Multiple this by dips to get pixels.
+    // The screen density. Multiple this by dips to get pixels.
     private float mDensity;
 
     public QuickContactDivot(Context context, AttributeSet attrs, int defStyle) {
@@ -39,7 +40,8 @@ public class QuickContactDivot extends ImageView implements Divot{
 
     private void initialize(AttributeSet attrs) {
         if (attrs != null) {
-            mPosition = attrs.getAttributeListValue(null, "position", sPositionChoices, -1);
+            mPosition = attrs.getAttributeListValue(null, "position",
+                    sPositionChoices, -1);
         }
 
         Resources r = getContext().getResources();
@@ -52,29 +54,31 @@ public class QuickContactDivot extends ImageView implements Divot{
         Resources r = getContext().getResources();
 
         switch (mPosition) {
-            case LEFT_UPPER:
-            case LEFT_MIDDLE:
-            case LEFT_LOWER:
-                mDrawable = r.getDrawable(R.drawable.msg_bubble_right);
-                break;
+        case LEFT_UPPER:
+        case LEFT_MIDDLE:
+        case LEFT_LOWER:
+            mDrawable = r.getDrawable(R.drawable.msg_bubble_right);
+            break;
 
-            case RIGHT_UPPER:
-            case RIGHT_MIDDLE:
-            case RIGHT_LOWER:
-                mDrawable = r.getDrawable(AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Dark ? R.drawable.msg_bubble_left_dark : R.drawable.msg_bubble_left_light);
-                break;
+        case RIGHT_UPPER:
+        case RIGHT_MIDDLE:
+        case RIGHT_LOWER:
+            mDrawable = r
+                    .getDrawable(AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Dark ? R.drawable.msg_bubble_left_dark
+                            : R.drawable.msg_bubble_left_light);
+            break;
 
-//            case TOP_LEFT:
-//            case TOP_MIDDLE:
-//            case TOP_RIGHT:
-//                mDrawable = r.getDrawable(R.drawable.msg_bubble_bottom);
-//                break;
-//
-//            case BOTTOM_LEFT:
-//            case BOTTOM_MIDDLE:
-//            case BOTTOM_RIGHT:
-//                mDrawable = r.getDrawable(R.drawable.msg_bubble_top);
-//                break;
+        // case TOP_LEFT:
+        // case TOP_MIDDLE:
+        // case TOP_RIGHT:
+        // mDrawable = r.getDrawable(R.drawable.msg_bubble_bottom);
+        // break;
+        //
+        // case BOTTOM_LEFT:
+        // case BOTTOM_MIDDLE:
+        // case BOTTOM_RIGHT:
+        // mDrawable = r.getDrawable(R.drawable.msg_bubble_top);
+        // break;
         }
         mDrawableIntrinsicWidth = mDrawable.getIntrinsicWidth();
         mDrawableIntrinsicHeight = mDrawable.getIntrinsicHeight();
@@ -100,16 +104,16 @@ public class QuickContactDivot extends ImageView implements Divot{
     }
 
     public float getCloseOffset() {
-        return CORNER_OFFSET * mDensity;  // multiply by density to get pixels
+        return CORNER_OFFSET * mDensity; // multiply by density to get pixels
     }
 
     public ImageView asImageView() {
         return this;
     }
 
-    //public void assignContactFromEmail(String emailAddress) {
-    //    assignContactFromEmail(emailAddress, true);
-    //}
+    // public void assignContactFromEmail(String emailAddress) {
+    // assignContactFromEmail(emailAddress, true);
+    // }
 
     public float getFarOffset() {
         return getCloseOffset() + mDrawableIntrinsicHeight;
@@ -125,31 +129,25 @@ public class QuickContactDivot extends ImageView implements Divot{
         final int cornerOffset = (int) getCloseOffset();
 
         switch (mPosition) {
-            case RIGHT_UPPER:
-                mDrawable.setBounds(
-                        right - mDrawableIntrinsicWidth,
-                        top + cornerOffset,
-                        right,
-                        top + cornerOffset + mDrawableIntrinsicHeight);
-                break;
+        case RIGHT_UPPER:
+            mDrawable.setBounds(right - mDrawableIntrinsicWidth, top
+                    + cornerOffset, right, top + cornerOffset
+                    + mDrawableIntrinsicHeight);
+            break;
 
-            case LEFT_UPPER:
-                mDrawable.setBounds(
-                        left,
-                        top + cornerOffset,
-                        left + mDrawableIntrinsicWidth,
-                        top + cornerOffset + mDrawableIntrinsicHeight);
-                break;
+        case LEFT_UPPER:
+            mDrawable.setBounds(left, top + cornerOffset, left
+                    + mDrawableIntrinsicWidth, top + cornerOffset
+                    + mDrawableIntrinsicHeight);
+            break;
 
-            case BOTTOM_MIDDLE:
-                int halfWidth = mDrawableIntrinsicWidth / 2;
-                mDrawable.setBounds(
-                        (int)(middle - halfWidth),
-                        (int)(bottom - mDrawableIntrinsicHeight),
-                        (int)(middle + halfWidth),
-                        (int)(bottom));
+        case BOTTOM_MIDDLE:
+            int halfWidth = mDrawableIntrinsicWidth / 2;
+            mDrawable.setBounds((int) (middle - halfWidth),
+                    (int) (bottom - mDrawableIntrinsicHeight),
+                    (int) (middle + halfWidth), (int) (bottom));
 
-                break;
+            break;
         }
     }
 
