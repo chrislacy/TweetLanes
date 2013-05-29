@@ -30,6 +30,8 @@ import java.util.ArrayList;
 public class AlarmReceiver extends BroadcastReceiver {
 
     final String SHARED_PREFERENCES_KEY_ACCOUNT_INDICES = "account_indices_key_v2";
+    final String SHARED_PREFERENCES_KEY_NOTIFICATION_COUNT = "notification_count_";
+    final String SHARED_PREFERENCES_KEY_NOTIFICATION_SUMMARY = "notification_summary_";
 
     Context mContext;
 
@@ -46,33 +48,46 @@ public class AlarmReceiver extends BroadcastReceiver {
     TwitterFetchStatusesFinishedCallback callback = new TwitterFetchStatusesFinishedCallback() {
         @Override
         public void finished(TwitterFetchResult result, TwitterStatuses feed, TwitterContentHandle contentHandle) {
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+
             if (feed != null && feed.getStatusCount() > 0) {
                 int notificationId = contentHandle.getCurrentAccountKey().hashCode();
                 String name = contentHandle.getScreenName();
                 int count = feed.getStatusCount();
 
-                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
                 long lastDisplayedMentionId = preferences.getLong(Notifier
                         .SHARED_PREFERENCES_KEY_NOTIFICATION_LAST_DISPLAYED_MENTION_ID +
                         contentHandle.getCurrentAccountKey(), 0);
 
                 TwitterStatus first = feed.getStatus(0);
 
+                String fullDetail = "";
                 if (first.mId > lastDisplayedMentionId) {
                     String detail = feed.getStatusCount() == 1 ? "@" + first.getAuthorScreenName() + ": " + first.mStatus
                             : "@" + name + " has " + count + " new " + "mentions";
 
-                    String fullDetail = "";
                     for (int i = 0; i < feed.getStatusCount(); ++i) {
                         TwitterStatus status = feed.getStatus(i);
                         fullDetail += status.mStatus + "\n";
                     }
-                    fullDetail = fullDetail.substring(0, fullDetail.length() - 2);
+                    fullDetail = fullDetail.substring(0, fullDetail.length() - 1);
 
                     String noun = feed.getStatusCount() == 1 ? "mention" : "mention";
                     Notifier.notify("@" + name + ": " + count + " new " + noun, detail, fullDetail, true, notificationId,
                             contentHandle.getCurrentAccountKey(), feed.getStatus(0).mId, mContext);
                 }
+
+                SharedPreferences.Editor edit = preferences.edit();
+                edit.putInt(SHARED_PREFERENCES_KEY_NOTIFICATION_COUNT + contentHandle.getCurrentAccountKey(), count);
+                edit.putString(SHARED_PREFERENCES_KEY_NOTIFICATION_SUMMARY + contentHandle.getCurrentAccountKey(),
+                        fullDetail);
+                edit.commit();
+            }
+            else {
+                SharedPreferences.Editor edit = preferences.edit();
+                edit.putInt(SHARED_PREFERENCES_KEY_NOTIFICATION_COUNT + contentHandle.getCurrentAccountKey(), 0);
+                edit.putString(SHARED_PREFERENCES_KEY_NOTIFICATION_SUMMARY + contentHandle.getCurrentAccountKey(), "");
+                edit.commit();
             }
         }
     };
