@@ -30,8 +30,6 @@ import java.util.ArrayList;
 public class AlarmReceiver extends BroadcastReceiver {
 
     final String SHARED_PREFERENCES_KEY_ACCOUNT_INDICES = "account_indices_key_v2";
-    final String SHARED_PREFERENCES_KEY_NOTIFICATION_COUNT = "notification_count_";
-    final String SHARED_PREFERENCES_KEY_NOTIFICATION_SUMMARY = "notification_summary_";
 
     Context mContext;
 
@@ -77,17 +75,10 @@ public class AlarmReceiver extends BroadcastReceiver {
                             contentHandle.getCurrentAccountKey(), feed.getStatus(0).mId, mContext);
                 }
 
-                SharedPreferences.Editor edit = preferences.edit();
-                edit.putInt(SHARED_PREFERENCES_KEY_NOTIFICATION_COUNT + contentHandle.getCurrentAccountKey(), count);
-                edit.putString(SHARED_PREFERENCES_KEY_NOTIFICATION_SUMMARY + contentHandle.getCurrentAccountKey(),
-                        fullDetail);
-                edit.commit();
+                Notifier.setDashclockValues(mContext, contentHandle.getCurrentAccountKey(), count, fullDetail);
             }
             else {
-                SharedPreferences.Editor edit = preferences.edit();
-                edit.putInt(SHARED_PREFERENCES_KEY_NOTIFICATION_COUNT + contentHandle.getCurrentAccountKey(), 0);
-                edit.putString(SHARED_PREFERENCES_KEY_NOTIFICATION_SUMMARY + contentHandle.getCurrentAccountKey(), "");
-                edit.commit();
+                Notifier.setDashclockValues(mContext, contentHandle.getCurrentAccountKey(), 0, "");
             }
         }
     };

@@ -17,6 +17,8 @@ public class Notifier {
             "notification_last_actioned_mention_id_v1_";
     public static final String SHARED_PREFERENCES_KEY_NOTIFICATION_LAST_DISPLAYED_MENTION_ID =
             "notification_last_displayed_mention_id_v1_";
+    static final String SHARED_PREFERENCES_KEY_NOTIFICATION_COUNT = "notification_count_";
+    static final String SHARED_PREFERENCES_KEY_NOTIFICATION_SUMMARY = "notification_summary_";
 
     public static void notify(String title, String text, String bigText, Boolean autoCancel, int id,
             String accountKey, long postId, Context context) {
@@ -65,6 +67,14 @@ public class Notifier {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context
                 .NOTIFICATION_SERVICE);
         notificationManager.cancel(accountKey.hashCode());
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor edit = preferences.edit();
+        edit.putInt(SHARED_PREFERENCES_KEY_NOTIFICATION_COUNT + accountKey, 0);
+        edit.putString(SHARED_PREFERENCES_KEY_NOTIFICATION_SUMMARY + accountKey, "");
+        edit.commit();
+
+        Notifier.setDashclockValues(context, accountKey, 0, "");
     }
 
     public static void setupNotificationAlarm(Context context) {
@@ -90,12 +100,22 @@ public class Notifier {
         SharedPreferences.Editor edit = preferences.edit();
         edit.putLong(SHARED_PREFERENCES_KEY_NOTIFICATION_LAST_ACTIONED_MENTION_ID  + accountKey, postId);
         edit.commit();
+
+        Notifier.setDashclockValues(context, accountKey, 0, "");
     }
 
     public static void saveLastNotificationDisplayed(Context context, String accountKey, long postId) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor edit = preferences.edit();
         edit.putLong(SHARED_PREFERENCES_KEY_NOTIFICATION_LAST_DISPLAYED_MENTION_ID  + accountKey, postId);
+        edit.commit();
+    }
+
+    public static void setDashclockValues(Context context, String accountKey, int count, String detail) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor edit = preferences.edit();
+        edit.putInt(SHARED_PREFERENCES_KEY_NOTIFICATION_COUNT + accountKey, count);
+        edit.putString(SHARED_PREFERENCES_KEY_NOTIFICATION_SUMMARY + accountKey, detail);
         edit.commit();
     }
 }
