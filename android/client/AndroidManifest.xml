@@ -151,9 +151,6 @@
             <meta-data
                 android:name="description"
                 android:value="@string/extension_description" />
-            <meta-data
-                android:name="settingsActivity"
-                android:value=".tweetlanessettingsactivity" />
         </service>
 
         <!-- Start of Crittercism.com Code -->
