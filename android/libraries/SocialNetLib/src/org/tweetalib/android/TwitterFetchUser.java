@@ -133,6 +133,10 @@ public class TwitterFetchUser {
 	 *
 	 */
     public void setUser(TwitterUser twitterUser) {
+        if (twitterUser == null) {
+            return;
+        }
+
         if (mUserIdHashMap.containsKey(twitterUser.getId()) == false) {
             mUserIdHashMap.put(twitterUser.getId(), twitterUser);
         }

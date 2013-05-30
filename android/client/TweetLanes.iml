@@ -20,7 +20,7 @@
     <orderEntry type="library" name="basic-http-client-android-0.88" level="project" />
     <orderEntry type="library" name="crittercism_v2_0_1" level="project" />
     <orderEntry type="library" name="twitter4j-core-3.0.31" level="project" />
-    <orderEntry type="library" name="dashclock-api-r1.1-sources" level="project" />
+    <orderEntry type="library" name="dashclock-api-r1.1" level="project" />
   </component>
 </module>
 

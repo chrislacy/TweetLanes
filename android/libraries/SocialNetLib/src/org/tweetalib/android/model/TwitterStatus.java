@@ -89,7 +89,9 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
         mIsFavorited = status.isFavorited();
         mIsRetweet = status.isRetweet();
         mIsRetweetedByMe = status.isRetweetedByMe();
-        mProfileImageUrl = status.getUser().getProfileImageURL();
+        if (status.getUser() != null) {
+            mProfileImageUrl = status.getUser().getProfileImageURL();
+        }
         mSource = TwitterUtil.stripMarkup(status.getSource());
         mUserId = status.getUser().getId();
         mUserName = status.getUser().getName();
