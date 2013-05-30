@@ -1,12 +1,16 @@
 package com.tweetlanes.android;
 
-import android.app.*;
+import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.support.v4.app.NotificationCompat;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.preference.PreferenceManager;
-import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import com.tweetlanes.android.view.AlarmReceiver;
 import com.tweetlanes.android.view.DeleteNotificationsReceiver;
 import com.tweetlanes.android.view.HomeActivity;

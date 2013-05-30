@@ -14,21 +14,13 @@
       <sourceFolder url="file://$MODULE_DIR$/gen" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
-    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="android-support-v4" level="project" />
     <orderEntry type="module" module-name="TL-SocialNetLib" />
+    <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="basic-http-client-android-0.88" level="project" />
     <orderEntry type="library" name="crittercism_v2_0_1" level="project" />
-    <orderEntry type="library" name="android-support-v4 (TL)" level="project" />
     <orderEntry type="library" name="twitter4j-core-3.0.31" level="project" />
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/libs/dashclock-api-r1.1.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
+    <orderEntry type="library" name="dashclock-api-r1.1-sources" level="project" />
   </component>
 </module>
 
