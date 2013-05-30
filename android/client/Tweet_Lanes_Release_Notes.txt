@@ -6,6 +6,9 @@ Version 1.1.2a, ??
 =================================
 - New features
   * Dashclock Support
+- Fixes
+  * Fix crash on startup for 4.0 devices
+  * Misc. fixes of  crashes when loading tweets or users
 
 Version 1.1.1, May 27, 2012 (New stuff edition)
 =================================
