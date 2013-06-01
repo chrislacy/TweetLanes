@@ -87,8 +87,8 @@ public class Notifier {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 12345, intent,
                 PendingIntent.FLAG_CANCEL_CURRENT);
         AlarmManager am = (AlarmManager)context.getSystemService(Activity.ALARM_SERVICE);
-        am.setInexactRepeating(AlarmManager.RTC_WAKEUP, AlarmManager.INTERVAL_FIFTEEN_MINUTES,
-                AlarmManager.INTERVAL_FIFTEEN_MINUTES, pendingIntent);
+        am.setInexactRepeating(AlarmManager.RTC_WAKEUP, AppSettings.get().getNotificationTime(),
+        		AppSettings.get().getNotificationTime(), pendingIntent);
     }
 
     public static void cancelNotificationAlarm(Context context) {
