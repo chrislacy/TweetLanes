@@ -323,9 +323,9 @@
 
     <string name="notification_preferences">Notifications</string>
 
-    <string name="show_notifications_preference">Enable Notifications</string>
-    <string name="summary_show_notifications_preference">Display notifications when you get new mentions</string>
-
+    <string name="notification_time_preference">Refresh Interval</string>
+    <string name="dialog_title_notificationtime_preference">Refresh Interval</string>
+    
     <string name="ringtone_preference">Ringtone</string>
 
 	<string name="settings_never">Never</string>

@@ -24,7 +24,6 @@ public class AppSettings {
     public static final boolean DEFAULT_VOLSCROLL = true;
     public static final boolean DEFAULT_SHOW_TABLET_MARGIN = true;
     public static final boolean DEFAULT_SHOW_TWEET_SOURCE = false;
-    public static final boolean DEFAULT_SHOW_NOTIFICATIONS = false;
 
     private static final String STATUS_SIZE_EXTRA_SMALL = "Extra Small";
     private static final String STATUS_SIZE_SMALL = "Small";
@@ -50,6 +49,17 @@ public class AppSettings {
     public static final String NAME_DISPLAY_NAME = "name";
     public static final String NAME_DISPLAY_USERNAME_NAME = "username_name";
     public static final String NAME_DISPLAY_NAME_USERNAME = "name_username";
+    
+    public static final String NOTIFICATION_TIME_0M = "0m";
+    public static final String NOTIFICATION_TIME_1M = "1m";
+    public static final String NOTIFICATION_TIME_3M = "3m";
+    public static final String NOTIFICATION_TIME_5M = "5m";
+    public static final String NOTIFICATION_TIME_15M = "15m";
+    public static final String NOTIFICATION_TIME_30M = "30m";
+    public static final String NOTIFICATION_TIME_1H = "1h";
+    public static final String NOTIFICATION_TIME_4H = "4h";
+    public static final String NOTIFICATION_TIME_12H = "12h";
+    public static final String NOTIFICATION_TIME_DEFAULT = NOTIFICATION_TIME_0M;
 
     /*
 	 *
@@ -197,8 +207,8 @@ public class AppSettings {
     }
 
     public boolean isShowNotificationsEnabled() {
-        return mSharedPreferences.getBoolean(
-                SettingsActivity.KEY_SHOW_NOTIFICATIONS_PREFERENCE, DEFAULT_SHOW_NOTIFICATIONS);
+    	String notificationTime = mSharedPreferences.getString(SettingsActivity.KEY_NOTIFICATION_TIME_PREFERENCE, NOTIFICATION_TIME_DEFAULT);
+        return notificationTime.equals(NOTIFICATION_TIME_0M);
     }
 
     /*
@@ -214,6 +224,49 @@ public class AppSettings {
             return null;
         }
         return Uri.parse(uri);
+    }
+    
+    public long getNotificationTime() {
+    	String notificationTime = mSharedPreferences.getString(SettingsActivity.KEY_NOTIFICATION_TIME_PREFERENCE, NOTIFICATION_TIME_DEFAULT);
+    	
+    	//NOTE: This function returns time in Milliseconds.
+    	if (notificationTime.equals(NOTIFICATION_TIME_1M))
+    	{
+    		return 60000;
+    	}
+    	else if (notificationTime.equals(NOTIFICATION_TIME_3M))
+    	{
+    		return 180000;
+    	}
+    	else if (notificationTime.equals(NOTIFICATION_TIME_5M))
+    	{
+    		return 300000;
+    	}
+    	else if (notificationTime.equals(NOTIFICATION_TIME_15M))
+    	{
+    		return 900000;
+    	}
+    	else if (notificationTime.equals(NOTIFICATION_TIME_30M))
+    	{
+    		return 1800000;
+    	}
+    	else if (notificationTime.equals(NOTIFICATION_TIME_1H))
+    	{
+    		return 3600000;
+    	}
+    	else if (notificationTime.equals(NOTIFICATION_TIME_4H))
+    	{
+    		return 14400000;
+    	}
+    	else if (notificationTime.equals(NOTIFICATION_TIME_12H))
+    	{
+    		return 43200000;
+    	}
+    	else
+    	{
+    		return 0;
+    	}
+    	
     }
 
     /*

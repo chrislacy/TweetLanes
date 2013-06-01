@@ -58,8 +58,8 @@ public class SettingsActivity extends PreferenceActivity implements
     public static final String KEY_SOURCE_CODE_PREFERENCE = "preference_source";
     public static final String KEY_DONATE_PREFERENCE = "preference_donate";
     public static final String KEY_VERSION_PREFERENCE = "version_preference";
-    public static final String KEY_SHOW_NOTIFICATIONS_PREFERENCE = "shownotifications_preference";
     public static final String KEY_RINGTONE_PREFERENCE = "ringtone_preference";
+    public static final String KEY_NOTIFICATION_TIME_PREFERENCE = "notificationtime_preference";
 
     private ListPreference mThemePreference;
     private Preference mCustomizeLanesPreference;
@@ -75,7 +75,7 @@ public class SettingsActivity extends PreferenceActivity implements
     private Preference mSourceCodePreference;
     private Preference mDonatePreference;
     private Preference mVersionPreference;
-    private CheckBoxPreference mShowNotificationsPreference;
+    private ListPreference mNotificationTimePreference;
 
     /*
 	 *
@@ -225,9 +225,9 @@ public class SettingsActivity extends PreferenceActivity implements
         mDonatePreference = getPreferenceScreen().findPreference(
                 KEY_DONATE_PREFERENCE);
         mVersionPreference = getPreferenceScreen().findPreference(
-                KEY_VERSION_PREFERENCE);
-        mShowNotificationsPreference = (CheckBoxPreference) getPreferenceScreen()
-                .findPreference(KEY_SHOW_NOTIFICATIONS_PREFERENCE);
+                KEY_VERSION_PREFERENCE);    
+        mNotificationTimePreference = (ListPreference) getPreferenceScreen()
+                .findPreference(KEY_NOTIFICATION_TIME_PREFERENCE);
     }
 
     /*
@@ -342,10 +342,11 @@ public class SettingsActivity extends PreferenceActivity implements
                 });
 
         mVersionPreference.setSummary(App.getAppVersionName());
-
-        boolean showNotifications = sharedPreferences.getBoolean(
-                KEY_SHOW_NOTIFICATIONS_PREFERENCE, AppSettings.DEFAULT_SHOW_NOTIFICATIONS);
-        mShowNotificationsPreference.setChecked(showNotifications);
+        
+        if (mNotificationTimePreference.getEntry() == null) {
+        	mNotificationTimePreference.setValueIndex(1);
+        }
+        mNotificationTimePreference.setSummary(mNotificationTimePreference.getEntry());
 
         getPreferenceScreen().getSharedPreferences()
                 .registerOnSharedPreferenceChangeListener(this);
@@ -387,19 +388,13 @@ public class SettingsActivity extends PreferenceActivity implements
                 getIntent().addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 overridePendingTransition(0, 0);
                 startActivity(getIntent());
+            }else if (listPref == mNotificationTimePreference) {
+                //Stop and start notifications (with new time)
+            	Notifier.cancelNotificationAlarm(this);
+            	Notifier.setupNotificationAlarm(this);
             }
-        }
-        if (pref instanceof CheckBoxPreference) {
-            CheckBoxPreference cbPref = (CheckBoxPreference) pref;
-            if (cbPref == mShowNotificationsPreference) {
-                if (cbPref.isChecked()) {
-                    Notifier.setupNotificationAlarm(this);
-                }
-                else {
-                    Notifier.cancelNotificationAlarm(this);
-                }
-            }
-        }
+            	
+        }        
     }
 
     /*

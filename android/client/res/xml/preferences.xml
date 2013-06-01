@@ -63,11 +63,15 @@
 
     <PreferenceCategory
         android:title="@string/notification_preferences">
-
-        <CheckBoxPreference
-            android:key="shownotifications_preference"
-            android:title="@string/show_notifications_preference"
-            android:summary="@string/summary_show_notifications_preference" />
+       
+        <ListPreference
+        	android:key="notificationtime_preference"
+            android:title="@string/notification_time_preference"
+            android:entries="@array/notificationtime_list_preference"
+            android:entryValues="@array/notificationtimevalues_list_preference"
+            android:dialogTitle="@string/dialog_title_notificationtime_preference"
+            android:defaultValue="0m"
+             />
 
         <RingtonePreference android:showDefault="true"
             android:key="ringtone_preference"
