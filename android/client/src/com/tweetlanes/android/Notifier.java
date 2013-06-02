@@ -81,17 +81,28 @@ public class Notifier {
         Notifier.setDashclockValues(context, accountKey, 0, "");
     }
 
-    public static void setupNotificationAlarm(Context context) {
+    public static void setNotificationAlarm(Context context)
+    {
+    	if (AppSettings.get().isShowNotificationsEnabled()) {
+            setupNotificationAlarm(context);
+        }
+        else {
+            cancelNotificationAlarm(context);
+        }    
+    }
+    
+    private static void setupNotificationAlarm(Context context) {
         //Create a new PendingIntent and add it to the AlarmManager
         Intent intent = new Intent(context, AlarmReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 12345, intent,
                 PendingIntent.FLAG_CANCEL_CURRENT);
         AlarmManager am = (AlarmManager)context.getSystemService(Activity.ALARM_SERVICE);
-        am.setInexactRepeating(AlarmManager.RTC_WAKEUP, AppSettings.get().getNotificationTime(),
-        		AppSettings.get().getNotificationTime(), pendingIntent);
+
+        am.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),
+	        		AppSettings.get().getNotificationTime(), pendingIntent);        
     }
 
-    public static void cancelNotificationAlarm(Context context) {
+    private static void cancelNotificationAlarm(Context context) {
         Intent intent = new Intent(context, AlarmReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 12345, intent,
                 PendingIntent.FLAG_CANCEL_CURRENT);

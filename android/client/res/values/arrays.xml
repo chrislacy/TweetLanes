@@ -66,7 +66,6 @@
     
         <string-array name="notificationtime_list_preference">
         <item>Never (Manual)</item>
-        <item>1 Minute</item>
         <item>3 Minutes</item>
         <item>5 Minutes</item>
         <item>15 Minutes</item>
@@ -78,7 +77,6 @@
 
     <string-array name="notificationtimevalues_list_preference">
         <item>0m</item>
-        <item>1m</item>
         <item>3m</item>
         <item>5m</item>
         <item>15m</item>

@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
+
 import com.tweetlanes.android.App;
 import com.tweetlanes.android.Constant;
 import com.tweetlanes.android.ConsumerKeyConstants;
@@ -37,6 +39,7 @@ public class AlarmReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         try {
             mContext = context;
+            Log.d("AlarmReciever", "Woken up to check for messages");
             notifyNewMessage();
         } catch (Exception e) {
             e.printStackTrace();
