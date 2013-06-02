@@ -2,13 +2,15 @@
 
 Note: To report bugs or make feature requests, either contact the official Twitter @TweetLanes or click the "Send Feedback" button in the app.
 
-Version 1.1.2, June ??, 2013
+Version 1.1.2, June 03, 2013  (via @BlythMeister edition)
 =================================
 - New features
   * Dashclock Support
-  * Notification Interval - get notifications faster (at the expense of battery and data usage) or slower (save battery and data!)
+  * Notification Interval - get notifications faster (at the expense of battery and data usage) or slower (save battery and data!)  (via @BlythMeister)
 - Fixes
   * Fix crash on startup for 4.0 devices
+  * Only mentioning first user when replying (via @BlythMeister)
+  * Profile images no longer cached forever  (via @BlythMeister)
   * Misc. fixes of  crashes when loading tweets or users
 
 Version 1.1.1, May 27, 2012 (New stuff edition)
