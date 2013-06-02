@@ -58,6 +58,7 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
         mUserId = other.mUserId;
         mUserName = other.mUserName;
         mUserScreenName = other.mUserScreenName;
+        mUserMentions = other.mUserMentions;
     }
 
     /*
