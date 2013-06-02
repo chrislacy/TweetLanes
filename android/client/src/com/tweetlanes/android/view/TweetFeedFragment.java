@@ -524,6 +524,8 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             mScrollTracker.update(firstVisibleItem, totalItemCount, yOffset);
 
             updateListHeading(firstVisibleItem);
+            
+            getVisibleStatus();
         }
 
         @Override

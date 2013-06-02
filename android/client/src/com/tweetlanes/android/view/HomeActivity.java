@@ -157,12 +157,7 @@ public class HomeActivity extends BaseLaneActivity {
 
         account.setDisplayedLaneDefinitionsDirty(false);
 
-        if (AppSettings.get().isShowNotificationsEnabled()) {
-            Notifier.setupNotificationAlarm(this);
-        }
-        else {
-            Notifier.cancelNotificationAlarm(this);
-        }
+        Notifier.setNotificationAlarm(this);        
     }
 
     /*
