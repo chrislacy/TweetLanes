@@ -34,7 +34,7 @@ import java.util.WeakHashMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
+import java.util.Date;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -343,29 +343,40 @@ public class LazyImageLoader {
             this.imageview = imageview;
         }
     }
+    
+    public static class ExpiringBitmap{
+    	
+    	public final Bitmap image;
+    	public final Date expires;
+    	
+    	public ExpiringBitmap(final Bitmap image, final Date expires){
+    		this.image = image;
+    		this.expires = expires;    				
+    	}    	
+    }
 
     private static class MemoryCache {
 
         private final int mMaxCapacity;
-        private final Map<URL, SoftReference<Bitmap>> mSoftCache;
-        private final Map<URL, Bitmap> mHardCache;
+        private final Map<URL, SoftReference<ExpiringBitmap>> mSoftCache;
+        private final Map<URL, ExpiringBitmap> mHardCache;
 
         public MemoryCache(int max_capacity) {
             mMaxCapacity = max_capacity;
-            mSoftCache = new ConcurrentHashMap<URL, SoftReference<Bitmap>>();
-            mHardCache = new LinkedHashMap<URL, Bitmap>(mMaxCapacity / 3,
+            mSoftCache = new ConcurrentHashMap<URL, SoftReference<ExpiringBitmap>>();
+            mHardCache = new LinkedHashMap<URL, ExpiringBitmap>(mMaxCapacity / 3,
                     0.75f, true) {
 
                 private static final long serialVersionUID = 1347795807259717646L;
 
                 @Override
                 protected boolean removeEldestEntry(
-                        LinkedHashMap.Entry<URL, Bitmap> eldest) {
+                        LinkedHashMap.Entry<URL, ExpiringBitmap> eldest) {
                     // Moves the last used item in the hard cache to the soft
                     // cache.
                     if (size() > mMaxCapacity) {
                         mSoftCache.put(eldest.getKey(),
-                                new SoftReference<Bitmap>(eldest.getValue()));
+                                new SoftReference<ExpiringBitmap>(eldest.getValue()));
                         return true;
                     } else
                         return false;
@@ -380,24 +391,32 @@ public class LazyImageLoader {
 
         public Bitmap get(final URL url) {
             synchronized (mHardCache) {
-                final Bitmap bitmap = mHardCache.get(url);
+                ExpiringBitmap bitmap = mHardCache.get(url);
                 if (bitmap != null) {
-                    // Put bitmap on top of cache so it's purged last.
-                    try {
-                        mHardCache.remove(url);
-                        mHardCache.put(url, bitmap);
-                    } catch (Exception e) {
-
-                    }
-                    return bitmap;
+                	if (bitmap.expires.before(new Date()))
+                	{
+                		mHardCache.remove(url);
+                		bitmap = null;
+                	}
+                	else
+                	{              	
+                		// Put bitmap on top of cache so it's purged last.
+	                    try {
+	                        mHardCache.remove(url);
+	                        mHardCache.put(url, bitmap);
+	                    } catch (Exception e) {
+	
+	                    }
+	                    return bitmap.image;
+                	}
                 }
             }
 
-            final SoftReference<Bitmap> bitmapRef = mSoftCache.get(url);
+            final SoftReference<ExpiringBitmap> bitmapRef = mSoftCache.get(url);
             if (bitmapRef != null) {
-                final Bitmap bitmap = bitmapRef.get();
+                final ExpiringBitmap bitmap = bitmapRef.get();
                 if (bitmap != null)
-                    return bitmap;
+                    return bitmap.image;
                 else {
                     // Must have been collected by the Garbage Collector
                     // so we remove the bucket from the cache.
@@ -413,7 +432,11 @@ public class LazyImageLoader {
 
         public void put(final URL url, final Bitmap bitmap) {
             if (url == null || bitmap == null) return;
-            mHardCache.put(url, bitmap);
+            
+            if(mHardCache.get(url) == null){
+            	Date currentDate = new Date();
+            	mHardCache.put(url, new ExpiringBitmap(bitmap, new Date(currentDate.getTime() + 1 * 24 * 3600 * 1000) ));
+            }
         }
     }
 
