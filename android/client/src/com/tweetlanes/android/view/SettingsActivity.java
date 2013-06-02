@@ -347,7 +347,7 @@ public class SettingsActivity extends PreferenceActivity implements
         	mNotificationTimePreference.setValueIndex(1);
         }
         mNotificationTimePreference.setSummary(mNotificationTimePreference.getEntry());
-
+        
         getPreferenceScreen().getSharedPreferences()
                 .registerOnSharedPreferenceChangeListener(this);
     }
@@ -390,10 +390,8 @@ public class SettingsActivity extends PreferenceActivity implements
                 startActivity(getIntent());
             }else if (listPref == mNotificationTimePreference) {
                 //Stop and start notifications (with new time)
-            	Notifier.cancelNotificationAlarm(this);
-            	Notifier.setupNotificationAlarm(this);
+            	Notifier.setNotificationAlarm(this);
             }
-            	
         }        
     }
 
