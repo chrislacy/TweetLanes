@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/profile_scroll_view"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:fadingEdge="none"
+        android:layout_height="match_parent"
+        >
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:paddingLeft="@dimen/tutorial_horizontal_padding"
+                  android:paddingRight="@dimen/tutorial_horizontal_padding"
+                  android:paddingTop="@dimen/tutorial_vertical_padding"
+                  android:paddingBottom="@dimen/tutorial_vertical_padding"
+                  android:orientation="vertical">
+
+        <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/new_account_intro"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="@dimen/tutorial_text_size"
+                android:paddingBottom="10dp"/>
+
+        <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/new_account_intro2"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="@dimen/tutorial_text_size"
+                android:paddingBottom="4dp"/>
+
+        <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+            <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    >
+
+                <ImageView
+                        android:id="@+id/new_account_twitter_button"
+                        android:layout_width="@dimen/new_account_logo"
+                        android:layout_height="@dimen/new_account_logo"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/twitter_logo"
+                        android:contentDescription="@string/new_account_twitter"
+                        android:onClick="accountClick"
+                        />
+
+                <TextView
+                        android:id="@+id/textView3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/new_account_twitter_button"
+                        android:layout_centerHorizontal="true"
+                        android:text="@string/new_account_twitter"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textSize="@dimen/tutorial_text_size"
+                        />
+            </RelativeLayout>
+
+            <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    >
+
+                <ImageView
+                        android:id="@+id/new_account_adn_button"
+                        android:layout_width="@dimen/new_account_logo"
+                        android:layout_height="@dimen/new_account_logo"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/adn_logo"
+                        android:contentDescription="@string/new_account_adn"
+                        android:onClick="accountClick"
+                        />
+
+                <TextView
+                        android:id="@+id/textView4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/new_account_adn_button"
+                        android:layout_centerHorizontal="true"
+                        android:text="@string/new_account_adn"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textSize="@dimen/tutorial_text_size"
+                        />
+            </RelativeLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

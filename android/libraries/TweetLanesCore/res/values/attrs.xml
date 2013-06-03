@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2011 Patrik Åkerfeldt
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+  
+          http://www.apache.org/licenses/LICENSE-2.0
+  
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<resources>
+    <declare-styleable name="ViewFlow">
+        <attr name="sidebuffer" format="integer"/>
+    </declare-styleable>
+    <declare-styleable name="CircleFlowIndicator">
+        <attr name="activeColor" format="color"/>
+        <attr name="inactiveColor" format="color"/>
+        <attr name="radius" format="dimension"/>
+        <attr name="centered" format="boolean"/>
+        <attr name="fadeOut" format="integer"/>
+        <attr name="inactiveType">
+            <flag name="stroke" value="0"/>
+            <flag name="fill" value="1"/>
+        </attr>
+        <attr name="activeType">
+            <flag name="stroke" value="0"/>
+            <flag name="fill" value="1"/>
+        </attr>
+    </declare-styleable>
+    <declare-styleable name="TitleFlowIndicator">
+        <attr name="titlePadding" format="dimension"/>
+        <!-- Left/right padding of not active view titles. -->
+        <attr name="clipPadding" format="dimension"/>
+        <attr name="selectedColor" format="color"/>
+        <attr name="selectedBold" format="boolean"/>
+        <attr name="selectedSize" format="dimension"/>
+        <attr name="textColor" format="color"/>
+        <attr name="textSize" format="dimension"/>
+        <attr name="footerLineHeight" format="dimension"/>
+        <attr name="footerColor" format="color"/>
+        <attr name="footerTriangleHeight" format="dimension"/>
+        <attr name="customTypeface" format="string"/>
+    </declare-styleable>
+
+    <declare-styleable name="TogglePrefAttrs">
+        <attr name="android:preferenceLayoutChild"/>
+    </declare-styleable>
+
+    <declare-styleable name="PullToRefresh">
+        <attr name="adapterViewBackground" format="reference|color"/>
+        <attr name="headerBackground" format="reference|color"/>
+        <attr name="headerTextColor" format="color"/>
+        <attr name="mode">
+            <flag name="pullDownFromTop" value="0x1"/>
+            <flag name="pullUpFromBottom" value="0x2"/>
+            <flag name="both" value="0x3"/>
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="ViewPagerIndicator">
+
+        <!-- Style of the tab indicator. -->
+        <attr name="vpiTabPageIndicatorStyle" format="reference"/>
+        <!-- Style of the text in a tab. -->
+        <attr name="vpiTabTextStyle" format="reference"/>
+
+        <attr name="feed_divider" format="reference"/>
+        <attr name="lane_background" format="reference"/>
+        <attr name="themeOppositeText" format="reference"/>
+        <attr name="feedBackground" format="reference"/>
+        <attr name="listBackground" format="reference"/>
+        <attr name="background" format="reference"/>
+        <attr name="freeForLifeBackground" format="reference"/>
+
+        <attr name="ic_action_camera" format="reference"/>
+        <attr name="ic_action_collapse" format="reference"/>
+        <attr name="ic_action_expand" format="reference"/>
+        <attr name="ic_action_message" format="reference"/>
+        <attr name="ic_action_overflow" format="reference"/>
+        <attr name="ic_action_rt_on" format="reference"/>
+        <attr name="ic_action_rt_off" format="reference"/>
+        <attr name="ic_action_save" format="reference"/>
+        <attr name="ic_action_search" format="reference"/>
+        <attr name="ic_action_select_image" format="reference"/>
+        <attr name="ic_action_send" format="reference"/>
+        <attr name="ic_action_share" format="reference"/>
+        <attr name="ic_action_star_on" format="reference"/>
+        <attr name="ic_action_star_off" format="reference"/>
+
+        <attr name="vpiUnderlinePageIndicatorStyle" format="reference"/>
+        <attr name="vpiListTabPageIndicatorStyle" format="reference"/>
+
+    </declare-styleable>
+
+    <declare-styleable name="UnderlinePageIndicator">
+        <!-- Whether or not the selected indicator fades. -->
+        <attr name="fades" format="boolean"/>
+        <!-- Length of the delay to fade the indicator. -->
+        <attr name="fadeDelay" format="integer"/>
+        <!-- Length of the indicator fade to transparent. -->
+        <attr name="fadeLength" format="integer"/>
+        <!-- Color of the selected line that represents the current page. -->
+        <attr name="selectedColor"/>
+    </declare-styleable>
+
+</resources>

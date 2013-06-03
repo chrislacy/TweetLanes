@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.tweetlanes.android.core.view.LoadMoreView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/loadMoreView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dip"
+        style="?attr/listBackground">
+
+    <TextView
+            android:id="@+id/load_more_text"
+            android:text="@string/loading"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"/>
+
+    <ProgressBar
+            android:id="@+id/load_more_progress"
+            android:indeterminate="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dip"
+            android:layout_marginRight="20dip"
+            android:visibility="gone"
+            android:layout_centerVertical="true"
+            style="?android:attr/progressBarStyleSmall"/>
+
+    <ImageView
+            android:id="@+id/load_more_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dip"
+            android:layout_marginRight="20dip"
+            android:layout_centerVertical="true"/>
+
+</com.tweetlanes.android.core.view.LoadMoreView>

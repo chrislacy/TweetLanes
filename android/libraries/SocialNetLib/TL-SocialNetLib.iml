@@ -15,6 +15,12 @@
     <facet type="android" name="Android">
       <configuration>
         <option name="LIBRARY_PROJECT" value="true" />
+        <notImportedProperties>
+          <property>MANIFEST_FILE_PATH</property>
+          <property>RESOURCES_DIR_PATH</property>
+          <property>ASSETS_DIR_PATH</property>
+          <property>NATIVE_LIBS_DIR_PATH</property>
+        </notImportedProperties>
       </configuration>
     </facet>
   </component>
@@ -25,8 +31,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/gen" isTestSource="false" />
     </content>
-    <orderEntry type="jdk" jdkName="Android SDK" jdkType="Android SDK" />
-    <orderEntry type="library" name="basic-http-client-android-0.88" level="project" />
+    <orderEntry type="inheritedJdk" />
     <orderEntry type="module-library">
       <library name="twitter4j-core-3.0.3.jar">
         <CLASSES>
@@ -45,8 +50,8 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="basic-http-client-android-0.88" level="project" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="prime-0.6.1" level="project" />
   </component>
 </module>
 

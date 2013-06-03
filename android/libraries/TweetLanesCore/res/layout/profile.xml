@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/profile_scroll_view"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:fadingEdge="none"
+        android:layout_height="match_parent"
+        >
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:titleFlow="http://schemas.android.com/apk/res/com.tweetlanes.android.core"
+                  android:layout_width="fill_parent"
+                  android:layout_height="fill_parent"
+                  android:orientation="vertical">
+
+        <RelativeLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="250dp"
+                android:orientation="vertical">
+
+            <ImageView
+                    android:id="@+id/profileImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="fill_parent"
+                    android:src="@drawable/ic_contact_picture"/>
+
+            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                            android:layout_width="fill_parent"
+                            android:layout_height="40dp"
+                            android:background="#77000000"
+                            android:layout_alignParentBottom="true"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentRight="true">
+
+                <ImageView
+                        android:id="@+id/private_account_image"
+                        android:layout_width="24dp"
+                        android:layout_height="fill_parent"
+                        android:src="@drawable/ic_secure"/>
+
+                <TextView
+                        android:id="@+id/fullNameTextView"
+                        android:layout_height="40dp"
+                        android:layout_width="wrap_content"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/message_item_text_padding_left_right"
+                        android:text="Name of account"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textColor="#fff"
+                        android:layout_toRightOf="@id/private_account_image"
+                        />
+
+                <TextView
+                        android:id="@+id/followState"
+                        android:layout_height="30dp"
+                        android:layout_width="wrap_content"
+                        android:gravity="center_vertical"
+                        android:layout_toRightOf="@id/fullNameTextView"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="6dp"
+                        android:paddingTop="14dp"
+                        android:text="follows you"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textSize="13sp"
+                        android:textColor="#fff"/>
+
+                <RelativeLayout
+                        android:layout_width="86dp"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true">
+
+                    <View
+                            android:id="@+id/friendship_divider"
+                            android:layout_width="1dip"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginBottom="4dip"
+                            android:layout_marginTop="4dip"
+                            android:background="#fff"
+                            />
+
+                    <Button
+                            android:id="@+id/friendship_button"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentTop="true"
+                            android:background="?android:attr/selectableItemBackground"
+                            android:text="@string/action_unfollow"
+                            android:textColor="#fff"
+                            android:layout_alignParentBottom="true"
+                            android:layout_toRightOf="@+id/friendship_divider"/>
+                </RelativeLayout>
+
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <TextView
+                android:id="@+id/bioTextView"
+                android:paddingTop="10dip"
+                android:paddingBottom="12dip"
+                android:paddingLeft="20dip"
+                android:paddingRight="20dip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="The person's bio goes here. It could be anywhere up to 160 characters in length, which is anywhere up to and including the length of this wordly, informative string"
+                android:linksClickable="true"
+                />
+
+        <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/detailsLayout">
+
+            <TextView
+                    style="?android:attr/listSeparatorTextViewStyle"
+                    android:text="@string/details"
+                    android:layout_marginTop="5dip"
+                    />
+
+            <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                         android:id="@+id/details_table_layout"
+                         android:layout_width="fill_parent"
+                         android:layout_height="fill_parent">
+
+                <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="20dip"
+                        android:paddingRight="20dip"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        >
+
+                    <TextView
+                            android:text="@string/status_count"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight=".7"
+                            />
+
+                    <TextView
+                            android:id="@+id/tweetCountLabel"
+                            android:text="777"
+                            android:layout_gravity="center_vertical|right"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            />
+                </TableRow>
+
+                <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="20dip"
+                        android:paddingRight="20dip"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        >
+
+                    <TextView
+                            android:text="@string/friends_count"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight=".7"
+                            />
+
+                    <TextView
+                            android:id="@+id/followingCountLabel"
+                            android:text="888"
+                            android:layout_gravity="center_vertical|right"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            />
+                </TableRow>
+
+                <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="20dip"
+                        android:paddingRight="20dip"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        >
+
+                    <TextView
+                            android:text="@string/following_count"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight=".7"
+                            />
+
+                    <TextView
+                            android:id="@+id/followersCountLabel"
+                            android:text="54455"
+                            android:layout_gravity="center_vertical|right"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            />
+                </TableRow>
+
+                <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="20dip"
+                        android:paddingRight="20dip"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        >
+
+                    <TextView
+                            android:text="@string/favorites_count"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight=".7"
+
+                            />
+
+                    <TextView
+                            android:id="@+id/favorites_count"
+                            android:text="45"
+                            android:layout_gravity="center_vertical|right"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            />
+                </TableRow>
+
+            </TableLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/locationLayout">
+
+            <TextView
+                    style="?android:attr/listSeparatorTextViewStyle"
+                    android:text="@string/location"
+                    android:layout_marginTop="5dip"
+                    />
+
+            <TextView
+                    android:id="@+id/location"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="20dip"
+                    android:paddingRight="20dip"
+                    android:text="Manchester, UK"
+                    />
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/linkLayout">
+
+            <TextView
+                    style="?android:attr/listSeparatorTextViewStyle"
+                    android:text="@string/link"
+                    android:layout_marginTop="5dip"
+                    />
+
+            <TextView
+                    android:id="@+id/link"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="20dip"
+                    android:paddingRight="20dip"
+                    android:text="http://www.twitter.com"
+                    android:linksClickable="true"
+                    />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

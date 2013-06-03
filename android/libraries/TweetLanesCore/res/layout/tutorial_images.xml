@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/profile_scroll_view"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:fadingEdge="none"
+        android:layout_height="match_parent"
+        >
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:paddingLeft="@dimen/tutorial_horizontal_padding"
+                  android:paddingRight="@dimen/tutorial_horizontal_padding"
+                  android:paddingTop="@dimen/tutorial_vertical_padding"
+                  android:paddingBottom="@dimen/tutorial_vertical_padding"
+                  android:orientation="vertical">
+
+        <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tutorial_images_intro"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="@dimen/tutorial_text_size"/>
+
+        <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/tutorial_image_before"
+                android:background="@drawable/attachment_selector"
+                android:adjustViewBounds="true"/>
+
+        <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="12dp"
+                android:text="@string/tutorial_images_middle"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="@dimen/tutorial_text_size"/>
+
+        <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/tutorial_image_after"
+                android:background="@drawable/attachment_selector"
+                android:adjustViewBounds="true"/>
+        <!--
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tutorial_images_footer"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textSize="@dimen/tutorial_text_size" />
+         -->
+
+        <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tutorial_images_sources"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:paddingTop="12dp"
+                android:paddingBottom="8dp"
+                android:textSize="@dimen/tutorial_text_size"/>
+
+        <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+            <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:src="@drawable/tutorial_media_sources"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+</ScrollView>

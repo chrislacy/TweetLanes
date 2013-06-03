@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+            android:id="@+id/action_website"
+            android:title="@string/action_website"
+            android:icon="@drawable/ic_action_website_dark"
+            android:showAsAction="always"/>
+
+    <item
+            android:id="@+id/action_save"
+            android:title="@string/action_save_to_gallery"
+            android:icon="@drawable/ic_action_save_dark"
+            android:showAsAction="ifRoom"/>
+
+</menu>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        xmlns:gesture-image="http://schemas.polites.com/android"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ProgressBar
+            android:id="@+id/imageViewLoading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"/>
+
+    <com.tweetlanes.android.core.widget.gestureimageview.GestureImageView
+            android:id="@+id/image_view"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_centerInParent="true"
+            gesture-image:min-scale="0.9"
+            gesture-image:max-scale="4.0"
+            gesture-image:strict="true"/>
+
+    <TextView
+            android:id="@+id/errorTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical|center_horizontal"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="@string/error_downloading_image"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:visibility="gone"
+            />
+
+</RelativeLayout>

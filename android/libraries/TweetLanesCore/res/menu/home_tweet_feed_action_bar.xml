@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+            android:id="@+id/action_search"
+            android:title="@string/action_bar_search"
+            android:showAsAction="always"
+            android:actionViewClass="android.widget.SearchView"
+            style="?attr/ic_action_search"/>
+
+    <item
+            android:icon="@drawable/ic_action_feed_filter"
+            android:showAsAction="never"
+            android:id="@+id/action_feed_filter"
+            android:title="@string/action_bar_filter_feed">
+        <menu>
+            <item
+                    android:id="@+id/action_replies_visibility"
+                    android:title="@string/action_hide_replies"
+                    android:showAsAction="never"/>
+            <item
+                    android:id="@+id/action_retweets_visibility"
+                    android:title="@string/action_hide_retweets"
+                    android:showAsAction="never"/>
+        </menu>
+    </item>
+
+    <item
+            android:id="@+id/action_buy_alp"
+            android:title="@string/action_bar_buy_alp"
+            android:showAsAction="never"
+            />
+
+    <!-- 
+    <item android:id="@+id/action_promote"
+          android:title="@string/action_bar_promote"
+          android:showAsAction="never"
+           />
+           
+            -->
+    <!--
+        <item android:id="@+id/action_send_feedback"
+              android:title="@string/action_bar_send_feedback"
+              android:showAsAction="never"
+               /> -->
+
+    <item
+            android:id="@+id/action_settings"
+            android:title="@string/action_bar_settings"
+            android:showAsAction="never"
+            />
+
+</menu>

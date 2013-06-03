@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ViewSwitcher xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/rootViewSwitcher"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent">
+
+    <RelativeLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/view_loading"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center">
+
+        <ProgressBar
+                android:id="@+id/conversation_feed_loading"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_centerInParent="true"
+                android:paddingTop="2dp"
+                android:indeterminate="true"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/view_loaded"
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:weightSum="1">
+
+        <RelativeLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="0dip"
+                android:layout_weight="1"
+                >
+
+            <com.tweetlanes.android.core.widget.viewpagerindicator.TabPageIndicator
+                    android:id="@+id/tabPageIndicator"
+                    android:layout_height="wrap_content"
+                    android:layout_width="fill_parent"
+                    />
+
+            <android.support.v4.view.ViewPager
+                    android:id="@+id/pager"
+                    android:layout_below="@id/tabPageIndicator"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    />
+
+            <View
+                    android:id="@+id/lane_mask"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="#c333"
+                    android:visibility="gone"
+                    />
+        </RelativeLayout>
+
+        <!-- Dummy item to prevent ComposeTweetFragment from receiving focus -->
+        <LinearLayout
+                android:id="@+id/dummyFocusItem"
+                android:orientation="vertical"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:background="@color/holo_blue_back"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"/>
+
+        <fragment
+                android:name="com.tweetlanes.android.core.view.ComposeTweetFragment"
+                android:id="@+id/composeTweetFragment"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:nextFocusUp="@id/composeTweetFragment"
+                android:nextFocusLeft="@id/composeTweetFragment"
+                />
+
+        <fragment
+                android:name="com.tweetlanes.android.core.view.ComposeDirectMessageFragment"
+                android:id="@+id/composeDirectMessageFragment"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:nextFocusUp="@id/composeDirectMessageFragment"
+                android:nextFocusLeft="@id/composeDirectMessageFragment"
+                />
+
+    </LinearLayout>
+
+</ViewSwitcher>

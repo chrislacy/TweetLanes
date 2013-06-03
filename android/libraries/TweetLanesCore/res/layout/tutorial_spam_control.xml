@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/profile_scroll_view"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:fadingEdge="none"
+        android:layout_height="match_parent"
+        >
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:paddingLeft="@dimen/tutorial_horizontal_padding"
+                  android:paddingRight="@dimen/tutorial_horizontal_padding"
+                  android:paddingTop="@dimen/tutorial_vertical_padding"
+                  android:paddingBottom="@dimen/tutorial_vertical_padding"
+                  android:orientation="vertical">
+
+        <TextView
+                android:id="@+id/textView1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/tutorial_text_size"
+                android:paddingBottom="6dp"
+                android:text="@string/tutorial_spam_control_intro"/>
+
+        <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/tutorial_spam_1"
+                android:background="@drawable/attachment_selector"
+                android:adjustViewBounds="true"/>
+
+        <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:textSize="@dimen/tutorial_text_size"
+                android:text="@string/tutorial_spam_control_instruction1"/>
+
+        <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/tutorial_line_break_height"
+                android:paddingBottom="6dp"
+                android:textSize="@dimen/tutorial_text_size"
+                android:text="@string/tutorial_spam_control_instruction2"/>
+
+        <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/tutorial_spam_2"
+                android:background="@drawable/attachment_selector"
+                android:adjustViewBounds="true"/>
+
+    </LinearLayout>
+
+</ScrollView>

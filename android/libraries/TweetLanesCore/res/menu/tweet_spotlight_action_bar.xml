@@ -1,0 +1,19 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--
+    <item android:id="@+id/action_reply"
+      android:icon="@drawable/ic_action_reply"
+      android:title="@string/action_reply"
+      android:showAsAction="always" /> -->
+    <item
+            android:id="@+id/action_retweet"
+            android:title="@string/action_retweet"
+            android:showAsAction="always"
+            style="?attr/ic_action_rt_off"/>
+    <!-- Note: icon is set in code -->
+    <item
+            android:id="@+id/action_favorite"
+            android:showAsAction="always"
+            android:title="@string/action_favorite"
+            />
+
+</menu>

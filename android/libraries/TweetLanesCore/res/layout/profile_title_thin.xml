@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="wrap_content"
+              android:layout_height="fill_parent"
+              android:orientation="horizontal">
+
+
+    <com.tweetlanes.android.core.widget.AutoResizeTextView
+            android:id="@+id/screenname"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:gravity="center_vertical|center_horizontal"
+            android:paddingRight="10dp"
+
+            android:text="\@RioFerdy5"/>
+
+    <ImageView
+            android:id="@+id/verifiedImage"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_verified"/>
+
+</LinearLayout>

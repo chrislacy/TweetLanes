@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/profile_scroll_view"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:fadingEdge="none"
+        android:layout_height="match_parent"
+        >
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:paddingLeft="@dimen/tutorial_horizontal_padding"
+                  android:paddingRight="@dimen/tutorial_horizontal_padding"
+                  android:paddingTop="@dimen/tutorial_vertical_padding"
+                  android:paddingBottom="@dimen/tutorial_vertical_padding"
+
+                  android:orientation="vertical">
+
+        <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tutorial_thanks_intro"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="@dimen/tutorial_text_size"/>
+
+        <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tutorial_thanks_feedback"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="@dimen/tutorial_text_size"/>
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <ImageView
+                    android:id="@+id/profileImageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/lacy_profile_thumb"/>
+
+            <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:text="@string/tutorial_thanks_signature"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textSize="@dimen/tutorial_text_size"/>
+
+        </RelativeLayout>
+
+        <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="fill_parent"
+                android:layout_height="24dp"
+                />
+
+        <CheckBox
+                android:id="@+id/checkBox1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/tutorial_thanks_follow_checkbox"
+                android:textSize="13sp"
+                android:onClick="onFollowCheckboxClicked"/>
+
+        <TextView
+                android:id="@+id/acceptTermsTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:paddingBottom="12dp"
+                android:paddingLeft="6dp"
+                android:paddingRight="6dp"
+                android:text="@string/tutorial_thanks_tos"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="13sp"/>
+
+        <Button
+                style="@style/BlueButton"
+                android:id="@+id/acceptBtn"
+                android:layout_marginRight="10dp"
+                android:layout_width="fill_parent"
+                android:layout_gravity="bottom|right"
+                android:text="@string/tutorial_thanks_done_button"
+                android:onClick="onFinishTutorialClicked"/>
+
+
+    </LinearLayout>
+
+</ScrollView>

@@ -1,0 +1,29 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 
+        <item android:id="@+id/action_manage_friendship"
+          android:icon="@drawable/ic_action_user_add"
+          android:title="@string/action_manage_friendship"
+          android:showAsAction="always" />
+        
+    	<item android:id="@+id/action_message"
+          android:icon="@drawable/ic_action_message"
+          android:showAsAction="always"
+          android:title="@string/action_message" />	 -->
+    <item
+            android:showAsAction="always"
+            android:title="@string/more"
+            style="?attr/ic_action_overflow">
+        <menu>
+            <item
+                    android:id="@+id/action_block"
+                    android:title="@string/action_block"
+                    android:showAsAction="never"/>
+            <item
+                    android:id="@+id/action_report_for_spam"
+                    android:title="@string/action_report_for_spam"
+                    android:showAsAction="never"/>
+        </menu>
+    </item>
+
+</menu>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.tweetlanes.android.core.view.UserFeedItemView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/userFeedItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/feed_item_selector"
+        android:orientation="horizontal">
+
+    <LinearLayout
+            android:id="@+id/layout_view_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="?attr/listBackground">
+
+            <view xmlns:android="http://schemas.android.com/apk/res/android"
+                  class="com.tweetlanes.android.core.view.QuickContactDivot"
+                  android:id="@+id/avatar"
+                  position="right_upper"
+                  android:src="@drawable/ic_contact_picture"
+                  android:layout_alignParentLeft="true"
+                  android:layout_width="@dimen/avatar_width_height_medium"
+                  android:layout_height="@dimen/avatar_width_height_medium"/>
+
+            <!-- The 2 linearlayouts is very ugly, but necessary so that the item selection works (via setting :background).
+                   There's got to be a better way...
+             -->
+            <LinearLayout
+                    android:id="@+id/message_block"
+                    android:minHeight="@dimen/avatar_width_height_medium"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_toRightOf="@id/avatar"
+                    android:orientation="vertical"
+                    style="?attr/feedBackground">
+
+
+                <LinearLayout
+                        android:id="@+id/message_block"
+                        android:minHeight="@dimen/avatar_width_height_medium"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/avatar"
+                        android:layout_alignParentRight="true"
+                        android:orientation="vertical"
+                        android:background="@drawable/feed_item_selector">
+
+                    <TextView
+                            android:id="@+id/screen_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="6dip"
+                            android:paddingLeft="@dimen/message_item_text_padding_left_right"
+                            android:paddingRight="3dip"
+                            android:paddingTop="@dimen/message_item_text_padding_top"
+                            android:text="\@rioferdy5"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textSize="16sp"
+                            android:textStyle="bold"/>
+
+                    <TextView
+                            android:id="@+id/name"
+                            android:autoLink="all"
+                            android:paddingLeft="@dimen/message_item_text_padding_left_right"
+                            android:paddingRight="@dimen/message_item_text_padding_left_right"
+                            android:paddingBottom="@dimen/message_item_text_padding_bottom"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:linksClickable="false"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textSize="14sp"
+                            android:text="Rio Ferdinand"
+                            style="?attr/themeOppositeText"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+</com.tweetlanes.android.core.view.UserFeedItemView>

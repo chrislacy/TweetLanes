@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2011 Google Inc.
+All Rights Reserved. -->
+<resources>
+    <dimen name="message_item_avatar_on_right_text_indent">50dip</dimen>
+    <dimen name="message_item_text_padding_left_right">12dip</dimen>
+    <dimen name="message_item_text_padding_bottom">10dip</dimen>
+    <dimen name="message_item_text_padding_top">5dip</dimen>
+
+    <dimen name="tutorial_text_size">18dip</dimen>
+    <dimen name="tutorial_vertical_padding">10dp</dimen>
+    <dimen name="tutorial_horizontal_padding">20dp</dimen>
+    <dimen name="tutorial_line_break_height">12dp</dimen>
+
+    <dimen name="avatar_width_height_small">48dip</dimen>
+    <dimen name="avatar_width_height_medium">64dip</dimen>
+    <dimen name="avatar_width_height_large">96dip</dimen>
+    <dimen name="avatar_width_height_spotlight">96dip</dimen>
+
+    <dimen name="conversation_left_width">108dip</dimen>
+    <dimen name="avatar_conversation_width_height">44dip</dimen>
+
+    <dimen name="input_text_height">48dip</dimen>
+    <dimen name="input_text_height_adjusted">8dip</dimen>
+
+    <dimen name="app_icon_size">48dp</dimen>
+    <dimen name="button_bar_height">62dip</dimen>
+
+    <dimen name="compose_tweet_text_size">20sp</dimen>
+
+    <dimen name="feed_side_padding">1dp</dimen>
+
+    <dimen name="lane_content_width">460dp</dimen>
+</resources>

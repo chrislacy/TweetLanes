@@ -4,6 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/../libraries/SocialNetLib/TL-SocialNetLib.iml" filepath="$PROJECT_DIR$/../libraries/SocialNetLib/TL-SocialNetLib.iml" />
       <module fileurl="file://$PROJECT_DIR$/TweetLanes.iml" filepath="$PROJECT_DIR$/TweetLanes.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../libraries/TweetLanesCore/TweetLanesCore.iml" filepath="$PROJECT_DIR$/../libraries/TweetLanesCore/TweetLanesCore.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../clientbeta/clientbeta.iml" filepath="$PROJECT_DIR$/../clientbeta/clientbeta.iml" />
     </modules>
   </component>
 </project>

@@ -22,11 +22,11 @@
         android:label="@string/app_launcher_name"
         android:theme="@android:style/Theme.NoTitleBar"
         android:icon="@drawable/ic_launcher"
-    	android:name=".App"
+    	android:name=".core.App"
          >
 
         <activity
-            android:name=".view.BootActivity"
+            android:name=".core.view.BootActivity"
             >
             <intent-filter android:label="@string/app_launcher_name">
                 <action android:name="android.intent.action.MAIN" />
@@ -35,17 +35,17 @@
         </activity>
 
         <activity
-            android:name=".view.NewAccountActivity"
+            android:name=".core.view.NewAccountActivity"
             >
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
                 <action android:name="android.intent.action.VIEW" />
-                <data android:scheme="com.tweetlanes.android.newaccount" />
+                <data android:scheme="com.tweetlanes.android.core.newaccount" />
             </intent-filter>
         </activity>
 
 
-        <activity android:name=".view.HomeActivity"
+        <activity android:name=".core.view.HomeActivity"
                   android:launchMode="singleTop"
             >
 
@@ -58,61 +58,61 @@
         </activity>
 
         <activity
-            android:name=".view.ProfileActivity"
+            android:name=".core.view.ProfileActivity"
             android:windowSoftInputMode="stateUnchanged"
 			 >
             <intent-filter>
 			    <category android:name="android.intent.category.DEFAULT" />
 			    <action android:name="android.intent.action.VIEW" />
-			    <data android:scheme="com.tweetlanes.android.profile" />
+			    <data android:scheme="com.tweetlanes.android.core.profile" />
 			</intent-filter>
         </activity>
 
         <activity
-            android:name=".view.SearchActivity"
+            android:name=".core.view.SearchActivity"
             >
             <intent-filter>
 			    <category android:name="android.intent.category.DEFAULT" />
 			    <action android:name="android.intent.action.VIEW" />
-			    <data android:scheme="com.tweetlanes.android.search" />
+			    <data android:scheme="com.tweetlanes.android.core.search" />
 			</intent-filter>
         </activity>
 
         <activity
-            android:name=".view.TweetSpotlightActivity"
+            android:name=".core.view.TweetSpotlightActivity"
             android:label="@string/app_tweet_spotlight_activity_name"
             >
         </activity>
 
         <activity
-            android:name=".view.ImageViewActivity"
+            android:name=".core.view.ImageViewActivity"
             android:theme="@android:style/Theme.Holo"
             >
             <intent-filter>
 			    <category android:name="android.intent.category.DEFAULT" />
 			    <action android:name="android.intent.action.VIEW" />
-			    <data android:scheme="com.tweetlanes.android.mediaview" />
+			    <data android:scheme="com.tweetlanes.android.core.mediaview" />
 			</intent-filter>
         </activity>
 
         <activity
-            android:name=".view.TutorialActivity"
+            android:name=".core.view.TutorialActivity"
             android:theme="@style/Theme.TweetLanes.Light"
             android:label="@string/tutorial_title"
             >
         </activity>
 
         <activity
-            android:name=".view.DirectMessageActivity"
+            android:name=".core.view.DirectMessageActivity"
             android:theme="@style/Theme.TweetLanes.Light"
             >
         </activity>
 
-         <activity android:name=".view.SettingsActivity"
+         <activity android:name=".core.view.SettingsActivity"
                 android:label="@string/title_settings">
         </activity>
 
-         <activity android:name=".view.TwitterAuthActivity"
+         <activity android:name=".core.view.TwitterAuthActivity"
              android:theme="@style/Theme.TweetLanes.Light"
              android:noHistory="true">
 			<intent-filter>
@@ -123,7 +123,7 @@
 			</intent-filter>
 		</activity>
 
-         <activity android:name=".view.AppDotNetAuthActivity"
+         <activity android:name=".core.view.AppDotNetAuthActivity"
              android:theme="@style/Theme.TweetLanes.Light"
              android:noHistory="true">
 			<intent-filter>
@@ -134,11 +134,11 @@
 			</intent-filter>
 		</activity>
 
-        <receiver android:name=".view.AlarmReceiver" />
-        <receiver android:name=".view.DeleteNotificationsReceiver" />
+        <receiver android:name=".core.view.AlarmReceiver" />
+        <receiver android:name=".core.view.DeleteNotificationsReceiver" />
 
          <service
-            android:name=".dashclock.TweetLanesExtension"
+            android:name=".core.dashclock.TweetLanesExtension"
             android:label="@string/extension_title"
             android:permission="com.google.android.apps.dashclock.permission.READ_EXTENSION_DATA" >
             <intent-filter>
@@ -161,7 +161,6 @@
 		<activity android:name="com.crittercism.NewFeedbackCreateActivity" android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" android:screenOrientation="portrait"></activity>
 		<activity android:name="com.crittercism.NotificationActivity" android:screenOrientation="portrait"/>
 		<!-- End of Crittercism.com Code -->
-		<activity android:name=".dashclock.TweetLanesSettingsActivity"></activity>
 
 
 

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector android:exitFadeDuration="@android:integer/config_mediumAnimTime"
+          xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true" android:drawable="@drawable/list_focused_holo"/>
+    <item android:state_activated="true" android:drawable="@drawable/list_focused_holo"/>
+    <item android:state_selected="true" android:drawable="@drawable/list_selected_holo"/>
+
+</selector>

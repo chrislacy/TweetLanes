@@ -1,0 +1,18 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- <item android:id="@+id/action_locate"
+      android:icon="@drawable/ic_action_locate"
+      android:title="@string/action_use_location"
+      android:showAsAction="always" />    -->
+    <item
+            android:id="@+id/action_camera"
+            style="?attr/ic_action_camera"
+            android:title="@string/action_take_photo"
+            android:showAsAction="always"/>
+    <item
+            android:id="@+id/action_gallery"
+            style="?attr/ic_action_select_image"
+            android:showAsAction="always"
+            android:title="@string/action_pick_photo"/>
+
+
+</menu>

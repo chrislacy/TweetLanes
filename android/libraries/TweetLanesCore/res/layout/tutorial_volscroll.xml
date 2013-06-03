@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/profile_scroll_view"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:fadingEdge="none"
+        android:layout_height="match_parent"
+        >
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:paddingLeft="@dimen/tutorial_horizontal_padding"
+                  android:paddingRight="@dimen/tutorial_horizontal_padding"
+                  android:paddingTop="@dimen/tutorial_vertical_padding"
+                  android:paddingBottom="@dimen/tutorial_vertical_padding"
+                  android:orientation="vertical">
+
+        <TextView
+                android:id="@+id/textView1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:textSize="@dimen/tutorial_text_size"
+                android:text="@string/tutorial_volscroll_intro"/>
+
+        <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:src="@drawable/tutorial_volscroll"/>
+        <!--
+        <TextView
+          android:id="@+id/textView2"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:paddingTop="6dp"
+          android:textSize="@dimen/tutorial_text_size"
+          android:text="@string/tutorial_volscroll_reasons" />
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:shrinkColumns="1" >
+
+            <TableRow
+                android:id="@+id/tableRow1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                  android:id="@+id/row1textView1"
+                  android:text="&#8226;"
+                  android:paddingLeft="20dp"
+                  android:textSize="@dimen/tutorial_text_size" />
+
+                <TextView
+                  android:id="@+id/row1textView2"
+                  android:text="@string/tutorial_volscroll_reason1"
+                  android:paddingLeft="4dp"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:textSize="@dimen/tutorial_text_size"
+                   />
+
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/tableRow2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                 <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:id="@+id/row2textView1"
+                  android:text="&#8226;"
+                  android:textSize="@dimen/tutorial_text_size"
+                  android:paddingLeft="20dp"/>
+
+                <TextView
+                  android:id="@+id/row2textView2"
+                  android:text="@string/tutorial_volscroll_reason2"
+                  android:textSize="@dimen/tutorial_text_size"
+                  android:paddingLeft="4dp"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                   />
+
+            </TableRow>
+
+        </TableLayout>
+
+        <TextView
+          android:id="@+id/textView3"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:paddingTop="18dp"
+          android:textSize="@dimen/tutorial_text_size"
+          android:text="@string/tutorial_volscroll_footer" />
+
+         -->
+
+    </LinearLayout>
+
+</ScrollView>
