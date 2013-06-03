@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="basic-http-client-android-0.88">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../libraries/TweetLanesCore/libs/basic-http-client-android-0.88.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../libraries/TweetLanesCore/libs/basic-http-client-android-0.88.jar!/" />
+    </SOURCES>
+  </library>
+</component>

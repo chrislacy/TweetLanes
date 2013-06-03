@@ -1,0 +1,19 @@
+<component name="ArtifactManager">
+  <artifact type="apk" name="TweetLanes">
+    <output-path>$PROJECT_DIR$/out/artifacts/TweetLanes</output-path>
+    <properties id="android-properties">
+      <options>
+        <option name="includeSystemProGuardCfgFile" value="true" />
+        <option name="keyAlias" value="jason famularo" />
+        <option name="keyPassword" value="cnJ4eGlpMjI=" />
+        <option name="keyStorePassword" value="cnJ4eGlpMjI=" />
+        <option name="keyStoreUrl" value="file://$USER_HOME$/Dropbox/android_keystore" />
+        <option name="proGuardCfgFileUrl" value="file://$PROJECT_DIR$/proguard.cfg" />
+        <option name="signingMode" value="DEBUG" />
+      </options>
+    </properties>
+    <root id="archive" name="TweetLanes.apk">
+      <element id="android-final-package" facet="TweetLanes/android/Android" />
+    </root>
+  </artifact>
+</component>

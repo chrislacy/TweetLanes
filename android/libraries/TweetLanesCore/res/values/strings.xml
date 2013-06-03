@@ -5,6 +5,7 @@
     <string name="app_name">Tweet Lanes</string>
     <string name="app_launcher_name">Tweet Lanes</string>
     <string name="beta_launcher_name">Tweet Lanes Beta</string>
+	<string name="local_launcher_name">Tweet Lanes Local</string>
     <string name="app_tweet_spotlight_activity_name">Tweet</string>
     <string name="back">Back</string>
     <string name="clear">Clear</string>
