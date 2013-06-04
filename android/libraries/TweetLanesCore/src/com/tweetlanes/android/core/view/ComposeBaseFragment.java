@@ -481,7 +481,7 @@ public abstract class ComposeBaseFragment extends Fragment {
         }
         else
         {
-            mCharacterCountTextView.setText("140");
+            mCharacterCountTextView.setText("");
         }
     }
 

@@ -328,6 +328,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
                         hint = getString(socialNetType == SocialNetConstant.Type.Twitter ? R.string
                                 .compose_tweet_finish : R.string.compose_tweet_finish_adn) + " \""
                                 + getStatusHintSnippet(lastStatus, 16) + "\"";
+                        super.configureCharacterCountForString(lastStatus);
                     }
                 }
             }
