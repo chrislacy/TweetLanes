@@ -120,6 +120,8 @@ public abstract class ComposeBaseFragment extends Fragment {
         mCharacterCountTextView = (TextView) resultView
                 .findViewById(R.id.characterCount);
 
+        mCharacterCountTextView.setVisibility(View.VISIBLE);
+
         updateStatusHint();
 
         return resultView;
@@ -347,18 +349,6 @@ public abstract class ComposeBaseFragment extends Fragment {
                 showCompose();
             }
         }
-
-        @Override
-        public void onSizeChanged(int xNew, int yNew, int xOld, int yOld,
-                                  int xInitial, int yInitial) {
-
-            if (mEditText.getLineCount() >= 2) {
-                mCharacterCountTextView.setVisibility(View.VISIBLE);
-            } else {
-                mCharacterCountTextView.setVisibility(View.GONE);
-            }
-        }
-
     };
 
     /*
@@ -411,6 +401,7 @@ public abstract class ComposeBaseFragment extends Fragment {
 
             if (defaultStatus != null && defaultStatus.length() > 1) {
                 mEditText.setSelection(defaultStatus.length());
+                configureCharacterCountForString(defaultStatus);
             }
 
             if (mListener != null) {
@@ -471,15 +462,26 @@ public abstract class ComposeBaseFragment extends Fragment {
 	 */
     void configureCharacterCountForString(String string) {
 
-        int length = mStatusValidator.getTweetLength(string);
-        if (length > 0) {
-            int remaining = getMaxPostLength() - length;
-            if (_mComposeDefault != null
-                    && _mComposeDefault.getMediaFilePath() != null) {
-                remaining -= SHORT_URL_LENGTH_HTTPS - 1;
-            }
+        if (string != null)
+        {
+            int length = mStatusValidator.getTweetLength(string);
+            if (length > 0) {
+                int remaining = getMaxPostLength() - length;
+                if (_mComposeDefault != null
+                        && _mComposeDefault.getMediaFilePath() != null) {
+                    remaining -= SHORT_URL_LENGTH_HTTPS - 1;
+                }
 
-            mCharacterCountTextView.setText("" + remaining);
+                mCharacterCountTextView.setText("" + remaining);
+            }
+            else
+            {
+                mCharacterCountTextView.setText("140");
+            }
+        }
+        else
+        {
+            mCharacterCountTextView.setText("140");
         }
     }
 
