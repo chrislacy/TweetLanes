@@ -17,7 +17,7 @@
             android:layout_marginLeft="8dip"
             android:layout_marginRight="8dip"
             android:textSize="@dimen/compose_tweet_text_size"
-            >
+            android:minHeight="55dp">
         <!--  <requestFocus /> -->
     </com.tweetlanes.android.core.widget.EditClearText>
 
@@ -49,9 +49,9 @@
                 android:textColor="@color/text_hairline"
                 android:gravity="top|center_horizontal"
                 android:text="140"
-                android:layout_above="@id/sendTweetButton"
                 android:textSize="12sp"
-                android:textAppearance="?android:attr/textAppearanceMedium"/>
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_above="@+id/sendTweetButton"/>
 
 
     </RelativeLayout>
