@@ -2,6 +2,13 @@
 
 Note: To report bugs or make feature requests, either contact the official Twitter @TweetLanes or click the "Send Feedback" button in the app.
 
+Version 1.1.3, ?? (Betamax edition)
+=================================
+- New features
+    * Removed the cancel tweet button when composing. (via @BlythMeister)
+- Fixes
+    * Character count show shows on new tweets (via @BlythMeister)
+
 Version 1.1.2, June 03, 2013  (via @BlythMeister edition)
 =================================
 - New features

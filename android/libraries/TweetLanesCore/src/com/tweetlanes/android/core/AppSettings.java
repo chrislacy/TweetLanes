@@ -11,6 +11,7 @@
 
 package com.tweetlanes.android.core;
 
+import android.app.AlarmManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -236,15 +237,15 @@ public class AppSettings {
         } else if (notificationTime.equals(NOTIFICATION_TIME_5M)) {
             return 300000;
         } else if (notificationTime.equals(NOTIFICATION_TIME_15M)) {
-            return 900000;
+            return AlarmManager.INTERVAL_FIFTEEN_MINUTES;
         } else if (notificationTime.equals(NOTIFICATION_TIME_30M)) {
-            return 1800000;
+            return AlarmManager.INTERVAL_HALF_HOUR;
         } else if (notificationTime.equals(NOTIFICATION_TIME_1H)) {
-            return 3600000;
+            return AlarmManager.INTERVAL_HOUR;
         } else if (notificationTime.equals(NOTIFICATION_TIME_4H)) {
             return 14400000;
         } else if (notificationTime.equals(NOTIFICATION_TIME_12H)) {
-            return 43200000;
+            return AlarmManager.INTERVAL_HALF_DAY;
         } else {
             return 0;
         }
