@@ -28,7 +28,7 @@ public class TwitterConstant {
     }
 
     public enum DirectMessagesType {
-        ALL_MESSAGES,
+        ALL_MESSAGES, SENT_MESSAGE
     };
 
     public enum BooleanType {

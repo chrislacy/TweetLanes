@@ -16,24 +16,24 @@
 
 package org.tweetalib.android;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import org.socialnetlib.android.AppdotnetApi;
 import org.socialnetlib.android.SocialNetApi;
 import org.socialnetlib.android.SocialNetConstant;
 import org.socialnetlib.android.TwitterApi;
-import twitter4j.auth.RequestToken;
-
 import org.tweetalib.android.callback.TwitterFetchDirectMessagesFinishedCallback;
 import org.tweetalib.android.callback.TwitterFetchStatusesFinishedCallback;
-import org.tweetalib.android.model.TwitterLists;
 import org.tweetalib.android.model.TwitterDirectMessages;
+import org.tweetalib.android.model.TwitterLists;
 import org.tweetalib.android.model.TwitterStatus;
 import org.tweetalib.android.model.TwitterStatusUpdate;
 import org.tweetalib.android.model.TwitterStatuses;
 import org.tweetalib.android.model.TwitterUser;
 import org.tweetalib.android.model.TwitterUsers;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import twitter4j.auth.RequestToken;
 
 /*
  *
@@ -282,10 +282,10 @@ public class TwitterManager {
     }
 
     public void sendDirectMessage(long userId, String recipientScreenName,
-            String statusText,
+            String statusText, TwitterContentHandle contentHandle,
             TwitterFetchDirectMessagesFinishedCallback callback) {
         mApi.sendDirectMessage(userId, recipientScreenName, statusText,
-                callback);
+                contentHandle, callback);
     }
 
     /*

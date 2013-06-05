@@ -12,22 +12,39 @@
 package com.tweetlanes.android.core.view;
 
 import android.app.Activity;
-import android.content.*;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
-import android.view.*;
+import android.view.ActionMode;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.SubMenu;
+import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.*;
+import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.ViewSwitcher;
 
 import com.tweetlanes.android.core.AppSettings;
 import com.tweetlanes.android.core.Constant;
 import com.tweetlanes.android.core.Constant.SystemEvent;
 import com.tweetlanes.android.core.Notifier;
 import com.tweetlanes.android.core.R;
+import com.tweetlanes.android.core.SharedPreferencesConstants;
 import com.tweetlanes.android.core.model.AccountDescriptor;
 import com.tweetlanes.android.core.model.ComposeTweetDefault;
 import com.tweetlanes.android.core.util.LazyImageLoader;
@@ -39,8 +56,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.socialnetlib.android.SocialNetConstant;
-import org.tweetalib.android.*;
+import org.tweetalib.android.TwitterConstant;
 import org.tweetalib.android.TwitterConstant.StatusesType;
+import org.tweetalib.android.TwitterContentHandle;
+import org.tweetalib.android.TwitterContentHandleBase;
+import org.tweetalib.android.TwitterFetchResult;
+import org.tweetalib.android.TwitterFetchUsers;
+import org.tweetalib.android.TwitterManager;
+import org.tweetalib.android.TwitterModifyStatuses;
+import org.tweetalib.android.TwitterPaging;
 import org.tweetalib.android.callback.TwitterFetchStatusesFinishedCallback;
 import org.tweetalib.android.model.TwitterStatus;
 import org.tweetalib.android.model.TwitterStatuses;
@@ -670,15 +694,17 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                 visibleStatus = getStatusFeed().getStatus(visiblePosition);
                 if (visibleStatus != null) {
                     if (getLaneIndex() == getApp().getCurrentAccount().getCurrentLaneIndex(Constant.LaneType.USER_MENTIONS)) {
+
+                        String notifcationType = SharedPreferencesConstants.NOTIFICATION_TYPE_MENTION;
+                        String pref = SharedPreferencesConstants.NOTIFICATION_LAST_DISPLAYED_MENTION_ID;
+
                         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getBaseLaneActivity());
-                        long lastDisplayedMentionId = preferences.getLong(Notifier
-                                .SHARED_PREFERENCES_KEY_NOTIFICATION_LAST_DISPLAYED_MENTION_ID +
-                                getApp().getCurrentAccountKey(), 0);
+                        long lastDisplayedMentionId = preferences.getLong(pref + getApp().getCurrentAccountKey(), 0);
 
                         if (visibleStatus.mId >= lastDisplayedMentionId) {
                             Notifier.saveLastNotificationActioned(getBaseLaneActivity(),
-                                    getApp().getCurrentAccountKey(), visibleStatus.mId);
-                            Notifier.cancel(getBaseLaneActivity(), getApp().getCurrentAccountKey());
+                                    getApp().getCurrentAccountKey(), notifcationType, visibleStatus.mId);
+                            Notifier.cancel(getBaseLaneActivity(), getApp().getCurrentAccountKey(), notifcationType);
                         }
                     }
                 }

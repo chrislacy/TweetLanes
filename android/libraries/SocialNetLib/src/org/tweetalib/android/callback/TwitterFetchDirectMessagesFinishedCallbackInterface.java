@@ -16,12 +16,13 @@
 
 package org.tweetalib.android.callback;
 
+import org.tweetalib.android.TwitterContentHandle;
 import org.tweetalib.android.TwitterFetchResult;
 import org.tweetalib.android.model.TwitterDirectMessages;
 
 public interface TwitterFetchDirectMessagesFinishedCallbackInterface {
 
-    public void finished(TwitterFetchResult result,
+    public void finished(TwitterContentHandle contentHandle, TwitterFetchResult result,
             TwitterDirectMessages messages);
 
 }

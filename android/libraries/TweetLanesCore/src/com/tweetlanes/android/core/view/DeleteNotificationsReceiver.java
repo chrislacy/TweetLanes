@@ -22,8 +22,9 @@ public class DeleteNotificationsReceiver extends BroadcastReceiver {
         if (extras != null) {
             String accountKey = extras.getString("account_key");
             long postId = extras.getLong("post_id");
+            String type = extras.getString("notification_type");
 
-            Notifier.saveLastNotificationActioned(context, accountKey, postId);
+            Notifier.saveLastNotificationActioned(context, accountKey, type, postId);
 
         }
     }

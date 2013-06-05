@@ -148,7 +148,7 @@ public class App extends Application {
                 setLaneDefinitions(account.getSocialNetType());
 
                 final Editor edit = mPreferences.edit();
-                edit.putLong(SHARED_PREFERENCES_KEY_CURRENT_ACCOUNT_ID,
+                edit.putLong(SharedPreferencesConstants.CURRENT_ACCOUNT_ID,
                         account.getId());
                 edit.commit();
             } else {
@@ -190,9 +190,9 @@ public class App extends Application {
         mAccounts.clear();
 
         long currentAccountId = mPreferences.getLong(
-                SHARED_PREFERENCES_KEY_CURRENT_ACCOUNT_ID, -1);
+                SharedPreferencesConstants.CURRENT_ACCOUNT_ID, -1);
         String accountIndices = mPreferences.getString(
-                SHARED_PREFERENCES_KEY_ACCOUNT_INDICES, null);
+                SharedPreferencesConstants.ACCOUNT_INDICES, null);
         if (accountIndices != null) {
             try {
                 JSONArray jsonArray = new JSONArray(accountIndices);
@@ -223,11 +223,6 @@ public class App extends Application {
             mCurrentAccountIndex = 0;
         }
     }
-
-    private final String SHARED_PREFERENCES_KEY_VERSION = "prefs_version";
-    private final String SHARED_PREFERENCES_KEY_ACCOUNT_INDICES = "account_indices_key_v2";
-    private final String SHARED_PREFERENCES_KEY_CURRENT_ACCOUNT_ID = "current_account_id_key_v2";
-    private final String SHARED_PREFERENCES_KEY_TUTORIAL_COMPLETED = "tutorial_completed_v2";
 
     public static String getAccountDescriptorKey(Long id) {
         return "account_descriptor_v2" + id.toString();
@@ -280,7 +275,7 @@ public class App extends Application {
 	 */
     public void setTutorialCompleted() {
         final Editor edit = mPreferences.edit();
-        edit.putBoolean(SHARED_PREFERENCES_KEY_TUTORIAL_COMPLETED, true);
+        edit.putBoolean(SharedPreferencesConstants.TUTORIAL_COMPLETED, true);
         edit.commit();
     }
 
@@ -289,7 +284,7 @@ public class App extends Application {
 	 */
     public boolean getTutorialCompleted() {
         boolean tutorialCompleted = mPreferences.getBoolean(
-                SHARED_PREFERENCES_KEY_TUTORIAL_COMPLETED, false);
+                SharedPreferencesConstants.TUTORIAL_COMPLETED, false);
         return tutorialCompleted;
     }
 
@@ -341,7 +336,7 @@ public class App extends Application {
                         account.toString());
 
                 String accountIndices = mPreferences.getString(
-                        SHARED_PREFERENCES_KEY_ACCOUNT_INDICES, null);
+                        SharedPreferencesConstants.ACCOUNT_INDICES, null);
                 JSONArray jsonArray;
 
                 if (accountIndices == null) {
@@ -367,7 +362,7 @@ public class App extends Application {
                 }
 
                 accountIndices = jsonArray.toString();
-                edit.putString(SHARED_PREFERENCES_KEY_ACCOUNT_INDICES,
+                edit.putString(SharedPreferencesConstants.ACCOUNT_INDICES,
                         accountIndices);
 
                 edit.commit();
@@ -448,7 +443,7 @@ public class App extends Application {
         }
 
         mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        mPreferences.edit().putInt(SHARED_PREFERENCES_KEY_VERSION,
+        mPreferences.edit().putInt(SharedPreferencesConstants.VERSION,
                 Constant.SHARED_PREFERENCES_VERSION);
 
         mAccounts = new ArrayList<AccountDescriptor>();

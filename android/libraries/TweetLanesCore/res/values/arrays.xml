@@ -86,4 +86,16 @@
         <item>12h</item>
     </string-array>
 
+    <string-array name="notificationtype_list_preference">
+        <item>Mentions and direct messages</item>
+        <item>Mentions only</item>
+        <item>Direct messages</item>
+    </string-array>
+
+    <string-array name="notificationtypevalues_list_preference">
+        <item>m,d</item>
+        <item>m</item>
+        <item>d</item>
+    </string-array>
+
 </resources>

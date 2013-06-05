@@ -435,7 +435,12 @@
     <string name="notification_time_preference">Refresh Interval</string>
     <string name="dialog_title_notificationtime_preference">Refresh Interval</string>
 
+    <string name="notification_type_preference">What to notify for</string>
+    <string name="dialog_title_notificationtype_preference">Choose the types of notifications to receive</string>
+
+
     <string name="ringtone_preference">Ringtone</string>
+    <string name="summary_ringtone_preference">Sound to play when you get a new notification</string>
 
     <string name="settings_never">Never</string>
     <string name="settings_always">Always</string>

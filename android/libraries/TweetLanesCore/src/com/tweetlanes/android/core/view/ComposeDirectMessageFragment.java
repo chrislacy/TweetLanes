@@ -11,11 +11,6 @@
 
 package com.tweetlanes.android.core.view;
 
-import org.tweetalib.android.TwitterFetchResult;
-import org.tweetalib.android.TwitterManager;
-import org.tweetalib.android.callback.TwitterFetchDirectMessagesFinishedCallback;
-import org.tweetalib.android.model.TwitterDirectMessages;
-
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -29,6 +24,14 @@ import com.tweetlanes.android.core.R;
 import com.tweetlanes.android.core.model.AccountDescriptor;
 import com.tweetlanes.android.core.model.ComposeTweetDefault;
 import com.tweetlanes.android.core.util.Util;
+
+import org.tweetalib.android.TwitterConstant;
+import org.tweetalib.android.TwitterContentHandle;
+import org.tweetalib.android.TwitterContentHandleBase;
+import org.tweetalib.android.TwitterFetchResult;
+import org.tweetalib.android.TwitterManager;
+import org.tweetalib.android.callback.TwitterFetchDirectMessagesFinishedCallback;
+import org.tweetalib.android.model.TwitterDirectMessages;
 
 public class ComposeDirectMessageFragment extends ComposeBaseFragment {
 
@@ -134,7 +137,7 @@ public class ComposeDirectMessageFragment extends ComposeBaseFragment {
 	 */
     TwitterFetchDirectMessagesFinishedCallback mOnSetStatusCallback = new TwitterFetchDirectMessagesFinishedCallback() {
 
-        public void finished(TwitterFetchResult result,
+        public void finished(TwitterContentHandle contentHandle, TwitterFetchResult result,
                              TwitterDirectMessages messages) {
 
             mUpdatingStatus = false;
@@ -218,8 +221,11 @@ public class ComposeDirectMessageFragment extends ComposeBaseFragment {
                     mEditText.setEnabled(false);
                     mSendButton.setEnabled(false);
 
+                    TwitterContentHandleBase contentBase = new TwitterContentHandleBase(TwitterConstant.ContentType.DIRECT_MESSAGES, TwitterConstant.DirectMessagesType.SENT_MESSAGE);
+                    TwitterContentHandle contentHandle = new TwitterContentHandle(contentBase, account.getScreenName(), null, account.getAccountKey());
+
                     TwitterManager.get().sendDirectMessage(account.getId(),
-                            otherUserScreenName, status, mOnSetStatusCallback);
+                            otherUserScreenName, status, contentHandle, mOnSetStatusCallback);
 
                     showToast(getString(R.string.posting_direct_message_ongoing));
 

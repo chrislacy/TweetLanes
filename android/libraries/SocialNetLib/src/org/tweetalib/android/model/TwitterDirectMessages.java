@@ -26,6 +26,19 @@ import twitter4j.User;
 
 public class TwitterDirectMessages {
 
+    public ArrayList<TwitterDirectMessage> getRawReceivedMessages() {
+        ArrayList<TwitterDirectMessage> list = new ArrayList<TwitterDirectMessage>();
+
+        for (Conversation c : mConversations) {
+            for (TwitterDirectMessage message : c.getMessages()) {
+                if (message.getMessageType() == TwitterDirectMessage.MessageType.RECEIVED)
+                    list.add(message);
+            }
+        }
+
+        return list;
+    }
+
     class Conversation implements Comparable<Conversation> {
 
         /*

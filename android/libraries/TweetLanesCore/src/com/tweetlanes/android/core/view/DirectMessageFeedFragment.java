@@ -11,22 +11,11 @@
 
 package com.tweetlanes.android.core.view;
 
-import java.util.ArrayList;
-
-import org.tweetalib.android.TwitterContentHandle;
-import org.tweetalib.android.TwitterContentHandleBase;
-import org.tweetalib.android.TwitterFetchResult;
-import org.tweetalib.android.TwitterManager;
-import org.tweetalib.android.TwitterPaging;
-import org.tweetalib.android.callback.TwitterFetchDirectMessagesFinishedCallback;
-import org.tweetalib.android.model.TwitterDirectMessage;
-import org.tweetalib.android.model.TwitterDirectMessage.MessageType;
-import org.tweetalib.android.model.TwitterDirectMessages;
-import org.tweetalib.android.model.TwitterDirectMessagesHandle;
-
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,13 +29,29 @@ import android.widget.ListView;
 import android.widget.ViewSwitcher;
 
 import com.tweetlanes.android.core.App;
+import com.tweetlanes.android.core.Constant;
 import com.tweetlanes.android.core.Constant.SystemEvent;
+import com.tweetlanes.android.core.Notifier;
 import com.tweetlanes.android.core.R;
+import com.tweetlanes.android.core.SharedPreferencesConstants;
 import com.tweetlanes.android.core.util.LazyImageLoader;
 import com.tweetlanes.android.core.view.DirectMessageItemView.DirectMessageItemViewCallbacks;
 import com.tweetlanes.android.core.widget.pulltorefresh.PullToRefreshBase.OnLastItemVisibleListener;
 import com.tweetlanes.android.core.widget.pulltorefresh.PullToRefreshBase.OnRefreshListener;
 import com.tweetlanes.android.core.widget.pulltorefresh.PullToRefreshListView;
+
+import org.tweetalib.android.TwitterContentHandle;
+import org.tweetalib.android.TwitterContentHandleBase;
+import org.tweetalib.android.TwitterFetchResult;
+import org.tweetalib.android.TwitterManager;
+import org.tweetalib.android.TwitterPaging;
+import org.tweetalib.android.callback.TwitterFetchDirectMessagesFinishedCallback;
+import org.tweetalib.android.model.TwitterDirectMessage;
+import org.tweetalib.android.model.TwitterDirectMessage.MessageType;
+import org.tweetalib.android.model.TwitterDirectMessages;
+import org.tweetalib.android.model.TwitterDirectMessagesHandle;
+
+import java.util.ArrayList;
 
 public class DirectMessageFeedFragment extends BaseLaneFragment {
 
@@ -337,6 +342,8 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
                              int visibleItemCount, int totalItemCount) {
             mConversationListView.onScroll(view, firstVisibleItem,
                     visibleItemCount, totalItemCount);
+
+            setNotificationsRead();
         }
 
         @Override
@@ -353,6 +360,21 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
 
     };
 
+    private void setNotificationsRead() {
+        if (getLaneIndex() == getApp().getCurrentAccount().getCurrentLaneIndex(Constant.LaneType.DIRECT_MESSAGES)) {
+
+            String notifcationType = SharedPreferencesConstants.NOTIFICATION_TYPE_MENTION;
+            String pref = SharedPreferencesConstants.NOTIFICATION_LAST_DISPLAYED_DIRECT_MESSAGE_ID;
+
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getBaseLaneActivity());
+            long lastDisplayedMentionId = preferences.getLong(pref + getApp().getCurrentAccountKey(), 0);
+
+            Notifier.saveLastNotificationActioned(getBaseLaneActivity(),
+                    getApp().getCurrentAccountKey(), notifcationType, lastDisplayedMentionId);
+            Notifier.cancel(getBaseLaneActivity(), getApp().getCurrentAccountKey(), notifcationType);
+        }
+    }
+
     /*
 	 *
 	 */
@@ -364,7 +386,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
             mRefreshCallback = new TwitterFetchDirectMessagesFinishedCallback() {
 
                 @Override
-                public void finished(TwitterFetchResult result,
+                public void finished(TwitterContentHandle handle, TwitterFetchResult result,
                                      TwitterDirectMessages feed) {
 
                     onRefreshComplete(feed);
@@ -408,7 +430,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
             mRefreshCallback = new TwitterFetchDirectMessagesFinishedCallback() {
 
                 @Override
-                public void finished(TwitterFetchResult result,
+                public void finished(TwitterContentHandle contentHandle, TwitterFetchResult result,
                                      TwitterDirectMessages feed) {
 
                     onRefreshComplete(feed);
@@ -661,7 +683,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
         mRefreshCallback = new TwitterFetchDirectMessagesFinishedCallback() {
 
             @Override
-            public void finished(TwitterFetchResult fetchResult,
+            public void finished(TwitterContentHandle contentHandle, TwitterFetchResult fetchResult,
                                  TwitterDirectMessages directMessages) {
                 onRefreshComplete(directMessages);
                 mConversationListView.onRefreshComplete();
@@ -678,7 +700,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
                 .getDirectMessages(mContentHandle, null, mRefreshCallback);
         if (cachedDirectMessages != null) {
             if (mRefreshCallback != null) {
-                mRefreshCallback.finished(new TwitterFetchResult(true, null),
+                mRefreshCallback.finished(mContentHandle, new TwitterFetchResult(true, null),
                         cachedDirectMessages);
             }
         } else {

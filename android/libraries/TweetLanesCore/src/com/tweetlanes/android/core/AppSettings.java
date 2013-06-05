@@ -61,14 +61,15 @@ public class AppSettings {
     public static final String NOTIFICATION_TIME_12H = "12h";
     public static final String NOTIFICATION_TIME_DEFAULT = NOTIFICATION_TIME_0M;
 
+    public static final String NOTIFICATION_TYPE_DEFAULT = "m,d";
+
+
     /*
      *
 	 */
     public enum Theme {
         Holo_Dark, Holo_Light
     }
-
-    ;
 
     /*
 	 *
@@ -250,6 +251,10 @@ public class AppSettings {
             return 0;
         }
 
+    }
+
+    public String getNotificationType() {
+        return mSharedPreferences.getString(SettingsActivity.KEY_NOTIFICATION_TYPE_PREFERENCE, NOTIFICATION_TYPE_DEFAULT);
     }
 
     /*

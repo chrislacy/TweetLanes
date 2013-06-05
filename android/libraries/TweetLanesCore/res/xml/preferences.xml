@@ -43,16 +43,6 @@
                 android:dialogTitle="@string/dialog_title_profileimagesize_preference"
                 android:defaultValue="medium"
                 />
-        <!--
-        <ListPreference
-            android:key="namedisplay_preference"
-            android:title="@string/title_namedisplay_preference"
-            android:entries="@array/namedisplay_list_preference"
-            android:entryValues="@array/namedisplayvalues_list_preference"
-            android:dialogTitle="@string/dialog_title_namedisplay_preference"
-            android:defaultValue="username"
-             />
-         -->
 
         <CheckBoxPreference
                 android:key="showtweetsource_preference"
@@ -73,11 +63,22 @@
                 android:defaultValue="0m"
                 />
 
+        <ListPreference
+                android:key="notificationtype_preference"
+                android:title="@string/notification_type_preference"
+                android:entries="@array/notificationtype_list_preference"
+                android:entryValues="@array/notificationtypevalues_list_preference"
+                android:dialogTitle="@string/dialog_title_notificationtype_preference"
+                android:defaultValue="Mentions and direct messages"
+                />
+
+
         <RingtonePreference
                 android:showDefault="true"
                 android:key="ringtone_preference"
                 android:title="@string/ringtone_preference"
-                android:ringtoneType="notification">
+                android:ringtoneType="notification"
+                android:summary="@string/summary_ringtone_preference">
         </RingtonePreference>
 
     </PreferenceCategory>

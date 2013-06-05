@@ -88,14 +88,16 @@ public class HomeActivity extends BaseLaneActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             String accountKey = extras.getString("account_key");
+            String notificationType = extras.getString("notification_type");
             long postId = extras.getLong("post_id");
             String laneName = extras.getString("lane");
 
             if (accountKey != null) {
                 getIntent().removeExtra("account_key");
+                getIntent().removeExtra("notification_type");
                 AccountDescriptor notificationAccount = getApp().getAccountByKey(accountKey);
 
-                Notifier.saveLastNotificationActioned(this, accountKey, postId);
+                Notifier.saveLastNotificationActioned(this, accountKey, notificationType, postId);
 
                 if (notificationAccount != null) {
                     if (notificationAccount.getId() == account.getId()) {

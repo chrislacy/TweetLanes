@@ -1,17 +1,16 @@
 package com.tweetlanes.android.core.dashclock;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import com.google.android.apps.dashclock.api.DashClockExtension;
 import com.google.android.apps.dashclock.api.ExtensionData;
 import com.tweetlanes.android.core.App;
 import com.tweetlanes.android.core.R;
+import com.tweetlanes.android.core.SharedPreferencesConstants;
 import com.tweetlanes.android.core.model.AccountDescriptor;
-
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-
 import com.tweetlanes.android.core.view.HomeActivity;
 
 import org.json.JSONArray;
@@ -20,13 +19,6 @@ import org.json.JSONException;
 import java.util.ArrayList;
 
 public class TweetLanesExtension extends DashClockExtension {
-
-    public static final String PREF_NAME = "pref_name";
-    final String SHARED_PREFERENCES_KEY_NOTIFICATION_LAST_DISPLAYED_MENTION_ID =
-            "notification_last_displayed_mention_id_v1_";
-    final String SHARED_PREFERENCES_KEY_ACCOUNT_INDICES = "account_indices_key_v2";
-    final String SHARED_PREFERENCES_KEY_NOTIFICATION_COUNT = "notification_count_";
-    final String SHARED_PREFERENCES_KEY_NOTIFICATION_SUMMARY = "notification_summary_";
 
     @Override
     protected void onInitialize(boolean isReconnect) {
@@ -38,12 +30,24 @@ public class TweetLanesExtension extends DashClockExtension {
         // Get preference value.
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
 
-        int count = 0;
+        int mentionCount = 0;
+        int dmCount = 0;
         String body = "";
         String accountKey = null;
         for (AccountDescriptor account : getAccounts(this)) {
-            count += sp.getInt(SHARED_PREFERENCES_KEY_NOTIFICATION_COUNT + account.getAccountKey(), 0);
-            body += (sp.getString(SHARED_PREFERENCES_KEY_NOTIFICATION_SUMMARY + account.getAccountKey(), "") + "\n");
+            int accountMentionCount = sp.getInt(SharedPreferencesConstants.NOTIFICATION_COUNT + account.getAccountKey() + SharedPreferencesConstants.NOTIFICATION_TYPE_MENTION, 0);
+            int accountDmCount = sp.getInt(SharedPreferencesConstants.NOTIFICATION_COUNT + account.getAccountKey() + SharedPreferencesConstants.NOTIFICATION_TYPE_DIRECT_MESSAGE, 0);
+
+            if (accountMentionCount > 0) {
+                mentionCount += accountMentionCount;
+                body += (sp.getString(SharedPreferencesConstants.NOTIFICATION_SUMMARY + account.getAccountKey() + SharedPreferencesConstants.NOTIFICATION_TYPE_MENTION, "") + "\n");
+            }
+
+            if (accountDmCount > 0) {
+                dmCount += accountDmCount;
+                body += (sp.getString(SharedPreferencesConstants.NOTIFICATION_SUMMARY + account.getAccountKey() + SharedPreferencesConstants.NOTIFICATION_TYPE_DIRECT_MESSAGE, "") + "\n");
+            }
+
             if (accountKey == null) {
                 accountKey = account.getAccountKey();
             }
@@ -51,22 +55,36 @@ public class TweetLanesExtension extends DashClockExtension {
         body = body.replaceAll("\\s+$", "");
 
         // Publish the extension data update.
-        if (count > 0) {
-            publishUpdate(new ExtensionData().visible(true).icon(R.drawable.ic_launcher).status(String.valueOf(count))
-                    .expandedTitle(count + " new mentions").expandedBody(body).clickIntent(getHomeIntent(accountKey)));
+        if (mentionCount > 0 || dmCount > 0) {
+            String title = mentionCount > 0 ? mentionCount + " new mentions" : "";
+            if (title.length() == 0) {
+                title = dmCount + " new direct messages";
+            }
+            else if (dmCount > 0) {
+                title += ", " + dmCount + " new direct mentions";
+            }
+            publishUpdate(new ExtensionData().visible(true).icon(R.drawable.ic_launcher).status(String.valueOf(mentionCount + dmCount))
+                    .expandedTitle(title).expandedBody(body).clickIntent(getHomeIntent(accountKey, mentionCount > 0 ? SharedPreferencesConstants.NOTIFICATION_TYPE_MENTION : SharedPreferencesConstants.NOTIFICATION_TYPE_DIRECT_MESSAGE)));
         } else {
             publishUpdate(null);
         }
     }
 
-    private Intent getHomeIntent(String accountKey) {
+    private Intent getHomeIntent(String accountKey, String type) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        long postId = preferences.getLong(SHARED_PREFERENCES_KEY_NOTIFICATION_LAST_DISPLAYED_MENTION_ID + accountKey,
-                0);
+        long postId;
+
+        if (type == SharedPreferencesConstants.NOTIFICATION_TYPE_MENTION) {
+            postId = preferences.getLong(SharedPreferencesConstants.NOTIFICATION_LAST_DISPLAYED_MENTION_ID + accountKey, 0);
+        }
+        else {
+            postId = preferences.getLong(SharedPreferencesConstants.NOTIFICATION_LAST_DISPLAYED_DIRECT_MESSAGE_ID + accountKey, 0);
+        }
 
         Intent intent = new Intent(this, HomeActivity.class);
         intent.putExtra("account_key", accountKey);
         intent.putExtra("post_id", postId);
+        intent.putExtra("notification_type", type);
 
         return intent;
     }
@@ -75,7 +93,7 @@ public class TweetLanesExtension extends DashClockExtension {
         ArrayList<AccountDescriptor> accounts = new ArrayList<AccountDescriptor>();
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        String accountIndices = preferences.getString(SHARED_PREFERENCES_KEY_ACCOUNT_INDICES, null);
+        String accountIndices = preferences.getString(SharedPreferencesConstants.ACCOUNT_INDICES, null);
 
         if (accountIndices != null) {
             try {

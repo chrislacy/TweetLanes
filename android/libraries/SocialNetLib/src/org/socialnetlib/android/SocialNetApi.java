@@ -11,8 +11,6 @@
 
 package org.socialnetlib.android;
 
-import java.util.ArrayList;
-
 import org.appdotnet4j.model.AdnUser;
 import org.socialnetlib.android.SocialNetConstant.Type;
 import org.tweetalib.android.ConnectionStatus;
@@ -45,6 +43,8 @@ import org.tweetalib.android.model.TwitterStatusUpdate;
 import org.tweetalib.android.model.TwitterStatuses;
 import org.tweetalib.android.model.TwitterUser;
 import org.tweetalib.android.model.TwitterUsers;
+
+import java.util.ArrayList;
 
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -533,9 +533,10 @@ public abstract class SocialNetApi {
 
     public void sendDirectMessage(long userId, String recipientScreenName,
             String statusText,
+            TwitterContentHandle contentHandle,
             TwitterFetchDirectMessagesFinishedCallback callback) {
         mFetchDirectMessages.sendDirectMessage(userId, recipientScreenName,
-                statusText, callback, mConnectionStatus);
+                statusText, contentHandle, callback, mConnectionStatus);
     }
 
     /*

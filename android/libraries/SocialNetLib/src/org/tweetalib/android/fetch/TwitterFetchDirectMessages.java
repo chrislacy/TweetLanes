@@ -16,9 +16,9 @@
 
 package org.tweetalib.android.fetch;
 
-import java.util.HashMap;
-
 import android.util.Log;
+
+import org.asynctasktex.AsyncTaskEx;
 import org.tweetalib.android.ConnectionStatus;
 import org.tweetalib.android.TwitterContentHandle;
 import org.tweetalib.android.TwitterFetchResult;
@@ -27,7 +27,7 @@ import org.tweetalib.android.callback.TwitterFetchDirectMessagesFinishedCallback
 import org.tweetalib.android.model.TwitterDirectMessages;
 import org.tweetalib.android.model.TwitterDirectMessages.AddUserCallback;
 
-import org.asynctasktex.AsyncTaskEx;
+import java.util.HashMap;
 
 import twitter4j.DirectMessage;
 import twitter4j.Paging;
@@ -137,7 +137,7 @@ public class TwitterFetchDirectMessages {
 
         if (connectionStatus != null && connectionStatus.isOnline() == false) {
             if (callback != null) {
-                callback.finished(new TwitterFetchResult(false,
+                callback.finished(contentHandle, new TwitterFetchResult(false,
                         connectionStatus.getErrorMessageNoConnection()), null);
             }
             return null;
@@ -162,11 +162,12 @@ public class TwitterFetchDirectMessages {
 	 */
     public void sendDirectMessage(long userId, String recipientScreenName,
             String statusText,
+            TwitterContentHandle contentHandle,
             TwitterFetchDirectMessagesFinishedCallback callback,
             ConnectionStatus connectionStatus) {
         if (connectionStatus != null && connectionStatus.isOnline() == false) {
             if (callback != null) {
-                callback.finished(new TwitterFetchResult(false,
+                callback.finished(contentHandle, new TwitterFetchResult(false,
                         connectionStatus.getErrorMessageNoConnection()), null);
             }
         }
@@ -225,13 +226,15 @@ public class TwitterFetchDirectMessages {
 	 */
     class FetchDirectMessagesTaskOutput {
 
-        FetchDirectMessagesTaskOutput(TwitterFetchResult result,
+        FetchDirectMessagesTaskOutput(TwitterContentHandle contentHandle, TwitterFetchResult result,
                 Integer callbackHandle, TwitterDirectMessages messages) {
+            mContentHandle = contentHandle;
             mResult = result;
             mCallbackHandle = callbackHandle;
             mMessages = messages;
         }
 
+        TwitterContentHandle mContentHandle;
         TwitterFetchResult mResult;
         Integer mCallbackHandle;
         TwitterDirectMessages mMessages;
@@ -256,7 +259,7 @@ public class TwitterFetchDirectMessages {
             String errorDescription = null;
 
             if (input.mConnectionStatus != null && input.mConnectionStatus.isOnline() == false) {
-                return new FetchDirectMessagesTaskOutput(
+                return new FetchDirectMessagesTaskOutput(input.mContentHandle,
                         new TwitterFetchResult(false,
                                 input.mConnectionStatus
                                         .getErrorMessageNoConnection()),
@@ -326,7 +329,7 @@ public class TwitterFetchDirectMessages {
                 }
             }
 
-            return new FetchDirectMessagesTaskOutput(new TwitterFetchResult(
+            return new FetchDirectMessagesTaskOutput(input.mContentHandle, new TwitterFetchResult(
                     errorDescription == null ? true : false, errorDescription),
                     input.mCallbackHandle, messages);
         }
@@ -336,7 +339,7 @@ public class TwitterFetchDirectMessages {
 
             TwitterFetchDirectMessagesFinishedCallback callback = getFetchStatusesCallback(output.mCallbackHandle);
             if (callback != null) {
-                callback.finished(output.mResult, output.mMessages);
+                callback.finished(output.mContentHandle, output.mResult, output.mMessages);
                 removeFetchStatusesCallback(callback);
             }
 

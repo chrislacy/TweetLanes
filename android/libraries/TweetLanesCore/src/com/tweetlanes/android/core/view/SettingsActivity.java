@@ -11,8 +11,6 @@
 
 package com.tweetlanes.android.core.view;
 
-import java.util.ArrayList;
-
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -23,8 +21,13 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.*;
+import android.preference.CheckBoxPreference;
+import android.preference.ListPreference;
+import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
+import android.preference.PreferenceActivity;
+import android.preference.PreferenceCategory;
+import android.preference.PreferenceManager;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -37,9 +40,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.crittercism.app.Crittercism;
-import com.tweetlanes.android.core.*;
+import com.tweetlanes.android.core.App;
+import com.tweetlanes.android.core.AppSettings;
+import com.tweetlanes.android.core.Constant;
 import com.tweetlanes.android.core.Constant.LaneType;
+import com.tweetlanes.android.core.Notifier;
+import com.tweetlanes.android.core.R;
 import com.tweetlanes.android.core.model.LaneDescriptor;
+
+import java.util.ArrayList;
 
 public class SettingsActivity extends PreferenceActivity implements
         OnSharedPreferenceChangeListener {
@@ -60,6 +69,7 @@ public class SettingsActivity extends PreferenceActivity implements
     public static final String KEY_VERSION_PREFERENCE = "version_preference";
     public static final String KEY_RINGTONE_PREFERENCE = "ringtone_preference";
     public static final String KEY_NOTIFICATION_TIME_PREFERENCE = "notificationtime_preference";
+    public static final String KEY_NOTIFICATION_TYPE_PREFERENCE = "notificationtype_preference";
 
     private ListPreference mThemePreference;
     private Preference mCustomizeLanesPreference;
@@ -76,6 +86,7 @@ public class SettingsActivity extends PreferenceActivity implements
     private Preference mDonatePreference;
     private Preference mVersionPreference;
     private ListPreference mNotificationTimePreference;
+    private ListPreference mNotificationTypePreference;
 
     /*
      *
@@ -228,6 +239,8 @@ public class SettingsActivity extends PreferenceActivity implements
                 KEY_VERSION_PREFERENCE);
         mNotificationTimePreference = (ListPreference) getPreferenceScreen()
                 .findPreference(KEY_NOTIFICATION_TIME_PREFERENCE);
+        mNotificationTypePreference = (ListPreference) getPreferenceScreen()
+                .findPreference(KEY_NOTIFICATION_TYPE_PREFERENCE);
     }
 
     /*
@@ -347,6 +360,12 @@ public class SettingsActivity extends PreferenceActivity implements
             mNotificationTimePreference.setValueIndex(1);
         }
         mNotificationTimePreference.setSummary(mNotificationTimePreference.getEntry());
+
+        if (mNotificationTypePreference.getEntry() == null) {
+            mNotificationTypePreference.setValueIndex(0);
+        }
+        mNotificationTypePreference.setSummary(mNotificationTypePreference.getEntry());
+
 
         getPreferenceScreen().getSharedPreferences()
                 .registerOnSharedPreferenceChangeListener(this);

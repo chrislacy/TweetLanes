@@ -18,15 +18,8 @@ import com.tweetlanes.android.core.view.HomeActivity;
 
 public class Notifier {
 
-    public static final String SHARED_PREFERENCES_KEY_NOTIFICATION_LAST_ACTIONED_MENTION_ID =
-            "notification_last_actioned_mention_id_v1_";
-    public static final String SHARED_PREFERENCES_KEY_NOTIFICATION_LAST_DISPLAYED_MENTION_ID =
-            "notification_last_displayed_mention_id_v1_";
-    static final String SHARED_PREFERENCES_KEY_NOTIFICATION_COUNT = "notification_count_";
-    static final String SHARED_PREFERENCES_KEY_NOTIFICATION_SUMMARY = "notification_summary_";
-
     public static void notify(String title, String text, String bigText, Boolean autoCancel, int id,
-                              String accountKey, long postId, Context context) {
+                              String accountKey, String type, long postId, Context context) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
                 .setTicker(text)
                 .setSmallIcon(R.drawable.notification_default)
@@ -43,6 +36,7 @@ public class Notifier {
 
         Intent resultIntent = new Intent(context, HomeActivity.class);
         resultIntent.putExtra("account_key", accountKey);
+        resultIntent.putExtra("notification_type", type);
         resultIntent.putExtra("post_id", postId);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
         stackBuilder.addParentStack(HomeActivity.class);
@@ -56,30 +50,31 @@ public class Notifier {
         Intent deleteIntent = new Intent(context, DeleteNotificationsReceiver.class);
         deleteIntent.putExtra("account_key", accountKey);
         deleteIntent.putExtra("post_id", postId);
+        deleteIntent.putExtra("notification_type", type);
         requestCode = (int) (Math.random() * Integer.MAX_VALUE);
         PendingIntent deletePendingIntent = PendingIntent.getBroadcast(context, requestCode, deleteIntent, 0);
 
         builder.setDeleteIntent(deletePendingIntent);
 
-        saveLastNotificationDisplayed(context, accountKey, postId);
+        saveLastNotificationDisplayed(context, accountKey, type, postId);
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context
                 .NOTIFICATION_SERVICE);
         notificationManager.notify(id, builder.build());
     }
 
-    public static void cancel(Context context, String accountKey) {
+    public static void cancel(Context context, String accountKey, String type) {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context
                 .NOTIFICATION_SERVICE);
-        notificationManager.cancel(accountKey.hashCode());
+        notificationManager.cancel((accountKey + type).hashCode());
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor edit = preferences.edit();
-        edit.putInt(SHARED_PREFERENCES_KEY_NOTIFICATION_COUNT + accountKey, 0);
-        edit.putString(SHARED_PREFERENCES_KEY_NOTIFICATION_SUMMARY + accountKey, "");
+        edit.putInt(SharedPreferencesConstants.NOTIFICATION_COUNT + accountKey + type, 0);
+        edit.putString(SharedPreferencesConstants.NOTIFICATION_SUMMARY + accountKey + type, "");
         edit.commit();
 
-        Notifier.setDashclockValues(context, accountKey, 0, "");
+        Notifier.setDashclockValues(context, accountKey, type, 0, "");
     }
 
     public static void setNotificationAlarm(Context context) {
@@ -109,27 +104,31 @@ public class Notifier {
         am.cancel(pendingIntent);
     }
 
-    public static void saveLastNotificationActioned(Context context, String accountKey, long postId) {
+    public static void saveLastNotificationActioned(Context context, String accountKey, String type, long postId) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor edit = preferences.edit();
-        edit.putLong(SHARED_PREFERENCES_KEY_NOTIFICATION_LAST_ACTIONED_MENTION_ID + accountKey, postId);
+
+        String pref = type == SharedPreferencesConstants.NOTIFICATION_TYPE_MENTION ? SharedPreferencesConstants.NOTIFICATION_LAST_ACTIONED_MENTION_ID : SharedPreferencesConstants.NOTIFICATION_LAST_ACTIONED_DIRECT_MESSAGE_ID;
+        edit.putLong(pref + accountKey, postId);
         edit.commit();
 
-        Notifier.setDashclockValues(context, accountKey, 0, "");
+        Notifier.setDashclockValues(context, accountKey, type, 0, "");
     }
 
-    public static void saveLastNotificationDisplayed(Context context, String accountKey, long postId) {
+    public static void saveLastNotificationDisplayed(Context context, String accountKey, String type, long postId) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor edit = preferences.edit();
-        edit.putLong(SHARED_PREFERENCES_KEY_NOTIFICATION_LAST_DISPLAYED_MENTION_ID + accountKey, postId);
+
+        String pref = type == SharedPreferencesConstants.NOTIFICATION_TYPE_MENTION ? SharedPreferencesConstants.NOTIFICATION_LAST_DISPLAYED_MENTION_ID : SharedPreferencesConstants.NOTIFICATION_LAST_DISPLAYED_DIRECT_MESSAGE_ID;
+        edit.putLong(pref + accountKey, postId);
         edit.commit();
     }
 
-    public static void setDashclockValues(Context context, String accountKey, int count, String detail) {
+    public static void setDashclockValues(Context context, String accountKey, String type,  int count, String detail) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor edit = preferences.edit();
-        edit.putInt(SHARED_PREFERENCES_KEY_NOTIFICATION_COUNT + accountKey, count);
-        edit.putString(SHARED_PREFERENCES_KEY_NOTIFICATION_SUMMARY + accountKey, detail);
+        edit.putInt(SharedPreferencesConstants.NOTIFICATION_COUNT + accountKey + type, count);
+        edit.putString(SharedPreferencesConstants.NOTIFICATION_SUMMARY + accountKey + type, detail);
         edit.commit();
     }
 }
