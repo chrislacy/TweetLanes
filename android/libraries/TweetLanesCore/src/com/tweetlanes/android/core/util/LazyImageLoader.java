@@ -114,7 +114,7 @@ public class LazyImageLoader {
             return;
         }
         mImageViews.put(imageview, url);
-        final Bitmap bitmap = mMemoryCache.get(url);
+        final Bitmap bitmap = mMemoryCache.get(url, mFileCache);
         if (bitmap != null) {
             imageview.setImageBitmap(bitmap);
         } else {
@@ -441,12 +441,13 @@ public class LazyImageLoader {
             return clearedUrls;
         }
 
-        public Bitmap get(final URL url) {
+        public Bitmap get(final URL url, final FileCache fileCache) {
             synchronized (mHardCache) {
                 ExpiringBitmap bitmap = mHardCache.get(url);
                 if (bitmap != null) {
                     if (bitmap.expires.before(new Date())) {
                         mHardCache.remove(url);
+                        fileCache.deleteFile(url);
                         bitmap = null;
                     } else {
                         // Put bitmap on top of cache so it's purged last.
