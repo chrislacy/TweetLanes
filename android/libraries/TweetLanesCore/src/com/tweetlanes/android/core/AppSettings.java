@@ -169,8 +169,6 @@ public class AppSettings {
                 if (preferenceKey
                         .equalsIgnoreCase(SettingsActivity.KEY_SHOW_TABLET_MARGIN_PREFERENCE)
                         || preferenceKey
-                        .equalsIgnoreCase(SettingsActivity.KEY_CLEAR_IMAGE_CACHE_PREFERENCE)
-                        || preferenceKey
                         .equalsIgnoreCase(SettingsActivity.KEY_CUSTOMIZE_LANES_PREFERENCE)
                         || preferenceKey
                         .equalsIgnoreCase(SettingsActivity.KEY_SHOW_TWEET_SOURCE_PREFERENCE)) {

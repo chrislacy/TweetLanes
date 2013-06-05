@@ -53,7 +53,6 @@ public class SettingsActivity extends PreferenceActivity implements
     public static final String KEY_DOWNLOADIMAGES_PREFERENCE = "downloadimages_preference";
     public static final String KEY_SHOW_TWEET_SOURCE_PREFERENCE = "showtweetsource_preference";
     public static final String KEY_QUOTE_TYPE_PREFERENCE = "quotetype_preference";
-    public static final String KEY_CLEAR_IMAGE_CACHE_PREFERENCE = "clearimagecache_preference";
     public static final String KEY_CREDITS_PREFERENCE = "preference_credits";
     public static final String KEY_SOURCE_CODE_PREFERENCE = "preference_source";
     public static final String KEY_DONATE_PREFERENCE = "preference_donate";
@@ -70,7 +69,6 @@ public class SettingsActivity extends PreferenceActivity implements
     private CheckBoxPreference mShowTweetSourcePreference;
     private ListPreference mQuoteTypePreference;
     private CheckBoxPreference mVolScrollPreference;
-    private Preference mClearImageCachePreference;
     private Preference mCreditsPreference;
     private Preference mSourceCodePreference;
     private Preference mDonatePreference;
@@ -172,49 +170,6 @@ public class SettingsActivity extends PreferenceActivity implements
 
         mVolScrollPreference = (CheckBoxPreference) getPreferenceScreen()
                 .findPreference(KEY_VOLSCROLL_PREFERENCE);
-        mClearImageCachePreference = (Preference) getPreferenceScreen()
-                .findPreference(KEY_CLEAR_IMAGE_CACHE_PREFERENCE);
-        mClearImageCachePreference
-                .setOnPreferenceClickListener(new OnPreferenceClickListener() {
-
-                    @Override
-                    public boolean onPreferenceClick(Preference preference) {
-                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                                SettingsActivity.this);
-
-                        alertDialogBuilder
-                                .setTitle(
-                                        R.string.alert_empty_image_cache_title)
-                                .setMessage(
-                                        R.string.alert_empty_image_cache_message)
-                                .setCancelable(false)
-                                .setPositiveButton(R.string.yes,
-                                        new DialogInterface.OnClickListener() {
-
-                                            public void onClick(
-                                                    DialogInterface dialog,
-                                                    int id) {
-                                                getApp().clearImageCaches();
-                                                AppSettings
-                                                        .get()
-                                                        .refresh(
-                                                                KEY_CLEAR_IMAGE_CACHE_PREFERENCE);
-                                            }
-                                        })
-                                .setNegativeButton(R.string.no,
-                                        new DialogInterface.OnClickListener() {
-
-                                            public void onClick(
-                                                    DialogInterface dialog,
-                                                    int id) {
-                                                dialog.cancel();
-                                            }
-                                        });
-
-                        alertDialogBuilder.create().show();
-                        return true;
-                    }
-                });
 
         mQuoteTypePreference = (ListPreference) getPreferenceScreen()
                 .findPreference(KEY_QUOTE_TYPE_PREFERENCE);

@@ -17,6 +17,7 @@ import static android.os.Environment.getExternalStorageDirectory;
 import static android.os.Environment.getExternalStorageState;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -27,9 +28,13 @@ import java.lang.ref.SoftReference;
 import java.net.HttpURLConnection;
 import java.net.Proxy;
 import java.net.URL;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.WeakHashMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
@@ -93,12 +98,9 @@ public class LazyImageLoader {
         // mPreferences.getBoolean(PREFERENCE_KEY_IGNORE_SSL_ERROR, false);
     }
 
-    public void clearFileCache() {
-        mFileCache.clear();
-    }
-
-    public void clearMemoryCache() {
-        mMemoryCache.clear();
+    public void clearCache() {
+        Set<URL> clearedUrls = mMemoryCache.clear();
+        mFileCache.clearUrls(clearedUrls);
     }
 
     public void displayImage(String url, ImageView imageview) {
@@ -234,21 +236,49 @@ public class LazyImageLoader {
             init();
         }
 
-        public void clear() {
-            if (mCacheDir == null) return;
-            final File[] files = mCacheDir.listFiles();
-            if (files == null) return;
-            for (final File f : files) {
-                f.delete();
-            }
-        }
-
         public File getFile(URL tag) {
             if (mCacheDir == null) return null;
             final String filename = getURLFilename(tag);
             if (filename == null) return null;
             final File file = new File(mCacheDir, filename);
             return file;
+        }
+
+        public void saveFile(Bitmap image, URL tag) {
+            if (mCacheDir == null) return;
+            final String filename = getURLFilename(tag);
+            if (filename == null) return;
+            final File file = new File(mCacheDir, filename);
+            FileOutputStream fOut = null;
+            try
+            {
+                fOut = new FileOutputStream(file);
+                image.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                fOut.flush();
+                fOut.close();
+            } catch (IOException e) {
+
+            }
+        }
+
+        private void deleteFile(final URL tag){
+            if (mCacheDir == null) return;
+            final File[] files = mCacheDir.listFiles(new FileFilter() {
+                @Override
+                public boolean accept(File file) {
+                    return file.getName() == getURLFilename(tag);
+                }
+            });
+            if (files == null) return;
+            for (final File f : files) {
+                f.delete();
+            }
+        }
+
+        public void clearUrls(Set<URL> urls){
+            for(URL url : urls){
+                deleteFile(url);
+            }
         }
 
         public void init() {
@@ -309,6 +339,7 @@ public class LazyImageLoader {
                 copyStream(is, os);
                 os.close();
                 bitmap = decodeFile(f);
+                mFileCache.saveFile(bitmap, url);
                 return bitmap;
             } catch (final FileNotFoundException e) {
                 // Storage state may changed, so call FileCache.init() again.
@@ -384,9 +415,30 @@ public class LazyImageLoader {
             };
         }
 
-        public void clear() {
-            mHardCache.clear();
-            mSoftCache.clear();
+        public Set<URL> clear() {
+            Set<URL> clearedUrls = new HashSet<URL>();
+
+            synchronized (mHardCache) {
+
+                Calendar cal = Calendar.getInstance();
+                cal.add(Calendar.DATE, -4);
+                Map<URL, ExpiringBitmap> copy = new HashMap<URL, ExpiringBitmap>(mHardCache);
+                for (URL url : copy.keySet()){
+
+                    ExpiringBitmap bitmap = mHardCache.get(url);
+                    if (bitmap != null) {
+                        if (bitmap.expires.before(cal.getTime())) {
+                            clearedUrls.add(url);
+                        }
+                    }
+                }
+                for (URL url : clearedUrls){
+                    mHardCache.remove(url);
+                    mSoftCache.remove(url);
+                }
+            }
+
+            return clearedUrls;
         }
 
         public Bitmap get(final URL url) {
@@ -431,8 +483,9 @@ public class LazyImageLoader {
             if (url == null || bitmap == null) return;
 
             if (mHardCache.get(url) == null) {
-                Date currentDate = new Date();
-                mHardCache.put(url, new ExpiringBitmap(bitmap, new Date(currentDate.getTime() + 1 * 24 * 3600 * 1000)));
+                Calendar cal = Calendar.getInstance();
+                cal.add(Calendar.DATE, +1);
+                mHardCache.put(url, new ExpiringBitmap(bitmap, cal.getTime()));
             }
         }
     }

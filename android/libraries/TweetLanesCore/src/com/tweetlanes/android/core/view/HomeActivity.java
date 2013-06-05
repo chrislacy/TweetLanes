@@ -252,6 +252,8 @@ public class HomeActivity extends BaseLaneActivity {
                  */
             }
         }
+
+        getApp().clearImageCaches();
     }
 
     /*
