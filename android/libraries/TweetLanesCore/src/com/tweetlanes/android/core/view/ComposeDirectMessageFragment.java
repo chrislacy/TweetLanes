@@ -260,7 +260,11 @@ public class ComposeDirectMessageFragment extends ComposeBaseFragment {
                 lastStatus = Util.trimLeftRight(lastStatus);
                 hint = getString(R.string.compose_direct_message_finish)
                         + " \"" + getStatusHintSnippet(lastStatus, 16) + "\"";
+
+                super.configureCharacterCountForString(lastStatus);
             }
+
+
         }
 
         return hint;

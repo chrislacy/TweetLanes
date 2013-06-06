@@ -361,6 +361,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
 
         if (hint == null && isAdded()) {
             hint = getString(R.string.compose_tweet_default_hint);
+            configureCharacterCountForString("");
         }
 
         mEditText.setHint(hint);
