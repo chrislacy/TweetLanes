@@ -1080,6 +1080,10 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 
+            if (item == null || mode == null) {
+                return true;
+            }
+
             final int itemId = item.getItemId();
             if (itemId == R.id.action_share) {
                 getBaseLaneActivity().shareSelected(getFirstSelectedStatus());

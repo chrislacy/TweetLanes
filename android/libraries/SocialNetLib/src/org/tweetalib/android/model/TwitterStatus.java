@@ -11,8 +11,8 @@
 
 package org.tweetalib.android.model;
 
-import java.util.ArrayList;
-import java.util.Date;
+import android.text.Html;
+import android.text.Spanned;
 
 import org.appdotnet4j.model.AdnMedia;
 import org.appdotnet4j.model.AdnPost;
@@ -22,10 +22,11 @@ import org.json.JSONObject;
 import org.tweetalib.android.TwitterUtil;
 import org.tweetalib.android.widget.URLSpanNoUnderline;
 
+import java.util.ArrayList;
+import java.util.Date;
+
 import twitter4j.Status;
 import twitter4j.UserMentionEntity;
-import android.text.Html;
-import android.text.Spanned;
 
 public class TwitterStatus implements Comparable<TwitterStatus> {
 
@@ -441,7 +442,7 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
 	 *
 	 */
     public String getTwitterComStatusUrl() {
-        return "http://twitter.com/" + getAuthorScreenName() + "/status/" + mId;
+        return "https://twitter.com/" + getAuthorScreenName() + "/status/" + mId;
     }
 
     /*

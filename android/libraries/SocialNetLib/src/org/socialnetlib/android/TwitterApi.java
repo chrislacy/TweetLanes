@@ -16,9 +16,10 @@
 
 package org.socialnetlib.android;
 
+import org.tweetalib.android.model.TwitterUser;
+
 import java.util.List;
 
-import org.tweetalib.android.model.TwitterUser;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
@@ -113,7 +114,7 @@ public class TwitterApi extends SocialNetApi {
         String verifyCredentialsUrl = TWITTER_VERIFY_CREDENTIALS_JSON;
         List<HttpParameter> oauthSignatureParams = mOAuth
                 .generateOAuthSignatureHttpParams("GET", verifyCredentialsUrl);
-        return "OAuth realm=\"http://api.twitter.com/\","
+        return "OAuth realm=\"https://api.twitter.com/\","
                 + OAuthAuthorization.encodeParameters(oauthSignatureParams,
                         ",", true);
     }
