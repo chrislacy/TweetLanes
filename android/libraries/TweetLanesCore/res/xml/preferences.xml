@@ -105,11 +105,6 @@
                 android:title="@string/title_downloadimages_preference"
                 android:summary="@string/summary_downloadimages_preference"/>
 
-        <Preference
-                android:key="clearimagecache_preference"
-                android:title="@string/title_clearimagecache_preference"/>
-
-
         <!--
         <Preference
             android:key="freeforlife_preference"
