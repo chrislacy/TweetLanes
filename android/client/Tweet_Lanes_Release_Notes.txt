@@ -5,7 +5,9 @@ Note: To report bugs or make feature requests, either contact the official Twitt
 Version 1.1.3, ?? (Betamax edition)
 =================================
 - New features
+    * Notifications for Direct Messages (see settings)
     * Removed the cancel tweet button when composing. (via @BlythMeister)
+    * Images now check for new versions every 24 hours. No more "Clear Image Cache" needs (via @BlythMeister)
 - Fixes
     * Character count show shows on new tweets (via @BlythMeister)
 
