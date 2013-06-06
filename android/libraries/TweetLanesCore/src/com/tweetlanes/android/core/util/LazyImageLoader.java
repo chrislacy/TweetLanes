@@ -29,9 +29,11 @@ import java.net.HttpURLConnection;
 import java.net.Proxy;
 import java.net.URL;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
@@ -101,6 +103,9 @@ public class LazyImageLoader {
     public void clearCache() {
         Set<URL> clearedUrls = mMemoryCache.clear();
         mFileCache.clearUrls(clearedUrls);
+
+        Set<URL> activeUrls = mMemoryCache.getActiveUrls();
+        mFileCache.clearUnrecognisedFiles(activeUrls);
     }
 
     public void displayImage(String url, ImageView imageview) {
@@ -281,6 +286,31 @@ public class LazyImageLoader {
             }
         }
 
+        public void clearUnrecognisedFiles(Set<URL> urls){
+            Calendar cal = Calendar.getInstance();
+            cal.add(Calendar.DATE, -4);
+
+            final File[] files = mCacheDir.listFiles();
+            if (files == null) return;
+            for (final File f : files) {
+                Date lastModDate = new Date(f.lastModified());
+                if(lastModDate.before(cal.getTime()))
+                {
+                    boolean fileInCache = false;
+                    for(URL url : urls){
+                        if(f.getName() == getURLFilename(url))
+                        {
+                            fileInCache = true;
+                        }
+                    }
+
+                    if (!fileInCache){
+                        f.delete();
+                    }
+                }
+            }
+        }
+
         public void init() {
             /* Find the dir to save cached images. */
             if (getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
@@ -439,6 +469,10 @@ public class LazyImageLoader {
             }
 
             return clearedUrls;
+        }
+
+        public Set<URL> getActiveUrls(){
+            return new HashSet<URL>(mHardCache.keySet());
         }
 
         public Bitmap get(final URL url, final FileCache fileCache) {
