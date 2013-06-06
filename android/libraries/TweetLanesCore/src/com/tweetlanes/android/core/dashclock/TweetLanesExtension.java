@@ -74,7 +74,7 @@ public class TweetLanesExtension extends DashClockExtension {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         long postId;
 
-        if (type == SharedPreferencesConstants.NOTIFICATION_TYPE_MENTION) {
+        if (type.equals(SharedPreferencesConstants.NOTIFICATION_TYPE_MENTION)) {
             postId = preferences.getLong(SharedPreferencesConstants.NOTIFICATION_LAST_DISPLAYED_MENTION_ID + accountKey, 0);
         }
         else {

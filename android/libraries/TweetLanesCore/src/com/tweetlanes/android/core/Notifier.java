@@ -108,7 +108,7 @@ public class Notifier {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor edit = preferences.edit();
 
-        String pref = type == SharedPreferencesConstants.NOTIFICATION_TYPE_MENTION ? SharedPreferencesConstants.NOTIFICATION_LAST_ACTIONED_MENTION_ID : SharedPreferencesConstants.NOTIFICATION_LAST_ACTIONED_DIRECT_MESSAGE_ID;
+        String pref = type.equals(SharedPreferencesConstants.NOTIFICATION_TYPE_MENTION) ? SharedPreferencesConstants.NOTIFICATION_LAST_ACTIONED_MENTION_ID : SharedPreferencesConstants.NOTIFICATION_LAST_ACTIONED_DIRECT_MESSAGE_ID;
         edit.putLong(pref + accountKey, postId);
         edit.commit();
 
@@ -119,7 +119,7 @@ public class Notifier {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor edit = preferences.edit();
 
-        String pref = type == SharedPreferencesConstants.NOTIFICATION_TYPE_MENTION ? SharedPreferencesConstants.NOTIFICATION_LAST_DISPLAYED_MENTION_ID : SharedPreferencesConstants.NOTIFICATION_LAST_DISPLAYED_DIRECT_MESSAGE_ID;
+        String pref = type.equals(SharedPreferencesConstants.NOTIFICATION_TYPE_MENTION) ? SharedPreferencesConstants.NOTIFICATION_LAST_DISPLAYED_MENTION_ID : SharedPreferencesConstants.NOTIFICATION_LAST_DISPLAYED_DIRECT_MESSAGE_ID;
         edit.putLong(pref + accountKey, postId);
         edit.commit();
     }

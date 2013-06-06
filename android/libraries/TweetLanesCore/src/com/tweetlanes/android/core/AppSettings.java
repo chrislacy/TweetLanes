@@ -234,9 +234,9 @@ public class AppSettings {
 
         //NOTE: This function returns time in Milliseconds.
         if (notificationTime.equals(NOTIFICATION_TIME_3M)) {
-            return 180000;
+            return 180000L;
         } else if (notificationTime.equals(NOTIFICATION_TIME_5M)) {
-            return 300000;
+            return 300000L;
         } else if (notificationTime.equals(NOTIFICATION_TIME_15M)) {
             return AlarmManager.INTERVAL_FIFTEEN_MINUTES;
         } else if (notificationTime.equals(NOTIFICATION_TIME_30M)) {
@@ -244,11 +244,11 @@ public class AppSettings {
         } else if (notificationTime.equals(NOTIFICATION_TIME_1H)) {
             return AlarmManager.INTERVAL_HOUR;
         } else if (notificationTime.equals(NOTIFICATION_TIME_4H)) {
-            return 14400000;
+            return 14400000L;
         } else if (notificationTime.equals(NOTIFICATION_TIME_12H)) {
             return AlarmManager.INTERVAL_HALF_DAY;
         } else {
-            return 0;
+            return 0L;
         }
 
     }
