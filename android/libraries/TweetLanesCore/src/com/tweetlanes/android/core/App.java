@@ -675,13 +675,11 @@ public class App extends Application {
         UrlImageViewHelper.cleanup(this);
 
         if (mProfileImageLoader != null) {
-            mProfileImageLoader.clearFileCache();
-            mProfileImageLoader.clearMemoryCache();
+            mProfileImageLoader.clearCache();
         }
 
         if (mPreviewImageLoader != null) {
-            mPreviewImageLoader.clearFileCache();
-            mPreviewImageLoader.clearMemoryCache();
+            mProfileImageLoader.clearCache();
         }
     }
 }
