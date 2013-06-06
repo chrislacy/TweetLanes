@@ -471,8 +471,6 @@
 
     <string name="settings_image_uploads">Shrink image uploads</string>
 
-    <string name="title_clearimagecache_preference">Empty Image Cache</string>
-
     <string name="settings_source_title">Source code</string>
     <string name="settings_source_summary">Fork Tweet Lanes on GitHub!</string>
 
