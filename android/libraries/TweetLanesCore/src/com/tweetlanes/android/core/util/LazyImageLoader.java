@@ -288,7 +288,7 @@ public class LazyImageLoader {
 
         public void clearUnrecognisedFiles(Set<URL> urls){
             Calendar cal = Calendar.getInstance();
-            cal.add(Calendar.DATE, -4);
+            cal.add(Calendar.DATE, -1);
 
             final File[] files = mCacheDir.listFiles();
             if (files == null) return;
@@ -451,7 +451,7 @@ public class LazyImageLoader {
             synchronized (mHardCache) {
 
                 Calendar cal = Calendar.getInstance();
-                cal.add(Calendar.DATE, -4);
+                cal.add(Calendar.DATE, -1);
                 Map<URL, ExpiringBitmap> copy = new HashMap<URL, ExpiringBitmap>(mHardCache);
                 for (URL url : copy.keySet()){
 

@@ -679,7 +679,7 @@ public class App extends Application {
         }
 
         if (mPreviewImageLoader != null) {
-            mProfileImageLoader.clearCache();
+            mPreviewImageLoader.clearCache();
         }
     }
 }
