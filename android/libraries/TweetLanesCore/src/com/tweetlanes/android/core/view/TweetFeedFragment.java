@@ -659,14 +659,13 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
         SocialNetConstant.Type socialNetType = getApp().getCurrentAccount().getSocialNetType();
 
-        // Add 1 so that we don't display the 'x new tweets' on the first tweet
-        if (mTwitterStatusIdWhenRefreshed != null && firstVisibleItem > 1) {
+        if (mTwitterStatusIdWhenRefreshed != null && firstVisibleItem > 0) {
             if (mScrollTracker.getLastScrollDirection() == ScrollDirection.TO_OLDER) {
                 setListHeadingVisiblilty(View.GONE);
             } else {
                 if (mHidingListHeading == false) {
                     setListHeadingVisiblilty(View.VISIBLE);
-                    mListHeadingTextView.setText((firstVisibleItem - 1) + " " + getString(firstVisibleItem == 2 ?
+                    mListHeadingTextView.setText(firstVisibleItem + " " + getString(firstVisibleItem == 2 ?
                             socialNetType == SocialNetConstant.Type.Twitter ? R.string.new_tweet : R.string.new_post :
                             socialNetType == SocialNetConstant.Type.Twitter ? R.string.new_tweets :
                                     R.string.new_posts));
