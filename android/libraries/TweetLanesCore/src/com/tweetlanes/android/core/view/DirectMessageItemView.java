@@ -14,6 +14,7 @@ package com.tweetlanes.android.core.view;
 import org.tweetalib.android.TwitterManager;
 import org.tweetalib.android.model.TwitterDirectMessage;
 import org.tweetalib.android.model.TwitterDirectMessage.MessageType;
+import org.tweetalib.android.model.TwitterUser;
 import org.tweetalib.android.widget.URLSpanNoUnderline;
 
 import android.app.Activity;
@@ -202,7 +203,10 @@ public class DirectMessageItemView extends LinearLayout {
         }
 
         if (AppSettings.get().downloadFeedImages()) {
-            String imageUrl = directMessage.getOtherUser().getProfileImageUrl(TwitterManager.ProfileImageSize.BIGGER);
+
+            TwitterUser user = (messageType == MessageType.SENT ? directMessage.getSender() : directMessage.getOtherUser());
+
+            String imageUrl = user.getProfileImageUrl(TwitterManager.ProfileImageSize.BIGGER);
             LazyImageLoader imageLoader = callbacks.getProfileImageLoader();
             if (imageLoader != null) {
                 imageLoader.displayImage(imageUrl, mAvatar);
