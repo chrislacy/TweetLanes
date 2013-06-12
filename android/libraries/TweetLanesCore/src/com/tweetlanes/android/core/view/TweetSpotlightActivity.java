@@ -234,6 +234,15 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
         return false;
     }
 
+    @Override
+    public boolean composeReleaseFocus(boolean forceCleanup) {
+        boolean result = super.composeReleaseFocus(forceCleanup);
+
+        super.setComposeTweetDefault(getComposeTweetDefault());
+
+        return result;
+    }
+
     /*
      *
      */

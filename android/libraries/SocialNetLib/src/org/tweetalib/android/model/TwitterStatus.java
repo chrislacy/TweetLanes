@@ -19,6 +19,7 @@ import org.appdotnet4j.model.AdnPost;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.tweetalib.android.TwitterManager;
 import org.tweetalib.android.TwitterUtil;
 import org.tweetalib.android.widget.URLSpanNoUnderline;
 
@@ -50,7 +51,10 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
             mMediaEntity = new TwitterMediaEntity(other.mMediaEntity);
         }
         mAdnMedia = other.mAdnMedia;
-        mProfileImageUrl = other.mProfileImageUrl;
+        mProfileImageOriginalUrl = other.mProfileImageOriginalUrl;
+        mProfileImageBiggerUrl = other.mProfileImageBiggerUrl;
+        mProfileImageMiniUrl = other.mProfileImageMiniUrl;
+        mProfileImageNormalUrl = other.mProfileImageNormalUrl;
         mRetweetCount = other.mRetweetCount;
         mSource = other.mSource;
         mStatus = other.mStatus;
@@ -91,9 +95,19 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
         mIsFavorited = status.isFavorited();
         mIsRetweet = status.isRetweet();
         mIsRetweetedByMe = status.isRetweetedByMe();
-        if (status.getUser() != null) {
-            mProfileImageUrl = status.getUser().getProfileImageURL();
+
+        if (mIsRetweet == true){
+            if (status.getRetweetedStatus() != null && status.getRetweetedStatus().getUser() != null) {
+                SetProfileImagesFromUser(new TwitterUser(status.getRetweetedStatus().getUser()));
+            }
         }
+        else
+        {
+            if (status.getUser() != null) {
+                SetProfileImagesFromUser(new TwitterUser(status.getUser()));
+            }
+        }
+
         mSource = TwitterUtil.stripMarkup(status.getSource());
         mUserId = status.getUser().getId();
         mUserName = status.getUser().getName();
@@ -112,6 +126,7 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
                 mAuthorId = authorMentionEntity.getId();
                 mAuthorName = authorMentionEntity.getName();
                 mAuthorScreenName = authorMentionEntity.getScreenName();
+
 
                 Status retweetedStatus = status.getRetweetedStatus();
                 mStatus = retweetedStatus.getText();
@@ -150,9 +165,6 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
         mCreatedAt = post.mCreatedAt;
         mInReplyToStatusId = post.mInReplyTo;
 
-        if (post.mUser.mAvatarUrl != null) {
-            mProfileImageUrl = post.mUser.mAvatarUrl;
-        }
         mSource = post.mSource;
         mUserId = post.mUser.mId;
         mUserName = post.mUser.mName;
@@ -164,7 +176,13 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
             mAuthorId = post.mOriginalAuthor.mId;
             mAuthorName = post.mOriginalAuthor.mName;
             mAuthorScreenName = post.mOriginalAuthor.mUserName;
+            SetProfileImagesFromUser(new TwitterUser(post.mOriginalAuthor));
         }
+        else
+        {
+            SetProfileImagesFromUser(new TwitterUser(post.mUser));
+        }
+
 
         mIsRetweet = post.mIsRetweet;
 
@@ -172,6 +190,25 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
         mStatus = post.mText;
         setStatusMarkup(post);
 
+    }
+
+    private void SetProfileImagesFromUser(TwitterUser user)
+    {
+        if (user.getProfileImageUrlOriginal() != null) {
+            mProfileImageOriginalUrl = user.getProfileImageUrlOriginal();
+        }
+
+        if (user.getProfileImageUrlNormal() != null) {
+            mProfileImageNormalUrl = user.getProfileImageUrlNormal();
+        }
+
+        if (user.getProfileImageUrlBigger() != null) {
+            mProfileImageBiggerUrl = user.getProfileImageUrlBigger();
+        }
+
+        if (user.getProfileImageUrlMini() != null) {
+            mProfileImageMiniUrl = user.getProfileImageUrlMini();
+        }
     }
 
     /*
@@ -196,10 +233,31 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
             }
             // private final String KEY_CREATED_AT = "mCreatedAt";
 
-            if (object.has(KEY_PROFILE_IMAGE_URL)) {
-                String url = object.getString(KEY_PROFILE_IMAGE_URL);
+            if (object.has(KEY_PROFILE_IMAGE_ORIGINAL_URL)) {
+                String url = object.getString(KEY_PROFILE_IMAGE_ORIGINAL_URL);
                 if (url != null) {
-                    mProfileImageUrl = url;
+                    mProfileImageOriginalUrl = url;
+                }
+            }
+
+            if (object.has(KEY_PROFILE_IMAGE_NORMAL_URL)) {
+                String url = object.getString(KEY_PROFILE_IMAGE_NORMAL_URL);
+                if (url != null) {
+                    mProfileImageNormalUrl = url;
+                }
+            }
+
+            if (object.has(KEY_PROFILE_IMAGE_MINI_URL)) {
+                String url = object.getString(KEY_PROFILE_IMAGE_MINI_URL);
+                if (url != null) {
+                    mProfileImageMiniUrl = url;
+                }
+            }
+
+            if (object.has(KEY_PROFILE_IMAGE_BIGGER_URL)) {
+                String url = object.getString(KEY_PROFILE_IMAGE_BIGGER_URL);
+                if (url != null) {
+                    mProfileImageBiggerUrl = url;
                 }
             }
 
@@ -294,9 +352,21 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
                 object.put(KEY_AUTHOR_SCREEN_NAME, mAuthorScreenName);
             }
             object.put(KEY_CREATED_AT, mCreatedAt.getTime());
-            if (mProfileImageUrl != null) {
-                String url = mProfileImageUrl.toString();
-                object.put(KEY_PROFILE_IMAGE_URL, url);
+            if (mProfileImageOriginalUrl != null) {
+                String url = mProfileImageOriginalUrl.toString();
+                object.put(KEY_PROFILE_IMAGE_ORIGINAL_URL, url);
+            }
+            if (mProfileImageMiniUrl != null) {
+                String url = mProfileImageMiniUrl.toString();
+                object.put(KEY_PROFILE_IMAGE_MINI_URL, url);
+            }
+            if (mProfileImageNormalUrl != null) {
+                String url = mProfileImageNormalUrl.toString();
+                object.put(KEY_PROFILE_IMAGE_NORMAL_URL, url);
+            }
+            if (mProfileImageBiggerUrl != null) {
+                String url = mProfileImageBiggerUrl.toString();
+                object.put(KEY_PROFILE_IMAGE_BIGGER_URL, url);
             }
             object.put(KEY_ID, mId);
             if (mInReplyToStatusId != null) {
@@ -352,7 +422,10 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
     private final String KEY_AUTHOR_SCREEN_NAME = "mAuthorScreenName";
     // private final String KEY_"mFavoriteCount";
     private final String KEY_CREATED_AT = "mCreatedAt";
-    private final String KEY_PROFILE_IMAGE_URL = "mProfileImageUrl";
+    private final String KEY_PROFILE_IMAGE_ORIGINAL_URL = "mProfileImageOriginalUrl";
+    private final String KEY_PROFILE_IMAGE_MINI_URL = "mProfileImageMiniUrl";
+    private final String KEY_PROFILE_IMAGE_NORMAL_URL = "mProfileImageNormalUrl";
+    private final String KEY_PROFILE_IMAGE_BIGGER_URL = "mProfileImageBiggerUrl";
     private final String KEY_ID = "mId";
     private final String KEY_IN_REPLY_TO_STATUS_ID = "mInReplyToStatusId";
     private final String KEY_IN_REPLY_TO_USER_ID = "mInReplyToUserId";
@@ -380,7 +453,10 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
     private String mAuthorScreenName;
     public long mFavoriteCount;
     public Date mCreatedAt;
-    public String mProfileImageUrl;
+    public String mProfileImageOriginalUrl;
+    public String mProfileImageMiniUrl;
+    public String mProfileImageNormalUrl;
+    public String mProfileImageBiggerUrl;
     public long mId;
     public Long mInReplyToStatusId;
     public Long mInReplyToUserId;
@@ -501,8 +577,14 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
             return false;
         if (mFavoriteCount != other.mFavoriteCount) return false;
         if (mCreatedAt.getTime() != other.mCreatedAt.getTime()) return false;
-        if (mProfileImageUrl.toString().equals(
-                other.mProfileImageUrl.toString()) == false) return false;
+        if (mProfileImageOriginalUrl.toString().equals(
+                other.mProfileImageOriginalUrl.toString()) == false) return false;
+        if (mProfileImageNormalUrl.toString().equals(
+                other.mProfileImageNormalUrl.toString()) == false) return false;
+        if (mProfileImageMiniUrl.toString().equals(
+                other.mProfileImageMiniUrl.toString()) == false) return false;
+        if (mProfileImageBiggerUrl.toString().equals(
+                other.mProfileImageBiggerUrl.toString()) == false) return false;
         if (mId != other.mId) return false;
         if (compareLong(mInReplyToStatusId, other.mInReplyToStatusId) == false)
             return false;
@@ -572,4 +654,20 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
         mIsFavorited = isFavorited;
     }
 
+    public String getProfileImageUrl(TwitterManager.ProfileImageSize size) {
+        if (mProfileImageOriginalUrl != null) {
+            return mProfileImageOriginalUrl;
+        }
+
+        switch (size)
+        {
+            case MINI:
+                return mProfileImageMiniUrl;
+            case NORMAL:
+                return mProfileImageNormalUrl;
+            case BIGGER:
+                return mProfileImageBiggerUrl;
+        }
+        return "";
+    }
 }

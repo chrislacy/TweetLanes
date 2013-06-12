@@ -41,7 +41,7 @@
                 android:hint="Here is a hint"
                 android:textSize="@dimen/compose_tweet_text_size"
                 android:imeOptions="flagNoExtractUi"
-                >
+                android:minHeight="55dp">
             <!--  <requestFocus /> -->
         </com.tweetlanes.android.core.widget.EditClearText>
 

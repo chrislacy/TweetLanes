@@ -535,7 +535,7 @@ public class App extends Application {
                 R.string.lane_tweet_conversation),
                 new TwitterContentHandleBase(
                         TwitterConstant.ContentType.STATUS,
-                        TwitterConstant.StatusesType.FULL_CONVERSATION)));
+                        TwitterConstant.StatusesType.PREVIOUS_CONVERSATION)));
         mTweetSpotlightLaneDefinitions.add(new LaneDescriptor(
                 Constant.LaneType.STATUS_RETWEETED_BY, getString(
                 socialNetType == SocialNetConstant.Type.Twitter ? R.string.lane_tweet_retweeted_by : R.string
