@@ -32,12 +32,16 @@ public class TwitterUser {
             mUrl = user.getURL().toString();
         }
 
+        if (user.getOriginalProfileImageURLHttps() != null) {
+            mProfileImageUrlOriginal = user.getOriginalProfileImageURLHttps().toString();
+        }
+
         if (user.getBiggerProfileImageURLHttps() != null) {
             mProfileImageUrlBigger = user.getBiggerProfileImageURLHttps().toString();
         }
 
-        if (user.getOriginalProfileImageURLHttps() != null) {
-            mProfileImageUrlNormal = user.getOriginalProfileImageURLHttps().toString();
+        if (user.getProfileImageURLHttps() != null) {
+            mProfileImageUrlOriginal = user.getProfileImageURLHttps().toString();
         }
 
         if (user.getMiniProfileImageURLHttps() != null) {
@@ -71,6 +75,7 @@ public class TwitterUser {
         mProfileImageUrlMini = "https://alpha-api.app.net/stream/0/users/@" + user.mUserName + "/avatar?w=32";
         mProfileImageUrlNormal = "https://alpha-api.app.net/stream/0/users/@" + user.mUserName + "/avatar?w=48";
         mProfileImageUrlBigger = "https://alpha-api.app.net/stream/0/users/@" + user.mUserName + "/avatar?w=73";
+        mProfileImageUrlOriginal = "https://alpha-api.app.net/stream/0/users/@" + user.mUserName + "/avatar";
     }
 
     public TwitterUser(TwitterUser user) {
@@ -83,6 +88,7 @@ public class TwitterUser {
         mProfileImageUrlMini = user.getProfileImageUrlMini();
         mProfileImageUrlNormal = user.getProfileImageUrlNormal();
         mProfileImageUrlBigger = user.getProfileImageUrlBigger();
+        mProfileImageUrlOriginal = user.getProfileImageUrlOriginal();
 
         mStatusesCount = user.getStatusesCount();
         mFriendsCount = user.getFriendsCount();
@@ -132,6 +138,10 @@ public class TwitterUser {
 
     public String getProfileImageUrlBigger() {
         return mProfileImageUrlBigger;
+    }
+
+    public String getProfileImageUrlOriginal() {
+        return mProfileImageUrlOriginal;
     }
 
     public int getStatusesCount() {
@@ -201,6 +211,7 @@ public class TwitterUser {
     private String mProfileImageUrlMini;
     private String mProfileImageUrlNormal;
     private String mProfileImageUrlBigger;
+    private String mProfileImageUrlOriginal;
     private String mUrl;
     private int mStatusesCount;
     private int mFriendsCount;
