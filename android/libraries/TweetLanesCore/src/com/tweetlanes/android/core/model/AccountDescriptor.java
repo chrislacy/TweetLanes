@@ -129,23 +129,6 @@ public class AccountDescriptor {
             mLists = new ArrayList<List>();
         }
         configureLaneDefinitions(displayedLanes);
-
-        if (Constant.ENABLE_PROFILE_IMAGES) {
-
-            FetchBitmapCallback callback = new FetchBitmapCallback() {
-
-                @Override
-                public void finished(boolean successful, Bitmap bitmap) {
-                    if (successful == true && bitmap != null) {
-                        mProfileImage = bitmap.copy(bitmap.getConfig(), false);
-                    }
-                }
-
-            };
-            URLFetch.fetchBitmap(
-                    TwitterManager.get().getProfileImageUrl(mScreenName,
-                            TwitterManager.ProfileImageSize.BIGGER), callback);
-        }
     }
 
     /*
@@ -372,10 +355,6 @@ public class AccountDescriptor {
                 "appdotet");
     }
 
-    public Bitmap getProfileImage() {
-        return Constant.ENABLE_PROFILE_IMAGES ? mProfileImage : null;
-    }
-
     /*
 	 *
 	 */
@@ -491,8 +470,6 @@ public class AccountDescriptor {
     private String mScreenName;
     private String mOAuthToken;
     private String mOAuthSecret;
-    private Bitmap mProfileImage; // Of size
-    // TwitterManager.ProfileImageSize.BIGGER
     private ArrayList<LaneDescriptor> mLaneDefinitions;
     private boolean mLaneDefinitionsDirty;
     private Integer mInitialLaneIndex;
