@@ -197,6 +197,14 @@ public class TwitterUser {
                 return mProfileImageUrlNormal;
             case BIGGER:
                 return mProfileImageUrlBigger;
+            case ORIGINAL:
+                if (mProfileImageUrlOriginal != null){
+                    return mProfileImageUrlOriginal;
+                }
+                else
+                {
+                    return mProfileImageUrlNormal;
+                }
         }
         return "";
     }

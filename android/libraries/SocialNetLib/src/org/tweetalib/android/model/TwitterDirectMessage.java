@@ -49,6 +49,7 @@ public class TwitterDirectMessage implements Comparable<TwitterDirectMessage> {
         mOtherUserName = otherUser.getName();
         mOtherUserScreenName = otherUser.getScreenName();
         mOtherUser = new TwitterUser(otherUser);
+        mSender = new TwitterUser(message.getSender());
     }
 
     /*
@@ -87,6 +88,11 @@ public class TwitterDirectMessage implements Comparable<TwitterDirectMessage> {
         return mOtherUser;
     }
 
+    public TwitterUser getSender()
+    {
+        return mSender;
+    }
+
     /*
 	 *
 	 */
@@ -99,6 +105,7 @@ public class TwitterDirectMessage implements Comparable<TwitterDirectMessage> {
     private String mOtherUserName;
     private String mOtherUserScreenName;
     private TwitterUser mOtherUser;
+    private TwitterUser mSender;
 
     /*
      * (non-Javadoc)
