@@ -41,7 +41,7 @@ public class TwitterUser {
         }
 
         if (user.getProfileImageURLHttps() != null) {
-            mProfileImageUrlOriginal = user.getProfileImageURLHttps().toString();
+            mProfileImageUrlNormal = user.getProfileImageURLHttps().toString();
         }
 
         if (user.getMiniProfileImageURLHttps() != null) {
