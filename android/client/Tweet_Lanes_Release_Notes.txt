@@ -8,6 +8,7 @@ Version 1.1.4, ???? ??, 2013 (?? edition)
     
 - Fixes
     * Correct new tweet bar (via @BlythMeister)
+	* Prevent incorrect mention counts in notifications (via @BlythMeister)
 
 Version 1.1.3, June 12, 2013 (Betamax edition)
 =================================
