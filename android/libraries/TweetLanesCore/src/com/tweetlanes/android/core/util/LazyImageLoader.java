@@ -399,14 +399,6 @@ public class LazyImageLoader {
             return null;
         }
 
-        private int calculateBitmap(Bitmap data) {
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB_MR1) {
-                return data.getRowBytes() * data.getHeight();
-            } else {
-                return data.getByteCount();
-            }
-        }
-
         @Override
         public void run() {
             final Bitmap bmp = getBitmap(mImageToLoad.source);
