@@ -2,6 +2,14 @@
 
 Note: To report bugs or make feature requests, either contact the official Twitter @TweetLanes or click the "Send Feedback" button in the app.
 
+Version 1.1.4, ???? ??, 2013 (?? edition)
+=================================
+- New features
+    
+- Fixes
+    * Correct new tweet bar (via @BlythMeister)
+	* Prevent incorrect mention counts in notifications (via @BlythMeister)
+
 Version 1.1.3, June 12, 2013 (Betamax edition)
 =================================
 - New features
@@ -10,6 +18,7 @@ Version 1.1.3, June 12, 2013 (Betamax edition)
     * Images now check for new versions every 24 hours. No more "Clear Image Cache" needs (via @BlythMeister)
 - Fixes
     * Character count show shows on new tweets (via @BlythMeister)
+	* Correct reply boxes to show correct information on exit (via @BlythMeister)
     * Lots of Twitter API v1 stuff that was missed (via @BlythMeister)
 
 Version 1.1.2, June 03, 2013  (via @BlythMeister edition)
