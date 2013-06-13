@@ -112,6 +112,8 @@ public class Notifier {
         edit.putLong(pref + accountKey, postId);
         edit.commit();
 
+        saveLastNotificationDisplayed(context, accountKey, type, postId);
+
         Notifier.setDashclockValues(context, accountKey, type, 0, "");
     }
 

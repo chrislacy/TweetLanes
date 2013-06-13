@@ -47,7 +47,7 @@ public class AlarmReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         try {
             mContext = context;
-            notifyNewMessage();
+            checkForNewNotifications();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -152,7 +152,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         }
     };
 
-    private void notifyNewMessage() {
+    private void checkForNewNotifications() {
         TwitterManager manager = TwitterManager.get();
 
         for (AccountDescriptor account : getAccounts(mContext)) {
