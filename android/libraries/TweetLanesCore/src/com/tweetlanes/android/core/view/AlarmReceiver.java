@@ -64,7 +64,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
             for (int i = 0; i < inputFeed.getStatusCount(); i++)
             {
-                TwitterStatus status = feed.getStatus(i);
+                TwitterStatus status = inputFeed.getStatus(i);
                 if (status.mId > lastDisplayedMentionId)
                 {
                     feed.add(status);
