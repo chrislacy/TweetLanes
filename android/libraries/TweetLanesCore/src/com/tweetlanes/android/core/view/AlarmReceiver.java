@@ -62,12 +62,14 @@ public class AlarmReceiver extends BroadcastReceiver {
 
             TwitterStatuses feed = new TwitterStatuses();
 
-            for (int i = 0; i < inputFeed.getStatusCount(); i++)
-            {
-                TwitterStatus status = inputFeed.getStatus(i);
-                if (status.mId > lastDisplayedMentionId)
+            if (inputFeed != null && inputFeed.getStatusCount() > 0) {
+                for (int i = 0; i < inputFeed.getStatusCount(); i++)
                 {
-                    feed.add(status);
+                    TwitterStatus status = inputFeed.getStatus(i);
+                    if (status.mId > lastDisplayedMentionId)
+                    {
+                        feed.add(status);
+                    }
                 }
             }
 
@@ -117,12 +119,14 @@ public class AlarmReceiver extends BroadcastReceiver {
 
             ArrayList<TwitterDirectMessage> received = new ArrayList<TwitterDirectMessage>();
 
-            for (int i = 0; i < originalReceived.size(); i++)
-            {
-                TwitterDirectMessage status = originalReceived.get(i);
-                if (status.getId() > lastDisplayedId)
+            if (originalReceived != null && originalReceived.size() > 0) {
+                for (int i = 0; i < originalReceived.size(); i++)
                 {
-                    received.add(status);
+                    TwitterDirectMessage status = originalReceived.get(i);
+                    if (status.getId() > lastDisplayedId)
+                    {
+                        received.add(status);
+                    }
                 }
             }
 
