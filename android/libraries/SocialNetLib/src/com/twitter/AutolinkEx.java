@@ -27,24 +27,22 @@ public class AutolinkEx {
      * Default href for username links (the username without the @ will be
      * appended)
      */
-    public static final String DEFAULT_USERNAME_URL_BASE = "com.tweetlanes.android.profile://";
+    public static final String DEFAULT_USERNAME_URL_BASE = "com.tweetlanes.android.core.profile://";
     /**
      * Default href for list links (the username/list without the @ will be
      * appended)
      */
-    public static final String DEFAULT_LIST_URL_BASE = "com.tweetlanes.android.profile://";
+    public static final String DEFAULT_LIST_URL_BASE = "com.tweetlanes.android.core.profile://";
     /**
      * Default href for hashtag links (the hashtag without the # will be
      * appended)
      */
-    public static final String DEFAULT_HASHTAG_URL_BASE = "com.tweetlanes.android.search://";
+    public static final String DEFAULT_HASHTAG_URL_BASE = "com.tweetlanes.android.core.search://";
     /**
      * Default href for cashtag links (the cashtag without the $ will be
      * appended)
      */
-    public static final String DEFAULT_CASHTAG_URL_BASE = "com.tweetlanes.android.search://";
-
-    public static final String DEFAULT_MEDIA_URL_BASE = "com.tweetlanes.android.mediaview://";
+    public static final String DEFAULT_CASHTAG_URL_BASE = "com.tweetlanes.android.core.search://";
 
     /** Default attribute for invisible span tag */
     public static final String DEFAULT_INVISIBLE_TAG_ATTRS = null;// "style='position:absolute;left:-9999px;'";
