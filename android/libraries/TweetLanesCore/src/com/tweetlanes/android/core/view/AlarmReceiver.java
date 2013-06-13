@@ -55,16 +55,26 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     TwitterFetchStatusesFinishedCallback getMentionsCallback = new TwitterFetchStatusesFinishedCallback() {
         @Override
-        public void finished(TwitterFetchResult result, TwitterStatuses feed, TwitterContentHandle contentHandle) {
+        public void finished(TwitterFetchResult result, TwitterStatuses inputFeed, TwitterContentHandle contentHandle) {
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+            long lastDisplayedMentionId = preferences.getLong(SharedPreferencesConstants.NOTIFICATION_LAST_DISPLAYED_MENTION_ID +
+                    contentHandle.getCurrentAccountKey(), 0);
+
+            TwitterStatuses feed = new TwitterStatuses();
+
+            for (int i = 0; i < inputFeed.getStatusCount(); i++)
+            {
+                TwitterStatus status = feed.getStatus(i);
+                if (status.mId > lastDisplayedMentionId)
+                {
+                    feed.add(status);
+                }
+            }
 
             if (feed != null && feed.getStatusCount() > 0) {
                 int notificationId = (contentHandle.getCurrentAccountKey() + SharedPreferencesConstants.NOTIFICATION_TYPE_MENTION).hashCode();
                 String name = contentHandle.getScreenName();
                 int count = feed.getStatusCount();
-
-                long lastDisplayedMentionId = preferences.getLong(SharedPreferencesConstants.NOTIFICATION_LAST_DISPLAYED_MENTION_ID +
-                        contentHandle.getCurrentAccountKey(), 0);
 
                 TwitterStatus first = feed.getStatus(0);
 
@@ -100,14 +110,25 @@ public class AlarmReceiver extends BroadcastReceiver {
         public void finished(TwitterContentHandle contentHandle, TwitterFetchResult result, TwitterDirectMessages messages) {
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
 
-            ArrayList<TwitterDirectMessage> received = messages != null ? messages.getRawReceivedMessages() : null;
+            long lastDisplayedId = preferences.getLong(SharedPreferencesConstants.NOTIFICATION_LAST_DISPLAYED_DIRECT_MESSAGE_ID +
+                    contentHandle.getCurrentAccountKey(), 0);
+
+            ArrayList<TwitterDirectMessage> originalReceived = messages != null ? messages.getRawReceivedMessages() : null;
+
+            ArrayList<TwitterDirectMessage> received = new ArrayList<TwitterDirectMessage>();
+
+            for (int i = 0; i < originalReceived.size(); i++)
+            {
+                TwitterDirectMessage status = originalReceived.get(i);
+                if (status.getId() > lastDisplayedId)
+                {
+                    received.add(status);
+                }
+            }
 
             if (received != null && received.size() > 0) {
                 int notificationId = (contentHandle.getCurrentAccountKey() + SharedPreferencesConstants.NOTIFICATION_TYPE_DIRECT_MESSAGE).hashCode();
                 String name = contentHandle.getScreenName();
-
-                long lastDisplayedId = preferences.getLong(SharedPreferencesConstants.NOTIFICATION_LAST_DISPLAYED_DIRECT_MESSAGE_ID +
-                        contentHandle.getCurrentAccountKey(), 0);
 
                 TwitterDirectMessage first = received.get(0);
 
