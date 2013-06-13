@@ -18,6 +18,8 @@ import com.tweetlanes.android.core.view.HomeActivity;
 
 public class Notifier {
 
+    private static long mNotificationTime;
+
     public static void notify(String title, String text, String bigText, Boolean autoCancel, int id,
                               String accountKey, String type, long postId, Context context) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
@@ -61,6 +63,8 @@ public class Notifier {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context
                 .NOTIFICATION_SERVICE);
         notificationManager.notify(id, builder.build());
+
+        mNotificationTime = 0;
     }
 
     public static void cancel(Context context, String accountKey, String type) {
@@ -92,8 +96,14 @@ public class Notifier {
                 PendingIntent.FLAG_CANCEL_CURRENT);
         AlarmManager am = (AlarmManager) context.getSystemService(Activity.ALARM_SERVICE);
 
-        am.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),
-                AppSettings.get().getNotificationTime(), pendingIntent);
+        long mNewNotificationTime = AppSettings.get().getNotificationTime();
+
+        if (mNotificationTime != mNewNotificationTime)
+        {
+            mNotificationTime = mNewNotificationTime;
+            am.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),
+                    mNotificationTime, pendingIntent);
+        }
     }
 
     private static void cancelNotificationAlarm(Context context) {

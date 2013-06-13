@@ -618,7 +618,9 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     };
 
     Long mTwitterStatusIdWhenRefreshed;
+    Long mLastTwitterStatusIdSeen;
     int mCurrentFirstVisibleItem = 0;
+    int mNewStatuses = 0;
 
     /*
 	 *
@@ -628,6 +630,8 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             if (getStatusFeed() != null && mCurrentFirstVisibleItem < getStatusFeed().getStatusCount()) {
                 TwitterStatus status = getStatusFeed().getStatus(mCurrentFirstVisibleItem);
                 mTwitterStatusIdWhenRefreshed = status.mId;
+                mLastTwitterStatusIdSeen = status.mId;
+                mNewStatuses = mCurrentFirstVisibleItem;
                 mHidingListHeading = false;
             }
         }
@@ -660,16 +664,18 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         SocialNetConstant.Type socialNetType = getApp().getCurrentAccount().getSocialNetType();
 
         if (mTwitterStatusIdWhenRefreshed != null && firstVisibleItem > 0) {
-            if (mScrollTracker.getLastScrollDirection() == ScrollDirection.TO_OLDER) {
-                setListHeadingVisiblilty(View.GONE);
-            } else {
-                if (mHidingListHeading == false) {
-                    setListHeadingVisiblilty(View.VISIBLE);
-                    mListHeadingTextView.setText(firstVisibleItem + " " + getString(firstVisibleItem == 2 ?
-                            socialNetType == SocialNetConstant.Type.Twitter ? R.string.new_tweet : R.string.new_post :
-                            socialNetType == SocialNetConstant.Type.Twitter ? R.string.new_tweets :
-                                    R.string.new_posts));
+            if (mHidingListHeading == false) {
+                TwitterStatus status = getStatusFeed().getStatus(firstVisibleItem);
+                if(status.mId >= mTwitterStatusIdWhenRefreshed && status.mId >= mLastTwitterStatusIdSeen)
+                {
+                    mNewStatuses = firstVisibleItem;
+                    mLastTwitterStatusIdSeen = status.mId;
                 }
+                setListHeadingVisiblilty(View.VISIBLE);
+                mListHeadingTextView.setText(mNewStatuses + " " + getString(mNewStatuses == 1 ?
+                        socialNetType == SocialNetConstant.Type.Twitter ? R.string.new_tweet : R.string.new_post :
+                        socialNetType == SocialNetConstant.Type.Twitter ? R.string.new_tweets :
+                                R.string.new_posts));
             }
         } else {
             setListHeadingVisiblilty(View.GONE);
