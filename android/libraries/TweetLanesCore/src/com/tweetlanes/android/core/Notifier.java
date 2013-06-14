@@ -18,7 +18,7 @@ import com.tweetlanes.android.core.view.HomeActivity;
 
 public class Notifier {
 
-    private static long mNotificationTime;
+    private static long mNotificationTime = 0;
 
     public static void notify(String title, String text, String bigText, Boolean autoCancel, int id,
                               String accountKey, String type, long postId, Context context) {
@@ -64,7 +64,6 @@ public class Notifier {
                 .NOTIFICATION_SERVICE);
         notificationManager.notify(id, builder.build());
 
-        mNotificationTime = 0;
     }
 
     public static void cancel(Context context, String accountKey, String type) {
