@@ -712,14 +712,11 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
                     if (notifcationType != null && pref != null )
                     {
-                        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getBaseLaneActivity());
-                        long lastDisplayedMentionId = preferences.getLong(pref + getApp().getCurrentAccountKey(), 0);
 
-                        if (visibleStatus.mId > lastDisplayedMentionId) {
                             Notifier.saveLastNotificationActioned(getBaseLaneActivity(),
                                     getApp().getCurrentAccountKey(), notifcationType, visibleStatus.mId);
                             Notifier.cancel(getBaseLaneActivity(), getApp().getCurrentAccountKey(), notifcationType);
-                        }
+
                     }
                 }
             }

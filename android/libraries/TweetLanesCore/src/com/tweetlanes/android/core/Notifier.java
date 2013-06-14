@@ -117,25 +117,34 @@ public class Notifier {
     }
 
     public static void saveLastNotificationActioned(Context context, String accountKey, String type, long postId) {
+
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        SharedPreferences.Editor edit = preferences.edit();
-
         String pref = type.equals(SharedPreferencesConstants.NOTIFICATION_TYPE_MENTION) ? SharedPreferencesConstants.NOTIFICATION_LAST_ACTIONED_MENTION_ID : SharedPreferencesConstants.NOTIFICATION_LAST_ACTIONED_DIRECT_MESSAGE_ID;
-        edit.putLong(pref + accountKey, postId);
-        edit.commit();
+        long lastDisplayedMentionId = preferences.getLong(pref + accountKey, 0);
 
-        saveLastNotificationDisplayed(context, accountKey, type, postId);
+        if (postId > lastDisplayedMentionId)
+        {
+            SharedPreferences.Editor edit = preferences.edit();
+            edit.putLong(pref + accountKey, postId);
+            edit.commit();
 
-        Notifier.setDashclockValues(context, accountKey, type, 0, "");
+            saveLastNotificationDisplayed(context, accountKey, type, postId);
+            Notifier.setDashclockValues(context, accountKey, type, 0, "");
+        }
     }
 
-    public static void saveLastNotificationDisplayed(Context context, String accountKey, String type, long postId) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        SharedPreferences.Editor edit = preferences.edit();
+    private static void saveLastNotificationDisplayed(Context context, String accountKey, String type, long postId) {
 
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         String pref = type.equals(SharedPreferencesConstants.NOTIFICATION_TYPE_MENTION) ? SharedPreferencesConstants.NOTIFICATION_LAST_DISPLAYED_MENTION_ID : SharedPreferencesConstants.NOTIFICATION_LAST_DISPLAYED_DIRECT_MESSAGE_ID;
-        edit.putLong(pref + accountKey, postId);
-        edit.commit();
+        long lastDisplayedMentionId = preferences.getLong(pref + accountKey, 0);
+
+        if (postId > lastDisplayedMentionId)
+        {
+            SharedPreferences.Editor edit = preferences.edit();
+            edit.putLong(pref + accountKey, postId);
+            edit.commit();
+        }
     }
 
     public static void setDashclockValues(Context context, String accountKey, String type,  int count, String detail) {
