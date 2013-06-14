@@ -82,7 +82,16 @@ public class Notifier {
 
     public static void setNotificationAlarm(Context context) {
         if (AppSettings.get().isShowNotificationsEnabled()) {
-            setupNotificationAlarm(context);
+            long mNewNotificationTime = AppSettings.get().getNotificationTime();
+            if (mNotificationTime != mNewNotificationTime)
+            {
+                if (mNotificationTime > 0)
+                {
+                    cancelNotificationAlarm(context);
+                }
+                mNotificationTime = mNewNotificationTime;
+                setupNotificationAlarm(context);
+            }
         } else {
             cancelNotificationAlarm(context);
         }
@@ -95,14 +104,8 @@ public class Notifier {
                 PendingIntent.FLAG_CANCEL_CURRENT);
         AlarmManager am = (AlarmManager) context.getSystemService(Activity.ALARM_SERVICE);
 
-        long mNewNotificationTime = AppSettings.get().getNotificationTime();
-
-        if (mNotificationTime != mNewNotificationTime)
-        {
-            mNotificationTime = mNewNotificationTime;
-            am.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),
-                    mNotificationTime, pendingIntent);
-        }
+        am.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),
+                mNotificationTime, pendingIntent);
     }
 
     private static void cancelNotificationAlarm(Context context) {
