@@ -65,7 +65,6 @@ public class TwitterUser {
         mFollowersCount = user.mFollowersCount;
         mFriendsCount = user.mFollowingCount;
         mStatusesCount = user.mPostCount;
-        mProfileImageUrl = user.mAvatarUrl;
         mCoverImageUrl = user.mCoverUrl;
         mDescription = user.mDescription;
         mSocialNetType = SocialNetConstant.Type.Appdotnet;
@@ -185,9 +184,6 @@ public class TwitterUser {
     }
 
     public String getProfileImageUrl(ProfileImageSize size) {
-        if (mProfileImageUrl != null) {
-            return mProfileImageUrl;
-        }
 
         switch (size)
         {
@@ -198,13 +194,7 @@ public class TwitterUser {
             case BIGGER:
                 return mProfileImageUrlBigger;
             case ORIGINAL:
-                if (mProfileImageUrlOriginal != null){
-                    return mProfileImageUrlOriginal;
-                }
-                else
-                {
-                    return mProfileImageUrlNormal;
-                }
+                return mProfileImageUrlOriginal;
         }
         return "";
     }
@@ -213,7 +203,6 @@ public class TwitterUser {
     private String mScreenName;
     private String mName;
     private String mDescription;
-    private String mProfileImageUrl;
     private String mCoverImageUrl;
     private String mLocation;
     private String mProfileImageUrlMini;

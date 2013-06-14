@@ -22,7 +22,7 @@ import twitter4j.Paging;
 
 public class TwitterPaging {
 
-    public static final int DEFAULT_STATUS_COUNT = 50;
+    public static final int DEFAULT_STATUS_COUNT = 100;
 
     /*
      *
