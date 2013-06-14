@@ -655,9 +655,6 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
     }
 
     public String getProfileImageUrl(TwitterManager.ProfileImageSize size) {
-        if (mProfileImageOriginalUrl != null) {
-            return mProfileImageOriginalUrl;
-        }
 
         switch (size)
         {
@@ -667,6 +664,8 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
                 return mProfileImageNormalUrl;
             case BIGGER:
                 return mProfileImageBiggerUrl;
+            case ORIGINAL:
+                return mProfileImageOriginalUrl;
         }
         return "";
     }
