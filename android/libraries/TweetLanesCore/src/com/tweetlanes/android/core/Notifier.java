@@ -18,7 +18,7 @@ import com.tweetlanes.android.core.view.HomeActivity;
 
 public class Notifier {
 
-    private static long mNotificationTime;
+    private static long mNotificationTime = 0;
 
     public static void notify(String title, String text, String bigText, Boolean autoCancel, int id,
                               String accountKey, String type, long postId, Context context) {
@@ -64,7 +64,6 @@ public class Notifier {
                 .NOTIFICATION_SERVICE);
         notificationManager.notify(id, builder.build());
 
-        mNotificationTime = 0;
     }
 
     public static void cancel(Context context, String accountKey, String type) {
@@ -83,7 +82,16 @@ public class Notifier {
 
     public static void setNotificationAlarm(Context context) {
         if (AppSettings.get().isShowNotificationsEnabled()) {
-            setupNotificationAlarm(context);
+            long mNewNotificationTime = AppSettings.get().getNotificationTime();
+            if (mNotificationTime != mNewNotificationTime)
+            {
+                if (mNotificationTime > 0)
+                {
+                    cancelNotificationAlarm(context);
+                }
+                mNotificationTime = mNewNotificationTime;
+                setupNotificationAlarm(context);
+            }
         } else {
             cancelNotificationAlarm(context);
         }
@@ -96,14 +104,8 @@ public class Notifier {
                 PendingIntent.FLAG_CANCEL_CURRENT);
         AlarmManager am = (AlarmManager) context.getSystemService(Activity.ALARM_SERVICE);
 
-        long mNewNotificationTime = AppSettings.get().getNotificationTime();
-
-        if (mNotificationTime != mNewNotificationTime)
-        {
-            mNotificationTime = mNewNotificationTime;
-            am.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),
-                    mNotificationTime, pendingIntent);
-        }
+        am.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),
+                mNotificationTime, pendingIntent);
     }
 
     private static void cancelNotificationAlarm(Context context) {
@@ -115,25 +117,34 @@ public class Notifier {
     }
 
     public static void saveLastNotificationActioned(Context context, String accountKey, String type, long postId) {
+
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        SharedPreferences.Editor edit = preferences.edit();
-
         String pref = type.equals(SharedPreferencesConstants.NOTIFICATION_TYPE_MENTION) ? SharedPreferencesConstants.NOTIFICATION_LAST_ACTIONED_MENTION_ID : SharedPreferencesConstants.NOTIFICATION_LAST_ACTIONED_DIRECT_MESSAGE_ID;
-        edit.putLong(pref + accountKey, postId);
-        edit.commit();
+        long lastDisplayedMentionId = preferences.getLong(pref + accountKey, 0);
 
-        saveLastNotificationDisplayed(context, accountKey, type, postId);
+        if (postId > lastDisplayedMentionId)
+        {
+            SharedPreferences.Editor edit = preferences.edit();
+            edit.putLong(pref + accountKey, postId);
+            edit.commit();
 
-        Notifier.setDashclockValues(context, accountKey, type, 0, "");
+            saveLastNotificationDisplayed(context, accountKey, type, postId);
+            Notifier.setDashclockValues(context, accountKey, type, 0, "");
+        }
     }
 
-    public static void saveLastNotificationDisplayed(Context context, String accountKey, String type, long postId) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        SharedPreferences.Editor edit = preferences.edit();
+    private static void saveLastNotificationDisplayed(Context context, String accountKey, String type, long postId) {
 
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         String pref = type.equals(SharedPreferencesConstants.NOTIFICATION_TYPE_MENTION) ? SharedPreferencesConstants.NOTIFICATION_LAST_DISPLAYED_MENTION_ID : SharedPreferencesConstants.NOTIFICATION_LAST_DISPLAYED_DIRECT_MESSAGE_ID;
-        edit.putLong(pref + accountKey, postId);
-        edit.commit();
+        long lastDisplayedMentionId = preferences.getLong(pref + accountKey, 0);
+
+        if (postId > lastDisplayedMentionId)
+        {
+            SharedPreferences.Editor edit = preferences.edit();
+            edit.putLong(pref + accountKey, postId);
+            edit.commit();
+        }
     }
 
     public static void setDashclockValues(Context context, String accountKey, String type,  int count, String detail) {

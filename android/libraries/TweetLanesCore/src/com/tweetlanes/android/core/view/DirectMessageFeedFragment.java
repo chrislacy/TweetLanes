@@ -363,7 +363,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
     private void setNotificationsRead() {
         if (getLaneIndex() == getApp().getCurrentAccount().getCurrentLaneIndex(Constant.LaneType.DIRECT_MESSAGES)) {
 
-            String notifcationType = SharedPreferencesConstants.NOTIFICATION_TYPE_MENTION;
+            String notifcationType = SharedPreferencesConstants.NOTIFICATION_TYPE_DIRECT_MESSAGE;
             String pref = SharedPreferencesConstants.NOTIFICATION_LAST_DISPLAYED_DIRECT_MESSAGE_ID;
 
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getBaseLaneActivity());

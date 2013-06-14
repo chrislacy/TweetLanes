@@ -345,7 +345,7 @@ public class LazyImageLoader {
             this.mImageToLoad = imagetoload;
         }
 
-        public Bitmap getBitmap(URL url) {
+        private Bitmap getBitmap(URL url) {
             if (url == null) return null;
             final File f = mFileCache.getFile(url);
 
@@ -354,6 +354,12 @@ public class LazyImageLoader {
             if (b != null) return b;
 
             // from web
+            return DownloadBitmapFromWeb(url, f, false);
+
+        }
+
+        private Bitmap DownloadBitmapFromWeb(URL url, File f, Boolean isRetry)
+        {
             try {
                 Bitmap bitmap = null;
                 final HttpURLConnection conn = (HttpURLConnection) url
@@ -369,6 +375,18 @@ public class LazyImageLoader {
                 copyStream(is, os);
                 os.close();
                 bitmap = decodeFile(f);
+
+                int bitmapBytes = bitmap.getByteCount();
+                if (bitmapBytes == 0){
+                    if (isRetry)
+                    {
+                        return null;
+                    }
+                    else
+                    {
+                        return DownloadBitmapFromWeb(url, f, true);
+                    }
+                }
                 mFileCache.saveFile(bitmap, url);
                 return bitmap;
             } catch (final FileNotFoundException e) {

@@ -698,19 +698,25 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             if (visiblePosition < getStatusFeed().getStatusCount()) {
                 visibleStatus = getStatusFeed().getStatus(visiblePosition);
                 if (visibleStatus != null) {
+                    String notifcationType = null;
+                    String pref = null;
                     if (getLaneIndex() == getApp().getCurrentAccount().getCurrentLaneIndex(Constant.LaneType.USER_MENTIONS)) {
 
-                        String notifcationType = SharedPreferencesConstants.NOTIFICATION_TYPE_MENTION;
-                        String pref = SharedPreferencesConstants.NOTIFICATION_LAST_DISPLAYED_MENTION_ID;
+                        notifcationType = SharedPreferencesConstants.NOTIFICATION_TYPE_MENTION;
+                        pref = SharedPreferencesConstants.NOTIFICATION_LAST_DISPLAYED_MENTION_ID;
+                    }else if (getLaneIndex() == getApp().getCurrentAccount().getCurrentLaneIndex(Constant.LaneType.DIRECT_MESSAGES)) {
 
-                        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getBaseLaneActivity());
-                        long lastDisplayedMentionId = preferences.getLong(pref + getApp().getCurrentAccountKey(), 0);
+                        notifcationType = SharedPreferencesConstants.NOTIFICATION_TYPE_DIRECT_MESSAGE;
+                        pref = SharedPreferencesConstants.NOTIFICATION_LAST_DISPLAYED_DIRECT_MESSAGE_ID;
+                    }
 
-                        if (visibleStatus.mId >= lastDisplayedMentionId) {
+                    if (notifcationType != null && pref != null )
+                    {
+
                             Notifier.saveLastNotificationActioned(getBaseLaneActivity(),
                                     getApp().getCurrentAccountKey(), notifcationType, visibleStatus.mId);
                             Notifier.cancel(getBaseLaneActivity(), getApp().getCurrentAccountKey(), notifcationType);
-                        }
+
                     }
                 }
             }
