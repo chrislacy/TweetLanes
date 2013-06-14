@@ -55,23 +55,10 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     TwitterFetchStatusesFinishedCallback getMentionsCallback = new TwitterFetchStatusesFinishedCallback() {
         @Override
-        public void finished(TwitterFetchResult result, TwitterStatuses inputFeed, TwitterContentHandle contentHandle) {
+        public void finished(TwitterFetchResult result, TwitterStatuses feed, TwitterContentHandle contentHandle) {
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
             long lastDisplayedMentionId = preferences.getLong(SharedPreferencesConstants.NOTIFICATION_LAST_DISPLAYED_MENTION_ID +
                     contentHandle.getCurrentAccountKey(), 0);
-
-            TwitterStatuses feed = new TwitterStatuses();
-
-            if (inputFeed != null && inputFeed.getStatusCount() > 0) {
-                for (int i = 0; i < inputFeed.getStatusCount(); i++)
-                {
-                    TwitterStatus status = inputFeed.getStatus(i);
-                    if (status.mId > lastDisplayedMentionId)
-                    {
-                        feed.add(status);
-                    }
-                }
-            }
 
             if (feed != null && feed.getStatusCount() > 0) {
                 int notificationId = (contentHandle.getCurrentAccountKey() + SharedPreferencesConstants.NOTIFICATION_TYPE_MENTION).hashCode();
@@ -115,20 +102,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             long lastDisplayedId = preferences.getLong(SharedPreferencesConstants.NOTIFICATION_LAST_DISPLAYED_DIRECT_MESSAGE_ID +
                     contentHandle.getCurrentAccountKey(), 0);
 
-            ArrayList<TwitterDirectMessage> originalReceived = messages != null ? messages.getRawReceivedMessages() : null;
-
-            ArrayList<TwitterDirectMessage> received = new ArrayList<TwitterDirectMessage>();
-
-            if (originalReceived != null && originalReceived.size() > 0) {
-                for (int i = 0; i < originalReceived.size(); i++)
-                {
-                    TwitterDirectMessage status = originalReceived.get(i);
-                    if (status.getId() > lastDisplayedId)
-                    {
-                        received.add(status);
-                    }
-                }
-            }
+            ArrayList<TwitterDirectMessage> received = messages != null ? messages.getRawReceivedMessages() : null;
 
             if (received != null && received.size() > 0) {
                 int notificationId = (contentHandle.getCurrentAccountKey() + SharedPreferencesConstants.NOTIFICATION_TYPE_DIRECT_MESSAGE).hashCode();
