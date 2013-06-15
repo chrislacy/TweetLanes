@@ -541,12 +541,21 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
         @Override
         public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-            mTweetFeedListView.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
-
             Integer yOffset = null;
             if (view != null && view.getChildAt(0) != null) {
                 yOffset = view.getChildAt(0).getTop();
             }
+
+            if (firstVisibleItem == 1 && view != null && view.getChildAt(firstVisibleItem - 1) != null) {
+                int previousTop = view.getChildAt(firstVisibleItem - 1).getTop();
+                int previousBottom = view.getChildAt(firstVisibleItem - 1).getBottom();
+                if (previousBottom > 0 && previousTop >= 0)
+                {
+                    firstVisibleItem--;
+                }
+            }
+
+            mTweetFeedListView.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
             mScrollTracker.update(firstVisibleItem, totalItemCount, yOffset);
 
             updateListHeading(firstVisibleItem);
@@ -629,8 +638,9 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         if (mTwitterStatusIdWhenRefreshed == null) {
             if (getStatusFeed() != null && mCurrentFirstVisibleItem < getStatusFeed().getStatusCount()) {
                 TwitterStatus status = getStatusFeed().getStatus(mCurrentFirstVisibleItem);
+                TwitterStatus visibleStatus = getVisibleStatus();
                 mTwitterStatusIdWhenRefreshed = status.mId;
-                mLastTwitterStatusIdSeen = status.mId;
+                mLastTwitterStatusIdSeen = visibleStatus.mId;
                 mNewStatuses = mCurrentFirstVisibleItem;
                 mHidingListHeading = false;
             }
