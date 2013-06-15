@@ -32,13 +32,6 @@ import org.tweetalib.android.model.TwitterStatuses;
 
 import java.util.ArrayList;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Jason
- * Date: 4/8/13
- * Time: 12:47 PM
- * To change this template use File | Settings | File Templates.
- */
 public class AlarmReceiver extends BroadcastReceiver {
 
     Context mContext;
