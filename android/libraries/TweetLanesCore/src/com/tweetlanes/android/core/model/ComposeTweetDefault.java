@@ -94,7 +94,14 @@ public class ComposeTweetDefault {
         mStatus = defaultStatus;
         mInitialStatus = defaultStatus;
         mInitialStatusIsPlaceholder = false;
-        mInReplyToStatusId = inReplyToStatusId;
+        if(defaultStatus == "")
+        {
+            mInReplyToStatusId = null;
+        }
+        else
+        {
+            mInReplyToStatusId = inReplyToStatusId;
+        }
         mMediaFilePath = mediaFilePath;
     }
 
@@ -214,6 +221,10 @@ public class ComposeTweetDefault {
         String replyingToUsers = "";
         Set<String> screenNameSet = new HashSet<String>();
 
+        if (userScreenName != null) {
+            screenNameSet.add(userScreenName.toLowerCase());
+        }
+
         // Note: There are 2 for loops here so that we cleanly handle the case
         // where a user replies to their own tweet.
 
@@ -232,10 +243,6 @@ public class ComposeTweetDefault {
                     replyingToUsers += "@" + tweeter + " ";
                 }
             }
-        }
-
-        if (userScreenName != null) {
-            screenNameSet.add(userScreenName.toLowerCase());
         }
 
         for (int i = 0; i < inReplyToStatusList.getStatusCount(); i++) {

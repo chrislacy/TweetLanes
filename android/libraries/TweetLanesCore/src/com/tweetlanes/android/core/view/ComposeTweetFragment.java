@@ -311,7 +311,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
 
         if (composeTweetDefault != null && getApp() != null) {
             String lastStatus = composeTweetDefault.getStatus();
-            if (lastStatus != null) {
+            if (lastStatus != null && lastStatus != "" ) {
                 lastStatus = Util.trimLeftRight(lastStatus);
                 if (composeTweetDefault.getInReplyToStatusId() != null) {
                     hint = getString(R.string.compose_tweet_reply_to) + " "
