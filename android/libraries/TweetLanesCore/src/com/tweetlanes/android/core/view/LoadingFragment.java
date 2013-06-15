@@ -18,6 +18,8 @@ import android.view.ViewGroup;
 
 import com.tweetlanes.android.core.R;
 
+import org.tweetalib.android.model.TwitterStatus;
+
 public class LoadingFragment extends BaseLaneFragment {
 
     /*
@@ -57,6 +59,16 @@ public class LoadingFragment extends BaseLaneFragment {
      */
     @Override
     public void triggerInitialDownload() {
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see com.tweetlanes.android.core.view.BaseLaneFragment#UpdateTweetCache()
+     */
+    @Override
+    public void UpdateTweetCache(TwitterStatus status) {
+
     }
 
     /*

@@ -92,6 +92,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     private View mComposeDirectMessageView;
     private ComposeBaseFragment mCurrentComposeFragment;
 
+
     /*
      *
 	 */
@@ -1111,6 +1112,22 @@ public class BaseLaneActivity extends FragmentActivity implements
                 // Toast.makeText(this,R.string.picture_attached,Toast.LENGTH_SHORT).show();
 
             }
+        } else if( requestCode == Constant.REQUEST_CODE_SPOTLIGHT ) {
+            String statusAsString = data.getStringExtra("status");
+            TwitterStatus status = new TwitterStatus(statusAsString);
+            BaseLaneFragment fragment = mLaneFragmentHashMap
+                    .get(getCurrentLaneIndex());
+            // fragment will be null if the user scrolls the Tabs to a Fragment not
+            // yet created.
+            // In that instance, the download will be triggered in
+            // onLaneFragmentDownloadStateChanged().
+            if (fragment != null) {
+                fragment.UpdateTweetCache(status);
+            }
+
+
+
+
         }
 
         mShareImagePath = imagePath;

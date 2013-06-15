@@ -47,6 +47,7 @@ import org.tweetalib.android.TwitterFetchResult;
 import org.tweetalib.android.TwitterFetchUsers.FinishedCallback;
 import org.tweetalib.android.TwitterManager;
 import org.tweetalib.android.TwitterPaging;
+import org.tweetalib.android.model.TwitterStatus;
 import org.tweetalib.android.model.TwitterUser;
 import org.tweetalib.android.model.TwitterUsers;
 
@@ -271,6 +272,16 @@ public class UserFeedFragment extends BaseLaneFragment {
             mViewSwitcher.setDisplayedChild(1);
             mUserFeedListAdapter.notifyDataSetChanged();
         }
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see com.tweetlanes.android.core.view.BaseLaneFragment#UpdateTweetCache()
+     */
+    @Override
+    public void UpdateTweetCache(TwitterStatus status) {
+
     }
 
     /*

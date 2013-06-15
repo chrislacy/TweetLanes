@@ -15,6 +15,7 @@ import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
@@ -22,9 +23,11 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import com.tweetlanes.android.core.AppSettings;
+import com.tweetlanes.android.core.Constant;
 import com.tweetlanes.android.core.R;
 import com.tweetlanes.android.core.model.ComposeTweetDefault;
 import com.tweetlanes.android.core.model.LaneDescriptor;
@@ -45,6 +48,7 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
     TwitterStatus mStatus;
     FinishedCallback mGetStatusCallback;
     MenuItem mFavoriteMenuItem;
+    MenuItem mRetweetMenuItem;
 
     public final static String STATUS_ID_KEY = "statusId";
     public final static String STATUS_KEY = "status";
@@ -66,11 +70,6 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
         }
 
         TwitterStatus status = new TwitterStatus(statusAsString);
-
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayUseLogoEnabled(true);
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
 
         mViewSwitcher = (ViewSwitcher) findViewById(R.id.rootViewSwitcher);
         updateViewVisibility();
@@ -185,6 +184,12 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
     private void onGetStatus(TwitterStatus status) {
         mStatus = new TwitterStatus(status);
         updateViewVisibility();
+
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayUseLogoEnabled(true);
+        actionBar.setDisplayShowTitleEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
         invalidateOptionsMenu();
         setComposeDefault();
     }
@@ -233,12 +238,31 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
 
                 @Override
                 public void finished(TwitterFetchResult result, TwitterStatus status) {
-                    onGetStatus(status);
+                    if (result.isSuccessful())
+                    {
+                        mStatus.mIsRetweetedByMe = true;
+                        onGetStatus(mStatus);
+                        showToast(getString(R.string.retweeted_successfully));
+                        setIsRetweeted();
+                    }
+                    else
+                    {
+                        showToast(getString(R.string.retweeted_un_successful));
+                    }
+
                 }
 
             };
 
-            retweetSelected(mStatus, callback);
+            if(mStatus.mIsRetweetedByMe)
+            {
+                showToast(getString(R.string.cannot_unretweet));
+            }
+            else
+            {
+                retweetSelected(mStatus, callback);
+            }
+
             return true;
         } else if (i == R.id.action_favorite) {
             TwitterModifyStatuses.FinishedCallback callback = TwitterManager
@@ -250,8 +274,12 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
                     if (successful && mTweetSpotlightAdapter != null) {
                         if (statuses != null && statuses.getStatusCount() > 0) {
                             TwitterStatus status = statuses.getStatus(0);
-                            status.setFavorite(!status.mIsFavorited);
                             onGetStatus(status);
+
+                            showToast(getString(status.mIsFavorited ? R.string.favorited_successfully : R.string
+                                    .unfavorited_successfully));
+
+                            setIsFavorited();
                         }
                     }
                 }
@@ -263,6 +291,11 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
         } else {
             return false;
         }
+    }
+
+    protected void showToast(String message) {
+            Toast.makeText(getApplicationContext(), message,
+                    Constant.DEFAULT_TOAST_DISPLAY_TIME).show();
     }
 
     /**
@@ -291,6 +324,42 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
         return result;
     }
 
+    void setIsFavorited()
+    {
+        if(mFavoriteMenuItem != null)
+        {
+            boolean isDarkTheme = AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Dark;
+            if (mStatus.mIsFavorited == true) {
+                mFavoriteMenuItem
+                        .setIcon(isDarkTheme ? R.drawable.ic_action_star_on_dark
+                                : R.drawable.ic_action_star_on_light);
+                mFavoriteMenuItem.setTitle(R.string.action_unfavorite);
+            } else {
+                mFavoriteMenuItem
+                        .setIcon(isDarkTheme ? R.drawable.ic_action_star_off_dark
+                                : R.drawable.ic_action_star_off_light);
+                mFavoriteMenuItem.setTitle(R.string.action_favorite);
+            }
+        }
+    }
+
+    void setIsRetweeted()
+    {
+        if (mRetweetMenuItem != null)
+        {
+            boolean isDarkTheme = AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Dark;
+            if (mStatus.mIsRetweetedByMe) {
+                mRetweetMenuItem.setIcon(
+                        isDarkTheme ? R.drawable.ic_action_rt_on_dark : R.drawable.ic_action_rt_on_light);
+                mRetweetMenuItem.setTitle(R.string.action_retweet_unset);
+            } else {
+                mRetweetMenuItem.setIcon(
+                        isDarkTheme ? R.drawable.ic_action_rt_off_dark : R.drawable.ic_action_rt_off_light);
+                mRetweetMenuItem.setTitle(R.string.action_retweet);
+            }
+        }
+    }
+
     /*
      *
      */
@@ -299,19 +368,11 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
             MenuItem menuItem = menu.getItem(i);
             if (menuItem.getItemId() == R.id.action_favorite) {
                 mFavoriteMenuItem = menuItem;
-                boolean isDarkTheme = AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Dark;
-                if (mStatus.mIsFavorited == true) {
-                    mFavoriteMenuItem
-                            .setIcon(isDarkTheme ? R.drawable.ic_action_star_on_dark
-                                    : R.drawable.ic_action_star_on_light);
-                    mFavoriteMenuItem.setTitle(R.string.action_unfavorite);
-                } else {
-                    mFavoriteMenuItem
-                            .setIcon(isDarkTheme ? R.drawable.ic_action_star_off_dark
-                                    : R.drawable.ic_action_star_off_light);
-                    mFavoriteMenuItem.setTitle(R.string.action_favorite);
-                }
-                break;
+                setIsFavorited();
+            }
+            if (menuItem.getItemId() == R.id.action_retweet) {
+                mRetweetMenuItem = menuItem;
+                setIsRetweeted();
             }
         }
     }

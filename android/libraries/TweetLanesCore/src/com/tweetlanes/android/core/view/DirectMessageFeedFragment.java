@@ -50,6 +50,7 @@ import org.tweetalib.android.model.TwitterDirectMessage;
 import org.tweetalib.android.model.TwitterDirectMessage.MessageType;
 import org.tweetalib.android.model.TwitterDirectMessages;
 import org.tweetalib.android.model.TwitterDirectMessagesHandle;
+import org.tweetalib.android.model.TwitterStatus;
 
 import java.util.ArrayList;
 
@@ -310,6 +311,16 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
                 listView.setSelection(0);
             }
         }
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see com.tweetlanes.android.core.view.BaseLaneFragment#UpdateTweetCache()
+     */
+    @Override
+    public void UpdateTweetCache(TwitterStatus status) {
+
     }
 
     /*

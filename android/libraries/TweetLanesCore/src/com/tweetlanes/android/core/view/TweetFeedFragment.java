@@ -261,6 +261,24 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     /*
      * (non-Javadoc)
      *
+     * @see com.tweetlanes.android.core.view.BaseLaneFragment#UpdateTweetCache()
+     */
+    @Override
+    public void UpdateTweetCache(TwitterStatus status) {
+        TwitterStatus cachedStatus =_mCachedStatusFeed.findByStatusId(status.mId);
+        if (cachedStatus != null)
+        {
+            cachedStatus.setFavorite(status.mIsFavorited);
+            if (status.mIsRetweetedByMe)
+            {
+                cachedStatus.setRetweet();
+            }
+        }
+    }
+
+    /*
+     * (non-Javadoc)
+     *
      * @see com.tweetlanes.android.core.view.BaseLaneFragment#onJumpToTop()
      */
     @Override
@@ -974,7 +992,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             Intent tweetSpotlightIntent = new Intent(getActivity(), TweetSpotlightActivity.class);
             tweetSpotlightIntent.putExtra("statusId", Long.toString(status.mId));
             tweetSpotlightIntent.putExtra("status", status.toString());
-            getActivity().startActivityForResult(tweetSpotlightIntent,45732 );
+            getActivity().startActivityForResult(tweetSpotlightIntent, Constant.REQUEST_CODE_SPOTLIGHT );
             return true;
         } else {
             onTweetFeedItemLongPress(view, position);
@@ -982,26 +1000,6 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         }
 
     }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if( requestCode == 45732 ) {
-            String statusAsString = data.getStringExtra("status");
-            TwitterStatus status = new TwitterStatus(statusAsString);
-            TwitterStatus cachedStatus =
-                    _mCachedStatusFeed.findByStatusId(status.mId);
-            cachedStatus.setFavorite(status.mIsFavorited);
-            if (status.mIsRetweetedByMe)
-            {
-                cachedStatus.setRetweet();
-            }
-        }
-
-        super.onActivityResult(requestCode, resultCode, data);
-
-    }
-
-
 
     /*
 	 *

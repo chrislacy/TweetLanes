@@ -20,6 +20,7 @@ import org.tweetalib.android.TwitterFetchUser;
 import org.tweetalib.android.TwitterFetchUsers;
 import org.tweetalib.android.TwitterManager;
 import org.tweetalib.android.TwitterUtil;
+import org.tweetalib.android.model.TwitterStatus;
 import org.tweetalib.android.model.TwitterUser;
 import org.tweetalib.android.model.TwitterUsers;
 import org.tweetalib.android.widget.URLSpanNoUnderline;
@@ -358,11 +359,11 @@ public class ProfileFragment extends BaseLaneFragment {
     private TwitterFetchUsers.FinishedCallback mUpdateFriendshipFinishedCallback;
 
     /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.tweetlanes.android.core.view.BaseLaneFragment#triggerInitialDownload()
-     */
+         * (non-Javadoc)
+         *
+         * @see
+         * com.tweetlanes.android.core.view.BaseLaneFragment#triggerInitialDownload()
+         */
     @Override
     public void triggerInitialDownload() {
 
@@ -396,6 +397,16 @@ public class ProfileFragment extends BaseLaneFragment {
                 setInitialDownloadState(InitialDownloadState.DOWNLOADED);
             }
         }
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see com.tweetlanes.android.core.view.BaseLaneFragment#UpdateTweetCache()
+     */
+    @Override
+    public void UpdateTweetCache(TwitterStatus status) {
+
     }
 
     /*

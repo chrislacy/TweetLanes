@@ -304,6 +304,16 @@ public final class TweetSpotlightFragment extends BaseLaneFragment {
     /*
      * (non-Javadoc)
      *
+     * @see com.tweetlanes.android.core.view.BaseLaneFragment#UpdateTweetCache()
+     */
+    @Override
+    public void UpdateTweetCache(TwitterStatus status) {
+
+    }
+
+    /*
+     * (non-Javadoc)
+     *
      * @see com.tweetlanes.android.core.view.BaseLaneFragment#onJumpToTop()
      */
     @Override

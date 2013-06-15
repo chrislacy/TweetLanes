@@ -20,6 +20,8 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
+import org.tweetalib.android.model.TwitterStatus;
+
 public final class PlaceholderPagerFragment extends BaseLaneFragment {
 
     private static final String KEY_CONTENT = "TestFragment:Content";
@@ -91,6 +93,16 @@ public final class PlaceholderPagerFragment extends BaseLaneFragment {
      */
     @Override
     public void triggerInitialDownload() {
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see com.tweetlanes.android.core.view.BaseLaneFragment#UpdateTweetCache()
+     */
+    @Override
+    public void UpdateTweetCache(TwitterStatus status) {
+
     }
 
     /*
