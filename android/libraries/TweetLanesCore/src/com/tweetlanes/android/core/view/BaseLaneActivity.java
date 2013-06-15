@@ -60,6 +60,7 @@ import com.tweetlanes.android.core.widget.viewpagerindicator.TabPageIndicator;
 import com.tweetlanes.android.core.widget.viewpagerindicator.TabPageIndicator.TabCallbacks;
 
 import org.socialnetlib.android.SocialNetConstant;
+import org.tweetalib.android.TwitterFetchStatus;
 import org.tweetalib.android.TwitterManager;
 import org.tweetalib.android.model.TwitterStatus;
 import org.tweetalib.android.model.TwitterStatusesFilter;
@@ -1389,7 +1390,7 @@ public class BaseLaneActivity extends FragmentActivity implements
         }
     }
 
-    public void retweetSelected(TwitterStatus status) {
+    public void retweetSelected(TwitterStatus status, TwitterFetchStatus.FinishedCallback callback) {
         if (mComposeTweetFragment != null) {
 
             TwitterUser user = TwitterManager.get().getUser(status.mUserId);
@@ -1407,7 +1408,7 @@ public class BaseLaneActivity extends FragmentActivity implements
                         });
                 alertDialogBuilder.create().show();
             } else if (mComposeTweetFragment != null) {
-                mComposeTweetFragment.retweetSelected(status);
+                mComposeTweetFragment.retweetSelected(status, callback);
             }
         }
     }

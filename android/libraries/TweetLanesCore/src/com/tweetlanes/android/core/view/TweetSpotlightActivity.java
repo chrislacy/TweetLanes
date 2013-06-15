@@ -18,6 +18,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -30,8 +31,10 @@ import com.tweetlanes.android.core.model.LaneDescriptor;
 import com.tweetlanes.android.core.widget.viewpagerindicator.TitleProvider;
 
 import org.tweetalib.android.TwitterFetchResult;
+import org.tweetalib.android.TwitterFetchStatus;
 import org.tweetalib.android.TwitterFetchStatus.FinishedCallback;
 import org.tweetalib.android.TwitterManager;
+import org.tweetalib.android.TwitterModifyStatuses;
 import org.tweetalib.android.model.TwitterStatus;
 import org.tweetalib.android.model.TwitterStatuses;
 
@@ -44,6 +47,7 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
     MenuItem mFavoriteMenuItem;
 
     public final static String STATUS_ID_KEY = "statusId";
+    public final static String STATUS_KEY = "status";
 
     /*
      * (non-Javadoc)
@@ -55,9 +59,28 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
         super.onCreate(savedInstanceState);
 
         String statusIdAsString = getIntent().getStringExtra(STATUS_ID_KEY);
+        String statusAsString = getIntent().getStringExtra(STATUS_KEY);
+        long statusId = 0;
         if (statusIdAsString != null) {
-            long statusId = Long.parseLong(statusIdAsString);
+            statusId = Long.parseLong(statusIdAsString);
+        }
 
+        TwitterStatus status = new TwitterStatus(statusAsString);
+
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayUseLogoEnabled(true);
+        actionBar.setDisplayShowTitleEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
+        mViewSwitcher = (ViewSwitcher) findViewById(R.id.rootViewSwitcher);
+        updateViewVisibility();
+
+        if (status.mId == statusId)
+        {
+            onGetStatus(status);
+        }
+        else if(statusId > 0)
+        {
             mGetStatusCallback = TwitterManager.get().getFetchStatusInstance().new FinishedCallback() {
 
                 @Override
@@ -69,6 +92,9 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
                             onGetStatus(status);
                         }
                     } else {
+                        Intent returnIntent = new Intent();
+                        returnIntent.putExtra("status",mStatus.toString());
+                        setResult(RESULT_OK,returnIntent);
                         finish();
                     }
                     mGetStatusCallback = null;
@@ -79,17 +105,27 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
             TwitterManager.get().getStatus(statusId, mGetStatusCallback);
 
         } else {
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra("status",mStatus.toString());
+            setResult(RESULT_OK,returnIntent);
             finish();
             return;
         }
 
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayUseLogoEnabled(true);
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
 
-        mViewSwitcher = (ViewSwitcher) findViewById(R.id.rootViewSwitcher);
-        updateViewVisibility();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra("status",mStatus.toString());
+            setResult(RESULT_OK,returnIntent);
+            finish();
+            return true;
+        }
+
+        return super.onKeyDown(keyCode, event);
     }
 
     /*
@@ -182,20 +218,30 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
 
         int i = item.getItemId();
         if (i == android.R.id.home) {// app icon in action bar clicked; go home
-            // TODO: Should this be finish()?
-            Intent intent = new Intent(this, HomeActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra("status",mStatus.toString());
+            setResult(RESULT_OK, returnIntent);
+            finish();
             return true;
 
             /*
              * case R.id.action_reply: beginCompose(); return true;
              */
         } else if (i == R.id.action_retweet) {
-            retweetSelected(mStatus);
+            TwitterFetchStatus.FinishedCallback callback = TwitterManager.get()
+                    .getFetchStatusInstance().new FinishedCallback() {
+
+                @Override
+                public void finished(TwitterFetchResult result, TwitterStatus status) {
+                    onGetStatus(status);
+                }
+
+            };
+
+            retweetSelected(mStatus, callback);
             return true;
         } else if (i == R.id.action_favorite) {
-            org.tweetalib.android.TwitterModifyStatuses.FinishedCallback callback = TwitterManager
+            TwitterModifyStatuses.FinishedCallback callback = TwitterManager
                     .get().getSetStatusesInstance().new FinishedCallback() {
 
                 @Override
@@ -203,7 +249,9 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
                                      TwitterStatuses statuses, Integer value) {
                     if (successful && mTweetSpotlightAdapter != null) {
                         if (statuses != null && statuses.getStatusCount() > 0) {
-                            onGetStatus(statuses.getStatus(0));
+                            TwitterStatus status = statuses.getStatus(0);
+                            status.setFavorite(!status.mIsFavorited);
+                            onGetStatus(status);
                         }
                     }
                 }
