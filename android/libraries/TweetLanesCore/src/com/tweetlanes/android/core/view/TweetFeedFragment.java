@@ -549,7 +549,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             if (firstVisibleItem == 1 && view != null && view.getChildAt(firstVisibleItem - 1) != null) {
                 int previousTop = view.getChildAt(firstVisibleItem - 1).getTop();
                 int previousBottom = view.getChildAt(firstVisibleItem - 1).getBottom();
-                if (previousBottom > 0 && previousTop >= 0)
+                if (previousBottom > 0 && previousTop >= -10)
                 {
                     firstVisibleItem--;
                 }
