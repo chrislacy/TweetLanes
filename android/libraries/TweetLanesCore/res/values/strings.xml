@@ -47,6 +47,7 @@
     <string name="action_manage_friendship">Manage Friendship</string>
     <string name="action_favorite">Favorite</string>
     <string name="action_unfavorite">Unfavorite</string>
+    <string name="action_retweet_unset">Unfavorite</string>
     <string name="action_block">Block User</string>
     <string name="action_report_for_spam">Report User for Spam</string>
     <string name="action_delete_status">Delete</string>
@@ -201,8 +202,14 @@
         It\'s coming very soon though, I promise!
     </string>
     <string name="deleted_successfully">Status deleted successfully</string>
+    <string name="deleted_un_successfully">Status delete failed</string>
     <string name="favorited_successfully">Favorited successfully</string>
     <string name="unfavorited_successfully">Unfavorited successfully</string>
+    <string name="favorited_un_successfully">Favorited failed</string>
+    <string name="unfavorited_un_successfully">Unfavorited failed</string>
+    <string name="retweeted_successfully">Retweeted successfully</string>
+    <string name="retweeted_un_successful">Retweet failed</string>
+    <string name="cannot_unretweet">Cannot un-reweet using this app</string>
 
     <string name="retweet">Retweet</string>
     <string name="quote">Quote</string>

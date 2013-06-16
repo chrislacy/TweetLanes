@@ -31,6 +31,7 @@ import android.widget.TextView;
 import com.crittercism.app.Crittercism;
 import com.tweetlanes.android.core.App;
 import com.tweetlanes.android.core.Constant;
+import com.tweetlanes.android.core.ConsumerKeyConstants;
 import com.tweetlanes.android.core.R;
 import com.tweetlanes.android.core.widget.viewpagerindicator.UnderlinePageIndicator;
 
@@ -66,7 +67,7 @@ public class TutorialActivity extends FragmentActivity {
 
         if (Constant.ENABLE_CRASH_TRACKING) {
             Crittercism.init(getApplicationContext(),
-                    Constant.CRITTERCISM_APP_ID);
+                    ConsumerKeyConstants.CRITTERCISM_APP_ID);
         }
 
         // Key the screen from dimming -

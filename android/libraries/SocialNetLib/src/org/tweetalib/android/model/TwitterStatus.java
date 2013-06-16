@@ -41,6 +41,7 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
         mCreatedAt = other.mCreatedAt;
         mFavoriteCount = other.mFavoriteCount;
         mId = other.mId;
+        mOriginalRetweetId = other.mOriginalRetweetId;
         mInReplyToStatusId = other.mInReplyToStatusId;
         mInReplyToUserId = other.mInReplyToUserId;
         mInReplyToUserScreenName = other.mInReplyToUserScreenName;
@@ -100,6 +101,7 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
             if (status.getRetweetedStatus() != null && status.getRetweetedStatus().getUser() != null) {
                 SetProfileImagesFromUser(new TwitterUser(status.getRetweetedStatus().getUser()));
             }
+            mOriginalRetweetId = status.getRetweetedStatus().getId();
         }
         else
         {
@@ -177,6 +179,7 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
             mAuthorName = post.mOriginalAuthor.mName;
             mAuthorScreenName = post.mOriginalAuthor.mUserName;
             SetProfileImagesFromUser(new TwitterUser(post.mOriginalAuthor));
+            mOriginalRetweetId =  post.mOriginalAuthor.mId;
         }
         else
         {
@@ -262,6 +265,9 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
             }
 
             mId = object.getLong(KEY_ID);
+            if (object.has(KEY_ORIGINAL_ID)) {
+                mOriginalRetweetId = object.getLong(KEY_ORIGINAL_ID);
+            }
             if (object.has(KEY_IN_REPLY_TO_STATUS_ID)) {
                 mInReplyToStatusId = object.getLong(KEY_IN_REPLY_TO_STATUS_ID);
             }
@@ -372,6 +378,8 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
             if (mInReplyToStatusId != null) {
                 object.put(KEY_IN_REPLY_TO_STATUS_ID, mInReplyToStatusId);
             }
+            object.put(KEY_ORIGINAL_ID, mOriginalRetweetId);
+
             if (mInReplyToUserId != null) {
                 object.put(KEY_IN_REPLY_TO_USER_ID, mInReplyToUserId);
             }
@@ -427,6 +435,7 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
     private final String KEY_PROFILE_IMAGE_NORMAL_URL = "mProfileImageNormalUrl";
     private final String KEY_PROFILE_IMAGE_BIGGER_URL = "mProfileImageBiggerUrl";
     private final String KEY_ID = "mId";
+    private final String KEY_ORIGINAL_ID = "mOriginalRetweetId";
     private final String KEY_IN_REPLY_TO_STATUS_ID = "mInReplyToStatusId";
     private final String KEY_IN_REPLY_TO_USER_ID = "mInReplyToUserId";
     private final String KEY_IN_REPLY_TO_USER_SCREEN_NAME = "mInReplyToUserScreenName";
@@ -458,6 +467,7 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
     public String mProfileImageNormalUrl;
     public String mProfileImageBiggerUrl;
     public long mId;
+    public long mOriginalRetweetId;
     public Long mInReplyToStatusId;
     public Long mInReplyToUserId;
     public String mInReplyToUserScreenName;
@@ -595,6 +605,7 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
         if (mIsFavorited != other.mIsFavorited) return false;
         if (mIsRetweet != other.mIsRetweet) return false;
         if (mIsRetweetedByMe != other.mIsRetweetedByMe) return false;
+        if (mOriginalRetweetId != other.mOriginalRetweetId) return false;
         if (mRetweetCount != other.mRetweetCount) return false;
         if (compareString(mStatus, other.mStatus) == false) return false;
         // if (compareString(mStatusSlimMarkup, other.mStatusSlimMarkup) ==
@@ -652,6 +663,10 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
      */
     public void setFavorite(Boolean isFavorited) {
         mIsFavorited = isFavorited;
+    }
+
+    public void setRetweet(Boolean isRetweetedByMe) {
+        mIsRetweetedByMe = isRetweetedByMe;
     }
 
     public String getProfileImageUrl(TwitterManager.ProfileImageSize size) {

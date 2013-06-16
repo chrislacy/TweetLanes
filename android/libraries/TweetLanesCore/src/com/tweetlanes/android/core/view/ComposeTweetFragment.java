@@ -16,10 +16,13 @@ import java.io.IOException;
 
 import org.socialnetlib.android.SocialNetConstant;
 import org.tweetalib.android.TwitterFetchResult;
+import org.tweetalib.android.TwitterFetchStatus;
 import org.tweetalib.android.TwitterFetchStatus.FinishedCallback;
 import org.tweetalib.android.TwitterManager;
+import org.tweetalib.android.TwitterModifyStatuses;
 import org.tweetalib.android.model.TwitterStatus;
 import org.tweetalib.android.model.TwitterStatusUpdate;
+import org.tweetalib.android.model.TwitterStatuses;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -496,7 +499,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
 	 */
     TwitterStatus mRetweetStatus;
 
-    public void retweetSelected(TwitterStatus status) {
+    public void retweetSelected(TwitterStatus status, final FinishedCallback callback) {
 
         mRetweetStatus = status;
 
@@ -528,7 +531,8 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         if (mRetweetStatus != null) {
                             TwitterManager.get().setRetweet(mRetweetStatus.mId,
-                                    null);
+                                    callback);
+
                             mRetweetStatus = null;
                         }
                     }

@@ -163,6 +163,19 @@ public class TweetFeedItemView extends LinearLayout {
             if (twitterStatus.mIsRetweet == true) {
 
                 String text = verb + " by " + twitterStatus.mUserName;
+                if (twitterStatus.mRetweetCount > 1)
+                {
+                    long otherRetweets = (twitterStatus.mRetweetCount - 1);
+                    text += " and " +  otherRetweets;
+                    if (otherRetweets > 1)
+                    {
+                        text +=  " others.";
+                    }
+                    else
+                    {
+                        text += " other.";
+                    }
+                }
                 if (showTweetSource) {
                     text += " " + mContext.getString(R.string.via) + " " + mTwitterStatus.mSource;
                 }

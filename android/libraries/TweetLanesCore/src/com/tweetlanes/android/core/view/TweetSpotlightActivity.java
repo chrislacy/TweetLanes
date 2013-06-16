@@ -15,23 +15,29 @@ import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import com.tweetlanes.android.core.AppSettings;
+import com.tweetlanes.android.core.Constant;
 import com.tweetlanes.android.core.R;
 import com.tweetlanes.android.core.model.ComposeTweetDefault;
 import com.tweetlanes.android.core.model.LaneDescriptor;
 import com.tweetlanes.android.core.widget.viewpagerindicator.TitleProvider;
 
 import org.tweetalib.android.TwitterFetchResult;
+import org.tweetalib.android.TwitterFetchStatus;
 import org.tweetalib.android.TwitterFetchStatus.FinishedCallback;
 import org.tweetalib.android.TwitterManager;
+import org.tweetalib.android.TwitterModifyStatuses;
 import org.tweetalib.android.model.TwitterStatus;
 import org.tweetalib.android.model.TwitterStatuses;
 
@@ -42,8 +48,10 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
     TwitterStatus mStatus;
     FinishedCallback mGetStatusCallback;
     MenuItem mFavoriteMenuItem;
+    MenuItem mRetweetMenuItem;
 
     public final static String STATUS_ID_KEY = "statusId";
+    public final static String STATUS_KEY = "status";
 
     /*
      * (non-Javadoc)
@@ -55,9 +63,27 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
         super.onCreate(savedInstanceState);
 
         String statusIdAsString = getIntent().getStringExtra(STATUS_ID_KEY);
+        String statusAsString = getIntent().getStringExtra(STATUS_KEY);
+        long statusId = 0;
         if (statusIdAsString != null) {
-            long statusId = Long.parseLong(statusIdAsString);
+            statusId = Long.parseLong(statusIdAsString);
+        }
 
+        TwitterStatus status = new TwitterStatus(statusAsString);
+
+        BaseLaneFragment fragment = super.getFragmentAtIndex(0);
+        super.setCurrentComposeFragment((fragment instanceof DirectMessageFeedFragment) ? super.COMPOSE_DIRECT_MESSAGE
+                : super.COMPOSE_TWEET);
+
+        mViewSwitcher = (ViewSwitcher) findViewById(R.id.rootViewSwitcher);
+        updateViewVisibility();
+
+        if (status.mId == statusId)
+        {
+            onGetStatus(status);
+        }
+        else if(statusId > 0)
+        {
             mGetStatusCallback = TwitterManager.get().getFetchStatusInstance().new FinishedCallback() {
 
                 @Override
@@ -69,6 +95,9 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
                             onGetStatus(status);
                         }
                     } else {
+                        Intent returnIntent = new Intent();
+                        returnIntent.putExtra("status",mStatus.toString());
+                        setResult(RESULT_OK,returnIntent);
                         finish();
                     }
                     mGetStatusCallback = null;
@@ -79,17 +108,36 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
             TwitterManager.get().getStatus(statusId, mGetStatusCallback);
 
         } else {
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra("status",mStatus.toString());
+            setResult(RESULT_OK,returnIntent);
             finish();
             return;
         }
 
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayUseLogoEnabled(true);
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
 
-        mViewSwitcher = (ViewSwitcher) findViewById(R.id.rootViewSwitcher);
-        updateViewVisibility();
+    }
+
+    protected void TweetDeleted(String result)
+    {
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("status",mStatus.toString());
+        returnIntent.putExtra("result", result);
+        setResult(RESULT_CANCELED,returnIntent);
+        finish();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra("status",mStatus.toString());
+            setResult(RESULT_OK,returnIntent);
+            finish();
+            return true;
+        }
+
+        return super.onKeyDown(keyCode, event);
     }
 
     /*
@@ -146,9 +194,15 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
     /*
 	 *
 	 */
-    private void onGetStatus(TwitterStatus status) {
+    protected void onGetStatus(TwitterStatus status) {
         mStatus = new TwitterStatus(status);
         updateViewVisibility();
+
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayUseLogoEnabled(true);
+        actionBar.setDisplayShowTitleEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
         invalidateOptionsMenu();
         setComposeDefault();
     }
@@ -182,20 +236,49 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
 
         int i = item.getItemId();
         if (i == android.R.id.home) {// app icon in action bar clicked; go home
-            // TODO: Should this be finish()?
-            Intent intent = new Intent(this, HomeActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra("status",mStatus.toString());
+            setResult(RESULT_OK, returnIntent);
+            finish();
             return true;
 
             /*
              * case R.id.action_reply: beginCompose(); return true;
              */
         } else if (i == R.id.action_retweet) {
-            retweetSelected(mStatus);
+            TwitterFetchStatus.FinishedCallback callback = TwitterManager.get()
+                    .getFetchStatusInstance().new FinishedCallback() {
+
+                @Override
+                public void finished(TwitterFetchResult result, TwitterStatus status) {
+                    if (result.isSuccessful())
+                    {
+                        mStatus.mIsRetweetedByMe = true;
+                        onGetStatus(mStatus);
+                        showToast(getString(R.string.retweeted_successfully));
+                        setIsRetweeted();
+                    }
+                    else
+                    {
+                        showToast(getString(R.string.retweeted_un_successful));
+                    }
+
+                }
+
+            };
+
+            if(mStatus.mIsRetweetedByMe)
+            {
+                showToast(getString(R.string.cannot_unretweet));
+            }
+            else
+            {
+                retweetSelected(mStatus, callback);
+            }
+
             return true;
         } else if (i == R.id.action_favorite) {
-            org.tweetalib.android.TwitterModifyStatuses.FinishedCallback callback = TwitterManager
+            TwitterModifyStatuses.FinishedCallback callback = TwitterManager
                     .get().getSetStatusesInstance().new FinishedCallback() {
 
                 @Override
@@ -203,7 +286,14 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
                                      TwitterStatuses statuses, Integer value) {
                     if (successful && mTweetSpotlightAdapter != null) {
                         if (statuses != null && statuses.getStatusCount() > 0) {
-                            onGetStatus(statuses.getStatus(0));
+                            TwitterStatus status = statuses.getStatus(0);
+                            mStatus.setFavorite(status.mIsFavorited);
+                            onGetStatus(mStatus);
+
+                            showToast(getString(mStatus.mIsFavorited ? R.string.favorited_successfully : R.string
+                                    .unfavorited_successfully));
+
+                            setIsFavorited();
                         }
                     }
                 }
@@ -215,6 +305,11 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
         } else {
             return false;
         }
+    }
+
+    protected void showToast(String message) {
+            Toast.makeText(getApplicationContext(), message,
+                    Constant.DEFAULT_TOAST_DISPLAY_TIME).show();
     }
 
     /**
@@ -243,6 +338,42 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
         return result;
     }
 
+    void setIsFavorited()
+    {
+        if(mFavoriteMenuItem != null)
+        {
+            boolean isDarkTheme = AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Dark;
+            if (mStatus.mIsFavorited == true) {
+                mFavoriteMenuItem
+                        .setIcon(isDarkTheme ? R.drawable.ic_action_star_on_dark
+                                : R.drawable.ic_action_star_on_light);
+                mFavoriteMenuItem.setTitle(R.string.action_unfavorite);
+            } else {
+                mFavoriteMenuItem
+                        .setIcon(isDarkTheme ? R.drawable.ic_action_star_off_dark
+                                : R.drawable.ic_action_star_off_light);
+                mFavoriteMenuItem.setTitle(R.string.action_favorite);
+            }
+        }
+    }
+
+    void setIsRetweeted()
+    {
+        if (mRetweetMenuItem != null)
+        {
+            boolean isDarkTheme = AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Dark;
+            if (mStatus.mIsRetweetedByMe) {
+                mRetweetMenuItem.setIcon(
+                        isDarkTheme ? R.drawable.ic_action_rt_on_dark : R.drawable.ic_action_rt_on_light);
+                mRetweetMenuItem.setTitle(R.string.action_retweet_unset);
+            } else {
+                mRetweetMenuItem.setIcon(
+                        isDarkTheme ? R.drawable.ic_action_rt_off_dark : R.drawable.ic_action_rt_off_light);
+                mRetweetMenuItem.setTitle(R.string.action_retweet);
+            }
+        }
+    }
+
     /*
      *
      */
@@ -251,19 +382,11 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
             MenuItem menuItem = menu.getItem(i);
             if (menuItem.getItemId() == R.id.action_favorite) {
                 mFavoriteMenuItem = menuItem;
-                boolean isDarkTheme = AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Dark;
-                if (mStatus.mIsFavorited == true) {
-                    mFavoriteMenuItem
-                            .setIcon(isDarkTheme ? R.drawable.ic_action_star_on_dark
-                                    : R.drawable.ic_action_star_on_light);
-                    mFavoriteMenuItem.setTitle(R.string.action_unfavorite);
-                } else {
-                    mFavoriteMenuItem
-                            .setIcon(isDarkTheme ? R.drawable.ic_action_star_off_dark
-                                    : R.drawable.ic_action_star_off_light);
-                    mFavoriteMenuItem.setTitle(R.string.action_favorite);
-                }
-                break;
+                setIsFavorited();
+            }
+            if (menuItem.getItemId() == R.id.action_retweet) {
+                mRetweetMenuItem = menuItem;
+                setIsRetweeted();
             }
         }
     }
@@ -286,6 +409,8 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
                 LaneDescriptor laneDescriptor = getApp()
                         .getTweetSpotlightLaneDescriptor(position);
 
+                long statusId = mStatus.mIsRetweet ? mStatus.mOriginalRetweetId : mStatus.mId;
+
                 switch (laneDescriptor.getLaneType()) {
                     case STATUS_SPOTLIGHT:
                         result = TweetSpotlightFragment.newInstance(position,
@@ -296,7 +421,7 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
                         result = TweetFeedFragment.newInstance(position,
                                 laneDescriptor.getContentHandleBase(),
                                 mStatus.getAuthorScreenName(),
-                                String.valueOf(mStatus.mId),
+                                String.valueOf(statusId),
                                 getApp().getCurrentAccountKey());
                         break;
 
@@ -304,7 +429,7 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
                         result = UserFeedFragment.newInstance(position,
                                 laneDescriptor.getContentHandleBase(),
                                 mStatus.getAuthorScreenName(),
-                                String.valueOf(mStatus.mId),
+                                String.valueOf(statusId),
                                 getApp().getCurrentAccountKey());
                         break;
 

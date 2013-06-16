@@ -37,6 +37,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import com.tweetlanes.android.core.AppSettings;
@@ -61,6 +62,7 @@ import org.tweetalib.android.TwitterConstant.StatusesType;
 import org.tweetalib.android.TwitterContentHandle;
 import org.tweetalib.android.TwitterContentHandleBase;
 import org.tweetalib.android.TwitterFetchResult;
+import org.tweetalib.android.TwitterFetchStatus;
 import org.tweetalib.android.TwitterFetchUsers;
 import org.tweetalib.android.TwitterManager;
 import org.tweetalib.android.TwitterModifyStatuses;
@@ -252,6 +254,31 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             if (getBaseLaneActivity().isComposing() == false &&
                     !(mSelectedItems == null || mSelectedItems.size() == 0)) {
                 getBaseLaneActivity().finishCurrentActionMode();
+            }
+        }
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see com.tweetlanes.android.core.view.BaseLaneFragment#UpdateTweetCache()
+     */
+    @Override
+    public void UpdateTweetCache(TwitterStatus status, boolean deleteStatus) {
+        if(_mCachedStatusFeed != null)
+        {
+            TwitterStatus cachedStatus =_mCachedStatusFeed.findByStatusId(status.mId);
+            if (cachedStatus != null)
+            {
+                if(deleteStatus)
+                {
+                    _mCachedStatusFeed.remove(new TwitterStatuses(cachedStatus));
+                }
+                else
+                {
+                    cachedStatus.setFavorite(status.mIsFavorited);
+                    cachedStatus.setRetweet(status.mIsRetweetedByMe);
+                }
             }
         }
     }
@@ -676,7 +703,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         if (mTwitterStatusIdWhenRefreshed != null && firstVisibleItem > 0) {
             if (mHidingListHeading == false) {
                 TwitterStatus status = getStatusFeed().getStatus(firstVisibleItem);
-                if(status.mId >= mTwitterStatusIdWhenRefreshed && status.mId >= mLastTwitterStatusIdSeen)
+                if((mNewStatuses == 0 || status.mId >= mTwitterStatusIdWhenRefreshed) && status.mId >= mLastTwitterStatusIdSeen)
                 {
                     mNewStatuses = firstVisibleItem;
                     mLastTwitterStatusIdSeen = status.mId;
@@ -971,7 +998,8 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             TwitterStatus status = tweetFeedItemView.getTwitterStatus();
             Intent tweetSpotlightIntent = new Intent(getActivity(), TweetSpotlightActivity.class);
             tweetSpotlightIntent.putExtra("statusId", Long.toString(status.mId));
-            getActivity().startActivity(tweetSpotlightIntent);
+            tweetSpotlightIntent.putExtra("status", status.toString());
+            getActivity().startActivityForResult(tweetSpotlightIntent, Constant.REQUEST_CODE_SPOTLIGHT );
             return true;
         } else {
             onTweetFeedItemLongPress(view, position);
@@ -1008,10 +1036,16 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         if (mSelectedItems.size() > 0 && getApp() != null) {
             mMultipleTweetSelectionCallback
                     .setIsFavorited(getSelectedFavoriteState() == ItemSelectedState.ALL ? true : false);
+            TwitterStatus firstItem = getFirstSelectedStatus();
+            if (firstItem != null)
+            {
+                mMultipleTweetSelectionCallback.setIsRetweet(firstItem.mIsRetweetedByMe);
+            }
             getBaseLaneActivity().setComposeTweetDefault(
                     new ComposeTweetDefault(getApp().getCurrentAccountScreenName(), getSelectedStatuses()));
         } else {
             mMultipleTweetSelectionCallback.setIsFavorited(false);
+            mMultipleTweetSelectionCallback.setIsRetweet(false);
             getBaseLaneActivity().setComposeTweetDefault();
         }
     }
@@ -1083,12 +1117,14 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         return ItemSelectedState.NONE;
     }
 
+
     /*
 	 *
 	 */
     private class MultipleTweetSelectionCallback implements ListView.MultiChoiceModeListener {
 
         private MenuItem mFavoriteMenuItem;
+        private MenuItem mRetweetMenuItem;
 
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
             configure(mode);
@@ -1111,8 +1147,51 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                 mode.finish();
 
             } else if (itemId == R.id.action_retweet) {
-                getBaseLaneActivity().retweetSelected(getFirstSelectedStatus());
-                mode.finish();
+
+                TwitterStatus statusSelected = getFirstSelectedStatus();
+
+                if(statusSelected.mIsRetweetedByMe)
+                {
+                    showToast(getString(R.string.cannot_unretweet));
+                    mode.finish();
+                }
+                else
+                {
+
+                    TwitterFetchStatus.FinishedCallback callback = TwitterManager.get()
+                            .getFetchStatusInstance().new FinishedCallback() {
+
+                        @Override
+                        public void finished(TwitterFetchResult result, TwitterStatus status) {
+
+                            if (result.isSuccessful())
+                            {
+                                if (status != null)
+                                {
+                                    TwitterStatuses cachedStatuses = getStatusFeed();
+                                    TwitterStatus cachedStatus = cachedStatuses.findByStatusId(status.mOriginalRetweetId);
+                                    cachedStatus.setRetweet(true);
+
+                                    showToast(getString(R.string.retweeted_successfully));
+
+                                    setIsRetweet(true);
+                                }
+                                else
+                                {
+                                    showToast(getString(R.string.retweeted_un_successful));
+                                }
+                            }
+                            else
+                            {
+                                showToast(getString(R.string.retweeted_un_successful));
+                            }
+                        }
+
+                    };
+
+                    getBaseLaneActivity().retweetSelected(statusSelected,callback);
+                    mode.finish();
+                }
 
             } else if (itemId == R.id.action_favorite) {
                 TwitterModifyStatuses.FinishedCallback callback =
@@ -1120,10 +1199,11 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
                             @Override
                             public void finished(boolean successful, TwitterStatuses statuses, Integer value) {
-                                if (successful == true && value != null) {
-                                    setIsFavorited(value == 1 ? true : false);
+                                if (successful == true) {
 
                                     TwitterStatuses cachedStatuses = getStatusFeed();
+
+                                    boolean settingFavorited = true;
 
                                     if (statuses != null && statuses.getStatusCount() > 0) {
                                         for (int i = 0; i < statuses.getStatusCount(); i++) {
@@ -1131,11 +1211,22 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                                             TwitterStatus cachedStatus =
                                                     cachedStatuses.findByStatusId(updatedStatus.mId);
                                             cachedStatus.setFavorite(updatedStatus.mIsFavorited);
+                                            if (!updatedStatus.mIsFavorited){
+                                                settingFavorited = false;
+                                            }
                                         }
                                     }
 
-                                    showToast(getString(value == 1 ? R.string.favorited_successfully : R.string
+                                    showToast(getString(settingFavorited ? R.string.favorited_successfully : R.string
                                             .unfavorited_successfully));
+
+                                    setIsFavorited(settingFavorited);
+                                }
+                                else
+                                {
+                                    boolean newState = getSelectedFavoriteState() == ItemSelectedState.ALL ? false : true;
+                                    showToast(getString(newState ? R.string.favorited_un_successfully : R.string
+                                            .unfavorited_un_successfully));
                                 }
                             }
 
@@ -1156,18 +1247,27 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                             @Override
                             public void finished(boolean successful, TwitterStatuses statuses, Integer value) {
                                 if (successful == true) {
-                                    TwitterStatuses cachedStatuses = getStatusFeed();
-
-                                    if (selected != null) {
-                                        cachedStatuses.remove(selected);
-                                    }
 
                                     showToast(getString(R.string.deleted_successfully));
                                 }
-                            }
+                                else
+                                {
+                                    showToast(getString(R.string.deleted_un_successfully));
 
+                                    if (statuses != null && statuses.getStatusCount() > 0) {
+                                        TwitterStatuses cachedStatuses = getStatusFeed();
+                                        cachedStatuses.add(statuses);
+                                    }
+                                }
+                            }
                         };
-                TwitterManager.get().deleteTweet(getSelectedStatuses(), callback);
+
+                TwitterStatuses cachedStatuses = getStatusFeed();
+                TwitterStatuses selectedStatuses =  getSelectedStatuses();
+                TwitterManager.get().deleteTweet(selectedStatuses, callback);
+                if (selectedStatuses != null && selectedStatuses.getStatusCount() > 0) {
+                    cachedStatuses.remove(selectedStatuses);
+                }
                 mode.finish();
             } else if (itemId == R.id.action_report_for_spam || itemId == R.id.action_block) {
                 AccountDescriptor account = getApp().getCurrentAccount();
@@ -1295,7 +1395,8 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                 MenuItem menuItem = menu.getItem(i);
                 if (menuItem.getItemId() == R.id.action_favorite) {
                     mFavoriteMenuItem = menuItem;
-                    break;
+                }else if (menuItem.getItemId() == R.id.action_retweet) {
+                    mRetweetMenuItem = menuItem;
                 }
             }
         }
@@ -1314,6 +1415,21 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                     mFavoriteMenuItem.setIcon(
                             isDarkTheme ? R.drawable.ic_action_star_off_dark : R.drawable.ic_action_star_off_light);
                     mFavoriteMenuItem.setTitle(R.string.action_favorite);
+                }
+            }
+        }
+
+        void setIsRetweet(boolean retweet) {
+            if (mRetweetMenuItem != null) {
+                boolean isDarkTheme = AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Dark;
+                if (retweet) {
+                    mRetweetMenuItem.setIcon(
+                            isDarkTheme ? R.drawable.ic_action_rt_on_dark : R.drawable.ic_action_rt_on_light);
+                    mRetweetMenuItem.setTitle(R.string.action_retweet_unset);
+                } else {
+                    mRetweetMenuItem.setIcon(
+                            isDarkTheme ? R.drawable.ic_action_rt_off_dark : R.drawable.ic_action_rt_off_light);
+                    mRetweetMenuItem.setTitle(R.string.action_retweet);
                 }
             }
         }

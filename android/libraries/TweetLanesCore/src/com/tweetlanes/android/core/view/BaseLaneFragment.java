@@ -25,13 +25,13 @@ import com.tweetlanes.android.core.AppSettings;
 import com.tweetlanes.android.core.Constant;
 import com.tweetlanes.android.core.R;
 
+import org.tweetalib.android.model.TwitterStatus;
+
 public abstract class BaseLaneFragment extends Fragment {
 
     public enum InitialDownloadState {
         NOT_SET, WAITING, DOWNLOADING, DOWNLOADED,
     }
-
-    ;
 
     private InitialDownloadState mInitialDownloadState = InitialDownloadState.NOT_SET;
 
@@ -194,6 +194,11 @@ public abstract class BaseLaneFragment extends Fragment {
 	 * 
 	 */
     public abstract void triggerInitialDownload();
+
+    /*
+	 *
+	 */
+    public abstract void UpdateTweetCache(TwitterStatus status, boolean deleteStatus);
 
     /*
 	 * 
