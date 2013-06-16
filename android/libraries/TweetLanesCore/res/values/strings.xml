@@ -437,6 +437,9 @@
     <string name="title_version_preference">Tweet Lanes version</string>
     <string name="summary_version_preference"></string>
 
+    <string name="title_help_preference">Where To Get Help?</string>
+    <string name="summary_help_preference">Send us a tweet or app.net message. - We can be found @TweetLanes on both networks.</string>
+
     <string name="notification_preferences">Notifications</string>
 
     <string name="notification_time_preference">Refresh Interval</string>

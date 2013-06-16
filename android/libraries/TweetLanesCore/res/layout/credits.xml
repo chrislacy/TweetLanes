@@ -11,15 +11,15 @@
                   android:padding="20dp">
 
         <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Tweet Lanes"
-                android:textAppearance="?android:attr/textAppearanceLarge"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tweet Lanes Creator"
+            android:textAppearance="?android:attr/textAppearanceLarge"/>
 
         <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                >
+                android:layout_marginTop="6dp">
 
             <ImageView
                     android:id="@+id/app_icon"
@@ -28,15 +28,154 @@
                     android:paddingLeft="0dp"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
-                    android:src="@drawable/lacy_profile_thumb"/>
+                    android:src="@drawable/lacy_profile_thumb"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"/>
+
+            <TextView
+                    android:id="@+id/name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Chris Lacy"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignLeft="@+id/textView"/>
 
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@+id/app_icon"
-                    android:text="Written and designed by Chris Lacy"
-                    android:textAppearance="?android:attr/textAppearanceMedium"/>
+                    android:text="Twitter: @chrismlacy\nApp.Net: @chrismlacy\nGitHub: @chrislacy"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textSize="17dp"
+                    android:id="@+id/textView"
+                    android:layout_below="@+id/name"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_toRightOf="@+id/app_icon"/>
+
+        </RelativeLayout>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tweet Lanes Main Contributors"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:layout_marginTop="8dp"/>
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp">
+
+            <ImageView
+                    android:id="@+id/app_icon"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:paddingLeft="0dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:src="@drawable/fammy_profile_thumb"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"/>
+
+            <TextView
+                    android:id="@+id/name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Jason Famularo"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignLeft="@+id/textView"/>
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Twitter: @splodn\nApp.Net: @fam\nGitHub: @Fammy"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textSize="17dp"
+                    android:id="@+id/textView"
+                    android:layout_below="@+id/name"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_toRightOf="@+id/app_icon"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp">
+
+            <ImageView
+                    android:id="@+id/app_icon"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:paddingLeft="0dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:src="@drawable/duffy_profile_thumb"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"/>
+
+            <TextView
+                    android:id="@+id/name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="James Duffy"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignLeft="@+id/textView"/>
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Twitter: @duffy0\nApp.Net: @dffy\nGitHub: @jamesduffy"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textSize="17dp"
+                    android:id="@+id/textView"
+                    android:layout_below="@+id/name"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_toRightOf="@+id/app_icon"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp">
+
+            <ImageView
+                    android:id="@+id/app_icon"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:paddingLeft="0dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:src="@drawable/blythmeister_profile_thumb"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"/>
+
+            <TextView
+                    android:id="@+id/name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Chris Blyth"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignLeft="@+id/textView"/>
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Twitter: @BlythMeister\nApp.Net: @BlythMeister\nGitHub: @BlythMeister"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textSize="17dp"
+                    android:id="@+id/textView"
+                    android:layout_below="@+id/name"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_toRightOf="@+id/app_icon"/>
 
         </RelativeLayout>
         <!--
@@ -55,7 +194,8 @@
                 android:paddingBottom="10dp"
                 android:text="@string/credits_oss_heading"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textSize="17dp"/>
+                android:textSize="17dp"
+                android:layout_marginTop="9dp"/>
 
         <TextView
                 android:id="@+id/credits_oss_items"

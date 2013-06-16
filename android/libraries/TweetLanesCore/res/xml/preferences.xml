@@ -119,6 +119,11 @@
             android:title="@string/help_preferences">
 
         <Preference
+                android:key="preference_help"
+                android:title="@string/title_help_preference"
+                android:summary="@string/summary_help_preference"/>
+
+        <Preference
                 android:key="preference_credits"
                 android:title="@string/settings_credits_title"/>
 
