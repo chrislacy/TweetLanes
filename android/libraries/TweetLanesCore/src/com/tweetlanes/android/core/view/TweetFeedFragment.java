@@ -265,13 +265,16 @@ public final class TweetFeedFragment extends BaseLaneFragment {
      */
     @Override
     public void UpdateTweetCache(TwitterStatus status) {
-        TwitterStatus cachedStatus =_mCachedStatusFeed.findByStatusId(status.mId);
-        if (cachedStatus != null)
+        if(_mCachedStatusFeed != null)
         {
-            cachedStatus.setFavorite(status.mIsFavorited);
-            if (status.mIsRetweetedByMe)
+            TwitterStatus cachedStatus =_mCachedStatusFeed.findByStatusId(status.mId);
+            if (cachedStatus != null)
             {
-                cachedStatus.setRetweet();
+                cachedStatus.setFavorite(status.mIsFavorited);
+                if (status.mIsRetweetedByMe)
+                {
+                    cachedStatus.setRetweet();
+                }
             }
         }
     }
