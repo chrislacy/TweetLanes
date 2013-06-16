@@ -178,13 +178,6 @@
                     android:layout_toRightOf="@+id/app_icon"/>
 
         </RelativeLayout>
-        <!--
-        <WebView  xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/webView1"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-        />
-         -->
 
         <TextView
                 android:id="@+id/credits_oss_heading"
@@ -222,16 +215,6 @@
                 android:text="@string/credits_app_copyright"
                 android:textSize="17dp"
                 android:textAppearance="?android:attr/textAppearanceSmall"/>
-        <!--
-        <TextView
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:text="Preview build for @JM77."
-           android:paddingTop="14dp"
-           android:textSize="17dp"
-           android:textAppearance="?android:attr/textAppearanceSmall" />
-
-            -->
 
     </LinearLayout>
 </ScrollView>

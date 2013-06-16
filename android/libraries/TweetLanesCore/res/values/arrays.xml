@@ -68,8 +68,8 @@
         <item>Never (Manual)</item>
         <item>2 Minutes (Rate Limit Issues May Occur)</item>
         <item>3 Minutes (Rate Limit Issues May Occur)</item>
-        <item>5 Minutes (Recommended)</item>
-        <item>15 Minutes</item>
+        <item>5 Minutes</item>
+        <item>15 Minutes (Recommended)</item>
         <item>30 Minutes</item>
         <item>1 Hour</item>
         <item>4 Hours</item>
