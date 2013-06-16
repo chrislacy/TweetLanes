@@ -6,12 +6,16 @@ Version 1.1.4, ???? ??, 2013 (Calm after the blackout edition)
 =================================
 - New features
     * Image loader retrys the download of image if it's empty. (via @BlythMeister)
+    * Status' passed from the cache to the spotlight to prevent loading (via @BlythMeister)
+    * Status' updated (by way of favorite of RT) are passed back to the main feed to show this happening (via @BlythMeister)
     
 - Fixes
     * Correct new tweet bar (via @BlythMeister)
 	* Prevent incorrect mention counts in notifications (via @BlythMeister)
 	* Profile images are "Bigger" rather than "Original" - corrects shape of images, and also reduces data to download (via @BlythMeister)
 	* Mirror twitter.com functionality by excluding your own handle when replying to your own tweets (via @BlythMeister)
+	* Spotlight retweets now function correctly (via @BlythMeister)
+	* Retweet & Favorite dog ears now show when the event occurs and the cache is updated (via @BlythMeister)
 
 Version 1.1.3, June 12, 2013 (Betamax edition)
 =================================
