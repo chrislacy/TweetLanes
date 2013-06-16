@@ -44,6 +44,7 @@ import com.tweetlanes.android.core.App;
 import com.tweetlanes.android.core.AppSettings;
 import com.tweetlanes.android.core.Constant;
 import com.tweetlanes.android.core.Constant.LaneType;
+import com.tweetlanes.android.core.ConsumerKeyConstants;
 import com.tweetlanes.android.core.Notifier;
 import com.tweetlanes.android.core.R;
 import com.tweetlanes.android.core.model.LaneDescriptor;
@@ -103,7 +104,7 @@ public class SettingsActivity extends PreferenceActivity implements
 
         if (Constant.ENABLE_CRASH_TRACKING) {
             Crittercism.init(getApplicationContext(),
-                    Constant.CRITTERCISM_APP_ID);
+                    ConsumerKeyConstants.CRITTERCISM_APP_ID);
         }
 
         setTheme(AppSettings.get().getCurrentThemeStyle());
