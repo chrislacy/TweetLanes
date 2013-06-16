@@ -409,6 +409,8 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
                 LaneDescriptor laneDescriptor = getApp()
                         .getTweetSpotlightLaneDescriptor(position);
 
+                long statusId = mStatus.mIsRetweet ? mStatus.mOriginalRetweetId : mStatus.mId;
+
                 switch (laneDescriptor.getLaneType()) {
                     case STATUS_SPOTLIGHT:
                         result = TweetSpotlightFragment.newInstance(position,
@@ -419,12 +421,11 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
                         result = TweetFeedFragment.newInstance(position,
                                 laneDescriptor.getContentHandleBase(),
                                 mStatus.getAuthorScreenName(),
-                                String.valueOf(mStatus.mId),
+                                String.valueOf(statusId),
                                 getApp().getCurrentAccountKey());
                         break;
 
                     case STATUS_RETWEETED_BY:
-                        long statusId = mStatus.mIsRetweet ? mStatus.mOriginalRetweetId : mStatus.mId;
                         result = UserFeedFragment.newInstance(position,
                                 laneDescriptor.getContentHandleBase(),
                                 mStatus.getAuthorScreenName(),
