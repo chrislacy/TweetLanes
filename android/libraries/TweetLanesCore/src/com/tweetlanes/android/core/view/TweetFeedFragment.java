@@ -696,7 +696,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         if (mTwitterStatusIdWhenRefreshed != null && firstVisibleItem > 0) {
             if (mHidingListHeading == false) {
                 TwitterStatus status = getStatusFeed().getStatus(firstVisibleItem);
-                if(status.mId >= mTwitterStatusIdWhenRefreshed && status.mId >= mLastTwitterStatusIdSeen)
+                if((mNewStatuses == 0 || status.mId >= mTwitterStatusIdWhenRefreshed) && status.mId >= mLastTwitterStatusIdSeen)
                 {
                     mNewStatuses = firstVisibleItem;
                     mLastTwitterStatusIdSeen = status.mId;
