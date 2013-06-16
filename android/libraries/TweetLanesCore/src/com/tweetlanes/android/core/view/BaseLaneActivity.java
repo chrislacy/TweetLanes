@@ -1114,29 +1114,28 @@ public class BaseLaneActivity extends FragmentActivity implements
 
             }
         } else if( requestCode == Constant.REQUEST_CODE_SPOTLIGHT ) {
-            boolean deleteStatus = false;
-            if (resultCode != Activity.RESULT_OK) {
-                String result = data.getStringExtra("result");
-                if (result.contains("does not exist"))
-                {
-                    deleteStatus = true;
+            if (data != null)
+            {
+                boolean deleteStatus = false;
+                if (resultCode != Activity.RESULT_OK) {
+                    String result = data.getStringExtra("result");
+                    if (result.contains("does not exist"))
+                    {
+                        deleteStatus = true;
+                    }
+                }
+                String statusAsString = data.getStringExtra("status");
+                TwitterStatus status = new TwitterStatus(statusAsString);
+                BaseLaneFragment fragment = mLaneFragmentHashMap
+                        .get(getCurrentLaneIndex());
+                // fragment will be null if the user scrolls the Tabs to a Fragment not
+                // yet created.
+                // In that instance, the download will be triggered in
+                // onLaneFragmentDownloadStateChanged().
+                if (fragment != null) {
+                    fragment.UpdateTweetCache(status, deleteStatus);
                 }
             }
-            String statusAsString = data.getStringExtra("status");
-            TwitterStatus status = new TwitterStatus(statusAsString);
-            BaseLaneFragment fragment = mLaneFragmentHashMap
-                    .get(getCurrentLaneIndex());
-            // fragment will be null if the user scrolls the Tabs to a Fragment not
-            // yet created.
-            // In that instance, the download will be triggered in
-            // onLaneFragmentDownloadStateChanged().
-            if (fragment != null) {
-                fragment.UpdateTweetCache(status, deleteStatus);
-            }
-
-
-
-
         }
 
         mShareImagePath = imagePath;
