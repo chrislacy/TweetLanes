@@ -84,8 +84,8 @@ public class BaseLaneActivity extends FragmentActivity implements
     TwitterStatusesFilter mStatusesFilter = new TwitterStatusesFilter();
     private String mShareImagePath;
 
-    private static final int COMPOSE_TWEET = 0;
-    private static final int COMPOSE_DIRECT_MESSAGE = 1;
+    protected static final int COMPOSE_TWEET = 0;
+    protected static final int COMPOSE_DIRECT_MESSAGE = 1;
     private ComposeTweetFragment mComposeTweetFragment;
     private View mComposeTweetView;
     private ComposeDirectMessageFragment mComposeDirectMessageFragment;
