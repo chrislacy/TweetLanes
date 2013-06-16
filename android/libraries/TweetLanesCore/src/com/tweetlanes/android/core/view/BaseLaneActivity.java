@@ -50,6 +50,7 @@ import com.tweetlanes.android.core.App;
 import com.tweetlanes.android.core.AppSettings;
 import com.tweetlanes.android.core.Constant;
 import com.tweetlanes.android.core.Constant.SystemEvent;
+import com.tweetlanes.android.core.ConsumerKeyConstants;
 import com.tweetlanes.android.core.R;
 import com.tweetlanes.android.core.model.ComposeTweetDefault;
 import com.tweetlanes.android.core.util.Util;
@@ -111,7 +112,7 @@ public class BaseLaneActivity extends FragmentActivity implements
 
         if (Constant.ENABLE_CRASH_TRACKING) {
             Crittercism.init(getApplicationContext(),
-                    Constant.CRITTERCISM_APP_ID);
+                    ConsumerKeyConstants.CRITTERCISM_APP_ID);
         }
 
         // Key the screen from dimming -
