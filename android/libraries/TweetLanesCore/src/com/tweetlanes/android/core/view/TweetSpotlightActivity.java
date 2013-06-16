@@ -118,6 +118,15 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
 
     }
 
+    protected void TweetDeleted(String result)
+    {
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("status",mStatus.toString());
+        returnIntent.putExtra("result", result);
+        setResult(RESULT_CANCELED,returnIntent);
+        finish();
+    }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event)  {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {

@@ -264,16 +264,23 @@ public final class TweetFeedFragment extends BaseLaneFragment {
      * @see com.tweetlanes.android.core.view.BaseLaneFragment#UpdateTweetCache()
      */
     @Override
-    public void UpdateTweetCache(TwitterStatus status) {
+    public void UpdateTweetCache(TwitterStatus status, boolean deleteStatus) {
         if(_mCachedStatusFeed != null)
         {
             TwitterStatus cachedStatus =_mCachedStatusFeed.findByStatusId(status.mId);
             if (cachedStatus != null)
             {
-                cachedStatus.setFavorite(status.mIsFavorited);
-                if (status.mIsRetweetedByMe)
+                if(deleteStatus)
                 {
-                    cachedStatus.setRetweet();
+                    _mCachedStatusFeed.remove(new TwitterStatuses(cachedStatus));
+                }
+                else
+                {
+                    cachedStatus.setFavorite(status.mIsFavorited);
+                    if (status.mIsRetweetedByMe)
+                    {
+                        cachedStatus.setRetweet();
+                    }
                 }
             }
         }
@@ -1243,21 +1250,27 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                             @Override
                             public void finished(boolean successful, TwitterStatuses statuses, Integer value) {
                                 if (successful == true) {
-                                    TwitterStatuses cachedStatuses = getStatusFeed();
-
-                                    if (statuses != null && statuses.getStatusCount() > 0) {
-                                        cachedStatuses.remove(statuses);
-                                    }
 
                                     showToast(getString(R.string.deleted_successfully));
                                 }
                                 else
                                 {
                                     showToast(getString(R.string.deleted_un_successfully));
+
+                                    if (statuses != null && statuses.getStatusCount() > 0) {
+                                        TwitterStatuses cachedStatuses = getStatusFeed();
+                                        cachedStatuses.add(statuses);
+                                    }
                                 }
                             }
                         };
-                TwitterManager.get().deleteTweet(getSelectedStatuses(), callback);
+
+                TwitterStatuses cachedStatuses = getStatusFeed();
+                TwitterStatuses selectedStatuses =  getSelectedStatuses();
+                TwitterManager.get().deleteTweet(selectedStatuses, callback);
+                if (selectedStatuses != null && selectedStatuses.getStatusCount() > 0) {
+                    cachedStatuses.remove(selectedStatuses);
+                }
                 mode.finish();
             } else if (itemId == R.id.action_report_for_spam || itemId == R.id.action_block) {
                 AccountDescriptor account = getApp().getCurrentAccount();

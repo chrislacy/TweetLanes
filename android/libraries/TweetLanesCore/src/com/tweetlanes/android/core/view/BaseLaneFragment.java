@@ -198,7 +198,7 @@ public abstract class BaseLaneFragment extends Fragment {
     /*
 	 *
 	 */
-    public abstract void UpdateTweetCache(TwitterStatus status);
+    public abstract void UpdateTweetCache(TwitterStatus status, boolean deleteStatus);
 
     /*
 	 * 

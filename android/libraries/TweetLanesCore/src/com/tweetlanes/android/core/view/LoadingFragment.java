@@ -67,7 +67,7 @@ public class LoadingFragment extends BaseLaneFragment {
      * @see com.tweetlanes.android.core.view.BaseLaneFragment#UpdateTweetCache()
      */
     @Override
-    public void UpdateTweetCache(TwitterStatus status) {
+    public void UpdateTweetCache(TwitterStatus status, boolean deleteStatus) {
 
     }
 

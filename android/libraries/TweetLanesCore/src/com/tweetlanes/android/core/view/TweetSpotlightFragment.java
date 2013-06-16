@@ -77,9 +77,23 @@ public final class TweetSpotlightFragment extends BaseLaneFragment {
                     onStatusRefresh(status);
                     updateViewVisibility();
                 }
+                else if(result.getErrorMessage().contains("does not exist"))
+                {
+                    TweetSpotlightActivity spotlightActivity = (TweetSpotlightActivity)getActivity();
+                    if (spotlightActivity != null)
+                    {
+                        spotlightActivity.TweetDeleted(result.getErrorMessage());
+                    }
+                }
                 mGetStatusCallback = null;
             }
         };
+
+        TweetSpotlightActivity spotlightActivity = (TweetSpotlightActivity)getActivity();
+        if (spotlightActivity != null)
+        {
+            mStatus = spotlightActivity.mStatus;
+        }
 
         if (mStatus == null) {
             mStatus = TwitterManager.get().getStatus(getStatusId(),
@@ -113,6 +127,14 @@ public final class TweetSpotlightFragment extends BaseLaneFragment {
                         // TODO: Handle error properly
                         if (result.isSuccessful()) {
                             onStatusRefresh(status);
+                        }
+                        else if(result.getErrorMessage().contains("does not exist"))
+                        {
+                            TweetSpotlightActivity spotlightActivity = (TweetSpotlightActivity)getActivity();
+                            if (spotlightActivity != null)
+                            {
+                                spotlightActivity.TweetDeleted(result.getErrorMessage());
+                            }
                         }
                         mGetStatusCallback = null;
                     }
@@ -312,7 +334,7 @@ public final class TweetSpotlightFragment extends BaseLaneFragment {
      * @see com.tweetlanes.android.core.view.BaseLaneFragment#UpdateTweetCache()
      */
     @Override
-    public void UpdateTweetCache(TwitterStatus status) {
+    public void UpdateTweetCache(TwitterStatus status, boolean deleteStatus) {
 
     }
 
