@@ -166,6 +166,11 @@ public final class TweetSpotlightFragment extends BaseLaneFragment {
             mStatus = status;
             mTweetFeedListAdapter.notifyDataSetChanged();
             mTweetFeedListView.onRefreshComplete();
+            TweetSpotlightActivity spotlightActivity = (TweetSpotlightActivity)getActivity();
+            if (spotlightActivity != null)
+            {
+                spotlightActivity.onGetStatus(mStatus);
+            }
         }
     }
 
