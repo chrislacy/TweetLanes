@@ -277,10 +277,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                 else
                 {
                     cachedStatus.setFavorite(status.mIsFavorited);
-                    if (status.mIsRetweetedByMe)
-                    {
-                        cachedStatus.setRetweet();
-                    }
+                    cachedStatus.setRetweet(status.mIsRetweetedByMe);
                 }
             }
         }
@@ -1173,7 +1170,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                                 {
                                     TwitterStatuses cachedStatuses = getStatusFeed();
                                     TwitterStatus cachedStatus = cachedStatuses.findByStatusId(status.mOriginalRetweetId);
-                                    cachedStatus.setRetweet();
+                                    cachedStatus.setRetweet(true);
 
                                     showToast(getString(R.string.retweeted_successfully));
 

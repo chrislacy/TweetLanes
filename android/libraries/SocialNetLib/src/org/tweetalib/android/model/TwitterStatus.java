@@ -665,8 +665,8 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
         mIsFavorited = isFavorited;
     }
 
-    public void setRetweet() {
-        mIsRetweetedByMe = true;
+    public void setRetweet(Boolean isRetweetedByMe) {
+        mIsRetweetedByMe = isRetweetedByMe;
     }
 
     public String getProfileImageUrl(TwitterManager.ProfileImageSize size) {
