@@ -71,6 +71,10 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
 
         TwitterStatus status = new TwitterStatus(statusAsString);
 
+        BaseLaneFragment fragment = super.getFragmentAtIndex(0);
+        super.setCurrentComposeFragment((fragment instanceof DirectMessageFeedFragment) ? super.COMPOSE_DIRECT_MESSAGE
+                : super.COMPOSE_TWEET);
+
         mViewSwitcher = (ViewSwitcher) findViewById(R.id.rootViewSwitcher);
         updateViewVisibility();
 
@@ -181,7 +185,7 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
     /*
 	 *
 	 */
-    private void onGetStatus(TwitterStatus status) {
+    protected void onGetStatus(TwitterStatus status) {
         mStatus = new TwitterStatus(status);
         updateViewVisibility();
 
@@ -274,9 +278,10 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
                     if (successful && mTweetSpotlightAdapter != null) {
                         if (statuses != null && statuses.getStatusCount() > 0) {
                             TwitterStatus status = statuses.getStatus(0);
-                            onGetStatus(status);
+                            mStatus.setFavorite(status.mIsFavorited);
+                            onGetStatus(mStatus);
 
-                            showToast(getString(status.mIsFavorited ? R.string.favorited_successfully : R.string
+                            showToast(getString(mStatus.mIsFavorited ? R.string.favorited_successfully : R.string
                                     .unfavorited_successfully));
 
                             setIsFavorited();
