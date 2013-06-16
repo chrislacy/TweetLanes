@@ -22,6 +22,7 @@ import com.crittercism.app.Crittercism;
 import com.tweetlanes.android.core.App;
 import com.tweetlanes.android.core.AppSettings;
 import com.tweetlanes.android.core.Constant;
+import com.tweetlanes.android.core.ConsumerKeyConstants;
 
 public class BootActivity extends Activity {
 
@@ -39,7 +40,7 @@ public class BootActivity extends Activity {
 
         if (Constant.ENABLE_CRASH_TRACKING) {
             Crittercism.init(getApplicationContext(),
-                    Constant.CRITTERCISM_APP_ID);
+                    ConsumerKeyConstants.CRITTERCISM_APP_ID);
         }
 
         // LocalBroadcastManager.getInstance(this).registerReceiver(mOAuthLoginStateChangeReceiver,

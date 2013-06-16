@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import com.crittercism.app.Crittercism;
 import com.tweetlanes.android.core.Constant;
+import com.tweetlanes.android.core.ConsumerKeyConstants;
 import com.tweetlanes.android.core.R;
 import com.tweetlanes.android.core.widget.gestureimageview.GestureImageView;
 import com.tweetlanes.android.core.widget.urlimageviewhelper.UrlImageViewCallback;
@@ -69,7 +70,7 @@ public class ImageViewActivity extends FragmentActivity {
 
         if (Constant.ENABLE_CRASH_TRACKING) {
             Crittercism.init(getApplicationContext(),
-                    Constant.CRITTERCISM_APP_ID);
+                    ConsumerKeyConstants.CRITTERCISM_APP_ID);
         }
 
         String imageUrl = getMediaUrl();

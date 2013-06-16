@@ -52,6 +52,7 @@ public class AppSettings {
     public static final String NAME_DISPLAY_NAME_USERNAME = "name_username";
 
     public static final String NOTIFICATION_TIME_0M = "0m";
+    public static final String NOTIFICATION_TIME_2M = "2m";
     public static final String NOTIFICATION_TIME_3M = "3m";
     public static final String NOTIFICATION_TIME_5M = "5m";
     public static final String NOTIFICATION_TIME_15M = "15m";
@@ -231,7 +232,9 @@ public class AppSettings {
         String notificationTime = mSharedPreferences.getString(SettingsActivity.KEY_NOTIFICATION_TIME_PREFERENCE, NOTIFICATION_TIME_DEFAULT);
 
         //NOTE: This function returns time in Milliseconds.
-        if (notificationTime.equals(NOTIFICATION_TIME_3M)) {
+        if (notificationTime.equals(NOTIFICATION_TIME_2M)) {
+            return 120000L;
+        } else if (notificationTime.equals(NOTIFICATION_TIME_3M)) {
             return 180000L;
         } else if (notificationTime.equals(NOTIFICATION_TIME_5M)) {
             return 300000L;

@@ -50,6 +50,7 @@ import com.tweetlanes.android.core.App;
 import com.tweetlanes.android.core.AppSettings;
 import com.tweetlanes.android.core.Constant;
 import com.tweetlanes.android.core.Constant.SystemEvent;
+import com.tweetlanes.android.core.ConsumerKeyConstants;
 import com.tweetlanes.android.core.R;
 import com.tweetlanes.android.core.model.ComposeTweetDefault;
 import com.tweetlanes.android.core.util.Util;
@@ -60,6 +61,7 @@ import com.tweetlanes.android.core.widget.viewpagerindicator.TabPageIndicator;
 import com.tweetlanes.android.core.widget.viewpagerindicator.TabPageIndicator.TabCallbacks;
 
 import org.socialnetlib.android.SocialNetConstant;
+import org.tweetalib.android.TwitterFetchStatus;
 import org.tweetalib.android.TwitterManager;
 import org.tweetalib.android.model.TwitterStatus;
 import org.tweetalib.android.model.TwitterStatusesFilter;
@@ -83,13 +85,14 @@ public class BaseLaneActivity extends FragmentActivity implements
     TwitterStatusesFilter mStatusesFilter = new TwitterStatusesFilter();
     private String mShareImagePath;
 
-    private static final int COMPOSE_TWEET = 0;
-    private static final int COMPOSE_DIRECT_MESSAGE = 1;
+    protected static final int COMPOSE_TWEET = 0;
+    protected static final int COMPOSE_DIRECT_MESSAGE = 1;
     private ComposeTweetFragment mComposeTweetFragment;
     private View mComposeTweetView;
     private ComposeDirectMessageFragment mComposeDirectMessageFragment;
     private View mComposeDirectMessageView;
     private ComposeBaseFragment mCurrentComposeFragment;
+
 
     /*
      *
@@ -109,7 +112,7 @@ public class BaseLaneActivity extends FragmentActivity implements
 
         if (Constant.ENABLE_CRASH_TRACKING) {
             Crittercism.init(getApplicationContext(),
-                    Constant.CRITTERCISM_APP_ID);
+                    ConsumerKeyConstants.CRITTERCISM_APP_ID);
         }
 
         // Key the screen from dimming -
@@ -1110,6 +1113,29 @@ public class BaseLaneActivity extends FragmentActivity implements
                 // Toast.makeText(this,R.string.picture_attached,Toast.LENGTH_SHORT).show();
 
             }
+        } else if( requestCode == Constant.REQUEST_CODE_SPOTLIGHT ) {
+            if (data != null)
+            {
+                boolean deleteStatus = false;
+                if (resultCode != Activity.RESULT_OK) {
+                    String result = data.getStringExtra("result");
+                    if (result.contains("does not exist"))
+                    {
+                        deleteStatus = true;
+                    }
+                }
+                String statusAsString = data.getStringExtra("status");
+                TwitterStatus status = new TwitterStatus(statusAsString);
+                BaseLaneFragment fragment = mLaneFragmentHashMap
+                        .get(getCurrentLaneIndex());
+                // fragment will be null if the user scrolls the Tabs to a Fragment not
+                // yet created.
+                // In that instance, the download will be triggered in
+                // onLaneFragmentDownloadStateChanged().
+                if (fragment != null) {
+                    fragment.UpdateTweetCache(status, deleteStatus);
+                }
+            }
         }
 
         mShareImagePath = imagePath;
@@ -1389,7 +1415,7 @@ public class BaseLaneActivity extends FragmentActivity implements
         }
     }
 
-    public void retweetSelected(TwitterStatus status) {
+    public void retweetSelected(TwitterStatus status, TwitterFetchStatus.FinishedCallback callback) {
         if (mComposeTweetFragment != null) {
 
             TwitterUser user = TwitterManager.get().getUser(status.mUserId);
@@ -1407,7 +1433,7 @@ public class BaseLaneActivity extends FragmentActivity implements
                         });
                 alertDialogBuilder.create().show();
             } else if (mComposeTweetFragment != null) {
-                mComposeTweetFragment.retweetSelected(status);
+                mComposeTweetFragment.retweetSelected(status, callback);
             }
         }
     }

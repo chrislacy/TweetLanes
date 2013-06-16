@@ -43,7 +43,7 @@ public class AppDotNetAuthActivity extends Activity {
 
         if (Constant.ENABLE_CRASH_TRACKING) {
             Crittercism.init(getApplicationContext(),
-                    Constant.CRITTERCISM_APP_ID);
+                    ConsumerKeyConstants.CRITTERCISM_APP_ID);
         }
 
         setTheme(AppSettings.get().getCurrentThemeStyle());

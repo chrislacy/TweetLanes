@@ -104,7 +104,7 @@ public class Notifier {
                 PendingIntent.FLAG_CANCEL_CURRENT);
         AlarmManager am = (AlarmManager) context.getSystemService(Activity.ALARM_SERVICE);
 
-        am.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),
+        am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),
                 mNotificationTime, pendingIntent);
     }
 

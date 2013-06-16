@@ -8,6 +8,7 @@ import android.view.View;
 import com.crittercism.app.Crittercism;
 import com.tweetlanes.android.core.AppSettings;
 import com.tweetlanes.android.core.Constant;
+import com.tweetlanes.android.core.ConsumerKeyConstants;
 import com.tweetlanes.android.core.R;
 
 /**
@@ -23,7 +24,7 @@ public class NewAccountActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         if (Constant.ENABLE_CRASH_TRACKING) {
-            Crittercism.init(getApplicationContext(), Constant.CRITTERCISM_APP_ID);
+            Crittercism.init(getApplicationContext(), ConsumerKeyConstants.CRITTERCISM_APP_ID);
         }
 
         setTheme(AppSettings.get().getCurrentThemeStyle());
