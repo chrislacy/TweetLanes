@@ -707,7 +707,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                     mNewStatuses = firstVisibleItem;
                     mLastTwitterStatusIdSeen = status.mId;
                 }
-                if(mNewStatuses < firstVisibleItem){
+                if(status.mId < mLastTwitterStatusIdSeen){
                     setListHeadingVisiblilty(View.GONE);
                 }
                 else{
