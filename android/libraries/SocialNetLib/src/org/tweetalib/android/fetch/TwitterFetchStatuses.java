@@ -508,7 +508,9 @@ public class TwitterFetchStatuses {
                             break;
                         }
 
-                        case PREVIOUS_CONVERSATION: {
+
+                        case PREVIOUS_CONVERSATION:
+                        case FULL_CONVERSATION: {
                             Log.d("api-call", "showStatus");
                             TwitterStatuses statuses = new TwitterStatuses();
                             long statusId = Long.parseLong(input.mContentHandle.getIdentifier());
@@ -534,52 +536,6 @@ public class TwitterFetchStatuses {
                                 contentFeed = setStatuses(input.mContentHandle, statuses, true);
                             }
                             statuses = null;
-                            break;
-                        }
-
-                        case FULL_CONVERSATION: {
-                            long statusId = Long.parseLong(input.mContentHandle.getIdentifier());
-
-                            AddUserCallback addUserCallback = new AddUserCallback() {
-
-                                @Override
-                                public void addUser(User user) {
-                                    mCallbacks.addUser(user);
-                                }
-
-                                @Override
-                                public void addUser(AdnUser user) {
-                                    mCallbacks.addUser(user);
-                                }
-                            };
-
-                            Log.d("api-call", "getRelatedResults");
-                            RelatedResults relatedResults = twitter.getRelatedResults(statusId);
-                            if (relatedResults != null) {
-                                TwitterStatuses statuses = new TwitterStatuses();
-
-                                Log.d("api-call", "getTweetsWithConversation");
-                                ResponseList<twitter4j.Status> conversation =
-                                        relatedResults.getTweetsWithConversation();
-                                if (conversation != null && conversation.size() > 0) {
-                                    statuses.add(conversation, addUserCallback);
-                                }
-
-                                Log.d("api-call", "showStatus");
-                                statuses.add(new TwitterStatus(twitter.showStatus(statusId)));
-
-                                Log.d("api-call", "getTweetsWithReply");
-                                ResponseList<twitter4j.Status> replies = relatedResults.getTweetsWithReply();
-                                if (replies != null && replies.size() > 0) {
-                                    statuses.add(replies, addUserCallback);
-                                }
-
-                                if (statuses.getStatusCount() > 0) {
-                                    statuses.sort();
-                                    contentFeed = setStatuses(input.mContentHandle, statuses, true);
-                                }
-                                statuses = null;
-                            }
                             break;
                         }
 

@@ -32,24 +32,8 @@
       <sourceFolder url="file://$MODULE_DIR$/gen" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
-    <orderEntry type="module-library">
-      <library name="twitter4j-core-3.0.3.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/libs/twitter4j-core-3.0.3.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="twitter4j-media-support-3.0.3.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/libs/twitter4j-media-support-3.0.3.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
+    <orderEntry type="library" name="twitter4j-media-support-3.0.4-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="twitter4j-core-3.0.4-SNAPSHOT" level="project" />
     <orderEntry type="library" name="basic-http-client-android-0.88" level="project" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
