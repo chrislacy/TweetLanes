@@ -26,7 +26,7 @@
     <orderEntry type="library" name="crittercism_v2_0_1" level="project" />
     <orderEntry type="library" name="dashclock-api-r1.1" level="project" />
     <orderEntry type="library" name="prime-0.6.1" level="project" />
-    <orderEntry type="library" name="twitter4j-core-3.0.3" level="project" />
+    <orderEntry type="library" name="twitter4j-core-3.0.4-SNAPSHOT" level="project" />
     <orderEntry type="module" module-name="TL-SocialNetLib" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
