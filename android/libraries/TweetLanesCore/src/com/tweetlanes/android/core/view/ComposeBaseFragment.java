@@ -11,10 +11,6 @@
 
 package com.tweetlanes.android.core.view;
 
-import java.util.Date;
-
-import org.socialnetlib.android.SocialNetConstant;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -40,6 +36,10 @@ import com.tweetlanes.android.core.model.ComposeTweetDefault;
 import com.tweetlanes.android.core.widget.EditClearText;
 import com.tweetlanes.android.core.widget.EditClearText.EditClearTextListener;
 import com.twitter.Validator;
+
+import org.socialnetlib.android.SocialNetConstant;
+
+import java.util.Date;
 
 public abstract class ComposeBaseFragment extends Fragment {
 
@@ -476,7 +476,7 @@ public abstract class ComposeBaseFragment extends Fragment {
             }
             else
             {
-                mCharacterCountTextView.setText("140");
+                mCharacterCountTextView.setText("" + getMaxPostLength());
             }
         }
         else
