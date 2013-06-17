@@ -32,6 +32,7 @@ import android.widget.Toast;
 import com.tweetlanes.android.core.App;
 import com.tweetlanes.android.core.Constant;
 import com.tweetlanes.android.core.R;
+import com.tweetlanes.android.core.model.AccountDescriptor;
 import com.tweetlanes.android.core.model.ComposeTweetDefault;
 import com.tweetlanes.android.core.widget.EditClearText;
 import com.tweetlanes.android.core.widget.EditClearText.EditClearTextListener;
@@ -156,8 +157,17 @@ public abstract class ComposeBaseFragment extends Fragment {
     }
 
     protected int getMaxPostLength() {
-        return getApp().getCurrentAccount().getSocialNetType() == SocialNetConstant.Type.Appdotnet ? 256
-                : 140;
+        AccountDescriptor account = getApp().getCurrentAccount();
+
+        if (account == null){
+            return 140;
+            //best to use the lower number in case
+        }
+        else
+        {
+            return account.getSocialNetType() == SocialNetConstant.Type.Appdotnet ? 256
+                    : 140;
+        }       
     }
 
     /*
