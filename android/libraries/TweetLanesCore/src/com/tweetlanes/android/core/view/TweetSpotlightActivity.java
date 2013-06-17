@@ -15,7 +15,6 @@ import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
@@ -218,7 +217,9 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
             mViewSwitcher.setDisplayedChild(0);
         } else {
             mViewSwitcher.setDisplayedChild(1);
-            mTweetSpotlightAdapter.notifyDataSetChanged();
+            if (mTweetSpotlightAdapter != null) {
+                mTweetSpotlightAdapter.notifyDataSetChanged();
+            }
         }
     }
 
