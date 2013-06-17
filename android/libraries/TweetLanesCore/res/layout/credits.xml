@@ -44,7 +44,7 @@
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Twitter: @chrismlacy\nApp.Net: @chrismlacy\nGitHub: @chrislacy"
+                    android:text="Twitter: @chrismlacy\nApp.net: @chrismlacy\nGitHub: @chrislacy"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textSize="17dp"
                     android:id="@+id/textView"
@@ -90,7 +90,7 @@
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Twitter: @splodn\nApp.Net: @fam\nGitHub: @Fammy"
+                    android:text="Twitter: @splodn\nApp.net: @fam\nGitHub: @Fammy"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textSize="17dp"
                     android:id="@+id/textView"
@@ -129,7 +129,7 @@
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Twitter: @duffy0\nApp.Net: @dffy\nGitHub: @jamesduffy"
+                    android:text="Twitter: @duffy0\nApp.net: @dffy\nGitHub: @jamesduffy"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textSize="17dp"
                     android:id="@+id/textView"
@@ -168,7 +168,7 @@
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Twitter: @BlythMeister\nApp.Net: @BlythMeister\nGitHub: @BlythMeister"
+                    android:text="Twitter: @BlythMeister\nApp.net: @BlythMeister\nGitHub: @BlythMeister"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textSize="17dp"
                     android:id="@+id/textView"

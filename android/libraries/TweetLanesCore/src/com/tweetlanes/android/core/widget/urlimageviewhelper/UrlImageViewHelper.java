@@ -123,6 +123,8 @@ public final class UrlImageViewHelper {
             return new ZombieDrawable(url, bd);
         } catch (final IOException e) {
             return null;
+        } catch (final OutOfMemoryError e) {
+            return null;
         } finally {
             if (stream != null) {
                 try {

@@ -668,7 +668,6 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                 TwitterStatus visibleStatus = getVisibleStatus();
                 mTwitterStatusIdWhenRefreshed = status.mId;
                 mLastTwitterStatusIdSeen = visibleStatus.mId;
-                mNewStatuses = mCurrentFirstVisibleItem;
                 mHidingListHeading = false;
             }
         }
@@ -708,11 +707,16 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                     mNewStatuses = firstVisibleItem;
                     mLastTwitterStatusIdSeen = status.mId;
                 }
-                setListHeadingVisiblilty(View.VISIBLE);
-                mListHeadingTextView.setText(mNewStatuses + " " + getString(mNewStatuses == 1 ?
-                        socialNetType == SocialNetConstant.Type.Twitter ? R.string.new_tweet : R.string.new_post :
-                        socialNetType == SocialNetConstant.Type.Twitter ? R.string.new_tweets :
-                                R.string.new_posts));
+                if(status.mId < mLastTwitterStatusIdSeen){
+                    setListHeadingVisiblilty(View.GONE);
+                }
+                else{
+                    setListHeadingVisiblilty(View.VISIBLE);
+                    mListHeadingTextView.setText(mNewStatuses + " " + getString(mNewStatuses == 1 ?
+                            socialNetType == SocialNetConstant.Type.Twitter ? R.string.new_tweet : R.string.new_post :
+                            socialNetType == SocialNetConstant.Type.Twitter ? R.string.new_tweets :
+                                    R.string.new_posts));
+                }
             }
         } else {
             setListHeadingVisiblilty(View.GONE);
@@ -790,6 +794,21 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                 if (statusIndex != null) {
                     mTweetFeedListView.getRefreshableView()
                             .setSelectionFromTop(statusIndex.intValue(), mScrollTracker.getFirstVisibleYOffset());
+
+                    int total = getStatusFeed().getStatusCount();
+                    int newStatuses = 0;
+
+                    for (int i = 0; i< total; i++)
+                    {
+                        TwitterStatus status =  getStatusFeed().getStatus(i);
+                        if(status!= null && status.mId > visibleStatus.mId)
+                        {
+                            newStatuses++;
+                        }
+                    }
+
+                    mNewStatuses = newStatuses;
+                    mLastTwitterStatusIdSeen = visibleStatus.mId;
                 }
             }
         }
