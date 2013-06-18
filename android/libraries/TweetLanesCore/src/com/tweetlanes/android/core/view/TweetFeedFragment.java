@@ -273,7 +273,9 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             {
                 if(deleteStatus)
                 {
-                    statusFeed.remove(new TwitterStatuses(cachedStatus));
+                    TwitterStatuses selectedStatuses = new TwitterStatuses(cachedStatus);
+                    statusFeed.remove(selectedStatuses);
+                    _mCachedStatusFeed.remove(selectedStatuses);
                 }
                 else
                 {
@@ -1292,6 +1294,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                 TwitterManager.get().deleteTweet(selectedStatuses, callback);
                 if (selectedStatuses != null && selectedStatuses.getStatusCount() > 0) {
                     cachedStatuses.remove(selectedStatuses);
+                    _mCachedStatusFeed.remove(selectedStatuses);
                 }
                 mode.finish();
             } else if (itemId == R.id.action_report_for_spam || itemId == R.id.action_block) {
