@@ -265,14 +265,15 @@ public final class TweetFeedFragment extends BaseLaneFragment {
      */
     @Override
     public void UpdateTweetCache(TwitterStatus status, boolean deleteStatus) {
-        if(_mCachedStatusFeed != null)
+        TwitterStatuses statusFeed = getStatusFeed();
+        if(statusFeed != null)
         {
-            TwitterStatus cachedStatus =_mCachedStatusFeed.findByStatusId(status.mId);
+            TwitterStatus cachedStatus = statusFeed.findByStatusId(status.mId);
             if (cachedStatus != null)
             {
                 if(deleteStatus)
                 {
-                    _mCachedStatusFeed.remove(new TwitterStatuses(cachedStatus));
+                    statusFeed.remove(new TwitterStatuses(cachedStatus));
                 }
                 else
                 {
@@ -1185,15 +1186,20 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
                             if (result.isSuccessful())
                             {
-                                if (status != null)
+                                if (status != null && status.mIsRetweetedByMe && status.mOriginalRetweetId > 0)
                                 {
                                     TwitterStatuses cachedStatuses = getStatusFeed();
                                     TwitterStatus cachedStatus = cachedStatuses.findByStatusId(status.mOriginalRetweetId);
-                                    cachedStatus.setRetweet(true);
-
-                                    showToast(getString(R.string.retweeted_successfully));
-
-                                    setIsRetweet(true);
+                                    if (cachedStatus != null)
+                                    {
+                                        cachedStatus.setRetweet(true);
+                                        showToast(getString(R.string.retweeted_successfully));
+                                        setIsRetweet(true);
+                                    }
+                                    else
+                                    {
+                                        showToast(getString(R.string.retweeted_un_successful));
+                                    }
                                 }
                                 else
                                 {
