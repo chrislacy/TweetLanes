@@ -64,7 +64,6 @@ public class AppSettings {
 
     public static final String NOTIFICATION_TYPE_DEFAULT = "m,d";
 
-
     /*
      *
 	 */
@@ -212,6 +211,12 @@ public class AppSettings {
         String notificationTime = mSharedPreferences.getString(SettingsActivity.KEY_NOTIFICATION_TIME_PREFERENCE, NOTIFICATION_TIME_DEFAULT);
         return !notificationTime.equals(NOTIFICATION_TIME_0M);
     }
+
+    public boolean isNotificationVibrationEnabled() {
+        return mSharedPreferences.getBoolean(
+                SettingsActivity.KEY_NOTIFICATION_VIBRATION, false);
+    }
+
 
     /*
 	 *

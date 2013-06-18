@@ -81,6 +81,12 @@
                 android:summary="@string/summary_ringtone_preference">
         </RingtonePreference>
 
+        <CheckBoxPreference
+                android:key="notificationvibration_preference"
+                android:title="@string/vibration_preference"
+                android:summary="@string/summary_vibration_preference"/>
+
+
     </PreferenceCategory>
 
     <PreferenceCategory

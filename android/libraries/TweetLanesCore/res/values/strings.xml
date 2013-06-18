@@ -448,9 +448,11 @@
     <string name="notification_type_preference">What to notify for</string>
     <string name="dialog_title_notificationtype_preference">Choose the types of notifications to receive</string>
 
-
     <string name="ringtone_preference">Ringtone</string>
     <string name="summary_ringtone_preference">Sound to play when you get a new notification</string>
+
+    <string name="vibration_preference">Vibration</string>
+    <string name="summary_vibration_preference">Should your device vibrate when you receive a notification</string>
 
     <string name="settings_never">Never</string>
     <string name="settings_always">Always</string>

@@ -31,6 +31,11 @@ public class Notifier {
                 .setContentText(text)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(bigText));
 
+        if (AppSettings.get().isNotificationVibrationEnabled()) {
+            long[] pattern = {200,500,200};
+            builder.setVibrate(pattern);
+        }
+
         Uri ringtone = AppSettings.get().getRingtoneUri();
         if (ringtone != null) {
             builder.setSound(ringtone);

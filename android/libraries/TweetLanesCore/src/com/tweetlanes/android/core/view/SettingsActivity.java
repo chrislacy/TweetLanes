@@ -70,6 +70,7 @@ public class SettingsActivity extends PreferenceActivity implements
     public static final String KEY_RINGTONE_PREFERENCE = "ringtone_preference";
     public static final String KEY_NOTIFICATION_TIME_PREFERENCE = "notificationtime_preference";
     public static final String KEY_NOTIFICATION_TYPE_PREFERENCE = "notificationtype_preference";
+    public static final String KEY_NOTIFICATION_VIBRATION = "notificationvibration_preference";
 
     private ListPreference mThemePreference;
     private Preference mCustomizeLanesPreference;
