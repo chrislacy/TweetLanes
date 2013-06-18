@@ -711,13 +711,12 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                     mNewStatuses = firstVisibleItem;
                     mLastTwitterStatusIdSeen = status.mId;
                 }
-                else{
-                    setListHeadingVisiblilty(View.VISIBLE);
-                    mListHeadingTextView.setText(mNewStatuses + " " + getString(mNewStatuses == 1 ?
-                            socialNetType == SocialNetConstant.Type.Twitter ? R.string.new_tweet : R.string.new_post :
-                            socialNetType == SocialNetConstant.Type.Twitter ? R.string.new_tweets :
-                                    R.string.new_posts));
-                }
+
+                setListHeadingVisiblilty(View.VISIBLE);
+                mListHeadingTextView.setText(mNewStatuses + " " + getString(mNewStatuses == 1 ?
+                        socialNetType == SocialNetConstant.Type.Twitter ? R.string.new_tweet : R.string.new_post :
+                        socialNetType == SocialNetConstant.Type.Twitter ? R.string.new_tweets :
+                                R.string.new_posts));
             }
         } else {
             setListHeadingVisiblilty(View.GONE);
