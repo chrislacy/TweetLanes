@@ -65,9 +65,9 @@
     </string-array>
 
     <string-array name="notificationtime_list_preference">
-        <item>Never (Manual)</item>
-        <item>2 Minutes (Rate Limit Issues May Occur)</item>
-        <item>3 Minutes (Rate Limit Issues May Occur)</item>
+        <item>Never</item>
+        <item>2 Minutes\n(Rate limit errors may occur)</item>
+        <item>3 Minutes\n(Rate limit errors may occur)</item>
         <item>5 Minutes</item>
         <item>15 Minutes (Recommended)</item>
         <item>30 Minutes</item>
