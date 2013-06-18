@@ -17,6 +17,7 @@ Version 1.1.4, ???? ??, 2013 (Calm after the blackout edition)
 	* Spotlight retweets now function correctly (via @BlythMeister)
 	* Retweet & Favorite dog ears now show when the event occurs and the cache is updated (via @BlythMeister)
 	* Correct handling of tweet deletion to remove from the cache, rather than keep displaying (via @BlythMeister)
+	* Added better handling of image downloading, with addditional error handling in an attempt to prevent this being a fatal error (via @BlythMeister)
 
 Version 1.1.3, June 12, 2013 (Betamax edition)
 =================================

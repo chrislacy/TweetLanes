@@ -33,6 +33,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -265,14 +266,17 @@ public final class TweetFeedFragment extends BaseLaneFragment {
      */
     @Override
     public void UpdateTweetCache(TwitterStatus status, boolean deleteStatus) {
-        if(_mCachedStatusFeed != null)
+        TwitterStatuses statusFeed = getStatusFeed();
+        if(statusFeed != null)
         {
-            TwitterStatus cachedStatus =_mCachedStatusFeed.findByStatusId(status.mId);
+            TwitterStatus cachedStatus = statusFeed.findByStatusId(status.mId);
             if (cachedStatus != null)
             {
                 if(deleteStatus)
                 {
-                    _mCachedStatusFeed.remove(new TwitterStatuses(cachedStatus));
+                    TwitterStatuses selectedStatuses = new TwitterStatuses(cachedStatus);
+                    statusFeed.remove(selectedStatuses);
+                    _mCachedStatusFeed.remove(selectedStatuses);
                 }
                 else
                 {
@@ -707,16 +711,12 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                     mNewStatuses = firstVisibleItem;
                     mLastTwitterStatusIdSeen = status.mId;
                 }
-                if(status.mId < mLastTwitterStatusIdSeen){
-                    setListHeadingVisiblilty(View.GONE);
-                }
-                else{
-                    setListHeadingVisiblilty(View.VISIBLE);
-                    mListHeadingTextView.setText(mNewStatuses + " " + getString(mNewStatuses == 1 ?
-                            socialNetType == SocialNetConstant.Type.Twitter ? R.string.new_tweet : R.string.new_post :
-                            socialNetType == SocialNetConstant.Type.Twitter ? R.string.new_tweets :
-                                    R.string.new_posts));
-                }
+
+                setListHeadingVisiblilty(View.VISIBLE);
+                mListHeadingTextView.setText(mNewStatuses + " " + getString(mNewStatuses == 1 ?
+                        socialNetType == SocialNetConstant.Type.Twitter ? R.string.new_tweet : R.string.new_post :
+                        socialNetType == SocialNetConstant.Type.Twitter ? R.string.new_tweets :
+                                R.string.new_posts));
             }
         } else {
             setListHeadingVisiblilty(View.GONE);
@@ -734,7 +734,17 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         TwitterStatus visibleStatus = null;
 
         if (getStatusFeed() != null && mTweetFeedListView != null && mTweetFeedListView.getRefreshableView() != null) {
-            int visiblePosition = mTweetFeedListView.getRefreshableView().getFirstVisiblePosition();
+            AdapterView view = mTweetFeedListView.getRefreshableView();
+            int visiblePosition = view.getFirstVisiblePosition();
+
+            if (visiblePosition == 1 && view != null && view.getChildAt(visiblePosition - 1) != null) {
+                int previousTop = view.getChildAt(visiblePosition - 1).getTop();
+                int previousBottom = view.getChildAt(visiblePosition - 1).getBottom();
+                if (previousBottom > 0 && previousTop >= -10)
+                {
+                    visiblePosition--;
+                }
+            }
 
             if (visiblePosition < getStatusFeed().getStatusCount()) {
                 visibleStatus = getStatusFeed().getStatus(visiblePosition);
@@ -1183,17 +1193,22 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                         @Override
                         public void finished(TwitterFetchResult result, TwitterStatus status) {
 
-                            if (result.isSuccessful())
+                            if (result != null && result.isSuccessful())
                             {
-                                if (status != null)
+                                if (status != null && status.mOriginalRetweetId > 0)
                                 {
                                     TwitterStatuses cachedStatuses = getStatusFeed();
                                     TwitterStatus cachedStatus = cachedStatuses.findByStatusId(status.mOriginalRetweetId);
-                                    cachedStatus.setRetweet(true);
-
-                                    showToast(getString(R.string.retweeted_successfully));
-
-                                    setIsRetweet(true);
+                                    if (cachedStatus != null)
+                                    {
+                                        cachedStatus.setRetweet(true);
+                                        showToast(getString(R.string.retweeted_successfully));
+                                        setIsRetweet(true);
+                                    }
+                                    else
+                                    {
+                                        showToast(getString(R.string.retweeted_un_successful));
+                                    }
                                 }
                                 else
                                 {
@@ -1286,6 +1301,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                 TwitterManager.get().deleteTweet(selectedStatuses, callback);
                 if (selectedStatuses != null && selectedStatuses.getStatusCount() > 0) {
                     cachedStatuses.remove(selectedStatuses);
+                    _mCachedStatusFeed.remove(selectedStatuses);
                 }
                 mode.finish();
             } else if (itemId == R.id.action_report_for_spam || itemId == R.id.action_block) {
