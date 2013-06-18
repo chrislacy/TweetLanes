@@ -102,19 +102,14 @@ public final class UrlImageViewHelper {
         FileInputStream stream = null;
         clog("Decoding: " + url + " " + filename);
         try {
-            BitmapFactory.Options o = null;
+            BitmapFactory.Options o = new BitmapFactory.Options();
             if (mUseBitmapScaling) {
-                o = new BitmapFactory.Options();
                 o.inJustDecodeBounds = true;
                 stream = new FileInputStream(filename);
                 BitmapFactory.decodeStream(stream, null, o);
                 stream.close();
-                int scale = 0;
-                while ((o.outWidth >> scale) > targetWidth || (o.outHeight >> scale) > targetHeight) {
-                    scale++;
-                }
-                o = new Options();
-                o.inSampleSize = 1 << scale;
+                o.inSampleSize =calculateInSampleSize(o, targetWidth, targetHeight);
+                o.inJustDecodeBounds = false;
             }
             stream = new FileInputStream(filename);
             final Bitmap bitmap = BitmapFactory.decodeStream(stream, null, o);
@@ -134,6 +129,28 @@ public final class UrlImageViewHelper {
                 }
             }
         }
+    }
+
+    private static int calculateInSampleSize(
+            BitmapFactory.Options options, int reqWidth, int reqHeight) {
+
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+
+        if (height > reqHeight || width > reqWidth) {
+
+            // Calculate ratios of height and width to requested height and width
+            final int heightRatio = Math.round((float) height / (float) reqHeight);
+            final int widthRatio = Math.round((float) width / (float) reqWidth);
+
+            // Choose the smallest ratio as inSampleSize value, this will guarantee
+            // a final image with both dimensions larger than or equal to the
+            // requested height and width.
+            inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
+        }
+
+        return inSampleSize;
     }
 
     public static final int CACHE_DURATION_INFINITE = Integer.MAX_VALUE;
