@@ -33,6 +33,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -734,7 +735,17 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         TwitterStatus visibleStatus = null;
 
         if (getStatusFeed() != null && mTweetFeedListView != null && mTweetFeedListView.getRefreshableView() != null) {
-            int visiblePosition = mTweetFeedListView.getRefreshableView().getFirstVisiblePosition();
+            AdapterView view = mTweetFeedListView.getRefreshableView();
+            int visiblePosition = view.getFirstVisiblePosition();
+
+            if (visiblePosition == 1 && view != null && view.getChildAt(visiblePosition - 1) != null) {
+                int previousTop = view.getChildAt(visiblePosition - 1).getTop();
+                int previousBottom = view.getChildAt(visiblePosition - 1).getBottom();
+                if (previousBottom > 0 && previousTop >= -10)
+                {
+                    visiblePosition--;
+                }
+            }
 
             if (visiblePosition < getStatusFeed().getStatusCount()) {
                 visibleStatus = getStatusFeed().getStatus(visiblePosition);
