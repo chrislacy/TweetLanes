@@ -1188,7 +1188,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
                             if (result != null && result.isSuccessful())
                             {
-                                if (status != null && status.mIsRetweetedByMe && status.mOriginalRetweetId > 0)
+                                if (status != null && status.mOriginalRetweetId > 0)
                                 {
                                     TwitterStatuses cachedStatuses = getStatusFeed();
                                     TwitterStatus cachedStatus = cachedStatuses.findByStatusId(status.mOriginalRetweetId);

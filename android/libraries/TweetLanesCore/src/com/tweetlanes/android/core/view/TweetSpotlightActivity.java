@@ -254,7 +254,7 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
                 public void finished(TwitterFetchResult result, TwitterStatus status) {
                     if (result != null && result.isSuccessful())
                     {
-                        if (status != null && status.mIsRetweetedByMe && status.mOriginalRetweetId > 0)
+                        if (status != null && status.mOriginalRetweetId > 0)
                         {
                             mStatus.mIsRetweetedByMe = true;
                             onGetStatus(mStatus);
