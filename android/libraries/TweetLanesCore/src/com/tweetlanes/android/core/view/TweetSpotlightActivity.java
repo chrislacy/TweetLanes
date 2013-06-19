@@ -263,7 +263,7 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
                         }
                         else
                         {
-                            showToast(getString(R.string.retweeted_un_successful));
+                            showToast(getString(R.string.retweeted_marking_un_successful));
                         }
                     }
                     else
@@ -303,6 +303,11 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
 
                             setIsFavorited();
                         }
+                    }
+                    else
+                    {
+                        showToast(getString(mStatus.mIsFavorited ? R.string.unfavorited_un_successfully : R.string
+                                .favorited_un_successfully));
                     }
                 }
 

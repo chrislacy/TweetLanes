@@ -207,8 +207,10 @@
     <string name="unfavorited_successfully">Unfavorited successfully</string>
     <string name="favorited_un_successfully">Favorited failed</string>
     <string name="unfavorited_un_successfully">Unfavorited failed</string>
+    <string name="favorite_marking_un_successful">Unable to change Favorite marker</string>
     <string name="retweeted_successfully">Retweeted successfully</string>
     <string name="retweeted_un_successful">Retweet failed</string>
+    <string name="retweeted_marking_un_successful">Unable to mark as Retweet</string>
     <string name="cannot_unretweet">Cannot un-reweet using this app</string>
 
     <string name="retweet">Retweet</string>
