@@ -1207,12 +1207,12 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                                     }
                                     else
                                     {
-                                        showToast(getString(R.string.retweeted_un_successful));
+                                        showToast(getString(R.string.retweeted_marking_un_successful));
                                     }
                                 }
                                 else
                                 {
-                                    showToast(getString(R.string.retweeted_un_successful));
+                                    showToast(getString(R.string.retweeted_marking_un_successful));
                                 }
                             }
                             else
@@ -1244,9 +1244,16 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                                             TwitterStatus updatedStatus = statuses.getStatus(i);
                                             TwitterStatus cachedStatus =
                                                     cachedStatuses.findByStatusId(updatedStatus.mId);
-                                            cachedStatus.setFavorite(updatedStatus.mIsFavorited);
-                                            if (!updatedStatus.mIsFavorited){
-                                                settingFavorited = false;
+                                            if (cachedStatus != null)
+                                            {
+                                                cachedStatus.setFavorite(updatedStatus.mIsFavorited);
+                                                if (!updatedStatus.mIsFavorited){
+                                                    settingFavorited = false;
+                                                }
+                                            }
+                                            else
+                                            {
+                                                showToast(getString(R.string.favorite_marking_un_successful));
                                             }
                                         }
                                     }
