@@ -157,6 +157,11 @@ public abstract class ComposeBaseFragment extends Fragment {
     }
 
     protected int getMaxPostLength() {
+        if (getApp() == null)
+        {
+            return 140;
+        }
+
         AccountDescriptor account = getApp().getCurrentAccount();
 
         if (account == null){
@@ -165,8 +170,7 @@ public abstract class ComposeBaseFragment extends Fragment {
         }
         else
         {
-            return account.getSocialNetType() == SocialNetConstant.Type.Appdotnet ? 256
-                    : 140;
+            return account.getSocialNetType() == SocialNetConstant.Type.Appdotnet ? 256 : 140;
         }       
     }
 
