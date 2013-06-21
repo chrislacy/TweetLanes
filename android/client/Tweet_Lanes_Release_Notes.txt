@@ -2,7 +2,7 @@
 
 Note: To report bugs or make feature requests, either contact the official Twitter @TweetLanes or click the "Send Feedback" button in the app.
 
-Version 1.1.4, June ??, 2013 (Calm after the blackout edition)
+Version 1.1.4, June 22, 2013 (Calm after the blackout edition)
 =================================
 - New features
     * Image loader retrys the download of image if it's empty. (via @BlythMeister)
