@@ -48,6 +48,7 @@ import com.tweetlanes.android.core.ConsumerKeyConstants;
 import com.tweetlanes.android.core.Notifier;
 import com.tweetlanes.android.core.R;
 import com.tweetlanes.android.core.model.LaneDescriptor;
+import com.tweetlanes.android.core.widget.ChangeLog;
 
 import java.util.ArrayList;
 
@@ -67,6 +68,7 @@ public class SettingsActivity extends PreferenceActivity implements
     public static final String KEY_SOURCE_CODE_PREFERENCE = "preference_source";
     public static final String KEY_DONATE_PREFERENCE = "preference_donate";
     public static final String KEY_VERSION_PREFERENCE = "version_preference";
+    public static final String KEY_CHANGE_LOG_PREFERENCE = "changelog_preference";
     public static final String KEY_RINGTONE_PREFERENCE = "ringtone_preference";
     public static final String KEY_NOTIFICATION_TIME_PREFERENCE = "notificationtime_preference";
     public static final String KEY_NOTIFICATION_TYPE_PREFERENCE = "notificationtype_preference";
@@ -85,6 +87,7 @@ public class SettingsActivity extends PreferenceActivity implements
     private Preference mSourceCodePreference;
     private Preference mDonatePreference;
     private Preference mVersionPreference;
+    private Preference mChangeLogPreference;
     private ListPreference mNotificationTimePreference;
     private ListPreference mNotificationTypePreference;
 
@@ -188,6 +191,8 @@ public class SettingsActivity extends PreferenceActivity implements
                 .findPreference(KEY_QUOTE_TYPE_PREFERENCE);
         mCreditsPreference = getPreferenceScreen().findPreference(
                 KEY_CREDITS_PREFERENCE);
+        mChangeLogPreference = getPreferenceScreen().findPreference(
+                KEY_CHANGE_LOG_PREFERENCE);
         mSourceCodePreference = getPreferenceScreen().findPreference(
                 KEY_SOURCE_CODE_PREFERENCE);
         mDonatePreference = getPreferenceScreen().findPreference(
@@ -307,6 +312,18 @@ public class SettingsActivity extends PreferenceActivity implements
 
                         AlertDialog alertDialog = builder.create();
                         alertDialog.show();
+                        return true;
+                    }
+                });
+
+        mChangeLogPreference
+                .setOnPreferenceClickListener(new OnPreferenceClickListener() {
+
+                    @SuppressLint("SetJavaScriptEnabled")
+                    @Override
+                    public boolean onPreferenceClick(Preference preference) {
+                        ChangeLog cl = new ChangeLog(SettingsActivity.this);
+                        cl.getFullLogDialog().show();
                         return true;
                     }
                 });
