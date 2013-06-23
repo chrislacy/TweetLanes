@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import twitter4j.Status;
+import twitter4j.User;
 import twitter4j.UserMentionEntity;
 
 public class TwitterStatus implements Comparable<TwitterStatus> {
@@ -84,6 +85,8 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
 	 *
 	 */
     public TwitterStatus(Status status) {
+        User statusUser = status.getUser();
+
         mCreatedAt = status.getCreatedAt();
         mId = status.getId();
         if (status.getInReplyToStatusId() != -1) {
@@ -97,28 +100,23 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
         mIsRetweet = status.isRetweet();
         mIsRetweetedByMe = status.isRetweetedByMe();
 
-        if (mIsRetweet == true){
-            if (status.getRetweetedStatus() != null && status.getRetweetedStatus().getUser() != null) {
-                SetProfileImagesFromUser(new TwitterUser(status.getRetweetedStatus().getUser()));
-            }
-            mOriginalRetweetId = status.getRetweetedStatus().getId();
-        }
-        else
-        {
-            if (status.getUser() != null) {
-                SetProfileImagesFromUser(new TwitterUser(status.getUser()));
-            }
-        }
-
         mSource = TwitterUtil.stripMarkup(status.getSource());
-        mUserId = status.getUser().getId();
-        mUserName = status.getUser().getName();
-        mUserScreenName = status.getUser().getScreenName();
+
+        if (statusUser != null) {
+            mUserId = statusUser.getId();
+            mUserName = statusUser.getName();
+            mUserScreenName = statusUser.getScreenName();
+        }
 
         mMediaEntity = TwitterMediaEntity.createMediaEntity(status);
 
         boolean useDefaultAuthor = true;
         if (mIsRetweet == true) {
+            if (status.getRetweetedStatus() != null && status.getRetweetedStatus().getUser() != null) {
+                SetProfileImagesFromUser(new TwitterUser(status.getRetweetedStatus().getUser()));
+            }
+            mOriginalRetweetId = status.getRetweetedStatus().getId();
+
             // You'd think this check wasn't necessary, but apparently not...
             UserMentionEntity[] userMentions = status.getUserMentionEntities();
             if (userMentions != null && userMentions.length > 0) {
@@ -138,9 +136,17 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
                         .getRetweetedStatus().getUserMentionEntities());
             }
         }
+        else
+        {
+            if (statusUser != null) {
+                SetProfileImagesFromUser(new TwitterUser(statusUser));
+            }
+        }
 
         if (useDefaultAuthor == true) {
-            mAuthorId = status.getUser().getId();
+            if (statusUser != null) {
+                mAuthorId = statusUser.getId();
+            }
             mStatus = status.getText();
             setStatusMarkup(status);
             mRetweetCount = status.getRetweetCount();

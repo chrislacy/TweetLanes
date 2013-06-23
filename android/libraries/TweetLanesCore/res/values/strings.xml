@@ -30,7 +30,8 @@
         <a href="https://github.com/DHuckaby/Prime">Prime</a>, Copyright (C) 2012 Daniel Huckaby.\n
         <a href="https://github.com/koush/UrlImageViewHelper">UrlImageViewHelper</a>, Copyright 2013
         Koushik Dutta.\n<a href="https://github.com/JakeWharton/Android-ViewPagerIndicator">
-            ViewPagerIndicator</a>, Copyright 2012 Jake Wharton.\n
+            ViewPagerIndicator</a>, Copyright 2012 Jake Wharton.\n<a href="http://code.google.com/p/android-change-log">
+            Android Change Log</a>, Copyright 2013 Karsten Priegnitz.\n
     </string>
     <string name="credits_art_items">Logo and promotional images created by
         <a href="https://plus.google.com/107629610345558527193/posts">Bruno Rime</a> and @retareq. Used with
@@ -439,6 +440,9 @@
     <string name="title_version_preference">Tweet Lanes version</string>
     <string name="summary_version_preference"></string>
 
+    <string name="title_change_log_preference">Re-show change log</string>
+    <string name="summary_change_log_preference">Change log will show after each update, press here to re-show it.</string>
+
     <string name="title_help_preference">Where To Get Help?</string>
     <string name="summary_help_preference">Send us a tweet or App.net message.\nWe can be found @TweetLanes on both networks.</string>
 
@@ -509,5 +513,10 @@
     </string>
     <string name="new_account_twitter">Twitter</string>
     <string name="new_account_adn">App.net</string>
+
+    <string name="changelog_full_title">Change Log</string>
+    <string name="changelog_title">What\'s New</string>
+    <string name="changelog_ok_button">OK</string>
+    <string name="changelog_show_full">more...</string>
 </resources>
 

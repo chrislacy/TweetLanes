@@ -2,6 +2,14 @@
 
 Note: To report bugs or make feature requests, either contact the official Twitter @TweetLanes or click the "Send Feedback" button in the app.
 
+Version 1.1.1 Onwards
+=================================
+Change Log for version 1.1.1 onwards can be found in the app under settings.
+The log will also show after each update.
+
+There is some overlap on release notes, so versions 1.1.1 -> 1.1.4 will appear here and in the app.
+
+
 Version 1.1.4, June 22, 2013 (Calm after the blackout edition)
 =================================
 - New features

@@ -41,6 +41,7 @@ import com.tweetlanes.android.core.App;
 import com.tweetlanes.android.core.Constant;
 import com.tweetlanes.android.core.Notifier;
 import com.tweetlanes.android.core.R;
+import com.tweetlanes.android.core.SharedPreferencesConstants;
 import com.tweetlanes.android.core.model.AccountDescriptor;
 import com.tweetlanes.android.core.model.LaneDescriptor;
 import com.tweetlanes.android.core.widget.viewpagerindicator.TitleProvider;
@@ -99,14 +100,18 @@ public class HomeActivity extends BaseLaneActivity {
 
                 Notifier.saveLastNotificationActioned(this, accountKey, notificationType, postId);
 
+                Constant.LaneType notificationLaneType = notificationType.equals(SharedPreferencesConstants.NOTIFICATION_TYPE_MENTION) ? Constant.LaneType.USER_MENTIONS : Constant.LaneType.DIRECT_MESSAGES;
+
                 if (notificationAccount != null) {
-                    if (notificationAccount.getId() == account.getId()) {
-                        int index = account.getCurrentLaneIndex(Constant.LaneType.USER_MENTIONS);
+                    long  notificationAccountId = notificationAccount.getId();
+                    long currentAccountId = account.getId();
+                    if (notificationAccountId == currentAccountId) {
+                        int index = account.getCurrentLaneIndex(notificationLaneType);
                         if (index > -1) {
                             mDefaultLaneOverride = index;
                         }
                     } else {
-                        showAccount(notificationAccount, Constant.LaneType.USER_MENTIONS);
+                        showAccount(notificationAccount, notificationLaneType);
                     }
                 }
             } else if (laneName != null) {
