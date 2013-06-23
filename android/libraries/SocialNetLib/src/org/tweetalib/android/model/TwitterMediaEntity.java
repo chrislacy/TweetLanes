@@ -66,11 +66,24 @@ public class TwitterMediaEntity {
 	 * 
 	 */
     public static TwitterMediaEntity createMediaEntity(Status status) {
-        if (status.getMediaEntities() != null
-                && status.getMediaEntities().length > 0) {
-            return new TwitterMediaEntity(status.getMediaEntities()[0]);
-        } else if (status.getURLEntities() != null) {
-            for (URLEntity urlEntity : status.getURLEntities()) {
+        MediaEntity[] mediaEntities;
+        URLEntity[] urlEntities;
+
+        if(status.isRetweet()){
+            mediaEntities = status.getRetweetedStatus().getMediaEntities();
+            urlEntities = status.getRetweetedStatus().getURLEntities();
+        }
+        else
+        {
+            mediaEntities = status.getMediaEntities();
+            urlEntities = status.getURLEntities();
+        }
+
+
+        if (mediaEntities != null && mediaEntities.length > 0) {
+            return new TwitterMediaEntity(mediaEntities[0]);
+        } else if (urlEntities != null) {
+            for (URLEntity urlEntity : urlEntities) {
                 // This shouldn't be necessary, but is
                 String expandedUrl = urlEntity.getExpandedURL();
                 if (expandedUrl == null) {
