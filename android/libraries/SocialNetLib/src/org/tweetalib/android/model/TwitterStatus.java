@@ -131,9 +131,9 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
                 Status retweetedStatus = status.getRetweetedStatus();
                 mStatus = retweetedStatus.getText();
                 setStatusMarkup(retweetedStatus);
-                mRetweetCount = status.getRetweetedStatus().getRetweetCount();
-                mUserMentions = TwitterUtil.getUserMentions(status
-                        .getRetweetedStatus().getUserMentionEntities());
+                mRetweetCount = retweetedStatus.getRetweetCount();
+                mUserMentions = TwitterUtil.getUserMentions(retweetedStatus.getUserMentionEntities());
+                mIsRetweetedByMe = retweetedStatus.isRetweetedByMe();
             }
         }
         else
