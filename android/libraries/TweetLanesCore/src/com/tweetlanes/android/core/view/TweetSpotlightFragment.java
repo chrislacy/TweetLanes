@@ -42,7 +42,6 @@ public final class TweetSpotlightFragment extends BaseLaneFragment {
                     public void addValues(Bundle args) {
                         args.putLong(KEY_STATUS_ID, status.mId);
                     }
-
                 });
         fragment.mStatus = status;
 
@@ -126,7 +125,39 @@ public final class TweetSpotlightFragment extends BaseLaneFragment {
                                          TwitterStatus status) {
                         // TODO: Handle error properly
                         if (result.isSuccessful()) {
-                            onStatusRefresh(status);
+
+                            if(mStatus.mIsRetweet &&(mStatus.mIsRetweetedByMe != status.mIsRetweetedByMe))
+                            {
+                                mGetStatusCallback = TwitterManager.get()
+                                        .getFetchStatusInstance().new FinishedCallback() {
+
+                                    @Override
+                                    public void finished(TwitterFetchResult result,
+                                                         TwitterStatus status) {
+                                        // TODO: Handle error properly
+                                        if (result.isSuccessful()) {
+                                            mStatus.mIsRetweetedByMe = status.mIsRetweetedByMe;
+                                            onStatusRefresh(mStatus);
+                                        }
+                                        else if(result.getErrorMessage().contains("does not exist"))
+                                        {
+                                            TweetSpotlightActivity spotlightActivity = (TweetSpotlightActivity)getActivity();
+                                            if (spotlightActivity != null)
+                                            {
+                                                spotlightActivity.TweetDeleted(result.getErrorMessage());
+                                            }
+                                        }
+                                        mGetStatusCallback = null;
+                                    }
+                                };
+
+                                mStatus = status;
+                                TwitterManager.get().getStatus(mStatus.mOriginalRetweetId, mGetStatusCallback);
+                            }
+                            else
+                            {
+                                onStatusRefresh(status);
+                            }
                         }
                         else if(result.getErrorMessage().contains("does not exist"))
                         {
@@ -177,7 +208,7 @@ public final class TweetSpotlightFragment extends BaseLaneFragment {
     private static final String KEY_STATUS_ID = "statusId";
 
     private long getStatusId() {
-        return getArguments().getLong("statusId");
+        return getArguments().getLong(KEY_STATUS_ID);
     }
 
     /*
