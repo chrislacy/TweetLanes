@@ -126,7 +126,7 @@ public final class TweetSpotlightFragment extends BaseLaneFragment {
                         // TODO: Handle error properly
                         if (result.isSuccessful()) {
 
-                            if(mStatus.mIsRetweet &&(mStatus.mIsRetweetedByMe != status.mIsRetweetedByMe))
+                            if(mStatus.mIsRetweet && mStatus.mOriginalRetweetId > 0)
                             {
                                 mGetStatusCallback = TwitterManager.get()
                                         .getFetchStatusInstance().new FinishedCallback() {

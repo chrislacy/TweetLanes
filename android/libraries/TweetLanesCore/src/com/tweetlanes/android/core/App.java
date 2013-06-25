@@ -331,7 +331,7 @@ public class App extends Application {
                 String userIdAsString = Long.toString(user.getId());
 
                 AccountDescriptor account = new AccountDescriptor(this, user,
-                        oAuthToken, oAuthSecret, oSocialNetType);
+                        oAuthToken, oAuthSecret, oSocialNetType, user.getProfileImageUrl(TwitterManager.ProfileImageSize.BIGGER));
                 edit.putString(getAccountDescriptorKey(user.getId()),
                         account.toString());
 

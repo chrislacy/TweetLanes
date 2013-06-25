@@ -45,12 +45,13 @@ public class AccountDescriptor {
     static final String KEY_LIST_NAME = "name";
     static final String KEY_DISPLAYED_LANES = "displayedLanes";
     static final String KEY_SOCIAL_NET_TYPE = "socialNetType";
+    static final String KEY_PROFILE_IMAGE_URL = "profileImageUrl";
 
     /*
      *
 	 */
     public AccountDescriptor(Context context, TwitterUser user, String oAuthToken,
-                             String oAuthSecret, SocialNetConstant.Type oSocialNetType) {
+                             String oAuthSecret, SocialNetConstant.Type oSocialNetType, String oprofileImageUrl) {
         mId = user.getId();
         mScreenName = user.getScreenName();
         mOAuthToken = oAuthToken;
@@ -58,6 +59,7 @@ public class AccountDescriptor {
         mInitialLaneIndex = null;
         mSocialNetType = oSocialNetType;
         mContext = context;
+        mProfileImageUrl = oprofileImageUrl;
         initCommon(null);
 
     }
@@ -87,6 +89,9 @@ public class AccountDescriptor {
                         .get(KEY_SOCIAL_NET_TYPE));
             } else {
                 mSocialNetType = SocialNetConstant.Type.Twitter;
+            }
+            if (object.has(KEY_PROFILE_IMAGE_URL)) {
+                mProfileImageUrl = object.getString(KEY_PROFILE_IMAGE_URL);
             }
             if (object.has(KEY_LISTS)) {
                 mLists = new ArrayList<List>();
@@ -306,6 +311,7 @@ public class AccountDescriptor {
             object.put(KEY_OAUTH_SECRET, mOAuthSecret);
             object.put(KEY_INITIAL_LANE_INDEX, mInitialLaneIndex);
             object.put(KEY_SOCIAL_NET_TYPE, mSocialNetType);
+            object.put(KEY_PROFILE_IMAGE_URL, mProfileImageUrl);
 
             if (mLists.size() > 0) {
                 JSONArray listArray = new JSONArray();
@@ -348,6 +354,10 @@ public class AccountDescriptor {
 
     public String getOAuthSecret() {
         return mOAuthSecret;
+    }
+
+    public String getProfileImageUrl(){
+        return mProfileImageUrl;
     }
 
     public String getAccountKey() {
@@ -477,7 +487,7 @@ public class AccountDescriptor {
     private boolean mShouldRefreshLists;
     private Context mContext;
     private SocialNetConstant.Type mSocialNetType;
-
+    private String mProfileImageUrl;
     /*
      * Stripped version of the List class. Possibly should use TwitterList, but
      * I thought I thought it best to save the string space of that much larger
