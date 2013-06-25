@@ -428,6 +428,7 @@ public class TwitterStatuses {
      */
     public TwitterStatus findByStatusId(long statusId) {
         Integer statusIndex = getStatusIndex(statusId);
+
         if (statusIndex != null) {
             return get(statusIndex.intValue());
         }
@@ -454,6 +455,26 @@ public class TwitterStatuses {
                 low = middle + 1;
             } else { // The element has been found
                 return middle;
+            }
+        }
+
+        //nest down to try and get the status by an original statusID.
+        //Useful in situtations like a retweet of a retweet, where you don't have the statusId
+        return getStatusIndexFromOriginalStatusId(statusId);
+    }
+
+    public Integer getStatusIndexFromOriginalStatusId(long originalStatusId) {
+        if (size() == 0) {
+            return null;
+        }
+
+        //Since original status ids have no order, a long search through each is required.
+
+        for (int i=0; i <size() ;i++)
+        {
+            TwitterStatus status = get(i);
+            if (originalStatusId == status.mOriginalRetweetId) {
+                return i;
             }
         }
 

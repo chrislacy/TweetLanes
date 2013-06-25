@@ -143,11 +143,6 @@
                 android:title="@string/settings_donate_title"/>
 
         <Preference
-                android:key="changelog_preference"
-                android:title="@string/title_change_log_preference"
-                android:summary="@string/summary_change_log_preference"/>
-
-        <Preference
                 android:key="version_preference"
                 android:title="@string/title_version_preference"
                 android:summary="@string/summary_version_preference"/>

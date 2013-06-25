@@ -440,9 +440,6 @@
     <string name="title_version_preference">Tweet Lanes version</string>
     <string name="summary_version_preference"></string>
 
-    <string name="title_change_log_preference">Re-show change log</string>
-    <string name="summary_change_log_preference">Change log will show after each update, press here to re-show it.</string>
-
     <string name="title_help_preference">Where To Get Help?</string>
     <string name="summary_help_preference">Send us a tweet or App.net message.\nWe can be found @TweetLanes on both networks.</string>
 
