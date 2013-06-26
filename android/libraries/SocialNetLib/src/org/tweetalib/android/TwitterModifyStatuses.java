@@ -80,6 +80,31 @@ public class TwitterModifyStatuses {
     }
 
     /*
+ *
+ */
+    public abstract class FinishedDeleteCallback extends FinishedCallback {
+
+        static final int kInvalidHandle = -1;
+        private TwitterStatuses mStatuses;
+
+
+        public FinishedDeleteCallback(TwitterStatuses statuses) {
+            mStatuses = statuses;
+            mHandle = kInvalidHandle;
+        }
+
+        void setHandle(int handle) {
+            mHandle = handle;
+        }
+
+        private int mHandle;
+
+        public TwitterStatuses getStatuses() {
+            return mStatuses;
+        }
+    }
+
+    /*
      *
 	 */
     public TwitterModifyStatuses() {
