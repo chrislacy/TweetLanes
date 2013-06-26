@@ -363,7 +363,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
         }
 
         if (hint == null && isAdded()) {
-            hint = getString(R.string.compose_tweet_default_hint);
+            hint = getString(R.string.compose_tweet_default_hint) + getApp().getCurrentAccount().getScreenName() + "?";
             configureCharacterCountForString("");
         }
 
