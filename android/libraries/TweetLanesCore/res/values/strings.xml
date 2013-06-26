@@ -89,7 +89,7 @@
     <string name="load_more">Tap to load more</string>
     <string name="no_content_found">No content loaded at this time.</string>
 
-    <string name="compose_tweet_default_hint">What\'s happening?</string>
+    <string name="compose_tweet_default_hint">What\'s happening @</string>
     <string name="compose_tweet_to_user_hint">Tweet to</string>
     <string name="compose_tweet_to_user_hint_adn">Post at</string>
     <string name="compose_tweet_reply_to">Reply to</string>
