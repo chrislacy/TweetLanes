@@ -1280,16 +1280,21 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                 mode.finish();
 
             } else if (itemId == R.id.action_delete_status) {
-                TwitterModifyStatuses.FinishedCallback callback =
-                        TwitterManager.get().getSetStatusesInstance().new FinishedCallback() {
-
-                            final TwitterStatuses selected = getSelectedStatuses();
+                TwitterStatuses selectedStatuses =  getSelectedStatuses();
+                TwitterModifyStatuses.FinishedDeleteCallback callback =
+                        TwitterManager.get().getSetStatusesInstance().new FinishedDeleteCallback(selectedStatuses) {
 
                             @Override
                             public void finished(boolean successful, TwitterStatuses statuses, Integer value) {
                                 if (successful == true) {
 
                                     showToast(getString(R.string.deleted_successfully));
+                                    TwitterStatuses cachedStatuses = getStatusFeed();
+                                    TwitterStatuses selectedStatuses =  getSelectedStatuses();
+                                    if (selectedStatuses != null && selectedStatuses.getStatusCount() > 0) {
+                                        cachedStatuses.remove(selectedStatuses);
+                                        _mCachedStatusFeed.remove(selectedStatuses);
+                                    }
                                 }
                                 else
                                 {
@@ -1303,13 +1308,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                             }
                         };
 
-                TwitterStatuses cachedStatuses = getStatusFeed();
-                TwitterStatuses selectedStatuses =  getSelectedStatuses();
                 TwitterManager.get().deleteTweet(selectedStatuses, callback);
-                if (selectedStatuses != null && selectedStatuses.getStatusCount() > 0) {
-                    cachedStatuses.remove(selectedStatuses);
-                    _mCachedStatusFeed.remove(selectedStatuses);
-                }
                 mode.finish();
             } else if (itemId == R.id.action_report_for_spam || itemId == R.id.action_block) {
                 AccountDescriptor account = getApp().getCurrentAccount();
