@@ -1,25 +1,15 @@
 package com.tweetlanes.android.core.widget;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 
-import com.tweetlanes.android.core.AppSettings;
-import com.tweetlanes.android.core.R;
-
-// import android.graphics.Typeface;
-
 public class EditClearText extends EditText {
 
     private EditClearTextListener mListener;
-    private Integer mInitialXSize;
-    private Integer mInitialYSize;
 
     public EditClearText(Context context) {
         super(context);

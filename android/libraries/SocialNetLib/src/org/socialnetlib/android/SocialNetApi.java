@@ -718,6 +718,10 @@ public abstract class SocialNetApi {
         return mFetchStatus;
     }
 
+    public TwitterFetchStatuses getFetchStatusesInstance() {
+        return mFetchStatuses;
+    }
+
     public TwitterFetchBooleans getFetchBooleansInstance() {
         return mFetchBooleans;
     }

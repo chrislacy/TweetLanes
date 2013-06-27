@@ -25,6 +25,9 @@ import org.tweetalib.android.widget.URLSpanNoUnderline;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import twitter4j.Status;
 import twitter4j.User;
@@ -692,5 +695,20 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
                 return mProfileImageOriginalUrl;
         }
         return "";
+    }
+
+    private static final Pattern HASHTAG_PATTERN =
+            Pattern.compile("(?:^|\\s|[\\p{Punct}&&[^/]])(#[\\p{L}0-9-_]+)");
+
+    public List<String> getHashtags() {
+        ArrayList<String> list = new ArrayList<String>();
+
+        Matcher matcher = HASHTAG_PATTERN.matcher(mStatus);
+
+        while (matcher.find()) {
+            list.add(matcher.group().trim());
+        }
+
+        return list;
     }
 }

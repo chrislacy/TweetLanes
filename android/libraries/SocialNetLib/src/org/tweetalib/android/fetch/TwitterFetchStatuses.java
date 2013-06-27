@@ -12,18 +12,35 @@
 package org.tweetalib.android.fetch;
 
 import android.util.Log;
-import org.appdotnet4j.model.*;
+
+import org.appdotnet4j.model.AdnInteractions;
+import org.appdotnet4j.model.AdnPaging;
+import org.appdotnet4j.model.AdnPost;
+import org.appdotnet4j.model.AdnPosts;
+import org.appdotnet4j.model.AdnUser;
 import org.asynctasktex.AsyncTaskEx;
 import org.socialnetlib.android.AppdotnetApi;
-import org.socialnetlib.android.SocialNetApi;
-import org.tweetalib.android.*;
+import org.tweetalib.android.ConnectionStatus;
+import org.tweetalib.android.TwitterContentHandle;
+import org.tweetalib.android.TwitterFetchResult;
+import org.tweetalib.android.TwitterPaging;
+import org.tweetalib.android.TwitterUtil;
 import org.tweetalib.android.callback.TwitterFetchStatusesFinishedCallback;
 import org.tweetalib.android.model.TwitterStatus;
 import org.tweetalib.android.model.TwitterStatuses;
 import org.tweetalib.android.model.TwitterStatuses.AddUserCallback;
-import twitter4j.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
+import twitter4j.Paging;
+import twitter4j.Query;
+import twitter4j.QueryResult;
+import twitter4j.ResponseList;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.User;
 
 public class TwitterFetchStatuses {
 
@@ -31,6 +48,7 @@ public class TwitterFetchStatuses {
     private HashMap<String, TwitterStatuses> mStatusesHashMap;
     private Integer mFetchStatusesCallbackHandle;
     private HashMap<Integer, TwitterFetchStatusesFinishedCallback> mFinishedCallbackMap;
+    private HashMap<String, String> mHashtagMap;
 
     /*
      *
@@ -66,7 +84,7 @@ public class TwitterFetchStatuses {
         mFinishedCallbackMap = new HashMap<Integer, TwitterFetchStatusesFinishedCallback>();
         mFetchStatusesCallbackHandle = 0;
         mStatusesHashMap = new HashMap<String, TwitterStatuses>();
-
+        mHashtagMap = new HashMap<String, String>();
     }
 
     /*
@@ -555,6 +573,8 @@ public class TwitterFetchStatuses {
                 }
             }
 
+            cacheHashtags(contentFeed);
+
             return new FetchStatusesTaskOutput(
                     new TwitterFetchResult(errorDescription == null ? true : false, errorDescription),
                     input.mCallbackHandle, contentFeed, input.mContentHandle);
@@ -570,6 +590,25 @@ public class TwitterFetchStatuses {
             }
 
             super.onPostExecute(output);
+        }
+    }
+
+    public List<String> getCachedHashtags() {
+        if (mHashtagMap == null) {
+            return null;
+        }
+        return new ArrayList<String>(mHashtagMap.values());
+    }
+
+    public void cacheHashtags(TwitterStatuses statuses) {
+        if (statuses == null) {
+            return;
+        }
+
+        for (int i = 0; i < statuses.getStatusCount(); ++i) {
+            for (String hastag : statuses.getStatus(i).getHashtags()) {
+                mHashtagMap.put(hastag, hastag);
+            }
         }
     }
 

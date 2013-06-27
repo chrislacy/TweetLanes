@@ -11,19 +11,6 @@
 
 package com.tweetlanes.android.core.view;
 
-import java.io.File;
-import java.io.IOException;
-
-import org.socialnetlib.android.SocialNetConstant;
-import org.tweetalib.android.TwitterFetchResult;
-import org.tweetalib.android.TwitterFetchStatus;
-import org.tweetalib.android.TwitterFetchStatus.FinishedCallback;
-import org.tweetalib.android.TwitterManager;
-import org.tweetalib.android.TwitterModifyStatuses;
-import org.tweetalib.android.model.TwitterStatus;
-import org.tweetalib.android.model.TwitterStatusUpdate;
-import org.tweetalib.android.model.TwitterStatuses;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -44,6 +31,16 @@ import com.tweetlanes.android.core.Constant;
 import com.tweetlanes.android.core.R;
 import com.tweetlanes.android.core.model.ComposeTweetDefault;
 import com.tweetlanes.android.core.util.Util;
+
+import org.socialnetlib.android.SocialNetConstant;
+import org.tweetalib.android.TwitterFetchResult;
+import org.tweetalib.android.TwitterFetchStatus.FinishedCallback;
+import org.tweetalib.android.TwitterManager;
+import org.tweetalib.android.model.TwitterStatus;
+import org.tweetalib.android.model.TwitterStatusUpdate;
+
+import java.io.File;
+import java.io.IOException;
 
 public class ComposeTweetFragment extends ComposeBaseFragment {
     private static final int THUMBNAIL_WIDTH = 200;
@@ -558,7 +555,6 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
      */
     @Override
     protected void onShowCompose() {
-
     }
 
     /*
@@ -568,6 +564,5 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
      */
     @Override
     protected void onHideCompose() {
-
     }
 }

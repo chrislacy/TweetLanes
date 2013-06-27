@@ -1,78 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
-              android:layout_height="match_parent"
+              android:layout_height="wrap_content"
               android:orientation="vertical"
               style="?attr/background">
 
-    <EditText
-            android:id="@+id/usernameEditText"
-            android:layout_width="200dp"
+    <LinearLayout
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:inputType="textMultiLine|textCapSentences"
-            android:layout_gravity="bottom"
-            android:layout_marginLeft="8dip"
-            android:layout_marginRight="8dip"
-            android:paddingTop="12dp"
-            android:hint="@string/dm_username_hint"
-            android:textSize="@dimen/compose_tweet_text_size"
-            android:imeOptions="flagNoExtractUi"
-            >
+            android:layout_weight="0.1">
 
-    </EditText>
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                  android:layout_width="match_parent"
-                  android:layout_height="match_parent"
-                  android:orientation="horizontal"
-                  android:paddingBottom="4dip"
-                  android:paddingTop="4dip"
-            >
-
-        <com.tweetlanes.android.core.widget.EditClearText
-                android:id="@+id/statusEditText"
-                android:layout_width="0dip"
+        <ListView
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:inputType="textMultiLine|textCapSentences"
-                android:layout_gravity="bottom"
-                android:layout_marginLeft="8dip"
-                android:layout_marginRight="8dip"
-                android:hint="Here is a hint"
-                android:textSize="@dimen/compose_tweet_text_size"
-                android:imeOptions="flagNoExtractUi"
-                android:minHeight="55dp">
-            <!--  <requestFocus /> -->
-        </com.tweetlanes.android.core.widget.EditClearText>
-
-        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                        android:layout_width="wrap_content"
-                        android:layout_height="fill_parent"
-                        android:layout_marginRight="6dip"
-                        android:orientation="vertical">
-
-            <ImageButton
-                    android:id="@+id/sendTweetButton"
-                    android:layout_width="44dp"
-                    android:layout_height="40dp"
-                    android:layout_alignParentBottom="true"
-                    style="?attr/ic_action_message"
-                    />
-
-            <TextView
-                    android:id="@+id/characterCount"
-                    android:layout_width="44dp"
-                    android:layout_height="14dp"
-                    android:textColor="@color/text_hairline"
-                    android:gravity="top|center_horizontal"
-                    android:text="140"
-                    android:layout_above="@id/sendTweetButton"
-                    android:textSize="12sp"
-                    android:textAppearance="?android:attr/textAppearanceMedium"/>
-
-
-        </RelativeLayout>
-
+                android:id="@+id/autocompleteListView"
+                android:visibility="gone"/>
     </LinearLayout>
 
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="4dip">
+
+        <EditText
+                android:id="@+id/usernameEditText"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine|textCapSentences"
+                android:gravity="bottom"
+                android:layout_marginLeft="8dip"
+                android:layout_marginRight="8dip"
+                android:hint="@string/dm_username_hint"
+                android:textSize="@dimen/compose_tweet_text_size"
+                android:imeOptions="flagNoExtractUi"
+                >
+
+        </EditText>
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:orientation="horizontal"
+                      android:paddingBottom="4dip"
+                      android:paddingTop="4dip"
+                >
+
+            <com.tweetlanes.android.core.widget.EditClearText
+                    android:id="@+id/statusEditText"
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:inputType="textMultiLine|textCapSentences"
+                    android:gravity="bottom"
+                    android:layout_marginLeft="8dip"
+                    android:layout_marginRight="8dip"
+                    android:hint="Here is a hint"
+                    android:textSize="@dimen/compose_tweet_text_size"
+                    android:imeOptions="flagNoExtractUi">
+            </com.tweetlanes.android.core.widget.EditClearText>
+
+            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                            android:layout_width="wrap_content"
+                            android:layout_height="fill_parent"
+                            android:layout_marginRight="6dip"
+                            android:orientation="vertical">
+
+                <ImageButton
+                        android:id="@+id/sendTweetButton"
+                        android:layout_width="44dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentBottom="true"
+                        style="?attr/ic_action_message"
+                        />
+
+                <TextView
+                        android:id="@+id/characterCount"
+                        android:layout_width="44dp"
+                        android:layout_height="14dp"
+                        android:textColor="@color/text_hairline"
+                        android:gravity="top|center_horizontal"
+                        android:text="140"
+                        android:layout_above="@id/sendTweetButton"
+                        android:textSize="12sp"
+                        android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+
+            </RelativeLayout>
+
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

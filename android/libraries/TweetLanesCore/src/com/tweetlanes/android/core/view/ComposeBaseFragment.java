@@ -11,6 +11,7 @@
 
 package com.tweetlanes.android.core.view;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -18,6 +19,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -25,22 +27,34 @@ import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tweetlanes.android.core.App;
+import com.tweetlanes.android.core.AppSettings;
 import com.tweetlanes.android.core.Constant;
 import com.tweetlanes.android.core.R;
 import com.tweetlanes.android.core.model.AccountDescriptor;
 import com.tweetlanes.android.core.model.ComposeTweetDefault;
+import com.tweetlanes.android.core.util.LazyImageLoader;
 import com.tweetlanes.android.core.widget.EditClearText;
 import com.tweetlanes.android.core.widget.EditClearText.EditClearTextListener;
 import com.twitter.Validator;
 
 import org.socialnetlib.android.SocialNetConstant;
+import org.tweetalib.android.TwitterManager;
+import org.tweetalib.android.model.TwitterUser;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
 
 public abstract class ComposeBaseFragment extends Fragment {
 
@@ -70,15 +84,15 @@ public abstract class ComposeBaseFragment extends Fragment {
         public String getDraft();
     }
 
-    // TODO: Replace with non-hardcoded values
-    final int SHORT_URL_LENGTH = 22;
     final int SHORT_URL_LENGTH_HTTPS = 23;
 
     ImageButton mSendButton;
     EditClearText mEditText;
+    EditText mAutocompleteTarget;
     TextView mCharacterCountTextView;
     Long mShowStartTime;
     Validator mStatusValidator = new Validator();
+    ListView mAutocompleteListView;
 
     ComposeListener mListener;
     boolean mHasFocus = false;
@@ -122,6 +136,8 @@ public abstract class ComposeBaseFragment extends Fragment {
                 .findViewById(R.id.characterCount);
 
         mCharacterCountTextView.setVisibility(View.VISIBLE);
+
+        mAutocompleteListView = (ListView) resultView.findViewById(R.id.autocompleteListView);
 
         updateStatusHint();
 
@@ -241,6 +257,9 @@ public abstract class ComposeBaseFragment extends Fragment {
         if (mHasFocus == true) {
 
             hideKeyboard();
+            if (mAutocompleteListView != null) {
+                mAutocompleteListView.setVisibility(View.GONE);
+            }
 
             if (mListener != null) {
                 mListener.onHideCompose();
@@ -302,6 +321,8 @@ public abstract class ComposeBaseFragment extends Fragment {
                 setComposeTweetDefault(null);
                 updateStatusHint();
             }
+
+            autoComplete(asString, mEditText);
         }
 
         public void beforeTextChanged(CharSequence s, int start, int count,
@@ -312,6 +333,313 @@ public abstract class ComposeBaseFragment extends Fragment {
                                   int count) {
         }
     };
+
+    protected void autoComplete(String text, EditText editText) {
+        if (mAutocompleteListView == null) {
+            return;
+        }
+
+        if (text == null || text.length() == 0) {
+            mAutocompleteListView.setVisibility(View.GONE);
+            return;
+        }
+
+        int index = text.lastIndexOf(" ");
+        String lastWholeWord = text.substring(index + 1).toLowerCase();
+
+        if (lastWholeWord.startsWith("@")) {
+            List<TwitterUser> autoCompleteMentions = getAutoCompleteMentions(lastWholeWord);
+
+            mAutocompleteListView.setVisibility(View.VISIBLE);
+            mAutocompleteListView.setAdapter(new AutoCompleteMentionAdapter(this.getActivity(), autoCompleteMentions));
+            mAutocompleteTarget = editText;
+            mAutocompleteListView.setOnItemClickListener(mOnAutoCompleteItemClickListener);
+        }
+        else if (lastWholeWord.startsWith("#")) {
+            List<String> autoCompleteHashtags = getAutoCompleteHashtags(lastWholeWord);
+
+            mAutocompleteListView.setVisibility(View.VISIBLE);
+            mAutocompleteListView.setAdapter(new AutoCompleteHashtagAdapter(this.getActivity(), autoCompleteHashtags));
+            mAutocompleteTarget = editText;
+            mAutocompleteListView.setOnItemClickListener(mOnAutoCompleteItemClickListener);
+        }
+
+        else {
+            mAutocompleteListView.setVisibility(View.GONE);
+        }
+    }
+
+    private class AutoCompleteMentionAdapter extends android.widget.BaseAdapter {
+
+        Context mContext;
+        List<TwitterUser> mData;
+
+        public AutoCompleteMentionAdapter(Context context, List<TwitterUser> data)
+        {
+            mContext = context;
+            mData = data;
+        }
+
+        @Override
+        public int getCount() {
+            return mData.size();
+        }
+
+        @Override
+        public TwitterUser getItem(int i) {
+            return mData.get(i);
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return getItem(i).getId();
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View row = convertView;
+            UserHolder holder;
+
+            if (row == null)
+            {
+                LayoutInflater inflater = ((Activity)mContext).getLayoutInflater();
+                row = inflater.inflate(R.layout.autocompletemention_row, parent, false);
+
+                holder = new UserHolder();
+                holder.AvatarImage = (ImageView)row.findViewById(R.id.autoCompleteAvatar);
+                holder.ScreenName = (TextView)row.findViewById(R.id.autoCompleteScreenName);
+                holder.FullName = (TextView)row.findViewById(R.id.autoCompleteFullName);
+
+                AppSettings.StatusSize statusSize = AppSettings.get().getCurrentStatusSize();
+                int textSize;
+                switch (statusSize) {
+                    case ExtraSmall:
+                        textSize = R.dimen.font_size_extra_small;
+                        break;
+                    case Small:
+                        textSize = R.dimen.font_size_small;
+                        break;
+                    case Large:
+                        textSize = R.dimen.font_size_large;
+                        break;
+                    case ExtraLarge:
+                        textSize = R.dimen.font_size_extra_large;
+                        break;
+                    default:
+                        textSize = R.dimen.font_size_medium;
+                        break;
+                }
+
+                int dimensionValue = mContext.getResources().getDimensionPixelSize(textSize);
+                int imageSize = (int)mContext.getResources().getDimension(textSize);
+
+                holder.ScreenName.setTextSize(TypedValue.COMPLEX_UNIT_PX, dimensionValue);
+                holder.FullName.setTextSize(TypedValue.COMPLEX_UNIT_PX, dimensionValue);
+                holder.AvatarImage.setMaxWidth(imageSize);
+                holder.AvatarImage.setMaxHeight(imageSize);
+
+                row.setTag(holder);
+            }
+            else
+            {
+                holder = (UserHolder)row.getTag();
+            }
+
+            TwitterUser user = mData.get(position);
+
+            if (user == null)
+            {
+                return row;
+            }
+
+            holder.ScreenName.setText("@" + user.getScreenName(), TextView.BufferType.NORMAL);
+            holder.FullName.setText(user.getName(), TextView.BufferType.NORMAL);
+            setProfileImage(user, holder.AvatarImage);
+
+            return row;
+        }
+
+        class UserHolder
+        {
+            public ImageView AvatarImage;
+            public TextView ScreenName;
+            public TextView FullName;
+        }
+    }
+
+    private class AutoCompleteHashtagAdapter extends android.widget.BaseAdapter {
+
+        Context mContext;
+        List<String> mData;
+
+        public AutoCompleteHashtagAdapter(Context context, List<String> data)
+        {
+            mContext = context;
+            mData = data;
+        }
+
+        @Override
+        public int getCount() {
+            return mData.size();
+        }
+
+        @Override
+        public String getItem(int i) {
+            return mData.get(i);
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return getItem(i).hashCode();
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View row = convertView;
+            HashtagHolder holder;
+
+            if (row == null)
+            {
+                LayoutInflater inflater = ((Activity)mContext).getLayoutInflater();
+                row = inflater.inflate(R.layout.autocompletehashtag_row, parent, false);
+
+                holder = new HashtagHolder();
+                holder.Hashtag = (TextView)row.findViewById(R.id.autoCompleteHashtag);
+
+                AppSettings.StatusSize statusSize = AppSettings.get().getCurrentStatusSize();
+                int textSize;
+                switch (statusSize) {
+                    case ExtraSmall:
+                        textSize = R.dimen.font_size_extra_small;
+                        break;
+                    case Small:
+                        textSize = R.dimen.font_size_small;
+                        break;
+                    case Large:
+                        textSize = R.dimen.font_size_large;
+                        break;
+                    case ExtraLarge:
+                        textSize = R.dimen.font_size_extra_large;
+                        break;
+                    default:
+                        textSize = R.dimen.font_size_medium;
+                        break;
+                }
+
+                int dimensionValue = mContext.getResources().getDimensionPixelSize(textSize);
+
+                holder.Hashtag.setTextSize(TypedValue.COMPLEX_UNIT_PX, dimensionValue);
+
+                row.setTag(holder);
+            }
+            else
+            {
+                holder = (HashtagHolder)row.getTag();
+            }
+
+            String hashtag = mData.get(position);
+
+            if (hashtag == null)
+            {
+                return row;
+            }
+
+            holder.Hashtag.setText(hashtag, TextView.BufferType.NORMAL);
+
+            return row;
+        }
+
+        class HashtagHolder
+        {
+            public TextView Hashtag;
+        }
+    }
+
+
+    private void setProfileImage(TwitterUser user, ImageView avatar) {
+        String profileImageUrl = user.getProfileImageUrl(TwitterManager.ProfileImageSize.NORMAL);
+        if (profileImageUrl != null) {
+
+            if (AppSettings.get().downloadFeedImages()) {
+
+                LazyImageLoader profileImageLoader = getApp().getProfileImageLoader();
+                if (profileImageLoader != null) {
+
+                    profileImageLoader.displayImage(profileImageUrl, avatar);
+                }
+            }
+        }}
+
+
+    private final AdapterView.OnItemClickListener mOnAutoCompleteItemClickListener = new AdapterView.OnItemClickListener() {
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            TextView textView = (TextView)view.findViewById(R.id.autoCompleteScreenName);
+            if (textView == null) {
+                textView = (TextView)view.findViewById(R.id.autoCompleteHashtag);
+            }
+
+            String autoCompleteText = String.valueOf(textView.getText());
+            String editText = String.valueOf(mAutocompleteTarget.getText());
+            int index = editText.lastIndexOf(" ");
+
+            String newText = editText.substring(0, index + 1) + autoCompleteText;
+            mAutocompleteTarget.setText(newText + " ");
+            mAutocompleteTarget.setSelection(newText.length() + 1);
+
+            mAutocompleteListView.setVisibility(View.GONE);
+        }
+    };
+
+    private ArrayList<TwitterUser> getAutoCompleteMentions(String text) {
+        ArrayList<TwitterUser> list = new ArrayList<TwitterUser>();
+        List<TwitterUser> users = TwitterManager.get().getFetchUserInstance().getCachedUsers();
+
+        for (TwitterUser user : users) {
+            if (("@" + user.getScreenName()).toLowerCase().startsWith(text.toLowerCase())) {
+                list.add(user);
+            }
+        }
+
+        Collections.sort(list, new SortUserName());
+
+        return list;
+    }
+
+    private ArrayList<String> getAutoCompleteHashtags(String text) {
+        ArrayList<String> list = new ArrayList<String>();
+        List<String> hashtags = TwitterManager.get().getFetchStatusesInstance().getCachedHashtags();
+
+        if (hashtags == null) {
+            return list;
+        }
+
+        for (String tag : hashtags) {
+            if (tag.toLowerCase().startsWith(text.toLowerCase())) {
+                list.add(tag);
+            }
+        }
+
+        Collections.sort(list, new SortAlpha());
+
+        return list;
+    }
+
+
+    private class SortUserName implements Comparator<Object> {
+        public int compare(Object o1, Object o2) {
+            TwitterUser s1 = (TwitterUser) o1;
+            TwitterUser s2 = (TwitterUser) o2;
+            return s1.getScreenName().toLowerCase().compareTo(s2.getScreenName().toLowerCase());
+        }
+    }
+
+    private class SortAlpha implements Comparator<Object> {
+        public int compare(Object o1, Object o2) {
+            String s1 = (String) o1;
+            String s2 = (String) o2;
+            return s1.toLowerCase().compareTo(s2.toLowerCase());
+        }
+    }
 
     /*
 	 *
@@ -328,7 +656,6 @@ public abstract class ComposeBaseFragment extends Fragment {
     protected abstract void onSendClick(String status);
 
     /*
-	 *
 	 */
     EditClearTextListener mEditClearTextListener = new EditClearTextListener() {
 

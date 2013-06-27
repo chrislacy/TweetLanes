@@ -16,15 +16,16 @@
 
 package org.tweetalib.android;
 
-import java.util.HashMap;
-
 import android.util.Log;
+
 import org.appdotnet4j.model.AdnUser;
 import org.asynctasktex.AsyncTaskEx;
-
 import org.socialnetlib.android.AppdotnetApi;
-import org.socialnetlib.android.SocialNetConstant;
 import org.tweetalib.android.model.TwitterUser;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -198,6 +199,12 @@ public class TwitterFetchUser {
 
         return user;
     }
+
+    public List<TwitterUser> getCachedUsers() {
+        List<TwitterUser> users = new ArrayList<TwitterUser>(mUserIdHashMap.values());
+        return users;
+    }
+
 
     /*
 	 *
