@@ -16,10 +16,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.ActionMode;
@@ -38,7 +36,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import com.tweetlanes.android.core.AppSettings;
@@ -403,6 +400,8 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                                 TwitterStatus status = new TwitterStatus(statusString);
                                 _mCachedStatusFeed.add(status);
                             }
+
+                            TwitterManager.get().getFetchStatusesInstance().cacheHashtags(_mCachedStatusFeed);
 
                             setStatusFeed(_mCachedStatusFeed, false);
                             return true;

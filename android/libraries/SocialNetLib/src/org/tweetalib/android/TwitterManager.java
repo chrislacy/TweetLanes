@@ -22,6 +22,7 @@ import org.socialnetlib.android.SocialNetConstant;
 import org.socialnetlib.android.TwitterApi;
 import org.tweetalib.android.callback.TwitterFetchDirectMessagesFinishedCallback;
 import org.tweetalib.android.callback.TwitterFetchStatusesFinishedCallback;
+import org.tweetalib.android.fetch.TwitterFetchStatuses;
 import org.tweetalib.android.model.TwitterDirectMessages;
 import org.tweetalib.android.model.TwitterLists;
 import org.tweetalib.android.model.TwitterStatus;
@@ -162,6 +163,10 @@ public class TwitterManager {
 
     public TwitterFetchStatus getFetchStatusInstance() {
         return mApi.getFetchStatusInstance();
+    }
+
+    public TwitterFetchStatuses getFetchStatusesInstance() {
+        return mApi.getFetchStatusesInstance();
     }
 
     public TwitterFetchBooleans getFetchBooleansInstance() {

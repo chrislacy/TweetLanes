@@ -13,6 +13,8 @@ package com.tweetlanes.android.core.view;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,7 +57,7 @@ public class ComposeDirectMessageFragment extends ComposeBaseFragment {
         mSendToEditText = (EditText) resultView
                 .findViewById(R.id.usernameEditText);
         mSendToEditText.setVisibility(View.GONE);
-
+        mSendToEditText.addTextChangedListener(mTextChangedListener);
         return resultView;
     }
 
@@ -225,7 +227,7 @@ public class ComposeDirectMessageFragment extends ComposeBaseFragment {
                     TwitterContentHandle contentHandle = new TwitterContentHandle(contentBase, account.getScreenName(), null, account.getAccountKey());
 
                     TwitterManager.get().sendDirectMessage(account.getId(),
-                            otherUserScreenName, status, contentHandle, mOnSetStatusCallback);
+                            otherUserScreenName.trim(), status, contentHandle, mOnSetStatusCallback);
 
                     showToast(getString(R.string.posting_direct_message_ongoing));
 
@@ -345,4 +347,26 @@ public class ComposeDirectMessageFragment extends ComposeBaseFragment {
     protected int getLayoutResourceId() {
         return R.layout.compose_direct_message;
     }
+
+    TextWatcher mTextChangedListener = new TextWatcher() {
+
+        public void afterTextChanged(Editable s) {
+            String asString = s.toString();
+            configureCharacterCountForString(asString);
+            if (asString == null || asString.equals("") == true) {
+                setComposeTweetDefault(null);
+                updateStatusHint();
+            }
+
+            autoComplete(asString, mSendToEditText);
+        }
+
+        public void beforeTextChanged(CharSequence s, int start, int count,
+                                      int after) {
+        }
+
+        public void onTextChanged(CharSequence s, int start, int before,
+                                  int count) {
+        }
+    };
 }
