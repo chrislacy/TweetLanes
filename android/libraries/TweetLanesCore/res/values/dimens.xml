@@ -40,6 +40,6 @@ All Rights Reserved. -->
     <dimen name="image_preview_height">80dp</dimen>
 
     <dimen name="feed_side_padding">0dp</dimen>
-    <dimen name="lane_content_width">0dp</dimen>
+    <dimen name="lane_content_width">0dp</dimen><dimen name="account_row_size">16sp</dimen>
 
 </resources>

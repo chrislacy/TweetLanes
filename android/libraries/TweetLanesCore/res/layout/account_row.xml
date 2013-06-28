@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:padding="3dp">
+
+    <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            >
+
+        <ImageView
+                android:id="@+id/accountAvatar"
+                android:src="@drawable/ic_action_user"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:adjustViewBounds="true"
+                />
+        <ImageView
+                android:id="@+id/serviceImage"
+                android:src="@drawable/ic_action_user_add"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:adjustViewBounds="true"
+                android:layout_gravity="center"
+                android:layout_alignBottom="@+id/accountAvatar"
+                android:layout_alignRight="@+id/accountAvatar"/>
+    </RelativeLayout>
+
+    <TextView
+            android:id="@+id/accountScreenName"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center_vertical"
+            android:text="ScreenName"
+            android:textSize="@dimen/account_row_size"
+            android:layout_marginLeft="10dp"/>
+</LinearLayout>

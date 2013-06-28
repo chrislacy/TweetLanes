@@ -13,9 +13,11 @@ package com.tweetlanes.android.core.view;
 
 import android.app.ActionBar;
 import android.app.ActionBar.OnNavigationListener;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -27,13 +29,16 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.SpinnerAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
@@ -44,6 +49,7 @@ import com.tweetlanes.android.core.R;
 import com.tweetlanes.android.core.SharedPreferencesConstants;
 import com.tweetlanes.android.core.model.AccountDescriptor;
 import com.tweetlanes.android.core.model.LaneDescriptor;
+import com.tweetlanes.android.core.util.LazyImageLoader;
 import com.tweetlanes.android.core.widget.viewpagerindicator.TitleProvider;
 
 import org.socialnetlib.android.SocialNetConstant;
@@ -54,14 +60,15 @@ import org.tweetalib.android.TwitterManager;
 import org.tweetalib.android.model.TwitterLists;
 import org.tweetalib.android.model.TwitterStatus;
 import org.tweetalib.android.model.TwitterStatusUpdate;
+import org.tweetalib.android.model.TwitterUser;
 import org.tweetalib.android.model.TwitterUsers;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class HomeActivity extends BaseLaneActivity {
 
     HomeLaneAdapter mHomeLaneAdapter;
-    String[] mAdapterStrings;
     SpinnerAdapter mSpinnerAdapter;
     ViewSwitcher mViewSwitcher;
     FinishedCallback mFetchListsCallback;
@@ -139,18 +146,7 @@ public class HomeActivity extends BaseLaneActivity {
         actionBar.setTitle(null);
         actionBar.setDisplayShowTitleEnabled(false);
 
-        ArrayList<String> adapterList = new ArrayList<String>();
-        ArrayList<AccountDescriptor> accounts = getApp().getAccounts();
-        for (int i = 0; i < accounts.size(); i++) {
-            AccountDescriptor acc = accounts.get(i);
-            adapterList.add("@" + acc.getScreenName() +
-                    (acc.getSocialNetType() == SocialNetConstant.Type.Appdotnet ? " (App.net)" : " (Twitter)"));
-        }
-        adapterList.add(getString(R.string.add_account));
-        mAdapterStrings = adapterList.toArray(new String[adapterList.size()]);
-
-        mSpinnerAdapter = new ArrayAdapter<String>(getBaseContext(),
-                android.R.layout.simple_spinner_dropdown_item, mAdapterStrings);
+        mSpinnerAdapter = new AccountAdapter(this, getApp().getAccounts());
 
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         actionBar.setListNavigationCallbacks(mSpinnerAdapter,
@@ -544,13 +540,9 @@ public class HomeActivity extends BaseLaneActivity {
         int accountIndex = 0;
         AccountDescriptor currentAccount = getApp().getCurrentAccount();
         if (currentAccount != null) {
-            String testScreenName = "@"
-                    + currentAccount.getScreenName()
-                    + (currentAccount.getSocialNetType() == SocialNetConstant.Type.Appdotnet ? " (App.net)"
-                    : " (Twitter)");
-            for (int i = 0; i < mAdapterStrings.length; i++) {
-                if (testScreenName.toLowerCase().equals(
-                        mAdapterStrings[i].toLowerCase())) {
+            for (int i = 0; i < getApp().getAccounts().size(); i++) {
+                if (currentAccount.getAccountKey().equals(getApp().getAccounts().get(i)
+                        .getAccountKey())) {
                     accountIndex = i;
                     break;
                 }
@@ -568,6 +560,10 @@ public class HomeActivity extends BaseLaneActivity {
 
         App app = getApp();
         AccountDescriptor currentAccount = app.getCurrentAccount();
+        TwitterUser cachedUser = TwitterManager.get().getFetchUserInstance().getCachedUser(currentAccount.getId());
+        if (cachedUser != null) {
+            currentAccount.setProfileImageUrl(cachedUser.getProfileImageUrl(TwitterManager.ProfileImageSize.BIGGER));
+        }
         app.saveUpdatedAccountDescriptor(currentAccount);
 
         saveData(getCurrentLaneIndex());
@@ -862,6 +858,112 @@ public class HomeActivity extends BaseLaneActivity {
         @Override
         public int getItemPosition(Object object) {
             return POSITION_NONE;
+        }
+    }
+
+    class AccountAdapter extends android.widget.BaseAdapter {
+
+        Context mContext;
+        List<AccountData> mData;
+
+        public AccountAdapter(Context context, List<AccountDescriptor> data)
+        {
+            mContext = context;
+            mData = new ArrayList<AccountData>();
+            if (data != null) {
+                for (AccountDescriptor account : data) {
+                    mData.add(new AccountData(account.getId(), "@" + account.getScreenName(),
+                            account.getSocialNetType(), account.getProfileImageUrl()));
+                }
+            }
+
+            mData.add(new AccountData(0, getString(R.string.add_account), null, null));
+        }
+
+        @Override
+        public int getCount() {
+            return mData.size();
+        }
+
+        @Override
+        public AccountData getItem(int i) {
+            return mData.get(i);
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return getItem(i).Id;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View row = convertView;
+            AccountHolder holder;
+
+            if (row == null)
+            {
+                LayoutInflater inflater = ((Activity)mContext).getLayoutInflater();
+                row = inflater.inflate(R.layout.account_row, parent, false);
+
+                holder = new AccountHolder();
+                holder.AvatarImage = (ImageView)row.findViewById(R.id.accountAvatar);
+                holder.ServiceImage = (ImageView)row.findViewById(R.id.serviceImage);
+                holder.ScreenName = (TextView)row.findViewById(R.id.accountScreenName);
+
+                row.setTag(holder);
+            }
+            else
+            {
+                holder = (AccountHolder)row.getTag();
+            }
+
+            AccountData account = mData.get(position);
+
+            if (account == null)
+            {
+                return row;
+            }
+
+            holder.ScreenName.setText(account.ScreenName, TextView.BufferType.NORMAL);
+            setProfileImage(account.AvatarImageUrl, account.ServiceType, holder.AvatarImage, holder.ServiceImage);
+
+            return row;
+        }
+
+        class AccountData {
+            public AccountData(long id, String screenName, SocialNetConstant.Type serviceType, String avatarImageUrl) {
+                Id = id;
+                ScreenName = screenName;
+                AvatarImageUrl = avatarImageUrl;
+                ServiceType = serviceType;
+            }
+
+            public String AvatarImageUrl;
+            public SocialNetConstant.Type ServiceType;
+            public String ScreenName;
+            public long Id;
+        }
+
+        class AccountHolder {
+            public ImageView AvatarImage;
+            public ImageView ServiceImage;
+            public TextView ScreenName;
+        }
+
+        private void setProfileImage(String profileImageUrl, SocialNetConstant.Type serviceType, ImageView avatar, ImageView service) {
+            if (profileImageUrl != null) {
+                service.setVisibility(View.VISIBLE);
+                service.setImageResource(serviceType == SocialNetConstant.Type.Twitter ? R.drawable.twitter_logo_small : R.drawable.adn_logo_small);
+                LazyImageLoader profileImageLoader = getApp().getProfileImageLoader();
+                if (profileImageLoader != null) {
+
+                    profileImageLoader.displayImage(profileImageUrl, avatar);
+                }
+            }
+            else {
+                avatar.setImageResource(R.drawable.ic_action_user_add);
+                service.setVisibility(View.GONE);
+            }
         }
     }
 }

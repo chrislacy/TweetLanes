@@ -205,6 +205,14 @@ public class TwitterFetchUser {
         return users;
     }
 
+    public TwitterUser getCachedUser(Long userId) {
+        if (!mUserIdHashMap.containsKey(userId))
+        {
+            return null;
+        }
+        return mUserIdHashMap.get(userId);
+    }
+
 
     /*
 	 *

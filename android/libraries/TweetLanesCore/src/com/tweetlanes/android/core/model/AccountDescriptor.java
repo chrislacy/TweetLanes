@@ -11,7 +11,11 @@
 
 package com.tweetlanes.android.core.model;
 
-import java.util.ArrayList;
+import android.content.Context;
+
+import com.tweetlanes.android.core.Constant;
+import com.tweetlanes.android.core.Constant.LaneType;
+import com.tweetlanes.android.core.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,19 +23,11 @@ import org.json.JSONObject;
 import org.socialnetlib.android.SocialNetConstant;
 import org.tweetalib.android.TwitterConstant;
 import org.tweetalib.android.TwitterContentHandleBase;
-import org.tweetalib.android.TwitterManager;
 import org.tweetalib.android.model.TwitterList;
 import org.tweetalib.android.model.TwitterLists;
 import org.tweetalib.android.model.TwitterUser;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-
-import com.tweetlanes.android.core.Constant;
-import com.tweetlanes.android.core.Constant.LaneType;
-import com.tweetlanes.android.core.R;
-import com.tweetlanes.android.core.URLFetch;
-import com.tweetlanes.android.core.URLFetch.FetchBitmapCallback;
+import java.util.ArrayList;
 
 public class AccountDescriptor {
 
@@ -358,6 +354,10 @@ public class AccountDescriptor {
 
     public String getProfileImageUrl(){
         return mProfileImageUrl;
+    }
+
+    public void setProfileImageUrl(String profileImageUrl){
+        mProfileImageUrl = profileImageUrl;
     }
 
     public String getAccountKey() {
