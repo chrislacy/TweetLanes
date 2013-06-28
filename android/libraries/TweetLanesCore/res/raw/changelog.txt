@@ -24,6 +24,8 @@ $ 1.1.5
   % Version 1.1.5 (Community edition)
   _ 2013-06-22
   ! New Features:
+  * Auto complete of @mentions and #hashtags
+  * New account switcher with picture and service icon
   * Crittercism upgrade (making it easier for us to see when you have problems)
   * Added new change log (this is it!)
   ! Fixes:
