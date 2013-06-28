@@ -20,17 +20,19 @@
   </head>
   <body>
 ! Note: To report bugs or make feature requests, contact the official Twitter account: <a href="http://twitter.com/TweetLanes">@TweetLanes</a>.
-$ 1.1.5
-  % Version 1.1.5 (Community edition)
+$ 1.2.0
+  % Version 1.2.0 (Must have feature edition)
   _ 2013-06-22
   ! New Features:
   * Auto complete of @mentions and #hashtags
   * New account switcher with picture and service icon
   * Crittercism upgrade (making it easier for us to see when you have problems)
   * Added new change log (this is it!)
+  * Added userame to the compose box
   ! Fixes:
   * Show inline images from retweets
   * DM notifications load into DM lane
+  * Retweets of Retweets now correctly stay marked as such
 $ 1.1.4
   % Version 1.1.4 (Calm after the blackout edition)
   _ 2013-06-22
