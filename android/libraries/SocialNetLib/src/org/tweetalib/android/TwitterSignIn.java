@@ -357,7 +357,11 @@ public class TwitterSignIn {
 
                 return new FetchOAuthAccessTokenTaskOutput(user, accessToken,
                         accessTokenSecret, input.mCallbackHandle);
-            } catch (TwitterException e) {
+            }
+            catch (NullPointerException e) {
+                e.printStackTrace();
+            }
+            catch (TwitterException e) {
                 e.printStackTrace();
             }
 
