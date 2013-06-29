@@ -179,7 +179,7 @@ public class LazyImageLoader {
 
             // decode with inSampleSize
             final BitmapFactory.Options o2 = new BitmapFactory.Options();
-            o2.inSampleSize = scale / 2;
+            o2.inSampleSize = scale;
             final Bitmap bitmap = BitmapFactory.decodeStream(
                     new FileInputStream(f), null, o2);
             if (bitmap == null) {

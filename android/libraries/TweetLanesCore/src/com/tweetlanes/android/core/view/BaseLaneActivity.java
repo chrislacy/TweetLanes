@@ -885,10 +885,8 @@ public class BaseLaneActivity extends FragmentActivity implements
      *         directory
      */
     private File getFixedTempFile(Context context) {
-        File path = new File(Environment.getExternalStorageDirectory(),
-                context.getPackageName());
-
-        if (!path.exists()) path.mkdir();
+        File path = new File(Environment.getExternalStorageDirectory(),"temp/images/Tweet Lanes");
+        path.mkdirs();
 
         File tempFile;
         tempFile = new File(path, "image.tmp");
@@ -904,14 +902,12 @@ public class BaseLaneActivity extends FragmentActivity implements
      *         directory
      */
     private File getTempFile(Context context) {
-        File path = new File(Environment.getExternalStorageDirectory(),
-                context.getPackageName());
-
-        if (!path.exists()) path.mkdir();
+        File path = new File(Environment.getExternalStorageDirectory(),"temp/images/Tweet Lanes");
+        path.mkdirs();
 
         File tempFile;
         try {
-            tempFile = File.createTempFile("img_", ".jpg", path);
+            tempFile = File.createTempFile("img", ".jpg", path);
         } catch (IOException e) {
             e.printStackTrace(); // TODO: Customise this generated block
             tempFile = new File(path, "image.tmp");

@@ -16,26 +16,31 @@
 
 package org.tweetalib.android.model;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Environment;
+
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 
 import org.appdotnet4j.model.AdnPostCompose;
 import twitter4j.StatusUpdate;
 
 public class TwitterStatusUpdate {
 
-    public TwitterStatusUpdate(String status, Long inReplyToStatusId,
-            File mediaFile) {
+    public TwitterStatusUpdate(String status, Long inReplyToStatusId) {
         mStatus = status;
         mInReplyToStatusId = inReplyToStatusId;
-        mMediaFile = mediaFile;
     }
 
-    public TwitterStatusUpdate(String status, Long inReplyToStatusId) {
-        this(status, inReplyToStatusId, null);
-    }
 
     public TwitterStatusUpdate(String status) {
-        this(status, null, null);
+        this(status, null);
     }
 
     public StatusUpdate getT4JStatusUpdate() {
@@ -45,32 +50,35 @@ public class TwitterStatusUpdate {
             statusUpdate.setInReplyToStatusId(mInReplyToStatusId);
         }
 
-        if (mMediaFile != null) {
-            statusUpdate.setMedia(mMediaFile);
-        }
-
         if (mMediaFilePath != null) {
-            mMediaFile = new File(mMediaFilePath);
-            statusUpdate.setMedia(mMediaFile);
+            try{
+                statusUpdate.setMedia(getMediaFile(mMediaFilePath));
+            }
+            catch (IOException error){
+                error.printStackTrace();
+            }
+            catch (OutOfMemoryError error){
+                error.printStackTrace();
+            }
         }
 
         return statusUpdate;
     }
 
     public AdnPostCompose getAdnComposePost() {
-        if (mMediaFilePath != null) {
-            mMediaFile = new File(mMediaFilePath);
+        File mediaFile = null;
+        try{
+            mediaFile = getMediaFile(mMediaFilePath);
         }
-        AdnPostCompose statusUpdate = new AdnPostCompose(mStatus, mInReplyToStatusId, mMediaFile);
+        catch (IOException error){
+            error.printStackTrace();
+        }
+        catch (OutOfMemoryError error){
+            error.printStackTrace();
+        }
+
+        AdnPostCompose statusUpdate = new AdnPostCompose(mStatus, mInReplyToStatusId, mediaFile);
         return statusUpdate;
-    }
-
-    public File getMediaFile() {
-        return mMediaFile;
-    }
-
-    public String getMediaFilePath() {
-        return mMediaFilePath;
     }
 
     public void setMediaFilePath(String mediaFilePath) {
@@ -79,6 +87,86 @@ public class TwitterStatusUpdate {
 
     String mStatus;
     Long mInReplyToStatusId;
-    File mMediaFile;
     String mMediaFilePath;
+
+
+    private File getMediaFile(String mediaFilePath) throws IOException {
+
+        if(mediaFilePath==null){
+            return null;
+        }
+
+        File originalFile = new File(mediaFilePath);
+        Bitmap resizeImage = TryResizeImage(originalFile);
+
+        if (resizeImage == null){
+            return originalFile;
+        }
+
+        File resizedFile = SaveImage(resizeImage);
+        return resizedFile;
+
+    }
+
+    private Bitmap TryResizeImage(File originalFile) throws FileNotFoundException
+    {
+        Bitmap resizeImage = null;
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+
+        //Returns null, sizes are in the options variable
+        BitmapFactory.decodeStream(new FileInputStream(originalFile), null, options);
+        int width_tmp = options.outWidth;
+        int height_tmp = options.outHeight;
+        int scale = 1;
+
+        int requiredWidth = 1500;
+        int requiredHeight = 1500;
+
+        while (width_tmp / 2 >= requiredWidth || height_tmp / 2 >= requiredHeight)
+        {
+            width_tmp /= 2;
+            height_tmp /= 2;
+            scale *= 2;
+        }
+
+        if (scale > 1)
+        {
+            // decode with inSampleSize
+            options = new BitmapFactory.Options();
+            options.inSampleSize = scale;
+
+            resizeImage = BitmapFactory.decodeStream(new FileInputStream(originalFile), null, options);
+        }
+
+        return resizeImage;
+    }
+
+    private File SaveImage(Bitmap resizeImage) throws IOException
+    {
+        File path = new File(Environment.getExternalStorageDirectory(),"temp/images/Tweet Lanes");
+        path.mkdirs();
+
+        File tempFile;
+        tempFile = File.createTempFile("img", ".jpeg", path);
+
+        OutputStream outStream = null;
+
+        try
+        {
+            outStream = new BufferedOutputStream(new FileOutputStream(tempFile));
+            resizeImage.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
+        }
+        finally {
+            if (outStream != null) {
+                try {
+                    outStream.close();
+                    resizeImage.recycle();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return tempFile;
+    }
 }

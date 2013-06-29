@@ -30,14 +30,40 @@
         <a href="https://github.com/DHuckaby/Prime">Prime</a>, Copyright (C) 2012 Daniel Huckaby.\n
         <a href="https://github.com/koush/UrlImageViewHelper">UrlImageViewHelper</a>, Copyright 2013
         Koushik Dutta.\n<a href="https://github.com/JakeWharton/Android-ViewPagerIndicator">
-            ViewPagerIndicator</a>, Copyright 2012 Jake Wharton.\n<a href="http://code.google.com/p/android-change-log">
-            Android Change Log</a>, Copyright 2013 Karsten Priegnitz.\n
+            ViewPagerIndicator</a>, Copyright 2012 Jake Wharton.\n
+        <a href="http://code.google.com/p/android-change-log">Android Change Log</a>,
+        Copyright 2013 Karsten Priegnitz.\n
     </string>
     <string name="credits_art_items">Logo and promotional images created by
-        <a href="https://plus.google.com/107629610345558527193/posts">Bruno Rime</a> and @retareq. Used with
-        permission.
+        <a href="https://plus.google.com/107629610345558527193/posts">Bruno Rime</a> and
+        <a href="https://twitter.com/retareq">@retareq</a>. Used with permission.
     </string>
     <string name="credits_app_copyright">Copyright 2013, Chris Lacy.</string>
+
+    <string name="credits_lacy_name">Chris Lacy</string>
+    <string name="credits_lacy_networks">
+        Twitter: <a href="https://twitter.com/chrismlacy">@chrismlacy</a>\n
+        App.net: <a href="https://alpha.app.net/chrismlacy">@chrismlacy</a>\n
+        GitHub: <a href="https://github.com/chrislacy">@chrislacy</a></string>
+
+    <string name="credits_fammy_name">Jason Famularo</string>
+    <string name="credits_fammy_networks">
+        Twitter: <a href="https://twitter.com/splodn">@splodn</a>\n
+        App.net: <a href="https://alpha.app.net/fam">@fam</a>\n
+        GitHub: <a href="https://github.com/Fammy">@Fammy</a></string>
+
+    <string name="credits_duffy_name">James Duffy</string>
+    <string name="credits_duffy_networks">
+        Twitter: <a href="https://twitter.com/duffy0">@duffy0</a>\n
+        App.net: <a href="https://alpha.app.net/dffy">@dffy</a>\n
+        GitHub: <a href="https://github.com/jamesduffy">@jamesduffy</a></string>
+
+    <string name="credits_blythmeister_name">Chris Blyth</string>
+    <string name="credits_blythmeister_networks">
+        Twitter: <a href="https://twitter.com/BlythMeister">@BlythMeister</a>\n
+        App.net: <a href="https://alpha.app.net/BlythMeister">@BlythMeister</a>\n
+        GitHub: <a href="https://github.com/BlythMeister">@BlythMeister</a></string>
+
 
     <string name="authorize_twitter_account">Authorize Twitter Account</string>
     <string name="authorize_appdotnet_account">Authorize App.net Account</string>

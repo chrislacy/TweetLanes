@@ -22,7 +22,7 @@
                 android:layout_marginTop="6dp">
 
             <ImageView
-                    android:id="@+id/app_icon"
+                    android:id="@+id/credit_lacy_pic"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:paddingLeft="0dp"
@@ -33,32 +33,32 @@
                     android:layout_alignParentLeft="true"/>
 
             <TextView
-                    android:id="@+id/name"
+                    android:id="@+id/credit_lacy_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Chris Lacy"
+                    android:text="@string/credits_lacy_name"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:layout_alignParentTop="true"
-                    android:layout_alignLeft="@+id/textView"/>
+                    android:layout_alignLeft="@+id/credit_lacy_networks"/>
 
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Twitter: @chrismlacy\nApp.net: @chrismlacy\nGitHub: @chrislacy"
+                    android:text="@string/credits_lacy_networks"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textSize="17dp"
-                    android:id="@+id/textView"
-                    android:layout_below="@+id/name"
+                    android:id="@+id/credit_lacy_networks"
+                    android:layout_below="@+id/credit_lacy_name"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentBottom="true"
-                    android:layout_toRightOf="@+id/app_icon"/>
+                    android:layout_toRightOf="@+id/credit_lacy_pic"/>
 
         </RelativeLayout>
 
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tweet Lanes Main Contributors"
+                android:text="Tweet Lanes Contributors"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:layout_marginTop="8dp"/>
 
@@ -68,7 +68,7 @@
                 android:layout_marginTop="6dp">
 
             <ImageView
-                    android:id="@+id/app_icon"
+                    android:id="@+id/credit_fammy_pic"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:paddingLeft="0dp"
@@ -79,25 +79,25 @@
                     android:layout_alignParentLeft="true"/>
 
             <TextView
-                    android:id="@+id/name"
+                    android:id="@+id/credit_fammy_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Jason Famularo"
+                    android:text="@string/credits_fammy_name"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:layout_alignParentTop="true"
-                    android:layout_alignLeft="@+id/textView"/>
+                    android:layout_alignLeft="@+id/credit_fammy_networks"/>
 
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Twitter: @splodn\nApp.net: @fam\nGitHub: @Fammy"
+                    android:text="@string/credits_fammy_networks"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textSize="17dp"
-                    android:id="@+id/textView"
-                    android:layout_below="@+id/name"
+                    android:id="@+id/credit_fammy_networks"
+                    android:layout_below="@+id/credit_fammy_name"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentBottom="true"
-                    android:layout_toRightOf="@+id/app_icon"/>
+                    android:layout_toRightOf="@+id/credit_fammy_pic"/>
 
         </RelativeLayout>
 
@@ -107,7 +107,7 @@
                 android:layout_marginTop="6dp">
 
             <ImageView
-                    android:id="@+id/app_icon"
+                    android:id="@+id/credit_duffy_pic"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:paddingLeft="0dp"
@@ -118,25 +118,25 @@
                     android:layout_alignParentLeft="true"/>
 
             <TextView
-                    android:id="@+id/name"
+                    android:id="@+id/credit_duffy_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="James Duffy"
+                    android:text="@string/credits_duffy_name"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:layout_alignParentTop="true"
-                    android:layout_alignLeft="@+id/textView"/>
+                    android:layout_alignLeft="@+id/credit_duffy_networks"/>
 
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Twitter: @duffy0\nApp.net: @dffy\nGitHub: @jamesduffy"
+                    android:text="@string/credits_duffy_networks"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textSize="17dp"
-                    android:id="@+id/textView"
-                    android:layout_below="@+id/name"
+                    android:id="@+id/credit_duffy_networks"
+                    android:layout_below="@+id/credit_duffy_name"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentBottom="true"
-                    android:layout_toRightOf="@+id/app_icon"/>
+                    android:layout_toRightOf="@+id/credit_duffy_pic"/>
 
         </RelativeLayout>
 
@@ -146,7 +146,7 @@
                 android:layout_marginTop="6dp">
 
             <ImageView
-                    android:id="@+id/app_icon"
+                    android:id="@+id/credit_blythmeister_pic"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:paddingLeft="0dp"
@@ -157,25 +157,25 @@
                     android:layout_alignParentLeft="true"/>
 
             <TextView
-                    android:id="@+id/name"
+                    android:id="@+id/credit_blythmeister_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Chris Blyth"
+                    android:text="@string/credits_blythmeister_name"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:layout_alignParentTop="true"
-                    android:layout_alignLeft="@+id/textView"/>
+                    android:layout_alignLeft="@+id/credit_blythmeister_networks"/>
 
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Twitter: @BlythMeister\nApp.net: @BlythMeister\nGitHub: @BlythMeister"
+                    android:text="@string/credits_blythmeister_networks"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textSize="17dp"
-                    android:id="@+id/textView"
-                    android:layout_below="@+id/name"
+                    android:id="@+id/credit_blythmeister_networks"
+                    android:layout_below="@+id/credit_blythmeister_name"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentBottom="true"
-                    android:layout_toRightOf="@+id/app_icon"/>
+                    android:layout_toRightOf="@+id/credit_blythmeister_pic"/>
 
         </RelativeLayout>
 

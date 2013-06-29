@@ -299,6 +299,26 @@ public class SettingsActivity extends PreferenceActivity implements
                         artTextView.setMovementMethod(LinkMovementMethod
                                 .getInstance());
 
+                        TextView lacyNetworksTextView = (TextView) layout
+                                .findViewById(R.id.credit_lacy_networks);
+                        lacyNetworksTextView.setMovementMethod(LinkMovementMethod
+                                .getInstance());
+
+                        TextView fammyNetworksTextView = (TextView) layout
+                                .findViewById(R.id.credit_fammy_networks);
+                        fammyNetworksTextView.setMovementMethod(LinkMovementMethod
+                                .getInstance());
+
+                        TextView duffyNetworksTextView = (TextView) layout
+                                .findViewById(R.id.credit_duffy_networks);
+                        duffyNetworksTextView.setMovementMethod(LinkMovementMethod
+                                .getInstance());
+
+                        TextView blythmeisterNetworksTextView = (TextView) layout
+                                .findViewById(R.id.credit_blythmeister_networks);
+                        blythmeisterNetworksTextView.setMovementMethod(LinkMovementMethod
+                                .getInstance());
+
                         AlertDialog.Builder builder = new AlertDialog.Builder(
                                 SettingsActivity.this);
                         builder.setIcon(0);

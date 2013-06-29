@@ -137,6 +137,16 @@
         <receiver android:name=".core.view.AlarmReceiver" />
         <receiver android:name=".core.view.DeleteNotificationsReceiver" />
 
+        <receiver
+                android:name="com.tweetlanes.android.core.view.DeviceBootReciever"
+                android:enabled="true"
+                android:exported="true"
+                android:label="StartDeviceAlerts">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
          <service
             android:name=".core.dashclock.TweetLanesExtension"
             android:label="@string/extension_title"
