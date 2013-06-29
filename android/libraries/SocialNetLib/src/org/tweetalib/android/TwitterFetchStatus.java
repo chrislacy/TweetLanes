@@ -356,6 +356,10 @@ public class TwitterFetchStatus {
                         errorDescription += "\nTry again in " + e.getRateLimitStatus().getSecondsUntilReset()
                                 + " " + "seconds";
                     }
+                }catch (OutOfMemoryError e) {
+                    e.printStackTrace();
+                    errorDescription = e.getMessage();
+                    Log.e("api-call", errorDescription, e);
                 }
 
                 if (status != null) {

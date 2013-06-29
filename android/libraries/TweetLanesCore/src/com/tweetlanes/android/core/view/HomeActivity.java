@@ -23,6 +23,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore.Images;
 import android.support.v4.app.Fragment;
@@ -64,7 +65,10 @@ import org.tweetalib.android.model.TwitterStatusUpdate;
 import org.tweetalib.android.model.TwitterUser;
 import org.tweetalib.android.model.TwitterUsers;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class HomeActivity extends BaseLaneActivity {
@@ -165,6 +169,26 @@ public class HomeActivity extends BaseLaneActivity {
         account.setDisplayedLaneDefinitionsDirty(false);
 
         Notifier.setNotificationAlarm(this);
+
+        clearTempFolder();
+    }
+
+    void clearTempFolder(){
+
+        File dir = new File(Environment.getExternalStorageDirectory(),"temp/images/Tweet Lanes");
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.HOUR, -1);
+
+        final File[] files = dir.listFiles();
+        if (files == null) return;
+        for (final File f : files) {
+            Date lastModDate = new Date(f.lastModified());
+            if(lastModDate.before(cal.getTime()))
+            {
+                f.delete();
+            }
+        }
+
     }
 
     /*
