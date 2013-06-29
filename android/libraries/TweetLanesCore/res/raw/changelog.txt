@@ -30,6 +30,7 @@ $ 1.2.0
   * Added new change log (this is it!)
   * Added userame to the compose box
   * Made links to contributors clickable
+  * Mention & DM notifications start on boot
   ! Fixes:
   * Show inline images from retweets
   * DM notifications load into DM lane
