@@ -410,28 +410,8 @@ public abstract class ComposeBaseFragment extends Fragment {
                 holder.ScreenName = (TextView)row.findViewById(R.id.autoCompleteScreenName);
                 holder.FullName = (TextView)row.findViewById(R.id.autoCompleteFullName);
 
-                AppSettings.StatusSize statusSize = AppSettings.get().getCurrentStatusSize();
-                int textSize;
-                switch (statusSize) {
-                    case ExtraSmall:
-                        textSize = R.dimen.font_size_extra_small;
-                        break;
-                    case Small:
-                        textSize = R.dimen.font_size_small;
-                        break;
-                    case Large:
-                        textSize = R.dimen.font_size_large;
-                        break;
-                    case ExtraLarge:
-                        textSize = R.dimen.font_size_extra_large;
-                        break;
-                    default:
-                        textSize = R.dimen.font_size_medium;
-                        break;
-                }
-
-                int dimensionValue = mContext.getResources().getDimensionPixelSize(textSize);
-                int imageSize = (int)mContext.getResources().getDimension(textSize);
+                int dimensionValue = mContext.getResources().getDimensionPixelSize(R.dimen.font_size_medium);
+                int imageSize = (int)mContext.getResources().getDimension(R.dimen.font_size_medium);
 
                 holder.ScreenName.setTextSize(TypedValue.COMPLEX_UNIT_PX, dimensionValue);
                 holder.FullName.setTextSize(TypedValue.COMPLEX_UNIT_PX, dimensionValue);
@@ -506,27 +486,7 @@ public abstract class ComposeBaseFragment extends Fragment {
                 holder = new HashtagHolder();
                 holder.Hashtag = (TextView)row.findViewById(R.id.autoCompleteHashtag);
 
-                AppSettings.StatusSize statusSize = AppSettings.get().getCurrentStatusSize();
-                int textSize;
-                switch (statusSize) {
-                    case ExtraSmall:
-                        textSize = R.dimen.font_size_extra_small;
-                        break;
-                    case Small:
-                        textSize = R.dimen.font_size_small;
-                        break;
-                    case Large:
-                        textSize = R.dimen.font_size_large;
-                        break;
-                    case ExtraLarge:
-                        textSize = R.dimen.font_size_extra_large;
-                        break;
-                    default:
-                        textSize = R.dimen.font_size_medium;
-                        break;
-                }
-
-                int dimensionValue = mContext.getResources().getDimensionPixelSize(textSize);
+                int dimensionValue = mContext.getResources().getDimensionPixelSize(R.dimen.font_size_medium);
 
                 holder.Hashtag.setTextSize(TypedValue.COMPLEX_UNIT_PX, dimensionValue);
 
