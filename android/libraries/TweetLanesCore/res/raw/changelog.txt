@@ -33,6 +33,7 @@ $ 1.2.0
   * Show inline images from retweets
   * DM notifications load into DM lane
   * Retweets of Retweets now correctly stay marked as such
+  * Correct handling of media URLs if the domain contains upper case characters
 $ 1.1.4
   % Version 1.1.4 (Calm after the blackout edition)
   _ 2013-06-22
