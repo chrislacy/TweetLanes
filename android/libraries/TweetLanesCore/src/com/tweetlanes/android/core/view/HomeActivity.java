@@ -43,6 +43,7 @@ import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import com.tweetlanes.android.core.App;
+import com.tweetlanes.android.core.AppSettings;
 import com.tweetlanes.android.core.Constant;
 import com.tweetlanes.android.core.Notifier;
 import com.tweetlanes.android.core.R;
@@ -961,7 +962,11 @@ public class HomeActivity extends BaseLaneActivity {
                 }
             }
             else {
-                avatar.setImageResource(R.drawable.ic_action_user_add);
+                int resource = AppSettings.get().getCurrentThemeStyle() ==
+                        R.style.Theme_TweetLanes_Light ?
+                        R.drawable.ic_action_user_add :
+                        R.drawable.ic_action_user_add_dark;
+                avatar.setImageResource(resource);
                 service.setVisibility(View.GONE);
             }
         }
