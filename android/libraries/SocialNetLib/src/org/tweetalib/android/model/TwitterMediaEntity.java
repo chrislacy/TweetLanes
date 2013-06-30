@@ -128,6 +128,7 @@ public class TwitterMediaEntity {
 
     private static TwitterMediaEntity getTwitterMediaEntityFromUrl(
             String tinyUrl, String expandedUrl) {
+
         String mediaUrl = getInstagramMediaUrl(expandedUrl);
         if (mediaUrl != null) {
             return new TwitterMediaEntity(Source.INSTAGRAM, mediaUrl, tinyUrl,
@@ -172,24 +173,25 @@ public class TwitterMediaEntity {
 	 */
     private static String getInstagramMediaUrl(String url) {
 
-    	if (url.indexOf("://instagr.am/p/") > -1 ) {
+        String lowerCaseUrl = url.toLowerCase();
+    	if (lowerCaseUrl.indexOf("://instagr.am/p/") > -1 ) {
 	        String instagramMatch = "://instagr.am/p/";
-	        int startIndex = url.indexOf(instagramMatch);
+	        int startIndex = lowerCaseUrl.indexOf(instagramMatch);
 	        if (startIndex > -1) {
 	            startIndex += instagramMatch.length();
-	            int endIndex = url.indexOf("/", startIndex);
+	            int endIndex = lowerCaseUrl.indexOf("/", startIndex);
 	            if (endIndex > -1) {
 	                String code = url.substring(startIndex, endIndex);
 	                return "http://instagr.am/p/" + code + "/media/";
 	            }
 	        }
     	}
-    	if (url.indexOf("://instagram.com/p/") > -1 ) {
+    	if (lowerCaseUrl.indexOf("://instagram.com/p/") > -1 ) {
 	        String instagramMatch = "://instagram.com/p/";
-	        int startIndex = url.indexOf(instagramMatch);
+	        int startIndex = lowerCaseUrl.indexOf(instagramMatch);
 	        if (startIndex > -1) {
 	            startIndex += instagramMatch.length();
-	            int endIndex = url.indexOf("/", startIndex);
+	            int endIndex = lowerCaseUrl.indexOf("/", startIndex);
 	            if (endIndex > -1) {
 	                String code = url.substring(startIndex, endIndex);
 	                return "http://instagram.com/p/" + code + "/media/";
@@ -204,8 +206,9 @@ public class TwitterMediaEntity {
 	 * 
 	 */
     private static String getTwitpicMediaUrl(String url) {
+        String lowerCaseUrl = url.toLowerCase();
         String match = "://twitpic.com/";
-        int startIndex = url.indexOf(match);
+        int startIndex = lowerCaseUrl.indexOf(match);
         if (startIndex > -1) {
             startIndex += match.length();
             String code = url.substring(startIndex);
@@ -220,11 +223,12 @@ public class TwitterMediaEntity {
 	 */
     private static String getLockerzMediaUrl(String url) {
 
-        if (url.indexOf("://lockerz.com/") > -1) {
+        String lowerCaseUrl = url.toLowerCase();
+        if (lowerCaseUrl.indexOf("://lockerz.com/") > -1) {
             return "http://api.plixi.com/api/tpapi.svc/imagefromurl?url=" + url;
         }
 
-        if (url.indexOf("://plixi.com/") > -1) {
+        if (lowerCaseUrl.indexOf("://plixi.com/") > -1) {
             return "http://api.plixi.com/api/tpapi.svc/imagefromurl?url=" + url;
         }
 
@@ -235,8 +239,10 @@ public class TwitterMediaEntity {
 	 * 
 	 */
     private static String getImgurUrl(String url) {
+
+        String lowerCaseUrl = url.toLowerCase();
         String match = "imgur.com/";
-        int startIndex = url.indexOf(match);
+        int startIndex = lowerCaseUrl.indexOf(match);
         if (startIndex > -1) {
             String code = url.substring(startIndex + match.length());
             return code.replace(".png", "").replace(".gif", "")
@@ -251,7 +257,8 @@ public class TwitterMediaEntity {
 	 */
     private static String getYfrogMediaUrl(String url) {
 
-        if (url.indexOf("://yfrog.com/") > -1) {
+        String lowerCaseUrl = url.toLowerCase();
+        if (lowerCaseUrl.indexOf("://yfrog.com/") > -1) {
             return url;
         }
 
@@ -263,7 +270,8 @@ public class TwitterMediaEntity {
 	 */
     private static String getYouTubeUrl(String url) {
 
-        if (url.indexOf("youtube.com/watch?") > -1) {
+        String lowerCaseUrl = url.toLowerCase();
+        if (lowerCaseUrl.indexOf("youtube.com/watch?") > -1) {
             Uri uri = Uri.parse(url);
             String videoId = uri.getQueryParameter("v");
             if (videoId != null) {
@@ -272,10 +280,10 @@ public class TwitterMediaEntity {
         }
 
         String prefix = "youtu.be/";
-        int startIndex = url.indexOf(prefix);
+        int startIndex = lowerCaseUrl.indexOf(prefix);
         if (startIndex > -1) {
             startIndex += prefix.length();
-            int endIndex = url.indexOf('?', startIndex);
+            int endIndex = lowerCaseUrl.indexOf('?', startIndex);
             if (endIndex > -1) {
                 return url.substring(startIndex, endIndex);
             } else {
@@ -316,13 +324,6 @@ public class TwitterMediaEntity {
          * mSizeLarge = new
          * SizeInfo(mediaEntity.getSizes().get(MediaEntity.Size.LARGE));
          */
-    }
-
-    /*
-	 * 
-	 */
-    public TwitterMediaEntity() {
-
     }
 
     /*
