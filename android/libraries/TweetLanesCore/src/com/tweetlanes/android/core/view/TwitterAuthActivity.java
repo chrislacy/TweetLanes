@@ -14,7 +14,6 @@ package com.tweetlanes.android.core.view;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
@@ -22,10 +21,13 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.crittercism.app.Crittercism;
-import com.tweetlanes.android.core.*;
+import com.tweetlanes.android.core.App;
+import com.tweetlanes.android.core.AppSettings;
+import com.tweetlanes.android.core.Constant;
+import com.tweetlanes.android.core.ConsumerKeyConstants;
+import com.tweetlanes.android.core.R;
 
 import org.socialnetlib.android.SocialNetConstant;
-import org.socialnetlib.android.TwitterApi;
 import org.tweetalib.android.TwitterManager;
 import org.tweetalib.android.TwitterSignIn.GetAuthUrlCallback;
 import org.tweetalib.android.TwitterSignIn.GetOAuthAccessTokenCallback;
@@ -119,8 +121,7 @@ public class TwitterAuthActivity extends Activity {
         cookieManager.setAcceptCookie(false);
 
         WebView webView = (WebView) findViewById(R.id.twitter_auth_signin_webview);
-        // webView.getSettings().setSavePassword(false);
-        // webView.getSettings().setSaveFormData(false);
+        webView.getSettings().setJavaScriptEnabled(true);
         webView.setWebViewClient(new WebViewClient() {
 
             @Override

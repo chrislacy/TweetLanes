@@ -89,12 +89,7 @@ public class HomeActivity extends BaseLaneActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        // StrictMode.setThreadPolicy(new
-        // StrictMode.ThreadPolicy.Builder().detectAll().penaltyLog().penaltyDialog().build());
-        // StrictMode.setThreadPolicy(new
-        // StrictMode.ThreadPolicy.Builder().detectAll().penaltyLog().build());
-        // StrictMode.setVmPolicy(new
-        // StrictMode.VmPolicy.Builder().detectAll().penaltyLog().build());
+        super.onCreate(savedInstanceState);
 
         AccountDescriptor account = getApp().getCurrentAccount();
 
@@ -134,8 +129,6 @@ public class HomeActivity extends BaseLaneActivity {
                 }
             }
         }
-
-        super.onCreate(savedInstanceState);
 
         // Attempt at fixing a crash found in HomeActivity
         if (account == null) {

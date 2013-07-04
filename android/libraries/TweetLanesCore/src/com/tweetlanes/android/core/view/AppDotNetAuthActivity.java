@@ -11,24 +11,25 @@
 
 package com.tweetlanes.android.core.view;
 
-import android.webkit.CookieManager;
-import android.webkit.CookieSyncManager;
-
-import com.tweetlanes.android.core.*;
-
-import org.socialnetlib.android.AppdotnetApi;
-import org.socialnetlib.android.SocialNetConstant;
-
-import com.crittercism.app.Crittercism;
-
-import org.tweetalib.android.TwitterManager;
-import org.tweetalib.android.model.TwitterUser;
-
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import com.crittercism.app.Crittercism;
+import com.tweetlanes.android.core.App;
+import com.tweetlanes.android.core.AppSettings;
+import com.tweetlanes.android.core.Constant;
+import com.tweetlanes.android.core.ConsumerKeyConstants;
+import com.tweetlanes.android.core.R;
+
+import org.socialnetlib.android.AppdotnetApi;
+import org.socialnetlib.android.SocialNetConstant;
+import org.tweetalib.android.TwitterManager;
+import org.tweetalib.android.model.TwitterUser;
 
 public class AppDotNetAuthActivity extends Activity {
 
@@ -56,7 +57,7 @@ public class AppDotNetAuthActivity extends Activity {
         String url = "https://account.app.net/oauth/authenticate?client_id="
                 + ConsumerKeyConstants.APPDOTNET_CONSUMER_KEY
                 + "&response_type=token&redirect_uri=tweetlanes-auth-callback:///&scope=stream,write_post," +
-                "follow,messages";
+                "follow,messages&new_onboarding=1";
 
         setContentView(R.layout.twitter_auth_signin);
 
@@ -66,6 +67,7 @@ public class AppDotNetAuthActivity extends Activity {
         cookieManager.setAcceptCookie(true);
 
         WebView webView = (WebView) findViewById(R.id.twitter_auth_signin_webview);
+        webView.getSettings().setJavaScriptEnabled(true);
         webView.setWebViewClient(new WebViewClient() {
 
             @Override

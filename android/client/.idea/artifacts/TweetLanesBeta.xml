@@ -4,8 +4,9 @@
     <properties id="android-properties">
       <options>
         <option name="includeSystemProGuardCfgFile" value="true" />
-        <option name="keyStoreUrl" value="file://" />
+        <option name="keyStoreUrl" value="file://$USER_HOME$/Dropbox/android_keystore" />
         <option name="proGuardCfgFileUrl" value="file://" />
+        <option name="signingMode" value="RELEASE_SIGNED" />
       </options>
     </properties>
     <root id="archive" name="TweetLanesBeta.apk">

@@ -5,11 +5,11 @@
       <options>
         <option name="includeSystemProGuardCfgFile" value="true" />
         <option name="keyAlias" value="jason famularo" />
-        <option name="keyPassword" value="cnJ4eGlpMjI=" />
-        <option name="keyStorePassword" value="cnJ4eGlpMjI=" />
+        <option name="keyPassword" value="cnJ4eGlpMjI=&#13;&#10;" />
+        <option name="keyStorePassword" value="cnJ4eGlpMjI=&#13;&#10;" />
         <option name="keyStoreUrl" value="file://$USER_HOME$/Dropbox/android_keystore" />
         <option name="proGuardCfgFileUrl" value="file://$PROJECT_DIR$/proguard.cfg" />
-        <option name="signingMode" value="DEBUG" />
+        <option name="signingMode" value="RELEASE_SIGNED" />
       </options>
     </properties>
     <root id="archive" name="TweetLanes.apk">
