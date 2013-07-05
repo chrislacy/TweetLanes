@@ -527,7 +527,7 @@
     <string name="label_permission_access_service">Tweet Lanes service</string>
     <string name="label_backend_service">Tweet Lanes Notifications</string>
     <string name="extension_title">Tweet Lanes</string>
-    <string name="extension_description">Unread tweets, DMs, and mentions</string>
+    <string name="extension_description">Unread mentions and direct messages</string>
     <string name="select_account_type">What type of an account would you like to add?</string>
     <string name="new_account_intro">Tweet Lanes supports two different social networks: Twitter
         and App.net.
