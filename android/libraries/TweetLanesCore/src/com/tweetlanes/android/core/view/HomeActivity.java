@@ -55,10 +55,15 @@ import com.tweetlanes.android.core.util.LazyImageLoader;
 import com.tweetlanes.android.core.widget.viewpagerindicator.TitleProvider;
 
 import org.socialnetlib.android.SocialNetConstant;
+import org.tweetalib.android.TwitterConstant;
+import org.tweetalib.android.TwitterContentHandle;
+import org.tweetalib.android.TwitterContentHandleBase;
 import org.tweetalib.android.TwitterFetchLists.FinishedCallback;
 import org.tweetalib.android.TwitterFetchResult;
+import org.tweetalib.android.TwitterFetchUser;
 import org.tweetalib.android.TwitterFetchUsers;
 import org.tweetalib.android.TwitterManager;
+import org.tweetalib.android.TwitterPaging;
 import org.tweetalib.android.model.TwitterLists;
 import org.tweetalib.android.model.TwitterStatus;
 import org.tweetalib.android.model.TwitterStatusUpdate;
@@ -164,6 +169,8 @@ public class HomeActivity extends BaseLaneActivity {
         Notifier.setNotificationAlarm(this);
 
         clearTempFolder();
+
+        cacheFollowers();
     }
 
     void clearTempFolder(){
@@ -727,6 +734,36 @@ public class HomeActivity extends BaseLaneActivity {
 
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+    }
+
+    private void cacheFollowers() {
+        AccountDescriptor account = getApp().getCurrentAccount();
+
+        TwitterContentHandleBase base = new TwitterContentHandleBase(
+                TwitterConstant.ContentType.USERS,
+                TwitterConstant.UsersType.FRIENDS);
+
+        TwitterContentHandle contentHandle = TwitterManager.get().getContentHandle(
+                base, account.getScreenName(), Long.valueOf(account.getId()).toString(), account.getAccountKey());
+
+        TwitterManager.get().getFetchUsersInstance().getUsers(contentHandle, TwitterPaging.createGetMostRecent(250), TwitterManager.get()
+                .getFetchUsersInstance().new FinishedCallback() {
+
+            @Override
+            public void finished(TwitterFetchResult result,
+                                 TwitterUsers users) {
+
+                if (users == null) {
+                    return;
+                }
+
+                TwitterFetchUser fetch = TwitterManager.get().getFetchUserInstance();
+
+                for (int i = 0; i < users.getUserCount(); ++i) {
+                    fetch.setUser(users.getUser(i));
+                }
+            }
+        }, null);
     }
 
     /**

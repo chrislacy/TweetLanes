@@ -11,10 +11,8 @@
 
 package org.tweetalib.android;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import android.util.Log;
+
 import org.appdotnet4j.model.AdnUser;
 import org.appdotnet4j.model.AdnUsers;
 import org.asynctasktex.AsyncTaskEx;
@@ -23,6 +21,9 @@ import org.tweetalib.android.TwitterConstant.UsersType;
 import org.tweetalib.android.model.TwitterIds;
 import org.tweetalib.android.model.TwitterUser;
 import org.tweetalib.android.model.TwitterUsers;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import twitter4j.IDs;
 import twitter4j.Paging;
@@ -570,7 +571,7 @@ public class TwitterFetchUsers {
                 }
 
                 if (ids != null) {
-                    int max = 40;
+                    int max = input.mPaging == null ? 40 : input.mPaging.getCount();
                     int numberToFetch = Math.min(max, ids.length);
                     long[] longArray = new long[numberToFetch];
                     for (int i = 0; i < numberToFetch; i++) {
@@ -600,9 +601,6 @@ public class TwitterFetchUsers {
                 if (input.mPaging != null) {
                     paging = input.mPaging.getT4JPaging();
                 }
-                /*
-                 * else { paging = new Paging(-1); paging.setCount(40); }
-                 */
 
                 try {
                     switch (usersType) {
@@ -736,8 +734,7 @@ public class TwitterFetchUsers {
                     if (userIds != null) {
                         // TODO: Clean this temp crap up!!!!
                         long[] ids = userIds.getIDs();
-                        // int max = paging.getCount();
-                        int max = 40;
+                        int max = paging == null ? 40 : paging.getCount();
                         int numberToFetch = Math.min(max, ids.length);
                         long[] longArray = new long[numberToFetch];
                         for (int i = 0; i < numberToFetch; i++) {
