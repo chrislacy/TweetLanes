@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<changelog>
+    <release version="1.2.0" versioncode="49">
+        <change>Feature - Auto complete of @mentions and #hashtags</change>
+        <change>Feature - New account switcher with picture and service icon</change>
+        <change>Feature - Added new change log (this is it!)</change>
+        <change>Feature - Added userame to the compose box</change>
+        <change>Feature - Image scaling to ensure images are under 1024x1024 (aspect ratio maintained)</change>
+        <change>Feature - Mention &amp; DM notifications start on boot</change>
+        <change>Feature - Made links to contributors clickable</change>
+        <change>Fix - Show inline images from retweets</change>
+        <change>Fix - DM notifications load into DM lane</change>
+        <change>Fix - Retweets of Retweets now correctly stay marked as such</change>
+        <change>Fix - Correct handling of media URLs if the domain contains upper case characters</change>
+        <change>Other - Crittercism upgrade (making it easier for us to see when you have problems)</change>
+    </release>
+    <release version="1.1.4" versioncode="48">
+        <change>Feature - Image loader retrys the download of image if it's empty.</change>
+        <change>Feature - Status' passed from the cache to the spotlight to prevent loading</change>
+        <change>Feature - Status' updated (by way of favorite of RT) are passed back to the main feed to show this happening</change>
+        <change>Feature - Vibration setting for new notifications</change>
+        <change>Fix - Correct new tweet bar</change>
+        <change>Fix - Prevent incorrect mention counts in notifications</change>
+        <change>Fix - Profile images are "Bigger" rather than "Original" - corrects shape of images, and also reduces data to download</change>
+        <change>Fix - Mirror twitter.com functionality by excluding your own handle when replying to your own tweets</change>
+        <change>Fix - Spotlight retweets now function correctly</change>
+        <change>Fix - Retweet &amp; Favorite dog ears now show when the event occurs and the cache is updated</change>
+        <change>Fix - Correct handling of tweet deletion to remove from the cache, rather than keep displaying</change>
+        <change>Fix - Added better handling of image downloading, with addditional error handling in an attempt to prevent this being a fatal error</change>
+    </release>
+    <release version="1.1.3" versioncode="47">
+        <change>Feature - Notifications for Direct Messages</change>
+        <change>Feature - Removed the cancel tweet button when composing.</change>
+        <change>Feature - Images now check for new versions every 24 hours. No more "Clear Image Cache" needed</change>
+        <change>Fix - Character count show shows on new tweets</change>
+        <change>Fix - Correct reply boxes to show correct information on exit</change>
+        <change>Fix - Lots of Twitter API v1 stuff that was missed</change>
+    </release>
+    <release version="1.1.2" versioncode="46">
+        <change>Feature - DashClock Support</change>
+        <change>Feature - Notification Interval - get notifications faster (at the expense of battery and data usage) or slower (save battery and data!)</change>
+        <change>Fix - Crash on startup for 4.0 devices</change>
+        <change>Fix - Only mentioning first user when replying</change>
+        <change>Fix - Profile images no longer cached forever</change>
+        <change>Fix - Crashes when loading tweets or users</change>
+    </release>
+    <release version="1.1.1" versioncode="45">
+        <change>Feature - Notifications for mentions!</change>
+        <change>Feature - Delete tweet/post</change>
+        <change>Feature - App.net favorites</change>
+        <change>Fix - Fix tutorial so scrolls properly (thanks AndrewCaul)</change>
+        <change>Fix - App.net posts now show if you have favorited or reposted</change>
+        <change>Other - Removed open source code from Twidere, as it was license incompatible with Tweet Lanes</change>
+    </release>
+</changelog>

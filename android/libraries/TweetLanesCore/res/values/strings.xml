@@ -31,8 +31,8 @@
         <a href="https://github.com/koush/UrlImageViewHelper">UrlImageViewHelper</a>, Copyright 2013
         Koushik Dutta.\n<a href="https://github.com/JakeWharton/Android-ViewPagerIndicator">
             ViewPagerIndicator</a>, Copyright 2012 Jake Wharton.\n
-        <a href="http://code.google.com/p/android-change-log">Android Change Log</a>,
-        Copyright 2013 Karsten Priegnitz.\n
+        <a href="https://github.com/MartinvanZ/Inscription">Inscription</a>,
+        Copyright 2012 Martin van Zuilekom.\n
     </string>
     <string name="credits_art_items">Logo and promotional images created by
         <a href="https://plus.google.com/107629610345558527193/posts">Bruno Rime</a> and
@@ -537,9 +537,7 @@
     <string name="new_account_twitter">Twitter</string>
     <string name="new_account_adn">App.net</string>
 
-    <string name="changelog_full_title">Change Log</string>
-    <string name="changelog_title">What\'s New</string>
-    <string name="changelog_ok_button">OK</string>
-    <string name="changelog_show_full">more...</string>
+    <string name="title_changelog">Change log</string>
+    <string name="changelog_close">Close</string>
 </resources>
 

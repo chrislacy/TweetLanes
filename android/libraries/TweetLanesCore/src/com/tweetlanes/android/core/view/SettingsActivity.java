@@ -40,6 +40,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.crittercism.app.Crittercism;
+import com.inscription.ChangeLogDialog;
 import com.tweetlanes.android.core.App;
 import com.tweetlanes.android.core.AppSettings;
 import com.tweetlanes.android.core.Constant;
@@ -48,7 +49,6 @@ import com.tweetlanes.android.core.ConsumerKeyConstants;
 import com.tweetlanes.android.core.Notifier;
 import com.tweetlanes.android.core.R;
 import com.tweetlanes.android.core.model.LaneDescriptor;
-import com.tweetlanes.android.core.widget.ChangeLog;
 
 import java.util.ArrayList;
 
@@ -338,8 +338,8 @@ public class SettingsActivity extends PreferenceActivity implements
                     @SuppressLint("SetJavaScriptEnabled")
                     @Override
                     public boolean onPreferenceClick(Preference preference) {
-                        ChangeLog cl = new ChangeLog(SettingsActivity.this);
-                        cl.getFullLogDialog().show();
+                        ChangeLogDialog _ChangelogDialog = new ChangeLogDialog(SettingsActivity.this);
+                        _ChangelogDialog.show();
                         return true;
                     }
                 });

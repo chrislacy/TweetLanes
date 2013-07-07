@@ -43,6 +43,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
+import com.inscription.WhatsNewDialog;
 import com.tweetlanes.android.core.App;
 import com.tweetlanes.android.core.AppSettings;
 import com.tweetlanes.android.core.Constant;
@@ -171,6 +172,10 @@ public class HomeActivity extends BaseLaneActivity {
         clearTempFolder();
 
         cacheFollowers();
+
+        //Launch change log dialog
+        final WhatsNewDialog whatsNewDialog = new WhatsNewDialog(this);
+        whatsNewDialog.show();
     }
 
     void clearTempFolder(){

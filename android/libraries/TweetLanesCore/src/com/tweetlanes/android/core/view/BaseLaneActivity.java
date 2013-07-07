@@ -56,7 +56,6 @@ import com.tweetlanes.android.core.model.ComposeTweetDefault;
 import com.tweetlanes.android.core.util.Util;
 import com.tweetlanes.android.core.view.BaseLaneFragment.InitialDownloadState;
 import com.tweetlanes.android.core.view.ComposeBaseFragment.ComposeListener;
-import com.tweetlanes.android.core.widget.ChangeLog;
 import com.tweetlanes.android.core.widget.viewpagerindicator.PageIndicator;
 import com.tweetlanes.android.core.widget.viewpagerindicator.TabPageIndicator;
 import com.tweetlanes.android.core.widget.viewpagerindicator.TabPageIndicator.TabCallbacks;
@@ -115,10 +114,6 @@ public class BaseLaneActivity extends FragmentActivity implements
             Crittercism.init(getApplicationContext(),
                     ConsumerKeyConstants.CRITTERCISM_APP_ID);
         }
-
-        ChangeLog cl = new ChangeLog(this);
-        if (cl.firstRun())
-            cl.getLogDialog().show();
 
         // Key the screen from dimming -
         // http://stackoverflow.com/a/4197370/328679
