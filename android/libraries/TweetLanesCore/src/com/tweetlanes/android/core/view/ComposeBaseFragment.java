@@ -344,7 +344,11 @@ public abstract class ComposeBaseFragment extends Fragment {
             return;
         }
 
-        int index = text.lastIndexOf(" ");
+        int spaceIndex = text.lastIndexOf(" ");
+        int dotIndex = text.lastIndexOf(".");
+
+        int index = Math.max(spaceIndex, dotIndex);
+
         String lastWholeWord = text.substring(index + 1).toLowerCase();
 
         if (lastWholeWord.startsWith("@")) {
