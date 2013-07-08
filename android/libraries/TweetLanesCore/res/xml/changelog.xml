@@ -4,6 +4,7 @@
         <change>Feature - Auto complete of @mentions and #hashtags</change>
         <change>Feature - New account switcher with picture and service icon</change>
         <change>Feature - Added new change log (this is it!)</change>
+        <change>Feature - Sign up for an App.net account from within the app</change>
         <change>Feature - Added username to the compose box</change>
         <change>Feature - Image scaling to ensure images are under 1024x1024 (aspect ratio maintained)</change>
         <change>Feature - Mention &amp; DM notifications start on boot</change>
