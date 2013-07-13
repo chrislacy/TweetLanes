@@ -279,6 +279,8 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                 {
                     cachedStatus.setFavorite(status.mIsFavorited);
                     cachedStatus.setRetweet(status.mIsRetweetedByMe);
+                    cachedStatus.mFavoriteCount = status.mFavoriteCount;
+                    cachedStatus.mRetweetCount = status.mRetweetCount;
                 }
             }
         }
