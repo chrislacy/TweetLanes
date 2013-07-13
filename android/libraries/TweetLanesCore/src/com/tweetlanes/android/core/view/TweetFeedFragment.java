@@ -272,13 +272,15 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                 if(deleteStatus)
                 {
                     TwitterStatuses selectedStatuses = new TwitterStatuses(cachedStatus);
-                    statusFeed.remove(selectedStatuses);
-                    _mCachedStatusFeed.remove(selectedStatuses);
+                    if(statusFeed!=null) statusFeed.remove(selectedStatuses);
+                    if(_mCachedStatusFeed!=null) _mCachedStatusFeed.remove(selectedStatuses);
                 }
                 else
                 {
                     cachedStatus.setFavorite(status.mIsFavorited);
                     cachedStatus.setRetweet(status.mIsRetweetedByMe);
+                    cachedStatus.mFavoriteCount = status.mFavoriteCount;
+                    cachedStatus.mRetweetCount = status.mRetweetCount;
                 }
             }
         }
@@ -1291,18 +1293,13 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                                     TwitterStatuses cachedStatuses = getStatusFeed();
                                     TwitterStatuses selectedStatuses =  getSelectedStatuses();
                                     if (selectedStatuses != null && selectedStatuses.getStatusCount() > 0) {
-                                        cachedStatuses.remove(selectedStatuses);
-                                        _mCachedStatusFeed.remove(selectedStatuses);
+                                        if(cachedStatuses!=null) cachedStatuses.remove(selectedStatuses);
+                                        if(_mCachedStatusFeed!=null) _mCachedStatusFeed.remove(selectedStatuses);
                                     }
                                 }
                                 else
                                 {
                                     showToast(getString(R.string.deleted_un_successfully));
-
-                                    if (statuses != null && statuses.getStatusCount() > 0) {
-                                        TwitterStatuses cachedStatuses = getStatusFeed();
-                                        cachedStatuses.add(statuses);
-                                    }
                                 }
                             }
                         };

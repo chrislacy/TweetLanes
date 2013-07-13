@@ -27,6 +27,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.SecureCacheResponse;
 
 import org.appdotnet4j.model.AdnPostCompose;
 import twitter4j.StatusUpdate;
@@ -104,8 +105,13 @@ public class TwitterStatusUpdate {
         }
 
         File resizedFile = SaveImage(resizeImage);
-        return resizedFile;
 
+        if (resizedFile==null)
+        {
+            return originalFile;
+        }
+
+        return resizedFile;
     }
 
     private Bitmap TryResizeImage(File originalFile) throws FileNotFoundException
@@ -145,19 +151,24 @@ public class TwitterStatusUpdate {
     private File SaveImage(Bitmap resizeImage) throws IOException
     {
         File path = new File(Environment.getExternalStorageDirectory(),"temp/images/Tweet Lanes");
-        path.mkdirs();
 
-        File tempFile;
-        tempFile = File.createTempFile("img", ".jpeg", path);
+        File tempFile = null;
 
         OutputStream outStream = null;
 
         try
         {
+            path.mkdirs();
+            tempFile = File.createTempFile("img", ".jpeg", path);
             outStream = new BufferedOutputStream(new FileOutputStream(tempFile));
             resizeImage.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
         }
-        finally {
+        catch (Exception ex)
+        {
+            tempFile = null;
+        }
+        finally
+        {
             if (outStream != null) {
                 try {
                     outStream.close();

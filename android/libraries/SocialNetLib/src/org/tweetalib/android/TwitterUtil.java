@@ -67,8 +67,7 @@ public class TwitterUtil {
 	 * 
 	 */
     public static String getTextMarkup(String text) {
-        initCommon();
-        return mAutolink.autoLink(text);
+        return getStatusMarkup(text, null, null, null);
     }
 
     /*
@@ -100,7 +99,7 @@ public class TwitterUtil {
     /*
 	 * 
 	 */
-    private static String getStatusMarkup(String statusText,
+    public static String getStatusMarkup(String statusText,
             TwitterMediaEntity twitterMediaEntity, MediaEntity[] mediaEntities,
             URLEntity[] urlEntities) {
 

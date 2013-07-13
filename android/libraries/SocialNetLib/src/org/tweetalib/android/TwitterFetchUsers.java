@@ -23,10 +23,15 @@ import org.tweetalib.android.model.TwitterUser;
 import org.tweetalib.android.model.TwitterUsers;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 
 import twitter4j.IDs;
 import twitter4j.Paging;
+import twitter4j.RateLimitStatus;
 import twitter4j.ResponseList;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -732,15 +737,46 @@ public class TwitterFetchUsers {
                     }
 
                     if (userIds != null) {
-                        // TODO: Clean this temp crap up!!!!
                         long[] ids = userIds.getIDs();
-                        int max = paging == null ? 40 : paging.getCount();
-                        int numberToFetch = Math.min(max, ids.length);
-                        long[] longArray = new long[numberToFetch];
-                        for (int i = 0; i < numberToFetch; i++) {
-                            longArray[i] = ids[i];
+                        int numberToFetch = paging == null ? 40 : paging.getCount();
+                        int start = 0;
+                        int finish = numberToFetch;
+                        ArrayList<Long> fetchIds = new ArrayList<Long>();
+                        boolean check = true;
+                        while (check)
+                        {
+                            //Establish ids for this batch
+                            for (int i = start; i < finish; i++) {
+                                fetchIds.add(ids[i]);
+
+                                if(ids.length-1 == i)
+                                {
+                                    check = false;
+                                    break;
+                                }
+                            }
+
+                            //Mark where to start and end next time round
+                            start = start + numberToFetch;
+                            finish = finish + numberToFetch;
+
+                            //Convert arraylist into long[]
+                            long[] longArray = new long[fetchIds.size()];
+                            for (int i = 0; i < fetchIds.size(); i++){
+                                longArray[i] = fetchIds.get(i);
+                            }
+                            fetchIds.clear();
+
+                            //Get this batch of users
+                            if (users==null)
+                            {
+                                users =  twitter.lookupUsers(longArray);
+                            }
+                            else
+                            {
+                                users.addAll(twitter.lookupUsers(longArray));
+                            }
                         }
-                        users = twitter.lookupUsers(longArray);
                     }
 
                 } catch (TwitterException e) {

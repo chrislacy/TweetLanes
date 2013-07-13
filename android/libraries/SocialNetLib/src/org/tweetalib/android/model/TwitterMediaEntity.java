@@ -21,6 +21,8 @@ import java.net.URL;
 import org.appdotnet4j.model.AdnPost;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import twitter4j.DirectMessage;
 import twitter4j.MediaEntity;
 import twitter4j.Status;
 import twitter4j.URLEntity;
@@ -79,6 +81,34 @@ public class TwitterMediaEntity {
             urlEntities = status.getURLEntities();
         }
 
+
+        if (mediaEntities != null && mediaEntities.length > 0) {
+            return new TwitterMediaEntity(mediaEntities[0]);
+        } else if (urlEntities != null) {
+            for (URLEntity urlEntity : urlEntities) {
+                // This shouldn't be necessary, but is
+                String expandedUrl = urlEntity.getExpandedURL();
+                if (expandedUrl == null) {
+                    continue;
+                }
+
+                TwitterMediaEntity entity = getTwitterMediaEntityFromUrl(
+                        urlEntity.getURL(), urlEntity.getExpandedURL());
+                if (entity != null) {
+                    return entity;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public static TwitterMediaEntity createMediaEntity(DirectMessage status) {
+        MediaEntity[] mediaEntities;
+        URLEntity[] urlEntities;
+
+        mediaEntities = status.getMediaEntities();
+        urlEntities = status.getURLEntities();
 
         if (mediaEntities != null && mediaEntities.length > 0) {
             return new TwitterMediaEntity(mediaEntities[0]);

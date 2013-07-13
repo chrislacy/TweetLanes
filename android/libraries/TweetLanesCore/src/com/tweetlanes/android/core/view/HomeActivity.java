@@ -751,7 +751,7 @@ public class HomeActivity extends BaseLaneActivity {
         TwitterContentHandle contentHandle = TwitterManager.get().getContentHandle(
                 base, account.getScreenName(), Long.valueOf(account.getId()).toString(), account.getAccountKey());
 
-        TwitterManager.get().getFetchUsersInstance().getUsers(contentHandle, TwitterPaging.createGetMostRecent(250), TwitterManager.get()
+        TwitterManager.get().getFetchUsersInstance().getUsers(contentHandle, TwitterPaging.createGetMostRecent(), TwitterManager.get()
                 .getFetchUsersInstance().new FinishedCallback() {
 
             @Override
