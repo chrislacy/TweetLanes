@@ -317,9 +317,13 @@ public abstract class ComposeBaseFragment extends Fragment {
         public void afterTextChanged(Editable s) {
             String asString = s.toString();
             configureCharacterCountForString(asString);
-            if (asString == null || asString.equals("") == true) {
-                setComposeTweetDefault(null);
-                updateStatusHint();
+            if (asString == null || asString.equals("") == true)
+            {
+                if (mListener.getDraft() == null)
+                {
+                    setComposeTweetDefault(null);
+                    updateStatusHint();
+                }
             }
 
             autoComplete(asString, mEditText);
@@ -644,11 +648,6 @@ public abstract class ComposeBaseFragment extends Fragment {
         }
 
         @Override
-        public void onClearPressed() {
-            clearCompose(false);
-        }
-
-        @Override
         public void onTouch(View v, MotionEvent event) {
             if (mHasFocus == false) {
                 showCompose();
@@ -661,13 +660,20 @@ public abstract class ComposeBaseFragment extends Fragment {
 	 */
     void clearCompose(boolean saveCurrentTweet) {
 
-        if (saveCurrentTweet) {
+        if (saveCurrentTweet)
+        {
             saveCurrentAsDraft();
+            updateComposeTweetDefault();
         }
+        else
+        {
+            setComposeTweetDefault(null);
 
-        setComposeTweetDefault(null);
-        if (mListener != null) {
-            mListener.onMediaDetach();
+            if (mListener != null) {
+                mListener.onMediaDetach();
+            }
+
+            getApp().clearTweetDraft();
         }
 
         // NOTE: Changing these text values causes a crash during the copy/paste

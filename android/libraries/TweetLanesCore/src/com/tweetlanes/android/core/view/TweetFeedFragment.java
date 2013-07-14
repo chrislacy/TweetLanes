@@ -1024,11 +1024,13 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     private boolean onTweetFeedItemSingleTap(View view, int position) {
 
         if (mSelectedItems.size() == 0) {
+
             TweetFeedItemView tweetFeedItemView = (TweetFeedItemView) (view);
             TwitterStatus status = tweetFeedItemView.getTwitterStatus();
             Intent tweetSpotlightIntent = new Intent(getActivity(), TweetSpotlightActivity.class);
             tweetSpotlightIntent.putExtra("statusId", Long.toString(status.mId));
             tweetSpotlightIntent.putExtra("status", status.toString());
+            tweetSpotlightIntent.putExtra("clearCompose", "true");
             getActivity().startActivityForResult(tweetSpotlightIntent, Constant.REQUEST_CODE_SPOTLIGHT );
             return true;
         } else {

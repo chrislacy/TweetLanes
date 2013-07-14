@@ -91,11 +91,6 @@ public class EditClearText extends EditText {
         public boolean onBackButtonPressed();
 
         /*
-         * Triggered when the clear button is pressed
-         */
-        public void onClearPressed();
-
-        /*
          * Triggered when the view is touched. Use as a replacement for
          * setOnTouchListener(), which EditClearText overrides
          */

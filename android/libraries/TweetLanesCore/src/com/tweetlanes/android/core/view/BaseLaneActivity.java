@@ -338,6 +338,11 @@ public class BaseLaneActivity extends FragmentActivity implements
         }
     }
 
+    void clearCompose()
+    {
+        mCurrentComposeFragment.clearCompose(false);
+    }
+
     /*
 	 *
 	 */
@@ -1131,6 +1136,8 @@ public class BaseLaneActivity extends FragmentActivity implements
                 if (fragment != null) {
                     fragment.UpdateTweetCache(status, deleteStatus);
                 }
+
+                clearCompose();
             }
         }
 
@@ -1376,8 +1383,21 @@ public class BaseLaneActivity extends FragmentActivity implements
 	 *
 	 */
     protected void setComposeDefault() {
-        if (this.mCurrentComposeFragment == mComposeTweetFragment) {
-            setComposeTweetDefault();
+        if (this.mCurrentComposeFragment == mComposeTweetFragment)
+        {
+            String draft = mComposeTweetFragment.getTweetDefaultDraft();
+            if(draft == null || draft=="")
+            {
+                setComposeTweetDefault();
+            }
+            else
+            {
+                mComposeTweetFragment.updateStatusHint();
+            }
+        }
+        else
+        {
+            mComposeTweetFragment.clearCompose(false);
         }
     }
 

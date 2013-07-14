@@ -252,6 +252,16 @@ public class App extends Application {
     }
 
     /*
+     *
+	 */
+    public void clearTweetDraft() {
+        final Editor edit = mPreferences.edit();
+        edit.remove(getTweetDraftKey());
+        edit.remove(getTweetDraftTimeKey());
+        edit.commit();
+    }
+
+    /*
 	 *
 	 */
     public String getTweetDraftAsString() {
