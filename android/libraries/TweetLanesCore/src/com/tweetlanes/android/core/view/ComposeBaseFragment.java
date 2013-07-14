@@ -246,6 +246,7 @@ public abstract class ComposeBaseFragment extends Fragment {
     public boolean releaseFocus(boolean saveCurrentTweet) {
 
         clearCompose(saveCurrentTweet);
+        setMediaPreviewVisibility();
         return hideCompose();
     }
 
@@ -297,6 +298,7 @@ public abstract class ComposeBaseFragment extends Fragment {
         public void onFocusChange(View v, boolean hasFocus) {
             if (hasFocus == true && mIgnoreFocusChange == false) {
                 showCompose();
+                setMediaPreviewVisibility();
             }
         }
     };
@@ -623,6 +625,8 @@ public abstract class ComposeBaseFragment extends Fragment {
 
     protected abstract void onSendClick(String status);
 
+    public abstract void setMediaPreviewVisibility();
+
     /*
 	 */
     EditClearTextListener mEditClearTextListener = new EditClearTextListener() {
@@ -644,6 +648,7 @@ public abstract class ComposeBaseFragment extends Fragment {
                 mListener.onBackButtonPressed();
             }
             hideCompose();
+            setMediaPreviewVisibility();
             return true;
         }
 
@@ -651,6 +656,7 @@ public abstract class ComposeBaseFragment extends Fragment {
         public void onTouch(View v, MotionEvent event) {
             if (mHasFocus == false) {
                 showCompose();
+                setMediaPreviewVisibility();
             }
         }
     };

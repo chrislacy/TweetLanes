@@ -90,6 +90,8 @@ public class ComposeDirectMessageFragment extends ComposeBaseFragment {
         return otherUserScreenName;
     }
 
+    public void setMediaPreviewVisibility() {}
+
     /*
 	 *
 	 */

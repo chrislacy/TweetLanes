@@ -403,7 +403,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
     /*
 	 *
 	 */
-    private void setMediaPreviewVisibility() {
+    public void setMediaPreviewVisibility() {
         mAttachImagePreview.setVisibility(View.GONE);
 
         if (_mComposeDefault != null
