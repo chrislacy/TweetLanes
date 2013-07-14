@@ -84,16 +84,16 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
     @Override
     protected void updateComposeTweetDefault() {
 
-        ComposeTweetDefault composeTweetDefault = null;
         String currentStatus = mEditText.getText().toString();
 
-        if (Util.isValidString(currentStatus)) {
-            composeTweetDefault = new ComposeTweetDefault(getApp()
+        if (Util.isValidString(currentStatus))
+        {
+            ComposeTweetDefault composeTweetDefault = new ComposeTweetDefault(getApp()
                     .getCurrentAccountScreenName(), currentStatus,
                     getInReplyToId(), getMediaFilePath());
-        }
 
-        setComposeTweetDefault(composeTweetDefault);
+            setComposeTweetDefault(composeTweetDefault);
+        }
     }
 
     /*
@@ -108,6 +108,19 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
                 return result;
             }
         }
+        else
+        {
+            if (mListener != null) {
+                String draftAsJsonString = mListener.getDraft();
+                if (draftAsJsonString != null  && draftAsJsonString.equals("") == false)
+                {
+                    return draftAsJsonString;
+                }
+            }
+        }
+
+
+
         return null;
     }
 
@@ -356,6 +369,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
                 ComposeTweetDefault draft = new ComposeTweetDefault(
                         draftAsJsonString);
                 hint = getStatusHint(draft);
+                setComposeTweetDefault(draft);
             }
         }
 
@@ -389,7 +403,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
     /*
 	 *
 	 */
-    private void setMediaPreviewVisibility() {
+    public void setMediaPreviewVisibility() {
         mAttachImagePreview.setVisibility(View.GONE);
 
         if (_mComposeDefault != null
