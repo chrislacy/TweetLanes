@@ -169,7 +169,24 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         LocalBroadcastManager.getInstance(getActivity())
                 .registerReceiver(mVolumeDownKeyDownReceiver, new IntentFilter("" + SystemEvent.VOLUME_DOWN_KEY_DOWN));
 
+
+        if(savedInstanceState != null)
+        {
+            mTwitterStatusIdWhenRefreshed = savedInstanceState.getLong("TwitterStatusIdWhenRefreshed");
+            mLastTwitterStatusIdSeen = savedInstanceState.getLong("LastTwitterStatusIdSeen");
+            mNewStatuses = savedInstanceState.getInt("NewStatuses",0);
+        }
+
         return resultView;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle state)
+    {
+        super.onSaveInstanceState(state);
+        if (mTwitterStatusIdWhenRefreshed != null) state.putLong("TwitterStatusIdWhenRefreshed", mTwitterStatusIdWhenRefreshed);
+        if (mLastTwitterStatusIdSeen != null) state.putLong("LastTwitterStatusIdSeen", mLastTwitterStatusIdSeen);
+        state.putInt("NewStatuses", mNewStatuses);
     }
 
     /*
