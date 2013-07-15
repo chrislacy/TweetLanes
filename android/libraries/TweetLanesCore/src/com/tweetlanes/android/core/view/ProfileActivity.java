@@ -56,6 +56,9 @@ public class ProfileActivity extends BaseLaneActivity {
 
         super.onCreate(savedInstanceState);
 
+        Intent returnIntent = new Intent();
+        setResult(RESULT_OK, returnIntent);
+
         String clearCompose = getIntent().getStringExtra("clearCompose");
         mScreenName = getIntent().getStringExtra("userScreenName");
         if (mScreenName == null) {

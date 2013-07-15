@@ -33,6 +33,7 @@ import android.widget.TextView;
 
 import com.tweetlanes.android.core.AppSettings;
 import com.tweetlanes.android.core.AppSettings.StatusSize;
+import com.tweetlanes.android.core.Constant;
 import com.tweetlanes.android.core.R;
 import com.tweetlanes.android.core.util.LazyImageLoader;
 import com.tweetlanes.android.core.util.Util;
@@ -577,7 +578,7 @@ public class TweetFeedItemView extends LinearLayout {
 
         profileIntent.putExtra("clearCompose","true");
 
-        mContext.startActivity(profileIntent);
+        ((Activity)mContext).startActivityForResult(profileIntent, Constant.REQUEST_CODE_PROFILE );
     }
 
     /*

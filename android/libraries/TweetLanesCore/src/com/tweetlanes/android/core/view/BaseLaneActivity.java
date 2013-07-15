@@ -1139,6 +1139,8 @@ public class BaseLaneActivity extends FragmentActivity implements
 
                 clearCompose();
             }
+        } else if( requestCode == Constant.REQUEST_CODE_PROFILE ) {
+            clearCompose();
         }
 
         mShareImagePath = imagePath;

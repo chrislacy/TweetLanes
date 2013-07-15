@@ -14,6 +14,7 @@ package com.tweetlanes.android.core.view;
 import org.tweetalib.android.TwitterManager;
 import org.tweetalib.android.model.TwitterUser;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
@@ -25,6 +26,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.tweetlanes.android.core.AppSettings;
+import com.tweetlanes.android.core.Constant;
 import com.tweetlanes.android.core.R;
 import com.tweetlanes.android.core.util.LazyImageLoader;
 import com.tweetlanes.android.core.view.UserFeedFragment.UserFeedItemViewCallbacks;
@@ -96,7 +98,7 @@ public class UserFeedItemView extends LinearLayout {
         profileIntent.putExtra("userId", Long.valueOf(mUserId).toString());
         profileIntent.putExtra("userScreenName", mUserScreenName);
         profileIntent.putExtra("clearCompose","true");
-        mContext.startActivity(profileIntent);
+        ((Activity)mContext).startActivityForResult(profileIntent, Constant.REQUEST_CODE_PROFILE);
     }
 
     public TwitterUser getTwitterUser() {
