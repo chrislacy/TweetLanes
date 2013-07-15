@@ -90,21 +90,22 @@ public class ComposeDirectMessageFragment extends ComposeBaseFragment {
         return otherUserScreenName;
     }
 
+    public void setMediaPreviewVisibility() {}
+
     /*
 	 *
 	 */
     @Override
-    protected void updateComposeTweetDefault() {
-
-        ComposeTweetDefault composeTweetDefault = null;
+    protected void updateComposeTweetDefault()
+    {
         String currentStatus = mEditText.getText().toString();
 
         if (Util.isValidString(currentStatus)) {
-            composeTweetDefault = new ComposeTweetDefault(getApp()
+            ComposeTweetDefault composeTweetDefault = new ComposeTweetDefault(getApp()
                     .getCurrentAccountScreenName(), currentStatus, null, null);
-        }
 
-        setComposeTweetDefault(composeTweetDefault);
+            setComposeTweetDefault(composeTweetDefault);
+        }
     }
 
     /*

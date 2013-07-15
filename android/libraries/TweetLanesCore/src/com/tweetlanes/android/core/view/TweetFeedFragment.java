@@ -169,7 +169,24 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         LocalBroadcastManager.getInstance(getActivity())
                 .registerReceiver(mVolumeDownKeyDownReceiver, new IntentFilter("" + SystemEvent.VOLUME_DOWN_KEY_DOWN));
 
+
+        if(savedInstanceState != null)
+        {
+            mTwitterStatusIdWhenRefreshed = savedInstanceState.getLong("TwitterStatusIdWhenRefreshed");
+            mLastTwitterStatusIdSeen = savedInstanceState.getLong("LastTwitterStatusIdSeen");
+            mNewStatuses = savedInstanceState.getInt("NewStatuses",0);
+        }
+
         return resultView;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle state)
+    {
+        super.onSaveInstanceState(state);
+        if (mTwitterStatusIdWhenRefreshed != null) state.putLong("TwitterStatusIdWhenRefreshed", mTwitterStatusIdWhenRefreshed);
+        if (mLastTwitterStatusIdSeen != null) state.putLong("LastTwitterStatusIdSeen", mLastTwitterStatusIdSeen);
+        state.putInt("NewStatuses", mNewStatuses);
     }
 
     /*
@@ -1024,11 +1041,13 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     private boolean onTweetFeedItemSingleTap(View view, int position) {
 
         if (mSelectedItems.size() == 0) {
+
             TweetFeedItemView tweetFeedItemView = (TweetFeedItemView) (view);
             TwitterStatus status = tweetFeedItemView.getTwitterStatus();
             Intent tweetSpotlightIntent = new Intent(getActivity(), TweetSpotlightActivity.class);
             tweetSpotlightIntent.putExtra("statusId", Long.toString(status.mId));
             tweetSpotlightIntent.putExtra("status", status.toString());
+            tweetSpotlightIntent.putExtra("clearCompose", "true");
             getActivity().startActivityForResult(tweetSpotlightIntent, Constant.REQUEST_CODE_SPOTLIGHT );
             return true;
         } else {

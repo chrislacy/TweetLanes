@@ -63,6 +63,8 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
 
         String statusIdAsString = getIntent().getStringExtra(STATUS_ID_KEY);
         String statusAsString = getIntent().getStringExtra(STATUS_KEY);
+        String clearCompose = getIntent().getStringExtra("clearCompose");
+
         long statusId = 0;
         if (statusIdAsString != null) {
             statusId = Long.parseLong(statusIdAsString);
@@ -73,6 +75,13 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
         BaseLaneFragment fragment = super.getFragmentAtIndex(0);
         super.setCurrentComposeFragment((fragment instanceof DirectMessageFeedFragment) ? super.COMPOSE_DIRECT_MESSAGE
                 : super.COMPOSE_TWEET);
+
+
+        if(clearCompose != null && clearCompose.equals("true"))
+        {
+            clearCompose();
+            getIntent().removeExtra("clearCompose");
+        }
 
         mViewSwitcher = (ViewSwitcher) findViewById(R.id.rootViewSwitcher);
         updateViewVisibility();
@@ -340,15 +349,6 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
         }
 
         return false;
-    }
-
-    @Override
-    public boolean composeReleaseFocus(boolean forceCleanup) {
-        boolean result = super.composeReleaseFocus(forceCleanup);
-
-        super.setComposeTweetDefault(getComposeTweetDefault());
-
-        return result;
     }
 
     void setIsFavorited()
