@@ -31,6 +31,7 @@ import android.widget.ListView;
 import android.widget.ViewSwitcher;
 
 import com.tweetlanes.android.core.App;
+import com.tweetlanes.android.core.Constant;
 import com.tweetlanes.android.core.Constant.SystemEvent;
 import com.tweetlanes.android.core.R;
 import com.tweetlanes.android.core.model.AccountDescriptor;
@@ -445,7 +446,7 @@ public class UserFeedFragment extends BaseLaneFragment {
                 profileIntent.putExtra("userId", Long.valueOf(user.getId())
                         .toString());
                 profileIntent.putExtra("userScreenName", user.getScreenName());
-                getActivity().startActivity(profileIntent);
+                getActivity().startActivityForResult(profileIntent, Constant.REQUEST_CODE_PROFILE );
             }
         }
     };

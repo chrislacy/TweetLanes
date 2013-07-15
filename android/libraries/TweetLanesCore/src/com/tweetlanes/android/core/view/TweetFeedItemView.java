@@ -33,6 +33,7 @@ import android.widget.TextView;
 
 import com.tweetlanes.android.core.AppSettings;
 import com.tweetlanes.android.core.AppSettings.StatusSize;
+import com.tweetlanes.android.core.Constant;
 import com.tweetlanes.android.core.R;
 import com.tweetlanes.android.core.util.LazyImageLoader;
 import com.tweetlanes.android.core.util.Util;
@@ -575,12 +576,9 @@ public class TweetFeedItemView extends LinearLayout {
         profileIntent.putExtra("userScreenName",
                 mTwitterStatus.getAuthorScreenName());
 
-        // profileIntent.putExtra("userScreenName", "JossWhedonGeek");
-        // profileIntent.putExtra("userScreenName", "Donnicous");
-        // profileIntent.putExtra("userScreenName", "TweetLanes");
-        // profileIntent.putExtra("userScreenName", "JustinBieber");
-        // profileIntent.putExtra("userScreenName", "SteveStreza");
-        mContext.startActivity(profileIntent);
+        profileIntent.putExtra("clearCompose","true");
+
+        ((Activity)mContext).startActivityForResult(profileIntent, Constant.REQUEST_CODE_PROFILE );
     }
 
     /*

@@ -281,9 +281,9 @@ public class ProfileFragment extends BaseLaneFragment {
                 locationLayout.setVisibility(View.GONE);
             }
 
+
             configureFriendshipButtonVisibility(mLoggedInUserFollows);
 
-            getBaseLaneActivity().setComposeTweetDefault();
         } else {
             fullNameTextView.setText(null);
             followingTextView.setText(null);
