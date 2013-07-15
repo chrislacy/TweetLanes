@@ -575,11 +575,8 @@ public class TweetFeedItemView extends LinearLayout {
         profileIntent.putExtra("userScreenName",
                 mTwitterStatus.getAuthorScreenName());
 
-        // profileIntent.putExtra("userScreenName", "JossWhedonGeek");
-        // profileIntent.putExtra("userScreenName", "Donnicous");
-        // profileIntent.putExtra("userScreenName", "TweetLanes");
-        // profileIntent.putExtra("userScreenName", "JustinBieber");
-        // profileIntent.putExtra("userScreenName", "SteveStreza");
+        profileIntent.putExtra("clearCompose","true");
+
         mContext.startActivity(profileIntent);
     }
 

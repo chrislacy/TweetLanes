@@ -95,6 +95,7 @@ public class UserFeedItemView extends LinearLayout {
         Intent profileIntent = new Intent(mContext, ProfileActivity.class);
         profileIntent.putExtra("userId", Long.valueOf(mUserId).toString());
         profileIntent.putExtra("userScreenName", mUserScreenName);
+        profileIntent.putExtra("clearCompose","true");
         mContext.startActivity(profileIntent);
     }
 

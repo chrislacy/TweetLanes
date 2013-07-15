@@ -265,6 +265,8 @@ public class DirectMessageItemView extends LinearLayout {
                         mDirectMessage.getOtherUserScreenName());
             }
         }
+
+        profileIntent.putExtra("clearCompose","true");
         mContext.startActivity(profileIntent);
     }
 

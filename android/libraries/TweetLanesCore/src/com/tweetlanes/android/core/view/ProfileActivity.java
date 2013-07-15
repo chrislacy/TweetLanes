@@ -56,6 +56,7 @@ public class ProfileActivity extends BaseLaneActivity {
 
         super.onCreate(savedInstanceState);
 
+        String clearCompose = getIntent().getStringExtra("clearCompose");
         mScreenName = getIntent().getStringExtra("userScreenName");
         if (mScreenName == null) {
             Uri data = getIntent().getData();
@@ -67,6 +68,16 @@ public class ProfileActivity extends BaseLaneActivity {
         if (mScreenName == null) {
             restartApp();
             return;
+        }
+
+        BaseLaneFragment fragment = super.getFragmentAtIndex(0);
+        super.setCurrentComposeFragment((fragment instanceof DirectMessageFeedFragment) ? super.COMPOSE_DIRECT_MESSAGE
+                : super.COMPOSE_TWEET);
+
+        if(clearCompose != null && clearCompose.equals("true"))
+        {
+            clearCompose();
+            getIntent().removeExtra("clearCompose");
         }
 
         TwitterFetchUser.FinishedCallback callback = TwitterManager.get()
@@ -105,6 +116,8 @@ public class ProfileActivity extends BaseLaneActivity {
 
         mViewSwitcher = (ViewSwitcher) findViewById(R.id.rootViewSwitcher);
         updateViewVisibility();
+
+        setComposeDefault();
     }
 
     /*
@@ -119,7 +132,7 @@ public class ProfileActivity extends BaseLaneActivity {
         // destroyed, yet a callback is still initiated from a Twitter fetch
         // operation. A better solution is needed here, but this works for now.
         mProfileAdapter = null;
-
+        
         super.onDestroy();
     }
 
