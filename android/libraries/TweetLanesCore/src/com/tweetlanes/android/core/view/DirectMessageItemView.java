@@ -34,6 +34,7 @@ import android.widget.TextView;
 import com.tweetlanes.android.core.App;
 import com.tweetlanes.android.core.AppSettings;
 import com.tweetlanes.android.core.AppSettings.StatusSize;
+import com.tweetlanes.android.core.Constant;
 import com.tweetlanes.android.core.R;
 import com.tweetlanes.android.core.model.AccountDescriptor;
 import com.tweetlanes.android.core.util.LazyImageLoader;
@@ -265,7 +266,9 @@ public class DirectMessageItemView extends LinearLayout {
                         mDirectMessage.getOtherUserScreenName());
             }
         }
-        mContext.startActivity(profileIntent);
+
+        profileIntent.putExtra("clearCompose","true");
+        ((Activity)mContext).startActivityForResult(profileIntent, Constant.REQUEST_CODE_PROFILE );
     }
 
     /**
