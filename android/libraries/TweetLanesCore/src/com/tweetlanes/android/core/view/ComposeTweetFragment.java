@@ -500,7 +500,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
 	 *
 	 */
     public void beginShare(String initialShareString) {
-        setComposeTweetDefault(null);
+        setComposeTweetDefault(new ComposeTweetDefault(getApp().getCurrentAccountScreenName(),initialShareString));
 
         showCompose(initialShareString);
     }
