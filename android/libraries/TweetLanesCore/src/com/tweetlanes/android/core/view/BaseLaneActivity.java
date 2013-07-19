@@ -222,7 +222,10 @@ public class BaseLaneActivity extends FragmentActivity implements
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
 
-        setComposeDefault();
+        Intent intent = getIntent();
+        if (intent.getAction() != Intent.ACTION_SEND) {
+            setComposeDefault();
+        }
     }
 
     /*
@@ -1415,9 +1418,9 @@ public class BaseLaneActivity extends FragmentActivity implements
     protected void beginShareImage(String imagePath) {
         mShareImagePath = imagePath;
         if (imagePath != null && mComposeTweetFragment != null) {
+            setComposeTweetDefault(null);
             mComposeTweetFragment.showCompose();
             mComposeTweetFragment.setMediaFilePath(imagePath);
-            // mComposeTweet.setMediaFilePath(imagePath);
         }
     }
 

@@ -1095,7 +1095,8 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         } else {
             mMultipleTweetSelectionCallback.setIsFavorited(false);
             mMultipleTweetSelectionCallback.setIsRetweet(false);
-            getBaseLaneActivity().setComposeTweetDefault();
+            getBaseLaneActivity().clearCompose();
+            getBaseLaneActivity().setComposeDefault();
         }
     }
 
@@ -1396,6 +1397,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
             // Don't update the default status when TweetCompose has focus
             if (getBaseLaneActivity().composeHasFocus() == false) {
+                getBaseLaneActivity().clearCompose();
                 getBaseLaneActivity().setComposeDefault();
             }
         }
