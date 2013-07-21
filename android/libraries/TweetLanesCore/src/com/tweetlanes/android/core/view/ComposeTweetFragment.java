@@ -491,16 +491,17 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
 	 *
 	 */
     public void beginQuote(TwitterStatus statusToQuote) {
-        setComposeTweetDefault(null);
+        String statusString = getDefaultQuoteStatus(statusToQuote);
+        setComposeTweetDefault(new ComposeTweetDefault(getApp().getCurrentAccountScreenName(),statusString));
 
-        showCompose(getDefaultQuoteStatus(statusToQuote));
+        showCompose(statusString);
     }
 
     /*
 	 *
 	 */
     public void beginShare(String initialShareString) {
-        setComposeTweetDefault(null);
+        setComposeTweetDefault(new ComposeTweetDefault(getApp().getCurrentAccountScreenName(),initialShareString));
 
         showCompose(initialShareString);
     }
