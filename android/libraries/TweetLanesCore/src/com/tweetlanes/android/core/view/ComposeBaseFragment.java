@@ -675,11 +675,15 @@ public abstract class ComposeBaseFragment extends Fragment {
         {
             setComposeTweetDefault(null);
 
-            if (mListener != null) {
+            if (mListener != null)
+            {
                 mListener.onMediaDetach();
             }
 
-            getApp().clearTweetDraft();
+            if(getApp() != null)
+            {
+                getApp().clearTweetDraft();
+            }
         }
 
         // NOTE: Changing these text values causes a crash during the copy/paste
