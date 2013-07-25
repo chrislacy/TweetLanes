@@ -15,6 +15,7 @@ import org.appdotnet4j.model.AdnUser;
 import org.socialnetlib.android.SocialNetConstant;
 import org.tweetalib.android.TwitterManager.ProfileImageSize;
 
+import twitter4j.URLEntity;
 import twitter4j.User;
 
 public class TwitterUser {
@@ -24,6 +25,9 @@ public class TwitterUser {
         mScreenName = user.getScreenName();
         mName = user.getName();
         mDescription = user.getDescription();
+        if (user.getDescriptionURLEntities() != null) {
+            mDescriptionUrlEntities = user.getDescriptionURLEntities();
+        }
         if (user.getLocation() != null
                 && user.getLocation().equals("") == false) {
             mLocation = user.getLocation();
@@ -82,6 +86,7 @@ public class TwitterUser {
         mScreenName = user.getScreenName();
         mName = user.getName();
         mDescription = user.getDescription();
+        mDescriptionUrlEntities = user.getDescriptionUrlEntities();
         mLocation = user.getLocation();
         mUrl = user.getUrl();
         mProfileImageUrlMini = user.getProfileImageUrlMini();
@@ -199,10 +204,15 @@ public class TwitterUser {
         return "";
     }
 
+    public URLEntity[] getDescriptionUrlEntities() {
+        return mDescriptionUrlEntities;
+    }
+
     private long mId;
     private String mScreenName;
     private String mName;
     private String mDescription;
+    private URLEntity[] mDescriptionUrlEntities;
     private String mCoverImageUrl;
     private String mLocation;
     private String mProfileImageUrlMini;

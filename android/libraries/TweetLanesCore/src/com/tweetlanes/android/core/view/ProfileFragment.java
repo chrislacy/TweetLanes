@@ -42,6 +42,8 @@ import com.tweetlanes.android.core.R;
 import com.tweetlanes.android.core.util.Util;
 import com.tweetlanes.android.core.widget.urlimageviewhelper.UrlImageViewHelper;
 
+import twitter4j.URLEntity;
+
 public class ProfileFragment extends BaseLaneFragment {
 
     /*
@@ -237,9 +239,9 @@ public class ProfileFragment extends BaseLaneFragment {
             }
 
             String description = mUser.getDescription();
+            URLEntity[] urlEntities = mUser.getDescriptionUrlEntities();
             if (description != null) {
-                String descriptionMarkup = TwitterUtil
-                        .getTextMarkup(description);
+                String descriptionMarkup = TwitterUtil.getTextMarkup(description, urlEntities);
                 descriptionTextView.setText(Html.fromHtml(descriptionMarkup
                         + " "));
                 descriptionTextView.setMovementMethod(LinkMovementMethod
