@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+	<release version="1.2.1" versioncode="50">
+        <change>Fix - Links in profile descriptions converted from t.co links</change>
+        <change>Fix - Reply when loading profile correction.  Show "Tweet @username"</change>
+    </release>
     <release version="1.2.0" versioncode="49">
         <change>Feature - Auto complete of @mentions and #hashtags</change>
         <change>Feature - New account switcher with picture and service icon</change>
