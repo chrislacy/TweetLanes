@@ -70,6 +70,10 @@ public class TwitterUtil {
         return getStatusMarkup(text, null, null, null);
     }
 
+    public static String getTextMarkup(String text, URLEntity[] urlEntities) {
+        return getStatusMarkup(text, null, null, urlEntities);
+    }
+
     /*
      * return the markup for a status, which replaces t.co/ links with the
      * visible links
