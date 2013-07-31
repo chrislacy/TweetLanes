@@ -295,6 +295,15 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
 
             return true;
         } else if (i == R.id.action_favorite) {
+
+            //test to see if dark theme and show visual cue when favorite button is pressed
+            boolean isDarkTheme = AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Dark;
+            mFavoriteMenuItem
+                    .setIcon(isDarkTheme ? R.drawable.ic_action_star_pressed_dark
+                            : R.drawable.ic_action_star_pressed_light);
+
+
+
             TwitterModifyStatuses.FinishedCallback callback = TwitterManager
                     .get().getSetStatusesInstance().new FinishedCallback() {
 
