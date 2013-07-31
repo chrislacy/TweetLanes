@@ -302,8 +302,6 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
                     .setIcon(isDarkTheme ? R.drawable.ic_action_star_pressed_dark
                             : R.drawable.ic_action_star_pressed_light);
 
-
-
             TwitterModifyStatuses.FinishedCallback callback = TwitterManager
                     .get().getSetStatusesInstance().new FinishedCallback() {
 
