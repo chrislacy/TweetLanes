@@ -5,12 +5,6 @@
       <configuration>
         <option name="LIBRARY_PROJECT" value="true" />
         <option name="UPDATE_PROPERTY_FILES" value="true" />
-        <notImportedProperties>
-          <property>MANIFEST_FILE_PATH</property>
-          <property>RESOURCES_DIR_PATH</property>
-          <property>ASSETS_DIR_PATH</property>
-          <property>NATIVE_LIBS_DIR_PATH</property>
-        </notImportedProperties>
       </configuration>
     </facet>
   </component>
@@ -20,7 +14,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/gen" isTestSource="false" />
     </content>
-    <orderEntry type="inheritedJdk" />
+    <orderEntry type="jdk" jdkName="Android 4.2.2 Platform" jdkType="Android SDK" />
     <orderEntry type="library" name="android-support-v4" level="project" />
     <orderEntry type="library" name="basic-http-client-android-0.88" level="project" />
     <orderEntry type="library" name="crittercism_v3_0_11" level="project" />
