@@ -30,11 +30,13 @@
 
     <string-array name="theme_list_preference">
         <item>Holo Light</item>
+        <item>Holo Light w/ Dark Bar</item>
         <item>Holo Dark</item>
     </string-array>
 
     <string-array name="themevalues_list_preference">
         <item>light</item>
+        <item>light.darkactionbar</item>
         <item>dark</item>
     </string-array>
 
