@@ -297,7 +297,7 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
         } else if (i == R.id.action_favorite) {
 
             //test to see if dark theme and show visual cue when favorite button is pressed
-            boolean isDarkTheme = AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Dark;
+            boolean isDarkTheme = AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Dark || AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Light_DarkAction;
             mFavoriteMenuItem
                     .setIcon(isDarkTheme ? R.drawable.ic_action_star_pressed_dark
                             : R.drawable.ic_action_star_pressed_light);
@@ -362,7 +362,7 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
     {
         if(mFavoriteMenuItem != null)
         {
-            boolean isDarkTheme = AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Dark;
+            boolean isDarkTheme = AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Dark || AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Light_DarkAction;
             if (mStatus.mIsFavorited == true) {
                 mFavoriteMenuItem
                         .setIcon(isDarkTheme ? R.drawable.ic_action_star_on_dark
@@ -381,7 +381,7 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
     {
         if (mRetweetMenuItem != null)
         {
-            boolean isDarkTheme = AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Dark;
+            boolean isDarkTheme = AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Dark || AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Light_DarkAction;
             if (mStatus.mIsRetweetedByMe) {
                 mRetweetMenuItem.setIcon(
                         isDarkTheme ? R.drawable.ic_action_rt_on_dark : R.drawable.ic_action_rt_on_light);

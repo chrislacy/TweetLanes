@@ -39,6 +39,7 @@ public class AppSettings {
     private static final String PROFILE_IMAGE_SIZE_DEFAULT = PROFILE_IMAGE_SIZE_MEDIUM;
 
     public static final String THEME_LIGHT = "Holo Light";
+    public static final String THEME_DARK = "Holo Dark";
     public static final String THEME_DEFAULT = THEME_LIGHT;
 
     public static final String QUOTE_TYPE_STANDARD = "standard";
@@ -68,7 +69,7 @@ public class AppSettings {
      *
 	 */
     public enum Theme {
-        Holo_Dark, Holo_Light
+        Holo_Dark, Holo_Light_DarkAction, Holo_Light
     }
 
     /*
@@ -145,8 +146,15 @@ public class AppSettings {
 
         String theme = mSharedPreferences.getString(
                 SettingsActivity.KEY_THEME_PREFERENCE, THEME_DEFAULT);
-        setCurrentTheme(theme.equals(THEME_LIGHT) ? Theme.Holo_Light
-                : Theme.Holo_Dark);
+
+        if(theme.equals(THEME_LIGHT)){
+            setCurrentTheme(Theme.Holo_Light);
+        }
+        else if(theme.equals(THEME_DARK)){
+            setCurrentTheme(Theme.Holo_Dark);
+        }else{
+            setCurrentTheme(Theme.Holo_Light_DarkAction);
+        }
 
         String statusSize = mSharedPreferences.getString(
                 SettingsActivity.KEY_STATUS_SIZE_PREFERENCE,
@@ -282,8 +290,14 @@ public class AppSettings {
 	 *
 	 */
     public int getCurrentThemeStyle() {
-        return mCurrentTheme == Theme.Holo_Dark ? R.style.Theme_TweetLanes
-                : R.style.Theme_TweetLanes_Light;
+          if(mCurrentTheme == Theme.Holo_Dark){
+              return R.style.Theme_TweetLanes;
+          }else if(mCurrentTheme == Theme.Holo_Light){
+              return R.style.Theme_TweetLanes_Light;
+          }else{
+              return R.style.Theme_TweetLanes_Light_DarkActionBar;
+          }
+
     }
 
     /*
