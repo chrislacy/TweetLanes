@@ -211,6 +211,12 @@ public class BaseLaneActivity extends FragmentActivity implements
         LocalBroadcastManager.getInstance(this).registerReceiver(
                 mRestartAppReceiver,
                 new IntentFilter("" + SystemEvent.RESTART_APP));
+
+        Intent intent = getIntent();
+        if(intent.getAction() == Intent.ACTION_VIEW)
+        {
+            intent.putExtra("clearCompose","true");
+        }
     }
 
     /*
@@ -223,7 +229,8 @@ public class BaseLaneActivity extends FragmentActivity implements
         super.onPostCreate(savedInstanceState);
 
         Intent intent = getIntent();
-        if (intent.getAction() != Intent.ACTION_SEND) {
+        if(intent.getAction() != Intent.ACTION_SEND && intent.getAction() != Intent.ACTION_VIEW)
+        {
             setComposeDefault();
         }
     }

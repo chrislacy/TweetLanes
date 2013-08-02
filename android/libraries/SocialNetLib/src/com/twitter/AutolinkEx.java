@@ -237,8 +237,8 @@ public class AutolinkEx {
         CharSequence url = entity.getValue();
         CharSequence linkText = escapeHTML(url);
 
-        if (urlEntity != null && urlEntity.getDisplayURL() != null) {
-            linkText = urlEntity.getDisplayURL();
+        if (urlEntity != null && urlEntity.getExpandedURL() != null) {
+            linkText = urlEntity.getExpandedURL();
         } else if (entity.displayURL != null) {
             linkText = entity.displayURL;
         }
