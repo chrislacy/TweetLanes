@@ -41,6 +41,7 @@ import android.widget.ViewSwitcher;
 import com.tweetlanes.android.core.AppSettings;
 import com.tweetlanes.android.core.Constant;
 import com.tweetlanes.android.core.Constant.SystemEvent;
+import com.tweetlanes.android.core.App;
 import com.tweetlanes.android.core.Notifier;
 import com.tweetlanes.android.core.R;
 import com.tweetlanes.android.core.SharedPreferencesConstants;
@@ -1064,7 +1065,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
         boolean isChecked =
                 mTweetFeedListView.getRefreshableView().getCheckedItemPositions().get(position) == true ? true : false;
-        mTweetFeedListView.getRefreshableView().setItemChecked(position, !isChecked);
+        
 
         TweetFeedItemView tweetFeedItemView = (TweetFeedItemView) (view);
 
@@ -1082,6 +1083,8 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             mSelectedItems.add(tweetFeedItemView);
         }
 
+        mTweetFeedListView.getRefreshableView().setItemChecked(position, !isChecked);
+        
         if (mSelectedItems.size() > 0 && getApp() != null) {
             mMultipleTweetSelectionCallback
                     .setIsFavorited(getSelectedFavoriteState() == ItemSelectedState.ALL ? true : false);
@@ -1166,7 +1169,20 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         }
         return ItemSelectedState.NONE;
     }
-
+    /**
+     * Checks if the status supplied belongs to the user or not by comparing the IDs 
+     * between the ID of the current AccountDescriptor and the User ID of the status 
+     * @param status the TwitterStatus that needs to be checked 
+     */
+    private boolean doesTwitterStatusBelongToMe(TwitterStatus status) {
+    	AccountDescriptor currentAccount = getApp().getCurrentAccount();
+    	if (currentAccount != null && status != null) {
+    		if (currentAccount.getId() == status.mUserId) {
+    			return true;
+    		}
+    	}
+    	return false;
+    }
 
     /*
 	 *
@@ -1335,7 +1351,9 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
                         ArrayList<Long> userIds = new ArrayList<Long>();
                         for (int i = 0; i < selected.getStatusCount(); i++) {
-                            userIds.add(selected.getStatus(i).mUserId);
+                        	if (!doesTwitterStatusBelongToMe(selected.getStatus(i))) {
+                        		userIds.add(selected.getStatus(i).mUserId);
+                        	}
                         }
 
                         TwitterFetchUsers.FinishedCallback callback =
@@ -1424,6 +1442,12 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                     MenuInflater inflater = getActivity().getMenuInflater();
                     inflater.inflate(R.menu.single_tweet_selected, mode.getMenu());
                     storeMenuItems(mode.getMenu());
+            		TwitterStatus firstStatus = getFirstSelectedStatus();
+            		if (doesTwitterStatusBelongToMe(firstStatus)) {
+            			mode.getMenu().findItem(R.id.action_block).setVisible(false);
+            			mode.getMenu().findItem(R.id.action_report_for_spam).setVisible(false);
+            		}
+
                     mode.setTitle("");
                     mode.setSubtitle("");
                     break;
