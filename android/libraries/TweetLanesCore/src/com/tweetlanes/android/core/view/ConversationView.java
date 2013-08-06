@@ -152,7 +152,7 @@ public class ConversationView extends LinearLayout {
 	 */
     private void updateViewVisibility(boolean loadHasFinished) {
 
-        if (loadHasFinished == false
+        if (!loadHasFinished
                 && (mConversationStatuses == null || mConversationStatuses
                 .getStatusCount() == 0)) {
             mLoadingView.setVisibility(View.VISIBLE);

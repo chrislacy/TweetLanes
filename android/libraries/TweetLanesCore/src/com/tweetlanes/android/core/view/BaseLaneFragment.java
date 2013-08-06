@@ -169,7 +169,7 @@ public abstract class BaseLaneFragment extends Fragment {
             RelativeLayout tweetFeedLoaded = (RelativeLayout) resultView
                     .findViewById(R.id.tweet_feed_loaded);
             if (tweetFeedLoaded != null) {
-                if (AppSettings.get().showTabletMargin() == false) {
+                if (!AppSettings.get().showTabletMargin()) {
                     android.view.ViewGroup.LayoutParams parentParams = tweetFeedLoaded
                             .getLayoutParams();
                     laneContent

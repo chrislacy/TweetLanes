@@ -28,7 +28,7 @@ public class TwitterFetchResult {
         mSuccessful = successful;
         mErrorMessage = errorMessage;
 
-        if (mSuccessful == false && TwitterManager.get() != null && TwitterManager.get().getConnectionStatus() !=
+        if (!mSuccessful && TwitterManager.get() != null && TwitterManager.get().getConnectionStatus() !=
                 null) {
                     TwitterManager.get().getConnectionStatus().handleError(this);
         }

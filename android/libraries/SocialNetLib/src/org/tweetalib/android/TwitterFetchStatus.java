@@ -167,7 +167,7 @@ public class TwitterFetchStatus {
     void triggerFetchStatusTask(FetchStatusTaskInput taskInput,
             FinishedCallback callback, ConnectionStatus connectionStatus) {
 
-        if (connectionStatus != null && connectionStatus.isOnline() == false) {
+        if (connectionStatus != null && !connectionStatus.isOnline()) {
             if (callback != null) {
                 callback.finished(new TwitterFetchResult(false,
                         connectionStatus.getErrorMessageNoConnection()), null);
@@ -250,7 +250,7 @@ public class TwitterFetchStatus {
             TwitterStatus twitterStatus = null;
             String errorDescription = null;
 
-            if (input.mConnectionStatus != null && input.mConnectionStatus.isOnline() == false) {
+            if (input.mConnectionStatus != null && !input.mConnectionStatus.isOnline()) {
                 return new FetchStatusTaskOutput(new TwitterFetchResult(false,
                         input.mConnectionStatus.getErrorMessageNoConnection()),
                         input.mCallbackHandle, null);

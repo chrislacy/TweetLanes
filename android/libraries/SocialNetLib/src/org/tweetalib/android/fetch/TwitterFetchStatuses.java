@@ -225,7 +225,7 @@ public class TwitterFetchStatuses {
     public void trigger(TwitterContentHandle contentHandle, TwitterPaging paging,
             TwitterFetchStatusesFinishedCallback callback, ConnectionStatus connectionStatus, int priorityOffset) {
 
-        if (connectionStatus != null && connectionStatus.isOnline() == false) {
+        if (connectionStatus != null && !connectionStatus.isOnline()) {
             if (callback != null) {
                 callback.finished(new TwitterFetchResult(false, connectionStatus.getErrorMessageNoConnection()),
                         null, contentHandle);
@@ -304,7 +304,7 @@ public class TwitterFetchStatuses {
             FetchStatusesTaskInput input = inputArray[0];
             String errorDescription = null;
 
-            if (input.mConnectionStatus != null && input.mConnectionStatus.isOnline() == false) {
+            if (input.mConnectionStatus != null && !input.mConnectionStatus.isOnline()) {
                 return new FetchStatusesTaskOutput(
                         new TwitterFetchResult(false, input.mConnectionStatus.getErrorMessageNoConnection()),
                         input.mCallbackHandle, null, input.mContentHandle);
@@ -576,7 +576,7 @@ public class TwitterFetchStatuses {
             cacheHashtags(contentFeed);
 
             return new FetchStatusesTaskOutput(
-                    new TwitterFetchResult(errorDescription == null ? true : false, errorDescription),
+                    new TwitterFetchResult(errorDescription == null, errorDescription),
                     input.mCallbackHandle, contentFeed, input.mContentHandle);
         }
 

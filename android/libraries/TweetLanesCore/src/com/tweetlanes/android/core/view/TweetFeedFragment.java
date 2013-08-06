@@ -213,7 +213,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             updateViewVisibility(false);
             setInitialDownloadState(InitialDownloadState.WAITING);
         } else {
-            if (autoUpdateStatuses == true && mTweetDataRefreshCallback == null) {
+            if (autoUpdateStatuses && mTweetDataRefreshCallback == null) {
                 fetchNewestTweets();
             }
 
@@ -267,7 +267,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             TwitterPaging paging = new TwitterPaging(null, null, sinceStatusId, maxStatusId);
             TwitterManager.get().triggerFetchStatuses(mContentHandle, paging, mTweetDataRefreshCallback,
                     getAsyncTaskPriorityOffset());
-            if (getBaseLaneActivity().isComposing() == false &&
+            if (!getBaseLaneActivity().isComposing() &&
                     !(mSelectedItems == null || mSelectedItems.size() == 0)) {
                 getBaseLaneActivity().finishCurrentActionMode();
             }
@@ -313,7 +313,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     public void onJumpToTop() {
         if (mTweetFeedListView != null) {
             ListView listView = mTweetFeedListView.getRefreshableView();
-            if (listView != null && listView.getAdapter() != null && listView.getAdapter().isEmpty() == false) {
+            if (listView != null && listView.getAdapter() != null && !listView.getAdapter().isEmpty()) {
                 listView.setSelection(0);
             }
         }
@@ -477,7 +477,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         @Override
         public void onReceive(Context context, Intent intent) {
 
-            if (AppSettings.get().isVolScrollEnabled() == true) {
+            if (AppSettings.get().isVolScrollEnabled()) {
                 ListView listView = mTweetFeedListView.getRefreshableView();
                 int firstPos = listView.getFirstVisiblePosition();
                 int nextPos = firstPos - 1;
@@ -499,7 +499,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         @Override
         public void onReceive(Context context, Intent intent) {
 
-            if (AppSettings.get().isVolScrollEnabled() == true) {
+            if (AppSettings.get().isVolScrollEnabled()) {
                 ListView listView = mTweetFeedListView.getRefreshableView();
 
                 int nextPos = Math.max(1, listView.getFirstVisiblePosition()) + 1;
@@ -723,7 +723,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         SocialNetConstant.Type socialNetType = getApp().getCurrentAccount().getSocialNetType();
 
         if (mTwitterStatusIdWhenRefreshed != null && firstVisibleItem > 0) {
-            if (mHidingListHeading == false) {
+            if (!mHidingListHeading) {
                 TwitterStatus status = getStatusFeed().getStatus(firstVisibleItem);
                 if((mNewStatuses == 0 || status.mId >= mTwitterStatusIdWhenRefreshed) && status.mId >= mLastTwitterStatusIdSeen)
                 {
@@ -963,7 +963,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
         mViewSwitcher.reset();
 
-        if (loadHasFinished == false && (getStatusFeed() == null || getFilteredStatusCount() == 0)) {
+        if (!loadHasFinished && (getStatusFeed() == null || getFilteredStatusCount() == 0)) {
             mViewSwitcher.setDisplayedChild(0);
         } else {
             mViewSwitcher.setDisplayedChild(1);
@@ -1270,7 +1270,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
                             @Override
                             public void finished(boolean successful, TwitterStatuses statuses, Integer value) {
-                                if (successful == true) {
+                                if (successful) {
 
                                     TwitterStatuses cachedStatuses = getStatusFeed();
 
@@ -1323,7 +1323,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
                             @Override
                             public void finished(boolean successful, TwitterStatuses statuses, Integer value) {
-                                if (successful == true) {
+                                if (successful) {
 
                                     showToast(getString(R.string.deleted_successfully));
                                     TwitterStatuses cachedStatuses = getStatusFeed();
@@ -1414,7 +1414,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             mSelectedItems.clear();
 
             // Don't update the default status when TweetCompose has focus
-            if (getBaseLaneActivity().composeHasFocus() == false) {
+            if (!getBaseLaneActivity().composeHasFocus()) {
                 getBaseLaneActivity().clearCompose();
                 getBaseLaneActivity().setComposeDefault();
             }
@@ -1708,7 +1708,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             if (getStatusFeed() == null || getFilteredStatusCount() == 0) {
                 mode = LoadMoreView.Mode.NONE_FOUND;
             } else {
-                mode = mMoreStatusesAvailable == true ? LoadMoreView.Mode.LOADING : LoadMoreView.Mode.NO_MORE;
+                mode = mMoreStatusesAvailable ? LoadMoreView.Mode.LOADING : LoadMoreView.Mode.NO_MORE;
             }
 
             loadMoreView.configure(mode);

@@ -104,7 +104,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
 
         if (getComposeTweetDefault() != null) {
             String result = getComposeTweetDefault().toString();
-            if (result != null && result.equals("") == false) {
+            if (result != null && !result.equals("")) {
                 return result;
             }
         }
@@ -112,7 +112,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
         {
             if (mListener != null) {
                 String draftAsJsonString = mListener.getDraft();
-                if (draftAsJsonString != null  && draftAsJsonString.equals("") == false)
+                if (draftAsJsonString != null  && !draftAsJsonString.equals(""))
                 {
                     return draftAsJsonString;
                 }
@@ -236,11 +236,11 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
         ComposeTweetDefault composeDraft = null;
 
         String currentStatus = mEditText.getText().toString();
-        if (currentStatus != null && currentStatus.equals("") == false) {
+        if (currentStatus != null && !currentStatus.equals("")) {
             if (mStatusValidator.getTweetLength(currentStatus) > 0) {
                 if (getComposeTweetDefault() != null) {
                     getComposeTweetDefault().updateStatus(currentStatus);
-                    if (getComposeTweetDefault().isPlaceholderStatus() == false) {
+                    if (!getComposeTweetDefault().isPlaceholderStatus()) {
                         composeDraft = getComposeTweetDefault();
                     }
                 } else {
@@ -280,7 +280,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
     protected void onSendClick(String status) {
         if (status != null) {
             int statusLength = mStatusValidator.getTweetLength(status);
-            if (mStatusValidator.isValidTweet(status, getMaxPostLength()) == false) {
+            if (!mStatusValidator.isValidTweet(status, getMaxPostLength())) {
                 showSimpleAlert(mStatusValidator.getTweetLength(status) <= getMaxPostLength() ? R.string.alert_status_invalid
                         : (getApp().getCurrentAccount().getSocialNetType() == SocialNetConstant.Type.Twitter ? R
                         .string.alert_status_too_long : R.string.alert_status_too_long_adn));
@@ -356,7 +356,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
     @Override
     protected void updateStatusHint() {
 
-        if (mUpdatingStatus == true) {
+        if (mUpdatingStatus) {
             mEditText.setHint(R.string.posting_tweet_ongoing);
             return;
         }

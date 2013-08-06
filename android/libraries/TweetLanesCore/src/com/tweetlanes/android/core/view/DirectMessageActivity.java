@@ -78,7 +78,7 @@ public class DirectMessageActivity extends BaseLaneActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if (super.onOptionsItemSelected(item) == true) {
+        if (super.onOptionsItemSelected(item)) {
             return true;
         }
 

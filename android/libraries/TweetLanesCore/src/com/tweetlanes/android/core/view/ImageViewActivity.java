@@ -124,7 +124,7 @@ public class ImageViewActivity extends FragmentActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if (super.onOptionsItemSelected(item) == true) {
+        if (super.onOptionsItemSelected(item)) {
             return true;
         }
 

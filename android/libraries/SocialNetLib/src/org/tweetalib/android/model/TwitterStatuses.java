@@ -148,7 +148,7 @@ public class TwitterStatuses {
             if (status != null) {
 
                 boolean isReply = status.mInReplyToStatusId != null;
-                boolean isRetweet = status.mIsRetweet == true;
+                boolean isRetweet = status.mIsRetweet;
 
                 switch (filterType) {
                 case HIDE_RETWEETS:
@@ -281,7 +281,7 @@ public class TwitterStatuses {
             addCount += 1;
         }
 
-        if (stillMore == true && lastAddedStatus != null) {
+        if (stillMore && lastAddedStatus != null) {
             mGetNewStatusesMaxId = lastAddedStatus.mId;
         }
 
@@ -324,7 +324,7 @@ public class TwitterStatuses {
             addCount += 1;
         }
 
-        if (stillMore == true && lastAddedStatus != null) {
+        if (stillMore && lastAddedStatus != null) {
             mGetNewStatusesMaxId = lastAddedStatus.mId;
         }
 

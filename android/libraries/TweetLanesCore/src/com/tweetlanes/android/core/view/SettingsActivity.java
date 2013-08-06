@@ -410,7 +410,7 @@ public class SettingsActivity extends PreferenceActivity implements
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if (super.onOptionsItemSelected(item) == true) {
+        if (super.onOptionsItemSelected(item)) {
             return true;
         }
 

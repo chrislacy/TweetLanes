@@ -365,7 +365,7 @@ public class App extends Application {
                         }
                     }
 
-                    if (exists == false) {
+                    if (!exists) {
                         jsonArray.put(userIdAsString);
                         mAccounts.add(account);
                     }

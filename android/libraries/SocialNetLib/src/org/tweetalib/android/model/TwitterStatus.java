@@ -114,7 +114,7 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
         mMediaEntity = TwitterMediaEntity.createMediaEntity(status);
 
         boolean useDefaultAuthor = true;
-        if (mIsRetweet == true) {
+        if (mIsRetweet) {
             if (status.getRetweetedStatus() != null && status.getRetweetedStatus().getUser() != null) {
                 SetProfileImagesFromUser(new TwitterUser(status.getRetweetedStatus().getUser()));
             }
@@ -146,7 +146,7 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
             }
         }
 
-        if (useDefaultAuthor == true) {
+        if (useDefaultAuthor) {
             if (statusUser != null) {
                 mAuthorId = statusUser.getId();
             }
@@ -590,43 +590,43 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
     public boolean isEqualTo(TwitterStatus other) {
 
         if (mAuthorId != other.mAuthorId) return false;
-        if (compareString(mAuthorName, other.mAuthorName) == false)
+        if (!compareString(mAuthorName, other.mAuthorName))
             return false;
-        if (compareString(mAuthorScreenName, other.mAuthorScreenName) == false)
+        if (!compareString(mAuthorScreenName, other.mAuthorScreenName))
             return false;
         if (mFavoriteCount != other.mFavoriteCount) return false;
         if (mCreatedAt.getTime() != other.mCreatedAt.getTime()) return false;
-        if (mProfileImageOriginalUrl.toString().equals(
-                other.mProfileImageOriginalUrl.toString()) == false) return false;
-        if (mProfileImageNormalUrl.toString().equals(
-                other.mProfileImageNormalUrl.toString()) == false) return false;
-        if (mProfileImageMiniUrl.toString().equals(
-                other.mProfileImageMiniUrl.toString()) == false) return false;
-        if (mProfileImageBiggerUrl.toString().equals(
-                other.mProfileImageBiggerUrl.toString()) == false) return false;
+        if (!mProfileImageOriginalUrl.toString().equals(
+                other.mProfileImageOriginalUrl.toString())) return false;
+        if (!mProfileImageNormalUrl.toString().equals(
+                other.mProfileImageNormalUrl.toString())) return false;
+        if (!mProfileImageMiniUrl.toString().equals(
+                other.mProfileImageMiniUrl.toString())) return false;
+        if (!mProfileImageBiggerUrl.toString().equals(
+                other.mProfileImageBiggerUrl.toString())) return false;
         if (mId != other.mId) return false;
-        if (compareLong(mInReplyToStatusId, other.mInReplyToStatusId) == false)
+        if (!compareLong(mInReplyToStatusId, other.mInReplyToStatusId))
             return false;
-        if (compareLong(mInReplyToUserId, other.mInReplyToUserId) == false)
+        if (!compareLong(mInReplyToUserId, other.mInReplyToUserId))
             return false;
-        if (compareString(mInReplyToUserScreenName,
-                other.mInReplyToUserScreenName) == false) return false;
+        if (!compareString(mInReplyToUserScreenName,
+                other.mInReplyToUserScreenName)) return false;
         if (mIsFavorited != other.mIsFavorited) return false;
         if (mIsRetweet != other.mIsRetweet) return false;
         if (mIsRetweetedByMe != other.mIsRetweetedByMe) return false;
         if (mOriginalRetweetId != other.mOriginalRetweetId) return false;
         if (mRetweetCount != other.mRetweetCount) return false;
-        if (compareString(mStatus, other.mStatus) == false) return false;
+        if (!compareString(mStatus, other.mStatus)) return false;
         // if (compareString(mStatusSlimMarkup, other.mStatusSlimMarkup) ==
         // false)
         // return false;
-        if (compareString(mStatusFullMarkup, other.mStatusFullMarkup) == false)
+        if (!compareString(mStatusFullMarkup, other.mStatusFullMarkup))
             return false;
-        if (compareString(mSource, other.mSource) == false) return false;
+        if (!compareString(mSource, other.mSource)) return false;
         if (mUserId != other.mUserId) return false;
-        if (compareString(mUserScreenName, other.mUserScreenName) == false)
+        if (!compareString(mUserScreenName, other.mUserScreenName))
             return false;
-        if (compareString(mUserName, other.mUserName) == false) return false;
+        if (!compareString(mUserName, other.mUserName)) return false;
 
         if (mUserMentions != null) {
             if (other.mUserMentions == null) {

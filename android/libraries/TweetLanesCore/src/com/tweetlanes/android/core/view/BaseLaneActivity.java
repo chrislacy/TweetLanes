@@ -117,7 +117,7 @@ public class BaseLaneActivity extends FragmentActivity implements
 
         // Key the screen from dimming -
         // http://stackoverflow.com/a/4197370/328679
-        if (AppSettings.get().isDimScreenEnabled() == false) {
+        if (!AppSettings.get().isDimScreenEnabled()) {
             getWindow()
                     .addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
@@ -489,7 +489,7 @@ public class BaseLaneActivity extends FragmentActivity implements
             }
         }
 
-        if (triggeredDownload == false) {
+        if (!triggeredDownload) {
             //triggerNeighbourInitialDownload(position);
         }
 
@@ -532,7 +532,7 @@ public class BaseLaneActivity extends FragmentActivity implements
             }
         }
 
-        if (triggeredDownload == false) {
+        if (!triggeredDownload) {
             if (currentLane + 1 < getLaneCount()) {
                 BaseLaneFragment rightFragment = mLaneFragmentHashMap
                         .get(currentLane + 1);
@@ -1221,14 +1221,14 @@ public class BaseLaneActivity extends FragmentActivity implements
                     .get(getCurrentLaneIndex());
 
             if (fragment != null) {
-                if (fragment.configureOptionsMenu(inflater, menu) == false) {
+                if (!fragment.configureOptionsMenu(inflater, menu)) {
                     inflater.inflate(defaultOptionsMenu.intValue(), menu);
                 }
             } else {
                 inflater.inflate(defaultOptionsMenu.intValue(), menu);
             }
 
-            if (menu != null && App.getActionLauncherInstalled() == true) {
+            if (menu != null && App.getActionLauncherInstalled()) {
                 MenuItem buyALP = menu.findItem(R.id.action_buy_alp);
                 if (buyALP != null) {
                     buyALP.setVisible(false);
@@ -1256,7 +1256,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     public boolean onOptionsItemSelected(MenuItem item) {
         int i = item.getItemId();
         if (i == android.R.id.home) {
-            if (composeReleaseFocus(false) == true) {
+            if (composeReleaseFocus(false)) {
                 return true;
             }
 
@@ -1445,7 +1445,7 @@ public class BaseLaneActivity extends FragmentActivity implements
         if (mComposeTweetFragment != null) {
 
             TwitterUser user = TwitterManager.get().getUser(status.mUserId);
-            if (user != null && user.getProtected() == true) {
+            if (user != null && user.getProtected()) {
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                         this);
                 alertDialogBuilder

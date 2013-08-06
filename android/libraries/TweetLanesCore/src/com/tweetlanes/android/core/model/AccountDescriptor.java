@@ -265,8 +265,8 @@ public class AccountDescriptor {
                             Long id = Long.valueOf(laneIdAsString);
                             if (id == twitterList.getId()) {
                                 exists = true;
-                                if (lane.getLaneTitle().equals(
-                                        twitterList.getName()) == false) {
+                                if (!lane.getLaneTitle().equals(
+                                        twitterList.getName())) {
                                     changed = true;
                                     lane.setLaneTitle(twitterList.getName());
                                 }
@@ -280,13 +280,13 @@ public class AccountDescriptor {
                     }
                 }
 
-                if (exists == false) {
+                if (!exists) {
                     changed = true;
                 }
             }
         }
 
-        if (changed == true) {
+        if (changed) {
             configureLaneDefinitions(null);
         }
 

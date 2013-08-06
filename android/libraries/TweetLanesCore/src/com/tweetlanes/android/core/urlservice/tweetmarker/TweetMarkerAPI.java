@@ -103,7 +103,7 @@ public class TweetMarkerAPI extends ApiService {
                 String screenName = "chrismlacy";// inputArray[0];
                 String errorDescription = null;
 
-                if (connectionStatus != null && connectionStatus.isOnline() == false) {
+                if (connectionStatus != null && !connectionStatus.isOnline()) {
                     return new TaskOutput(new TwitterFetchResult(false,
                             connectionStatus.getErrorMessageNoConnection()),
                             null);

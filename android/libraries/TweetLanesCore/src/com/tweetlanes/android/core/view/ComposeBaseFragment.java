@@ -253,7 +253,7 @@ public abstract class ComposeBaseFragment extends Fragment {
 	 */
     boolean hideCompose() {
 
-        if (mHasFocus == true) {
+        if (mHasFocus) {
 
             hideKeyboard();
             if (mAutocompleteListView != null) {
@@ -294,7 +294,7 @@ public abstract class ComposeBaseFragment extends Fragment {
     OnFocusChangeListener mOnFocusChangeListener = new OnFocusChangeListener() {
 
         public void onFocusChange(View v, boolean hasFocus) {
-            if (hasFocus == true && mIgnoreFocusChange == false) {
+            if (hasFocus && !mIgnoreFocusChange) {
                 showCompose();
                 setMediaPreviewVisibility();
             }
@@ -317,7 +317,7 @@ public abstract class ComposeBaseFragment extends Fragment {
         public void afterTextChanged(Editable s) {
             String asString = s.toString();
             configureCharacterCountForString(asString);
-            if (asString == null || asString.equals("") == true)
+            if (asString == null || asString.equals(""))
             {
                 if (mListener.getDraft() == null)
                 {
@@ -652,7 +652,7 @@ public abstract class ComposeBaseFragment extends Fragment {
 
         @Override
         public void onTouch(View v, MotionEvent event) {
-            if (mHasFocus == false) {
+            if (!mHasFocus) {
                 showCompose();
                 setMediaPreviewVisibility();
             }
@@ -699,7 +699,7 @@ public abstract class ComposeBaseFragment extends Fragment {
 
     void showCompose(String defaultStatus) {
 
-        if (mHasFocus == false) {
+        if (!mHasFocus) {
 
             mHasFocus = true;
             mShowStartTime = new Date().getTime();

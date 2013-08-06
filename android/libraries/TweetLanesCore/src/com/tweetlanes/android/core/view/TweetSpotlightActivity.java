@@ -239,7 +239,7 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if (super.onOptionsItemSelected(item) == true) {
+        if (super.onOptionsItemSelected(item)) {
             return true;
         }
 
@@ -362,7 +362,7 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
         if(mFavoriteMenuItem != null)
         {
             boolean isDarkTheme = AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Dark || AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Light_DarkAction;
-            if (mStatus.mIsFavorited == true) {
+            if (mStatus.mIsFavorited) {
                 mFavoriteMenuItem
                         .setIcon(isDarkTheme ? R.drawable.ic_action_star_on_dark
                                 : R.drawable.ic_action_star_on_light);

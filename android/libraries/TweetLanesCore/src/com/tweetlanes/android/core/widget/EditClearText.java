@@ -70,7 +70,7 @@ public class EditClearText extends EditText {
         if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
 
             if (mListener != null) {
-                if (mListener.onBackButtonPressed() == true) {
+                if (mListener.onBackButtonPressed()) {
                     return true;
                 }
             }

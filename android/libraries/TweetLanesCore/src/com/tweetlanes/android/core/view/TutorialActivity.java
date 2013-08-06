@@ -180,7 +180,7 @@ public class TutorialActivity extends FragmentActivity {
         Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
         startActivity(intent);
 
-        if (mDoFollow == true) {
+        if (mDoFollow) {
             getApp().triggerFollowPromoAccounts(null);
         }
 

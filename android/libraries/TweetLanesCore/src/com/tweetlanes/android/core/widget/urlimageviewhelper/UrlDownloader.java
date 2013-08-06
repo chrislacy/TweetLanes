@@ -11,7 +11,7 @@ public interface UrlDownloader {
 
     public void download(Context context, String url, String filename, UrlDownloaderCallback callback, Runnable completion);
 
-    public boolean allowCache();
+    public boolean doNotCache();
 
     public boolean canDownloadUrl(String url);
 }

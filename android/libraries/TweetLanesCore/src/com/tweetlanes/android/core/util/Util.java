@@ -38,7 +38,7 @@ public final class Util {
      *
 	 */
     public static boolean isValidString(String s) {
-        return s != null && s.equals("") == false;
+        return s != null && !s.equals("");
     }
 
     /*
@@ -179,7 +179,7 @@ public final class Util {
 
         if (tag != null) {
             String tagAsString = tag.toString();
-            if (tagAsString != null && tagAsString.equals("") == false) {
+            if (tagAsString != null && !tagAsString.equals("")) {
                 try {
                     int tagAsInt = Integer.parseInt(tagAsString);
                     if (tagAsInt == comparisonId) {

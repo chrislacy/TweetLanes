@@ -76,8 +76,8 @@ public class HttpUrlDownloader implements UrlDownloader {
     }
 
     @Override
-    public boolean allowCache() {
-        return true;
+    public boolean doNotCache() {
+        return false;
     }
 
     @Override

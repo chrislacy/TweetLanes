@@ -97,7 +97,7 @@ public class BootActivity extends Activity {
             intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivity(intent);
         } else {
-            if (TwitterManager.get().hasValidTwitterInstance() == true) {
+            if (TwitterManager.get().hasValidTwitterInstance()) {
                 if (mLastStartedClass != HomeActivity.class) {
                     mLastStartedClass = HomeActivity.class;
                     // We don't want to come back here, so remove from the
@@ -105,7 +105,7 @@ public class BootActivity extends Activity {
                     finish();
 
                     Class<?> nextClass = HomeActivity.class;
-                    if (getApp().getTutorialCompleted() == false) {
+                    if (!getApp().getTutorialCompleted()) {
                         nextClass = TutorialActivity.class;
                     }
                     Intent intent = new Intent(getApplicationContext(),

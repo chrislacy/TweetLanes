@@ -208,7 +208,7 @@ public class HomeActivity extends BaseLaneActivity {
 
             Bundle extras = intent.getExtras();
             String type = intent.getType();
-            if (type.equals("text/plain") == true) {
+            if (type.equals("text/plain")) {
 
                 String shareString = extras.getString(Intent.EXTRA_TEXT);
                 if (extras.containsKey(Intent.EXTRA_TEXT)) {
@@ -243,7 +243,7 @@ public class HomeActivity extends BaseLaneActivity {
             }
         }
 
-        if (turnSoftKeyboardOff == true) {
+        if (turnSoftKeyboardOff) {
             // Turn the soft-keyboard off. For some reason it wants to appear on
             // screen by default when coming back from multitasking...
             getWindow().setSoftInputMode(
@@ -267,13 +267,13 @@ public class HomeActivity extends BaseLaneActivity {
             account.setDisplayedLaneDefinitionsDirty(false);
         }
 
-        if (account.shouldRefreshLists() == true) {
+        if (account.shouldRefreshLists()) {
             mRefreshListsHandler.removeCallbacks(mRefreshListsTask);
             mRefreshListsHandler.postDelayed(mRefreshListsTask,
                     Constant.REFRESH_LISTS_WAIT_TIME);
         }
 
-        if (isComposing() == false) {
+        if (!isComposing()) {
             // Check we are using List navigation on the ActionBar. This will
             // not be the case when ComposeTweet is present.
             if (getActionBar().getNavigationMode() == android.app.ActionBar.NAVIGATION_MODE_LIST) {
@@ -347,7 +347,7 @@ public class HomeActivity extends BaseLaneActivity {
     @Override
     String getCachedData(int laneIndex) {
 
-        if (Constant.ENABLE_STATUS_CACHING == true) {
+        if (Constant.ENABLE_STATUS_CACHING) {
             AccountDescriptor account = getApp().getCurrentAccount();
 
 
@@ -485,7 +485,7 @@ public class HomeActivity extends BaseLaneActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if (super.onOptionsItemSelected(item) == true) {
+        if (super.onOptionsItemSelected(item)) {
             return true;
         }
 
@@ -795,9 +795,9 @@ public class HomeActivity extends BaseLaneActivity {
                 public void finished(boolean successful, TwitterLists lists) {
                     mFetchListsCallback = null;
 
-                    if (successful == true) {
+                    if (successful) {
                         boolean modified = getApp().onUserListsRefresh(lists);
-                        if (modified == true) {
+                        if (modified) {
                             onLaneDataSetChanged();
                         }
                     }

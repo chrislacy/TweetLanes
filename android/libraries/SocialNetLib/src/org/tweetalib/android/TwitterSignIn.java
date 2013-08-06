@@ -180,7 +180,7 @@ public class TwitterSignIn {
 	 */
     public void getAuthUrl(GetAuthUrlCallback callback) {
 
-        assert (mGetAuthUrlCallbackMap.containsValue(callback) == false);
+        assert (!mGetAuthUrlCallbackMap.containsValue(callback));
 
         mGetAuthUrlCallbackMap.put(mGetAuthUrlCallbackHandle, callback);
         new FetchAuthUrlTask().execute(AsyncTaskEx.PRIORITY_HIGHEST,
@@ -196,7 +196,7 @@ public class TwitterSignIn {
     public void getOAuthAccessToken(RequestToken requestToken,
             String oauthVerifier, GetOAuthAccessTokenCallback callback) {
 
-        assert (mGetOAuthAccessTokenCallbackMap.containsValue(callback) == false);
+        assert (!mGetOAuthAccessTokenCallbackMap.containsValue(callback));
 
         mGetOAuthAccessTokenCallbackMap.put(mGetOAuthAccessTokenCallbackHandle,
                 callback);

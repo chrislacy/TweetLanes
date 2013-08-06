@@ -130,7 +130,7 @@ public class DirectMessageItemView extends LinearLayout {
         mStatusTextView = (TextView) findViewById(R.id.status);
         String text = directMessage.getText();
         if (text != null) {
-            if (mFullConversation == true) {
+            if (mFullConversation) {
                 mStatusTextView.setText(directMessage.mTextSpanned);
                 mStatusTextView.setMovementMethod(LinkMovementMethod
                         .getInstance());
@@ -249,7 +249,7 @@ public class DirectMessageItemView extends LinearLayout {
         Intent profileIntent = new Intent(mContext, ProfileActivity.class);
 
         if (mDirectMessage != null) {
-            if (mFullConversation == true
+            if (mFullConversation
                     && mDirectMessage.getMessageType() == MessageType.SENT) {
                 AccountDescriptor account = ((App) mCallbacks.getActivity()
                         .getApplication()).getCurrentAccount();

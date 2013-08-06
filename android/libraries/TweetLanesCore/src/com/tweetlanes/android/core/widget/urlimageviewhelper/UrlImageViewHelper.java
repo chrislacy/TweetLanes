@@ -21,7 +21,6 @@ import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.BitmapFactory.Options;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -610,7 +609,7 @@ public final class UrlImageViewHelper {
                         Log.e(Constants.LOGTAG, "Error loading " + url, ex);
                 } finally {
                     // if we're not supposed to cache this thing, delete the temp file.
-                    if (downloader != null && !downloader.allowCache())
+                    if (downloader != null && downloader.doNotCache())
                         new File(filename).delete();
                 }
             }

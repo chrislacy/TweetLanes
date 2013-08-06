@@ -31,8 +31,8 @@ public class FileUrlDownloader implements UrlDownloader {
     }
 
     @Override
-    public boolean allowCache() {
-        return false;
+    public boolean doNotCache() {
+        return true;
     }
 
     @Override

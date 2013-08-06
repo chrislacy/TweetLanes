@@ -73,7 +73,7 @@ public class URLFetch {
                 }
 
                 if (callback != null) {
-                    callback.finished(bitmap != null ? true : false, bitmap);
+                    callback.finished(bitmap != null, bitmap);
                 }
             }
         };

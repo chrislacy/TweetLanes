@@ -282,14 +282,14 @@ public class GestureImageView extends ImageView {
         }
     }
 
-    protected boolean isRecycled() {
+    protected boolean isNotRecycled() {
         if (mDrawable != null && mDrawable instanceof BitmapDrawable) {
             Bitmap bitmap = ((BitmapDrawable) mDrawable).getBitmap();
             if (bitmap != null) {
-                return bitmap.isRecycled();
+                return !bitmap.isRecycled();
             }
         }
-        return false;
+        return true;
     }
 
     protected void recycle() {
@@ -305,7 +305,7 @@ public class GestureImageView extends ImageView {
     @Override
     protected void onDraw(Canvas canvas) {
         if (mLayout) {
-            if (mDrawable != null && !isRecycled()) {
+            if (mDrawable != null && isNotRecycled()) {
                 canvas.save();
 
                 float adjustedScale = mScale * mScaleAdjust;
@@ -370,7 +370,7 @@ public class GestureImageView extends ImageView {
         if (mAnimator != null) {
             mAnimator.finish();
         }
-        if (mRecycle && mDrawable != null && !isRecycled()) {
+        if (mRecycle && mDrawable != null && isNotRecycled()) {
             recycle();
             mDrawable = null;
         }

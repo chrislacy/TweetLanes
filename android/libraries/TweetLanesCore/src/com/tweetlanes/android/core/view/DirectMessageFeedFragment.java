@@ -287,7 +287,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
 
         mViewSwitcher.reset();
 
-        if (loadHasFinished == false
+        if (!loadHasFinished
                 && (mDirectMessageConversation == null || mDirectMessageConversation
                 .size() == 0)) {
             mViewSwitcher.setDisplayedChild(0);
@@ -307,7 +307,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
         if (mConversationListView != null) {
             ListView listView = mConversationListView.getRefreshableView();
             if (listView != null && listView.getAdapter() != null
-                    && listView.getAdapter().isEmpty() == false) {
+                    && !listView.getAdapter().isEmpty()) {
                 listView.setSelection(0);
             }
         }
@@ -648,8 +648,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
             };
 
             directMessageItemView.configure(getScreenName(), directMessage,
-                    position + 1, messageType, otherUserId == null ? false
-                    : true, callbacks);
+                    position + 1, messageType, otherUserId != null, callbacks);
             return directMessageItemView;
         }
 
@@ -667,7 +666,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
                     || mDirectMessageConversation.size() == 0) {
                 mode = LoadMoreView.Mode.NONE_FOUND;
             } else {
-                mode = mMoreDirectMessagesAvailable == true ? LoadMoreView.Mode.LOADING
+                mode = mMoreDirectMessagesAvailable ? LoadMoreView.Mode.LOADING
                         : LoadMoreView.Mode.NO_MORE;
             }
 

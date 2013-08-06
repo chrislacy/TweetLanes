@@ -148,7 +148,7 @@ public class TwitterFetchLists {
 	 */
     private void trigger(Integer userId, FinishedCallback callback) {
 
-        assert (mFinishedCallbackMap.containsValue(callback) == false);
+        assert (!mFinishedCallbackMap.containsValue(callback));
 
         mFinishedCallbackMap.put(mFetchListsCallbackHandle, callback);
         new FetchListsTask().execute(AsyncTaskEx.PRIORITY_MEDIUM,
@@ -160,7 +160,7 @@ public class TwitterFetchLists {
 
     private void trigger(String screenName, FinishedCallback callback) {
 
-        assert (mFinishedCallbackMap.containsValue(callback) == false);
+        assert (!mFinishedCallbackMap.containsValue(callback));
 
         mFinishedCallbackMap.put(mFetchListsCallbackHandle, callback);
         new FetchListsTask().execute(AsyncTaskEx.PRIORITY_MEDIUM,

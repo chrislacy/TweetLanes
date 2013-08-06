@@ -266,7 +266,7 @@ public class UserFeedFragment extends BaseLaneFragment {
 
         mViewSwitcher.reset();
 
-        if (loadHasFinished == false
+        if (!loadHasFinished
                 && (getUserFeed() == null || getUserFeed().getUserCount() == 0)) {
             mViewSwitcher.setDisplayedChild(0);
         } else {
@@ -295,7 +295,7 @@ public class UserFeedFragment extends BaseLaneFragment {
         if (mUserFeedListView != null) {
             ListView listView = mUserFeedListView.getRefreshableView();
             if (listView != null && listView.getAdapter() != null
-                    && listView.getAdapter().isEmpty() == false) {
+                    && !listView.getAdapter().isEmpty()) {
                 listView.setSelection(0);
             }
         }
@@ -559,7 +559,7 @@ public class UserFeedFragment extends BaseLaneFragment {
 
         public void onDestroyActionMode(ActionMode mode) {
             mSelectedItems.clear();
-            if (getBaseLaneActivity().composeHasFocus() == false) {
+            if (!getBaseLaneActivity().composeHasFocus()) {
                 getBaseLaneActivity().setComposeDefault();
             }
         }
@@ -780,7 +780,7 @@ public class UserFeedFragment extends BaseLaneFragment {
             if (getUserFeed() == null || getUserFeed().getUserCount() == 0) {
                 mode = LoadMoreView.Mode.NONE_FOUND;
             } else {
-                mode = mMoreUsersAvailable == true ? LoadMoreView.Mode.LOADING
+                mode = mMoreUsersAvailable ? LoadMoreView.Mode.LOADING
                         : LoadMoreView.Mode.NO_MORE;
             }
 

@@ -113,7 +113,7 @@ public class ProfileActivity extends BaseLaneActivity {
                 requestedUser = true;
             }
         }
-        if (requestedUser == false) {
+        if (!requestedUser) {
             mUser = TwitterManager.get().getUser(mScreenName, callback);
         }
 
@@ -263,7 +263,7 @@ public class ProfileActivity extends BaseLaneActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if (super.onOptionsItemSelected(item) == true) {
+        if (super.onOptionsItemSelected(item)) {
             return true;
         }
 

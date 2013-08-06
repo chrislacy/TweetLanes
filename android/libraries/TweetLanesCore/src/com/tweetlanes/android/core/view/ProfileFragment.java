@@ -147,7 +147,7 @@ public class ProfileFragment extends BaseLaneFragment {
                             TextView followingTextView = (TextView) mProfileView
                                     .findViewById(R.id.followState);
                             if (mFollowsLoggedInUser != null
-                                    && mFollowsLoggedInUser.booleanValue() == true) {
+                                    && mFollowsLoggedInUser.booleanValue()) {
                                 followingTextView.setText(R.string.follows_you);
                             } else {
                                 followingTextView.setText(null);
@@ -231,7 +231,7 @@ public class ProfileFragment extends BaseLaneFragment {
 
             fullNameTextView.setText(mUser.getName());
             if (mFollowsLoggedInUser != null
-                    && mFollowsLoggedInUser.booleanValue() == true) {
+                    && mFollowsLoggedInUser.booleanValue()) {
                 followingTextView.setText(R.string.follows_you);
             } else {
                 followingTextView.setText(null);
@@ -330,7 +330,7 @@ public class ProfileFragment extends BaseLaneFragment {
                 String loggedInUserScreenName = getBaseLaneActivity().getApp()
                         .getCurrentAccountScreenName();
 
-                final boolean willCreateFriendship = mLoggedInUserFollows == false ? true
+                final boolean willCreateFriendship = mLoggedInUserFollows != null && !mLoggedInUserFollows ? true
                         : false;
                 configureFriendshipButtonVisibility(willCreateFriendship);
 

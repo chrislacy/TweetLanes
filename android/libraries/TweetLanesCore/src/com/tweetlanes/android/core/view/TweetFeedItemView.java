@@ -161,7 +161,7 @@ public class TweetFeedItemView extends LinearLayout {
 
             String verb = socialNetType == SocialNetConstant.Type.Twitter ? "Retweeted" : "Reposted";
 
-            if (twitterStatus.mIsRetweet == true) {
+            if (twitterStatus.mIsRetweet) {
 
                 String text = verb + " by " + twitterStatus.mUserName;
                 if (twitterStatus.mRetweetCount > 1)
@@ -181,7 +181,7 @@ public class TweetFeedItemView extends LinearLayout {
                     text += " " + mContext.getString(R.string.via) + " " + mTwitterStatus.mSource;
                 }
                 mTweetDetailsView.setText(text);
-            } else if (showRetweetCount == true && twitterStatus.mRetweetCount > 0) {
+            } else if (showRetweetCount && twitterStatus.mRetweetCount > 0) {
                 mTweetDetailsView.setText(verb + " " + twitterStatus.mRetweetCount + " times.");
             } else {
                 if (showTweetSource) {
@@ -388,7 +388,7 @@ public class TweetFeedItemView extends LinearLayout {
 
         mPreviewImageContainer = (RelativeLayout) findViewById(R.id.preview_image_container);
 
-        if ((mediaEntity == null && adnMedia == null) || AppSettings.get().downloadFeedImages() == false) {
+        if ((mediaEntity == null && adnMedia == null) || !AppSettings.get().downloadFeedImages()) {
             if (mPreviewImageContainer != null) {
                 mPreviewImageContainer.setVisibility(View.GONE);
             }
@@ -629,7 +629,7 @@ public class TweetFeedItemView extends LinearLayout {
 	 *
 	 */
     public void onLoadTweetSpotlight() {
-        if (mLoadsTweetSpotlight == true) {
+        if (mLoadsTweetSpotlight) {
 
             Intent tweetSpotlightIntent = new Intent(mContext,
                     TweetSpotlightActivity.class);

@@ -29,7 +29,7 @@ public class TwitterUser {
             mDescriptionUrlEntities = user.getDescriptionURLEntities();
         }
         if (user.getLocation() != null
-                && user.getLocation().equals("") == false) {
+                && !user.getLocation().equals("")) {
             mLocation = user.getLocation();
         }
         if (user.getURL() != null) {

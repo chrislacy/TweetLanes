@@ -444,7 +444,7 @@ public class TwitterManager {
     }
 
     public boolean hasValidTwitterInstance() {
-        return mApi == null ? false : true;
+        return mApi != null;
     }
 
     /*
@@ -466,7 +466,7 @@ public class TwitterManager {
     private static HashMap<String, Long> mUserIdentifierHashMap = new HashMap<String, Long>();
 
     public static void addUserIdentifier(String username, long id) {
-        if (mUserIdentifierHashMap.containsKey(username) == false) {
+        if (!mUserIdentifierHashMap.containsKey(username)) {
             mUserIdentifierHashMap.put(username, id);
         }
     }

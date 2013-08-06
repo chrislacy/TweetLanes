@@ -48,11 +48,11 @@ public final class TwitterStatusesFilter {
     boolean mShowReplies = true;
 
     FilterType getFilterType() {
-        if (mShowRetweets == false && mShowReplies == false) {
+        if (!mShowRetweets && !mShowReplies) {
             return FilterType.HIDE_RETWEETS_REPLIES;
-        } else if (mShowReplies == false) {
+        } else if (!mShowReplies) {
             return FilterType.HIDE_REPLIES;
-        } else if (mShowRetweets == false) {
+        } else if (!mShowRetweets) {
             return FilterType.HIDE_RETWEETS;
         }
         return FilterType.ALL;

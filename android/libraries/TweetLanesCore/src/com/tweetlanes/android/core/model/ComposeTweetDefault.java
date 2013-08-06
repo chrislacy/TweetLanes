@@ -185,7 +185,7 @@ public class ComposeTweetDefault {
     public String getStatus() {
 
         String result = null;
-        if (USE_DEFAULT_STATUS_HACK == true) {
+        if (false) {
             result = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sed quam dolor";
         } else if (mStatus != null) {
             result = mStatus;
@@ -228,14 +228,14 @@ public class ComposeTweetDefault {
         for (int i = 0; i < inReplyToStatusList.getStatusCount(); i++) {
             TwitterStatus status = inReplyToStatusList.getStatus(i);
             String author = status.getAuthorScreenName();
-            if (screenNameSet.contains(author.toLowerCase()) == false) {
+            if (!screenNameSet.contains(author.toLowerCase())) {
                 screenNameSet.add(author.toLowerCase());
                 replyingToUsers += "@" + author + " ";
             }
 
             if (status.mIsRetweet) {
                 String tweeter = status.mUserScreenName;
-                if (screenNameSet.contains(tweeter.toLowerCase()) == false) {
+                if (!screenNameSet.contains(tweeter.toLowerCase())) {
                     screenNameSet.add(tweeter.toLowerCase());
                     replyingToUsers += "@" + tweeter + " ";
                 }
@@ -247,7 +247,7 @@ public class ComposeTweetDefault {
             String[] userMentions = status.mUserMentions;
             if (userMentions != null) {
                 for (String screenName : userMentions) {
-                    if (screenNameSet.contains(screenName.toLowerCase()) == false) {
+                    if (!screenNameSet.contains(screenName.toLowerCase())) {
                         screenNameSet.add(screenName.toLowerCase());
                         replyingToUsers += "@" + screenName + " ";
                     }

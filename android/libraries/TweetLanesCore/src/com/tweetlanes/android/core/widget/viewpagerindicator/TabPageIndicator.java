@@ -43,7 +43,7 @@ public class TabPageIndicator extends HorizontalScrollView implements
 
             mViewPager.setCurrentItem(tabView.getIndex());
 
-            if (mTabCallbacks != null && clickedCurrentItem == true) {
+            if (mTabCallbacks != null && clickedCurrentItem) {
                 mTabCallbacks.onCurrentItemClicked();
             }
         }

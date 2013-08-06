@@ -222,7 +222,7 @@ public class TwitterFetchUsers {
             TwitterPaging paging, FinishedCallback callback,
             ConnectionStatus connectionStatus) {
 
-        if (connectionStatus != null && connectionStatus.isOnline() == false) {
+        if (connectionStatus != null && !connectionStatus.isOnline()) {
             if (callback != null) {
                 callback.finished(new TwitterFetchResult(false,
                         connectionStatus.getErrorMessageNoConnection()), null);
@@ -230,7 +230,7 @@ public class TwitterFetchUsers {
             return;
         }
 
-        assert (mFinishedCallbackMap.containsValue(callback) == false);
+        assert (!mFinishedCallbackMap.containsValue(callback));
 
         mFinishedCallbackMap.put(mFetchUsersCallbackHandle, callback);
         new FetchUsersTask().execute(AsyncTaskEx.PRIORITY_MEDIUM,
@@ -288,7 +288,7 @@ public class TwitterFetchUsers {
             ArrayList<String> userScreenNamesToUpdate, boolean create,
             FinishedCallback callback, ConnectionStatus connectionStatus) {
 
-        if (connectionStatus != null && connectionStatus.isOnline() == false) {
+        if (connectionStatus != null && !connectionStatus.isOnline()) {
             if (callback != null) {
                 callback.finished(new TwitterFetchResult(false,
                         connectionStatus.getErrorMessageNoConnection()), null);
@@ -325,7 +325,7 @@ public class TwitterFetchUsers {
     public void updateFriendshipUserIds(long currentUserId,
             ArrayList<Long> userIdsToUpdate, boolean create,
             FinishedCallback callback, ConnectionStatus connectionStatus) {
-        if (connectionStatus != null && connectionStatus.isOnline() == false) {
+        if (connectionStatus != null && !connectionStatus.isOnline()) {
             if (callback != null) {
                 callback.finished(new TwitterFetchResult(false,
                         connectionStatus.getErrorMessageNoConnection()), null);
@@ -362,7 +362,7 @@ public class TwitterFetchUsers {
     private void createBlockOrReportSpam(UsersType usersType,
             long currentUserId, ArrayList<Long> userIds,
             FinishedCallback callback, ConnectionStatus connectionStatus) {
-        if (connectionStatus != null && connectionStatus.isOnline() == false) {
+        if (connectionStatus != null && !connectionStatus.isOnline()) {
             if (callback != null) {
                 callback.finished(new TwitterFetchResult(false,
                         connectionStatus.getErrorMessageNoConnection()), null);
@@ -492,7 +492,7 @@ public class TwitterFetchUsers {
             AppdotnetApi appdotnet = getAppdotnetInstance();
             String errorDescription = null;
 
-            if (input.mConnectionStatus != null && input.mConnectionStatus.isOnline() == false) {
+            if (input.mConnectionStatus != null && !input.mConnectionStatus.isOnline()) {
                 return new FetchUsersTaskOutput(new TwitterFetchResult(false,
                         input.mConnectionStatus.getErrorMessageNoConnection()),
                         input.mCallbackHandle, null);
@@ -535,9 +535,9 @@ public class TwitterFetchUsers {
                         for (String screenName : input.mScreenNames) {
                             AdnUser user = null;
                             // We can't follow ourself...
-                            if (screenName.toLowerCase().equals(
+                            if (!screenName.toLowerCase().equals(
                                     input.mContentHandle.getScreenName()
-                                            .toLowerCase()) == false) {
+                                            .toLowerCase())) {
                                 if (input.mCreateFriendship) {
                                     user = appdotnet.setAdnFollow(screenName,
                                             true);
@@ -595,7 +595,7 @@ public class TwitterFetchUsers {
                 }
 
                 return new FetchUsersTaskOutput(new TwitterFetchResult(
-                        errorDescription == null ? true : false,
+                        errorDescription == null,
                         errorDescription), input.mCallbackHandle, twitterUsers);
 
             } else if (twitter != null) {
@@ -656,9 +656,9 @@ public class TwitterFetchUsers {
                             for (String screenName : input.mScreenNames) {
                                 User user = null;
                                 // We can't follow ourself...
-                                if (screenName.toLowerCase().equals(
+                                if (!screenName.toLowerCase().equals(
                                         input.mContentHandle.getScreenName()
-                                                .toLowerCase()) == false) {
+                                                .toLowerCase())) {
                                     if (input.mCreateFriendship) {
                                         Log.d("api-call", "createFriendship");
                                         user = twitter
@@ -797,12 +797,12 @@ public class TwitterFetchUsers {
                     }
                 }
                 return new FetchUsersTaskOutput(new TwitterFetchResult(
-                        errorDescription == null ? true : false,
+                        errorDescription == null,
                         errorDescription), input.mCallbackHandle, twitterUsers);
             }
 
             return new FetchUsersTaskOutput(new TwitterFetchResult(
-                    errorDescription == null ? true : false, errorDescription),
+                    errorDescription == null, errorDescription),
                     input.mCallbackHandle, twitterUsers);
         }
 
