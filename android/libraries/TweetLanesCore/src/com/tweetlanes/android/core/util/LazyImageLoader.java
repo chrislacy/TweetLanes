@@ -112,7 +112,7 @@ public class LazyImageLoader {
         displayImage(Util.parseURL(url), imageview);
     }
 
-    public void displayImage(URL url, ImageView imageview) {
+    void displayImage(URL url, ImageView imageview) {
         if (imageview == null) return;
         if (url == null) {
             imageview.setImageResource(mFallbackRes);

@@ -185,7 +185,7 @@ public class App extends Application {
         return mTweetSpotlightLaneDefinitions.get(index);
     }
 
-    public void updateTwitterAccountCount() {
+    void updateTwitterAccountCount() {
 
         mAccounts.clear();
 
@@ -554,7 +554,7 @@ public class App extends Application {
     /*
 	 *
 	 */
-    ConnectionStatus.Callbacks mConnectionStatusCallbacks = new ConnectionStatus.Callbacks() {
+    private ConnectionStatus.Callbacks mConnectionStatusCallbacks = new ConnectionStatus.Callbacks() {
 
         @Override
         public boolean isOnline() {
@@ -577,7 +577,7 @@ public class App extends Application {
     /*
 	 *
 	 */
-    public boolean isOnline() {
+    boolean isOnline() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         return networkInfo != null && networkInfo.isConnectedOrConnecting();

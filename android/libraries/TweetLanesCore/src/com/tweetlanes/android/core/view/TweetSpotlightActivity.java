@@ -42,15 +42,15 @@ import org.tweetalib.android.model.TwitterStatuses;
 
 public class TweetSpotlightActivity extends BaseLaneActivity {
 
-    TweetSpotlightAdapter mTweetSpotlightAdapter;
-    ViewSwitcher mViewSwitcher;
+    private TweetSpotlightAdapter mTweetSpotlightAdapter;
+    private ViewSwitcher mViewSwitcher;
     TwitterStatus mStatus;
-    FinishedCallback mGetStatusCallback;
-    MenuItem mFavoriteMenuItem;
-    MenuItem mRetweetMenuItem;
+    private FinishedCallback mGetStatusCallback;
+    private MenuItem mFavoriteMenuItem;
+    private MenuItem mRetweetMenuItem;
 
-    public final static String STATUS_ID_KEY = "statusId";
-    public final static String STATUS_KEY = "status";
+    private final static String STATUS_ID_KEY = "statusId";
+    private final static String STATUS_KEY = "status";
 
     /*
      * (non-Javadoc)
@@ -125,7 +125,7 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
 
     }
 
-    protected void TweetDeleted(String result)
+    void TweetDeleted(String result)
     {
         Intent returnIntent = new Intent();
         returnIntent.putExtra("status",mStatus.toString());
@@ -201,7 +201,7 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
     /*
 	 *
 	 */
-    protected void onGetStatus(TwitterStatus status) {
+    void onGetStatus(TwitterStatus status) {
         mStatus = new TwitterStatus(status);
         updateViewVisibility();
 
@@ -335,7 +335,7 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
         }
     }
 
-    protected void showToast(String message) {
+    void showToast(String message) {
             Toast.makeText(getApplicationContext(), message,
                     Constant.DEFAULT_TOAST_DISPLAY_TIME).show();
     }

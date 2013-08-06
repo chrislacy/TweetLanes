@@ -23,7 +23,7 @@ public class AdnUser {
     public int mFollowersCount;
     public int mFollowingCount;
     public int mPostCount;
-    public String mAvatarUrl;
+    private String mAvatarUrl;
     public String mCoverUrl;
     public boolean mFollowsCurrentUser;
     public boolean mCurrentUserFollows;

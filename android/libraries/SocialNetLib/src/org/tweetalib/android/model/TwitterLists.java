@@ -53,6 +53,6 @@ public class TwitterLists {
         Collections.sort(mLists);
     }
 
-    ArrayList<TwitterList> mLists;
+    private ArrayList<TwitterList> mLists;
 
 }

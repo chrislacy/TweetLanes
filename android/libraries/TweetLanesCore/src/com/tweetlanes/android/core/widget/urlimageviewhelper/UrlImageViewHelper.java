@@ -42,7 +42,7 @@ public final class UrlImageViewHelper {
             Log.i(Constants.LOGTAG, log);
     }
 
-    public static int copyStream(final InputStream input, final OutputStream output) throws IOException {
+    private static int copyStream(final InputStream input, final OutputStream output) throws IOException {
         final byte[] stuff = new byte[1024];
         int read = 0;
         int total = 0;
@@ -53,8 +53,8 @@ public final class UrlImageViewHelper {
         return total;
     }
 
-    static Resources mResources;
-    static DisplayMetrics mMetrics;
+    private static Resources mResources;
+    private static DisplayMetrics mMetrics;
 
     private static void prepareResources(final Context context) {
         if (mMetrics != null) {
@@ -152,14 +152,14 @@ public final class UrlImageViewHelper {
         return inSampleSize;
     }
 
-    public static final int CACHE_DURATION_INFINITE = Integer.MAX_VALUE;
-    public static final int CACHE_DURATION_ONE_DAY = 1000 * 60 * 60 * 24;
+    private static final int CACHE_DURATION_INFINITE = Integer.MAX_VALUE;
+    private static final int CACHE_DURATION_ONE_DAY = 1000 * 60 * 60 * 24;
     public static final int CACHE_DURATION_TWO_DAYS = CACHE_DURATION_ONE_DAY * 2;
-    public static final int CACHE_DURATION_THREE_DAYS = CACHE_DURATION_ONE_DAY * 3;
+    private static final int CACHE_DURATION_THREE_DAYS = CACHE_DURATION_ONE_DAY * 3;
     public static final int CACHE_DURATION_FOUR_DAYS = CACHE_DURATION_ONE_DAY * 4;
     public static final int CACHE_DURATION_FIVE_DAYS = CACHE_DURATION_ONE_DAY * 5;
     public static final int CACHE_DURATION_SIX_DAYS = CACHE_DURATION_ONE_DAY * 6;
-    public static final int CACHE_DURATION_ONE_WEEK = CACHE_DURATION_ONE_DAY * 7;
+    private static final int CACHE_DURATION_ONE_WEEK = CACHE_DURATION_ONE_DAY * 7;
 
     /**
      * Download and shrink an Image located at a specified URL, and display it
@@ -408,7 +408,7 @@ public final class UrlImageViewHelper {
      * @param age     The max age of a file. Files older than this age
      *                will be removed.
      */
-    public static void cleanup(final Context context, long age) {
+    private static void cleanup(final Context context, long age) {
         if (mHasCleaned) {
             return;
         }

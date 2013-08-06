@@ -35,8 +35,8 @@ import android.widget.ImageView;
 
 public class GestureImageView extends ImageView {
 
-    public static final String GLOBAL_NS = "http://schemas.android.com/apk/res/android";
-    public static final String LOCAL_NS = "http://schemas.polites.com/android";
+    private static final String GLOBAL_NS = "http://schemas.android.com/apk/res/android";
+    private static final String LOCAL_NS = "http://schemas.polites.com/android";
 
     private final Semaphore mDrawLock = new Semaphore(0);
     private Animator mAnimator;
@@ -170,8 +170,8 @@ public class GestureImageView extends ImageView {
         }
     }
 
-    protected void setupCanvas(int measuredWidth, int measuredHeight,
-                               int orientation) {
+    void setupCanvas(int measuredWidth, int measuredHeight,
+                     int orientation) {
 
         if (mDeviceOrientation != orientation) {
             mLayout = false;
@@ -252,14 +252,14 @@ public class GestureImageView extends ImageView {
         }
     }
 
-    protected void computeCropScale(int imageWidth, int imageHeight,
-                                    int measuredWidth, int measuredHeight) {
+    void computeCropScale(int imageWidth, int imageHeight,
+                          int measuredWidth, int measuredHeight) {
         mFitScaleHorizontal = (float) measuredWidth / (float) imageWidth;
         mFitScaleVertical = (float) measuredHeight / (float) imageHeight;
     }
 
-    protected void computeStartingScale(int imageWidth, int imageHeight,
-                                        int measuredWidth, int measuredHeight) {
+    void computeStartingScale(int imageWidth, int imageHeight,
+                              int measuredWidth, int measuredHeight) {
         switch (getScaleType()) {
             case CENTER:
                 // Center the image in the view, but perform no scaling.
@@ -282,7 +282,7 @@ public class GestureImageView extends ImageView {
         }
     }
 
-    protected boolean isNotRecycled() {
+    boolean isNotRecycled() {
         if (mDrawable != null && mDrawable instanceof BitmapDrawable) {
             Bitmap bitmap = ((BitmapDrawable) mDrawable).getBitmap();
             if (bitmap != null) {
@@ -292,7 +292,7 @@ public class GestureImageView extends ImageView {
         return true;
     }
 
-    protected void recycle() {
+    void recycle() {
         if (mRecycle && mDrawable != null
                 && mDrawable instanceof BitmapDrawable) {
             Bitmap bitmap = ((BitmapDrawable) mDrawable).getBitmap();
@@ -377,7 +377,7 @@ public class GestureImageView extends ImageView {
         super.onDetachedFromWindow();
     }
 
-    protected void initImage() {
+    void initImage() {
         if (this.mDrawable != null) {
             this.mDrawable.setAlpha(mAlpha);
             this.mDrawable.setFilterBitmap(true);
@@ -449,7 +449,7 @@ public class GestureImageView extends ImageView {
         postInvalidate();
     }
 
-    public void setMinScale(float min) {
+    void setMinScale(float min) {
         this.mMinScale = min;
         if (mGestureImageViewTouchListener != null) {
             mGestureImageViewTouchListener.setMinScale(min
@@ -457,7 +457,7 @@ public class GestureImageView extends ImageView {
         }
     }
 
-    public void setMaxScale(float max) {
+    void setMaxScale(float max) {
         this.mMaxScale = max;
         if (mGestureImageViewTouchListener != null) {
             mGestureImageViewTouchListener.setMaxScale(max * mStartingScale);
@@ -484,7 +484,7 @@ public class GestureImageView extends ImageView {
         return mStrict;
     }
 
-    public void setStrict(boolean strict) {
+    void setStrict(boolean strict) {
         this.mStrict = strict;
     }
 
@@ -492,7 +492,7 @@ public class GestureImageView extends ImageView {
         return mRecycle;
     }
 
-    public void setRecycle(boolean recycle) {
+    void setRecycle(boolean recycle) {
         this.mRecycle = recycle;
     }
 
@@ -683,11 +683,11 @@ public class GestureImageView extends ImageView {
         return getImageWidth() >= getImageHeight();
     }
 
-    public boolean isPortrait() {
+    boolean isPortrait() {
         return getImageWidth() <= getImageHeight();
     }
 
-    public void setStartingScale(float startingScale) {
+    void setStartingScale(float startingScale) {
         this.mStartingScale = startingScale;
     }
 

@@ -103,7 +103,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     private TweetFeedListAdapter mTweetFeedListAdapter;
     private TextView mListHeadingTextView;
     private ImageView mListHeadingHideImage;
-    boolean mHidingListHeading = false;
+    private boolean mHidingListHeading = false;
     private TwitterContentHandle mContentHandle;
     private TwitterStatuses _mStatusFeed; // Don't touch me directly. Use the
     // accessors
@@ -676,10 +676,10 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         }
     };
 
-    Long mTwitterStatusIdWhenRefreshed;
-    Long mLastTwitterStatusIdSeen;
-    int mCurrentFirstVisibleItem = 0;
-    int mNewStatuses = 0;
+    private Long mTwitterStatusIdWhenRefreshed;
+    private Long mLastTwitterStatusIdSeen;
+    private int mCurrentFirstVisibleItem = 0;
+    private int mNewStatuses = 0;
 
     /*
 	 *
@@ -698,7 +698,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
     /*
 	 *
-	 */ OnClickListener mListHeadingHideImageOnClickListener = new OnClickListener() {
+	 */ private OnClickListener mListHeadingHideImageOnClickListener = new OnClickListener() {
 
         @Override
         public void onClick(View v) {
@@ -1520,7 +1520,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     /*
      *
      */
-    public boolean showConversationView(TwitterStatus status) {
+    boolean showConversationView(TwitterStatus status) {
 
         for (Long id : mConverstaionViewIds) {
             if (id == status.mId) {

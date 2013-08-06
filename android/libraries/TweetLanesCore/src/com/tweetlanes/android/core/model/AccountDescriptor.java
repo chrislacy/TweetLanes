@@ -31,17 +31,17 @@ import java.util.ArrayList;
 
 public class AccountDescriptor {
 
-    static final String KEY_ID = "id";
-    static final String KEY_SCREEN_NAME = "screenName";
-    static final String KEY_OAUTH_TOKEN = "oAuthToken";
-    static final String KEY_OAUTH_SECRET = "oAuthSecret";
-    static final String KEY_INITIAL_LANE_INDEX = "lastLaneIndex";
-    static final String KEY_LISTS = "lists";
-    static final String KEY_LIST_ID = "id";
-    static final String KEY_LIST_NAME = "name";
-    static final String KEY_DISPLAYED_LANES = "displayedLanes";
-    static final String KEY_SOCIAL_NET_TYPE = "socialNetType";
-    static final String KEY_PROFILE_IMAGE_URL = "profileImageUrl";
+    private static final String KEY_ID = "id";
+    private static final String KEY_SCREEN_NAME = "screenName";
+    private static final String KEY_OAUTH_TOKEN = "oAuthToken";
+    private static final String KEY_OAUTH_SECRET = "oAuthSecret";
+    private static final String KEY_INITIAL_LANE_INDEX = "lastLaneIndex";
+    private static final String KEY_LISTS = "lists";
+    private static final String KEY_LIST_ID = "id";
+    private static final String KEY_LIST_NAME = "name";
+    private static final String KEY_DISPLAYED_LANES = "displayedLanes";
+    private static final String KEY_SOCIAL_NET_TYPE = "socialNetType";
+    private static final String KEY_PROFILE_IMAGE_URL = "profileImageUrl";
 
     /*
      *

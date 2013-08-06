@@ -64,10 +64,10 @@ public class SettingsActivity extends PreferenceActivity implements
     public static final String KEY_DOWNLOADIMAGES_PREFERENCE = "downloadimages_preference";
     public static final String KEY_SHOW_TWEET_SOURCE_PREFERENCE = "showtweetsource_preference";
     public static final String KEY_QUOTE_TYPE_PREFERENCE = "quotetype_preference";
-    public static final String KEY_CREDITS_PREFERENCE = "preference_credits";
-    public static final String KEY_SOURCE_CODE_PREFERENCE = "preference_source";
-    public static final String KEY_DONATE_PREFERENCE = "preference_donate";
-    public static final String KEY_VERSION_PREFERENCE = "version_preference";
+    private static final String KEY_CREDITS_PREFERENCE = "preference_credits";
+    private static final String KEY_SOURCE_CODE_PREFERENCE = "preference_source";
+    private static final String KEY_DONATE_PREFERENCE = "preference_donate";
+    private static final String KEY_VERSION_PREFERENCE = "version_preference";
     public static final String KEY_RINGTONE_PREFERENCE = "ringtone_preference";
     public static final String KEY_NOTIFICATION_TIME_PREFERENCE = "notificationtime_preference";
     public static final String KEY_NOTIFICATION_TYPE_PREFERENCE = "notificationtype_preference";
@@ -92,7 +92,7 @@ public class SettingsActivity extends PreferenceActivity implements
     /*
      *
 	 */
-    public App getApp() {
+    App getApp() {
         return (App) getApplication();
     }
 

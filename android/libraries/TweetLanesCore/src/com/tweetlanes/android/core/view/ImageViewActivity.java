@@ -41,11 +41,11 @@ import java.io.IOException;
 
 public class ImageViewActivity extends FragmentActivity {
 
-    GestureImageView mZoomableImageView;
+    private GestureImageView mZoomableImageView;
 
-    static final String KEY_MEDIA_URL = "mediaUrl";
-    static final String KEY_SOURCE_URL = "sourceUrl";
-    static final String KEY_AUTHOR_SCREEN_NAME = "authorScreenName";
+    private static final String KEY_MEDIA_URL = "mediaUrl";
+    private static final String KEY_SOURCE_URL = "sourceUrl";
+    private static final String KEY_AUTHOR_SCREEN_NAME = "authorScreenName";
 
     /*
      *

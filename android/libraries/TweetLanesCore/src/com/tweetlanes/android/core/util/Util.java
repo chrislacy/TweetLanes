@@ -69,7 +69,7 @@ public final class Util {
     /*
 	 * 
 	 */
-    public static String getPrettyDate(Date olderDate, Date newerDate) {
+    private static String getPrettyDate(Date olderDate, Date newerDate) {
 
         String result;
 
@@ -152,14 +152,14 @@ public final class Util {
     /*
 	 * 
 	 */
-    public static String trimLeft(String s) {
+    private static String trimLeft(String s) {
         return s.replaceAll("^\\s+", "");
     }
 
     /*
 	 * 
 	 */
-    public static String trimRight(String s) {
+    private static String trimRight(String s) {
         return s.replaceAll("\\s+$", "");
     }
 

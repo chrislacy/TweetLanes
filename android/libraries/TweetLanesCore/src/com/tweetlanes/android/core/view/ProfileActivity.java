@@ -40,10 +40,10 @@ import com.tweetlanes.android.core.widget.viewpagerindicator.TitleProvider;
 
 public class ProfileActivity extends BaseLaneActivity {
 
-    ProfileAdapter mProfileAdapter;
-    ViewSwitcher mViewSwitcher;
-    TwitterUser mUser;
-    String mScreenName;
+    private ProfileAdapter mProfileAdapter;
+    private ViewSwitcher mViewSwitcher;
+    private TwitterUser mUser;
+    private String mScreenName;
 
     /*
      * (non-Javadoc)

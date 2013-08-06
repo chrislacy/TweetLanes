@@ -190,8 +190,8 @@ public class TwitterFetchStatuses {
     /*
 	 *
 	 */
-    public TwitterStatuses setStatuses(TwitterContentHandle contentHandle, TwitterStatuses statuses,
-            boolean resetExisting) {
+    TwitterStatuses setStatuses(TwitterContentHandle contentHandle, TwitterStatuses statuses,
+                                boolean resetExisting) {
         TwitterStatuses feed = getStatuses(contentHandle);
         if (resetExisting) {
             feed.reset();

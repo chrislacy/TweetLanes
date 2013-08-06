@@ -138,7 +138,7 @@ public class ComposeDirectMessageFragment extends ComposeBaseFragment {
     /*
 	 *
 	 */
-    TwitterFetchDirectMessagesFinishedCallback mOnSetStatusCallback = new TwitterFetchDirectMessagesFinishedCallback() {
+    private TwitterFetchDirectMessagesFinishedCallback mOnSetStatusCallback = new TwitterFetchDirectMessagesFinishedCallback() {
 
         public void finished(TwitterContentHandle contentHandle, TwitterFetchResult result,
                              TwitterDirectMessages messages) {
@@ -349,7 +349,7 @@ public class ComposeDirectMessageFragment extends ComposeBaseFragment {
         return R.layout.compose_direct_message;
     }
 
-    TextWatcher mTextChangedListener = new TextWatcher() {
+    private TextWatcher mTextChangedListener = new TextWatcher() {
 
         public void afterTextChanged(Editable s) {
             String asString = s.toString();

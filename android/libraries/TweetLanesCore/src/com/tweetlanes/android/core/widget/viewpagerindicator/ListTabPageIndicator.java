@@ -23,7 +23,7 @@ import com.tweetlanes.android.core.R;
  */
 public class ListTabPageIndicator extends ListView implements PageIndicator {
 
-    Runnable mTabSelector;
+    private Runnable mTabSelector;
 
     private OnClickListener mTabClickListener = new OnClickListener() {
 

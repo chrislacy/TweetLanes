@@ -18,7 +18,7 @@ package org.tweetalib.android;
 
 public class TwitterFetchResult {
 
-    boolean mSuccessful;
+    private boolean mSuccessful;
     String mErrorMessage;
 
     /*

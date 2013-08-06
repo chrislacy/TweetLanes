@@ -33,7 +33,7 @@ import android.net.Uri;
 import com.tweetlanes.android.core.model.AccountDescriptor;
 import com.tweetlanes.android.core.urlservice.ApiService;
 
-public class TweetMarkerAPI extends ApiService {
+class TweetMarkerAPI extends ApiService {
 
     private static final String BASE_URL = "http://api.tweetmarker.net/v2/";
 

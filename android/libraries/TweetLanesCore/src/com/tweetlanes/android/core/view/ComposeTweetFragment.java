@@ -139,7 +139,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
     /*
 	 *
 	 */
-    FinishedCallback mOnSetStatusCallback = TwitterManager.get()
+    private FinishedCallback mOnSetStatusCallback = TwitterManager.get()
             .getFetchStatusInstance().new FinishedCallback() {
 
         @Override
@@ -451,8 +451,8 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
         }
     }
 
-    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth,
-                                            int reqHeight) {
+    private static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth,
+                                             int reqHeight) {
         // Raw height and width of image
         final int height = options.outHeight;
         final int width = options.outWidth;
@@ -509,7 +509,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
     /*
 	 *
 	 */
-    TwitterStatus mRetweetStatus;
+    private TwitterStatus mRetweetStatus;
 
     public void retweetSelected(TwitterStatus status, final FinishedCallback callback) {
 

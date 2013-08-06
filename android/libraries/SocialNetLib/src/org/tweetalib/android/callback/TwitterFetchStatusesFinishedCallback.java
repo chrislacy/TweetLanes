@@ -22,7 +22,7 @@ package org.tweetalib.android.callback;
 public abstract class TwitterFetchStatusesFinishedCallback implements
         TwitterFetchStatusesFinishedCallbackInterface {
 
-    static final int kInvalidHandle = -1;
+    private static final int kInvalidHandle = -1;
 
     public TwitterFetchStatusesFinishedCallback() {
         mHandle = kInvalidHandle;

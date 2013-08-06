@@ -99,7 +99,7 @@ public class TwitterDirectMessage implements Comparable<TwitterDirectMessage> {
 	 */
     private long mId;
     private MessageType mMessageType;
-    public String mText;
+    private String mText;
     public Spanned mTextSpanned;
     private Date mCreatedAt;
     private long mOtherUserId;

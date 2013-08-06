@@ -26,9 +26,9 @@ import com.tweetlanes.android.core.ConsumerKeyConstants;
 
 public class BootActivity extends Activity {
 
-    Class<?> mLastStartedClass;
+    private Class<?> mLastStartedClass;
 
-    public App getApp() {
+    App getApp() {
         return (App) getApplication();
     }
 

@@ -31,7 +31,7 @@ import com.tweetlanes.android.core.R;
 public class TabPageIndicator extends HorizontalScrollView implements
         PageIndicator {
 
-    Runnable mTabSelector;
+    private Runnable mTabSelector;
 
     private OnClickListener mTabClickListener = new OnClickListener() {
 
@@ -55,7 +55,7 @@ public class TabPageIndicator extends HorizontalScrollView implements
 
     private LayoutInflater mInflater;
 
-    int mMaxTabWidth;
+    private int mMaxTabWidth;
     private int mSelectedTabIndex;
 
     public TabPageIndicator(Context context) {

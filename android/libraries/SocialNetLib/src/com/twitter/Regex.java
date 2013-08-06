@@ -2,7 +2,7 @@ package com.twitter;
 
 import java.util.regex.*;
 
-public class Regex {
+class Regex {
     private static final String UNICODE_SPACES = "[" + "\\u0009-\\u000d" + // #
                                                                            // White_Space
                                                                            // #

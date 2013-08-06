@@ -85,9 +85,9 @@ public class TwitterStatusUpdate {
         mMediaFilePath = mediaFilePath;
     }
 
-    String mStatus;
-    Long mInReplyToStatusId;
-    String mMediaFilePath;
+    private String mStatus;
+    private Long mInReplyToStatusId;
+    private String mMediaFilePath;
 
 
     private File getMediaFile(String mediaFilePath) throws IOException {

@@ -22,7 +22,7 @@ import android.widget.TextView;
 public class AutoResizeTextView extends TextView {
 
     // Minimum text size for this text view
-    public static final float MIN_TEXT_SIZE = 20;
+    private static final float MIN_TEXT_SIZE = 20;
 
     // Interface for resize notifications
     public interface OnTextResizeListener {
@@ -195,7 +195,7 @@ public class AutoResizeTextView extends TextView {
     /**
      * Reset the text to the original size
      */
-    public void resetTextSize() {
+    void resetTextSize() {
         if (mTextSize > 0) {
             super.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTextSize);
             mMaxTextSize = mTextSize;
@@ -233,7 +233,7 @@ public class AutoResizeTextView extends TextView {
      * @param width
      * @param height
      */
-    public void resizeText(int width, int height) {
+    void resizeText(int width, int height) {
         CharSequence text = getText();
         // Do not resize if the view does not have dimensions or there is no
         // text

@@ -52,7 +52,7 @@ public abstract class BaseLaneFragment extends Fragment {
     /*
 	 * 
 	 */
-    public App getApp() {
+    App getApp() {
         FragmentActivity fragmentActivity = getActivity();
         if (fragmentActivity != null) {
             return (App) fragmentActivity.getApplication();
@@ -86,7 +86,7 @@ public abstract class BaseLaneFragment extends Fragment {
     /*
 	 * 
 	 */
-    public boolean isCurrentLaneIndex() {
+    boolean isCurrentLaneIndex() {
         BaseLaneActivity baseLaneActivity = getBaseLaneActivity();
         if (baseLaneActivity != null) {
             if (baseLaneActivity.getCurrentLaneIndex() == getLaneIndex()) {
@@ -101,7 +101,7 @@ public abstract class BaseLaneFragment extends Fragment {
      * If we are the current lane, add this offset to async requests so they get
      * dealt with first
      */
-    public int getAsyncTaskPriorityOffset() {
+    int getAsyncTaskPriorityOffset() {
 
         if (isCurrentLaneIndex()) {
             return 1;
@@ -128,8 +128,8 @@ public abstract class BaseLaneFragment extends Fragment {
     /*
 	 * 
 	 */
-    public void configureBaseLaneFragment(int laneIndex, String identifier,
-                                          ConfigureBundleListener configureBundleListener) {
+    void configureBaseLaneFragment(int laneIndex, String identifier,
+                                   ConfigureBundleListener configureBundleListener) {
 
         Bundle arguments = new Bundle();
 
@@ -153,7 +153,7 @@ public abstract class BaseLaneFragment extends Fragment {
     /*
 	 * 
 	 */
-    public void setInitialDownloadState(InitialDownloadState initialLoadState) {
+    void setInitialDownloadState(InitialDownloadState initialLoadState) {
         mInitialDownloadState = initialLoadState;
         getBaseLaneActivity().onLaneFragmentInitialDownloadStateChange(this);
     }
@@ -161,7 +161,7 @@ public abstract class BaseLaneFragment extends Fragment {
     /*
 	 * 
 	 */
-    public void configureLaneWidth(View resultView) {
+    void configureLaneWidth(View resultView) {
 
         RelativeLayout laneContent = (RelativeLayout) resultView
                 .findViewById(R.id.lane_content);
@@ -218,14 +218,14 @@ public abstract class BaseLaneFragment extends Fragment {
     /*
 	 * 
 	 */
-    public String getCachedData() {
+    String getCachedData() {
         return getBaseLaneActivity().getCachedData(getLaneIndex());
     }
 
     /*
 	 * 
 	 */
-    protected void showToast(String message) {
+    void showToast(String message) {
         FragmentActivity activity = getActivity();
         if (activity != null && activity.getApplicationContext() != null) {
             Toast.makeText(activity.getApplicationContext(), message,

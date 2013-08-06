@@ -37,6 +37,6 @@ public class TwitterDirectMessagesHandle {
         return key;
     }
 
-    Long mUserId;
+    private Long mUserId;
     Long mOtherUserId;
 }

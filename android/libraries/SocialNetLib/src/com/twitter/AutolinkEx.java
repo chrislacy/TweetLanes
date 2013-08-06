@@ -16,36 +16,36 @@ import twitter4j.URLEntity;
  */
 public class AutolinkEx {
     /** Default CSS class for auto-linked list URLs */
-    public static final String DEFAULT_LIST_CLASS = null;// "tweet-url list-slug";
+    private static final String DEFAULT_LIST_CLASS = null;// "tweet-url list-slug";
     /** Default CSS class for auto-linked username URLs */
-    public static final String DEFAULT_USERNAME_CLASS = null;// "tweet-url username";
+    private static final String DEFAULT_USERNAME_CLASS = null;// "tweet-url username";
     /** Default CSS class for auto-linked hashtag URLs */
-    public static final String DEFAULT_HASHTAG_CLASS = null;// "tweet-url hashtag";
+    private static final String DEFAULT_HASHTAG_CLASS = null;// "tweet-url hashtag";
     /** Default CSS class for auto-linked cashtag URLs */
-    public static final String DEFAULT_CASHTAG_CLASS = null;// "tweet-url cashtag";
+    private static final String DEFAULT_CASHTAG_CLASS = null;// "tweet-url cashtag";
     /**
      * Default href for username links (the username without the @ will be
      * appended)
      */
-    public static final String DEFAULT_USERNAME_URL_BASE = "com.tweetlanes.android.core.profile://";
+    private static final String DEFAULT_USERNAME_URL_BASE = "com.tweetlanes.android.core.profile://";
     /**
      * Default href for list links (the username/list without the @ will be
      * appended)
      */
-    public static final String DEFAULT_LIST_URL_BASE = "com.tweetlanes.android.core.profile://";
+    private static final String DEFAULT_LIST_URL_BASE = "com.tweetlanes.android.core.profile://";
     /**
      * Default href for hashtag links (the hashtag without the # will be
      * appended)
      */
-    public static final String DEFAULT_HASHTAG_URL_BASE = "com.tweetlanes.android.core.search://";
+    private static final String DEFAULT_HASHTAG_URL_BASE = "com.tweetlanes.android.core.search://";
     /**
      * Default href for cashtag links (the cashtag without the $ will be
      * appended)
      */
-    public static final String DEFAULT_CASHTAG_URL_BASE = "com.tweetlanes.android.core.search://";
+    private static final String DEFAULT_CASHTAG_URL_BASE = "com.tweetlanes.android.core.search://";
 
     /** Default attribute for invisible span tag */
-    public static final String DEFAULT_INVISIBLE_TAG_ATTRS = null;// "style='position:absolute;left:-9999px;'";
+    private static final String DEFAULT_INVISIBLE_TAG_ATTRS = null;// "style='position:absolute;left:-9999px;'";
 
     public static interface LinkAttributeModifier {
         public void modify(Entity entity, Map<String, String> attributes);
@@ -55,23 +55,23 @@ public class AutolinkEx {
         public CharSequence modify(Entity entity, CharSequence text);
     }
 
-    protected String urlClass = null;
-    protected String listClass;
-    protected String usernameClass;
-    protected String hashtagClass;
-    protected String cashtagClass;
-    protected String usernameUrlBase;
-    protected String listUrlBase;
-    protected String hashtagUrlBase;
-    protected String cashtagUrlBase;
-    protected String invisibleTagAttrs;
-    protected boolean noFollow = true;
-    protected boolean usernameIncludeSymbol = false;
-    protected String symbolTag = null;
-    protected String textWithSymbolTag = null;
-    protected String urlTarget = null;
-    protected LinkAttributeModifier linkAttributeModifier = null;
-    protected LinkTextModifier linkTextModifier = null;
+    private String urlClass = null;
+    private String listClass;
+    private String usernameClass;
+    private String hashtagClass;
+    private String cashtagClass;
+    private String usernameUrlBase;
+    private String listUrlBase;
+    private String hashtagUrlBase;
+    private String cashtagUrlBase;
+    private String invisibleTagAttrs;
+    private boolean noFollow = true;
+    private boolean usernameIncludeSymbol = false;
+    private String symbolTag = null;
+    private String textWithSymbolTag = null;
+    private String urlTarget = null;
+    private LinkAttributeModifier linkAttributeModifier = null;
+    private LinkTextModifier linkTextModifier = null;
 
     private Extractor extractor = new Extractor();
 
@@ -118,7 +118,7 @@ public class AutolinkEx {
         extractor.setExtractURLWithoutProtocol(false);
     }
 
-    public String escapeBrackets(String text) {
+    String escapeBrackets(String text) {
         int len = text.length();
         if (len == 0) return text;
 
@@ -135,8 +135,8 @@ public class AutolinkEx {
         return sb.toString();
     }
 
-    public void linkToText(Entity entity, CharSequence text,
-            Map<String, String> attributes, StringBuilder builder) {
+    void linkToText(Entity entity, CharSequence text,
+                    Map<String, String> attributes, StringBuilder builder) {
         if (noFollow) {
             attributes.put("rel", "nofollow");
         }
@@ -156,9 +156,9 @@ public class AutolinkEx {
         builder.append(">").append(text).append("</a>");
     }
 
-    public void linkToTextWithSymbol(Entity entity, CharSequence symbol,
-            CharSequence text, Map<String, String> attributes,
-            StringBuilder builder) {
+    void linkToTextWithSymbol(Entity entity, CharSequence symbol,
+                              CharSequence text, Map<String, String> attributes,
+                              StringBuilder builder) {
         CharSequence taggedSymbol = symbolTag == null || symbolTag.isEmpty() ? symbol
                 : String.format("<%s>%s</%s>", symbolTag, symbol, symbolTag);
         text = escapeHTML(text);
@@ -178,7 +178,7 @@ public class AutolinkEx {
         }
     }
 
-    public void linkToHashtag(Entity entity, String text, StringBuilder builder) {
+    void linkToHashtag(Entity entity, String text, StringBuilder builder) {
         // Get the original hash char from text as it could be a full-width
         // char.
         CharSequence hashChar = text.subSequence(entity.getStart(),
@@ -195,7 +195,7 @@ public class AutolinkEx {
         linkToTextWithSymbol(entity, hashChar, hashtag, attrs, builder);
     }
 
-    public void linkToCashtag(Entity entity, String text, StringBuilder builder) {
+    void linkToCashtag(Entity entity, String text, StringBuilder builder) {
         CharSequence cashtag = entity.getValue();
 
         Map<String, String> attrs = new LinkedHashMap<String, String>();
@@ -208,8 +208,8 @@ public class AutolinkEx {
         linkToTextWithSymbol(entity, "$", cashtag, attrs, builder);
     }
 
-    public void linkToMentionAndList(Entity entity, String text,
-            StringBuilder builder) {
+    void linkToMentionAndList(Entity entity, String text,
+                              StringBuilder builder) {
         String mention = entity.getValue();
         // Get the original at char from text as it could be a full-width char.
         CharSequence atChar = text.subSequence(entity.getStart(),
@@ -232,8 +232,8 @@ public class AutolinkEx {
         linkToTextWithSymbol(entity, atChar, mention, attrs, builder);
     }
 
-    public void linkToURL(Entity entity, String text, StringBuilder builder,
-            URLEntity urlEntity) {
+    void linkToURL(Entity entity, String text, StringBuilder builder,
+                   URLEntity urlEntity) {
         CharSequence url = entity.getValue();
         CharSequence linkText = escapeHTML(url);
 
@@ -249,13 +249,13 @@ public class AutolinkEx {
         linkToText(entity, linkText, attrs, builder);
     }
 
-    public String autoLinkEntities(String text, List<Entity> entities) {
+    String autoLinkEntities(String text, List<Entity> entities) {
         return autoLinkEntities(text, null, entities, null, null);
     }
 
-    public String autoLinkEntities(String text,
-            TwitterMediaEntity twitterMediaEntity, List<Entity> entities,
-            MediaEntity[] mediaEntities, URLEntity[] urlEntities) {
+    String autoLinkEntities(String text,
+                            TwitterMediaEntity twitterMediaEntity, List<Entity> entities,
+                            MediaEntity[] mediaEntities, URLEntity[] urlEntities) {
         StringBuilder builder = new StringBuilder(text.length() * 2);
         int beginIndex = 0;
 

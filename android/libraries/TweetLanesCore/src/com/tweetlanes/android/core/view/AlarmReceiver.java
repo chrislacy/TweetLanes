@@ -34,7 +34,7 @@ import java.util.ArrayList;
 
 public class AlarmReceiver extends BroadcastReceiver {
 
-    Context mContext;
+    private Context mContext;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -46,7 +46,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         }
     }
 
-    TwitterFetchStatusesFinishedCallback getMentionsCallback = new TwitterFetchStatusesFinishedCallback() {
+    private TwitterFetchStatusesFinishedCallback getMentionsCallback = new TwitterFetchStatusesFinishedCallback() {
         @Override
         public void finished(TwitterFetchResult result, TwitterStatuses feed, TwitterContentHandle contentHandle) {
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
@@ -87,7 +87,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         }
     };
 
-    TwitterFetchDirectMessagesFinishedCallback getDirectMessagesCallback = new TwitterFetchDirectMessagesFinishedCallback() {
+    private TwitterFetchDirectMessagesFinishedCallback getDirectMessagesCallback = new TwitterFetchDirectMessagesFinishedCallback() {
         @Override
         public void finished(TwitterContentHandle contentHandle, TwitterFetchResult result, TwitterDirectMessages messages) {
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
@@ -251,7 +251,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         return accounts;
     }
 
-    ConnectionStatus.Callbacks mConnectionStatusCallbacks = new ConnectionStatus.Callbacks() {
+    private ConnectionStatus.Callbacks mConnectionStatusCallbacks = new ConnectionStatus.Callbacks() {
         @Override
         public boolean isOnline() {
             return true;

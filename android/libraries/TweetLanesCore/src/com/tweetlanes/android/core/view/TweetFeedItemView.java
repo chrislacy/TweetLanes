@@ -113,7 +113,7 @@ public class TweetFeedItemView extends LinearLayout {
         init(context);
     }
 
-    public void init(Context context) {
+    void init(Context context) {
         mContext = context;
     }
 
@@ -372,7 +372,7 @@ public class TweetFeedItemView extends LinearLayout {
     /*
 	 *
 	 */
-    public void insertConversationView() {
+    void insertConversationView() {
         if (mConversationView == null) {
             mConversationView = (ConversationView) mCallbacks
                     .getLayoutInflater().inflate(R.layout.conversation_feed,
@@ -384,7 +384,7 @@ public class TweetFeedItemView extends LinearLayout {
     /*
      *
      */
-    public void setPreviewImage(TwitterMediaEntity mediaEntity, AdnMedia adnMedia, Callbacks callbacks) {
+    void setPreviewImage(TwitterMediaEntity mediaEntity, AdnMedia adnMedia, Callbacks callbacks) {
 
         mPreviewImageContainer = (RelativeLayout) findViewById(R.id.preview_image_container);
 
@@ -464,7 +464,7 @@ public class TweetFeedItemView extends LinearLayout {
     /*
 	 *
 	 */
-    OnTouchListener mStatusOnTouchListener = new OnTouchListener() {
+    private OnTouchListener mStatusOnTouchListener = new OnTouchListener() {
 
         @Override
         public boolean onTouch(View view, MotionEvent event) {
@@ -524,7 +524,7 @@ public class TweetFeedItemView extends LinearLayout {
     /*
 	 *
 	 */
-    OnTouchListener mOnTouchListener = new OnTouchListener() {
+    private OnTouchListener mOnTouchListener = new OnTouchListener() {
 
         @Override
         public boolean onTouch(View v, MotionEvent event) {
@@ -535,7 +535,7 @@ public class TweetFeedItemView extends LinearLayout {
     /*
 	 *
 	 */
-    GestureDetector mGestureDetector = new GestureDetector(
+    private GestureDetector mGestureDetector = new GestureDetector(
             new GestureDetector.SimpleOnGestureListener() {
 
                 @Override
@@ -569,7 +569,7 @@ public class TweetFeedItemView extends LinearLayout {
     /*
 	 *
 	 */
-    public void onProfileImageClick() {
+    void onProfileImageClick() {
         Intent profileIntent = new Intent(mContext, ProfileActivity.class);
         profileIntent.putExtra("userId", Long.valueOf(mTwitterStatus.mAuthorId)
                 .toString());
@@ -584,7 +584,7 @@ public class TweetFeedItemView extends LinearLayout {
     /*
 	 *
 	 */
-    public void configureConversationView(SocialNetConstant.Type socialNetType, String currentAccountKey) {
+    void configureConversationView(SocialNetConstant.Type socialNetType, String currentAccountKey) {
 
         insertConversationView();
 

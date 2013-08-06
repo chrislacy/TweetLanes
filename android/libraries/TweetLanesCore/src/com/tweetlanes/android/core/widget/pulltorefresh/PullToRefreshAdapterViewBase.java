@@ -22,17 +22,17 @@ public abstract class PullToRefreshAdapterViewBase<T extends AbsListView>
     private View mEmptyView;
     private FrameLayout mRefreshableViewHolder;
 
-    public PullToRefreshAdapterViewBase(Context context) {
+    PullToRefreshAdapterViewBase(Context context) {
         super(context);
         mRefreshableView.setOnScrollListener(this);
     }
 
-    public PullToRefreshAdapterViewBase(Context context, int mode) {
+    PullToRefreshAdapterViewBase(Context context, int mode) {
         super(context, mode);
         mRefreshableView.setOnScrollListener(this);
     }
 
-    public PullToRefreshAdapterViewBase(Context context, AttributeSet attrs) {
+    PullToRefreshAdapterViewBase(Context context, AttributeSet attrs) {
         super(context, attrs);
         mRefreshableView.setOnScrollListener(this);
     }
@@ -81,7 +81,7 @@ public abstract class PullToRefreshAdapterViewBase<T extends AbsListView>
      *
      * @param newEmptyView - Empty View to be used
      */
-    public final void setEmptyView(View newEmptyView) {
+    final void setEmptyView(View newEmptyView) {
         // If we already have an Empty View, remove it
         if (null != mEmptyView) {
             mRefreshableViewHolder.removeView(mEmptyView);

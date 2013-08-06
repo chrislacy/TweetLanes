@@ -471,15 +471,15 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
     private String mAuthorScreenName;
     public long mFavoriteCount;
     public Date mCreatedAt;
-    public String mProfileImageOriginalUrl;
-    public String mProfileImageMiniUrl;
-    public String mProfileImageNormalUrl;
-    public String mProfileImageBiggerUrl;
+    private String mProfileImageOriginalUrl;
+    private String mProfileImageMiniUrl;
+    private String mProfileImageNormalUrl;
+    private String mProfileImageBiggerUrl;
     public long mId;
     public long mOriginalRetweetId;
     public Long mInReplyToStatusId;
-    public Long mInReplyToUserId;
-    public String mInReplyToUserScreenName;
+    private Long mInReplyToUserId;
+    private String mInReplyToUserScreenName;
     public boolean mIsFavorited;
     public boolean mIsRetweet;
     public boolean mIsRetweetedByMe;
@@ -488,7 +488,7 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
     // public String mStatusSlimMarkup; // 'Slim' has the first media link
     // removed from the text
     // public Spanned mStatusSlimSpanned;
-    public String mStatusFullMarkup; // 'Full' contains all media links. Used in
+    private String mStatusFullMarkup; // 'Full' contains all media links. Used in
     // conversation view.
     public Spanned mStatusFullSpanned;
     public String mSource;

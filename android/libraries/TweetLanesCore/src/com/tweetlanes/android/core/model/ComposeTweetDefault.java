@@ -22,19 +22,19 @@ import org.tweetalib.android.model.TwitterUsers;
 
 public class ComposeTweetDefault {
 
-    final boolean USE_DEFAULT_STATUS_HACK = false;
+    private final boolean USE_DEFAULT_STATUS_HACK = false;
 
-    String mUserScreenName;
-    String mStatus;
-    String mInitialStatus;
-    boolean mInitialStatusIsPlaceholder;
-    Long mInReplyToStatusId;
-    String mMediaFilePath;
+    private String mUserScreenName;
+    private String mStatus;
+    private String mInitialStatus;
+    private boolean mInitialStatusIsPlaceholder;
+    private Long mInReplyToStatusId;
+    private String mMediaFilePath;
 
-    public static final String KEY_USER_SCREEN_NAME = "userScreenName";
-    public static final String KEY_STATUS = "status";
-    public static final String KEY_IN_REPLY_TO_STATUS_ID = "inReplyToStatusId";
-    public static final String KEY_MEDIA_FILE_PATH = "mediaFilePath";
+    private static final String KEY_USER_SCREEN_NAME = "userScreenName";
+    private static final String KEY_STATUS = "status";
+    private static final String KEY_IN_REPLY_TO_STATUS_ID = "inReplyToStatusId";
+    private static final String KEY_MEDIA_FILE_PATH = "mediaFilePath";
 
     /*
      *

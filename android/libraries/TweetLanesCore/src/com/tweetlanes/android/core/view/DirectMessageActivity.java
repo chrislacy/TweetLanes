@@ -30,12 +30,12 @@ import com.tweetlanes.android.core.widget.viewpagerindicator.TitleProvider;
 
 public class DirectMessageActivity extends BaseLaneActivity {
 
-    DirectMessageLaneAdapter mDirectMessageLaneAdapter;
-    ViewSwitcher mViewSwitcher;
+    private DirectMessageLaneAdapter mDirectMessageLaneAdapter;
+    private ViewSwitcher mViewSwitcher;
 
-    static final String KEY_HANDLE_BASE = "handleBase";
-    static final String KEY_OTHER_USER_ID = "otherUserId";
-    static final String KEY_OTHER_USER_SCREEN_NAME = "otherUserScreenName";
+    private static final String KEY_HANDLE_BASE = "handleBase";
+    private static final String KEY_OTHER_USER_ID = "otherUserId";
+    private static final String KEY_OTHER_USER_SCREEN_NAME = "otherUserScreenName";
 
     /*
      *

@@ -64,7 +64,7 @@ public class ConversationView extends LinearLayout {
         init(context);
     }
 
-    public void init(Context context) {
+    void init(Context context) {
     }
 
     public interface Callbacks {

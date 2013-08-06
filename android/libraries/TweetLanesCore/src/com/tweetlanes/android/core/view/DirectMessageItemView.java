@@ -86,7 +86,7 @@ public class DirectMessageItemView extends LinearLayout {
         init(context);
     }
 
-    public void init(Context context) {
+    void init(Context context) {
         mContext = context;
     }
 
@@ -245,7 +245,7 @@ public class DirectMessageItemView extends LinearLayout {
     /*
 	 * 
 	 */
-    public void onProfileImageClick() {
+    void onProfileImageClick() {
         Intent profileIntent = new Intent(mContext, ProfileActivity.class);
 
         if (mDirectMessage != null) {

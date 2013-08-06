@@ -72,8 +72,8 @@ public class TwitterManager {
     /*
 	 *
 	 */
-    TwitterManager(SocialNetConstant.Type socialNetType, String consumerKey,
-            String consumerSecret, String currentAccountKey) {
+    private TwitterManager(SocialNetConstant.Type socialNetType, String consumerKey,
+                           String consumerSecret, String currentAccountKey) {
         setSocialNetType(socialNetType, consumerKey, consumerSecret, currentAccountKey);
     }
 
@@ -107,7 +107,7 @@ public class TwitterManager {
     /*
 	 *
 	 */
-    public void setConnectionStatus(
+    void setConnectionStatus(
             ConnectionStatus.Callbacks connectionStatusCallbacks) {
         mApi.setConnectionStatus(connectionStatusCallbacks);
     }

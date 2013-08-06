@@ -13,7 +13,7 @@ package com.tweetlanes.android.core.widget.gestureimageview;
 /**
  * @author Jason Polites
  */
-public class Animator extends Thread {
+class Animator extends Thread {
 
     private GestureImageView mView;
     private Animation mAnimation;
@@ -76,7 +76,7 @@ public class Animator extends Thread {
         activate();
     }
 
-    public synchronized void activate() {
+    synchronized void activate() {
         mLastTime = System.currentTimeMillis();
         mActive = true;
         notifyAll();

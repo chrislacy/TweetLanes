@@ -44,8 +44,8 @@ public final class TwitterStatusesFilter {
     /*
 	 * 
 	 */
-    boolean mShowRetweets = true;
-    boolean mShowReplies = true;
+    private boolean mShowRetweets = true;
+    private boolean mShowReplies = true;
 
     FilterType getFilterType() {
         if (!mShowRetweets && !mShowReplies) {

@@ -52,7 +52,7 @@ public class TutorialActivity extends FragmentActivity {
     /*
      *
 	 */
-    public App getApp() {
+    App getApp() {
         return (App) getApplication();
     }
 
@@ -141,7 +141,7 @@ public class TutorialActivity extends FragmentActivity {
     /*
 	 * 
 	 */
-    OnPageChangeListener mOnPageChangeListener = new OnPageChangeListener() {
+    private OnPageChangeListener mOnPageChangeListener = new OnPageChangeListener() {
 
         @Override
         public void onPageScrollStateChanged(int arg0) {

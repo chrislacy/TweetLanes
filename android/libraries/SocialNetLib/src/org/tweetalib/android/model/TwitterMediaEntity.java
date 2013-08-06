@@ -358,7 +358,7 @@ public class TwitterMediaEntity {
     /*
 	 * 
 	 */
-    public TwitterMediaEntity(String jsonAsString) throws JSONException {
+    private TwitterMediaEntity(String jsonAsString) throws JSONException {
         JSONObject object = new JSONObject(jsonAsString);
         mSource = Source.valueOf(object.getString(KEY_SOURCE));
         mMediaCode = object.getString(KEY_MEDIA_CODE);

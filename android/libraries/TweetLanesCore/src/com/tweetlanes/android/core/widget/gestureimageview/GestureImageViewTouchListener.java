@@ -19,7 +19,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 
-public class GestureImageViewTouchListener implements OnTouchListener {
+class GestureImageViewTouchListener implements OnTouchListener {
 
     private GestureImageView mImage;
     private OnClickListener mOnClickListener;
@@ -343,7 +343,7 @@ public class GestureImageViewTouchListener implements OnTouchListener {
         return true;
     }
 
-    protected void handleUp() {
+    void handleUp() {
 
         mMultiTouch = false;
 
@@ -382,7 +382,7 @@ public class GestureImageViewTouchListener implements OnTouchListener {
         mImage.redraw();
     }
 
-    protected void handleScale(float scale, float x, float y) {
+    void handleScale(float scale, float x, float y) {
 
         mCurrentScale = scale;
 
@@ -408,7 +408,7 @@ public class GestureImageViewTouchListener implements OnTouchListener {
         mImage.redraw();
     }
 
-    protected boolean handleDrag(float x, float y) {
+    boolean handleDrag(float x, float y) {
         mCurrent.x = x;
         mCurrent.y = y;
 
@@ -469,23 +469,23 @@ public class GestureImageViewTouchListener implements OnTouchListener {
         this.mOnClickListener = onClickListener;
     }
 
-    protected void setCanvasWidth(int canvasWidth) {
+    void setCanvasWidth(int canvasWidth) {
         this.mCanvasWidth = canvasWidth;
     }
 
-    protected void setCanvasHeight(int canvasHeight) {
+    void setCanvasHeight(int canvasHeight) {
         this.mCanvasHeight = canvasHeight;
     }
 
-    protected void setFitScaleHorizontal(float fitScale) {
+    void setFitScaleHorizontal(float fitScale) {
         this.mFitScaleHorizontal = fitScale;
     }
 
-    protected void setFitScaleVertical(float fitScaleVertical) {
+    void setFitScaleVertical(float fitScaleVertical) {
         this.mFitScaleVertical = fitScaleVertical;
     }
 
-    protected void boundCoordinates() {
+    void boundCoordinates() {
         if (mNext.x < mBoundaryLeft) {
             mNext.x = mBoundaryLeft;
         } else if (mNext.x > mBoundaryRight) {
@@ -499,7 +499,7 @@ public class GestureImageViewTouchListener implements OnTouchListener {
         }
     }
 
-    protected void calculateBoundaries() {
+    void calculateBoundaries() {
 
         int effectiveWidth = Math.round((float) mImageWidth * mCurrentScale);
         int effectiveHeight = Math.round((float) mImageHeight * mCurrentScale);

@@ -59,7 +59,7 @@ public class UserFeedItemView extends LinearLayout {
         init(context);
     }
 
-    public void init(Context context) {
+    void init(Context context) {
         mContext = context;
     }
 

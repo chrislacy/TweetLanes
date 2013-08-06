@@ -37,7 +37,7 @@ import twitter4j.auth.RequestToken;
 
 public class TwitterAuthActivity extends Activity {
 
-    final int TWITTER_AUTH_REQUEST_CODE = 443343;
+    private final int TWITTER_AUTH_REQUEST_CODE = 443343;
 
     private RequestToken mRequestToken;
 
@@ -68,7 +68,7 @@ public class TwitterAuthActivity extends Activity {
 
     /*
      *
-	 */ GetAuthUrlCallback mGetAuthUrlCallback = TwitterManager.get().getSignInInstance().new GetAuthUrlCallback() {
+	 */ private GetAuthUrlCallback mGetAuthUrlCallback = TwitterManager.get().getSignInInstance().new GetAuthUrlCallback() {
 
         @Override
         public void finished(boolean successful, String url, RequestToken requestToken) {
@@ -79,7 +79,7 @@ public class TwitterAuthActivity extends Activity {
 
     /*
      *
-	 */ GetOAuthAccessTokenCallback mGetOAuthAccessTokenCallback =
+	 */ private GetOAuthAccessTokenCallback mGetOAuthAccessTokenCallback =
             TwitterManager.get().getSignInInstance().new GetOAuthAccessTokenCallback() {
 
                 @Override
@@ -102,7 +102,7 @@ public class TwitterAuthActivity extends Activity {
     /*
 	 *
 	 */
-    public App getApp() {
+    App getApp() {
         return (App) getApplication();
     }
 

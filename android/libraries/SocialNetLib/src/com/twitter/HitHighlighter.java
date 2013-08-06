@@ -8,12 +8,12 @@ import java.text.*;
  * A class for adding HTML highlighting in Tweet text (such as would be returned
  * from a Search)
  */
-public class HitHighlighter {
+class HitHighlighter {
     /** Default HTML tag for highlight hits */
-    public static final String DEFAULT_HIGHLIGHT_TAG = "em";
+    private static final String DEFAULT_HIGHLIGHT_TAG = "em";
 
     /** the current HTML tag used for hit highlighting */
-    protected String highlightTag;
+    private String highlightTag;
 
     /** Create a new HitHighlighter object. */
     public HitHighlighter() {
@@ -83,7 +83,7 @@ public class HitHighlighter {
      * 
      * @param true if this is a closing tag, false otherwise
      */
-    protected String tag(boolean closeTag) {
+    String tag(boolean closeTag) {
         StringBuilder sb = new StringBuilder(highlightTag.length() + 3);
         sb.append("<");
         if (closeTag) {

@@ -61,7 +61,7 @@ public class TwitterStatuses {
     /*
 	 * 
 	 */
-    static final String KEY_STATUSES = "statuses";
+    private static final String KEY_STATUSES = "statuses";
 
     public TwitterStatuses(String jsonAsString) {
         _mStatuses = new ArrayList<TwitterStatus>();
@@ -456,7 +456,7 @@ public class TwitterStatuses {
         return getStatusIndexFromOriginalStatusId(statusId);
     }
 
-    public Integer getStatusIndexFromOriginalStatusId(long originalStatusId) {
+    Integer getStatusIndexFromOriginalStatusId(long originalStatusId) {
         if (size() == 0) {
             return null;
         }
@@ -492,8 +492,8 @@ public class TwitterStatuses {
     /*
 	 * 
 	 */
-    ArrayList<TwitterStatus> _mStatuses;
-    int[] mCounts = new int[FilterType.FILTER_MAX.ordinal()];
+    private ArrayList<TwitterStatus> _mStatuses;
+    private int[] mCounts = new int[FilterType.FILTER_MAX.ordinal()];
 
     private Long mGetNewStatusesMaxId = null;
 

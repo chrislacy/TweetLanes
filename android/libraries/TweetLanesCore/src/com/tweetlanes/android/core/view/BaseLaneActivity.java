@@ -72,7 +72,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class BaseLaneActivity extends FragmentActivity implements
+class BaseLaneActivity extends FragmentActivity implements
         SearchView.OnQueryTextListener {
 
     private ViewPager mViewPager;
@@ -85,8 +85,8 @@ public class BaseLaneActivity extends FragmentActivity implements
     TwitterStatusesFilter mStatusesFilter = new TwitterStatusesFilter();
     private String mShareImagePath;
 
-    protected static final int COMPOSE_TWEET = 0;
-    protected static final int COMPOSE_DIRECT_MESSAGE = 1;
+    static final int COMPOSE_TWEET = 0;
+    static final int COMPOSE_DIRECT_MESSAGE = 1;
     private ComposeTweetFragment mComposeTweetFragment;
     private View mComposeTweetView;
     private ComposeDirectMessageFragment mComposeDirectMessageFragment;
@@ -360,7 +360,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     /*
 	 *
 	 */
-    protected BaseLaneFragment getFragmentAtIndex(int index) {
+    BaseLaneFragment getFragmentAtIndex(int index) {
         if (mLaneFragmentHashMap != null) {
             return mLaneFragmentHashMap.get(index);
         }
@@ -371,7 +371,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     /*
 	 *
 	 */
-    protected void clearFragmentsCache() {
+    void clearFragmentsCache() {
         if (mLaneFragmentHashMap != null) {
             for (Integer key : mLaneFragmentHashMap.keySet()) {
                 BaseLaneFragment lane = mLaneFragmentHashMap.get(key);
@@ -391,7 +391,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     /*
 	 *
 	 */
-    protected int getCurrentLaneIndex() {
+    int getCurrentLaneIndex() {
         if (mViewPager != null) {
             return mViewPager.getCurrentItem();
         }
@@ -412,7 +412,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     /*
 	 *
 	 */
-    protected void onLaneFragmentInitialDownloadStateChange(
+    void onLaneFragmentInitialDownloadStateChange(
             BaseLaneFragment fragment) {
 
         mLaneFragmentHashMap.put(fragment.getLaneIndex(), fragment);
@@ -468,7 +468,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     /*
 	 *
 	 */
-    protected void onLaneChange(int position, int oldPosition) {
+    void onLaneChange(int position, int oldPosition) {
 
         invalidateOptionsMenu();
 
@@ -500,7 +500,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     /*
 	 *
 	 */
-    protected void onCurrentLaneReselected() {
+    void onCurrentLaneReselected() {
 
         BaseLaneFragment fragment = mLaneFragmentHashMap
                 .get(getCurrentLaneIndex());
@@ -553,7 +553,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     /*
 	 *
 	 */
-    ComposeListener mComposeTweetListener = new ComposeListener() {
+    private ComposeListener mComposeTweetListener = new ComposeListener() {
 
         @Override
         public void onShowCompose() {
@@ -651,7 +651,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     /*
 	 *
 	 */
-    ComposeListener mComposeDirectMessageListener = new ComposeListener() {
+    private ComposeListener mComposeDirectMessageListener = new ComposeListener() {
 
         @Override
         public void onShowCompose() {
@@ -775,7 +775,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     /*
 	 *
 	 */
-    OnPageChangeListener mOnPageChangeListener = new OnPageChangeListener() {
+    private OnPageChangeListener mOnPageChangeListener = new OnPageChangeListener() {
 
         @Override
         public void onPageScrollStateChanged(int arg0) {
@@ -805,7 +805,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     /*
 	 *
 	 */
-    OnClickListener mLaneMaskOnClickListener = new OnClickListener() {
+    private OnClickListener mLaneMaskOnClickListener = new OnClickListener() {
 
         @Override
         public void onClick(View v) {
@@ -1011,14 +1011,14 @@ public class BaseLaneActivity extends FragmentActivity implements
     /*
 	 *
 	 */
-    protected PagerAdapter getAdapterForViewPager() {
+    PagerAdapter getAdapterForViewPager() {
         throw new RuntimeException("Derived class must implement me");
     }
 
     /*
 	 *
 	 */
-    protected FragmentStatePagerAdapter getFragmentStatePagerAdapter() {
+    FragmentStatePagerAdapter getFragmentStatePagerAdapter() {
         throw new RuntimeException("Derived class must implement me");
     }
 
@@ -1051,14 +1051,14 @@ public class BaseLaneActivity extends FragmentActivity implements
     /*
 	 *
 	 */
-    protected int getInitialLaneIndex() {
+    int getInitialLaneIndex() {
         return 0;
     }
 
     /*
 	 *
 	 */
-    public String getPath(Uri uri) {
+    String getPath(Uri uri) {
         String[] projection = {MediaStore.Images.Media.DATA};
         Cursor cursor = managedQuery(uri, projection, null, null, null);
         if (cursor != null) {
@@ -1211,7 +1211,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     /*
 	 *
 	 */
-    public boolean configureOptionsMenu(Menu menu) {
+    boolean configureOptionsMenu(Menu menu) {
 
         Integer defaultOptionsMenu = getDefaultOptionsMenu();
         if (defaultOptionsMenu != null) {
@@ -1243,7 +1243,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     /*
 	 *
 	 */
-    public Integer getDefaultOptionsMenu() {
+    Integer getDefaultOptionsMenu() {
         return R.menu.default_action_bar;
     }
 
@@ -1304,7 +1304,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     /*
 	 *
 	 */
-    protected void configureActionBarSearchView(Menu menu) {
+    void configureActionBarSearchView(Menu menu) {
 
         MenuItem searchItem = menu.findItem(R.id.action_search);
         mSearchView = (SearchView) searchItem.getActionView();
@@ -1340,7 +1340,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     /*
 	 *
 	 */
-    protected void finishCurrentActionMode() {
+    void finishCurrentActionMode() {
         if (mCurrentActionMode != null) {
             // This is messy, but to prevent a circular loop, clear
             // mCurrentActionMode before calling .finish()
@@ -1353,7 +1353,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     /*
 	 *
 	 */
-    protected void setDirectMessageOtherUserScreenName(
+    void setDirectMessageOtherUserScreenName(
             String otherUserScreenName) {
         if (mComposeDirectMessageFragment != null) {
             mComposeDirectMessageFragment
@@ -1364,7 +1364,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     /*
      * Override if necessary
      */
-    protected ComposeTweetDefault getComposeTweetDefault() {
+    ComposeTweetDefault getComposeTweetDefault() {
 
         if (mShareImagePath != null) {
             return new ComposeTweetDefault(null, null, null, mShareImagePath);
@@ -1376,7 +1376,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     /*
 	 *
 	 */
-    protected void setComposeTweetDefault(ComposeTweetDefault composeDefault) {
+    void setComposeTweetDefault(ComposeTweetDefault composeDefault) {
         if (mComposeTweetFragment != null) {
             mComposeTweetFragment.setComposeDefault(composeDefault);
         }
@@ -1385,14 +1385,14 @@ public class BaseLaneActivity extends FragmentActivity implements
     /*
 	 *
 	 */
-    protected void setComposeTweetDefault() {
+    void setComposeTweetDefault() {
         setComposeTweetDefault(getComposeTweetDefault());
     }
 
     /*
 	 *
 	 */
-    protected void setComposeDefault() {
+    void setComposeDefault() {
         if (this.mCurrentComposeFragment == mComposeTweetFragment)
         {
             String draft = mComposeTweetFragment.getTweetDefaultDraft();
@@ -1414,13 +1414,13 @@ public class BaseLaneActivity extends FragmentActivity implements
     /*
 	 *
 	 */
-    protected void beginShareStatus(String initialStatus) {
+    void beginShareStatus(String initialStatus) {
         if (mComposeTweetFragment != null) {
             mComposeTweetFragment.beginShare(initialStatus);
         }
     }
 
-    protected void beginShareImage(String imagePath) {
+    void beginShareImage(String imagePath) {
         mShareImagePath = imagePath;
         if (imagePath != null && mComposeTweetFragment != null) {
             setComposeTweetDefault(null);

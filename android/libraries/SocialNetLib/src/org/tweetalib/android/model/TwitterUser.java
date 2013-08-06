@@ -164,7 +164,7 @@ public class TwitterUser {
         return mFavoritesCount;
     }
 
-    public int getListedCount() {
+    int getListedCount() {
         return mListedCount;
     }
 

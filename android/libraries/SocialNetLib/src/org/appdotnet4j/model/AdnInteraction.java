@@ -18,11 +18,11 @@ import org.tweetalib.android.TwitterUtil;
 import java.text.ParseException;
 import java.util.Date;
 
-public class AdnInteraction {
+class AdnInteraction {
 
     public String mAction;
-    public Date mCreatedAt;
-    public AdnUsers mUsers;
+    private Date mCreatedAt;
+    private AdnUsers mUsers;
     public AdnPosts mPosts;
 
     public AdnInteraction(String jsonAsString) {

@@ -38,32 +38,32 @@ public class AppSettings {
     private static final String PROFILE_IMAGE_SIZE_LARGE = "Large";
     private static final String PROFILE_IMAGE_SIZE_DEFAULT = PROFILE_IMAGE_SIZE_MEDIUM;
 
-    public static final String THEME_LIGHT = "Holo Light";
-    public static final String THEME_DARK = "Holo Dark";
-    public static final String THEME_DEFAULT = THEME_LIGHT;
+    private static final String THEME_LIGHT = "Holo Light";
+    private static final String THEME_DARK = "Holo Dark";
+    private static final String THEME_DEFAULT = THEME_LIGHT;
 
-    public static final String QUOTE_TYPE_STANDARD = "standard";
-    public static final String QUOTE_TYPE_RT = "rt";
-    public static final String QUOTE_TYPE_VIA = "via";
-    public static final String QUOTE_TYPE_DEFAULT = QUOTE_TYPE_STANDARD;
+    private static final String QUOTE_TYPE_STANDARD = "standard";
+    private static final String QUOTE_TYPE_RT = "rt";
+    private static final String QUOTE_TYPE_VIA = "via";
+    private static final String QUOTE_TYPE_DEFAULT = QUOTE_TYPE_STANDARD;
 
-    public static final String NAME_DISPLAY_USERNAME = "username";
-    public static final String NAME_DISPLAY_NAME = "name";
-    public static final String NAME_DISPLAY_USERNAME_NAME = "username_name";
-    public static final String NAME_DISPLAY_NAME_USERNAME = "name_username";
+    private static final String NAME_DISPLAY_USERNAME = "username";
+    private static final String NAME_DISPLAY_NAME = "name";
+    private static final String NAME_DISPLAY_USERNAME_NAME = "username_name";
+    private static final String NAME_DISPLAY_NAME_USERNAME = "name_username";
 
-    public static final String NOTIFICATION_TIME_0M = "0m";
-    public static final String NOTIFICATION_TIME_2M = "2m";
-    public static final String NOTIFICATION_TIME_3M = "3m";
-    public static final String NOTIFICATION_TIME_5M = "5m";
-    public static final String NOTIFICATION_TIME_15M = "15m";
-    public static final String NOTIFICATION_TIME_30M = "30m";
-    public static final String NOTIFICATION_TIME_1H = "1h";
-    public static final String NOTIFICATION_TIME_4H = "4h";
-    public static final String NOTIFICATION_TIME_12H = "12h";
-    public static final String NOTIFICATION_TIME_DEFAULT = NOTIFICATION_TIME_0M;
+    private static final String NOTIFICATION_TIME_0M = "0m";
+    private static final String NOTIFICATION_TIME_2M = "2m";
+    private static final String NOTIFICATION_TIME_3M = "3m";
+    private static final String NOTIFICATION_TIME_5M = "5m";
+    private static final String NOTIFICATION_TIME_15M = "15m";
+    private static final String NOTIFICATION_TIME_30M = "30m";
+    private static final String NOTIFICATION_TIME_1H = "1h";
+    private static final String NOTIFICATION_TIME_4H = "4h";
+    private static final String NOTIFICATION_TIME_12H = "12h";
+    private static final String NOTIFICATION_TIME_DEFAULT = NOTIFICATION_TIME_0M;
 
-    public static final String NOTIFICATION_TYPE_DEFAULT = "m,d";
+    private static final String NOTIFICATION_TYPE_DEFAULT = "m,d";
 
     /*
      *
@@ -117,7 +117,7 @@ public class AppSettings {
     /*
 	 *
 	 */
-    AppSettings(Context context) {
+    private AppSettings(Context context) {
         mContext = context;
         refresh(null);
     }

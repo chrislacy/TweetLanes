@@ -79,10 +79,10 @@ import java.util.List;
 
 public class HomeActivity extends BaseLaneActivity {
 
-    HomeLaneAdapter mHomeLaneAdapter;
-    SpinnerAdapter mSpinnerAdapter;
-    ViewSwitcher mViewSwitcher;
-    FinishedCallback mFetchListsCallback;
+    private HomeLaneAdapter mHomeLaneAdapter;
+    private SpinnerAdapter mSpinnerAdapter;
+    private ViewSwitcher mViewSwitcher;
+    private FinishedCallback mFetchListsCallback;
     private OnNavigationListener mOnNavigationListener;
     private Integer mDefaultLaneOverride = null;
 
@@ -631,7 +631,7 @@ public class HomeActivity extends BaseLaneActivity {
     /*
 	 *
 	 */
-    public void showUserPreferences() {
+    void showUserPreferences() {
         startActivity(new Intent(this, SettingsActivity.class));
     }
 

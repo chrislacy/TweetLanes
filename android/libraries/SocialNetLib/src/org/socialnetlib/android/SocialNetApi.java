@@ -53,28 +53,28 @@ import twitter4j.auth.RequestToken;
 
 public abstract class SocialNetApi {
 
-    public abstract void init();
+    protected abstract void init();
 
-    public abstract TwitterUser verifyCredentialsSync(String oAuthToken,
-            String oAuthSecret);
+    protected abstract TwitterUser verifyCredentialsSync(String oAuthToken,
+                                                         String oAuthSecret);
 
     abstract Twitter getAndConfigureApiInstance();
 
     abstract void clearApiInstance();
 
-    SocialNetConstant.Type mType;
+    private SocialNetConstant.Type mType;
     String mCurrentOAuthToken;
     String mCurrentOAuthSecret;
     String mAppConsumerKey;
     String mAppConsumerSecret;
-    String mCurrentAccountKey;
+    private String mCurrentAccountKey;
 
     private TwitterFetchBooleans mFetchBooleans;
     private TwitterFetchDirectMessages mFetchDirectMessages;
     private TwitterFetchStatus mFetchStatus;
     private TwitterFetchStatuses mFetchStatuses;
     private TwitterFetchUser mFetchUser;
-    protected TwitterFetchUsers mFetchUsers;
+    private TwitterFetchUsers mFetchUsers;
     private TwitterFetchLists mFetchLists;
     private TwitterModifyStatuses mModifyStatuses;
     private TwitterSignIn mSignIn;
@@ -263,7 +263,7 @@ public abstract class SocialNetApi {
         mFetchUser.setWorkerCallbacks(callbacks);
     }
 
-    protected AppdotnetApi getAppdotnetApi() {
+    AppdotnetApi getAppdotnetApi() {
 
         if (mType == SocialNetConstant.Type.Appdotnet) {
             return (AppdotnetApi) this;

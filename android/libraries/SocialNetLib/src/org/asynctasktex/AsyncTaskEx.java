@@ -269,7 +269,7 @@ public abstract class AsyncTaskEx<Params, Progress, Result> {
      * An {@link Executor} that executes tasks one at a time in serial order.
      * This serialization is global to a particular process.
      */
-    public static final PriorityExecutor DEFAULT_EXECUTOR = new PriorityExecutor();
+    private static final PriorityExecutor DEFAULT_EXECUTOR = new PriorityExecutor();
     // public static final SerialExecutor DEFAULT_EXECUTOR = new
     // SerialExecutor();
 
@@ -402,7 +402,7 @@ public abstract class AsyncTaskEx<Params, Progress, Result> {
      * @see #onPostExecute
      * @see #doInBackground
      */
-    protected void onPreExecute() {
+    void onPreExecute() {
     }
 
     /**
@@ -461,7 +461,7 @@ public abstract class AsyncTaskEx<Params, Progress, Result> {
      * @see #isCancelled()
      */
     @SuppressWarnings({ "UnusedParameters" })
-    protected void onCancelled(Result result) {
+    void onCancelled(Result result) {
         onCancelled();
     }
 
@@ -481,7 +481,7 @@ public abstract class AsyncTaskEx<Params, Progress, Result> {
      * @see #cancel(boolean)
      * @see #isCancelled()
      */
-    protected void onCancelled() {
+    void onCancelled() {
     }
 
     /**
@@ -494,7 +494,7 @@ public abstract class AsyncTaskEx<Params, Progress, Result> {
      * 
      * @see #cancel(boolean)
      */
-    public final boolean isCancelled() {
+    final boolean isCancelled() {
         return mCancelled.get();
     }
 
@@ -663,7 +663,7 @@ public abstract class AsyncTaskEx<Params, Progress, Result> {
      * 
      * @see #execute(Object[])
      */
-    public final AsyncTaskEx<Params, Progress, Result> executeOnExecutor(
+    final AsyncTaskEx<Params, Progress, Result> executeOnExecutor(
             BaseExecutor exec, int priority, String description,
             Params... params) {
         if (mStatus != Status.PENDING) {

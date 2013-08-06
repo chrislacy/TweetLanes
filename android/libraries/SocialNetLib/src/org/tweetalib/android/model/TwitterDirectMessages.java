@@ -213,7 +213,7 @@ public class TwitterDirectMessages {
     /*
 	 * 
 	 */
-    public void add(TwitterDirectMessage message) {
+    void add(TwitterDirectMessage message) {
 
         Conversation conversation = getConversationForMessage(message);
         if (conversation == null) {
@@ -361,7 +361,7 @@ public class TwitterDirectMessages {
     /*
 	 * 
 	 */
-    public void sort() {
+    void sort() {
         Collections.sort(mConversations);
     }
 

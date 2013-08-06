@@ -217,9 +217,9 @@ public class TwitterFetchUsers {
     /*
 	 *
 	 */
-    public void trigger(TwitterContentHandle contentHandle,
-            TwitterPaging paging, FinishedCallback callback,
-            ConnectionStatus connectionStatus) {
+    void trigger(TwitterContentHandle contentHandle,
+                 TwitterPaging paging, FinishedCallback callback,
+                 ConnectionStatus connectionStatus) {
 
         if (connectionStatus != null && !connectionStatus.isOnline()) {
             if (callback != null) {

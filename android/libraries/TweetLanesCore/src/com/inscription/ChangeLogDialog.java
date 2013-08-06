@@ -53,13 +53,13 @@ public class ChangeLogDialog {
             + ".summary { font-size: 9pt; color: #606060; display: block; clear: left; }"
             + ".date { font-size: 9pt; color: #606060;  display: block; }";
 
-    protected DialogInterface.OnDismissListener mOnDismissListener;
+    DialogInterface.OnDismissListener mOnDismissListener;
 
     public ChangeLogDialog(final Context context) {
         mContext = context;
     }
 
-    protected Context getContext() {
+    Context getContext() {
         return mContext;
     }
 
@@ -190,7 +190,7 @@ public class ChangeLogDialog {
         show(0);
     }
 
-    protected void show(final int version) {
+    void show(final int version) {
         //Get resources
         final String packageName = mContext.getPackageName();
         final Resources resources;
