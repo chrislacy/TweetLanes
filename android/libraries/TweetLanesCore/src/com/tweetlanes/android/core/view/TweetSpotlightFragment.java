@@ -275,7 +275,7 @@ public final class TweetSpotlightFragment extends BaseLaneFragment {
             View resultView = null;
 
             if (position == 0) {
-                resultView = getTweetFeedView(position, convertView);
+                resultView = getTweetFeedView(position);
             } else if (position == 1) {
 
             }
@@ -286,9 +286,9 @@ public final class TweetSpotlightFragment extends BaseLaneFragment {
         /*
          *
          */
-        View getTweetFeedView(int position, View convertView) {
+        View getTweetFeedView(int position) {
 
-            convertView = mInflater.inflate(R.layout.tweet_feed_item_spotlight,
+            View convertView = mInflater.inflate(R.layout.tweet_feed_item_spotlight,
                     null);
 
             TwitterStatus item = mStatus;

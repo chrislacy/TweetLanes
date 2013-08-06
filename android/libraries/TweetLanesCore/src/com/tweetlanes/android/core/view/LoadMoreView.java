@@ -21,8 +21,6 @@ import com.tweetlanes.android.core.R;
 
 public class LoadMoreView extends RelativeLayout {
 
-    private Mode mMode;
-
     public LoadMoreView(Context context) {
         super(context);
     }
@@ -44,11 +42,11 @@ public class LoadMoreView extends RelativeLayout {
 	 */
     public void configure(Mode mode) {
 
-        mMode = mode;
+        Mode mode1 = mode;
 
         TextView textView = (TextView) findViewById(R.id.load_more_text);
 
-        switch (mMode) {
+        switch (mode1) {
             case LOADING:
                 ProgressBar progressBar = (ProgressBar) findViewById(R.id.load_more_progress);
                 progressBar.setVisibility(VISIBLE);

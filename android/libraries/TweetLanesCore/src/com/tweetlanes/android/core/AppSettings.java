@@ -377,30 +377,6 @@ public class AppSettings {
     /*
 	 *
 	 */
-    void setCurrentNameDisplay(String nameDisplay) {
-        if (nameDisplay.equals(NAME_DISPLAY_USERNAME)) {
-            mNameDisplay = NameDisplay.Username;
-        } else if (nameDisplay.equals(NAME_DISPLAY_NAME)) {
-            mNameDisplay = NameDisplay.Name;
-        } else if (nameDisplay.equals(NAME_DISPLAY_USERNAME_NAME)) {
-            mNameDisplay = NameDisplay.Username_Name;
-        } else if (nameDisplay.equals(NAME_DISPLAY_NAME_USERNAME)) {
-            mNameDisplay = NameDisplay.Name_Username;
-        } else {
-            mNameDisplay = NameDisplay.Username;
-        }
-    }
-
-    /*
-	 *
-	 */
-    NameDisplay getCurrentNameDisplay() {
-        return mNameDisplay;
-    }
-
-    /*
-	 *
-	 */
     void setCurrentQuoteType(String quoteType) {
         if (quoteType.equals(QUOTE_TYPE_STANDARD)) {
             mQuoteType = QuoteType.Standard;
@@ -425,13 +401,6 @@ public class AppSettings {
 	 */
     public static void initModule(Context mContext) {
         mInstance = new AppSettings(mContext);
-    }
-
-    /*
-	 *
-	 */
-    public static void deinitModule() {
-        mInstance = null;
     }
 
     /*

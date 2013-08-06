@@ -23,7 +23,6 @@ public class AdnUser {
     public int mFollowersCount;
     public int mFollowingCount;
     public int mPostCount;
-    private String mAvatarUrl;
     public String mCoverUrl;
     public boolean mFollowsCurrentUser;
     public boolean mCurrentUserFollows;
@@ -58,7 +57,7 @@ public class AdnUser {
 
             if (object.has("avatar_image")) {
                 JSONObject avatar = object.getJSONObject("avatar_image");
-                mAvatarUrl = avatar.getString("url");
+                String avatarUrl = avatar.getString("url");
             }
 
             if (object.has("cover_image")) {

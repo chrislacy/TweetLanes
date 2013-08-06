@@ -64,12 +64,10 @@ public class AutolinkEx {
     private String listUrlBase;
     private String hashtagUrlBase;
     private String cashtagUrlBase;
-    private final String invisibleTagAttrs;
     private boolean noFollow = true;
     private boolean usernameIncludeSymbol = false;
     private String symbolTag = null;
     private String textWithSymbolTag = null;
-    private String urlTarget = null;
     private LinkAttributeModifier linkAttributeModifier = null;
     private LinkTextModifier linkTextModifier = null;
 
@@ -113,7 +111,7 @@ public class AutolinkEx {
         listUrlBase = DEFAULT_LIST_URL_BASE;
         hashtagUrlBase = DEFAULT_HASHTAG_URL_BASE;
         cashtagUrlBase = DEFAULT_CASHTAG_URL_BASE;
-        invisibleTagAttrs = DEFAULT_INVISIBLE_TAG_ATTRS;
+        String invisibleTagAttrs = DEFAULT_INVISIBLE_TAG_ATTRS;
 
         extractor.setExtractURLWithoutProtocol(false);
     }
@@ -616,7 +614,7 @@ public class AutolinkEx {
      *            target value e.g., "_blank"
      */
     public void setUrlTarget(String target) {
-        this.urlTarget = target;
+        String urlTarget = target;
     }
 
     /**

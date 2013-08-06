@@ -35,7 +35,6 @@ public class ListTabPageIndicator extends ListView implements PageIndicator {
 
     // private LinearLayout mTabLayout;
     private final Context mContext;
-    private ListArrayAdapter mListAdapter;
     private ViewPager mViewPager;
     private ViewPager.OnPageChangeListener mListener;
 
@@ -171,11 +170,11 @@ public class ListTabPageIndicator extends ListView implements PageIndicator {
 
         if (names.size() > 0) {
             String[] array = names.toArray(new String[names.size()]);
-            mListAdapter = new ListArrayAdapter(mContext, array);
+            ListArrayAdapter listAdapter = new ListArrayAdapter(mContext, array);
 
             // mListAdapter.notify();
 
-            setAdapter(mListAdapter);
+            setAdapter(listAdapter);
 
             /*
              * TitleProvider adapter = (TitleProvider)mViewPager.getAdapter();

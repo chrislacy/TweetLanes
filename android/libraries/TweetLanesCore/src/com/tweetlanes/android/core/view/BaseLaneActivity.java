@@ -79,7 +79,6 @@ class BaseLaneActivity extends FragmentActivity implements
     PageIndicator mPageIndicator;
     private ActionMode mCurrentActionMode;
     private Menu mCurrentMenu;
-    private SearchView mSearchView;
     private View mLaneMask;
     private LinearLayout mDummyFocusItem;
     final TwitterStatusesFilter mStatusesFilter = new TwitterStatusesFilter();
@@ -516,43 +515,6 @@ class BaseLaneActivity extends FragmentActivity implements
     /*
 	 *
 	 */
-    protected boolean triggerNeighbourInitialDownload(int currentLane) {
-
-        boolean triggeredDownload = false;
-        if (currentLane > 0) {
-            BaseLaneFragment leftFragment = mLaneFragmentHashMap
-                    .get(currentLane - 1);
-            if (leftFragment != null
-                    && leftFragment.getInitialDownloadState() == InitialDownloadState.WAITING) {
-                // Log.d("tweetlanes url fetch", "trigger Left lane '" +
-                // adapter.getTitle(currentLane-1) + "'  (index = " +
-                // (currentLane-1) + ")");
-                leftFragment.triggerInitialDownload();
-                triggeredDownload = true;
-            }
-        }
-
-        if (!triggeredDownload) {
-            if (currentLane + 1 < getLaneCount()) {
-                BaseLaneFragment rightFragment = mLaneFragmentHashMap
-                        .get(currentLane + 1);
-                if (rightFragment != null
-                        && rightFragment.getInitialDownloadState() == InitialDownloadState.WAITING) {
-                    // Log.d("tweetlanes url fetch",
-                    // "trigger Right lane (index =  '" +
-                    // adapter.getTitle(currentLane+1) + "' " + (currentLane+1)
-                    // + ")");
-                    rightFragment.triggerInitialDownload();
-                }
-            }
-        }
-
-        return false;
-    }
-
-    /*
-	 *
-	 */
     private final ComposeListener mComposeTweetListener = new ComposeListener() {
 
         @Override
@@ -758,23 +720,6 @@ class BaseLaneActivity extends FragmentActivity implements
     /*
 	 *
 	 */
-    MenuItem getMenuItem(int resourceId) {
-
-        if (mCurrentMenu != null) {
-            for (int i = 0; i < mCurrentMenu.size(); i++) {
-                MenuItem menuItem = mCurrentMenu.getItem(i);
-                if (menuItem.getItemId() == resourceId) {
-                    return menuItem;
-                }
-            }
-        }
-
-        return null;
-    }
-
-    /*
-	 *
-	 */
     private final OnPageChangeListener mOnPageChangeListener = new OnPageChangeListener() {
 
         @Override
@@ -834,22 +779,6 @@ class BaseLaneActivity extends FragmentActivity implements
         getIntent().addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         overridePendingTransition(0, 0);
         startActivity(getIntent());
-    }
-
-    /*
-	 *
-	 */
-    boolean composeReleaseFocus() {
-
-        boolean result = false;
-
-        if (mCurrentComposeFragment != null
-                && mCurrentComposeFragment.hasFocus()) {
-            mCurrentComposeFragment.releaseFocus(true);
-            result = true;
-        }
-
-        return result;
     }
 
     /*
@@ -1307,12 +1236,12 @@ class BaseLaneActivity extends FragmentActivity implements
     void configureActionBarSearchView(Menu menu) {
 
         MenuItem searchItem = menu.findItem(R.id.action_search);
-        mSearchView = (SearchView) searchItem.getActionView();
+        SearchView searchView = (SearchView) searchItem.getActionView();
 
         searchItem.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM
                 | MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
 
-        mSearchView.setOnQueryTextListener(this);
+        searchView.setOnQueryTextListener(this);
 
         OnFocusChangeListener onFocusChangeListener = new OnFocusChangeListener() {
 
@@ -1333,8 +1262,8 @@ class BaseLaneActivity extends FragmentActivity implements
 
         };
 
-        mSearchView.setOnQueryTextFocusChangeListener(onFocusChangeListener);
-        mSearchView.setOnFocusChangeListener(onFocusChangeListener);
+        searchView.setOnQueryTextFocusChangeListener(onFocusChangeListener);
+        searchView.setOnFocusChangeListener(onFocusChangeListener);
     }
 
     /*
@@ -1426,18 +1355,6 @@ class BaseLaneActivity extends FragmentActivity implements
             setComposeTweetDefault(null);
             mComposeTweetFragment.showCompose();
             mComposeTweetFragment.setMediaFilePath(imagePath);
-        }
-    }
-
-    public void beginCompose() {
-        if (mCurrentComposeFragment != null) {
-            mCurrentComposeFragment.showCompose();
-        }
-    }
-
-    public void beginQuote(TwitterStatus statusToQuote) {
-        if (mComposeTweetFragment != null) {
-            mComposeTweetFragment.beginQuote(statusToQuote);
         }
     }
 

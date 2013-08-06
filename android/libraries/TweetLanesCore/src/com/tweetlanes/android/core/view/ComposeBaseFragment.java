@@ -84,8 +84,6 @@ abstract class ComposeBaseFragment extends Fragment {
         public String getDraft();
     }
 
-    private final int SHORT_URL_LENGTH_HTTPS = 23;
-
     ImageButton mSendButton;
     EditClearText mEditText;
     private EditText mAutocompleteTarget;
@@ -228,14 +226,6 @@ abstract class ComposeBaseFragment extends Fragment {
 	 */
     void setComposeTweetListener(ComposeListener listener) {
         mListener = listener;
-    }
-
-    /*
-	 *
-	 */
-    String getFormattedStatus(String status) {
-        status.replaceAll("\\s+$", "");
-        return status;
     }
 
     /*
@@ -788,6 +778,7 @@ abstract class ComposeBaseFragment extends Fragment {
                 int remaining = getMaxPostLength() - length;
                 if (_mComposeDefault != null
                         && _mComposeDefault.getMediaFilePath() != null) {
+                    int SHORT_URL_LENGTH_HTTPS = 23;
                     remaining -= SHORT_URL_LENGTH_HTTPS - 1;
                 }
 

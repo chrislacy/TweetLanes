@@ -462,10 +462,6 @@ public class AccountDescriptor {
         return mSocialNetType;
     }
 
-    public void setSocialNetType(SocialNetConstant.Type mSocialNetType) {
-        this.mSocialNetType = mSocialNetType;
-    }
-
     /*
 	 *
 	 */

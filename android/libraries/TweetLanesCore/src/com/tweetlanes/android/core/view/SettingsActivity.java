@@ -74,7 +74,6 @@ public class SettingsActivity extends PreferenceActivity implements
     public static final String KEY_NOTIFICATION_VIBRATION = "notificationvibration_preference";
 
     private ListPreference mThemePreference;
-    private Preference mCustomizeLanesPreference;
     private CheckBoxPreference mShowTabletMarginPreference;
     private ListPreference mStatusSizePreference;
     private ListPreference mProfileImageSizePreference;
@@ -140,9 +139,9 @@ public class SettingsActivity extends PreferenceActivity implements
                 .findPreference(KEY_PROFILE_IMAGE_SIZE_PREFERENCE);
         mDownloadImagesPreference = (CheckBoxPreference) getPreferenceScreen()
                 .findPreference(KEY_DOWNLOADIMAGES_PREFERENCE);
-        mCustomizeLanesPreference = getPreferenceScreen()
+        Preference customizeLanesPreference = getPreferenceScreen()
                 .findPreference(KEY_CUSTOMIZE_LANES_PREFERENCE);
-        mCustomizeLanesPreference
+        customizeLanesPreference
                 .setOnPreferenceClickListener(new OnPreferenceClickListener() {
 
                     @Override

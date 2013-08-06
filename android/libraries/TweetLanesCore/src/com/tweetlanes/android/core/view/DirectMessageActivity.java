@@ -31,7 +31,6 @@ import com.tweetlanes.android.core.widget.viewpagerindicator.TitleProvider;
 public class DirectMessageActivity extends BaseLaneActivity {
 
     private DirectMessageLaneAdapter mDirectMessageLaneAdapter;
-    private ViewSwitcher mViewSwitcher;
 
     private static final String KEY_HANDLE_BASE = "handleBase";
     private static final String KEY_OTHER_USER_ID = "otherUserId";
@@ -63,9 +62,9 @@ public class DirectMessageActivity extends BaseLaneActivity {
 
         configureActionBarView();
 
-        mViewSwitcher = (ViewSwitcher) findViewById(R.id.rootViewSwitcher);
-        mViewSwitcher.reset();
-        mViewSwitcher.setDisplayedChild(1);
+        ViewSwitcher viewSwitcher = (ViewSwitcher) findViewById(R.id.rootViewSwitcher);
+        viewSwitcher.reset();
+        viewSwitcher.setDisplayedChild(1);
 
         setDirectMessageOtherUserScreenName(getOtherUserScreenName());
     }

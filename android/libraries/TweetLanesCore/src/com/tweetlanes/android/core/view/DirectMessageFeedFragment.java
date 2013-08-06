@@ -523,16 +523,6 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
     /*
      *
      */
-    public interface DirectMessageViewCallbacks {
-
-        public void onClicked(View view, int position);
-
-        public Activity getActivity();
-    }
-
-    /*
-     *
-     */
     private class DirectMessageConversationListAdapter extends BaseAdapter {
 
         public DirectMessageConversationListAdapter(LayoutInflater inflater) {
@@ -594,11 +584,11 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
 
             View resultView = null;
             if (directMessageCount == 0 && position == getCount() - 1) {
-                resultView = getLoadMoreView(convertView);
+                resultView = getLoadMoreView();
             } else if (position == directMessageCount) {
-                resultView = getLoadMoreView(convertView);
+                resultView = getLoadMoreView();
             } else {
-                resultView = getDirectMessageFeedItemView(position, convertView);
+                resultView = getDirectMessageFeedItemView(position);
             }
 
             return resultView;
@@ -607,7 +597,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
         /*
          *
          */
-        View getDirectMessageFeedItemView(int position, View convertView) {
+        View getDirectMessageFeedItemView(int position) {
 
             TwitterDirectMessage directMessage = mDirectMessageConversation
                     .get(position);
@@ -622,7 +612,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
                 // mInflater.inflate(R.layout.direct_message_feed_item_sent,
                 // null);
             }
-            convertView = mInflater.inflate(
+            View convertView = mInflater.inflate(
                     R.layout.direct_message_feed_item_received, null);
 
             DirectMessageItemView directMessageItemView = (DirectMessageItemView) convertView
@@ -655,9 +645,9 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
         /*
          *
          */
-        View getLoadMoreView(View convertView) {
+        View getLoadMoreView() {
 
-            convertView = mInflater.inflate(R.layout.load_more, null);
+            View convertView = mInflater.inflate(R.layout.load_more, null);
             LoadMoreView loadMoreView = (LoadMoreView) convertView
                     .findViewById(R.id.loadMoreView);
 

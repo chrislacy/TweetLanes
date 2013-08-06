@@ -20,8 +20,6 @@ public class FlingAnimation implements Animation {
 
     private float mFactor = 0.85f;
 
-    private final float mThreshold = 10;
-
     private FlingAnimationListener listener;
 
     /*
@@ -41,8 +39,9 @@ public class FlingAnimation implements Animation {
         mVelocityX *= mFactor;
         mVelocityY *= mFactor;
 
-        boolean active = (Math.abs(mVelocityX) > mThreshold && Math
-                .abs(mVelocityY) > mThreshold);
+        float threshold = 10;
+        boolean active = (Math.abs(mVelocityX) > threshold && Math
+                .abs(mVelocityY) > threshold);
 
         if (listener != null) {
             listener.onMove(dx, dy);

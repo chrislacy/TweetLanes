@@ -92,7 +92,6 @@ public class UserFeedFragment extends BaseLaneFragment {
     private FinishedCallback mUserDataRefreshCallback;
     private ViewSwitcher mViewSwitcher;
     private final ArrayList<TwitterUser> mSelectedItems = new ArrayList<TwitterUser>();
-    private MultipleUserSelectionCallback mMultipleUserSelectionCallback;
 
     private Long mNewestUserId;
     private Long mRefreshingNewestUserId;
@@ -144,7 +143,7 @@ public class UserFeedFragment extends BaseLaneFragment {
         mViewSwitcher = (ViewSwitcher) resultView
                 .findViewById(R.id.profileSwitcher);
         mUserFeedListAdapter = new UserFeedListAdapter(inflater);
-        mMultipleUserSelectionCallback = new MultipleUserSelectionCallback();
+        MultipleUserSelectionCallback multipleUserSelectionCallback = new MultipleUserSelectionCallback();
         mUserFeedListView = (PullToRefreshListView) resultView
                 .findViewById(R.id.pull_to_refresh_listview);
         mUserFeedListView.getRefreshableView().setOnItemClickListener(
@@ -152,7 +151,7 @@ public class UserFeedFragment extends BaseLaneFragment {
         mUserFeedListView.getRefreshableView().setChoiceMode(
                 ListView.CHOICE_MODE_MULTIPLE_MODAL);
         mUserFeedListView.getRefreshableView().setMultiChoiceModeListener(
-                mMultipleUserSelectionCallback);
+                multipleUserSelectionCallback);
         mUserFeedListView.getRefreshableView().setOnScrollListener(
                 mUserFeedOnScrollListener);
         mUserFeedListView.getRefreshableView().setAdapter(mUserFeedListAdapter);
@@ -725,11 +724,11 @@ public class UserFeedFragment extends BaseLaneFragment {
 
             View resultView = null;
             if (userCount == 0 && position == getCount() - 1) {
-                resultView = getLoadMoreView(convertView);
+                resultView = getLoadMoreView();
             } else if (position == userCount) {
-                resultView = getLoadMoreView(convertView);
+                resultView = getLoadMoreView();
             } else {
-                resultView = getUserFeedItemView(position, convertView);
+                resultView = getUserFeedItemView(position);
             }
 
             return resultView;
@@ -739,9 +738,9 @@ public class UserFeedFragment extends BaseLaneFragment {
         /*
          *
          */
-        View getUserFeedItemView(int position, View convertView) {
+        View getUserFeedItemView(int position) {
 
-            convertView = mInflater.inflate(R.layout.user_feed_item, null);
+            View convertView = mInflater.inflate(R.layout.user_feed_item, null);
 
             TwitterUser user = getUserFeed().getUser(position);
 
@@ -770,9 +769,9 @@ public class UserFeedFragment extends BaseLaneFragment {
         /*
          *
          */
-        View getLoadMoreView(View convertView) {
+        View getLoadMoreView() {
 
-            convertView = mInflater.inflate(R.layout.load_more, null);
+            View convertView = mInflater.inflate(R.layout.load_more, null);
             LoadMoreView loadMoreView = (LoadMoreView) convertView
                     .findViewById(R.id.loadMoreView);
 

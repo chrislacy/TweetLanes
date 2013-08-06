@@ -149,13 +149,6 @@ public class ComposeTweetDefault {
     /*
 	 * 
 	 */
-    public ComposeTweetDefault() {
-        this(null, null, null, null);
-    }
-
-    /*
-	 * 
-	 */
     public ComposeTweetDefault(ComposeTweetDefault other) {
 
         mUserScreenName = other.mUserScreenName;

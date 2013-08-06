@@ -19,7 +19,6 @@ package org.appdotnet4j.model;
 public class AdnPaging {
     public int mPage;
     private long mSinceId;
-    private Integer mCount;
     private long mMaxId;
 
     public AdnPaging(int mPage) {
@@ -44,6 +43,6 @@ public class AdnPaging {
 
 
     public void setCount(Integer mCount) {
-        this.mCount = mCount;
+        Integer count = mCount;
     }
 }

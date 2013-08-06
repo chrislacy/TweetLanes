@@ -336,6 +336,7 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
 
             if (object.has(KEY_STATUS_SLIM_MARKUP)) {
                 String statusFullMarkup = null;
+                String KEY_STATUS_FULL_MARKUP = "mStatusFullMarkup";
                 if (object.has(KEY_STATUS_FULL_MARKUP)) {
                     statusFullMarkup = object.getString(KEY_STATUS_FULL_MARKUP);
                 }
@@ -454,7 +455,6 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
     private final String KEY_RETWEET_COUNT = "mRetweetCount";
     private final String KEY_STATUS = "mStatus";
     private final String KEY_STATUS_SLIM_MARKUP = "mStatusMarkup";
-    private final String KEY_STATUS_FULL_MARKUP = "mStatusFullMarkup";
     private final String KEY_SOURCE = "mSource";
     private final String KEY_USER_ID = "mUserId";
     private final String KEY_USER_SCREEN_NAME = "mUserScreenName";

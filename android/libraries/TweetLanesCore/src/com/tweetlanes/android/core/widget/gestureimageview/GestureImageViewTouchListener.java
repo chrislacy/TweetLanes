@@ -71,7 +71,6 @@ class GestureImageViewTouchListener implements OnTouchListener {
     private final FlingListener mFlingListener;
     private final FlingAnimation mFlingAnimation;
     private final ZoomAnimation mZoomAnimation;
-    private final MoveAnimation mMoveAnimation;
     private final GestureDetector mTapDetector;
     private final GestureDetector mFlingDetector;
     private final GestureImageViewListener mImageListener;
@@ -107,7 +106,7 @@ class GestureImageViewTouchListener implements OnTouchListener {
         mFlingListener = new FlingListener();
         mFlingAnimation = new FlingAnimation();
         mZoomAnimation = new ZoomAnimation();
-        mMoveAnimation = new MoveAnimation();
+        MoveAnimation moveAnimation = new MoveAnimation();
 
         mFlingAnimation.setListener(new FlingAnimationListener() {
 
@@ -138,7 +137,7 @@ class GestureImageViewTouchListener implements OnTouchListener {
             }
         });
 
-        mMoveAnimation.setMoveAnimationListener(new MoveAnimationListener() {
+        moveAnimation.setMoveAnimationListener(new MoveAnimationListener() {
 
             @Override
             public void onMove(float x, float y) {

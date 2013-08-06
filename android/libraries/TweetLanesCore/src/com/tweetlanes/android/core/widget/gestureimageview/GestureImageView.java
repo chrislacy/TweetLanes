@@ -50,7 +50,6 @@ public class GestureImageView extends ImageView {
     private float mScaleAdjust = 1.0f;
     private float mStartingScale = -1.0f;
 
-    private final float mScale = 1.0f;
     private float mMaxScale = 5.0f;
     private float mMinScale = 0.75f;
     private float mFitScaleHorizontal = 1.0f;
@@ -61,9 +60,6 @@ public class GestureImageView extends ImageView {
     private float mCenterY;
 
     private Float mStartX, mStartY;
-
-    private int mHWidth;
-    private int mHHeight;
 
     private int mResId = -1;
     private boolean mRecycle = false;
@@ -182,8 +178,8 @@ public class GestureImageView extends ImageView {
             int imageWidth = getImageWidth();
             int imageHeight = getImageHeight();
 
-            mHWidth = Math.round(((float) imageWidth / 2.0f));
-            mHHeight = Math.round(((float) imageHeight / 2.0f));
+            int HWidth = Math.round(((float) imageWidth / 2.0f));
+            int HHeight = Math.round(((float) imageHeight / 2.0f));
 
             measuredWidth -= (getPaddingLeft() + getPaddingRight());
             measuredHeight -= (getPaddingTop() + getPaddingBottom());
@@ -235,7 +231,7 @@ public class GestureImageView extends ImageView {
             mGestureImageViewTouchListener.setCanvasHeight(measuredHeight);
             mGestureImageViewTouchListener.setOnClickListener(mOnClickListener);
 
-            mDrawable.setBounds(-mHWidth, -mHHeight, mHWidth, mHHeight);
+            mDrawable.setBounds(-HWidth, -HHeight, HWidth, HHeight);
 
             super.setOnTouchListener(new OnTouchListener() {
 
@@ -308,7 +304,8 @@ public class GestureImageView extends ImageView {
             if (mDrawable != null && isNotRecycled()) {
                 canvas.save();
 
-                float adjustedScale = mScale * mScaleAdjust;
+                float scale = 1.0f;
+                float adjustedScale = scale * mScaleAdjust;
 
                 canvas.translate(mX, mY);
 

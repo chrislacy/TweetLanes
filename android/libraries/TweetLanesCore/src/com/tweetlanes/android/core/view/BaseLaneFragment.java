@@ -113,13 +113,6 @@ public abstract class BaseLaneFragment extends Fragment {
     /*
 	 * 
 	 */
-    public String getIdentifier() {
-        return getArguments().getString(KEY_IDENTIFIER);
-    }
-
-    /*
-	 * 
-	 */
     public interface ConfigureBundleListener {
 
         public void addValues(Bundle args);

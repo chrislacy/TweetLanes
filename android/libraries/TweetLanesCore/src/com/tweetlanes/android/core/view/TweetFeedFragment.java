@@ -41,7 +41,6 @@ import android.widget.ViewSwitcher;
 import com.tweetlanes.android.core.AppSettings;
 import com.tweetlanes.android.core.Constant;
 import com.tweetlanes.android.core.Constant.SystemEvent;
-import com.tweetlanes.android.core.App;
 import com.tweetlanes.android.core.Notifier;
 import com.tweetlanes.android.core.R;
 import com.tweetlanes.android.core.SharedPreferencesConstants;
@@ -571,10 +570,6 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
             // Log.d("Statuses", "Direction: " +
             // mLastScrollDirection.toString());
-        }
-
-        ScrollDirection getLastScrollDirection() {
-            return mLastScrollDirection;
         }
 
         int getFirstVisibleYOffset() {
@@ -1588,11 +1583,11 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
             View resultView = null;
             if (statusCount == 0 && position == getCount() - 1) {
-                resultView = getLoadMoreView(convertView);
+                resultView = getLoadMoreView();
             } else if (position == statusCount) {
-                resultView = getLoadMoreView(convertView);
+                resultView = getLoadMoreView();
             } else {
-                resultView = getTweetFeedView(position, convertView);
+                resultView = getTweetFeedView(position);
             }
 
             return resultView;
@@ -1601,9 +1596,9 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         /*
          *
          */
-        View getTweetFeedView(int position, View convertView) {
+        View getTweetFeedView(int position) {
 
-            convertView = mInflater.inflate(R.layout.tweet_feed_item_received, null);
+            View convertView = mInflater.inflate(R.layout.tweet_feed_item_received, null);
 
             TwitterStatus item = getStatusFeed().getStatus(position, getBaseLaneActivity().mStatusesFilter);
 
@@ -1699,9 +1694,9 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         /*
          *
          */
-        View getLoadMoreView(View convertView) {
+        View getLoadMoreView() {
 
-            convertView = mInflater.inflate(R.layout.load_more, null);
+            View convertView = mInflater.inflate(R.layout.load_more, null);
             LoadMoreView loadMoreView = (LoadMoreView) convertView.findViewById(R.id.loadMoreView);
 
             LoadMoreView.Mode mode;

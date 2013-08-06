@@ -47,7 +47,7 @@ public class TwitterDirectMessage implements Comparable<TwitterDirectMessage> {
         mTextSpanned = Html.fromHtml(descriptionMarkup + " ");
         mCreatedAt = message.getCreatedAt();
         mOtherUserId = otherUser.getId();
-        mOtherUserName = otherUser.getName();
+        String otherUserName = otherUser.getName();
         mOtherUserScreenName = otherUser.getScreenName();
         mOtherUser = new TwitterUser(otherUser);
         mSender = new TwitterUser(message.getSender());
@@ -76,10 +76,6 @@ public class TwitterDirectMessage implements Comparable<TwitterDirectMessage> {
         return mOtherUserId;
     }
 
-    public String getOtherUserName() {
-        return mOtherUserName;
-    }
-
     public String getOtherUserScreenName() {
         return mOtherUserScreenName;
     }
@@ -103,7 +99,6 @@ public class TwitterDirectMessage implements Comparable<TwitterDirectMessage> {
     public final Spanned mTextSpanned;
     private final Date mCreatedAt;
     private final long mOtherUserId;
-    private final String mOtherUserName;
     private final String mOtherUserScreenName;
     private final TwitterUser mOtherUser;
     private final TwitterUser mSender;

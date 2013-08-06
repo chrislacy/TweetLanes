@@ -281,8 +281,6 @@ public abstract class AsyncTaskEx<Params, Progress, Result> {
     private static volatile BaseExecutor sDefaultExecutor = DEFAULT_EXECUTOR;
     private final WorkerRunnable<Params, Result> mWorker;
     private final FutureTask<Result> mFuture;
-    private int mPriority;
-    private String mDescription;
     private volatile Status mStatus = Status.PENDING;
 
     private final AtomicBoolean mCancelled = new AtomicBoolean();
@@ -680,8 +678,8 @@ public abstract class AsyncTaskEx<Params, Progress, Result> {
             }
         }
 
-        mDescription = description;
-        mPriority = priority;
+        String description1 = description;
+        int priority1 = priority;
         mStatus = Status.RUNNING;
         onPreExecute();
 

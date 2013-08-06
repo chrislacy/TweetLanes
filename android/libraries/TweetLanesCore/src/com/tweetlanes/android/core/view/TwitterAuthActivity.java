@@ -37,8 +37,6 @@ import twitter4j.auth.RequestToken;
 
 public class TwitterAuthActivity extends Activity {
 
-    private final int TWITTER_AUTH_REQUEST_CODE = 443343;
-
     private RequestToken mRequestToken;
 
     /*
@@ -166,6 +164,7 @@ public class TwitterAuthActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        int TWITTER_AUTH_REQUEST_CODE = 443343;
         if (requestCode == TWITTER_AUTH_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
                 String oauthVerifier = (String) data.getExtras().get("oauth_verifier");
