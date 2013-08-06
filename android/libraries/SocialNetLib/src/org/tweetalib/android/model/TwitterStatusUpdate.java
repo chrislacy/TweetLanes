@@ -27,7 +27,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.net.SecureCacheResponse;
 
 import org.appdotnet4j.model.AdnPostCompose;
 import twitter4j.StatusUpdate;

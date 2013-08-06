@@ -282,10 +282,9 @@ public class AutolinkEx {
                             && mediaEntities.length > 0) {
                         MediaEntity mediaEntity = mediaEntities[0];
                         if (entity.value
-                                .equals(mediaEntity.getURL().toString())) {
+                                .equals(mediaEntity.getURL())) {
                             entity.displayURL = mediaEntity.getDisplayURL();
-                            entity.expandedURL = mediaEntity.getExpandedURL()
-                                    .toString();
+                            entity.expandedURL = mediaEntity.getExpandedURL();
                         }
                     }
                 }

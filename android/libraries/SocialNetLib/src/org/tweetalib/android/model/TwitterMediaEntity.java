@@ -16,8 +16,6 @@
 
 package org.tweetalib.android.model;
 
-import java.net.URL;
-
 import org.appdotnet4j.model.AdnPost;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -339,9 +337,9 @@ public class TwitterMediaEntity {
 	 */
     private TwitterMediaEntity(MediaEntity mediaEntity) {
         mSource = Source.TWITTER;
-        mMediaCode = mediaEntity.getMediaURL().toString();
-        mUrl = mediaEntity.getURL().toString();
-        mExpandedUrl = mediaEntity.getExpandedURL().toString();
+        mMediaCode = mediaEntity.getMediaURL();
+        mUrl = mediaEntity.getURL();
+        mExpandedUrl = mediaEntity.getExpandedURL();
 
         /*
          * mSizeThumb = new

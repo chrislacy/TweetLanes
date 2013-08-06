@@ -33,23 +33,23 @@ public class TwitterUser {
             mLocation = user.getLocation();
         }
         if (user.getURL() != null) {
-            mUrl = user.getURL().toString();
+            mUrl = user.getURL();
         }
 
         if (user.getOriginalProfileImageURLHttps() != null) {
-            mProfileImageUrlOriginal = user.getOriginalProfileImageURLHttps().toString();
+            mProfileImageUrlOriginal = user.getOriginalProfileImageURLHttps();
         }
 
         if (user.getBiggerProfileImageURLHttps() != null) {
-            mProfileImageUrlBigger = user.getBiggerProfileImageURLHttps().toString();
+            mProfileImageUrlBigger = user.getBiggerProfileImageURLHttps();
         }
 
         if (user.getProfileImageURLHttps() != null) {
-            mProfileImageUrlNormal = user.getProfileImageURLHttps().toString();
+            mProfileImageUrlNormal = user.getProfileImageURLHttps();
         }
 
         if (user.getMiniProfileImageURLHttps() != null) {
-            mProfileImageUrlMini = user.getMiniProfileImageURLHttps().toString();
+            mProfileImageUrlMini = user.getMiniProfileImageURLHttps();
         }
 
         mStatusesCount = user.getStatusesCount();

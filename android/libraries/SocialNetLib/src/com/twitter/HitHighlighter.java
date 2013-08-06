@@ -1,7 +1,6 @@
 package com.twitter;
 
 import java.util.*;
-import java.util.regex.*;
 import java.text.*;
 
 /**

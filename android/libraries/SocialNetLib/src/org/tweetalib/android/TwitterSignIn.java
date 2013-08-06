@@ -21,7 +21,7 @@ import java.util.HashMap;
 import org.asynctasktex.AsyncTaskEx;
 
 import org.socialnetlib.android.SocialNetConstant;
-import org.socialnetlib.android.SocialNetConstant.Type;
+
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;

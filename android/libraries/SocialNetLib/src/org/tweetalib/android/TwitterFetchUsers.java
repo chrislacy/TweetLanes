@@ -23,15 +23,10 @@ import org.tweetalib.android.model.TwitterUser;
 import org.tweetalib.android.model.TwitterUsers;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
 
 import twitter4j.IDs;
 import twitter4j.Paging;
-import twitter4j.RateLimitStatus;
 import twitter4j.ResponseList;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -578,9 +573,7 @@ public class TwitterFetchUsers {
                     int max = input.mPaging == null ? 40 : input.mPaging.getCount();
                     int numberToFetch = Math.min(max, ids.length);
                     long[] longArray = new long[numberToFetch];
-                    for (int i = 0; i < numberToFetch; i++) {
-                        longArray[i] = ids[i];
-                    }
+                    System.arraycopy(ids, 0, longArray, 0, numberToFetch);
 
                     users = appdotnet.getAdnMultipleUsers(longArray);
                 }

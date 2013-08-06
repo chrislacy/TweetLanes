@@ -190,7 +190,7 @@ public class ComposeTweetDefault {
 	 * 
 	 */
     public void updateStatus(String status) {
-        mStatus = new String(status);
+        mStatus = status;
     }
 
     /*

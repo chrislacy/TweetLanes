@@ -11,7 +11,6 @@
 
 package com.tweetlanes.android.core.view;
 
-import org.socialnetlib.android.SocialNetConstant;
 import org.tweetalib.android.TwitterManager;
 
 import android.app.Activity;

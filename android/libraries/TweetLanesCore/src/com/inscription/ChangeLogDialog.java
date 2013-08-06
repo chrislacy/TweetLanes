@@ -109,7 +109,7 @@ public class ChangeLogDialog {
         while ((eventType != XmlPullParser.END_TAG) || (resourceParser.getName().equals("change"))) {
             if ((eventType == XmlPullParser.START_TAG) && (resourceParser.getName().equals("change"))) {
                 eventType = resourceParser.next();
-                changelogBuilder.append("<li>" + resourceParser.getText() + "</li>");
+                changelogBuilder.append("<li>").append(resourceParser.getText()).append("</li>");
             }
             eventType = resourceParser.next();
         }

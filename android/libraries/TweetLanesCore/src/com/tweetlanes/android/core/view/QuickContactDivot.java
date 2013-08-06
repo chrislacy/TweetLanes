@@ -130,14 +130,12 @@ public class QuickContactDivot extends ImageView implements Divot {
 
         switch (mPosition) {
             case RIGHT_UPPER:
-                mDrawable.setBounds(right - mDrawableIntrinsicWidth, top
-                        + cornerOffset, right, top + cornerOffset
+                mDrawable.setBounds(right - mDrawableIntrinsicWidth, cornerOffset, right, top + cornerOffset
                         + mDrawableIntrinsicHeight);
                 break;
 
             case LEFT_UPPER:
-                mDrawable.setBounds(left, top + cornerOffset, left
-                        + mDrawableIntrinsicWidth, top + cornerOffset
+                mDrawable.setBounds(left, cornerOffset, mDrawableIntrinsicWidth, top + cornerOffset
                         + mDrawableIntrinsicHeight);
                 break;
 

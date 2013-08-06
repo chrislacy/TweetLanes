@@ -42,7 +42,6 @@ import com.tweetlanes.android.core.widget.urlimageviewhelper.UrlImageViewHelper;
 
 import org.appdotnet4j.model.AdnMedia;
 import org.socialnetlib.android.SocialNetConstant;
-import org.tweetalib.android.TwitterManager;
 import org.tweetalib.android.TwitterManager.ProfileImageSize;
 import org.tweetalib.android.model.TwitterMediaEntity;
 import org.tweetalib.android.model.TwitterMediaEntity.Size;

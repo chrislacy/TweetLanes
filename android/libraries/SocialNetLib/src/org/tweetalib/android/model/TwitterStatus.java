@@ -369,19 +369,19 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
             }
             object.put(KEY_CREATED_AT, mCreatedAt.getTime());
             if (mProfileImageOriginalUrl != null) {
-                String url = mProfileImageOriginalUrl.toString();
+                String url = mProfileImageOriginalUrl;
                 object.put(KEY_PROFILE_IMAGE_ORIGINAL_URL, url);
             }
             if (mProfileImageMiniUrl != null) {
-                String url = mProfileImageMiniUrl.toString();
+                String url = mProfileImageMiniUrl;
                 object.put(KEY_PROFILE_IMAGE_MINI_URL, url);
             }
             if (mProfileImageNormalUrl != null) {
-                String url = mProfileImageNormalUrl.toString();
+                String url = mProfileImageNormalUrl;
                 object.put(KEY_PROFILE_IMAGE_NORMAL_URL, url);
             }
             if (mProfileImageBiggerUrl != null) {
-                String url = mProfileImageBiggerUrl.toString();
+                String url = mProfileImageBiggerUrl;
                 object.put(KEY_PROFILE_IMAGE_BIGGER_URL, url);
             }
             object.put(KEY_ID, mId);
@@ -596,14 +596,14 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
             return false;
         if (mFavoriteCount != other.mFavoriteCount) return false;
         if (mCreatedAt.getTime() != other.mCreatedAt.getTime()) return false;
-        if (!mProfileImageOriginalUrl.toString().equals(
-                other.mProfileImageOriginalUrl.toString())) return false;
-        if (!mProfileImageNormalUrl.toString().equals(
-                other.mProfileImageNormalUrl.toString())) return false;
-        if (!mProfileImageMiniUrl.toString().equals(
-                other.mProfileImageMiniUrl.toString())) return false;
-        if (!mProfileImageBiggerUrl.toString().equals(
-                other.mProfileImageBiggerUrl.toString())) return false;
+        if (!mProfileImageOriginalUrl.equals(
+                other.mProfileImageOriginalUrl)) return false;
+        if (!mProfileImageNormalUrl.equals(
+                other.mProfileImageNormalUrl)) return false;
+        if (!mProfileImageMiniUrl.equals(
+                other.mProfileImageMiniUrl)) return false;
+        if (!mProfileImageBiggerUrl.equals(
+                other.mProfileImageBiggerUrl)) return false;
         if (mId != other.mId) return false;
         if (!compareLong(mInReplyToStatusId, other.mInReplyToStatusId))
             return false;
