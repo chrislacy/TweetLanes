@@ -106,8 +106,7 @@ public class TwitterFetchUser {
 	 *
 	 */
     FinishedCallback getFetchStatusesCallback(Integer callbackHandle) {
-        FinishedCallback callback = mFinishedCallbackMap.get(callbackHandle);
-        return callback;
+        return mFinishedCallbackMap.get(callbackHandle);
     }
 
     /*
@@ -201,8 +200,7 @@ public class TwitterFetchUser {
     }
 
     public List<TwitterUser> getCachedUsers() {
-        List<TwitterUser> users = new ArrayList<TwitterUser>(mUserIdHashMap.values());
-        return users;
+        return new ArrayList<TwitterUser>(mUserIdHashMap.values());
     }
 
     public TwitterUser getCachedUser(Long userId) {

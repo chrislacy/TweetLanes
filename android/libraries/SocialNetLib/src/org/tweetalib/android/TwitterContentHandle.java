@@ -34,9 +34,8 @@ public class TwitterContentHandle extends TwitterContentHandleBase {
     }
 
     public String getKey() {
-        String key = mScreenNameLower + "_" + getEnumsAsString() + "_"
+        return mScreenNameLower + "_" + getEnumsAsString() + "_"
                 + mIdentifier;
-        return key;
     }
 
     // TODO: Look at this and ensure there aren't savings to be had

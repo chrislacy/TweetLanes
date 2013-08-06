@@ -75,8 +75,7 @@ public class AppdotnetApi extends SocialNetApi {
         HttpResponse httpResponse = getHttpClient(accessToken)
                 .get(path, params);
         if (isResponseValid(httpResponse)) {
-            String body = httpResponse.getBodyAsString();
-            return body;
+            return httpResponse.getBodyAsString();
         }
         return null;
     }
@@ -86,8 +85,7 @@ public class AppdotnetApi extends SocialNetApi {
 
         HttpResponse httpResponse = getHttpClient().post(path, "application/json", data);
         if (isResponseValid(httpResponse)) {
-            String body = httpResponse.getBodyAsString();
-            return body;
+            return httpResponse.getBodyAsString();
         }
         return null;
     }
@@ -263,8 +261,7 @@ public class AppdotnetApi extends SocialNetApi {
         }
         String streamString = doGet(path, params);
         if (streamString != null) {
-            AdnPosts posts = new AdnPosts(streamString);
-            return posts;
+            return new AdnPosts(streamString);
         }
 
         return null;
@@ -276,8 +273,7 @@ public class AppdotnetApi extends SocialNetApi {
         }
         String interactionString = doGet(path, params);
         if (interactionString!= null) {
-            AdnInteractions interactions = new AdnInteractions(interactionString);
-            return interactions;
+            return new AdnInteractions(interactionString);
         }
 
         return null;
@@ -289,8 +285,7 @@ public class AppdotnetApi extends SocialNetApi {
         }
         String userString = doGet(path, params);
         if (userString != null) {
-            AdnUsers users = new AdnUsers(userString);
-            return users;
+            return new AdnUsers(userString);
         }
 
         return null;

@@ -480,16 +480,14 @@ public abstract class SocialNetApi {
 
     public TwitterUser getUser(Long userId,
             TwitterFetchUser.FinishedCallback callback) {
-        TwitterUser cachedUser = mFetchUser.getUser(userId, callback,
+        return mFetchUser.getUser(userId, callback,
                 mConnectionStatus);
-        return cachedUser;
     }
 
     public TwitterUser getUser(String screenName,
             TwitterFetchUser.FinishedCallback callback) {
-        TwitterUser cachedUser = mFetchUser.getUser(screenName, callback,
+        return mFetchUser.getUser(screenName, callback,
                 mConnectionStatus);
-        return cachedUser;
     }
 
     public void verifyUser(TwitterFetchUser.FinishedCallback callback) {
@@ -501,15 +499,13 @@ public abstract class SocialNetApi {
 	 */
     public TwitterUsers getUsers(TwitterContentHandle contentHandle,
             TwitterPaging paging) {
-        TwitterUsers cachedUsers = mFetchUsers.getUsers(contentHandle, paging);
-        return cachedUsers;
+        return mFetchUsers.getUsers(contentHandle, paging);
     }
 
     public TwitterUsers getUsers(TwitterContentHandle contentHandle,
             TwitterPaging paging, TwitterFetchUsers.FinishedCallback callback) {
-        TwitterUsers cachedUsers = mFetchUsers.getUsers(contentHandle, paging,
+        return mFetchUsers.getUsers(contentHandle, paging,
                 callback, mConnectionStatus);
-        return cachedUsers;
     }
 
     /*
@@ -517,18 +513,16 @@ public abstract class SocialNetApi {
 	 */
     public TwitterDirectMessages getDirectMessages(
             TwitterContentHandle contentHandle) {
-        TwitterDirectMessages cachedMessages = mFetchDirectMessages
+        return mFetchDirectMessages
                 .getDirectMessages(contentHandle);
-        return cachedMessages;
     }
 
     public TwitterDirectMessages getDirectMessages(
             TwitterContentHandle contentHandle, TwitterPaging paging,
             TwitterFetchDirectMessagesFinishedCallback callback) {
-        TwitterDirectMessages cachedMessages = mFetchDirectMessages
+        return mFetchDirectMessages
                 .getDirectMessages(contentHandle, paging, callback,
                         mConnectionStatus);
-        return cachedMessages;
     }
 
     public void sendDirectMessage(long userId, String recipientScreenName,
@@ -617,25 +611,21 @@ public abstract class SocialNetApi {
 	 *
 	 */
     public TwitterLists getLists(int userId) {
-        TwitterLists cachedLists = mFetchLists.getLists(userId, null);
-        return cachedLists;
+        return mFetchLists.getLists(userId, null);
     }
 
     public TwitterLists getLists(int userId,
             TwitterFetchLists.FinishedCallback callback) {
-        TwitterLists cachedLists = mFetchLists.getLists(userId, callback);
-        return cachedLists;
+        return mFetchLists.getLists(userId, callback);
     }
 
     public TwitterLists getLists(String screenName) {
-        TwitterLists cachedLists = mFetchLists.getLists(screenName, null);
-        return cachedLists;
+        return mFetchLists.getLists(screenName, null);
     }
 
     public TwitterLists getLists(String screenName,
             TwitterFetchLists.FinishedCallback callback) {
-        TwitterLists cachedLists = mFetchLists.getLists(screenName, callback);
-        return cachedLists;
+        return mFetchLists.getLists(screenName, callback);
     }
 
     /*

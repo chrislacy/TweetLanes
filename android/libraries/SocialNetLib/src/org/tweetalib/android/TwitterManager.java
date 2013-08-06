@@ -126,10 +126,8 @@ public class TwitterManager {
             TwitterContentHandleBase contentHandleBase, String screenName,
             String identifier, String currentAccountKey) {
 
-        TwitterContentHandle handle = new TwitterContentHandle(
+        return new TwitterContentHandle(
                 contentHandleBase, screenName, identifier, currentAccountKey);
-
-        return handle;
     }
 
     /*
@@ -219,14 +217,12 @@ public class TwitterManager {
 
     public TwitterUser getUser(Long userId,
             TwitterFetchUser.FinishedCallback callback) {
-        TwitterUser cachedUser = mApi.getUser(userId, callback);
-        return cachedUser;
+        return mApi.getUser(userId, callback);
     }
 
     public TwitterUser getUser(String screenName,
             TwitterFetchUser.FinishedCallback callback) {
-        TwitterUser cachedUser = mApi.getUser(screenName, callback);
-        return cachedUser;
+        return mApi.getUser(screenName, callback);
     }
 
     public void verifyUser(TwitterFetchUser.FinishedCallback callback) {
@@ -251,17 +247,15 @@ public class TwitterManager {
 	 */
     public TwitterDirectMessages getDirectMessages(
             TwitterContentHandle contentHandle) {
-        TwitterDirectMessages cachedMessages = mApi
+        return mApi
                 .getDirectMessages(contentHandle);
-        return cachedMessages;
     }
 
     public TwitterDirectMessages getDirectMessages(
             TwitterContentHandle contentHandle, TwitterPaging paging,
             TwitterFetchDirectMessagesFinishedCallback callback) {
-        TwitterDirectMessages cachedMessages = mApi.getDirectMessages(
+        return mApi.getDirectMessages(
                 contentHandle, paging, callback);
-        return cachedMessages;
     }
 
     public void sendDirectMessage(long userId, String recipientScreenName,
@@ -345,25 +339,21 @@ public class TwitterManager {
 	 *
 	 */
     public TwitterLists getLists(int userId) {
-        TwitterLists cachedLists = mApi.getLists(userId, null);
-        return cachedLists;
+        return mApi.getLists(userId, null);
     }
 
     public TwitterLists getLists(int userId,
             TwitterFetchLists.FinishedCallback callback) {
-        TwitterLists cachedLists = mApi.getLists(userId, callback);
-        return cachedLists;
+        return mApi.getLists(userId, callback);
     }
 
     public TwitterLists getLists(String screenName) {
-        TwitterLists cachedLists = mApi.getLists(screenName, null);
-        return cachedLists;
+        return mApi.getLists(screenName, null);
     }
 
     public TwitterLists getLists(String screenName,
             TwitterFetchLists.FinishedCallback callback) {
-        TwitterLists cachedLists = mApi.getLists(screenName, callback);
-        return cachedLists;
+        return mApi.getLists(screenName, callback);
     }
 
     /*

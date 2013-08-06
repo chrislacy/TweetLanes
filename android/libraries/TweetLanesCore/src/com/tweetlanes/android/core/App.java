@@ -271,9 +271,8 @@ public class App extends Application {
             long currentTime = System.currentTimeMillis();
             long secondsDiff = (currentTime - saveTime) / 1000l;
             if (secondsDiff < Constant.RESTORE_SAVED_DRAFT_SECONDS) {
-                String draftAsString = mPreferences.getString(
+                return mPreferences.getString(
                         getTweetDraftKey(), null);
-                return draftAsString;
             }
         }
 
@@ -293,9 +292,8 @@ public class App extends Application {
 	 *
 	 */
     public boolean getTutorialCompleted() {
-        boolean tutorialCompleted = mPreferences.getBoolean(
+        return mPreferences.getBoolean(
                 SharedPreferencesConstants.TUTORIAL_COMPLETED, false);
-        return tutorialCompleted;
     }
 
     /*
@@ -323,8 +321,7 @@ public class App extends Application {
 	 *
 	 */
     public String getCachedData(String key) {
-        String cachedData = mPreferences.getString(key, null);
-        return cachedData;
+        return mPreferences.getString(key, null);
     }
 
     /*

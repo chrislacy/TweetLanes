@@ -142,9 +142,8 @@ public class TwitterSignIn {
 	 *
 	 */
     GetAuthUrlCallback getAuthUrlCallback(Integer callbackHandle) {
-        GetAuthUrlCallback callback = mGetAuthUrlCallbackMap
+        return mGetAuthUrlCallbackMap
                 .get(callbackHandle);
-        return callback;
     }
 
     /*
@@ -161,9 +160,8 @@ public class TwitterSignIn {
 	 */
     GetOAuthAccessTokenCallback getOAuthAccessTokenCallback(
             Integer callbackHandle) {
-        GetOAuthAccessTokenCallback callback = mGetOAuthAccessTokenCallbackMap
+        return mGetOAuthAccessTokenCallbackMap
                 .get(callbackHandle);
-        return callback;
     }
 
     /*

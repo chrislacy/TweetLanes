@@ -109,9 +109,8 @@ public class TwitterUtil {
 
         initCommon();
 
-        String autoLinkAll = mAutolinkEx.autoLinkAll(statusText,
+        return mAutolinkEx.autoLinkAll(statusText,
                 twitterMediaEntity, mediaEntities, urlEntities);
-        return autoLinkAll;
     }
 
     /*
@@ -192,8 +191,7 @@ public class TwitterUtil {
         } catch (IndexOutOfBoundsException e) {
             throw new ParseException("Invalid length", 0);
         }
-        Date date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").parse(s);
-        return date;
+        return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").parse(s);
     }
 
 }

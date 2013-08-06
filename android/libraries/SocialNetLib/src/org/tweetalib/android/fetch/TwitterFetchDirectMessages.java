@@ -83,9 +83,8 @@ public class TwitterFetchDirectMessages {
 	 */
     TwitterFetchDirectMessagesFinishedCallback getFetchStatusesCallback(
             Integer callbackHandle) {
-        TwitterFetchDirectMessagesFinishedCallback callback = mFinishedCallbackMap
+        return mFinishedCallbackMap
                 .get(callbackHandle);
-        return callback;
     }
 
     /*

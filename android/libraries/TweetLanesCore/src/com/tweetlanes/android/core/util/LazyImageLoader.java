@@ -244,8 +244,7 @@ public class LazyImageLoader {
             if (mCacheDir == null) return null;
             final String filename = getURLFilename(tag);
             if (filename == null) return null;
-            final File file = new File(mCacheDir, filename);
-            return file;
+            return new File(mCacheDir, filename);
         }
 
         public void saveFile(Bitmap image, URL tag) {

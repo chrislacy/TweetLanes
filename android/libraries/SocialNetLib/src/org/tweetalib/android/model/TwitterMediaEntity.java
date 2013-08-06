@@ -241,8 +241,7 @@ public class TwitterMediaEntity {
         int startIndex = lowerCaseUrl.indexOf(match);
         if (startIndex > -1) {
             startIndex += match.length();
-            String code = url.substring(startIndex);
-            return code;
+            return url.substring(startIndex);
         }
 
         return null;

@@ -100,8 +100,7 @@ public class TwitterFetchLists {
 	 *
 	 */
     FinishedCallback getFetchStatusesCallback(Integer callbackHandle) {
-        FinishedCallback callback = mFinishedCallbackMap.get(callbackHandle);
-        return callback;
+        return mFinishedCallbackMap.get(callbackHandle);
     }
 
     /*

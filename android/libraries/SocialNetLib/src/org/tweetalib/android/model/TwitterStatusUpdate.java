@@ -78,8 +78,7 @@ public class TwitterStatusUpdate {
             error.printStackTrace();
         }
 
-        AdnPostCompose statusUpdate = new AdnPostCompose(mStatus, mInReplyToStatusId, mediaFile);
-        return statusUpdate;
+        return new AdnPostCompose(mStatus, mInReplyToStatusId, mediaFile);
     }
 
     public void setMediaFilePath(String mediaFilePath) {
