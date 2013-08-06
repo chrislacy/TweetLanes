@@ -300,7 +300,7 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout {
     }
 
     public final boolean showingRefreshUI() {
-        return mCurrentMode == 0 ? false : true;
+        return mCurrentMode != 0;
     }
 
     // ===========================================================

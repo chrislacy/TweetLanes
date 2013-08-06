@@ -211,9 +211,7 @@ public abstract class ComposeBaseFragment extends Fragment {
         alertDialog.setButton(getString(R.string.ok),
                 new DialogInterface.OnClickListener() {
 
-                    public void onClick(DialogInterface dialog, int which) {
-                        return;
-                    }
+                    public void onClick(DialogInterface dialog, int which) {}
                 });
         alertDialog.show();
     }

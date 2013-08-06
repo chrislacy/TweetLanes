@@ -330,7 +330,7 @@ public class TwitterFetchDirectMessages {
             }
 
             return new FetchDirectMessagesTaskOutput(input.mContentHandle, new TwitterFetchResult(
-                    errorDescription == null ? true : false, errorDescription),
+                    errorDescription == null, errorDescription),
                     input.mCallbackHandle, messages);
         }
 

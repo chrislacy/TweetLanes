@@ -38,7 +38,7 @@ public final class Util {
      *
 	 */
     public static boolean isValidString(String s) {
-        return s != null && s.equals("") == false ? true : false;
+        return s != null && s.equals("") == false;
     }
 
     /*

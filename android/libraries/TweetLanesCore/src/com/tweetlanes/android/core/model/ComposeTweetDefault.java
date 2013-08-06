@@ -204,13 +204,10 @@ public class ComposeTweetDefault {
 	 * 
 	 */
     public boolean isPlaceholderStatus() {
-        if (mInitialStatus != null && mStatus != null
+        return mInitialStatus != null && mStatus != null
                 && mInitialStatusIsPlaceholder == true
-                && mInitialStatus.equals(mStatus) == true) {
-            return true;
-        }
+                && mInitialStatus.equals(mStatus) == true;
 
-        return false;
     }
 
     /*

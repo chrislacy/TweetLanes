@@ -130,7 +130,7 @@ public class TweetMarkerAPI extends ApiService {
                 }
 
                 return new TaskOutput(new TwitterFetchResult(
-                        errorDescription == null ? true : false,
+                        errorDescription == null,
                         errorDescription), jsonAsString);
             }
 

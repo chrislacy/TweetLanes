@@ -255,7 +255,7 @@ public class TwitterModifyStatuses {
                 }
 
                 case SET_FAVORITE: {
-                    boolean favorite = input.mValue == 1 ? true : false;
+                    boolean favorite = input.mValue == 1;
 
                     if (input.mStatuses != null) {
                         for (int i = 0; i < input.mStatuses.getStatusCount(); i++) {
@@ -290,7 +290,7 @@ public class TwitterModifyStatuses {
                     }
 
                     case SET_FAVORITE: {
-                        boolean favorite = input.mValue == 1 ? true : false;
+                        boolean favorite = input.mValue == 1;
 
                         if (input.mStatuses != null) {
                             for (int i = 0; i < input.mStatuses.getStatusCount(); i++) {
@@ -337,7 +337,7 @@ public class TwitterModifyStatuses {
             }
 
             return new ModifyStatusesTaskOutput(
-                    new TwitterFetchResult(errorDescription == null ? true : false, errorDescription),
+                    new TwitterFetchResult(errorDescription == null, errorDescription),
                     input.mCallbackHandle, contentFeed, null);
         }
 

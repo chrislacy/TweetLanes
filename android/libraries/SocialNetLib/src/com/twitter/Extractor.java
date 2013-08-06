@@ -59,12 +59,8 @@ public class Extractor {
 
             Entity other = (Entity) obj;
 
-            if (this.type.equals(other.type) && this.start == other.start
-                    && this.end == other.end && this.value.equals(other.value)) {
-                return true;
-            } else {
-                return false;
-            }
+            return this.type.equals(other.type) && this.start == other.start
+                    && this.end == other.end && this.value.equals(other.value);
         }
 
         @Override

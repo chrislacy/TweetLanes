@@ -1298,7 +1298,7 @@ public class BaseLaneActivity extends FragmentActivity implements
 	 */
     public boolean isComposing() {
         return mCurrentComposeFragment != null
-                && mCurrentComposeFragment.hasFocus() ? true : false;
+                && mCurrentComposeFragment.hasFocus();
     }
 
     /*

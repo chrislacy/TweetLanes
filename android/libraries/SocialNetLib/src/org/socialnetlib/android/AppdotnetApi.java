@@ -46,10 +46,7 @@ public class AppdotnetApi extends SocialNetApi {
             return false;
         }
         int status = httpResponse.getStatus();
-        if (status >= 200 && status < 300) {
-            return true;
-        }
-        return false;
+        return status >= 200 && status < 300;
     }
 
     BasicHttpClient getHttpClient() {

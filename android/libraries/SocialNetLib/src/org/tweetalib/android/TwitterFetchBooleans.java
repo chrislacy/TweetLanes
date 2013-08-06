@@ -275,7 +275,7 @@ public class TwitterFetchBooleans {
             }
 
             return new FetchBooleanTaskOutput(new TwitterFetchResult(
-                    errorDescription == null ? true : false, errorDescription),
+                    errorDescription == null, errorDescription),
                     input.mCallbackHandle, result);
         }
 

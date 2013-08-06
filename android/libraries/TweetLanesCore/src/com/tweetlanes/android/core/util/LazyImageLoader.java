@@ -202,8 +202,7 @@ public class LazyImageLoader {
 
     boolean imageViewReused(ImageToLoad imagetoload) {
         final Object tag = mImageViews.get(imagetoload.imageview);
-        if (tag == null || !tag.equals(imagetoload.source)) return true;
-        return false;
+        return tag == null || !tag.equals(imagetoload.source);
     }
 
     // Used to display bitmap in the UI thread

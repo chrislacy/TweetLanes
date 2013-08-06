@@ -368,7 +368,7 @@ public class TwitterFetchStatus {
             }
 
             return new FetchStatusTaskOutput(new TwitterFetchResult(
-                    errorDescription == null ? true : false, errorDescription),
+                    errorDescription == null, errorDescription),
                     input.mCallbackHandle, twitterStatus);
         }
 

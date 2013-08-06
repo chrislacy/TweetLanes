@@ -1064,7 +1064,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     private void onTweetFeedItemLongPress(View view, int position) {
 
         boolean isChecked =
-                mTweetFeedListView.getRefreshableView().getCheckedItemPositions().get(position) == true ? true : false;
+                mTweetFeedListView.getRefreshableView().getCheckedItemPositions().get(position) ? true : false;
         
 
         TweetFeedItemView tweetFeedItemView = (TweetFeedItemView) (view);
@@ -1087,7 +1087,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         
         if (mSelectedItems.size() > 0 && getApp() != null) {
             mMultipleTweetSelectionCallback
-                    .setIsFavorited(getSelectedFavoriteState() == ItemSelectedState.ALL ? true : false);
+                    .setIsFavorited(getSelectedFavoriteState() == ItemSelectedState.ALL);
             TwitterStatus firstItem = getFirstSelectedStatus();
             if (firstItem != null)
             {
@@ -1302,14 +1302,14 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                                 }
                                 else
                                 {
-                                    boolean newState = getSelectedFavoriteState() == ItemSelectedState.ALL ? false : true;
+                                    boolean newState = getSelectedFavoriteState() != ItemSelectedState.ALL;
                                     showToast(getString(newState ? R.string.favorited_un_successfully : R.string
                                             .unfavorited_un_successfully));
                                 }
                             }
 
                         };
-                boolean newState = getSelectedFavoriteState() == ItemSelectedState.ALL ? false : true;
+                boolean newState = getSelectedFavoriteState() != ItemSelectedState.ALL;
                 TwitterManager.get().setFavorite(getSelectedStatuses(), newState, callback);
                 mode.finish();
             } else if (itemId == R.id.action_manage_friendship) {
