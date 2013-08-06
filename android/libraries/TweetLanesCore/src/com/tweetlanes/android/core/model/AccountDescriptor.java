@@ -485,7 +485,7 @@ public class AccountDescriptor {
     private Integer mInitialLaneIndex;
     private ArrayList<List> mLists;
     private boolean mShouldRefreshLists;
-    private Context mContext;
+    private final Context mContext;
     private SocialNetConstant.Type mSocialNetType;
     private String mProfileImageUrl;
     /*

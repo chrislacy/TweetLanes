@@ -39,9 +39,9 @@ import twitter4j.User;
 public class TwitterFetchDirectMessages {
 
     private FetchMessagesWorkerCallbacks mCallbacks;
-    private HashMap<String, TwitterDirectMessages> mMessagesHashMap;
+    private final HashMap<String, TwitterDirectMessages> mMessagesHashMap;
     private Integer mFetchMessagesCallbackHandle;
-    private HashMap<Integer, TwitterFetchDirectMessagesFinishedCallback> mFinishedCallbackMap;
+    private final HashMap<Integer, TwitterFetchDirectMessagesFinishedCallback> mFinishedCallbackMap;
 
     /*
 	 *
@@ -211,13 +211,13 @@ public class TwitterFetchDirectMessages {
             mConnectionStatus = connectionStatus;
         }
 
-        Integer mCallbackHandle;
+        final Integer mCallbackHandle;
         Long mUserId;
         String mRecipientScreenName;
         String mStatusText;
         TwitterContentHandle mContentHandle;
         TwitterPaging mPaging;
-        ConnectionStatus mConnectionStatus;
+        final ConnectionStatus mConnectionStatus;
     }
 
     /*
@@ -233,10 +233,10 @@ public class TwitterFetchDirectMessages {
             mMessages = messages;
         }
 
-        TwitterContentHandle mContentHandle;
-        TwitterFetchResult mResult;
-        Integer mCallbackHandle;
-        TwitterDirectMessages mMessages;
+        final TwitterContentHandle mContentHandle;
+        final TwitterFetchResult mResult;
+        final Integer mCallbackHandle;
+        final TwitterDirectMessages mMessages;
     }
 
     /*

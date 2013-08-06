@@ -24,10 +24,10 @@ public class Constant {
      * Configuration values
      */
     public static final boolean ENABLE_PROFILE_IMAGES = false;
-    public static boolean ENABLE_CRASH_TRACKING = true;
+    public static final boolean ENABLE_CRASH_TRACKING = true;
     public static final int CACHE_VERSION = 4;
-    public static boolean ENABLE_STATUS_CACHING = true;
-    public static boolean UPDATE_CACHED_STATUSES = true;
+    public static final boolean ENABLE_STATUS_CACHING = true;
+    public static final boolean UPDATE_CACHED_STATUSES = true;
 
     public static final String DIR_NAME_PROFILE_IMAGES = "profile_images";
     public static final String DIR_NAME_CACHED_THUMBNAILS = "cached_thumbnails";

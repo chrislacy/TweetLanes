@@ -26,8 +26,8 @@ class PriorityExecutor implements BaseExecutor {
 	 * 
 	 */
     private static class PrioritizedRunnable {
-        public Runnable mRunnable;
-        public int mPriority;
+        public final Runnable mRunnable;
+        public final int mPriority;
 
         public PrioritizedRunnable(int priority, Runnable runnable) {
             mPriority = priority;

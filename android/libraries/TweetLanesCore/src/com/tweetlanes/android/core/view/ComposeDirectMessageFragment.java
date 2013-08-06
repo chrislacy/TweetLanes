@@ -39,7 +39,7 @@ public class ComposeDirectMessageFragment extends ComposeBaseFragment {
 
     private EditText mSendToEditText;
     private String mOtherUserScreenName;
-    private Handler mHandler = new Handler();
+    private final Handler mHandler = new Handler();
 
     /*
      * (non-Javadoc)
@@ -138,7 +138,7 @@ public class ComposeDirectMessageFragment extends ComposeBaseFragment {
     /*
 	 *
 	 */
-    private TwitterFetchDirectMessagesFinishedCallback mOnSetStatusCallback = new TwitterFetchDirectMessagesFinishedCallback() {
+    private final TwitterFetchDirectMessagesFinishedCallback mOnSetStatusCallback = new TwitterFetchDirectMessagesFinishedCallback() {
 
         public void finished(TwitterContentHandle contentHandle, TwitterFetchResult result,
                              TwitterDirectMessages messages) {
@@ -349,7 +349,7 @@ public class ComposeDirectMessageFragment extends ComposeBaseFragment {
         return R.layout.compose_direct_message;
     }
 
-    private TextWatcher mTextChangedListener = new TextWatcher() {
+    private final TextWatcher mTextChangedListener = new TextWatcher() {
 
         public void afterTextChanged(Editable s) {
             String asString = s.toString();

@@ -18,7 +18,7 @@ package org.tweetalib.android;
 
 public class ConnectionStatus {
 
-    private Callbacks mCallbacks;
+    private final Callbacks mCallbacks;
 
     /*
 	 * 

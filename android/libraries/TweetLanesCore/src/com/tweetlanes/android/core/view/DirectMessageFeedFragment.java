@@ -346,7 +346,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
     /*
 	 *
 	 */
-    private OnScrollListener mOnScrollListener = new OnScrollListener() {
+    private final OnScrollListener mOnScrollListener = new OnScrollListener() {
 
         @Override
         public void onScroll(AbsListView view, int firstVisibleItem,
@@ -389,7 +389,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
     /*
 	 *
 	 */
-    private OnLastItemVisibleListener mOnLastItemVisibleListener = new OnLastItemVisibleListener() {
+    private final OnLastItemVisibleListener mOnLastItemVisibleListener = new OnLastItemVisibleListener() {
 
         @Override
         public void onLastItemVisible() {
@@ -433,7 +433,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
     /*
 	 *
 	 */
-    private OnRefreshListener mOnRefreshListener = new OnRefreshListener() {
+    private final OnRefreshListener mOnRefreshListener = new OnRefreshListener() {
 
         @Override
         public void onRefresh() {
@@ -678,7 +678,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
          * Remember our context so we can use it when constructing views.
          */
         // private Context mContext;
-        private LayoutInflater mInflater;
+        private final LayoutInflater mInflater;
     }
 
     /*

@@ -492,7 +492,7 @@ public class TwitterStatuses {
     /*
 	 * 
 	 */
-    private ArrayList<TwitterStatus> _mStatuses;
+    private final ArrayList<TwitterStatus> _mStatuses;
     private int[] mCounts = new int[FilterType.FILTER_MAX.ordinal()];
 
     private Long mGetNewStatusesMaxId = null;

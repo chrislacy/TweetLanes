@@ -91,7 +91,7 @@ public class UserFeedFragment extends BaseLaneFragment {
     private TwitterUsers _mUsersFeed;
     private FinishedCallback mUserDataRefreshCallback;
     private ViewSwitcher mViewSwitcher;
-    private ArrayList<TwitterUser> mSelectedItems = new ArrayList<TwitterUser>();
+    private final ArrayList<TwitterUser> mSelectedItems = new ArrayList<TwitterUser>();
     private MultipleUserSelectionCallback mMultipleUserSelectionCallback;
 
     private Long mNewestUserId;
@@ -324,7 +324,7 @@ public class UserFeedFragment extends BaseLaneFragment {
     /*
 	 *
 	 */
-    private OnScrollListener mUserFeedOnScrollListener = new OnScrollListener() {
+    private final OnScrollListener mUserFeedOnScrollListener = new OnScrollListener() {
 
         @Override
         public void onScroll(AbsListView view, int firstVisibleItem,
@@ -350,7 +350,7 @@ public class UserFeedFragment extends BaseLaneFragment {
     /*
 	 *
 	 */
-    private OnLastItemVisibleListener mUserFeedOnLastItemVisibleListener = new OnLastItemVisibleListener() {
+    private final OnLastItemVisibleListener mUserFeedOnLastItemVisibleListener = new OnLastItemVisibleListener() {
 
         @Override
         public void onLastItemVisible() {
@@ -391,7 +391,7 @@ public class UserFeedFragment extends BaseLaneFragment {
     /*
 	 *
 	 */
-    private OnRefreshListener mUserFeedOnRefreshListener = new OnRefreshListener() {
+    private final OnRefreshListener mUserFeedOnRefreshListener = new OnRefreshListener() {
 
         @Override
         public void onRefresh() {
@@ -792,7 +792,7 @@ public class UserFeedFragment extends BaseLaneFragment {
          * Remember our context so we can use it when constructing views.
          */
         // private Context mContext;
-        private LayoutInflater mInflater;
+        private final LayoutInflater mInflater;
     }
 
     /*

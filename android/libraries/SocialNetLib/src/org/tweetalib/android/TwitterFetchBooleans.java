@@ -28,7 +28,7 @@ public class TwitterFetchBooleans {
 
     private FetchBooleansWorkerCallbacks mCallbacks;
     private Integer mFetchBooleanCallbackHandle;
-    private HashMap<Integer, FinishedCallback> mFinishedCallbackMap;
+    private final HashMap<Integer, FinishedCallback> mFinishedCallbackMap;
 
     /*
 	 *
@@ -179,11 +179,11 @@ public class TwitterFetchBooleans {
             mUserScreenNameToCheck = userScreenNameToCheck;
         }
 
-        Integer mCallbackHandle;
-        ConnectionStatus mConnectionStatus;
-        BooleanType mBooleanType;
-        String mUserScreenName;
-        String mUserScreenNameToCheck;
+        final Integer mCallbackHandle;
+        final ConnectionStatus mConnectionStatus;
+        final BooleanType mBooleanType;
+        final String mUserScreenName;
+        final String mUserScreenNameToCheck;
     }
 
     /*
@@ -200,8 +200,8 @@ public class TwitterFetchBooleans {
             }
         }
 
-        TwitterFetchResult mResult;
-        Integer mCallbackHandle;
+        final TwitterFetchResult mResult;
+        final Integer mCallbackHandle;
         ArrayList<Boolean> mReturnValues;
     }
 

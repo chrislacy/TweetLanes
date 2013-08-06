@@ -32,7 +32,7 @@ public class TwitterModifyStatuses {
 
     private ModifyStatusesWorkerCallbacks mCallbacks;
     private Integer mModifyStatusesCallbackHandle;
-    private HashMap<Integer, FinishedCallback> mFinishedCallbackMap;
+    private final HashMap<Integer, FinishedCallback> mFinishedCallbackMap;
 
     /*
      *
@@ -85,7 +85,7 @@ public class TwitterModifyStatuses {
     public abstract class FinishedDeleteCallback extends FinishedCallback {
 
         static final int kInvalidHandle = -1;
-        private TwitterStatuses mStatuses;
+        private final TwitterStatuses mStatuses;
 
 
         public FinishedDeleteCallback(TwitterStatuses statuses) {
@@ -199,10 +199,10 @@ public class TwitterModifyStatuses {
             mValue = value;
         }
 
-        Integer mCallbackHandle;
-        StatusesType mStatusesType;
-        TwitterStatuses mStatuses;
-        Integer mValue;
+        final Integer mCallbackHandle;
+        final StatusesType mStatusesType;
+        final TwitterStatuses mStatuses;
+        final Integer mValue;
     }
 
     /*
@@ -218,10 +218,10 @@ public class TwitterModifyStatuses {
             mResult = result;
         }
 
-        Integer mCallbackHandle;
-        TwitterStatuses mFeed;
-        Integer mValue;
-        TwitterFetchResult mResult;
+        final Integer mCallbackHandle;
+        final TwitterStatuses mFeed;
+        final Integer mValue;
+        final TwitterFetchResult mResult;
     }
 
     /*

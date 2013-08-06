@@ -164,7 +164,7 @@ public class TwitterPaging {
     }
 
     private Integer mPage;
-    private Integer mCount;
+    private final Integer mCount;
     private Long mMaxId;
     private Long mSinceId;
 

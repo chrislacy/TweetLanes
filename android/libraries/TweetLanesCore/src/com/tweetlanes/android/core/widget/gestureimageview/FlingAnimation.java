@@ -20,7 +20,7 @@ public class FlingAnimation implements Animation {
 
     private float mFactor = 0.85f;
 
-    private float mThreshold = 10;
+    private final float mThreshold = 10;
 
     private FlingAnimationListener listener;
 

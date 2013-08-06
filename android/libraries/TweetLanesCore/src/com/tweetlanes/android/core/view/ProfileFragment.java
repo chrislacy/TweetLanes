@@ -320,7 +320,7 @@ public class ProfileFragment extends BaseLaneFragment {
     /*
 	 * 
 	 */
-    private OnClickListener mFrienshipButtonListener = new OnClickListener() {
+    private final OnClickListener mFrienshipButtonListener = new OnClickListener() {
 
         @Override
         public void onClick(View v) {

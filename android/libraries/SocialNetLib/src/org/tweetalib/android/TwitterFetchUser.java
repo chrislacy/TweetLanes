@@ -34,10 +34,10 @@ import twitter4j.User;
 public class TwitterFetchUser {
 
     private FetchUserWorkerCallbacks mCallbacks;
-    private HashMap<Long, TwitterUser> mUserIdHashMap;
-    private HashMap<String, TwitterUser> mUserScreenNameHashMap;
+    private final HashMap<Long, TwitterUser> mUserIdHashMap;
+    private final HashMap<String, TwitterUser> mUserScreenNameHashMap;
     private Integer mFetchUserCallbackHandle;
-    private HashMap<Integer, FinishedCallback> mFinishedCallbackMap;
+    private final HashMap<Integer, FinishedCallback> mFinishedCallbackMap;
 
     /*
 	 *
@@ -312,11 +312,11 @@ public class TwitterFetchUser {
             mConnectionStatus = connectionStatus;
         }
 
-        Integer mCallbackHandle;
+        final Integer mCallbackHandle;
         Boolean mVerifyCredentials;
         Long mUserId;
         String mScreenName;
-        ConnectionStatus mConnectionStatus;
+        final ConnectionStatus mConnectionStatus;
 
     }
 
@@ -332,9 +332,9 @@ public class TwitterFetchUser {
             mUser = user;
         }
 
-        TwitterFetchResult mFetchResult;
-        Integer mCallbackHandle;
-        TwitterUser mUser;
+        final TwitterFetchResult mFetchResult;
+        final Integer mCallbackHandle;
+        final TwitterUser mUser;
     }
 
     /*

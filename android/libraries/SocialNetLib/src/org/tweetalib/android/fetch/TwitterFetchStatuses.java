@@ -45,10 +45,10 @@ import twitter4j.User;
 public class TwitterFetchStatuses {
 
     private FetchStatusesWorkerCallbacks mCallbacks;
-    private HashMap<String, TwitterStatuses> mStatusesHashMap;
+    private final HashMap<String, TwitterStatuses> mStatusesHashMap;
     private Integer mFetchStatusesCallbackHandle;
-    private HashMap<Integer, TwitterFetchStatusesFinishedCallback> mFinishedCallbackMap;
-    private HashMap<String, String> mHashtagMap;
+    private final HashMap<Integer, TwitterFetchStatusesFinishedCallback> mFinishedCallbackMap;
+    private final HashMap<String, String> mHashtagMap;
 
     /*
      *
@@ -264,10 +264,10 @@ public class TwitterFetchStatuses {
             mConnectionStatus = connectionStatus;
         }
 
-        Integer mCallbackHandle;
-        TwitterContentHandle mContentHandle;
-        TwitterPaging mPaging;
-        ConnectionStatus mConnectionStatus;
+        final Integer mCallbackHandle;
+        final TwitterContentHandle mContentHandle;
+        final TwitterPaging mPaging;
+        final ConnectionStatus mConnectionStatus;
     }
 
     /*
@@ -283,10 +283,10 @@ public class TwitterFetchStatuses {
             mFeed = feed;
         }
 
-        TwitterFetchResult mResult;
-        Integer mCallbackHandle;
-        TwitterContentHandle mContentHandle;
-        TwitterStatuses mFeed;
+        final TwitterFetchResult mResult;
+        final Integer mCallbackHandle;
+        final TwitterContentHandle mContentHandle;
+        final TwitterStatuses mFeed;
     }
 
     /*

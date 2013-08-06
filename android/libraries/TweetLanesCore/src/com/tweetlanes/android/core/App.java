@@ -554,7 +554,7 @@ public class App extends Application {
     /*
 	 *
 	 */
-    private ConnectionStatus.Callbacks mConnectionStatusCallbacks = new ConnectionStatus.Callbacks() {
+    private final ConnectionStatus.Callbacks mConnectionStatusCallbacks = new ConnectionStatus.Callbacks() {
 
         @Override
         public boolean isOnline() {

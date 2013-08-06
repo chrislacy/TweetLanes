@@ -346,7 +346,7 @@ public final class TweetSpotlightFragment extends BaseLaneFragment {
          * Remember our context so we can use it when constructing views.
          */
         // private Context mContext;
-        private LayoutInflater mInflater;
+        private final LayoutInflater mInflater;
     }
 
     /*

@@ -64,7 +64,7 @@ public class AutolinkEx {
     private String listUrlBase;
     private String hashtagUrlBase;
     private String cashtagUrlBase;
-    private String invisibleTagAttrs;
+    private final String invisibleTagAttrs;
     private boolean noFollow = true;
     private boolean usernameIncludeSymbol = false;
     private String symbolTag = null;
@@ -73,7 +73,7 @@ public class AutolinkEx {
     private LinkAttributeModifier linkAttributeModifier = null;
     private LinkTextModifier linkTextModifier = null;
 
-    private Extractor extractor = new Extractor();
+    private final Extractor extractor = new Extractor();
 
     private static CharSequence escapeHTML(CharSequence text) {
         StringBuilder builder = new StringBuilder(text.length() * 2);

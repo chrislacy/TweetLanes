@@ -33,7 +33,7 @@ public class TabPageIndicator extends HorizontalScrollView implements
 
     private Runnable mTabSelector;
 
-    private OnClickListener mTabClickListener = new OnClickListener() {
+    private final OnClickListener mTabClickListener = new OnClickListener() {
 
         public void onClick(View view) {
             TabView tabView = (TabView) view;
@@ -49,11 +49,11 @@ public class TabPageIndicator extends HorizontalScrollView implements
         }
     };
 
-    private LinearLayout mTabLayout;
+    private final LinearLayout mTabLayout;
     private ViewPager mViewPager;
     private ViewPager.OnPageChangeListener mListener;
 
-    private LayoutInflater mInflater;
+    private final LayoutInflater mInflater;
 
     private int mMaxTabWidth;
     private int mSelectedTabIndex;

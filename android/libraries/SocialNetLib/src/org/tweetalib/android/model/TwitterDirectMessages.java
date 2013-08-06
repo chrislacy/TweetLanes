@@ -134,8 +134,8 @@ public class TwitterDirectMessages {
         /*
 		 * 
 		 */
-        private ArrayList<TwitterDirectMessage> mMessages;
-        Long mOtherUserId;
+        private final ArrayList<TwitterDirectMessage> mMessages;
+        final Long mOtherUserId;
     }
 
     /*
@@ -368,7 +368,7 @@ public class TwitterDirectMessages {
     /*
 	 * 
 	 */
-    private long mMessageOwnerId;
-    private ArrayList<Conversation> mConversations;
-    private TwitterDirectMessagesHandle mConversationHandle;
+    private final long mMessageOwnerId;
+    private final ArrayList<Conversation> mConversations;
+    private final TwitterDirectMessagesHandle mConversationHandle;
 }

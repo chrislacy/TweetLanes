@@ -15,7 +15,7 @@ package com.tweetlanes.android.core.widget.gestureimageview;
  */
 class Animator extends Thread {
 
-    private GestureImageView mView;
+    private final GestureImageView mView;
     private Animation mAnimation;
     private boolean mRunning = false;
     private boolean mActive = false;

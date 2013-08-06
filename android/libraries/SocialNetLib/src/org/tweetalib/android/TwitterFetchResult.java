@@ -18,8 +18,8 @@ package org.tweetalib.android;
 
 public class TwitterFetchResult {
 
-    private boolean mSuccessful;
-    String mErrorMessage;
+    private final boolean mSuccessful;
+    final String mErrorMessage;
 
     /*
 	 *

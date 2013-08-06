@@ -91,7 +91,7 @@ abstract class ComposeBaseFragment extends Fragment {
     private EditText mAutocompleteTarget;
     private TextView mCharacterCountTextView;
     private Long mShowStartTime;
-    Validator mStatusValidator = new Validator();
+    final Validator mStatusValidator = new Validator();
     private ListView mAutocompleteListView;
 
     ComposeListener mListener;
@@ -241,11 +241,11 @@ abstract class ComposeBaseFragment extends Fragment {
     /*
 	 *
 	 */
-    public boolean releaseFocus(boolean saveCurrentTweet) {
+    public void releaseFocus(boolean saveCurrentTweet) {
 
         clearCompose(saveCurrentTweet);
         setMediaPreviewVisibility();
-        return hideCompose();
+        hideCompose();
     }
 
     /*
@@ -291,7 +291,7 @@ abstract class ComposeBaseFragment extends Fragment {
     /*
 	 *
 	 */
-    private OnFocusChangeListener mOnFocusChangeListener = new OnFocusChangeListener() {
+    private final OnFocusChangeListener mOnFocusChangeListener = new OnFocusChangeListener() {
 
         public void onFocusChange(View v, boolean hasFocus) {
             if (hasFocus && !mIgnoreFocusChange) {
@@ -312,7 +312,7 @@ abstract class ComposeBaseFragment extends Fragment {
     /*
 	 *
 	 */
-    private TextWatcher mTextChangedListener = new TextWatcher() {
+    private final TextWatcher mTextChangedListener = new TextWatcher() {
 
         public void afterTextChanged(Editable s) {
             String asString = s.toString();
@@ -379,8 +379,8 @@ abstract class ComposeBaseFragment extends Fragment {
 
     private class AutoCompleteMentionAdapter extends android.widget.BaseAdapter {
 
-        Context mContext;
-        List<TwitterUser> mData;
+        final Context mContext;
+        final List<TwitterUser> mData;
 
         public AutoCompleteMentionAdapter(Context context, List<TwitterUser> data)
         {
@@ -457,8 +457,8 @@ abstract class ComposeBaseFragment extends Fragment {
 
     private class AutoCompleteHashtagAdapter extends android.widget.BaseAdapter {
 
-        Context mContext;
-        List<String> mData;
+        final Context mContext;
+        final List<String> mData;
 
         public AutoCompleteHashtagAdapter(Context context, List<String> data)
         {
@@ -612,7 +612,7 @@ abstract class ComposeBaseFragment extends Fragment {
     /*
 	 *
 	 */
-    private OnClickListener mOnSendTweetClickListener = new OnClickListener() {
+    private final OnClickListener mOnSendTweetClickListener = new OnClickListener() {
 
         @Override
         public void onClick(View v) {
@@ -627,7 +627,7 @@ abstract class ComposeBaseFragment extends Fragment {
 
     /*
 	 */
-    private EditClearTextListener mEditClearTextListener = new EditClearTextListener() {
+    private final EditClearTextListener mEditClearTextListener = new EditClearTextListener() {
 
         @Override
         public boolean canClearText() {

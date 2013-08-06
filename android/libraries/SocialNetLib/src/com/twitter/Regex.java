@@ -22,7 +22,7 @@ class Regex {
             "\\u3000" + // White_Space # Zs IDEOGRAPHIC SPACE
             "]";
 
-    private static String LATIN_ACCENTS_CHARS = "\\u00c0-\\u00d6\\u00d8-\\u00f6\\u00f8-\\u00ff"
+    private static final String LATIN_ACCENTS_CHARS = "\\u00c0-\\u00d6\\u00d8-\\u00f6\\u00f8-\\u00ff"
             + // Latin-1
             "\\u0100-\\u024f"
             + // Latin Extended A and B
@@ -184,7 +184,7 @@ class Regex {
             "(\\?" + URL_VALID_URL_QUERY_CHARS + "*" + // $8 Query String
             URL_VALID_URL_QUERY_ENDING_CHARS + ")?" + ")" + ")";
 
-    private static String AT_SIGNS_CHARS = "@\uFF20";
+    private static final String AT_SIGNS_CHARS = "@\uFF20";
 
     private static final String DOLLAR_SIGN_CHAR = "\\$";
     private static final String CASHTAG = "[a-z]{1,6}(?:[._][a-z]{1,2})?";

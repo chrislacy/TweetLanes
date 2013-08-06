@@ -31,7 +31,7 @@ public class TwitterFetchStatus {
 
     private FetchStatusWorkerCallbacks mCallbacks;
     private Integer mFetchStatusCallbackHandle;
-    private HashMap<Integer, FinishedCallback> mFinishedCallbackMap;
+    private final HashMap<Integer, FinishedCallback> mFinishedCallbackMap;
 
     /*
 	 *
@@ -210,11 +210,11 @@ public class TwitterFetchStatus {
             mConnectionStatus = connectionStatus;
         }
 
-        Integer mCallbackHandle;
-        StatusType mStatusType;
+        final Integer mCallbackHandle;
+        final StatusType mStatusType;
         TwitterStatusUpdate mStatusUpdate;
         Long mExistingStatusId;
-        ConnectionStatus mConnectionStatus;
+        final ConnectionStatus mConnectionStatus;
     }
 
     /*
@@ -229,9 +229,9 @@ public class TwitterFetchStatus {
             mStatus = status;
         }
 
-        TwitterFetchResult mResult;
-        Integer mCallbackHandle;
-        TwitterStatus mStatus;
+        final TwitterFetchResult mResult;
+        final Integer mCallbackHandle;
+        final TwitterStatus mStatus;
     }
 
     /*

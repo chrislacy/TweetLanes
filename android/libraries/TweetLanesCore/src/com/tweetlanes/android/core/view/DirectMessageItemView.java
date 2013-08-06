@@ -52,8 +52,8 @@ public class DirectMessageItemView extends LinearLayout {
     private View mMessageBlock;
     private QuickContactDivot mAvatar;
     private boolean mFullConversation;
-    private Path mPath = new Path();
-    private Paint mPaint = new Paint();
+    private final Path mPath = new Path();
+    private final Paint mPaint = new Paint();
 
     /*
      * 

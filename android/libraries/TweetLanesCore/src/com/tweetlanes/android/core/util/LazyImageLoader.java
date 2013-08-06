@@ -208,8 +208,8 @@ public class LazyImageLoader {
     // Used to display bitmap in the UI thread
     private class BitmapDisplayer implements Runnable {
 
-        Bitmap mBitmap;
-        ImageToLoad mImageToLoad;
+        final Bitmap mBitmap;
+        final ImageToLoad mImageToLoad;
 
         public BitmapDisplayer(Bitmap b, ImageToLoad p) {
             mBitmap = b;
@@ -232,7 +232,7 @@ public class LazyImageLoader {
         private final String mCacheDirName;
 
         private File mCacheDir;
-        private Context mContext;
+        private final Context mContext;
 
         public FileCache(Context context, String cache_dir_name) {
             mContext = context;
@@ -337,7 +337,7 @@ public class LazyImageLoader {
 
     private class ImageLoader implements Runnable {
 
-        private ImageToLoad mImageToLoad;
+        private final ImageToLoad mImageToLoad;
 
         public ImageLoader(ImageToLoad imagetoload) {
             this.mImageToLoad = imagetoload;

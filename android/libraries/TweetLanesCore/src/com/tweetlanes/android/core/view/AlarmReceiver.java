@@ -46,7 +46,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         }
     }
 
-    private TwitterFetchStatusesFinishedCallback getMentionsCallback = new TwitterFetchStatusesFinishedCallback() {
+    private final TwitterFetchStatusesFinishedCallback getMentionsCallback = new TwitterFetchStatusesFinishedCallback() {
         @Override
         public void finished(TwitterFetchResult result, TwitterStatuses feed, TwitterContentHandle contentHandle) {
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
@@ -87,7 +87,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         }
     };
 
-    private TwitterFetchDirectMessagesFinishedCallback getDirectMessagesCallback = new TwitterFetchDirectMessagesFinishedCallback() {
+    private final TwitterFetchDirectMessagesFinishedCallback getDirectMessagesCallback = new TwitterFetchDirectMessagesFinishedCallback() {
         @Override
         public void finished(TwitterContentHandle contentHandle, TwitterFetchResult result, TwitterDirectMessages messages) {
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
@@ -251,7 +251,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         return accounts;
     }
 
-    private ConnectionStatus.Callbacks mConnectionStatusCallbacks = new ConnectionStatus.Callbacks() {
+    private final ConnectionStatus.Callbacks mConnectionStatusCallbacks = new ConnectionStatus.Callbacks() {
         @Override
         public boolean isOnline() {
             return true;

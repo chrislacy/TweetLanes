@@ -693,11 +693,11 @@ public final class UrlImageViewHelper {
         Drawable result;
     }
 
-    private static HttpUrlDownloader mHttpDownloader = new HttpUrlDownloader();
-    private static ContentUrlDownloader mContentDownloader = new ContentUrlDownloader();
-    private static ContactContentUrlDownloader mContactDownloader = new ContactContentUrlDownloader();
-    private static FileUrlDownloader mFileDownloader = new FileUrlDownloader();
-    private static ArrayList<UrlDownloader> mDownloaders = new ArrayList<UrlDownloader>();
+    private static final HttpUrlDownloader mHttpDownloader = new HttpUrlDownloader();
+    private static final ContentUrlDownloader mContentDownloader = new ContentUrlDownloader();
+    private static final ContactContentUrlDownloader mContactDownloader = new ContactContentUrlDownloader();
+    private static final FileUrlDownloader mFileDownloader = new FileUrlDownloader();
+    private static final ArrayList<UrlDownloader> mDownloaders = new ArrayList<UrlDownloader>();
 
     public static ArrayList<UrlDownloader> getDownloaders() {
         return mDownloaders;
@@ -724,10 +724,10 @@ public final class UrlImageViewHelper {
         mRequestPropertiesCallback = callback;
     }
 
-    private static UrlImageCache mLiveCache = UrlImageCache.getInstance();
+    private static final UrlImageCache mLiveCache = UrlImageCache.getInstance();
 
     private static UrlLruCache mDeadCache;
-    private static HashSet<BitmapDrawable> mAllCache = new HashSet<BitmapDrawable>();
+    private static final HashSet<BitmapDrawable> mAllCache = new HashSet<BitmapDrawable>();
 
     private static int getHeapSize(final Context context) {
         return ((ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE)).getMemoryClass() * 1024 * 1024;
@@ -743,7 +743,7 @@ public final class UrlImageViewHelper {
             mLiveCache.put(url, this);
         }
 
-        String mUrl;
+        final String mUrl;
 
         @Override
         protected void finalize() throws Throwable {
@@ -780,6 +780,6 @@ public final class UrlImageViewHelper {
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
-    private static Hashtable<ImageView, String> mPendingViews = new Hashtable<ImageView, String>();
-    private static Hashtable<String, ArrayList<ImageView>> mPendingDownloads = new Hashtable<String, ArrayList<ImageView>>();
+    private static final Hashtable<ImageView, String> mPendingViews = new Hashtable<ImageView, String>();
+    private static final Hashtable<String, ArrayList<ImageView>> mPendingDownloads = new Hashtable<String, ArrayList<ImageView>>();
 }

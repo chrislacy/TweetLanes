@@ -41,8 +41,8 @@ public class UserFeedItemView extends LinearLayout {
     private String mUserScreenName;
     private View mMessageBlock;
     private QuickContactDivot mAvatar;
-    private Path mPath = new Path();
-    private Paint mPaint = new Paint();
+    private final Path mPath = new Path();
+    private final Paint mPaint = new Paint();
 
     public UserFeedItemView(Context context) {
         super(context);

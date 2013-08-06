@@ -208,10 +208,10 @@ public class TwitterUser {
         return mDescriptionUrlEntities;
     }
 
-    private long mId;
-    private String mScreenName;
-    private String mName;
-    private String mDescription;
+    private final long mId;
+    private final String mScreenName;
+    private final String mName;
+    private final String mDescription;
     private URLEntity[] mDescriptionUrlEntities;
     private String mCoverImageUrl;
     private String mLocation;
@@ -220,14 +220,14 @@ public class TwitterUser {
     private String mProfileImageUrlBigger;
     private String mProfileImageUrlOriginal;
     private String mUrl;
-    private int mStatusesCount;
-    private int mFriendsCount;
-    private int mFollowersCount;
-    private int mFavoritesCount;
+    private final int mStatusesCount;
+    private final int mFriendsCount;
+    private final int mFollowersCount;
+    private final int mFavoritesCount;
     private int mListedCount;
     private boolean mVerified;
     private boolean mProtected;
-    private SocialNetConstant.Type mSocialNetType;
+    private final SocialNetConstant.Type mSocialNetType;
     private boolean mFollowsCurrentUser;
     private boolean mCurrentUserFollows;
 }

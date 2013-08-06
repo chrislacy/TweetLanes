@@ -11,7 +11,7 @@ class WrapperDrawable extends Drawable {
         mDrawable = drawable;
     }
 
-    BitmapDrawable mDrawable;
+    final BitmapDrawable mDrawable;
 
     public WrapperDrawable(WrapperDrawable drawable) {
         this(drawable.mDrawable);

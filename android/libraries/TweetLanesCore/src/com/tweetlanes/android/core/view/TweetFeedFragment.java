@@ -111,8 +111,8 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     private TwitterFetchStatusesFinishedCallback mTweetDataRefreshCallback;
     private TwitterFetchStatusesFinishedCallback mTweetDataLoadMoreCallback;
     private ViewSwitcher mViewSwitcher;
-    private ArrayList<TweetFeedItemView> mSelectedItems = new ArrayList<TweetFeedItemView>();
-    private ArrayList<Long> mConverstaionViewIds = new ArrayList<Long>();
+    private final ArrayList<TweetFeedItemView> mSelectedItems = new ArrayList<TweetFeedItemView>();
+    private final ArrayList<Long> mConverstaionViewIds = new ArrayList<Long>();
     private MultipleTweetSelectionCallback mMultipleTweetSelectionCallback;
 
     private Long mNewestTweetId;
@@ -472,7 +472,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     /*
 	 *
 	 */
-    private BroadcastReceiver mVolumeUpKeyDownReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver mVolumeUpKeyDownReceiver = new BroadcastReceiver() {
 
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -494,7 +494,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     /*
 	 *
 	 */
-    private BroadcastReceiver mVolumeDownKeyDownReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver mVolumeDownKeyDownReceiver = new BroadcastReceiver() {
 
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -582,12 +582,12 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         }
     }
 
-    private ScrollTracker mScrollTracker = new ScrollTracker();
+    private final ScrollTracker mScrollTracker = new ScrollTracker();
 
     /*
 	 *
 	 */
-    private OnScrollListener mTweetFeedOnScrollListener = new OnScrollListener() {
+    private final OnScrollListener mTweetFeedOnScrollListener = new OnScrollListener() {
 
         @Override
         public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
@@ -630,7 +630,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     /*
 	 *
 	 */
-    private OnLastItemVisibleListener mTweetFeedOnLastItemVisibleListener = new OnLastItemVisibleListener() {
+    private final OnLastItemVisibleListener mTweetFeedOnLastItemVisibleListener = new OnLastItemVisibleListener() {
 
         @Override
         public void onLastItemVisible() {
@@ -698,7 +698,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
     /*
 	 *
-	 */ private OnClickListener mListHeadingHideImageOnClickListener = new OnClickListener() {
+	 */ private final OnClickListener mListHeadingHideImageOnClickListener = new OnClickListener() {
 
         @Override
         public void onClick(View v) {
@@ -847,7 +847,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     /*
 	 *
 	 */
-    private OnRefreshListener mTweetFeedOnRefreshListener = new OnRefreshListener() {
+    private final OnRefreshListener mTweetFeedOnRefreshListener = new OnRefreshListener() {
 
         @Override
         public void onRefresh() {
@@ -1023,7 +1023,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     }
 
     private final int REFRESH_TIMESTAMPS_INTERVAL = 1000 * 30;
-    private Handler mRefreshTimestampsHandler = new Handler();
+    private final Handler mRefreshTimestampsHandler = new Handler();
     private final Runnable mRefreshTimestampsTask = new Runnable() {
 
         public void run() {
@@ -1715,9 +1715,9 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             return loadMoreView;
         }
 
-        private LayoutInflater mInflater;
+        private final LayoutInflater mInflater;
     }
 
-    private Handler mHandler = new Handler();
+    private final Handler mHandler = new Handler();
 
 }

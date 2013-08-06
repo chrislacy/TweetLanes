@@ -63,14 +63,14 @@ public class TwitterList implements Comparable<TwitterList> {
         return mSubscriberCount;
     }
 
-    private int mId;
-    private String mName;
-    private String mFullName;
-    private String mDescription;
-    private boolean mIsPublic;
-    private boolean mIsFollowing;
-    private int mMemberCount;
-    private int mSubscriberCount;
+    private final int mId;
+    private final String mName;
+    private final String mFullName;
+    private final String mDescription;
+    private final boolean mIsPublic;
+    private final boolean mIsFollowing;
+    private final int mMemberCount;
+    private final int mSubscriberCount;
 
     @Override
     public int compareTo(TwitterList another) {

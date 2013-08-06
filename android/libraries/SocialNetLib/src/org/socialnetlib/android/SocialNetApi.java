@@ -62,12 +62,12 @@ public abstract class SocialNetApi {
 
     abstract void clearApiInstance();
 
-    private SocialNetConstant.Type mType;
+    private final SocialNetConstant.Type mType;
     String mCurrentOAuthToken;
     String mCurrentOAuthSecret;
-    String mAppConsumerKey;
-    String mAppConsumerSecret;
-    private String mCurrentAccountKey;
+    final String mAppConsumerKey;
+    final String mAppConsumerSecret;
+    private final String mCurrentAccountKey;
 
     private TwitterFetchBooleans mFetchBooleans;
     private TwitterFetchDirectMessages mFetchDirectMessages;

@@ -104,7 +104,7 @@ public class AppSettings {
 	 *
 	 */
     private SharedPreferences mSharedPreferences;
-    private Context mContext;
+    private final Context mContext;
     private boolean mIsDirty = false;
     private int mRefreshCount = 0;
 

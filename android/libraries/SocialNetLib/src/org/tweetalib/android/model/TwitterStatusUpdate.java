@@ -85,8 +85,8 @@ public class TwitterStatusUpdate {
         mMediaFilePath = mediaFilePath;
     }
 
-    private String mStatus;
-    private Long mInReplyToStatusId;
+    private final String mStatus;
+    private final Long mInReplyToStatusId;
     private String mMediaFilePath;
 
 
@@ -147,7 +147,7 @@ public class TwitterStatusUpdate {
         return resizeImage;
     }
 
-    private File SaveImage(Bitmap resizeImage) throws IOException
+    private File SaveImage(Bitmap resizeImage)
     {
         File path = new File(Environment.getExternalStorageDirectory(),"temp/images/Tweet Lanes");
 

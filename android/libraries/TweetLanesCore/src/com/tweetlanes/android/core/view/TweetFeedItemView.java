@@ -68,8 +68,8 @@ public class TweetFeedItemView extends LinearLayout {
     private ImageView mPreviewPlayImageView;
     private ImageView mStatusIndicatorImageView;
     private boolean mIsConversationItem;
-    private Path mPath = new Path();
-    private Paint mPaint = new Paint();
+    private final Path mPath = new Path();
+    private final Paint mPaint = new Paint();
 
     private boolean mConversationExpanded;
 
@@ -464,7 +464,7 @@ public class TweetFeedItemView extends LinearLayout {
     /*
 	 *
 	 */
-    private OnTouchListener mStatusOnTouchListener = new OnTouchListener() {
+    private final OnTouchListener mStatusOnTouchListener = new OnTouchListener() {
 
         @Override
         public boolean onTouch(View view, MotionEvent event) {
@@ -524,7 +524,7 @@ public class TweetFeedItemView extends LinearLayout {
     /*
 	 *
 	 */
-    private OnTouchListener mOnTouchListener = new OnTouchListener() {
+    private final OnTouchListener mOnTouchListener = new OnTouchListener() {
 
         @Override
         public boolean onTouch(View v, MotionEvent event) {
@@ -535,7 +535,7 @@ public class TweetFeedItemView extends LinearLayout {
     /*
 	 *
 	 */
-    private GestureDetector mGestureDetector = new GestureDetector(
+    private final GestureDetector mGestureDetector = new GestureDetector(
             new GestureDetector.SimpleOnGestureListener() {
 
                 @Override

@@ -82,7 +82,7 @@ class BaseLaneActivity extends FragmentActivity implements
     private SearchView mSearchView;
     private View mLaneMask;
     private LinearLayout mDummyFocusItem;
-    TwitterStatusesFilter mStatusesFilter = new TwitterStatusesFilter();
+    final TwitterStatusesFilter mStatusesFilter = new TwitterStatusesFilter();
     private String mShareImagePath;
 
     static final int COMPOSE_TWEET = 0;
@@ -299,7 +299,7 @@ class BaseLaneActivity extends FragmentActivity implements
     /*
 	 *
 	 */
-    private BroadcastReceiver mDisplayToastReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver mDisplayToastReceiver = new BroadcastReceiver() {
 
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -354,7 +354,7 @@ class BaseLaneActivity extends FragmentActivity implements
     /*
 	 *
 	 */
-    private HashMap<Integer, BaseLaneFragment> mLaneFragmentHashMap = new HashMap<Integer, BaseLaneFragment>();
+    private final HashMap<Integer, BaseLaneFragment> mLaneFragmentHashMap = new HashMap<Integer, BaseLaneFragment>();
     private int activeInitialDownloadCount = 0;
 
     /*
@@ -553,7 +553,7 @@ class BaseLaneActivity extends FragmentActivity implements
     /*
 	 *
 	 */
-    private ComposeListener mComposeTweetListener = new ComposeListener() {
+    private final ComposeListener mComposeTweetListener = new ComposeListener() {
 
         @Override
         public void onShowCompose() {
@@ -651,7 +651,7 @@ class BaseLaneActivity extends FragmentActivity implements
     /*
 	 *
 	 */
-    private ComposeListener mComposeDirectMessageListener = new ComposeListener() {
+    private final ComposeListener mComposeDirectMessageListener = new ComposeListener() {
 
         @Override
         public void onShowCompose() {
@@ -775,7 +775,7 @@ class BaseLaneActivity extends FragmentActivity implements
     /*
 	 *
 	 */
-    private OnPageChangeListener mOnPageChangeListener = new OnPageChangeListener() {
+    private final OnPageChangeListener mOnPageChangeListener = new OnPageChangeListener() {
 
         @Override
         public void onPageScrollStateChanged(int arg0) {
@@ -805,7 +805,7 @@ class BaseLaneActivity extends FragmentActivity implements
     /*
 	 *
 	 */
-    private OnClickListener mLaneMaskOnClickListener = new OnClickListener() {
+    private final OnClickListener mLaneMaskOnClickListener = new OnClickListener() {
 
         @Override
         public void onClick(View v) {
@@ -1025,7 +1025,7 @@ class BaseLaneActivity extends FragmentActivity implements
     /*
 	 *
 	 */
-    private BroadcastReceiver mForceFragmentPagerAdapterRefreshReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver mForceFragmentPagerAdapterRefreshReceiver = new BroadcastReceiver() {
 
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -1040,7 +1040,7 @@ class BaseLaneActivity extends FragmentActivity implements
     /*
 	 *
 	 */
-    private BroadcastReceiver mRestartAppReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver mRestartAppReceiver = new BroadcastReceiver() {
 
         @Override
         public void onReceive(Context context, Intent intent) {

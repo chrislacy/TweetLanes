@@ -11,7 +11,7 @@ public class Validator {
   private int shortUrlLength = 22;
   private int shortUrlLengthHttps = 23;
 
-  private Extractor extractor = new Extractor();
+  private final Extractor extractor = new Extractor();
 
   public int getTweetLength(String text) {
     text = Normalizer.normalize(text, Normalizer.Form.NFC);

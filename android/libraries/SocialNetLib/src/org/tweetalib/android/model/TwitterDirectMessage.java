@@ -97,16 +97,16 @@ public class TwitterDirectMessage implements Comparable<TwitterDirectMessage> {
     /*
 	 *
 	 */
-    private long mId;
-    private MessageType mMessageType;
-    private String mText;
-    public Spanned mTextSpanned;
-    private Date mCreatedAt;
-    private long mOtherUserId;
-    private String mOtherUserName;
-    private String mOtherUserScreenName;
-    private TwitterUser mOtherUser;
-    private TwitterUser mSender;
+    private final long mId;
+    private final MessageType mMessageType;
+    private final String mText;
+    public final Spanned mTextSpanned;
+    private final Date mCreatedAt;
+    private final long mOtherUserId;
+    private final String mOtherUserName;
+    private final String mOtherUserScreenName;
+    private final TwitterUser mOtherUser;
+    private final TwitterUser mSender;
 
     /*
      * (non-Javadoc)

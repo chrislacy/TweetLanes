@@ -109,9 +109,9 @@ public class TwitterContentHandleBase implements Serializable {
         return mUsersType;
     }
 
-    ContentType mContentType;
-    private DirectMessagesType mDirectMessagesType;
-    StatusType mStatusType;
-    StatusesType mStatusesType;
-    UsersType mUsersType;
+    final ContentType mContentType;
+    private final DirectMessagesType mDirectMessagesType;
+    final StatusType mStatusType;
+    final StatusesType mStatusesType;
+    final UsersType mUsersType;
 }

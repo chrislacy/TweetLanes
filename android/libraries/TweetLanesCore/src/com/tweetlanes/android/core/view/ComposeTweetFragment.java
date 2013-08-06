@@ -139,7 +139,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
     /*
 	 *
 	 */
-    private FinishedCallback mOnSetStatusCallback = TwitterManager.get()
+    private final FinishedCallback mOnSetStatusCallback = TwitterManager.get()
             .getFetchStatusInstance().new FinishedCallback() {
 
         @Override

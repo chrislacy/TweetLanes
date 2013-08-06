@@ -25,7 +25,7 @@ public class ListTabPageIndicator extends ListView implements PageIndicator {
 
     private Runnable mTabSelector;
 
-    private OnClickListener mTabClickListener = new OnClickListener() {
+    private final OnClickListener mTabClickListener = new OnClickListener() {
 
         public void onClick(View view) {
             TabView tabView = (TabView) view;
@@ -34,12 +34,12 @@ public class ListTabPageIndicator extends ListView implements PageIndicator {
     };
 
     // private LinearLayout mTabLayout;
-    private Context mContext;
+    private final Context mContext;
     private ListArrayAdapter mListAdapter;
     private ViewPager mViewPager;
     private ViewPager.OnPageChangeListener mListener;
 
-    private LayoutInflater mInflater;
+    private final LayoutInflater mInflater;
 
     int mMaxTabWidth;
     private int mSelectedTabIndex;

@@ -34,9 +34,9 @@ public class TwitterSignIn {
 
     private SignInWorkerCallbacks mCallbacks;
     private Integer mGetAuthUrlCallbackHandle;
-    private HashMap<Integer, GetAuthUrlCallback> mGetAuthUrlCallbackMap;
+    private final HashMap<Integer, GetAuthUrlCallback> mGetAuthUrlCallbackMap;
     private Integer mGetOAuthAccessTokenCallbackHandle;
-    private HashMap<Integer, GetOAuthAccessTokenCallback> mGetOAuthAccessTokenCallbackMap;
+    private final HashMap<Integer, GetOAuthAccessTokenCallback> mGetOAuthAccessTokenCallbackMap;
 
     /*
 	 *
@@ -215,7 +215,7 @@ public class TwitterSignIn {
             mCallbackHandle = callbackHandle;
         }
 
-        Integer mCallbackHandle;
+        final Integer mCallbackHandle;
     }
 
     /*
@@ -230,9 +230,9 @@ public class TwitterSignIn {
             mUrl = url;
         }
 
-        Integer mCallbackHandle;
-        RequestToken mRequestToken;
-        String mUrl;
+        final Integer mCallbackHandle;
+        final RequestToken mRequestToken;
+        final String mUrl;
     }
 
     /*
@@ -292,9 +292,9 @@ public class TwitterSignIn {
             mCallbackHandle = callbackHandle;
         }
 
-        RequestToken mRequestToken;
-        String mOAuthVerifier;
-        Integer mCallbackHandle;
+        final RequestToken mRequestToken;
+        final String mOAuthVerifier;
+        final Integer mCallbackHandle;
     }
 
     /*
@@ -311,10 +311,10 @@ public class TwitterSignIn {
             mCallbackHandle = callbackHandle;
         }
 
-        TwitterUser mUser;
-        String mAccessToken;
-        String mAccessTokenSecret;
-        Integer mCallbackHandle;
+        final TwitterUser mUser;
+        final String mAccessToken;
+        final String mAccessTokenSecret;
+        final Integer mCallbackHandle;
     }
 
     /*

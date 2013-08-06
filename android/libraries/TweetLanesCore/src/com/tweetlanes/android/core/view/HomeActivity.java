@@ -784,7 +784,7 @@ public class HomeActivity extends BaseLaneActivity {
     /*
      * Hanlder for refreshing a user's lists
      */
-    private Handler mRefreshListsHandler = new Handler();
+    private final Handler mRefreshListsHandler = new Handler();
     private final Runnable mRefreshListsTask = new Runnable() {
 
         public void run() {
@@ -923,8 +923,8 @@ public class HomeActivity extends BaseLaneActivity {
 
     class AccountAdapter extends android.widget.BaseAdapter {
 
-        Context mContext;
-        List<AccountData> mData;
+        final Context mContext;
+        final List<AccountData> mData;
 
         public AccountAdapter(Context context, List<AccountDescriptor> data)
         {
@@ -998,10 +998,10 @@ public class HomeActivity extends BaseLaneActivity {
                 ServiceType = serviceType;
             }
 
-            public String AvatarImageUrl;
-            public SocialNetConstant.Type ServiceType;
-            public String ScreenName;
-            public long Id;
+            public final String AvatarImageUrl;
+            public final SocialNetConstant.Type ServiceType;
+            public final String ScreenName;
+            public final long Id;
         }
 
         class AccountHolder {

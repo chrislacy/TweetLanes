@@ -31,9 +31,9 @@ import twitter4j.UserList;
 public class TwitterFetchLists {
 
     private FetchListsWorkerCallbacks mCallbacks;
-    private HashMap<Integer, TwitterLists> mListsHashMap;
+    private final HashMap<Integer, TwitterLists> mListsHashMap;
     private Integer mFetchListsCallbackHandle;
-    private HashMap<Integer, FinishedCallback> mFinishedCallbackMap;
+    private final HashMap<Integer, FinishedCallback> mFinishedCallbackMap;
 
     /*
 	 *
@@ -192,7 +192,7 @@ public class TwitterFetchLists {
             mScreenName = screenName;
         }
 
-        Integer mCallbackHandle;
+        final Integer mCallbackHandle;
         Integer mUserId;
         String mScreenName;
     }
@@ -207,8 +207,8 @@ public class TwitterFetchLists {
             mLists = lists;
         }
 
-        Integer mCallbackHandle;
-        TwitterLists mLists;
+        final Integer mCallbackHandle;
+        final TwitterLists mLists;
     }
 
     /*

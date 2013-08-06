@@ -74,8 +74,8 @@ public class TwitterContentHandle extends TwitterContentHandleBase {
         return mCurrentAccountKey;
     }
 
-    private String mScreenNameLower;
-    private String mScreenName;
-    private String mIdentifier;
-    private String mCurrentAccountKey;
+    private final String mScreenNameLower;
+    private final String mScreenName;
+    private final String mIdentifier;
+    private final String mCurrentAccountKey;
 }

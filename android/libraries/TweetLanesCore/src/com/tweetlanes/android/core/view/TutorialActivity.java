@@ -141,7 +141,7 @@ public class TutorialActivity extends FragmentActivity {
     /*
 	 * 
 	 */
-    private OnPageChangeListener mOnPageChangeListener = new OnPageChangeListener() {
+    private final OnPageChangeListener mOnPageChangeListener = new OnPageChangeListener() {
 
         @Override
         public void onPageScrollStateChanged(int arg0) {

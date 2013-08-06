@@ -453,7 +453,7 @@ public class TwitterManager {
      * Quick and dirty system to handle mapping an appdotnet username in an
      * entity to an id
      */
-    private static HashMap<String, Long> mUserIdentifierHashMap = new HashMap<String, Long>();
+    private static final HashMap<String, Long> mUserIdentifierHashMap = new HashMap<String, Long>();
 
     public static void addUserIdentifier(String username, long id) {
         if (!mUserIdentifierHashMap.containsKey(username)) {

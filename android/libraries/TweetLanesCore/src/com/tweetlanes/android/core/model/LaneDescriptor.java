@@ -86,9 +86,9 @@ public class LaneDescriptor {
         return key;
     }
 
-    private Constant.LaneType mLaneType;
-    private TwitterContentHandleBase mContentHandleBase;
+    private final Constant.LaneType mLaneType;
+    private final TwitterContentHandleBase mContentHandleBase;
     private String mLaneTitle;
-    private String mIdentifier;
+    private final String mIdentifier;
     private boolean mDisplay; // Will the lane be drawn?
 }
