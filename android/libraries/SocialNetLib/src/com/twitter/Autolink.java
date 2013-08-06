@@ -44,7 +44,7 @@ public class Autolink {
 
     public static interface LinkAttributeModifier {
         public void modify(Entity entity, Map<String, String> attributes);
-    };
+    }
 
     public static interface LinkTextModifier {
         public CharSequence modify(Entity entity, CharSequence text);

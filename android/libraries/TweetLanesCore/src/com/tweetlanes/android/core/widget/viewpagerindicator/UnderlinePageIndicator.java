@@ -271,8 +271,6 @@ public class UnderlinePageIndicator extends View implements PageIndicator {
         return true;
     }
 
-    ;
-
     @Override
     public void setViewPager(ViewPager viewPager) {
         if (mViewPager == viewPager) {

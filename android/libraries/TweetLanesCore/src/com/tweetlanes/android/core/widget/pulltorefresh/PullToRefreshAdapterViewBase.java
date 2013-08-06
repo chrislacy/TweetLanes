@@ -125,8 +125,6 @@ public abstract class PullToRefreshAdapterViewBase<T extends AbsListView>
                 LayoutParams.FILL_PARENT, 0, 1.0f));
     }
 
-    ;
-
     protected boolean isReadyForPullDown() {
         return isFirstItemVisible();
     }

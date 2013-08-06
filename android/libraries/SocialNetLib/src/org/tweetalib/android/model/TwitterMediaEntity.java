@@ -47,7 +47,7 @@ public class TwitterMediaEntity {
 	 */
     public enum Size {
         THUMB, SMALL, MEDIUM, LARGE,
-    };
+    }
 
     /*
 	 * 

@@ -32,7 +32,7 @@ public class TwitterDirectMessage implements Comparable<TwitterDirectMessage> {
 	 */
     public enum MessageType {
         SENT, RECEIVED
-    };
+    }
 
     /*
 	 * 

@@ -143,10 +143,10 @@ public class QuickContactDivot extends ImageView implements Divot {
 
             case BOTTOM_MIDDLE:
                 int halfWidth = mDrawableIntrinsicWidth / 2;
-                mDrawable.setBounds((int) (middle - halfWidth),
-                        (int) (bottom - mDrawableIntrinsicHeight),
-                        (int) (middle + halfWidth), (int) (bottom));
-
+                mDrawable.setBounds(middle - halfWidth,
+                        bottom - mDrawableIntrinsicHeight,
+                        middle + halfWidth,
+                        bottom);
                 break;
         }
     }

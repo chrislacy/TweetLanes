@@ -221,7 +221,7 @@ public class HomeActivity extends BaseLaneActivity {
             } else if (type.contains("image/")) {
                 // From http://stackoverflow.com/a/2641363/328679
                 if (extras.containsKey(Intent.EXTRA_STREAM)) {
-                    Uri uri = (Uri) extras.getParcelable(Intent.EXTRA_STREAM);
+                    Uri uri = extras.getParcelable(Intent.EXTRA_STREAM);
                     String scheme = uri.getScheme();
                     if (scheme.equals("content")) {
                         ContentResolver contentResolver = getContentResolver();

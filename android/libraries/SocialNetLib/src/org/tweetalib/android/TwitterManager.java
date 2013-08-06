@@ -144,7 +144,7 @@ public class TwitterManager {
                   // The filesize of original images can be very big so use this
                   // parameter with
                   // caution.
-    };
+    }
 
     /*
 	 *

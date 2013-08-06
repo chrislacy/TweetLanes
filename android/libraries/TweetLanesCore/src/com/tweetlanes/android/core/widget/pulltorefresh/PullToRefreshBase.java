@@ -78,8 +78,6 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout {
         }
     }
 
-    ;
-
     // ===========================================================
     // Constants
     // ===========================================================

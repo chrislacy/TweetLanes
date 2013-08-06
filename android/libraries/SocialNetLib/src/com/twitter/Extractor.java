@@ -125,7 +125,7 @@ public class Extractor {
 
     private void removeOverlappingEntities(List<Entity> entities) {
         // sort by index
-        Collections.<Entity> sort(entities, new Comparator<Entity>() {
+        Collections.sort(entities, new Comparator<Entity>() {
             public int compare(Entity e1, Entity e2) {
                 return e1.start - e2.start;
             }

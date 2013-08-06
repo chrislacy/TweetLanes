@@ -271,8 +271,6 @@ public class TabPageIndicator extends HorizontalScrollView implements
         public void onCurrentItemClicked();
     }
 
-    ;
-
     private TabCallbacks mTabCallbacks;
 
     public void setTabCallbacks(TabCallbacks callbacks) {

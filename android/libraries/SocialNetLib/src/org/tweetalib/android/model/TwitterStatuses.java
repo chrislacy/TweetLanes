@@ -39,15 +39,8 @@ public class TwitterStatuses {
 	 */
     public TwitterStatuses(TwitterStatuses another) {
         _mStatuses = new ArrayList<TwitterStatus>(another._mStatuses);
-        mCounts = (int[]) another.mCounts.clone();
+        mCounts = another.mCounts.clone();
         mGetNewStatusesMaxId = another.mGetNewStatusesMaxId;
-        // TwitterStatusesFilter filter = new TwitterStatusesFilter();
-        // filter.setShowReplies(false);
-        // filterTest(filter);
-        // filter.setShowRetweets(false);
-        // filterTest(filter);
-        // filter.setShowReplies(true);
-        // filterTest(filter);
     }
 
     /*

@@ -140,7 +140,7 @@ public class SettingsActivity extends PreferenceActivity implements
                 .findPreference(KEY_PROFILE_IMAGE_SIZE_PREFERENCE);
         mDownloadImagesPreference = (CheckBoxPreference) getPreferenceScreen()
                 .findPreference(KEY_DOWNLOADIMAGES_PREFERENCE);
-        mCustomizeLanesPreference = (Preference) getPreferenceScreen()
+        mCustomizeLanesPreference = getPreferenceScreen()
                 .findPreference(KEY_CUSTOMIZE_LANES_PREFERENCE);
         mCustomizeLanesPreference
                 .setOnPreferenceClickListener(new OnPreferenceClickListener() {
@@ -150,9 +150,7 @@ public class SettingsActivity extends PreferenceActivity implements
 
                         ArrayList<LaneDescriptor> laneDefinitions = getApp()
                                 .getCurrentAccount().getAllLaneDefinitions();
-                        LaneCustomizationAdapter adapter = new LaneCustomizationAdapter(
-                                (Context) SettingsActivity.this,
-                                laneDefinitions);
+                        LaneCustomizationAdapter adapter = new LaneCustomizationAdapter(SettingsActivity.this, laneDefinitions);
                         ListView listView = new ListView(SettingsActivity.this);
                         listView.setAdapter(adapter);
 

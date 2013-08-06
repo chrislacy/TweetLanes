@@ -23,7 +23,7 @@ public final class TwitterStatusesFilter {
 
     enum FilterType {
         ALL, HIDE_RETWEETS, HIDE_REPLIES, HIDE_RETWEETS_REPLIES, FILTER_MAX,
-    };
+    }
 
     public void setShowRetweets(boolean show) {
         mShowRetweets = show;
@@ -57,4 +57,4 @@ public final class TwitterStatusesFilter {
         }
         return FilterType.ALL;
     }
-};
+}

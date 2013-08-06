@@ -205,8 +205,7 @@ public class ProfileFragment extends BaseLaneFragment {
                 .findViewById(R.id.private_account_image);
         mFriendshipButton = (Button) mProfileView
                 .findViewById(R.id.friendship_button);
-        mFriendshipDivider = (View) mProfileView
-                .findViewById(R.id.friendship_divider);
+        mFriendshipDivider = mProfileView.findViewById(R.id.friendship_divider);
 
         if (mUser != null) {
             ImageView avatar = (ImageView) mProfileView

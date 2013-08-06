@@ -143,8 +143,6 @@ public class BaseLaneActivity extends FragmentActivity implements
                     onCurrentLaneReselected();
                 }
 
-                ;
-
             });
 
             // If there's only 1 item in the adapter, hide the item. Used for
