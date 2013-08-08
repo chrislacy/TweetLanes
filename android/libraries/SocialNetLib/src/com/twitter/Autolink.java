@@ -117,15 +117,7 @@ public class Autolink {
                 || textWithSymbolTag.isEmpty() ? text : String.format(
                 "<%s>%s</%s>", textWithSymbolTag, text, textWithSymbolTag);
 
-        boolean includeSymbol = !Regex.AT_SIGNS.matcher(symbol).matches();
-
-        if (includeSymbol) {
-            linkToText(entity, taggedSymbol.toString() + taggedText,
-                    attributes, builder);
-        } else {
-            builder.append(taggedSymbol);
-            linkToText(entity, taggedText, attributes, builder);
-        }
+        linkToText(entity, taggedSymbol.toString() + taggedText, attributes, builder);
     }
 
     void linkToHashtag(Entity entity, String text, StringBuilder builder) {
