@@ -20,4 +20,4 @@ import java.util.concurrent.Executor;
 
 interface BaseExecutor extends Executor {
     public void execute(int priority, final Runnable r);
-};
+}

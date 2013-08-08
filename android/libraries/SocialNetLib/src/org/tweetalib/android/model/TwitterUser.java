@@ -29,27 +29,27 @@ public class TwitterUser {
             mDescriptionUrlEntities = user.getDescriptionURLEntities();
         }
         if (user.getLocation() != null
-                && user.getLocation().equals("") == false) {
+                && !user.getLocation().equals("")) {
             mLocation = user.getLocation();
         }
         if (user.getURL() != null) {
-            mUrl = user.getURL().toString();
+            mUrl = user.getURL();
         }
 
         if (user.getOriginalProfileImageURLHttps() != null) {
-            mProfileImageUrlOriginal = user.getOriginalProfileImageURLHttps().toString();
+            mProfileImageUrlOriginal = user.getOriginalProfileImageURLHttps();
         }
 
         if (user.getBiggerProfileImageURLHttps() != null) {
-            mProfileImageUrlBigger = user.getBiggerProfileImageURLHttps().toString();
+            mProfileImageUrlBigger = user.getBiggerProfileImageURLHttps();
         }
 
         if (user.getProfileImageURLHttps() != null) {
-            mProfileImageUrlNormal = user.getProfileImageURLHttps().toString();
+            mProfileImageUrlNormal = user.getProfileImageURLHttps();
         }
 
         if (user.getMiniProfileImageURLHttps() != null) {
-            mProfileImageUrlMini = user.getMiniProfileImageURLHttps().toString();
+            mProfileImageUrlMini = user.getMiniProfileImageURLHttps();
         }
 
         mStatusesCount = user.getStatusesCount();
@@ -164,7 +164,7 @@ public class TwitterUser {
         return mFavoritesCount;
     }
 
-    public int getListedCount() {
+    int getListedCount() {
         return mListedCount;
     }
 
@@ -208,10 +208,10 @@ public class TwitterUser {
         return mDescriptionUrlEntities;
     }
 
-    private long mId;
-    private String mScreenName;
-    private String mName;
-    private String mDescription;
+    private final long mId;
+    private final String mScreenName;
+    private final String mName;
+    private final String mDescription;
     private URLEntity[] mDescriptionUrlEntities;
     private String mCoverImageUrl;
     private String mLocation;
@@ -220,14 +220,14 @@ public class TwitterUser {
     private String mProfileImageUrlBigger;
     private String mProfileImageUrlOriginal;
     private String mUrl;
-    private int mStatusesCount;
-    private int mFriendsCount;
-    private int mFollowersCount;
-    private int mFavoritesCount;
+    private final int mStatusesCount;
+    private final int mFriendsCount;
+    private final int mFollowersCount;
+    private final int mFavoritesCount;
     private int mListedCount;
     private boolean mVerified;
     private boolean mProtected;
-    private SocialNetConstant.Type mSocialNetType;
+    private final SocialNetConstant.Type mSocialNetType;
     private boolean mFollowsCurrentUser;
     private boolean mCurrentUserFollows;
 }

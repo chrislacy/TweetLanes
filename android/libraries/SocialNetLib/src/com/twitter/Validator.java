@@ -6,12 +6,12 @@ import java.text.Normalizer;
  * A class for validating Tweet texts.
  */
 public class Validator {
-  public static final int MAX_TWEET_LENGTH = 140;
+  private static final int MAX_TWEET_LENGTH = 140;
 
-  protected int shortUrlLength = 22;
-  protected int shortUrlLengthHttps = 23;
+  private int shortUrlLength = 22;
+  private int shortUrlLengthHttps = 23;
 
-  private Extractor extractor = new Extractor();
+  private final Extractor extractor = new Extractor();
 
   public int getTweetLength(String text) {
     text = Normalizer.normalize(text, Normalizer.Form.NFC);
@@ -45,21 +45,5 @@ public class Validator {
     }
 
         return getTweetLength(text) <= maxLength;
-  }
-
-  public int getShortUrlLength() {
-    return shortUrlLength;
-  }
-
-  public void setShortUrlLength(int shortUrlLength) {
-    this.shortUrlLength = shortUrlLength;
-  }
-
-  public int getShortUrlLengthHttps() {
-    return shortUrlLengthHttps;
-  }
-
-  public void setShortUrlLengthHttps(int shortUrlLengthHttps) {
-    this.shortUrlLengthHttps = shortUrlLengthHttps;
   }
 }

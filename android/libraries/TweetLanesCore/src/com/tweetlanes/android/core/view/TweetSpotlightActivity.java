@@ -42,15 +42,15 @@ import org.tweetalib.android.model.TwitterStatuses;
 
 public class TweetSpotlightActivity extends BaseLaneActivity {
 
-    TweetSpotlightAdapter mTweetSpotlightAdapter;
-    ViewSwitcher mViewSwitcher;
+    private TweetSpotlightAdapter mTweetSpotlightAdapter;
+    private ViewSwitcher mViewSwitcher;
     TwitterStatus mStatus;
-    FinishedCallback mGetStatusCallback;
-    MenuItem mFavoriteMenuItem;
-    MenuItem mRetweetMenuItem;
+    private FinishedCallback mGetStatusCallback;
+    private MenuItem mFavoriteMenuItem;
+    private MenuItem mRetweetMenuItem;
 
-    public final static String STATUS_ID_KEY = "statusId";
-    public final static String STATUS_KEY = "status";
+    private final static String STATUS_ID_KEY = "statusId";
+    private final static String STATUS_KEY = "status";
 
     /*
      * (non-Javadoc)
@@ -120,13 +120,12 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
             returnIntent.putExtra("status",mStatus.toString());
             setResult(RESULT_OK,returnIntent);
             finish();
-            return;
         }
 
 
     }
 
-    protected void TweetDeleted(String result)
+    void TweetDeleted(String result)
     {
         Intent returnIntent = new Intent();
         returnIntent.putExtra("status",mStatus.toString());
@@ -202,7 +201,7 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
     /*
 	 *
 	 */
-    protected void onGetStatus(TwitterStatus status) {
+    void onGetStatus(TwitterStatus status) {
         mStatus = new TwitterStatus(status);
         updateViewVisibility();
 
@@ -240,7 +239,7 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if (super.onOptionsItemSelected(item) == true) {
+        if (super.onOptionsItemSelected(item)) {
             return true;
         }
 
@@ -336,7 +335,7 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
         }
     }
 
-    protected void showToast(String message) {
+    void showToast(String message) {
             Toast.makeText(getApplicationContext(), message,
                     Constant.DEFAULT_TOAST_DISPLAY_TIME).show();
     }
@@ -363,7 +362,7 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
         if(mFavoriteMenuItem != null)
         {
             boolean isDarkTheme = AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Dark || AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Light_DarkAction;
-            if (mStatus.mIsFavorited == true) {
+            if (mStatus.mIsFavorited) {
                 mFavoriteMenuItem
                         .setIcon(isDarkTheme ? R.drawable.ic_action_star_on_dark
                                 : R.drawable.ic_action_star_on_light);
@@ -424,7 +423,7 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
         @Override
         public Fragment getItem(int position) {
 
-            Fragment result = null;
+            Fragment result;
             if (mStatus != null) {
                 LaneDescriptor laneDescriptor = getApp()
                         .getTweetSpotlightLaneDescriptor(position);

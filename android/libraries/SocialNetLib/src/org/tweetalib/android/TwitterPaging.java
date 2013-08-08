@@ -138,33 +138,15 @@ public class TwitterPaging {
             }
         }
 
-        if (mCount != null) {
-            result.setCount(mCount);
-        } else {
-            result.setCount(DEFAULT_STATUS_COUNT);
-        }
-
         return result;
-    }
-
-    public Integer getPage() {
-        return mPage;
     }
 
     public Integer getCount() {
         return mCount;
     }
 
-    public Long getMaxId() {
-        return mMaxId;
-    }
-
-    public Long getSinceId() {
-        return mSinceId;
-    }
-
     private Integer mPage;
-    private Integer mCount;
+    private final Integer mCount;
     private Long mMaxId;
     private Long mSinceId;
 

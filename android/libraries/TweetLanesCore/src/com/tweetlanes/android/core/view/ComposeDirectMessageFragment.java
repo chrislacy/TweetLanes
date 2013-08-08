@@ -39,7 +39,7 @@ public class ComposeDirectMessageFragment extends ComposeBaseFragment {
 
     private EditText mSendToEditText;
     private String mOtherUserScreenName;
-    private Handler mHandler = new Handler();
+    private final Handler mHandler = new Handler();
 
     /*
      * (non-Javadoc)
@@ -116,7 +116,7 @@ public class ComposeDirectMessageFragment extends ComposeBaseFragment {
 
         if (getComposeTweetDefault() != null) {
             String result = getComposeTweetDefault().toString();
-            if (result != null && result.equals("") == false) {
+            if (result != null && !result.equals("")) {
                 return result;
             }
         }
@@ -138,7 +138,7 @@ public class ComposeDirectMessageFragment extends ComposeBaseFragment {
     /*
 	 *
 	 */
-    TwitterFetchDirectMessagesFinishedCallback mOnSetStatusCallback = new TwitterFetchDirectMessagesFinishedCallback() {
+    private final TwitterFetchDirectMessagesFinishedCallback mOnSetStatusCallback = new TwitterFetchDirectMessagesFinishedCallback() {
 
         public void finished(TwitterContentHandle contentHandle, TwitterFetchResult result,
                              TwitterDirectMessages messages) {
@@ -177,11 +177,11 @@ public class ComposeDirectMessageFragment extends ComposeBaseFragment {
         ComposeTweetDefault composeDraft = null;
 
         String currentStatus = mEditText.getText().toString();
-        if (currentStatus != null && currentStatus.equals("") == false) {
+        if (currentStatus != null && !currentStatus.equals("")) {
             if (mStatusValidator.getTweetLength(currentStatus) > 0) {
                 if (getComposeTweetDefault() != null) {
                     getComposeTweetDefault().updateStatus(currentStatus);
-                    if (getComposeTweetDefault().isPlaceholderStatus() == false) {
+                    if (!getComposeTweetDefault().isPlaceholderStatus()) {
                         composeDraft = getComposeTweetDefault();
                     }
                 } else {
@@ -212,7 +212,7 @@ public class ComposeDirectMessageFragment extends ComposeBaseFragment {
             int statusLength = mStatusValidator.getTweetLength(status);
             if (otherUserScreenName == null) {
                 showSimpleAlert(R.string.alert_direct_message_no_recipient);
-            } else if (mStatusValidator.isValidTweet(status) == false) {
+            } else if (!mStatusValidator.isValidTweet(status)) {
                 showSimpleAlert(mStatusValidator.getTweetLength(status) <= getMaxPostLength() ? R.string.alert_direct_message_invalid
                         : R.string.alert_direct_message_too_long);
             } else if (statusLength > 0) {
@@ -279,7 +279,7 @@ public class ComposeDirectMessageFragment extends ComposeBaseFragment {
     @Override
     protected void updateStatusHint() {
 
-        if (mUpdatingStatus == true) {
+        if (mUpdatingStatus) {
             mEditText.setHint(R.string.posting_direct_message_ongoing);
             return;
         }
@@ -349,12 +349,12 @@ public class ComposeDirectMessageFragment extends ComposeBaseFragment {
         return R.layout.compose_direct_message;
     }
 
-    TextWatcher mTextChangedListener = new TextWatcher() {
+    private final TextWatcher mTextChangedListener = new TextWatcher() {
 
         public void afterTextChanged(Editable s) {
             String asString = s.toString();
             configureCharacterCountForString(asString);
-            if (asString == null || asString.equals("") == true) {
+            if (asString == null || asString.equals("")) {
                 setComposeTweetDefault(null);
                 updateStatusHint();
             }

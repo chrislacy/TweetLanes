@@ -79,10 +79,10 @@ import java.util.List;
 
 public class HomeActivity extends BaseLaneActivity {
 
-    HomeLaneAdapter mHomeLaneAdapter;
-    SpinnerAdapter mSpinnerAdapter;
-    ViewSwitcher mViewSwitcher;
-    FinishedCallback mFetchListsCallback;
+    private HomeLaneAdapter mHomeLaneAdapter;
+    private SpinnerAdapter mSpinnerAdapter;
+    private ViewSwitcher mViewSwitcher;
+    private FinishedCallback mFetchListsCallback;
     private OnNavigationListener mOnNavigationListener;
     private Integer mDefaultLaneOverride = null;
 
@@ -208,7 +208,7 @@ public class HomeActivity extends BaseLaneActivity {
 
             Bundle extras = intent.getExtras();
             String type = intent.getType();
-            if (type.equals("text/plain") == true) {
+            if (type.equals("text/plain")) {
 
                 String shareString = extras.getString(Intent.EXTRA_TEXT);
                 if (extras.containsKey(Intent.EXTRA_TEXT)) {
@@ -221,7 +221,7 @@ public class HomeActivity extends BaseLaneActivity {
             } else if (type.contains("image/")) {
                 // From http://stackoverflow.com/a/2641363/328679
                 if (extras.containsKey(Intent.EXTRA_STREAM)) {
-                    Uri uri = (Uri) extras.getParcelable(Intent.EXTRA_STREAM);
+                    Uri uri = extras.getParcelable(Intent.EXTRA_STREAM);
                     String scheme = uri.getScheme();
                     if (scheme.equals("content")) {
                         ContentResolver contentResolver = getContentResolver();
@@ -243,7 +243,7 @@ public class HomeActivity extends BaseLaneActivity {
             }
         }
 
-        if (turnSoftKeyboardOff == true) {
+        if (turnSoftKeyboardOff) {
             // Turn the soft-keyboard off. For some reason it wants to appear on
             // screen by default when coming back from multitasking...
             getWindow().setSoftInputMode(
@@ -267,13 +267,13 @@ public class HomeActivity extends BaseLaneActivity {
             account.setDisplayedLaneDefinitionsDirty(false);
         }
 
-        if (account.shouldRefreshLists() == true) {
+        if (account.shouldRefreshLists()) {
             mRefreshListsHandler.removeCallbacks(mRefreshListsTask);
             mRefreshListsHandler.postDelayed(mRefreshListsTask,
                     Constant.REFRESH_LISTS_WAIT_TIME);
         }
 
-        if (isComposing() == false) {
+        if (!isComposing()) {
             // Check we are using List navigation on the ActionBar. This will
             // not be the case when ComposeTweet is present.
             if (getActionBar().getNavigationMode() == android.app.ActionBar.NAVIGATION_MODE_LIST) {
@@ -347,7 +347,7 @@ public class HomeActivity extends BaseLaneActivity {
     @Override
     String getCachedData(int laneIndex) {
 
-        if (Constant.ENABLE_STATUS_CACHING == true) {
+        if (Constant.ENABLE_STATUS_CACHING) {
             AccountDescriptor account = getApp().getCurrentAccount();
 
 
@@ -485,7 +485,7 @@ public class HomeActivity extends BaseLaneActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if (super.onOptionsItemSelected(item) == true) {
+        if (super.onOptionsItemSelected(item)) {
             return true;
         }
 
@@ -631,7 +631,7 @@ public class HomeActivity extends BaseLaneActivity {
     /*
 	 *
 	 */
-    public void showUserPreferences() {
+    void showUserPreferences() {
         startActivity(new Intent(this, SettingsActivity.class));
     }
 
@@ -676,71 +676,6 @@ public class HomeActivity extends BaseLaneActivity {
         });
     }
 
-    /*
-     *
-     */
-    public void showPromote() {
-        final View layout = View.inflate(this, R.layout.promote, null);
-
-        // final EditText promoStatus = ((EditText)
-        // layout.findViewById(R.id.promoStatusEditText));
-        // promoStatus.setText(R.string.free_for_life_promo_status);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setIcon(0);
-
-        builder.setPositiveButton("Agree!", new Dialog.OnClickListener() {
-
-            public void onClick(DialogInterface dialog, int which) {
-
-                TwitterFetchUsers.FinishedCallback callback = TwitterManager
-                        .get().getFetchUsersInstance().new FinishedCallback() {
-
-                    @Override
-                    public void finished(TwitterFetchResult result,
-                                         TwitterUsers users) {
-
-                        if (result.isSuccessful()) {
-
-                            String statusText = getString(R.string.promote_status_text);
-                            TwitterStatusUpdate statusUpdate = new TwitterStatusUpdate(
-                                    statusText);
-
-                            TwitterManager
-                                    .get()
-                                    .setStatus(
-                                            statusUpdate,
-                                            TwitterManager.get()
-                                                    .getFetchStatusInstance().new FinishedCallback() {
-
-                                                @Override
-                                                public void finished(
-                                                        TwitterFetchResult result,
-                                                        TwitterStatus status) {
-
-                                                    if (result.isSuccessful()) {
-                                                        showFreeForLifeSuccess();
-                                                    } else {
-                                                        showFreeForLifeError();
-                                                    }
-                                                }
-                                            });
-                        }
-
-                    }
-                };
-
-                getApp().triggerFollowPromoAccounts(callback);
-            }
-        });
-        builder.setNegativeButton("Cancel", null);
-        builder.setView(layout);
-        builder.setTitle("Promote Tweet Lanes!");
-
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-    }
-
     private void cacheFollowers() {
         AccountDescriptor account = getApp().getCurrentAccount();
 
@@ -771,20 +706,10 @@ public class HomeActivity extends BaseLaneActivity {
         }, null);
     }
 
-    /**
-     * A call-back for when the user presses the back button.
-     */
-    OnClickListener mBackListener = new OnClickListener() {
-
-        public void onClick(View v) {
-            finish();
-        }
-    };
-
     /*
      * Hanlder for refreshing a user's lists
      */
-    private Handler mRefreshListsHandler = new Handler();
+    private final Handler mRefreshListsHandler = new Handler();
     private final Runnable mRefreshListsTask = new Runnable() {
 
         public void run() {
@@ -795,9 +720,9 @@ public class HomeActivity extends BaseLaneActivity {
                 public void finished(boolean successful, TwitterLists lists) {
                     mFetchListsCallback = null;
 
-                    if (successful == true) {
+                    if (successful) {
                         boolean modified = getApp().onUserListsRefresh(lists);
-                        if (modified == true) {
+                        if (modified) {
                             onLaneDataSetChanged();
                         }
                     }
@@ -923,8 +848,8 @@ public class HomeActivity extends BaseLaneActivity {
 
     class AccountAdapter extends android.widget.BaseAdapter {
 
-        Context mContext;
-        List<AccountData> mData;
+        final Context mContext;
+        final List<AccountData> mData;
 
         public AccountAdapter(Context context, List<AccountDescriptor> data)
         {
@@ -998,10 +923,10 @@ public class HomeActivity extends BaseLaneActivity {
                 ServiceType = serviceType;
             }
 
-            public String AvatarImageUrl;
-            public SocialNetConstant.Type ServiceType;
-            public String ScreenName;
-            public long Id;
+            public final String AvatarImageUrl;
+            public final SocialNetConstant.Type ServiceType;
+            public final String ScreenName;
+            public final long Id;
         }
 
         class AccountHolder {

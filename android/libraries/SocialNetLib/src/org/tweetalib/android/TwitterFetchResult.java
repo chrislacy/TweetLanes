@@ -18,8 +18,8 @@ package org.tweetalib.android;
 
 public class TwitterFetchResult {
 
-    boolean mSuccessful;
-    String mErrorMessage;
+    private final boolean mSuccessful;
+    final String mErrorMessage;
 
     /*
 	 *
@@ -28,7 +28,7 @@ public class TwitterFetchResult {
         mSuccessful = successful;
         mErrorMessage = errorMessage;
 
-        if (mSuccessful == false && TwitterManager.get() != null && TwitterManager.get().getConnectionStatus() !=
+        if (!mSuccessful && TwitterManager.get() != null && TwitterManager.get().getConnectionStatus() !=
                 null) {
                     TwitterManager.get().getConnectionStatus().handleError(this);
         }

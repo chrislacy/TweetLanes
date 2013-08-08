@@ -14,7 +14,7 @@ import android.graphics.PointF;
 import android.util.FloatMath;
 import android.view.MotionEvent;
 
-public class MathUtils {
+class MathUtils {
 
     public static float distance(MotionEvent event) {
         float x = event.getX(0) - event.getX(1);
@@ -42,8 +42,8 @@ public class MathUtils {
         midpoint(x1, y1, x2, y2, point);
     }
 
-    public static void midpoint(float x1, float y1, float x2, float y2,
-                                PointF point) {
+    private static void midpoint(float x1, float y1, float x2, float y2,
+                                 PointF point) {
         point.x = (x1 + x2) / 2.0f;
         point.y = (y1 + y2) / 2.0f;
     }
@@ -70,7 +70,7 @@ public class MathUtils {
         return angle(p1.x, p1.y, p2.x, p2.y);
     }
 
-    public static float angle(float x1, float y1, float x2, float y2) {
+    private static float angle(float x1, float y1, float x2, float y2) {
         return (float) Math.atan2(y2 - y1, x2 - x1);
     }
 }

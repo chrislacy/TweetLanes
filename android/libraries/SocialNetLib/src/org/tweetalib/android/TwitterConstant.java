@@ -29,7 +29,7 @@ public class TwitterConstant {
 
     public enum DirectMessagesType {
         ALL_MESSAGES, SENT_MESSAGE
-    };
+    }
 
     public enum BooleanType {
         FRIENDSHIP_EXISTS, BLOCK_EXISTS,

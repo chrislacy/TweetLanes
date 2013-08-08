@@ -41,11 +41,9 @@ import java.io.IOException;
 
 public class ImageViewActivity extends FragmentActivity {
 
-    GestureImageView mZoomableImageView;
-
-    static final String KEY_MEDIA_URL = "mediaUrl";
-    static final String KEY_SOURCE_URL = "sourceUrl";
-    static final String KEY_AUTHOR_SCREEN_NAME = "authorScreenName";
+    private static final String KEY_MEDIA_URL = "mediaUrl";
+    private static final String KEY_SOURCE_URL = "sourceUrl";
+    private static final String KEY_AUTHOR_SCREEN_NAME = "authorScreenName";
 
     /*
      *
@@ -81,8 +79,8 @@ public class ImageViewActivity extends FragmentActivity {
 
         setContentView(R.layout.image_view);
 
-        mZoomableImageView = (GestureImageView) findViewById(R.id.image_view);
-        UrlImageViewHelper.setUrlDrawable(mZoomableImageView, imageUrl,
+        GestureImageView zoomableImageView = (GestureImageView) findViewById(R.id.image_view);
+        UrlImageViewHelper.setUrlDrawable(zoomableImageView, imageUrl,
                 new UrlImageViewCallback() {
 
                     @Override
@@ -124,7 +122,7 @@ public class ImageViewActivity extends FragmentActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if (super.onOptionsItemSelected(item) == true) {
+        if (super.onOptionsItemSelected(item)) {
             return true;
         }
 

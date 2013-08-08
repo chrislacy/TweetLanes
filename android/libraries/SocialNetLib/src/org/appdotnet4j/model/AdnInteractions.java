@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 public class AdnInteractions {
 
-    public ArrayList<AdnInteraction> mInteractions;
+    private ArrayList<AdnInteraction> mInteractions;
 
     public AdnInteractions(String jsonAsString) {
 

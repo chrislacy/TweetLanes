@@ -31,9 +31,9 @@ import com.tweetlanes.android.core.R;
 public class TabPageIndicator extends HorizontalScrollView implements
         PageIndicator {
 
-    Runnable mTabSelector;
+    private Runnable mTabSelector;
 
-    private OnClickListener mTabClickListener = new OnClickListener() {
+    private final OnClickListener mTabClickListener = new OnClickListener() {
 
         public void onClick(View view) {
             TabView tabView = (TabView) view;
@@ -43,19 +43,19 @@ public class TabPageIndicator extends HorizontalScrollView implements
 
             mViewPager.setCurrentItem(tabView.getIndex());
 
-            if (mTabCallbacks != null && clickedCurrentItem == true) {
+            if (mTabCallbacks != null && clickedCurrentItem) {
                 mTabCallbacks.onCurrentItemClicked();
             }
         }
     };
 
-    private LinearLayout mTabLayout;
+    private final LinearLayout mTabLayout;
     private ViewPager mViewPager;
     private ViewPager.OnPageChangeListener mListener;
 
-    private LayoutInflater mInflater;
+    private final LayoutInflater mInflater;
 
-    int mMaxTabWidth;
+    private int mMaxTabWidth;
     private int mSelectedTabIndex;
 
     public TabPageIndicator(Context context) {
@@ -270,8 +270,6 @@ public class TabPageIndicator extends HorizontalScrollView implements
 
         public void onCurrentItemClicked();
     }
-
-    ;
 
     private TabCallbacks mTabCallbacks;
 

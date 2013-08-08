@@ -56,7 +56,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
-public abstract class ComposeBaseFragment extends Fragment {
+abstract class ComposeBaseFragment extends Fragment {
 
     /*
      *
@@ -84,25 +84,23 @@ public abstract class ComposeBaseFragment extends Fragment {
         public String getDraft();
     }
 
-    final int SHORT_URL_LENGTH_HTTPS = 23;
-
     ImageButton mSendButton;
     EditClearText mEditText;
-    EditText mAutocompleteTarget;
-    TextView mCharacterCountTextView;
-    Long mShowStartTime;
-    Validator mStatusValidator = new Validator();
-    ListView mAutocompleteListView;
+    private EditText mAutocompleteTarget;
+    private TextView mCharacterCountTextView;
+    private Long mShowStartTime;
+    final Validator mStatusValidator = new Validator();
+    private ListView mAutocompleteListView;
 
     ComposeListener mListener;
-    boolean mHasFocus = false;
-    boolean mIgnoreFocusChange = false;
+    private boolean mHasFocus = false;
+    private boolean mIgnoreFocusChange = false;
     boolean mUpdatingStatus = false;
 
     /*
 	 *
 	 */
-    public App getApp() {
+    App getApp() {
         if (getActivity() == null || getActivity().getApplication() == null) {
             return null;
         }
@@ -172,7 +170,7 @@ public abstract class ComposeBaseFragment extends Fragment {
         }
     }
 
-    protected int getMaxPostLength() {
+    int getMaxPostLength() {
         if (getApp() == null)
         {
             return 140;
@@ -211,9 +209,7 @@ public abstract class ComposeBaseFragment extends Fragment {
         alertDialog.setButton(getString(R.string.ok),
                 new DialogInterface.OnClickListener() {
 
-                    public void onClick(DialogInterface dialog, int which) {
-                        return;
-                    }
+                    public void onClick(DialogInterface dialog, int which) {}
                 });
         alertDialog.show();
     }
@@ -235,19 +231,11 @@ public abstract class ComposeBaseFragment extends Fragment {
     /*
 	 *
 	 */
-    String getFormattedStatus(String status) {
-        status.replaceAll("\\s+$", "");
-        return status;
-    }
-
-    /*
-	 *
-	 */
-    public boolean releaseFocus(boolean saveCurrentTweet) {
+    public void releaseFocus(boolean saveCurrentTweet) {
 
         clearCompose(saveCurrentTweet);
         setMediaPreviewVisibility();
-        return hideCompose();
+        hideCompose();
     }
 
     /*
@@ -255,7 +243,7 @@ public abstract class ComposeBaseFragment extends Fragment {
 	 */
     boolean hideCompose() {
 
-        if (mHasFocus == true) {
+        if (mHasFocus) {
 
             hideKeyboard();
             if (mAutocompleteListView != null) {
@@ -293,10 +281,10 @@ public abstract class ComposeBaseFragment extends Fragment {
     /*
 	 *
 	 */
-    OnFocusChangeListener mOnFocusChangeListener = new OnFocusChangeListener() {
+    private final OnFocusChangeListener mOnFocusChangeListener = new OnFocusChangeListener() {
 
         public void onFocusChange(View v, boolean hasFocus) {
-            if (hasFocus == true && mIgnoreFocusChange == false) {
+            if (hasFocus && !mIgnoreFocusChange) {
                 showCompose();
                 setMediaPreviewVisibility();
             }
@@ -314,12 +302,12 @@ public abstract class ComposeBaseFragment extends Fragment {
     /*
 	 *
 	 */
-    TextWatcher mTextChangedListener = new TextWatcher() {
+    private final TextWatcher mTextChangedListener = new TextWatcher() {
 
         public void afterTextChanged(Editable s) {
             String asString = s.toString();
             configureCharacterCountForString(asString);
-            if (asString == null || asString.equals("") == true)
+            if (asString == null || asString.equals(""))
             {
                 if (mListener.getDraft() == null)
                 {
@@ -340,7 +328,7 @@ public abstract class ComposeBaseFragment extends Fragment {
         }
     };
 
-    protected void autoComplete(String text, EditText editText) {
+    void autoComplete(String text, EditText editText) {
         if (mAutocompleteListView == null) {
             return;
         }
@@ -381,8 +369,8 @@ public abstract class ComposeBaseFragment extends Fragment {
 
     private class AutoCompleteMentionAdapter extends android.widget.BaseAdapter {
 
-        Context mContext;
-        List<TwitterUser> mData;
+        final Context mContext;
+        final List<TwitterUser> mData;
 
         public AutoCompleteMentionAdapter(Context context, List<TwitterUser> data)
         {
@@ -459,8 +447,8 @@ public abstract class ComposeBaseFragment extends Fragment {
 
     private class AutoCompleteHashtagAdapter extends android.widget.BaseAdapter {
 
-        Context mContext;
-        List<String> mData;
+        final Context mContext;
+        final List<String> mData;
 
         public AutoCompleteHashtagAdapter(Context context, List<String> data)
         {
@@ -614,7 +602,7 @@ public abstract class ComposeBaseFragment extends Fragment {
     /*
 	 *
 	 */
-    OnClickListener mOnSendTweetClickListener = new OnClickListener() {
+    private final OnClickListener mOnSendTweetClickListener = new OnClickListener() {
 
         @Override
         public void onClick(View v) {
@@ -625,11 +613,11 @@ public abstract class ComposeBaseFragment extends Fragment {
 
     protected abstract void onSendClick(String status);
 
-    public abstract void setMediaPreviewVisibility();
+    protected abstract void setMediaPreviewVisibility();
 
     /*
 	 */
-    EditClearTextListener mEditClearTextListener = new EditClearTextListener() {
+    private final EditClearTextListener mEditClearTextListener = new EditClearTextListener() {
 
         @Override
         public boolean canClearText() {
@@ -654,7 +642,7 @@ public abstract class ComposeBaseFragment extends Fragment {
 
         @Override
         public void onTouch(View v, MotionEvent event) {
-            if (mHasFocus == false) {
+            if (!mHasFocus) {
                 showCompose();
                 setMediaPreviewVisibility();
             }
@@ -701,7 +689,7 @@ public abstract class ComposeBaseFragment extends Fragment {
 
     void showCompose(String defaultStatus) {
 
-        if (mHasFocus == false) {
+        if (!mHasFocus) {
 
             mHasFocus = true;
             mShowStartTime = new Date().getTime();
@@ -738,7 +726,7 @@ public abstract class ComposeBaseFragment extends Fragment {
     /*
 	 *
 	 */
-    protected static String getStatusHintSnippet(String status, int maxLength) {
+    static String getStatusHintSnippet(String status, int maxLength) {
 
         if (status.length() == 0) {
             return null;
@@ -752,16 +740,16 @@ public abstract class ComposeBaseFragment extends Fragment {
     /*
 	 *
 	 */
-    protected ComposeTweetDefault _mComposeDefault;
+    ComposeTweetDefault _mComposeDefault;
 
-    protected ComposeTweetDefault getComposeTweetDefault() {
+    ComposeTweetDefault getComposeTweetDefault() {
         return _mComposeDefault;
     }
 
     /*
 	 *
 	 */
-    protected void setComposeTweetDefault(
+    void setComposeTweetDefault(
             ComposeTweetDefault composeTweetDefault) {
         _mComposeDefault = composeTweetDefault;
     }
@@ -790,6 +778,7 @@ public abstract class ComposeBaseFragment extends Fragment {
                 int remaining = getMaxPostLength() - length;
                 if (_mComposeDefault != null
                         && _mComposeDefault.getMediaFilePath() != null) {
+                    int SHORT_URL_LENGTH_HTTPS = 23;
                     remaining -= SHORT_URL_LENGTH_HTTPS - 1;
                 }
 

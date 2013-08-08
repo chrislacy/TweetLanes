@@ -8,8 +8,8 @@ package org.appdotnet4j.model;
  * To change this template use File | Settings | File Templates.
  */
 public class AdnFile {
-    public String mId;
-    public String mFileToken;
+    public final String mId;
+    public final String mFileToken;
 
     public AdnFile(String id, String fileToken) {
         mId = id;

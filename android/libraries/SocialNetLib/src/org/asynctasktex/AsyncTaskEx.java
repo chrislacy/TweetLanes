@@ -269,7 +269,7 @@ public abstract class AsyncTaskEx<Params, Progress, Result> {
      * An {@link Executor} that executes tasks one at a time in serial order.
      * This serialization is global to a particular process.
      */
-    public static final PriorityExecutor DEFAULT_EXECUTOR = new PriorityExecutor();
+    private static final PriorityExecutor DEFAULT_EXECUTOR = new PriorityExecutor();
     // public static final SerialExecutor DEFAULT_EXECUTOR = new
     // SerialExecutor();
 
@@ -281,8 +281,6 @@ public abstract class AsyncTaskEx<Params, Progress, Result> {
     private static volatile BaseExecutor sDefaultExecutor = DEFAULT_EXECUTOR;
     private final WorkerRunnable<Params, Result> mWorker;
     private final FutureTask<Result> mFuture;
-    private int mPriority;
-    private String mDescription;
     private volatile Status mStatus = Status.PENDING;
 
     private final AtomicBoolean mCancelled = new AtomicBoolean();
@@ -310,11 +308,6 @@ public abstract class AsyncTaskEx<Params, Progress, Result> {
     /** @hide Used to force static handler to be created. */
     public static void init() {
         sHandler.getLooper();
-    }
-
-    /** @hide */
-    public static void setDefaultExecutor(PriorityExecutor exec) {
-        sDefaultExecutor = exec;
     }
 
     /**
@@ -398,11 +391,11 @@ public abstract class AsyncTaskEx<Params, Progress, Result> {
 
     /**
      * Runs on the UI thread before {@link #doInBackground}.
-     * 
+     *
      * @see #onPostExecute
      * @see #doInBackground
      */
-    protected void onPreExecute() {
+    void onPreExecute() {
     }
 
     /**
@@ -410,15 +403,15 @@ public abstract class AsyncTaskEx<Params, Progress, Result> {
      * Runs on the UI thread after {@link #doInBackground}. The specified result
      * is the value returned by {@link #doInBackground}.
      * </p>
-     * 
+     *
      * <p>
      * This method won't be invoked if the task was cancelled.
      * </p>
-     * 
+     *
      * @param result
      *            The result of the operation computed by
      *            {@link #doInBackground}.
-     * 
+     *
      * @see #onPreExecute
      * @see #doInBackground
      * @see #onCancelled(Object)
@@ -430,10 +423,10 @@ public abstract class AsyncTaskEx<Params, Progress, Result> {
     /**
      * Runs on the UI thread after {@link #publishProgress} is invoked. The
      * specified values are the values passed to {@link #publishProgress}.
-     * 
+     *
      * @param values
      *            The values indicating progress.
-     * 
+     *
      * @see #publishProgress
      * @see #doInBackground
      */
@@ -461,7 +454,7 @@ public abstract class AsyncTaskEx<Params, Progress, Result> {
      * @see #isCancelled()
      */
     @SuppressWarnings({ "UnusedParameters" })
-    protected void onCancelled(Result result) {
+    void onCancelled(Result result) {
         onCancelled();
     }
 
@@ -481,7 +474,7 @@ public abstract class AsyncTaskEx<Params, Progress, Result> {
      * @see #cancel(boolean)
      * @see #isCancelled()
      */
-    protected void onCancelled() {
+    void onCancelled() {
     }
 
     /**
@@ -494,7 +487,7 @@ public abstract class AsyncTaskEx<Params, Progress, Result> {
      * 
      * @see #cancel(boolean)
      */
-    public final boolean isCancelled() {
+    final boolean isCancelled() {
         return mCancelled.get();
     }
 
@@ -663,7 +656,7 @@ public abstract class AsyncTaskEx<Params, Progress, Result> {
      * 
      * @see #execute(Object[])
      */
-    public final AsyncTaskEx<Params, Progress, Result> executeOnExecutor(
+    final AsyncTaskEx<Params, Progress, Result> executeOnExecutor(
             BaseExecutor exec, int priority, String description,
             Params... params) {
         if (mStatus != Status.PENDING) {
@@ -680,8 +673,6 @@ public abstract class AsyncTaskEx<Params, Progress, Result> {
             }
         }
 
-        mDescription = description;
-        mPriority = priority;
         mStatus = Status.RUNNING;
         onPreExecute();
 

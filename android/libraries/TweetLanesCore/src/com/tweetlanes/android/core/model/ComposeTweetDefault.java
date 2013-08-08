@@ -22,19 +22,17 @@ import org.tweetalib.android.model.TwitterUsers;
 
 public class ComposeTweetDefault {
 
-    final boolean USE_DEFAULT_STATUS_HACK = false;
+    private String mUserScreenName;
+    private String mStatus;
+    private String mInitialStatus;
+    private boolean mInitialStatusIsPlaceholder;
+    private Long mInReplyToStatusId;
+    private String mMediaFilePath;
 
-    String mUserScreenName;
-    String mStatus;
-    String mInitialStatus;
-    boolean mInitialStatusIsPlaceholder;
-    Long mInReplyToStatusId;
-    String mMediaFilePath;
-
-    public static final String KEY_USER_SCREEN_NAME = "userScreenName";
-    public static final String KEY_STATUS = "status";
-    public static final String KEY_IN_REPLY_TO_STATUS_ID = "inReplyToStatusId";
-    public static final String KEY_MEDIA_FILE_PATH = "mediaFilePath";
+    private static final String KEY_USER_SCREEN_NAME = "userScreenName";
+    private static final String KEY_STATUS = "status";
+    private static final String KEY_IN_REPLY_TO_STATUS_ID = "inReplyToStatusId";
+    private static final String KEY_MEDIA_FILE_PATH = "mediaFilePath";
 
     /*
      *
@@ -149,13 +147,6 @@ public class ComposeTweetDefault {
     /*
 	 * 
 	 */
-    public ComposeTweetDefault() {
-        this(null, null, null, null);
-    }
-
-    /*
-	 * 
-	 */
     public ComposeTweetDefault(ComposeTweetDefault other) {
 
         mUserScreenName = other.mUserScreenName;
@@ -181,36 +172,24 @@ public class ComposeTweetDefault {
     /*
 	 * 
 	 */
-    @SuppressWarnings("unused")
     public String getStatus() {
-
-        String result = null;
-        if (USE_DEFAULT_STATUS_HACK == true) {
-            result = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sed quam dolor";
-        } else if (mStatus != null) {
-            result = mStatus;
-        }
-        return result;
+        return mStatus;
     }
 
     /*
 	 * 
 	 */
     public void updateStatus(String status) {
-        mStatus = new String(status);
+        mStatus = status;
     }
 
     /*
 	 * 
 	 */
     public boolean isPlaceholderStatus() {
-        if (mInitialStatus != null && mStatus != null
-                && mInitialStatusIsPlaceholder == true
-                && mInitialStatus.equals(mStatus) == true) {
-            return true;
-        }
+        return mInitialStatus != null && mStatus != null
+                && mInitialStatusIsPlaceholder && mInitialStatus.equals(mStatus);
 
-        return false;
     }
 
     /*
@@ -231,14 +210,14 @@ public class ComposeTweetDefault {
         for (int i = 0; i < inReplyToStatusList.getStatusCount(); i++) {
             TwitterStatus status = inReplyToStatusList.getStatus(i);
             String author = status.getAuthorScreenName();
-            if (screenNameSet.contains(author.toLowerCase()) == false) {
+            if (!screenNameSet.contains(author.toLowerCase())) {
                 screenNameSet.add(author.toLowerCase());
                 replyingToUsers += "@" + author + " ";
             }
 
             if (status.mIsRetweet) {
                 String tweeter = status.mUserScreenName;
-                if (screenNameSet.contains(tweeter.toLowerCase()) == false) {
+                if (!screenNameSet.contains(tweeter.toLowerCase())) {
                     screenNameSet.add(tweeter.toLowerCase());
                     replyingToUsers += "@" + tweeter + " ";
                 }
@@ -250,7 +229,7 @@ public class ComposeTweetDefault {
             String[] userMentions = status.mUserMentions;
             if (userMentions != null) {
                 for (String screenName : userMentions) {
-                    if (screenNameSet.contains(screenName.toLowerCase()) == false) {
+                    if (!screenNameSet.contains(screenName.toLowerCase())) {
                         screenNameSet.add(screenName.toLowerCase());
                         replyingToUsers += "@" + screenName + " ";
                     }

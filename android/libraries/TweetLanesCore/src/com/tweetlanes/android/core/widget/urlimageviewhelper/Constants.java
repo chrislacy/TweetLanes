@@ -1,6 +1,6 @@
 package com.tweetlanes.android.core.widget.urlimageviewhelper;
 
-public interface Constants {
+interface Constants {
 
     public static final String LOGTAG = "UrlImageViewHelper";
 

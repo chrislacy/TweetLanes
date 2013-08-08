@@ -46,10 +46,7 @@ public class AppdotnetApi extends SocialNetApi {
             return false;
         }
         int status = httpResponse.getStatus();
-        if (status >= 200 && status < 300) {
-            return true;
-        }
-        return false;
+        return status >= 200 && status < 300;
     }
 
     BasicHttpClient getHttpClient() {
@@ -78,8 +75,7 @@ public class AppdotnetApi extends SocialNetApi {
         HttpResponse httpResponse = getHttpClient(accessToken)
                 .get(path, params);
         if (isResponseValid(httpResponse)) {
-            String body = httpResponse.getBodyAsString();
-            return body;
+            return httpResponse.getBodyAsString();
         }
         return null;
     }
@@ -89,8 +85,7 @@ public class AppdotnetApi extends SocialNetApi {
 
         HttpResponse httpResponse = getHttpClient().post(path, "application/json", data);
         if (isResponseValid(httpResponse)) {
-            String body = httpResponse.getBodyAsString();
-            return body;
+            return httpResponse.getBodyAsString();
         }
         return null;
     }
@@ -266,8 +261,7 @@ public class AppdotnetApi extends SocialNetApi {
         }
         String streamString = doGet(path, params);
         if (streamString != null) {
-            AdnPosts posts = new AdnPosts(streamString);
-            return posts;
+            return new AdnPosts(streamString);
         }
 
         return null;
@@ -279,8 +273,7 @@ public class AppdotnetApi extends SocialNetApi {
         }
         String interactionString = doGet(path, params);
         if (interactionString!= null) {
-            AdnInteractions interactions = new AdnInteractions(interactionString);
-            return interactions;
+            return new AdnInteractions(interactionString);
         }
 
         return null;
@@ -292,8 +285,7 @@ public class AppdotnetApi extends SocialNetApi {
         }
         String userString = doGet(path, params);
         if (userString != null) {
-            AdnUsers users = new AdnUsers(userString);
-            return users;
+            return new AdnUsers(userString);
         }
 
         return null;
@@ -447,7 +439,8 @@ public class AppdotnetApi extends SocialNetApi {
         if (follow) {
             return followUser(username);
         } else {
-            return unfollowUser(username);
+            unfollowUser(username);
+            return null;
         }
     }
 
@@ -455,7 +448,8 @@ public class AppdotnetApi extends SocialNetApi {
         if (follow) {
             return followUser(userId);
         } else {
-            return unfollowUser(userId);
+            unfollowUser(userId);
+            return null;
         }
     }
 
@@ -485,16 +479,14 @@ public class AppdotnetApi extends SocialNetApi {
         return null;
     }
 
-    private AdnUser unfollowUser(long userId) {
+    private void unfollowUser(long userId) {
         BasicHttpClient httpClient = getHttpClient();
         httpClient.delete("/stream/0/users/" + userId + "/follow", null);
-        return null;
     }
 
-    private AdnUser unfollowUser(String username) {
+    private void unfollowUser(String username) {
         BasicHttpClient httpClient = getHttpClient();
         httpClient.delete("/stream/0/users/@" + username + "/follow", null);
-        return null;
     }
 
     @Override

@@ -19,9 +19,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 
-public class GestureImageViewTouchListener implements OnTouchListener {
+class GestureImageViewTouchListener implements OnTouchListener {
 
-    private GestureImageView mImage;
+    private final GestureImageView mImage;
     private OnClickListener mOnClickListener;
 
     private final PointF mCurrent = new PointF();
@@ -62,19 +62,18 @@ public class GestureImageViewTouchListener implements OnTouchListener {
 
     private boolean mMultiTouch = false;
 
-    private int mDisplayWidth;
-    private int mDisplayHeight;
+    private final int mDisplayWidth;
+    private final int mDisplayHeight;
 
-    private int mImageWidth;
-    private int mImageHeight;
+    private final int mImageWidth;
+    private final int mImageHeight;
 
-    private FlingListener mFlingListener;
-    private FlingAnimation mFlingAnimation;
-    private ZoomAnimation mZoomAnimation;
-    private MoveAnimation mMoveAnimation;
-    private GestureDetector mTapDetector;
-    private GestureDetector mFlingDetector;
-    private GestureImageViewListener mImageListener;
+    private final FlingListener mFlingListener;
+    private final FlingAnimation mFlingAnimation;
+    private final ZoomAnimation mZoomAnimation;
+    private final GestureDetector mTapDetector;
+    private final GestureDetector mFlingDetector;
+    private final GestureImageViewListener mImageListener;
 
     public GestureImageViewTouchListener(final GestureImageView image,
                                          int displayWidth, int displayHeight) {
@@ -107,7 +106,7 @@ public class GestureImageViewTouchListener implements OnTouchListener {
         mFlingListener = new FlingListener();
         mFlingAnimation = new FlingAnimation();
         mZoomAnimation = new ZoomAnimation();
-        mMoveAnimation = new MoveAnimation();
+        MoveAnimation moveAnimation = new MoveAnimation();
 
         mFlingAnimation.setListener(new FlingAnimationListener() {
 
@@ -138,7 +137,7 @@ public class GestureImageViewTouchListener implements OnTouchListener {
             }
         });
 
-        mMoveAnimation.setMoveAnimationListener(new MoveAnimationListener() {
+        moveAnimation.setMoveAnimationListener(new MoveAnimationListener() {
 
             @Override
             public void onMove(float x, float y) {
@@ -185,7 +184,7 @@ public class GestureImageViewTouchListener implements OnTouchListener {
         mInZoom = true;
         mZoomAnimation.reset();
 
-        float zoomTo = 1.0f;
+        float zoomTo;
 
         if (mImage.isLandscape()) {
             if (mImage.getDeviceOrientation() == Configuration.ORIENTATION_PORTRAIT) {
@@ -343,7 +342,7 @@ public class GestureImageViewTouchListener implements OnTouchListener {
         return true;
     }
 
-    protected void handleUp() {
+    void handleUp() {
 
         mMultiTouch = false;
 
@@ -382,7 +381,7 @@ public class GestureImageViewTouchListener implements OnTouchListener {
         mImage.redraw();
     }
 
-    protected void handleScale(float scale, float x, float y) {
+    void handleScale(float scale, float x, float y) {
 
         mCurrentScale = scale;
 
@@ -408,7 +407,7 @@ public class GestureImageViewTouchListener implements OnTouchListener {
         mImage.redraw();
     }
 
-    protected boolean handleDrag(float x, float y) {
+    boolean handleDrag(float x, float y) {
         mCurrent.x = x;
         mCurrent.y = y;
 
@@ -469,23 +468,23 @@ public class GestureImageViewTouchListener implements OnTouchListener {
         this.mOnClickListener = onClickListener;
     }
 
-    protected void setCanvasWidth(int canvasWidth) {
+    void setCanvasWidth(int canvasWidth) {
         this.mCanvasWidth = canvasWidth;
     }
 
-    protected void setCanvasHeight(int canvasHeight) {
+    void setCanvasHeight(int canvasHeight) {
         this.mCanvasHeight = canvasHeight;
     }
 
-    protected void setFitScaleHorizontal(float fitScale) {
+    void setFitScaleHorizontal(float fitScale) {
         this.mFitScaleHorizontal = fitScale;
     }
 
-    protected void setFitScaleVertical(float fitScaleVertical) {
+    void setFitScaleVertical(float fitScaleVertical) {
         this.mFitScaleVertical = fitScaleVertical;
     }
 
-    protected void boundCoordinates() {
+    void boundCoordinates() {
         if (mNext.x < mBoundaryLeft) {
             mNext.x = mBoundaryLeft;
         } else if (mNext.x > mBoundaryRight) {
@@ -499,7 +498,7 @@ public class GestureImageViewTouchListener implements OnTouchListener {
         }
     }
 
-    protected void calculateBoundaries() {
+    void calculateBoundaries() {
 
         int effectiveWidth = Math.round((float) mImageWidth * mCurrentScale);
         int effectiveHeight = Math.round((float) mImageHeight * mCurrentScale);

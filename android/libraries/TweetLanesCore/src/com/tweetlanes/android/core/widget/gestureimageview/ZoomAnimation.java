@@ -120,40 +120,16 @@ public class ZoomAnimation implements Animation {
         mTotalTime = 0;
     }
 
-    public float getZoom() {
-        return mZoom;
-    }
-
     public void setZoom(float zoom) {
         this.mZoom = zoom;
-    }
-
-    public float getTouchX() {
-        return mTouchX;
     }
 
     public void setTouchX(float touchX) {
         this.mTouchX = touchX;
     }
 
-    public float getTouchY() {
-        return mTouchY;
-    }
-
     public void setTouchY(float touchY) {
         this.mTouchY = touchY;
-    }
-
-    public long getAnimationLengthMS() {
-        return mAnimationLengthMS;
-    }
-
-    public void setAnimationLengthMS(long animationLengthMS) {
-        this.mAnimationLengthMS = animationLengthMS;
-    }
-
-    public ZoomAnimationListener getZoomAnimationListener() {
-        return zoomAnimationListener;
     }
 
     public void setZoomAnimationListener(

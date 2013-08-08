@@ -18,11 +18,9 @@ import org.tweetalib.android.TwitterUtil;
 import java.text.ParseException;
 import java.util.Date;
 
-public class AdnInteraction {
+class AdnInteraction {
 
     public String mAction;
-    public Date mCreatedAt;
-    public AdnUsers mUsers;
     public AdnPosts mPosts;
 
     public AdnInteraction(String jsonAsString) {
@@ -35,12 +33,12 @@ public class AdnInteraction {
             mAction = object.getString("action");
 
             String eventDateString = object.getString("event_date");
-            mCreatedAt = TwitterUtil.iso6801StringToDate(eventDateString);
+            Date createdAt = TwitterUtil.iso6801StringToDate(eventDateString);
 
             // more like "unique" Id.
             long unqiueId = Long.valueOf(eventDateString.replaceAll("-|:|Z|T", ""));
 
-            mUsers = new AdnUsers(object.getJSONArray("users"));
+            AdnUsers users = new AdnUsers(object.getJSONArray("users"));
 
             if (mAction.equals("repost") || mAction.equals("star") || mAction.equals("reply")) {
                 mPosts = new AdnPosts(object.getJSONArray("objects"));
@@ -55,7 +53,7 @@ public class AdnInteraction {
                     }
                     for (AdnPost post : mPosts.mPosts) {
                         String userString = "";
-                        for (AdnUser user : mUsers.mUsers) {
+                        for (AdnUser user : users.mUsers) {
                             if (userString.equals("")) {
                                 userString = "@" + user.mUserName;
                             }
@@ -65,17 +63,17 @@ public class AdnInteraction {
                         }
                         post.mId = unqiueId;
                         post.mText = userString + " " + verb + " the following post:\n\n" + post.mText;
-                        post.mUser = mUsers.mUsers.get(0);
+                        post.mUser = users.mUsers.get(0);
                         post.mInReplyTo = null;
-                        post.mCreatedAt = mCreatedAt;
+                        post.mCreatedAt = createdAt;
                     }
                 }
             }
-            else if (mAction.equals("follow") && mUsers != null && mUsers.mUsers != null) {
+            else if (mAction.equals("follow") && users != null && users.mUsers != null) {
                 mPosts = new AdnPosts();
                 String userString = "";
                 long id = 0;
-                for (AdnUser user : mUsers.mUsers) {
+                for (AdnUser user : users.mUsers) {
                     if (userString.equals("")) {
                         userString = "@" + user.mUserName;
                     }
@@ -87,8 +85,8 @@ public class AdnInteraction {
                 AdnPost meta = new AdnPost();
                 meta.mId = unqiueId;
                 meta.mText = userString + " started following you.";
-                meta.mCreatedAt = mCreatedAt;
-                meta.mUser = mUsers.mUsers.get(0);
+                meta.mCreatedAt = createdAt;
+                meta.mUser = users.mUsers.get(0);
                 meta.mSource = "App.net";
                 mPosts.mPosts.add(meta);
             }

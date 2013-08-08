@@ -114,7 +114,7 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
         mMediaEntity = TwitterMediaEntity.createMediaEntity(status);
 
         boolean useDefaultAuthor = true;
-        if (mIsRetweet == true) {
+        if (mIsRetweet) {
             if (status.getRetweetedStatus() != null && status.getRetweetedStatus().getUser() != null) {
                 SetProfileImagesFromUser(new TwitterUser(status.getRetweetedStatus().getUser()));
             }
@@ -146,7 +146,7 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
             }
         }
 
-        if (useDefaultAuthor == true) {
+        if (useDefaultAuthor) {
             if (statusUser != null) {
                 mAuthorId = statusUser.getId();
             }
@@ -336,6 +336,7 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
 
             if (object.has(KEY_STATUS_SLIM_MARKUP)) {
                 String statusFullMarkup = null;
+                String KEY_STATUS_FULL_MARKUP = "mStatusFullMarkup";
                 if (object.has(KEY_STATUS_FULL_MARKUP)) {
                     statusFullMarkup = object.getString(KEY_STATUS_FULL_MARKUP);
                 }
@@ -368,19 +369,19 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
             }
             object.put(KEY_CREATED_AT, mCreatedAt.getTime());
             if (mProfileImageOriginalUrl != null) {
-                String url = mProfileImageOriginalUrl.toString();
+                String url = mProfileImageOriginalUrl;
                 object.put(KEY_PROFILE_IMAGE_ORIGINAL_URL, url);
             }
             if (mProfileImageMiniUrl != null) {
-                String url = mProfileImageMiniUrl.toString();
+                String url = mProfileImageMiniUrl;
                 object.put(KEY_PROFILE_IMAGE_MINI_URL, url);
             }
             if (mProfileImageNormalUrl != null) {
-                String url = mProfileImageNormalUrl.toString();
+                String url = mProfileImageNormalUrl;
                 object.put(KEY_PROFILE_IMAGE_NORMAL_URL, url);
             }
             if (mProfileImageBiggerUrl != null) {
-                String url = mProfileImageBiggerUrl.toString();
+                String url = mProfileImageBiggerUrl;
                 object.put(KEY_PROFILE_IMAGE_BIGGER_URL, url);
             }
             object.put(KEY_ID, mId);
@@ -454,7 +455,6 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
     private final String KEY_RETWEET_COUNT = "mRetweetCount";
     private final String KEY_STATUS = "mStatus";
     private final String KEY_STATUS_SLIM_MARKUP = "mStatusMarkup";
-    private final String KEY_STATUS_FULL_MARKUP = "mStatusFullMarkup";
     private final String KEY_SOURCE = "mSource";
     private final String KEY_USER_ID = "mUserId";
     private final String KEY_USER_SCREEN_NAME = "mUserScreenName";
@@ -471,15 +471,15 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
     private String mAuthorScreenName;
     public long mFavoriteCount;
     public Date mCreatedAt;
-    public String mProfileImageOriginalUrl;
-    public String mProfileImageMiniUrl;
-    public String mProfileImageNormalUrl;
-    public String mProfileImageBiggerUrl;
+    private String mProfileImageOriginalUrl;
+    private String mProfileImageMiniUrl;
+    private String mProfileImageNormalUrl;
+    private String mProfileImageBiggerUrl;
     public long mId;
     public long mOriginalRetweetId;
     public Long mInReplyToStatusId;
-    public Long mInReplyToUserId;
-    public String mInReplyToUserScreenName;
+    private Long mInReplyToUserId;
+    private String mInReplyToUserScreenName;
     public boolean mIsFavorited;
     public boolean mIsRetweet;
     public boolean mIsRetweetedByMe;
@@ -488,7 +488,7 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
     // public String mStatusSlimMarkup; // 'Slim' has the first media link
     // removed from the text
     // public Spanned mStatusSlimSpanned;
-    public String mStatusFullMarkup; // 'Full' contains all media links. Used in
+    private String mStatusFullMarkup; // 'Full' contains all media links. Used in
     // conversation view.
     public Spanned mStatusFullSpanned;
     public String mSource;
@@ -590,43 +590,43 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
     public boolean isEqualTo(TwitterStatus other) {
 
         if (mAuthorId != other.mAuthorId) return false;
-        if (compareString(mAuthorName, other.mAuthorName) == false)
+        if (!compareString(mAuthorName, other.mAuthorName))
             return false;
-        if (compareString(mAuthorScreenName, other.mAuthorScreenName) == false)
+        if (!compareString(mAuthorScreenName, other.mAuthorScreenName))
             return false;
         if (mFavoriteCount != other.mFavoriteCount) return false;
         if (mCreatedAt.getTime() != other.mCreatedAt.getTime()) return false;
-        if (mProfileImageOriginalUrl.toString().equals(
-                other.mProfileImageOriginalUrl.toString()) == false) return false;
-        if (mProfileImageNormalUrl.toString().equals(
-                other.mProfileImageNormalUrl.toString()) == false) return false;
-        if (mProfileImageMiniUrl.toString().equals(
-                other.mProfileImageMiniUrl.toString()) == false) return false;
-        if (mProfileImageBiggerUrl.toString().equals(
-                other.mProfileImageBiggerUrl.toString()) == false) return false;
+        if (!mProfileImageOriginalUrl.equals(
+                other.mProfileImageOriginalUrl)) return false;
+        if (!mProfileImageNormalUrl.equals(
+                other.mProfileImageNormalUrl)) return false;
+        if (!mProfileImageMiniUrl.equals(
+                other.mProfileImageMiniUrl)) return false;
+        if (!mProfileImageBiggerUrl.equals(
+                other.mProfileImageBiggerUrl)) return false;
         if (mId != other.mId) return false;
-        if (compareLong(mInReplyToStatusId, other.mInReplyToStatusId) == false)
+        if (!compareLong(mInReplyToStatusId, other.mInReplyToStatusId))
             return false;
-        if (compareLong(mInReplyToUserId, other.mInReplyToUserId) == false)
+        if (!compareLong(mInReplyToUserId, other.mInReplyToUserId))
             return false;
-        if (compareString(mInReplyToUserScreenName,
-                other.mInReplyToUserScreenName) == false) return false;
+        if (!compareString(mInReplyToUserScreenName,
+                other.mInReplyToUserScreenName)) return false;
         if (mIsFavorited != other.mIsFavorited) return false;
         if (mIsRetweet != other.mIsRetweet) return false;
         if (mIsRetweetedByMe != other.mIsRetweetedByMe) return false;
         if (mOriginalRetweetId != other.mOriginalRetweetId) return false;
         if (mRetweetCount != other.mRetweetCount) return false;
-        if (compareString(mStatus, other.mStatus) == false) return false;
+        if (!compareString(mStatus, other.mStatus)) return false;
         // if (compareString(mStatusSlimMarkup, other.mStatusSlimMarkup) ==
         // false)
         // return false;
-        if (compareString(mStatusFullMarkup, other.mStatusFullMarkup) == false)
+        if (!compareString(mStatusFullMarkup, other.mStatusFullMarkup))
             return false;
-        if (compareString(mSource, other.mSource) == false) return false;
+        if (!compareString(mSource, other.mSource)) return false;
         if (mUserId != other.mUserId) return false;
-        if (compareString(mUserScreenName, other.mUserScreenName) == false)
+        if (!compareString(mUserScreenName, other.mUserScreenName))
             return false;
-        if (compareString(mUserName, other.mUserName) == false) return false;
+        if (!compareString(mUserName, other.mUserName)) return false;
 
         if (mUserMentions != null) {
             if (other.mUserMentions == null) {

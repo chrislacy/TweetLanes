@@ -39,15 +39,8 @@ public class TwitterStatuses {
 	 */
     public TwitterStatuses(TwitterStatuses another) {
         _mStatuses = new ArrayList<TwitterStatus>(another._mStatuses);
-        mCounts = (int[]) another.mCounts.clone();
+        mCounts = another.mCounts.clone();
         mGetNewStatusesMaxId = another.mGetNewStatusesMaxId;
-        // TwitterStatusesFilter filter = new TwitterStatusesFilter();
-        // filter.setShowReplies(false);
-        // filterTest(filter);
-        // filter.setShowRetweets(false);
-        // filterTest(filter);
-        // filter.setShowReplies(true);
-        // filterTest(filter);
     }
 
     /*
@@ -68,7 +61,7 @@ public class TwitterStatuses {
     /*
 	 * 
 	 */
-    static final String KEY_STATUSES = "statuses";
+    private static final String KEY_STATUSES = "statuses";
 
     public TwitterStatuses(String jsonAsString) {
         _mStatuses = new ArrayList<TwitterStatus>();
@@ -155,7 +148,7 @@ public class TwitterStatuses {
             if (status != null) {
 
                 boolean isReply = status.mInReplyToStatusId != null;
-                boolean isRetweet = status.mIsRetweet == true;
+                boolean isRetweet = status.mIsRetweet;
 
                 switch (filterType) {
                 case HIDE_RETWEETS:
@@ -288,7 +281,7 @@ public class TwitterStatuses {
             addCount += 1;
         }
 
-        if (stillMore == true && lastAddedStatus != null) {
+        if (stillMore && lastAddedStatus != null) {
             mGetNewStatusesMaxId = lastAddedStatus.mId;
         }
 
@@ -331,7 +324,7 @@ public class TwitterStatuses {
             addCount += 1;
         }
 
-        if (stillMore == true && lastAddedStatus != null) {
+        if (stillMore && lastAddedStatus != null) {
             mGetNewStatusesMaxId = lastAddedStatus.mId;
         }
 
@@ -463,7 +456,7 @@ public class TwitterStatuses {
         return getStatusIndexFromOriginalStatusId(statusId);
     }
 
-    public Integer getStatusIndexFromOriginalStatusId(long originalStatusId) {
+    Integer getStatusIndexFromOriginalStatusId(long originalStatusId) {
         if (size() == 0) {
             return null;
         }
@@ -499,8 +492,8 @@ public class TwitterStatuses {
     /*
 	 * 
 	 */
-    ArrayList<TwitterStatus> _mStatuses;
-    int[] mCounts = new int[FilterType.FILTER_MAX.ordinal()];
+    private final ArrayList<TwitterStatus> _mStatuses;
+    private int[] mCounts = new int[FilterType.FILTER_MAX.ordinal()];
 
     private Long mGetNewStatusesMaxId = null;
 

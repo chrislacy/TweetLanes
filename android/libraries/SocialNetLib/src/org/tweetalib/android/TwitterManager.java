@@ -72,8 +72,8 @@ public class TwitterManager {
     /*
 	 *
 	 */
-    TwitterManager(SocialNetConstant.Type socialNetType, String consumerKey,
-            String consumerSecret, String currentAccountKey) {
+    private TwitterManager(SocialNetConstant.Type socialNetType, String consumerKey,
+                           String consumerSecret, String currentAccountKey) {
         setSocialNetType(socialNetType, consumerKey, consumerSecret, currentAccountKey);
     }
 
@@ -107,7 +107,7 @@ public class TwitterManager {
     /*
 	 *
 	 */
-    public void setConnectionStatus(
+    void setConnectionStatus(
             ConnectionStatus.Callbacks connectionStatusCallbacks) {
         mApi.setConnectionStatus(connectionStatusCallbacks);
     }
@@ -126,10 +126,8 @@ public class TwitterManager {
             TwitterContentHandleBase contentHandleBase, String screenName,
             String identifier, String currentAccountKey) {
 
-        TwitterContentHandle handle = new TwitterContentHandle(
+        return new TwitterContentHandle(
                 contentHandleBase, screenName, identifier, currentAccountKey);
-
-        return handle;
     }
 
     /*
@@ -144,7 +142,7 @@ public class TwitterManager {
                   // The filesize of original images can be very big so use this
                   // parameter with
                   // caution.
-    };
+    }
 
     /*
 	 *
@@ -219,18 +217,12 @@ public class TwitterManager {
 
     public TwitterUser getUser(Long userId,
             TwitterFetchUser.FinishedCallback callback) {
-        TwitterUser cachedUser = mApi.getUser(userId, callback);
-        return cachedUser;
+        return mApi.getUser(userId, callback);
     }
 
     public TwitterUser getUser(String screenName,
             TwitterFetchUser.FinishedCallback callback) {
-        TwitterUser cachedUser = mApi.getUser(screenName, callback);
-        return cachedUser;
-    }
-
-    public void verifyUser(TwitterFetchUser.FinishedCallback callback) {
-        mApi.verifyUser(callback);
+        return mApi.getUser(screenName, callback);
     }
 
     /*
@@ -251,17 +243,15 @@ public class TwitterManager {
 	 */
     public TwitterDirectMessages getDirectMessages(
             TwitterContentHandle contentHandle) {
-        TwitterDirectMessages cachedMessages = mApi
+        return mApi
                 .getDirectMessages(contentHandle);
-        return cachedMessages;
     }
 
     public TwitterDirectMessages getDirectMessages(
             TwitterContentHandle contentHandle, TwitterPaging paging,
             TwitterFetchDirectMessagesFinishedCallback callback) {
-        TwitterDirectMessages cachedMessages = mApi.getDirectMessages(
+        return mApi.getDirectMessages(
                 contentHandle, paging, callback);
-        return cachedMessages;
     }
 
     public void sendDirectMessage(long userId, String recipientScreenName,
@@ -280,34 +270,6 @@ public class TwitterManager {
         mApi.updateFriendship(currentUserScreenName, userToUpdate, create,
                 callback);
     }
-
-    public void updateFriendship(String currentUserScreenName,
-            TwitterUsers usersToUpdate, boolean create,
-            TwitterFetchUsers.FinishedCallback callback) {
-        mApi.updateFriendship(currentUserScreenName, usersToUpdate, create,
-                callback);
-    }
-
-    public void updateFriendshipScreenName(String currentUserScreenName,
-            String screenNameToUpdate, boolean create,
-            TwitterFetchUsers.FinishedCallback callback) {
-        mApi.updateFriendshipScreenName(currentUserScreenName,
-                screenNameToUpdate, create, callback);
-    }
-
-    public void updateFriendshipScreenNames(String currentUserScreenName,
-            ArrayList<String> screenNamesToUpdate, boolean create,
-            TwitterFetchUsers.FinishedCallback callback) {
-        mApi.updateFriendshipScreenNames(currentUserScreenName,
-                screenNamesToUpdate, create, callback);
-    }
-
-    public void updateFriendshipUserId(long currentUserId, long userIdToUpdate,
-            boolean create, TwitterFetchUsers.FinishedCallback callback) {
-        mApi.updateFriendshipUserId(currentUserId, userIdToUpdate, create,
-                callback);
-    }
-
     public void updateFriendshipUserIds(long currentUserId,
             ArrayList<Long> userIdsToUpdate, boolean create,
             TwitterFetchUsers.FinishedCallback callback) {
@@ -315,55 +277,21 @@ public class TwitterManager {
                 callback);
     }
 
-    /*
-	 *
-	 */
-    public void createBlock(long currentUserId, Long userId,
-            TwitterFetchUsers.FinishedCallback callback) {
-        mApi.createBlock(currentUserId, userId, callback);
-    }
-
     public void createBlock(long currentUserId, ArrayList<Long> userIds,
             TwitterFetchUsers.FinishedCallback callback) {
         mApi.createBlock(currentUserId, userIds, callback);
     }
 
-    /*
-	 *
-	 */
-    public void reportSpam(long currentUserId, Long userId,
-            TwitterFetchUsers.FinishedCallback callback) {
-        mApi.reportSpam(currentUserId, userId, callback);
-    }
 
     public void reportSpam(long currentUserId, ArrayList<Long> userIds,
             TwitterFetchUsers.FinishedCallback callback) {
         mApi.reportSpam(currentUserId, userIds, callback);
     }
 
-    /*
-	 *
-	 */
-    public TwitterLists getLists(int userId) {
-        TwitterLists cachedLists = mApi.getLists(userId, null);
-        return cachedLists;
-    }
-
-    public TwitterLists getLists(int userId,
-            TwitterFetchLists.FinishedCallback callback) {
-        TwitterLists cachedLists = mApi.getLists(userId, callback);
-        return cachedLists;
-    }
-
-    public TwitterLists getLists(String screenName) {
-        TwitterLists cachedLists = mApi.getLists(screenName, null);
-        return cachedLists;
-    }
 
     public TwitterLists getLists(String screenName,
             TwitterFetchLists.FinishedCallback callback) {
-        TwitterLists cachedLists = mApi.getLists(screenName, callback);
-        return cachedLists;
+        return mApi.getLists(screenName, callback);
     }
 
     /*
@@ -421,14 +349,6 @@ public class TwitterManager {
     /*
 	 *
 	 */
-    public void cancelFetchStatuses(
-            TwitterFetchStatusesFinishedCallback callback) {
-        mApi.cancelFetchStatuses(callback);
-    }
-
-    /*
-	 *
-	 */
     public void getFriendshipExists(String userScreenName,
             String userScreenNameToCheck,
             TwitterFetchBooleans.FinishedCallback callback) {
@@ -436,15 +356,9 @@ public class TwitterManager {
                 callback);
     }
 
-    /*
-	 *
-	 */
-    public boolean isAuthenticated() {
-        return mApi.isAuthenticated();
-    }
 
     public boolean hasValidTwitterInstance() {
-        return mApi == null ? false : true;
+        return mApi != null;
     }
 
     /*
@@ -463,10 +377,10 @@ public class TwitterManager {
      * Quick and dirty system to handle mapping an appdotnet username in an
      * entity to an id
      */
-    private static HashMap<String, Long> mUserIdentifierHashMap = new HashMap<String, Long>();
+    private static final HashMap<String, Long> mUserIdentifierHashMap = new HashMap<String, Long>();
 
     public static void addUserIdentifier(String username, long id) {
-        if (mUserIdentifierHashMap.containsKey(username) == false) {
+        if (!mUserIdentifierHashMap.containsKey(username)) {
             mUserIdentifierHashMap.put(username, id);
         }
     }

@@ -40,10 +40,10 @@ import com.tweetlanes.android.core.widget.viewpagerindicator.TitleProvider;
 
 public class ProfileActivity extends BaseLaneActivity {
 
-    ProfileAdapter mProfileAdapter;
-    ViewSwitcher mViewSwitcher;
-    TwitterUser mUser;
-    String mScreenName;
+    private ProfileAdapter mProfileAdapter;
+    private ViewSwitcher mViewSwitcher;
+    private TwitterUser mUser;
+    private String mScreenName;
 
     /*
      * (non-Javadoc)
@@ -113,7 +113,7 @@ public class ProfileActivity extends BaseLaneActivity {
                 requestedUser = true;
             }
         }
-        if (requestedUser == false) {
+        if (!requestedUser) {
             mUser = TwitterManager.get().getUser(mScreenName, callback);
         }
 
@@ -200,15 +200,17 @@ public class ProfileActivity extends BaseLaneActivity {
 	 */
     @Override
     public boolean configureOptionsMenu(Menu menu) {
-        super.configureOptionsMenu(menu);
+        boolean result = super.configureOptionsMenu(menu);
 
-        return configureActionBarView();
+        configureActionBarView();
+
+        return result;
     }
 
     /*
 	 *
 	 */
-    boolean configureActionBarView() {
+    void configureActionBarView() {
 
         if (mScreenName != null) {
 
@@ -249,8 +251,6 @@ public class ProfileActivity extends BaseLaneActivity {
             actionBar.setDisplayShowCustomEnabled(true);
             actionBar.setCustomView(profileTitleView);
         }
-
-        return true;
     }
 
     /*
@@ -263,7 +263,7 @@ public class ProfileActivity extends BaseLaneActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if (super.onOptionsItemSelected(item) == true) {
+        if (super.onOptionsItemSelected(item)) {
             return true;
         }
 
@@ -292,7 +292,7 @@ public class ProfileActivity extends BaseLaneActivity {
         @Override
         public Fragment getItem(int position) {
 
-            Fragment result = null;
+            Fragment result;
             if (mUser != null) {
                 LaneDescriptor laneDescriptor = getApp()
                         .getProfileLaneDescriptor(position);

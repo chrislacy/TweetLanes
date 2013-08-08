@@ -21,7 +21,7 @@ import java.util.HashMap;
 import org.asynctasktex.AsyncTaskEx;
 
 import org.socialnetlib.android.SocialNetConstant;
-import org.socialnetlib.android.SocialNetConstant.Type;
+
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
@@ -34,17 +34,10 @@ public class TwitterSignIn {
 
     private SignInWorkerCallbacks mCallbacks;
     private Integer mGetAuthUrlCallbackHandle;
-    private HashMap<Integer, GetAuthUrlCallback> mGetAuthUrlCallbackMap;
+    private final HashMap<Integer, GetAuthUrlCallback> mGetAuthUrlCallbackMap;
     private Integer mGetOAuthAccessTokenCallbackHandle;
-    private HashMap<Integer, GetOAuthAccessTokenCallback> mGetOAuthAccessTokenCallbackMap;
+    private final HashMap<Integer, GetOAuthAccessTokenCallback> mGetOAuthAccessTokenCallbackMap;
 
-    /*
-	 *
-	 */
-    public void clearCallbacks() {
-        mGetAuthUrlCallbackMap.clear();
-        mGetOAuthAccessTokenCallbackMap.clear();
-    }
 
     /*
 	 *
@@ -89,10 +82,6 @@ public class TwitterSignIn {
 
         public GetAuthUrlCallback() {
             mHandle = kInvalidHandle;
-        }
-
-        void setHandle(int handle) {
-            mHandle = handle;
         }
 
         private int mHandle;
@@ -142,9 +131,8 @@ public class TwitterSignIn {
 	 *
 	 */
     GetAuthUrlCallback getAuthUrlCallback(Integer callbackHandle) {
-        GetAuthUrlCallback callback = mGetAuthUrlCallbackMap
+        return mGetAuthUrlCallbackMap
                 .get(callbackHandle);
-        return callback;
     }
 
     /*
@@ -161,9 +149,8 @@ public class TwitterSignIn {
 	 */
     GetOAuthAccessTokenCallback getOAuthAccessTokenCallback(
             Integer callbackHandle) {
-        GetOAuthAccessTokenCallback callback = mGetOAuthAccessTokenCallbackMap
+        return mGetOAuthAccessTokenCallbackMap
                 .get(callbackHandle);
-        return callback;
     }
 
     /*
@@ -180,7 +167,7 @@ public class TwitterSignIn {
 	 */
     public void getAuthUrl(GetAuthUrlCallback callback) {
 
-        assert (mGetAuthUrlCallbackMap.containsValue(callback) == false);
+        assert (!mGetAuthUrlCallbackMap.containsValue(callback));
 
         mGetAuthUrlCallbackMap.put(mGetAuthUrlCallbackHandle, callback);
         new FetchAuthUrlTask().execute(AsyncTaskEx.PRIORITY_HIGHEST,
@@ -196,7 +183,7 @@ public class TwitterSignIn {
     public void getOAuthAccessToken(RequestToken requestToken,
             String oauthVerifier, GetOAuthAccessTokenCallback callback) {
 
-        assert (mGetOAuthAccessTokenCallbackMap.containsValue(callback) == false);
+        assert (!mGetOAuthAccessTokenCallbackMap.containsValue(callback));
 
         mGetOAuthAccessTokenCallbackMap.put(mGetOAuthAccessTokenCallbackHandle,
                 callback);
@@ -217,7 +204,7 @@ public class TwitterSignIn {
             mCallbackHandle = callbackHandle;
         }
 
-        Integer mCallbackHandle;
+        final Integer mCallbackHandle;
     }
 
     /*
@@ -232,9 +219,9 @@ public class TwitterSignIn {
             mUrl = url;
         }
 
-        Integer mCallbackHandle;
-        RequestToken mRequestToken;
-        String mUrl;
+        final Integer mCallbackHandle;
+        final RequestToken mRequestToken;
+        final String mUrl;
     }
 
     /*
@@ -294,9 +281,9 @@ public class TwitterSignIn {
             mCallbackHandle = callbackHandle;
         }
 
-        RequestToken mRequestToken;
-        String mOAuthVerifier;
-        Integer mCallbackHandle;
+        final RequestToken mRequestToken;
+        final String mOAuthVerifier;
+        final Integer mCallbackHandle;
     }
 
     /*
@@ -313,10 +300,10 @@ public class TwitterSignIn {
             mCallbackHandle = callbackHandle;
         }
 
-        TwitterUser mUser;
-        String mAccessToken;
-        String mAccessTokenSecret;
-        Integer mCallbackHandle;
+        final TwitterUser mUser;
+        final String mAccessToken;
+        final String mAccessTokenSecret;
+        final Integer mCallbackHandle;
     }
 
     /*

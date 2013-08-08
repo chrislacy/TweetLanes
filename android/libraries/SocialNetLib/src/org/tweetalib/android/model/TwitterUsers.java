@@ -90,5 +90,5 @@ public class TwitterUsers {
     /*
 	 * 
 	 */
-    private ArrayList<TwitterUser> mUsers;
+    private final ArrayList<TwitterUser> mUsers;
 }

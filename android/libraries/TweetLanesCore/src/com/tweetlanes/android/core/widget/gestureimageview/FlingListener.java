@@ -16,7 +16,7 @@ import android.view.MotionEvent;
 /**
  * @author Jason Polites
  */
-public class FlingListener extends SimpleOnGestureListener {
+class FlingListener extends SimpleOnGestureListener {
 
     private float mVelocityX;
     private float mVelocityY;

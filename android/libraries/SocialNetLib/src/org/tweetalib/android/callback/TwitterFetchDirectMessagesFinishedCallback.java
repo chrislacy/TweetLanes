@@ -22,14 +22,10 @@ package org.tweetalib.android.callback;
 public abstract class TwitterFetchDirectMessagesFinishedCallback implements
         TwitterFetchDirectMessagesFinishedCallbackInterface {
 
-    static final int kInvalidHandle = -1;
+    private static final int kInvalidHandle = -1;
 
     public TwitterFetchDirectMessagesFinishedCallback() {
         mHandle = kInvalidHandle;
-    }
-
-    public void setHandle(int handle) {
-        mHandle = handle;
     }
 
     public int getHandle() {

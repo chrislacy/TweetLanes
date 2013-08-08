@@ -191,27 +191,6 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
         return resultView;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * android.support.v4.app.Fragment#onSaveInstanceState(android.os.Bundle)
-     */
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see android.support.v4.app.Fragment#onDestroy()
-     */
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
     private TwitterContentHandleBase getContentHandleBase() {
         return (TwitterContentHandleBase) getArguments().getSerializable(
                 "handleBase");
@@ -287,7 +266,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
 
         mViewSwitcher.reset();
 
-        if (loadHasFinished == false
+        if (!loadHasFinished
                 && (mDirectMessageConversation == null || mDirectMessageConversation
                 .size() == 0)) {
             mViewSwitcher.setDisplayedChild(0);
@@ -307,7 +286,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
         if (mConversationListView != null) {
             ListView listView = mConversationListView.getRefreshableView();
             if (listView != null && listView.getAdapter() != null
-                    && listView.getAdapter().isEmpty() == false) {
+                    && !listView.getAdapter().isEmpty()) {
                 listView.setSelection(0);
             }
         }
@@ -346,7 +325,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
     /*
 	 *
 	 */
-    private OnScrollListener mOnScrollListener = new OnScrollListener() {
+    private final OnScrollListener mOnScrollListener = new OnScrollListener() {
 
         @Override
         public void onScroll(AbsListView view, int firstVisibleItem,
@@ -389,7 +368,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
     /*
 	 *
 	 */
-    private OnLastItemVisibleListener mOnLastItemVisibleListener = new OnLastItemVisibleListener() {
+    private final OnLastItemVisibleListener mOnLastItemVisibleListener = new OnLastItemVisibleListener() {
 
         @Override
         public void onLastItemVisible() {
@@ -433,7 +412,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
     /*
 	 *
 	 */
-    private OnRefreshListener mOnRefreshListener = new OnRefreshListener() {
+    private final OnRefreshListener mOnRefreshListener = new OnRefreshListener() {
 
         @Override
         public void onRefresh() {
@@ -523,16 +502,6 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
     /*
      *
      */
-    public interface DirectMessageViewCallbacks {
-
-        public void onClicked(View view, int position);
-
-        public Activity getActivity();
-    }
-
-    /*
-     *
-     */
     private class DirectMessageConversationListAdapter extends BaseAdapter {
 
         public DirectMessageConversationListAdapter(LayoutInflater inflater) {
@@ -592,13 +561,13 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
             int directMessageCount = mDirectMessageConversation != null ? mDirectMessageConversation
                     .size() : 0;
 
-            View resultView = null;
+            View resultView;
             if (directMessageCount == 0 && position == getCount() - 1) {
-                resultView = getLoadMoreView(convertView);
+                resultView = getLoadMoreView();
             } else if (position == directMessageCount) {
-                resultView = getLoadMoreView(convertView);
+                resultView = getLoadMoreView();
             } else {
-                resultView = getDirectMessageFeedItemView(position, convertView);
+                resultView = getDirectMessageFeedItemView(position);
             }
 
             return resultView;
@@ -607,7 +576,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
         /*
          *
          */
-        View getDirectMessageFeedItemView(int position, View convertView) {
+        View getDirectMessageFeedItemView(int position) {
 
             TwitterDirectMessage directMessage = mDirectMessageConversation
                     .get(position);
@@ -622,7 +591,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
                 // mInflater.inflate(R.layout.direct_message_feed_item_sent,
                 // null);
             }
-            convertView = mInflater.inflate(
+            View convertView = mInflater.inflate(
                     R.layout.direct_message_feed_item_received, null);
 
             DirectMessageItemView directMessageItemView = (DirectMessageItemView) convertView
@@ -648,17 +617,16 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
             };
 
             directMessageItemView.configure(getScreenName(), directMessage,
-                    position + 1, messageType, otherUserId == null ? false
-                    : true, callbacks);
+                    position + 1, messageType, otherUserId != null, callbacks);
             return directMessageItemView;
         }
 
         /*
          *
          */
-        View getLoadMoreView(View convertView) {
+        View getLoadMoreView() {
 
-            convertView = mInflater.inflate(R.layout.load_more, null);
+            View convertView = mInflater.inflate(R.layout.load_more, null);
             LoadMoreView loadMoreView = (LoadMoreView) convertView
                     .findViewById(R.id.loadMoreView);
 
@@ -667,7 +635,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
                     || mDirectMessageConversation.size() == 0) {
                 mode = LoadMoreView.Mode.NONE_FOUND;
             } else {
-                mode = mMoreDirectMessagesAvailable == true ? LoadMoreView.Mode.LOADING
+                mode = mMoreDirectMessagesAvailable ? LoadMoreView.Mode.LOADING
                         : LoadMoreView.Mode.NO_MORE;
             }
 
@@ -679,7 +647,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
          * Remember our context so we can use it when constructing views.
          */
         // private Context mContext;
-        private LayoutInflater mInflater;
+        private final LayoutInflater mInflater;
     }
 
     /*

@@ -35,8 +35,8 @@ import android.widget.ImageView;
 
 public class GestureImageView extends ImageView {
 
-    public static final String GLOBAL_NS = "http://schemas.android.com/apk/res/android";
-    public static final String LOCAL_NS = "http://schemas.polites.com/android";
+    private static final String GLOBAL_NS = "http://schemas.android.com/apk/res/android";
+    private static final String LOCAL_NS = "http://schemas.polites.com/android";
 
     private final Semaphore mDrawLock = new Semaphore(0);
     private Animator mAnimator;
@@ -50,7 +50,6 @@ public class GestureImageView extends ImageView {
     private float mScaleAdjust = 1.0f;
     private float mStartingScale = -1.0f;
 
-    private float mScale = 1.0f;
     private float mMaxScale = 5.0f;
     private float mMinScale = 0.75f;
     private float mFitScaleHorizontal = 1.0f;
@@ -61,9 +60,6 @@ public class GestureImageView extends ImageView {
     private float mCenterY;
 
     private Float mStartX, mStartY;
-
-    private int mHWidth;
-    private int mHHeight;
 
     private int mResId = -1;
     private boolean mRecycle = false;
@@ -170,8 +166,8 @@ public class GestureImageView extends ImageView {
         }
     }
 
-    protected void setupCanvas(int measuredWidth, int measuredHeight,
-                               int orientation) {
+    void setupCanvas(int measuredWidth, int measuredHeight,
+                     int orientation) {
 
         if (mDeviceOrientation != orientation) {
             mLayout = false;
@@ -182,8 +178,8 @@ public class GestureImageView extends ImageView {
             int imageWidth = getImageWidth();
             int imageHeight = getImageHeight();
 
-            mHWidth = Math.round(((float) imageWidth / 2.0f));
-            mHHeight = Math.round(((float) imageHeight / 2.0f));
+            int HWidth = Math.round(((float) imageWidth / 2.0f));
+            int HHeight = Math.round(((float) imageHeight / 2.0f));
 
             measuredWidth -= (getPaddingLeft() + getPaddingRight());
             measuredHeight -= (getPaddingTop() + getPaddingBottom());
@@ -235,7 +231,7 @@ public class GestureImageView extends ImageView {
             mGestureImageViewTouchListener.setCanvasHeight(measuredHeight);
             mGestureImageViewTouchListener.setOnClickListener(mOnClickListener);
 
-            mDrawable.setBounds(-mHWidth, -mHHeight, mHWidth, mHHeight);
+            mDrawable.setBounds(-HWidth, -HHeight, HWidth, HHeight);
 
             super.setOnTouchListener(new OnTouchListener() {
 
@@ -252,14 +248,14 @@ public class GestureImageView extends ImageView {
         }
     }
 
-    protected void computeCropScale(int imageWidth, int imageHeight,
-                                    int measuredWidth, int measuredHeight) {
+    void computeCropScale(int imageWidth, int imageHeight,
+                          int measuredWidth, int measuredHeight) {
         mFitScaleHorizontal = (float) measuredWidth / (float) imageWidth;
         mFitScaleVertical = (float) measuredHeight / (float) imageHeight;
     }
 
-    protected void computeStartingScale(int imageWidth, int imageHeight,
-                                        int measuredWidth, int measuredHeight) {
+    void computeStartingScale(int imageWidth, int imageHeight,
+                              int measuredWidth, int measuredHeight) {
         switch (getScaleType()) {
             case CENTER:
                 // Center the image in the view, but perform no scaling.
@@ -282,17 +278,17 @@ public class GestureImageView extends ImageView {
         }
     }
 
-    protected boolean isRecycled() {
+    boolean isNotRecycled() {
         if (mDrawable != null && mDrawable instanceof BitmapDrawable) {
             Bitmap bitmap = ((BitmapDrawable) mDrawable).getBitmap();
             if (bitmap != null) {
-                return bitmap.isRecycled();
+                return !bitmap.isRecycled();
             }
         }
-        return false;
+        return true;
     }
 
-    protected void recycle() {
+    void recycle() {
         if (mRecycle && mDrawable != null
                 && mDrawable instanceof BitmapDrawable) {
             Bitmap bitmap = ((BitmapDrawable) mDrawable).getBitmap();
@@ -305,10 +301,11 @@ public class GestureImageView extends ImageView {
     @Override
     protected void onDraw(Canvas canvas) {
         if (mLayout) {
-            if (mDrawable != null && !isRecycled()) {
+            if (mDrawable != null && isNotRecycled()) {
                 canvas.save();
 
-                float adjustedScale = mScale * mScaleAdjust;
+                float scale = 1.0f;
+                float adjustedScale = scale * mScaleAdjust;
 
                 canvas.translate(mX, mY);
 
@@ -370,14 +367,14 @@ public class GestureImageView extends ImageView {
         if (mAnimator != null) {
             mAnimator.finish();
         }
-        if (mRecycle && mDrawable != null && !isRecycled()) {
+        if (mRecycle && mDrawable != null && isNotRecycled()) {
             recycle();
             mDrawable = null;
         }
         super.onDetachedFromWindow();
     }
 
-    protected void initImage() {
+    void initImage() {
         if (this.mDrawable != null) {
             this.mDrawable.setAlpha(mAlpha);
             this.mDrawable.setFilterBitmap(true);
@@ -449,7 +446,7 @@ public class GestureImageView extends ImageView {
         postInvalidate();
     }
 
-    public void setMinScale(float min) {
+    void setMinScale(float min) {
         this.mMinScale = min;
         if (mGestureImageViewTouchListener != null) {
             mGestureImageViewTouchListener.setMinScale(min
@@ -457,7 +454,7 @@ public class GestureImageView extends ImageView {
         }
     }
 
-    public void setMaxScale(float max) {
+    void setMaxScale(float max) {
         this.mMaxScale = max;
         if (mGestureImageViewTouchListener != null) {
             mGestureImageViewTouchListener.setMaxScale(max * mStartingScale);
@@ -484,7 +481,7 @@ public class GestureImageView extends ImageView {
         return mStrict;
     }
 
-    public void setStrict(boolean strict) {
+    void setStrict(boolean strict) {
         this.mStrict = strict;
     }
 
@@ -492,7 +489,7 @@ public class GestureImageView extends ImageView {
         return mRecycle;
     }
 
-    public void setRecycle(boolean recycle) {
+    void setRecycle(boolean recycle) {
         this.mRecycle = recycle;
     }
 
@@ -683,11 +680,11 @@ public class GestureImageView extends ImageView {
         return getImageWidth() >= getImageHeight();
     }
 
-    public boolean isPortrait() {
+    boolean isPortrait() {
         return getImageWidth() <= getImageHeight();
     }
 
-    public void setStartingScale(float startingScale) {
+    void setStartingScale(float startingScale) {
         this.mStartingScale = startingScale;
     }
 
