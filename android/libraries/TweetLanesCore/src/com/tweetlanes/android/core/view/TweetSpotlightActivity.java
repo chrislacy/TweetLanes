@@ -423,7 +423,7 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
         @Override
         public Fragment getItem(int position) {
 
-            Fragment result = null;
+            Fragment result;
             if (mStatus != null) {
                 LaneDescriptor laneDescriptor = getApp()
                         .getTweetSpotlightLaneDescriptor(position);

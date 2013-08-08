@@ -279,7 +279,7 @@ public class TwitterFetchDirectMessages {
                     } else {
                         Paging defaultPaging = new Paging(1);
                         defaultPaging.setCount(30);
-                        Paging paging = null;
+                        Paging paging;
                         if (input.mPaging != null) {
                             paging = input.mPaging.getT4JPaging();
                         } else {

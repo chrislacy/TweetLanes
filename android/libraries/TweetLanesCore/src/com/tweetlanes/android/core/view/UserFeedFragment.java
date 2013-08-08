@@ -162,7 +162,7 @@ public class UserFeedFragment extends BaseLaneFragment {
         //
         //
         //
-        TwitterUsers cachedUsers = null;
+        TwitterUsers cachedUsers;
         if (mContentHandle.getUsersType() == UsersType.RETWEETED_BY) {
             cachedUsers = TwitterManager.get().getUsers(mContentHandle,
                     TwitterPaging.createGetMostRecent(20));
@@ -491,7 +491,7 @@ public class UserFeedFragment extends BaseLaneFragment {
                                 if (result.isSuccessful() && users != null
                                         && users.getUserCount() > 0) {
                                     int userCount = users.getUserCount();
-                                    String notice = null;
+                                    String notice;
                                     if (itemId == R.id.action_report_for_spam) {
                                         if (userCount == 1) {
                                             notice = "Reported @"
@@ -701,7 +701,7 @@ public class UserFeedFragment extends BaseLaneFragment {
             int userCount = getUserFeed() != null ? getUserFeed()
                     .getUserCount() : 0;
 
-            View resultView = null;
+            View resultView;
             if (userCount == 0 && position == getCount() - 1) {
                 resultView = getLoadMoreView();
             } else if (position == userCount) {
@@ -800,7 +800,7 @@ public class UserFeedFragment extends BaseLaneFragment {
 
         };
 
-        TwitterUsers cachedUsers = null;
+        TwitterUsers cachedUsers;
         if (mContentHandle.getUsersType() == UsersType.RETWEETED_BY) {
             cachedUsers = TwitterManager.get().getUsers(mContentHandle,
                     TwitterPaging.createGetMostRecent(20),

@@ -313,7 +313,7 @@ public class TwitterFetchStatuses {
             if (appdotnetApi != null) {
 
                 AdnPaging defaultPaging = new AdnPaging(1);
-                AdnPaging paging = null;
+                AdnPaging paging;
 
                 if (input.mPaging != null) {
                     paging = input.mPaging.getAdnPaging();
@@ -409,7 +409,6 @@ public class TwitterFetchStatuses {
                             contentFeed = setStatuses(input.mContentHandle, statuses, false);
                         }
                     }
-                    statuses = null;
                 }
 
                 case FULL_CONVERSATION: {
@@ -447,7 +446,7 @@ public class TwitterFetchStatuses {
 
                     Paging defaultPaging = new Paging(1);
                     defaultPaging.setCount(TwitterPaging.DEFAULT_STATUS_COUNT);
-                    Paging paging = null;
+                    Paging paging;
                     if (input.mPaging != null) {
                         paging = input.mPaging.getT4JPaging();
                     } else {
@@ -551,7 +550,7 @@ public class TwitterFetchStatuses {
                                 statuses.sort();
                                 contentFeed = setStatuses(input.mContentHandle, statuses, true);
                             }
-                            statuses = null;
+
                             break;
                         }
 

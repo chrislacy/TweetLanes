@@ -135,7 +135,7 @@ public class SearchActivity extends BaseLaneActivity {
         @Override
         public Fragment getItem(int position) {
 
-            Fragment result = null;
+            Fragment result;
             LaneDescriptor laneDescriptor = getApp().getSearchLaneDescriptor(
                     position);
             switch (laneDescriptor.getLaneType()) {

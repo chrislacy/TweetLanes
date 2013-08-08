@@ -561,7 +561,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
             int directMessageCount = mDirectMessageConversation != null ? mDirectMessageConversation
                     .size() : 0;
 
-            View resultView = null;
+            View resultView;
             if (directMessageCount == 0 && position == getCount() - 1) {
                 resultView = getLoadMoreView();
             } else if (position == directMessageCount) {

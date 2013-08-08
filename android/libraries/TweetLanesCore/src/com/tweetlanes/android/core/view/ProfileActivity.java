@@ -292,7 +292,7 @@ public class ProfileActivity extends BaseLaneActivity {
         @Override
         public Fragment getItem(int position) {
 
-            Fragment result = null;
+            Fragment result;
             if (mUser != null) {
                 LaneDescriptor laneDescriptor = getApp()
                         .getProfileLaneDescriptor(position);

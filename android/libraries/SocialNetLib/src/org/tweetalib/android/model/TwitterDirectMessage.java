@@ -47,7 +47,6 @@ public class TwitterDirectMessage implements Comparable<TwitterDirectMessage> {
         mTextSpanned = Html.fromHtml(descriptionMarkup + " ");
         mCreatedAt = message.getCreatedAt();
         mOtherUserId = otherUser.getId();
-        String otherUserName = otherUser.getName();
         mOtherUserScreenName = otherUser.getScreenName();
         mOtherUser = new TwitterUser(otherUser);
         mSender = new TwitterUser(message.getSender());

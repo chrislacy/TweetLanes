@@ -155,8 +155,6 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
             mEditText.setEnabled(true);
             mSendButton.setEnabled(true);
 
-            Activity activity = getActivity();
-
             if (result.isSuccessful()) {
                 releaseFocus(false);
                 if (getActivity() != null
@@ -183,7 +181,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
 	 */
     String getDefaultQuoteStatus(TwitterStatus statusToQuote) {
         if (statusToQuote.mStatus.length() > 0) {
-            String quote = null;
+            String quote;
             switch (AppSettings.get().getCurrentQuoteType()) {
 
                 case RT:

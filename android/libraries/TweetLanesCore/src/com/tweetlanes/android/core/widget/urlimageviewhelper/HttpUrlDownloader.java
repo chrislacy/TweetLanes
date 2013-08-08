@@ -21,7 +21,7 @@ public class HttpUrlDownloader implements UrlDownloader {
             @Override
             protected Void doInBackground(final Void... params) {
                 try {
-                    InputStream is = null;
+                    InputStream is;
 
                     String thisUrl = url;
                     HttpURLConnection urlConnection;

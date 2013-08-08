@@ -232,7 +232,7 @@ public class LazyImageLoader {
             final String filename = getURLFilename(tag);
             if (filename == null) return;
             final File file = new File(mCacheDir, filename);
-            FileOutputStream fOut = null;
+            FileOutputStream fOut;
             try
             {
                 fOut = new FileOutputStream(file);
@@ -339,7 +339,7 @@ public class LazyImageLoader {
         private Bitmap DownloadBitmapFromWeb(URL url, File f, Boolean isRetry)
         {
             try {
-                Bitmap bitmap = null;
+                Bitmap bitmap;
                 final HttpURLConnection conn = (HttpURLConnection) url
                         .openConnection(mProxy);
 
@@ -476,7 +476,6 @@ public class LazyImageLoader {
                     if (bitmap.expires.before(new Date())) {
                         mHardCache.remove(url);
                         fileCache.deleteFile(url);
-                        bitmap = null;
                     } else {
                         // Put bitmap on top of cache so it's purged last.
                         try {

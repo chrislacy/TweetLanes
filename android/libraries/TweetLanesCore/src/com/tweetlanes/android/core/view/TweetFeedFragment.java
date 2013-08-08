@@ -1370,7 +1370,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
                                         if (result.isSuccessful() && users != null && users.getUserCount() > 0) {
                                             int userCount = users.getUserCount();
-                                            String notice = null;
+                                            String notice;
                                             if (itemId == R.id.action_report_for_spam) {
                                                 if (userCount == 1) {
                                                     notice = "Reported @" + users.getUser(0).getScreenName() +
@@ -1581,7 +1581,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
             int statusCount = getFilteredStatusCount();
 
-            View resultView = null;
+            View resultView;
             if (statusCount == 0 && position == getCount() - 1) {
                 resultView = getLoadMoreView();
             } else if (position == statusCount) {
