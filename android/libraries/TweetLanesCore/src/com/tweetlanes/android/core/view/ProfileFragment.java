@@ -329,8 +329,7 @@ public class ProfileFragment extends BaseLaneFragment {
                 String loggedInUserScreenName = getBaseLaneActivity().getApp()
                         .getCurrentAccountScreenName();
 
-                final boolean willCreateFriendship = mLoggedInUserFollows != null && !mLoggedInUserFollows ? true
-                        : false;
+                final boolean willCreateFriendship = mLoggedInUserFollows != null && !mLoggedInUserFollows;
                 configureFriendshipButtonVisibility(willCreateFriendship);
 
                 mUpdateFriendshipFinishedCallback = TwitterManager.get()

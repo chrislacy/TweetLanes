@@ -51,20 +51,14 @@ public class ConversationView extends LinearLayout {
      */
     public ConversationView(Context context) {
         super(context);
-        init(context);
     }
 
     public ConversationView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(context);
     }
 
     public ConversationView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        init(context);
-    }
-
-    void init(Context context) {
     }
 
     public interface Callbacks {

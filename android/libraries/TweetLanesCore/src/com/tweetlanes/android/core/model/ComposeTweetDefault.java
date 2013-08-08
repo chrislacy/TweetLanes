@@ -188,8 +188,7 @@ public class ComposeTweetDefault {
 	 */
     public boolean isPlaceholderStatus() {
         return mInitialStatus != null && mStatus != null
-                && mInitialStatusIsPlaceholder == true
-                && mInitialStatus.equals(mStatus) == true;
+                && mInitialStatusIsPlaceholder && mInitialStatus.equals(mStatus);
 
     }
 

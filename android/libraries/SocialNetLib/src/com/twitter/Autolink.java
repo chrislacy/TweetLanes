@@ -24,14 +24,14 @@ public class Autolink {
         public CharSequence modify(Entity entity, CharSequence text);
     }
 
-    private String usernameUrlBase;
-    private String listUrlBase;
-    private String hashtagUrlBase;
-    private String cashtagUrlBase;
-    private String symbolTag = null;
-    private String textWithSymbolTag = null;
-    private LinkAttributeModifier linkAttributeModifier = null;
-    private LinkTextModifier linkTextModifier = null;
+    private final String usernameUrlBase;
+    private final String listUrlBase;
+    private final String hashtagUrlBase;
+    private final String cashtagUrlBase;
+    private final String symbolTag = null;
+    private final String textWithSymbolTag = null;
+    private final LinkAttributeModifier linkAttributeModifier = null;
+    private final LinkTextModifier linkTextModifier = null;
 
     private final Extractor extractor = new Extractor();
 

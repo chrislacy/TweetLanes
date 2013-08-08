@@ -191,27 +191,6 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
         return resultView;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * android.support.v4.app.Fragment#onSaveInstanceState(android.os.Bundle)
-     */
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see android.support.v4.app.Fragment#onDestroy()
-     */
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
     private TwitterContentHandleBase getContentHandleBase() {
         return (TwitterContentHandleBase) getArguments().getSerializable(
                 "handleBase");

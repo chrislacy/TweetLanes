@@ -42,11 +42,9 @@ public class LoadMoreView extends RelativeLayout {
 	 */
     public void configure(Mode mode) {
 
-        Mode mode1 = mode;
-
         TextView textView = (TextView) findViewById(R.id.load_more_text);
 
-        switch (mode1) {
+        switch (mode) {
             case LOADING:
                 ProgressBar progressBar = (ProgressBar) findViewById(R.id.load_more_progress);
                 progressBar.setVisibility(VISIBLE);

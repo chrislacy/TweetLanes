@@ -67,23 +67,6 @@ public class BootActivity extends Activity {
         jumpToNext();
     }
 
-    @Override
-    protected void onDestroy() {
-        // LocalBroadcastManager.getInstance(this).unregisterReceiver(mOAuthLoginStateChangeReceiver);
-        super.onDestroy();
-    }
-
-    /*
-     *
-	 */
-    /*
-     * private BroadcastReceiver mOAuthLoginStateChangeReceiver = new
-     * BroadcastReceiver() {
-     *
-     * @Override public void onReceive(Context context, Intent intent) {
-     * jumpToNext(); } };
-     */
-
     /*
 	 *
 	 */

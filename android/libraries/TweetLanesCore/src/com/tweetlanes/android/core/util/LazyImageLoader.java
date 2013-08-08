@@ -74,7 +74,6 @@ public class LazyImageLoader {
     private final ExecutorService mExecutorService;
     private final int mFallbackRes;
     private final int mRequiredWidth, mRequiredHeight;
-    private boolean mIgnoreSSLError;
     private Proxy mProxy;
 
     // private final SharedPreferences mPreferences;
@@ -360,9 +359,7 @@ public class LazyImageLoader {
                 Bitmap bitmap = null;
                 final HttpURLConnection conn = (HttpURLConnection) url
                         .openConnection(mProxy);
-                if (mIgnoreSSLError) {
-                    Util.setIgnoreSSLError(conn);
-                }
+
                 conn.setConnectTimeout(30000);
                 conn.setReadTimeout(30000);
                 conn.setInstanceFollowRedirects(true);

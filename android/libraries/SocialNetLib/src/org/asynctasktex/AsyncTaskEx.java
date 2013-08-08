@@ -396,7 +396,7 @@ public abstract class AsyncTaskEx<Params, Progress, Result> {
 
     /**
      * Runs on the UI thread before {@link #doInBackground}.
-     * 
+     *
      * @see #onPostExecute
      * @see #doInBackground
      */
@@ -408,15 +408,15 @@ public abstract class AsyncTaskEx<Params, Progress, Result> {
      * Runs on the UI thread after {@link #doInBackground}. The specified result
      * is the value returned by {@link #doInBackground}.
      * </p>
-     * 
+     *
      * <p>
      * This method won't be invoked if the task was cancelled.
      * </p>
-     * 
+     *
      * @param result
      *            The result of the operation computed by
      *            {@link #doInBackground}.
-     * 
+     *
      * @see #onPreExecute
      * @see #doInBackground
      * @see #onCancelled(Object)
@@ -428,10 +428,10 @@ public abstract class AsyncTaskEx<Params, Progress, Result> {
     /**
      * Runs on the UI thread after {@link #publishProgress} is invoked. The
      * specified values are the values passed to {@link #publishProgress}.
-     * 
+     *
      * @param values
      *            The values indicating progress.
-     * 
+     *
      * @see #publishProgress
      * @see #doInBackground
      */
@@ -678,8 +678,6 @@ public abstract class AsyncTaskEx<Params, Progress, Result> {
             }
         }
 
-        String description1 = description;
-        int priority1 = priority;
         mStatus = Status.RUNNING;
         onPreExecute();
 

@@ -121,7 +121,6 @@ public class TweetFeedItemView extends LinearLayout {
         mIsConversationItem = isConversationItem;
         mPosition = position;
         mCallbacks = callbacks;
-        boolean loadsTweetSpotlight1 = loadsTweetSpotlight;
 
         TextView authorScreenNameTextView = (TextView) findViewById(R.id.authorScreenName);
         if (authorScreenNameTextView != null) {

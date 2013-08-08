@@ -1058,8 +1058,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 	 */
     private void onTweetFeedItemLongPress(View view, int position) {
 
-        boolean isChecked =
-                mTweetFeedListView.getRefreshableView().getCheckedItemPositions().get(position) ? true : false;
+        boolean isChecked = mTweetFeedListView.getRefreshableView().getCheckedItemPositions().get(position);
         
 
         TweetFeedItemView tweetFeedItemView = (TweetFeedItemView) (view);

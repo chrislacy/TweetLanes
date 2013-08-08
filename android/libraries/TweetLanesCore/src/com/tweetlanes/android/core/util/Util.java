@@ -250,15 +250,6 @@ public final class Util {
         return Proxy.NO_PROXY;
     }
 
-    public static void setIgnoreSSLError(URLConnection conn) {
-        /*
-         * if (conn instanceof HttpsURLConnection) { ((HttpsURLConnection)
-         * conn).setHostnameVerifier(ALLOW_ALL_HOSTNAME_VERIFIER); if
-         * (IGNORE_ERROR_SSL_FACTORY != null) { ((HttpsURLConnection)
-         * conn).setSSLSocketFactory(IGNORE_ERROR_SSL_FACTORY); } }
-         */
-    }
-
     /*
      * via https://developer.android.com/training/camera/photobasics.html#
      * TaskCaptureIntent
