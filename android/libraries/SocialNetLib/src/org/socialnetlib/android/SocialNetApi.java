@@ -607,20 +607,9 @@ public abstract class SocialNetApi {
                 mConnectionStatus);
     }
 
-    /*
-	 *
-	 */
-    public TwitterLists getLists(int userId) {
-        return mFetchLists.getLists(userId, null);
-    }
-
     public TwitterLists getLists(int userId,
             TwitterFetchLists.FinishedCallback callback) {
         return mFetchLists.getLists(userId, callback);
-    }
-
-    public TwitterLists getLists(String screenName) {
-        return mFetchLists.getLists(screenName, null);
     }
 
     public TwitterLists getLists(String screenName,

@@ -96,15 +96,14 @@ public class DirectMessageActivity extends BaseLaneActivity {
 	 */
     @Override
     public boolean configureOptionsMenu(Menu menu) {
-        super.configureOptionsMenu(menu);
+        boolean result = super.configureOptionsMenu(menu);
 
-        return configureActionBarView();
+        configureActionBarView();
+
+        return result;
     }
 
-    /*
-	 *
-	 */
-    boolean configureActionBarView() {
+    void configureActionBarView() {
 
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayShowTitleEnabled(true);
@@ -112,7 +111,6 @@ public class DirectMessageActivity extends BaseLaneActivity {
                 + getOtherUserScreenName());
         actionBar.setDisplayUseLogoEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
-        return true;
     }
 
     /*

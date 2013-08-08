@@ -13,10 +13,6 @@ class WrapperDrawable extends Drawable {
 
     final BitmapDrawable mDrawable;
 
-    public WrapperDrawable(WrapperDrawable drawable) {
-        this(drawable.mDrawable);
-    }
-
     @Override
     public void draw(Canvas canvas) {
         mDrawable.draw(canvas);
@@ -57,16 +53,6 @@ class WrapperDrawable extends Drawable {
     @Override
     public int getIntrinsicWidth() {
         return mDrawable.getIntrinsicWidth();
-    }
-
-    /**
-     * Returns the underlying {@link BitmapDrawable}.
-     *
-     * @return An instance of {@link BitmapDrawable}
-     */
-    @Deprecated
-    public BitmapDrawable toBitmapDrawable() {
-        return mDrawable;
     }
 
     /**

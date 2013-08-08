@@ -269,44 +269,4 @@ public final class Util {
                         .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
                 albumName);
     }
-
-    /*
-	 * 
-	 */
-    public static File getAlbumDir(String albumName) {
-        File storageDir = null;
-
-        if (Environment.MEDIA_MOUNTED.equals(Environment
-                .getExternalStorageState())) {
-
-            storageDir = getAlbumStorageDir(albumName);
-
-            if (storageDir != null) {
-                if (!storageDir.mkdirs()) {
-                    if (!storageDir.exists()) {
-                        // Log.d("CameraSample", "failed to create directory");
-                        return null;
-                    }
-                }
-            }
-
-        } else {
-            // Log.v(getString(R.string.app_name),
-            // "External storage is not mounted READ/WRITE.");
-        }
-
-        return storageDir;
-    }
-
-    /*
-	 * 
-	 */
-    public static void copyFile(InputStream in, OutputStream out)
-            throws IOException {
-        byte[] buffer = new byte[1024];
-        int read;
-        while ((read = in.read(buffer)) != -1) {
-            out.write(buffer, 0, read);
-        }
-    }
 }

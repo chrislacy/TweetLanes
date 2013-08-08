@@ -28,10 +28,6 @@ public abstract class TwitterFetchDirectMessagesFinishedCallback implements
         mHandle = kInvalidHandle;
     }
 
-    public void setHandle(int handle) {
-        mHandle = handle;
-    }
-
     public int getHandle() {
         return mHandle;
     }

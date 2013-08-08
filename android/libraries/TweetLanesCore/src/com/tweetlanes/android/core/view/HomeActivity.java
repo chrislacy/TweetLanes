@@ -676,71 +676,6 @@ public class HomeActivity extends BaseLaneActivity {
         });
     }
 
-    /*
-     *
-     */
-    public void showPromote() {
-        final View layout = View.inflate(this, R.layout.promote, null);
-
-        // final EditText promoStatus = ((EditText)
-        // layout.findViewById(R.id.promoStatusEditText));
-        // promoStatus.setText(R.string.free_for_life_promo_status);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setIcon(0);
-
-        builder.setPositiveButton("Agree!", new Dialog.OnClickListener() {
-
-            public void onClick(DialogInterface dialog, int which) {
-
-                TwitterFetchUsers.FinishedCallback callback = TwitterManager
-                        .get().getFetchUsersInstance().new FinishedCallback() {
-
-                    @Override
-                    public void finished(TwitterFetchResult result,
-                                         TwitterUsers users) {
-
-                        if (result.isSuccessful()) {
-
-                            String statusText = getString(R.string.promote_status_text);
-                            TwitterStatusUpdate statusUpdate = new TwitterStatusUpdate(
-                                    statusText);
-
-                            TwitterManager
-                                    .get()
-                                    .setStatus(
-                                            statusUpdate,
-                                            TwitterManager.get()
-                                                    .getFetchStatusInstance().new FinishedCallback() {
-
-                                                @Override
-                                                public void finished(
-                                                        TwitterFetchResult result,
-                                                        TwitterStatus status) {
-
-                                                    if (result.isSuccessful()) {
-                                                        showFreeForLifeSuccess();
-                                                    } else {
-                                                        showFreeForLifeError();
-                                                    }
-                                                }
-                                            });
-                        }
-
-                    }
-                };
-
-                getApp().triggerFollowPromoAccounts(callback);
-            }
-        });
-        builder.setNegativeButton("Cancel", null);
-        builder.setView(layout);
-        builder.setTitle("Promote Tweet Lanes!");
-
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-    }
-
     private void cacheFollowers() {
         AccountDescriptor account = getApp().getCurrentAccount();
 
@@ -770,16 +705,6 @@ public class HomeActivity extends BaseLaneActivity {
             }
         }, null);
     }
-
-    /**
-     * A call-back for when the user presses the back button.
-     */
-    OnClickListener mBackListener = new OnClickListener() {
-
-        public void onClick(View v) {
-            finish();
-        }
-    };
 
     /*
      * Hanlder for refreshing a user's lists

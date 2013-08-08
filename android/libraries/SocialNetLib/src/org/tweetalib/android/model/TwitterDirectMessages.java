@@ -156,13 +156,6 @@ public class TwitterDirectMessages {
         mMessageOwnerId = messageOwnerId;
     }
 
-    public TwitterDirectMessages(TwitterDirectMessages another, Long otherUserId) {
-        mConversations = new ArrayList<Conversation>(another.mConversations);
-        mConversationHandle = new TwitterDirectMessagesHandle(
-                another.mMessageOwnerId, otherUserId);
-        mMessageOwnerId = another.mMessageOwnerId;
-    }
-
     /*
 	 * 
 	 */
@@ -292,48 +285,12 @@ public class TwitterDirectMessages {
     /*
 	 * 
 	 */
-    public TwitterDirectMessage getFirstMessage(
-            TwitterDirectMessagesHandle handle) {
-        ArrayList<TwitterDirectMessage> messages = getList(handle);
-        if (messages != null) {
-            return messages.get(0);
-        }
-
-        return null;
-    }
-
-    /*
-	 * 
-	 */
-    public TwitterDirectMessage getMessage(TwitterDirectMessagesHandle handle,
-            int position) {
-        ArrayList<TwitterDirectMessage> messages = getList(handle);
-        if (messages != null && position < messages.size()) {
-            return messages.get(position);
-        }
-
-        return null;
-    }
-
-    /*
-	 * 
-	 */
     public int getConversationCount() {
         if (mConversations != null) {
             return mConversations.size();
         }
 
         return 0;
-    }
-
-    /*
-	 * 
-	 */
-    Conversation getConversation(int index) {
-        if (mConversations != null) {
-            return mConversations.get(index);
-        }
-        return null;
     }
 
     /*

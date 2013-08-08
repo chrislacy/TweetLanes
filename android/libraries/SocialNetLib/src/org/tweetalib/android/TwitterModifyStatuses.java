@@ -72,10 +72,6 @@ public class TwitterModifyStatuses {
             mHandle = kInvalidHandle;
         }
 
-        void setHandle(int handle) {
-            mHandle = handle;
-        }
-
         private int mHandle;
     }
 

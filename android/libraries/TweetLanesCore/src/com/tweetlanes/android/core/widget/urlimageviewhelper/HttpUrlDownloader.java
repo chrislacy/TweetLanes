@@ -15,15 +15,6 @@ import com.tweetlanes.android.core.widget.urlimageviewhelper.UrlImageViewHelper.
 public class HttpUrlDownloader implements UrlDownloader {
     private RequestPropertiesCallback mRequestPropertiesCallback;
 
-    public RequestPropertiesCallback getRequestPropertiesCallback() {
-        return mRequestPropertiesCallback;
-    }
-
-    public void setRequestPropertiesCallback(final RequestPropertiesCallback callback) {
-        mRequestPropertiesCallback = callback;
-    }
-
-
     @Override
     public void download(final Context context, final String url, final String filename, final UrlDownloaderCallback callback, final Runnable completion) {
         final AsyncTask<Void, Void, Void> downloader = new AsyncTask<Void, Void, Void>() {

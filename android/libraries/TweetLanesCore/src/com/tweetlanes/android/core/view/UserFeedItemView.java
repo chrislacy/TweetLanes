@@ -91,18 +91,6 @@ public class UserFeedItemView extends LinearLayout {
         mMessageBlock = findViewById(R.id.message_block);
     }
 
-    public void onProfileImageClick() {
-        Intent profileIntent = new Intent(mContext, ProfileActivity.class);
-        profileIntent.putExtra("userId", Long.valueOf(mUserId).toString());
-        profileIntent.putExtra("userScreenName", mUserScreenName);
-        profileIntent.putExtra("clearCompose","true");
-        ((Activity)mContext).startActivityForResult(profileIntent, Constant.REQUEST_CODE_PROFILE);
-    }
-
-    public TwitterUser getTwitterUser() {
-        return mUser;
-    }
-
     /**
      * Override dispatchDraw so that we can put our own background and border
      * in. This is all complexity to support a shared border from one item to

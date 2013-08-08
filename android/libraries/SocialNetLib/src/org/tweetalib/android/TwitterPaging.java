@@ -141,20 +141,8 @@ public class TwitterPaging {
         return result;
     }
 
-    public Integer getPage() {
-        return mPage;
-    }
-
     public Integer getCount() {
         return mCount;
-    }
-
-    public Long getMaxId() {
-        return mMaxId;
-    }
-
-    public Long getSinceId() {
-        return mSinceId;
     }
 
     private Integer mPage;

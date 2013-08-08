@@ -125,23 +125,6 @@ public class LazyImageLoader {
         }
     }
 
-    public String getCachedImagePath(URL url) {
-        if (mFileCache == null) return null;
-        final File f = mFileCache.getFile(url);
-        if (f != null && f.exists())
-            return f.getPath();
-        else {
-            queuePhoto(url, null);
-        }
-        return null;
-    }
-
-    public void reloadConnectivitySettings() {
-        mProxy = Util.getProxy(mContext);
-        // mIgnoreSSLError =
-        // mPreferences.getBoolean(PREFERENCE_KEY_IGNORE_SSL_ERROR, false);
-    }
-
     private void copyStream(InputStream is, OutputStream os) {
         final int buffer_size = 1024;
         try {

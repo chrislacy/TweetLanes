@@ -439,7 +439,8 @@ public class AppdotnetApi extends SocialNetApi {
         if (follow) {
             return followUser(username);
         } else {
-            return unfollowUser(username);
+            unfollowUser(username);
+            return null;
         }
     }
 
@@ -447,7 +448,8 @@ public class AppdotnetApi extends SocialNetApi {
         if (follow) {
             return followUser(userId);
         } else {
-            return unfollowUser(userId);
+            unfollowUser(userId);
+            return null;
         }
     }
 
@@ -477,16 +479,14 @@ public class AppdotnetApi extends SocialNetApi {
         return null;
     }
 
-    private AdnUser unfollowUser(long userId) {
+    private void unfollowUser(long userId) {
         BasicHttpClient httpClient = getHttpClient();
         httpClient.delete("/stream/0/users/" + userId + "/follow", null);
-        return null;
     }
 
-    private AdnUser unfollowUser(String username) {
+    private void unfollowUser(String username) {
         BasicHttpClient httpClient = getHttpClient();
         httpClient.delete("/stream/0/users/@" + username + "/follow", null);
-        return null;
     }
 
     @Override

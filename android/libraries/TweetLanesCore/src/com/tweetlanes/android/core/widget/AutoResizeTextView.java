@@ -134,65 +134,6 @@ public class AutoResizeTextView extends TextView {
     }
 
     /**
-     * Set the upper text size limit and invalidate the view
-     *
-     * @param maxTextSize
-     */
-    public void setMaxTextSize(float maxTextSize) {
-        mMaxTextSize = maxTextSize;
-        requestLayout();
-        invalidate();
-    }
-
-    /**
-     * Return upper text size limit
-     *
-     * @return
-     */
-    public float getMaxTextSize() {
-        return mMaxTextSize;
-    }
-
-    /**
-     * Set the lower text size limit and invalidate the view
-     *
-     * @param minTextSize
-     */
-    public void setMinTextSize(float minTextSize) {
-        mMinTextSize = minTextSize;
-        requestLayout();
-        invalidate();
-    }
-
-    /**
-     * Return lower text size limit
-     *
-     * @return
-     */
-    public float getMinTextSize() {
-        return mMinTextSize;
-    }
-
-    /**
-     * Set flag to add ellipsis to text that overflows at the smallest text size
-     *
-     * @param addEllipsis
-     */
-    public void setAddEllipsis(boolean addEllipsis) {
-        mAddEllipsis = addEllipsis;
-    }
-
-    /**
-     * Return flag to add ellipsis to text that overflows at the smallest text
-     * size
-     *
-     * @return
-     */
-    public boolean getAddEllipsis() {
-        return mAddEllipsis;
-    }
-
-    /**
      * Reset the text to the original size
      */
     void resetTextSize() {
@@ -216,15 +157,6 @@ public class AutoResizeTextView extends TextView {
             resizeText(widthLimit, heightLimit);
         }
         super.onLayout(changed, left, top, right, bottom);
-    }
-
-    /**
-     * Resize the text size with default width and height
-     */
-    public void resizeText() {
-        int heightLimit = getHeight() - getPaddingBottom() - getPaddingTop();
-        int widthLimit = getWidth() - getPaddingLeft() - getPaddingRight();
-        resizeText(widthLimit, heightLimit);
     }
 
     /**

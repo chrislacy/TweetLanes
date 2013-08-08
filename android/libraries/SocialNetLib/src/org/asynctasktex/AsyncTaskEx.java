@@ -310,11 +310,6 @@ public abstract class AsyncTaskEx<Params, Progress, Result> {
         sHandler.getLooper();
     }
 
-    /** @hide */
-    public static void setDefaultExecutor(PriorityExecutor exec) {
-        sDefaultExecutor = exec;
-    }
-
     /**
      * Creates a new asynchronous task. This constructor must be invoked on the
      * UI thread.

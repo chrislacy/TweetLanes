@@ -74,10 +74,6 @@ public class TwitterFetchStatus {
             mHandle = kInvalidHandle;
         }
 
-        void setHandle(int handle) {
-            mHandle = handle;
-        }
-
         private int mHandle;
     }
 

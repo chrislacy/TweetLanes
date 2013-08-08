@@ -46,20 +46,4 @@ public class Validator {
 
         return getTweetLength(text) <= maxLength;
   }
-
-  public int getShortUrlLength() {
-    return shortUrlLength;
-  }
-
-  public void setShortUrlLength(int shortUrlLength) {
-    this.shortUrlLength = shortUrlLength;
-  }
-
-  public int getShortUrlLengthHttps() {
-    return shortUrlLengthHttps;
-  }
-
-  public void setShortUrlLengthHttps(int shortUrlLengthHttps) {
-    this.shortUrlLengthHttps = shortUrlLengthHttps;
-  }
 }

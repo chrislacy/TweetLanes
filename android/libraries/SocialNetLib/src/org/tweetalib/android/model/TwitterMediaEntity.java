@@ -129,30 +129,6 @@ public class TwitterMediaEntity {
         return null;
     }
 
-    /*
-	 * 
-	 */
-    public static TwitterMediaEntity createMediaEntity(AdnPost post) {
-
-        // TODO: This is a hack, but for now just replace newlines with a space
-        // so the split works.
-        String status = post.mText.replace("\n", " ").replace("<", "&lt;")
-                .replace(">", "&gt;");
-        String[] tokens = status.split(" ");
-        for (String token : tokens) {
-            if (token.length() > 1) {
-                if (token.contains("http://") || token.contains("https://")) {
-                    TwitterMediaEntity entity = getTwitterMediaEntityFromUrl(
-                            token, token);
-                    if (entity != null) {
-                        return entity;
-                    }
-                }
-            }
-        }
-
-        return null;
-    }
 
     private static TwitterMediaEntity getTwitterMediaEntityFromUrl(
             String tinyUrl, String expandedUrl) {
@@ -388,13 +364,6 @@ public class TwitterMediaEntity {
             e.printStackTrace();
         }
         return object.toString();
-    }
-
-    /*
-	 * 
-	 */
-    public String getUrl() {
-        return mUrl;
     }
 
     public String getExpandedUrl() {

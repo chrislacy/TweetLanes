@@ -71,28 +71,6 @@ public final class UrlImageViewHelper {
 
     private static boolean mUseBitmapScaling = true;
 
-    /**
-     * Bitmap scaling will use smart/sane values to limit the maximum
-     * dimension of the bitmap during decode. This will prevent any dimension of the
-     * bitmap from being larger than the dimensions of the device itself.
-     * Doing this will conserve memory.
-     *
-     * @param useBitmapScaling Toggle for smart resizing.
-     */
-    public static void setUseBitmapScaling(boolean useBitmapScaling) {
-        mUseBitmapScaling = useBitmapScaling;
-    }
-
-    /**
-     * Bitmap scaling will use smart/sane values to limit the maximum
-     * dimension of the bitmap during decode. This will prevent any dimension of the
-     * bitmap from being larger than the dimensions of the device itself.
-     * Doing this will conserve memory.
-     */
-    public static boolean getUseBitmapScaling() {
-        return mUseBitmapScaling;
-    }
-
     private static Drawable loadDrawableFromStream(final Context context, final String url, final String filename, final int targetWidth, final int targetHeight) {
         prepareResources(context);
 
@@ -175,75 +153,6 @@ public final class UrlImageViewHelper {
         setUrlDrawable(imageView.getContext(), imageView, url, defaultResource, CACHE_DURATION_THREE_DAYS);
     }
 
-    /**
-     * Download and shrink an Image located at a specified URL, and display it
-     * in the provided {@link ImageView} once it finishes loading.
-     *
-     * @param imageView The {@link ImageView} to display the image to after it
-     *                  is loaded.
-     * @param url       The URL of the image that should be loaded.
-     */
-    public static void setUrlDrawable(final ImageView imageView, final String url) {
-        setUrlDrawable(imageView.getContext(), imageView, url, null, CACHE_DURATION_THREE_DAYS, null);
-    }
-
-    public static void loadUrlDrawable(final Context context, final String url) {
-        setUrlDrawable(context, null, url, null, CACHE_DURATION_THREE_DAYS, null);
-    }
-
-    /**
-     * Download and shrink an Image located at a specified URL, and display it
-     * in the provided {@link ImageView}.
-     *
-     * @param imageView       The {@link ImageView} to display the image to after it
-     *                        is loaded.
-     * @param url             The URL of the image that should be loaded.
-     * @param defaultDrawable A {@link Drawable} that should be displayed in
-     *                        {@code imageView} while the image has not been loaded. This
-     *                        image will also be displayed if the image fails to load. This
-     *                        can be set to {@code null}.
-     */
-    public static void setUrlDrawable(final ImageView imageView, final String url, final Drawable defaultDrawable) {
-        setUrlDrawable(imageView.getContext(), imageView, url, defaultDrawable, CACHE_DURATION_THREE_DAYS, null);
-    }
-
-    /**
-     * Download and shrink an Image located at a specified URL, and display it
-     * in the provided {@link ImageView}.
-     *
-     * @param imageView       The {@link ImageView} to display the image to after it
-     *                        is loaded.
-     * @param url             The URL of the image that should be loaded.
-     * @param defaultResource The Android resid of the {@link Drawable} that
-     *                        should be displayed while the image is being downloaded.
-     * @param cacheDurationMs The length of time, in milliseconds, that this
-     *                        image should be cached locally.
-     */
-    public static void setUrlDrawable(final ImageView imageView, final String url, final int defaultResource, final long cacheDurationMs) {
-        setUrlDrawable(imageView.getContext(), imageView, url, defaultResource, cacheDurationMs);
-    }
-
-    public static void loadUrlDrawable(final Context context, final String url, final long cacheDurationMs) {
-        setUrlDrawable(context, null, url, null, cacheDurationMs, null);
-    }
-
-    /**
-     * Download and shrink an Image located at a specified URL, and display it
-     * in the provided {@link ImageView}.
-     *
-     * @param imageView       The {@link ImageView} to display the image to after it
-     *                        is loaded.
-     * @param url             The URL of the image that should be loaded.
-     * @param defaultDrawable A {@link Drawable} that should be displayed in
-     *                        {@code imageView} while the image has not been loaded. This
-     *                        image will also be displayed if the image fails to load. This
-     *                        can be set to {@code null}.
-     * @param cacheDurationMs The length of time, in milliseconds, that this
-     *                        image should be cached locally.
-     */
-    public static void setUrlDrawable(final ImageView imageView, final String url, final Drawable defaultDrawable, final long cacheDurationMs) {
-        setUrlDrawable(imageView.getContext(), imageView, url, defaultDrawable, cacheDurationMs, null);
-    }
 
     /**
      * Download and shrink an Image located at a specified URL, and display it
@@ -267,24 +176,7 @@ public final class UrlImageViewHelper {
         setUrlDrawable(context, imageView, url, d, cacheDurationMs, null);
     }
 
-    /**
-     * Download and shrink an Image located at a specified URL, and display it
-     * in the provided {@link ImageView}.
-     *
-     * @param imageView       The {@link ImageView} to display the image to after it
-     *                        is loaded.
-     * @param url             The URL of the image that should be loaded.
-     * @param defaultResource The Android resid of the {@link Drawable} that
-     *                        should be displayed while the image is being downloaded.
-     * @param callback        An instance of {@link UrlImageViewCallback} that is
-     *                        called when the image successfully finishes loading. This
-     *                        value can be null.
-     */
-    public static void setUrlDrawable(final ImageView imageView, final String url, final int defaultResource, final UrlImageViewCallback callback) {
-        setUrlDrawable(imageView.getContext(), imageView, url, defaultResource, CACHE_DURATION_THREE_DAYS, callback);
-    }
-
-    /**
+       /**
      * Download and shrink an Image located at a specified URL, and display it
      * in the provided {@link ImageView}.
      *
@@ -299,97 +191,6 @@ public final class UrlImageViewHelper {
         setUrlDrawable(imageView.getContext(), imageView, url, null, CACHE_DURATION_THREE_DAYS, callback);
     }
 
-    public static void loadUrlDrawable(final Context context, final String url, final UrlImageViewCallback callback) {
-        setUrlDrawable(context, null, url, null, CACHE_DURATION_THREE_DAYS, callback);
-    }
-
-    /**
-     * Download and shrink an Image located at a specified URL, and display it
-     * in the provided {@link ImageView}.
-     *
-     * @param imageView       The {@link ImageView} to display the image to after it
-     *                        is loaded.
-     * @param url             The URL of the image that should be loaded.
-     * @param defaultDrawable A {@link Drawable} that should be displayed in
-     *                        {@code imageView} while the image has not been loaded. This
-     *                        image will also be displayed if the image fails to load. This
-     *                        can be set to {@code null}.
-     * @param callback        An instance of {@link UrlImageViewCallback} that is
-     *                        called when the image successfully finishes loading. This
-     *                        value can be null.
-     */
-    public static void setUrlDrawable(final ImageView imageView, final String url, final Drawable defaultDrawable, final UrlImageViewCallback callback) {
-        setUrlDrawable(imageView.getContext(), imageView, url, defaultDrawable, CACHE_DURATION_THREE_DAYS, callback);
-    }
-
-    /**
-     * Download and shrink an Image located at a specified URL, and display it
-     * in the provided {@link ImageView}.
-     *
-     * @param imageView       The {@link ImageView} to display the image to after it
-     *                        is loaded.
-     * @param url             The URL of the image that should be loaded.
-     * @param defaultResource The Android resid of the {@link Drawable} that
-     *                        should be displayed while the image is being downloaded.
-     * @param cacheDurationMs The length of time, in milliseconds, that this
-     *                        image should be cached locally.
-     * @param callback        An instance of {@link UrlImageViewCallback} that is
-     *                        called when the image successfully finishes loading. This
-     *                        value can be null.
-     */
-    public static void setUrlDrawable(final ImageView imageView, final String url, final int defaultResource, final long cacheDurationMs, final UrlImageViewCallback callback) {
-        setUrlDrawable(imageView.getContext(), imageView, url, defaultResource, cacheDurationMs, callback);
-    }
-
-    public static void loadUrlDrawable(final Context context, final String url, final long cacheDurationMs, final UrlImageViewCallback callback) {
-        setUrlDrawable(context, null, url, null, cacheDurationMs, callback);
-    }
-
-    /**
-     * Download and shrink an Image located at a specified URL, and display it
-     * in the provided {@link ImageView}.
-     *
-     * @param imageView       The {@link ImageView} to display the image to after it
-     *                        is loaded.
-     * @param url             The URL of the image that should be loaded.
-     * @param defaultDrawable A {@link Drawable} that should be displayed in
-     *                        {@code imageView} while the image has not been loaded. This
-     *                        image will also be displayed if the image fails to load. This
-     *                        can be set to {@code null}.
-     * @param cacheDurationMs The length of time, in milliseconds, that this
-     *                        image should be cached locally.
-     * @param callback        An instance of {@link UrlImageViewCallback} that is
-     *                        called when the image successfully finishes loading. This
-     *                        value can be null.
-     */
-    public static void setUrlDrawable(final ImageView imageView, final String url, final Drawable defaultDrawable, final long cacheDurationMs, final UrlImageViewCallback callback) {
-        setUrlDrawable(imageView.getContext(), imageView, url, defaultDrawable, cacheDurationMs, callback);
-    }
-
-    /**
-     * Download and shrink an Image located at a specified URL, and display it
-     * in the provided {@link ImageView}.
-     *
-     * @param context         A {@link Context} to allow setUrlDrawable to load and save
-     *                        files.
-     * @param imageView       The {@link ImageView} to display the image to after it
-     *                        is loaded.
-     * @param url             The URL of the image that should be loaded.
-     * @param defaultResource The Android resid of the {@link Drawable} that
-     *                        should be displayed while the image is being downloaded.
-     * @param cacheDurationMs The length of time, in milliseconds, that this
-     *                        image should be cached locally.
-     * @param callback        An instance of {@link UrlImageViewCallback} that is
-     *                        called when the image successfully finishes loading. This
-     *                        value can be null.
-     */
-    private static void setUrlDrawable(final Context context, final ImageView imageView, final String url, final int defaultResource, final long cacheDurationMs, final UrlImageViewCallback callback) {
-        Drawable d = null;
-        if (defaultResource != 0) {
-            d = imageView.getResources().getDrawable(defaultResource);
-        }
-        setUrlDrawable(context, imageView, url, d, cacheDurationMs, callback);
-    }
 
     private static boolean isNullOrEmpty(final CharSequence s) {
         return (s == null || s.equals("") || s.equals("null") || s.equals("NULL"));
@@ -446,21 +247,6 @@ public final class UrlImageViewHelper {
 
     private static boolean checkCacheDuration(File file, long cacheDurationMs) {
         return cacheDurationMs == CACHE_DURATION_INFINITE || System.currentTimeMillis() < file.lastModified() + cacheDurationMs;
-    }
-
-    public static Drawable getImmediateMutableDrawable(String url) {
-        Drawable ret = null;
-        if (mDeadCache != null)
-            ret = mDeadCache.get(url);
-        if (ret != null)
-            return ret;
-        if (mLiveCache != null)
-            ret = mLiveCache.get(url);
-        if (ret != null && ret instanceof ZombieDrawable) {
-            ZombieDrawable zd = (ZombieDrawable) ret;
-            return zd.getBitmapDrawable().mutate();
-        }
-        return null;
     }
 
     /**
@@ -699,10 +485,6 @@ public final class UrlImageViewHelper {
     private static final FileUrlDownloader mFileDownloader = new FileUrlDownloader();
     private static final ArrayList<UrlDownloader> mDownloaders = new ArrayList<UrlDownloader>();
 
-    public static ArrayList<UrlDownloader> getDownloaders() {
-        return mDownloaders;
-    }
-
     static {
         mDownloaders.add(mHttpDownloader);
         mDownloaders.add(mContactDownloader);
@@ -712,16 +494,6 @@ public final class UrlImageViewHelper {
 
     public static interface RequestPropertiesCallback {
         public ArrayList<NameValuePair> getHeadersForRequest(Context context, String url);
-    }
-
-    private static RequestPropertiesCallback mRequestPropertiesCallback;
-
-    public static RequestPropertiesCallback getRequestPropertiesCallback() {
-        return mRequestPropertiesCallback;
-    }
-
-    public static void setRequestPropertiesCallback(final RequestPropertiesCallback callback) {
-        mRequestPropertiesCallback = callback;
     }
 
     private static final UrlImageCache mLiveCache = UrlImageCache.getInstance();

@@ -89,16 +89,8 @@ public class TwitterContentHandleBase implements Serializable {
         return result;
     }
 
-    public ContentType getContentType() {
-        return mContentType;
-    }
-
     public DirectMessagesType getDirectMessagesType() {
         return mDirectMessagesType;
-    }
-
-    public StatusType getStatusType() {
-        return mStatusType;
     }
 
     public StatusesType getStatusesType() {

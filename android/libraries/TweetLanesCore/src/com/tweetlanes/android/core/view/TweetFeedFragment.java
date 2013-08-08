@@ -568,12 +568,14 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             mOldTotalItemCount = totalItemCount;
             mOldFirstVisibleItem = firstVisibleItem;
 
-            // Log.d("Statuses", "Direction: " +
-            // mLastScrollDirection.toString());
         }
 
         int getFirstVisibleYOffset() {
             return mFirstVisibleYOffset;
+        }
+
+        ScrollDirection getLastScrollDirection(){
+            return mLastScrollDirection;
         }
     }
 
@@ -1034,10 +1036,10 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     /*
 	 *
 	 */
-    private boolean onTweetFeedItemSingleTap(View view, int position) {
+    private void onTweetFeedItemSingleTap(View view, int position) {
 
-        if (mSelectedItems.size() == 0) {
-
+        if (mSelectedItems.size() == 0)
+        {
             TweetFeedItemView tweetFeedItemView = (TweetFeedItemView) (view);
             TwitterStatus status = tweetFeedItemView.getTwitterStatus();
             Intent tweetSpotlightIntent = new Intent(getActivity(), TweetSpotlightActivity.class);
@@ -1045,12 +1047,11 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             tweetSpotlightIntent.putExtra("status", status.toString());
             tweetSpotlightIntent.putExtra("clearCompose", "true");
             getActivity().startActivityForResult(tweetSpotlightIntent, Constant.REQUEST_CODE_SPOTLIGHT );
-            return true;
-        } else {
-            onTweetFeedItemLongPress(view, position);
-            return true;
         }
-
+        else
+        {
+            onTweetFeedItemLongPress(view, position);
+        }
     }
 
     /*
@@ -1607,7 +1608,8 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
                 @Override
                 public boolean onSingleTapConfirmed(View view, int position) {
-                    return onTweetFeedItemSingleTap(view, position);
+                    onTweetFeedItemSingleTap(view, position);
+                    return true;
                 }
 
                 @Override

@@ -200,15 +200,17 @@ public class ProfileActivity extends BaseLaneActivity {
 	 */
     @Override
     public boolean configureOptionsMenu(Menu menu) {
-        super.configureOptionsMenu(menu);
+        boolean result = super.configureOptionsMenu(menu);
 
-        return configureActionBarView();
+        configureActionBarView();
+
+        return result;
     }
 
     /*
 	 *
 	 */
-    boolean configureActionBarView() {
+    void configureActionBarView() {
 
         if (mScreenName != null) {
 
@@ -249,8 +251,6 @@ public class ProfileActivity extends BaseLaneActivity {
             actionBar.setDisplayShowCustomEnabled(true);
             actionBar.setCustomView(profileTitleView);
         }
-
-        return true;
     }
 
     /*

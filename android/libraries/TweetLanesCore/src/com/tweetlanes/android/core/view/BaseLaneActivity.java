@@ -114,13 +114,6 @@ class BaseLaneActivity extends FragmentActivity implements
                     ConsumerKeyConstants.CRITTERCISM_APP_ID);
         }
 
-        // Key the screen from dimming -
-        // http://stackoverflow.com/a/4197370/328679
-        if (!AppSettings.get().isDimScreenEnabled()) {
-            getWindow()
-                    .addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        }
-
         PagerAdapter pagerAdapter = getAdapterForViewPager();
         if (pagerAdapter != null) {
 
@@ -395,17 +388,6 @@ class BaseLaneActivity extends FragmentActivity implements
             return mViewPager.getCurrentItem();
         }
         return 3;
-    }
-
-    /*
-	 *
-	 */
-    private int getLaneCount() {
-        if (mViewPager != null) {
-            return mViewPager.getAdapter().getCount();
-        }
-
-        return getApp().getCurrentAccount().getDisplayedLaneDefinitionsSize();
     }
 
     /*

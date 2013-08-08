@@ -47,11 +47,6 @@ public class AppSettings {
     private static final String QUOTE_TYPE_VIA = "via";
     private static final String QUOTE_TYPE_DEFAULT = QUOTE_TYPE_STANDARD;
 
-    private static final String NAME_DISPLAY_USERNAME = "username";
-    private static final String NAME_DISPLAY_NAME = "name";
-    private static final String NAME_DISPLAY_USERNAME_NAME = "username_name";
-    private static final String NAME_DISPLAY_NAME_USERNAME = "name_username";
-
     private static final String NOTIFICATION_TIME_0M = "0m";
     private static final String NOTIFICATION_TIME_2M = "2m";
     private static final String NOTIFICATION_TIME_3M = "3m";
@@ -89,13 +84,6 @@ public class AppSettings {
     /*
 	 *
 	 */
-    public enum NameDisplay {
-        Username, Name, Username_Name, Name_Username,
-    }
-
-    /*
-	 *
-	 */
     public enum QuoteType {
         Standard, RT, Via,
     }
@@ -111,7 +99,6 @@ public class AppSettings {
     private Theme mCurrentTheme;
     private StatusSize mStatusSize;
     private ProfileImageSize mProfileImageSize;
-    private NameDisplay mNameDisplay;
     private QuoteType mQuoteType;
 
     /*
@@ -223,14 +210,6 @@ public class AppSettings {
     public boolean isNotificationVibrationEnabled() {
         return mSharedPreferences.getBoolean(
                 SettingsActivity.KEY_NOTIFICATION_VIBRATION, false);
-    }
-
-
-    /*
-	 *
-	 */
-    public boolean isDimScreenEnabled() {
-        return true;
     }
 
     public Uri getRingtoneUri() {

@@ -38,13 +38,6 @@ public class TwitterSignIn {
     private Integer mGetOAuthAccessTokenCallbackHandle;
     private final HashMap<Integer, GetOAuthAccessTokenCallback> mGetOAuthAccessTokenCallbackMap;
 
-    /*
-	 *
-	 */
-    public void clearCallbacks() {
-        mGetAuthUrlCallbackMap.clear();
-        mGetOAuthAccessTokenCallbackMap.clear();
-    }
 
     /*
 	 *
@@ -89,10 +82,6 @@ public class TwitterSignIn {
 
         public GetAuthUrlCallback() {
             mHandle = kInvalidHandle;
-        }
-
-        void setHandle(int handle) {
-            mHandle = handle;
         }
 
         private int mHandle;
