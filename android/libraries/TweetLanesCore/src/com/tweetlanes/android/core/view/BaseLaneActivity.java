@@ -785,10 +785,7 @@ class BaseLaneActivity extends FragmentActivity implements
 	 *
 	 */
     boolean composeHasFocus() {
-        if (mCurrentComposeFragment != null) {
-            return mCurrentComposeFragment.hasFocus();
-        }
-        return false;
+        return mCurrentComposeFragment != null && mCurrentComposeFragment.hasFocus();
     }
 
     /*
@@ -930,11 +927,7 @@ class BaseLaneActivity extends FragmentActivity implements
         // Early exit on these events so that the volume up/down sound doesn't
         // play
         // TODO: Handle user options for volume scrolling
-        if ((keyCode == KeyEvent.KEYCODE_VOLUME_UP)
-                || (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)) {
-            return true;
-        }
-        return super.onKeyUp(keyCode, event);
+        return (keyCode == KeyEvent.KEYCODE_VOLUME_UP) || (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) || super.onKeyUp(keyCode, event);
     }
 
     /*
@@ -1129,12 +1122,8 @@ class BaseLaneActivity extends FragmentActivity implements
             MenuInflater inflater = getMenuInflater();
             inflater.inflate(R.menu.compose_tweet_action_bar, menu);
             return true;
-        } else if (mComposeDirectMessageFragment != null
-                && mComposeDirectMessageFragment.hasFocus()) {
-            return true;
-        } else {
-            return configureOptionsMenu(menu);
-        }
+        } else
+            return mComposeDirectMessageFragment != null && mComposeDirectMessageFragment.hasFocus() || configureOptionsMenu(menu);
     }
 
     /*

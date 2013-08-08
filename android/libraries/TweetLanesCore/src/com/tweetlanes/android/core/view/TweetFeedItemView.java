@@ -531,11 +531,7 @@ public class TweetFeedItemView extends LinearLayout {
 
                 @Override
                 public boolean onSingleTapConfirmed(MotionEvent e) {
-                    if (mCallbacks != null) {
-                        return mCallbacks.onSingleTapConfirmed(
-                                TweetFeedItemView.this, mPosition);
-                    }
-                    return false;
+                    return mCallbacks != null && mCallbacks.onSingleTapConfirmed(TweetFeedItemView.this, mPosition);
                 }
 
                 @Override
