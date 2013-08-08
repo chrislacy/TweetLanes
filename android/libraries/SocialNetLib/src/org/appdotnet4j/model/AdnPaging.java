@@ -40,9 +40,4 @@ public class AdnPaging {
     public void setSinceId(long mSinceId) {
         this.mSinceId = mSinceId;
     }
-
-
-    public void setCount(Integer mCount) {
-        Integer count = mCount;
-    }
 }

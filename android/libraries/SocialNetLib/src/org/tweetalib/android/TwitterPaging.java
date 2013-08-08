@@ -138,12 +138,6 @@ public class TwitterPaging {
             }
         }
 
-        if (mCount != null) {
-            result.setCount(mCount);
-        } else {
-            result.setCount(DEFAULT_STATUS_COUNT);
-        }
-
         return result;
     }
 

@@ -313,7 +313,6 @@ public class TwitterFetchStatuses {
             if (appdotnetApi != null) {
 
                 AdnPaging defaultPaging = new AdnPaging(1);
-                defaultPaging.setCount(TwitterPaging.DEFAULT_STATUS_COUNT);
                 AdnPaging paging = null;
 
                 if (input.mPaging != null) {
