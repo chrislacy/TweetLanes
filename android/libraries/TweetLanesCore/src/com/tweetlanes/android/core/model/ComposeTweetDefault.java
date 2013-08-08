@@ -22,8 +22,6 @@ import org.tweetalib.android.model.TwitterUsers;
 
 public class ComposeTweetDefault {
 
-    private final boolean USE_DEFAULT_STATUS_HACK = false;
-
     private String mUserScreenName;
     private String mStatus;
     private String mInitialStatus;
@@ -174,16 +172,8 @@ public class ComposeTweetDefault {
     /*
 	 * 
 	 */
-    @SuppressWarnings("unused")
     public String getStatus() {
-
-        String result = null;
-        if (false) {
-            result = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sed quam dolor";
-        } else if (mStatus != null) {
-            result = mStatus;
-        }
-        return result;
+        return mStatus;
     }
 
     /*
