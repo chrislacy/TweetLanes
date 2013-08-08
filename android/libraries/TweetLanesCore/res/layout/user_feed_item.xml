@@ -44,7 +44,7 @@
 
 
                 <LinearLayout
-                        android:id="@+id/message_block2"
+                        android:id="@+id/message_block"
                         android:minHeight="@dimen/avatar_width_height_medium"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
