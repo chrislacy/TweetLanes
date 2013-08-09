@@ -2,6 +2,7 @@
 <changelog>
 	<release version="1.2.1" versioncode="50">
         <change>Feature - Added a visual cue when favorite button is pressed</change>
+        <change>Feature - Added Holo Light Dark Actionbar Theme</change>
         <change>Fix - Links in profile descriptions converted from t.co links</change>
         <change>Fix - Reply when loading profile correction.  Show "Tweet @username"</change>
     </release>

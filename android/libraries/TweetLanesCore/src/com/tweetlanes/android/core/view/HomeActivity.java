@@ -985,6 +985,10 @@ public class HomeActivity extends BaseLaneActivity {
             }
 
             holder.ScreenName.setText(account.ScreenName, TextView.BufferType.NORMAL);
+            if(AppSettings.get().getCurrentThemeStyle() == R.style.Theme_TweetLanes_Light_DarkActionBar){
+                holder.ScreenName.setTextColor(getResources().getColor(R.color.white));
+            }
+
             setProfileImage(account.AvatarImageUrl, account.ServiceType, holder.AvatarImage, holder.ServiceImage);
 
             return row;
@@ -994,6 +998,7 @@ public class HomeActivity extends BaseLaneActivity {
             public AccountData(long id, String screenName, SocialNetConstant.Type serviceType, String avatarImageUrl) {
                 Id = id;
                 ScreenName = screenName;
+
                 AvatarImageUrl = avatarImageUrl;
                 ServiceType = serviceType;
             }
@@ -1021,10 +1026,16 @@ public class HomeActivity extends BaseLaneActivity {
                 }
             }
             else {
-                int resource = AppSettings.get().getCurrentThemeStyle() ==
-                        R.style.Theme_TweetLanes_Light ?
-                        R.drawable.ic_action_user_add :
-                        R.drawable.ic_action_user_add_dark;
+                 int resource;
+                if(AppSettings.get().getCurrentThemeStyle() == R.style.Theme_TweetLanes_Light_DarkActionBar){
+                       resource = R.drawable.ic_action_user_add_dark;
+                }else{
+                    resource = AppSettings.get().getCurrentThemeStyle() ==
+                            R.style.Theme_TweetLanes_Light ?
+                            R.drawable.ic_action_user_add :
+                            R.drawable.ic_action_user_add_dark;
+                }
+
                 avatar.setImageResource(resource);
                 service.setVisibility(View.GONE);
             }
