@@ -45,9 +45,6 @@
         <item name="listBackground">@style/list_background_light</item>
         <item name="themeOppositeText">@style/status_text_bl</item>
         <item name="freeForLifeBackground">@style/free_for_life_background_light</item>
-        <item name="android:spinnerItemStyle">@style/spinnerItemStyle_lightDark</item>
-        <item name="android:spinnerDropDownItemStyle">@style/spinnerDropItemStyle_lightDark</item>
-
 
         <item name="ic_action_camera">@style/ic_action_camera_dark</item>
         <item name="ic_action_collapse">@style/ic_action_collapse_dark</item>
@@ -99,25 +96,6 @@
 
         <item name="feed_divider">@style/feed_divider_dark</item>
     </style>
-
-    <style name="spinnerItemStyle_lightDark">
-        <item name="android:textColor">#FFFFFF</item>
-        <item name="android:textColorLink">#f00</item>
-        <item name="android:textColorPrimary">#25ff00</item>
-        <item name="android:textColorHighlight">#00d2ff</item>
-        <item name="android:textColorHint">#ff00bf</item>
-        <item name="android:actionMenuTextColor">#6900ff</item>
-
-
-    </style>
-
-    <style name="spinnerDropItemStyle_lightDark">
-        <item name="android:textColor">#FFFFFF</item>
-
-    </style>
-
-
-
 
     <style name="feed_divider_light">
         <item name="android:background">@drawable/feed_divider_light</item>
