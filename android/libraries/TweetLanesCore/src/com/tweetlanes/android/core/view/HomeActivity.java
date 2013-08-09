@@ -14,11 +14,8 @@ package com.tweetlanes.android.core.view;
 import android.app.ActionBar;
 import android.app.ActionBar.OnNavigationListener;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -34,7 +31,6 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -62,12 +58,9 @@ import org.tweetalib.android.TwitterContentHandleBase;
 import org.tweetalib.android.TwitterFetchLists.FinishedCallback;
 import org.tweetalib.android.TwitterFetchResult;
 import org.tweetalib.android.TwitterFetchUser;
-import org.tweetalib.android.TwitterFetchUsers;
 import org.tweetalib.android.TwitterManager;
 import org.tweetalib.android.TwitterPaging;
 import org.tweetalib.android.model.TwitterLists;
-import org.tweetalib.android.model.TwitterStatus;
-import org.tweetalib.android.model.TwitterStatusUpdate;
 import org.tweetalib.android.model.TwitterUser;
 import org.tweetalib.android.model.TwitterUsers;
 
@@ -196,9 +189,6 @@ public class HomeActivity extends BaseLaneActivity {
 
     }
 
-    /*
-     *
-	 */
     void onCreateHandleIntents() {
 
         boolean turnSoftKeyboardOff = true;
@@ -272,20 +262,6 @@ public class HomeActivity extends BaseLaneActivity {
             mRefreshListsHandler.postDelayed(mRefreshListsTask,
                     Constant.REFRESH_LISTS_WAIT_TIME);
         }
-
-        if (!isComposing()) {
-            // Check we are using List navigation on the ActionBar. This will
-            // not be the case when ComposeTweet is present.
-            if (getActionBar().getNavigationMode() == android.app.ActionBar.NAVIGATION_MODE_LIST) {
-                /*
-                 * Integer accountIndex =
-                 * mSpinnerAdapter.getIndexOfAccount(getApp
-                 * ().getCurrentAccount()); if (accountIndex != null) {
-                 * getActionBar().setSelectedNavigationItem(accountIndex); }
-                 */
-            }
-        }
-
         getApp().clearImageCaches();
     }
 
@@ -341,9 +317,6 @@ public class HomeActivity extends BaseLaneActivity {
         return account.getInitialLaneIndex();
     }
 
-    /*
-	 *
-	 */
     @Override
     String getCachedData(int laneIndex) {
 
@@ -411,9 +384,6 @@ public class HomeActivity extends BaseLaneActivity {
         saveData(oldPosition);
     }
 
-    /*
-	 *
-	 */
     private void saveData(final int position) {
         final App app = getApp();
 
@@ -443,9 +413,6 @@ public class HomeActivity extends BaseLaneActivity {
         }).start();
     }
 
-    /*
-	 *
-	 */
     private void updateViewVisibility() {
         mViewSwitcher.reset();
         mViewSwitcher.setDisplayedChild(1);
@@ -499,28 +466,6 @@ public class HomeActivity extends BaseLaneActivity {
                     Uri.parse("https://play.google.com/store/apps/details?id=com.chrislacy.actionlauncher.pro"));
             startActivity(browserIntent);
 
-
-        /*
-         * case R.id.action_promote: showPromote(); break;
-         */
-
-        /*
-         * case CHOOSE_LANES: Toast.makeText(getApplicationContext(),
-         * getString(R.string.functionality_not_implemented),
-         * Constant.DEFAULT_TOAST_DISPLAY_TIME).show(); break;
-         */
-
-        /*
-         * case R.id.action_send_feedback: Intent intent = new
-         * Intent(Intent.ACTION_SEND); intent.setType("plain/text"); String
-         * recipient[] = {"lacy@tweetlanes.com"};
-         * intent.putExtra(Intent.EXTRA_EMAIL, recipient);
-         * intent.putExtra(Intent.EXTRA_SUBJECT, "Tweet Lanes Feedback");
-         * //String userScreenName = getApp().getCurrentAccountScreenName();
-         * //intent.putExtra(Intent.EXTRA_TEXT, userScreenName != null ?
-         * "(Feedback sent by @" + userScreenName : ""); startActivity(intent);
-         * break;
-         */
         } else {
             return false;
         }
@@ -528,9 +473,6 @@ public class HomeActivity extends BaseLaneActivity {
         return false;
     }
 
-    /*
-	 *
-	 */
     void onCreateNavigationListener() {
         mOnNavigationListener = new OnNavigationListener() {
 
@@ -553,9 +495,6 @@ public class HomeActivity extends BaseLaneActivity {
         };
     }
 
-    /*
-	 *
-	 */
     private boolean configureListNavigation() {
 
         if (mSpinnerAdapter == null) {
@@ -583,9 +522,6 @@ public class HomeActivity extends BaseLaneActivity {
         return true;
     }
 
-    /*
-     *
-     */
     private void showAccount(AccountDescriptor selectedAccount, Constant.LaneType lane) {
 
         App app = getApp();
@@ -621,124 +557,12 @@ public class HomeActivity extends BaseLaneActivity {
         }
     }
 
-    /*
-	 *
-	 */
     private void showAddAccount() {
         startActivity(new Intent(this, NewAccountActivity.class));
     }
 
-    /*
-	 *
-	 */
     void showUserPreferences() {
         startActivity(new Intent(this, SettingsActivity.class));
-    }
-
-    /*
-     *
-     */
-    private void showFreeForLifeSuccess() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
-
-        builder.setMessage(getString(R.string.free_for_life_success));
-        builder.setTitle(getString(R.string.success));
-        builder.setIcon(android.R.drawable.btn_star_big_on);
-
-        builder.setPositiveButton("OK", new Dialog.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface arg0, int arg1) {
-
-            }
-
-        });
-
-        builder.create().show();
-    }
-
-    /*
-     *
-     */
-    private void showFreeForLifeError() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
-
-        builder.setMessage(getString(R.string.free_for_life_error));
-        builder.setIcon(0);
-
-        builder.setPositiveButton("OK", new Dialog.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface arg0, int arg1) {
-
-            }
-
-        });
-    }
-
-    /*
-     *
-     */
-    public void showPromote() {
-        final View layout = View.inflate(this, R.layout.promote, null);
-
-        // final EditText promoStatus = ((EditText)
-        // layout.findViewById(R.id.promoStatusEditText));
-        // promoStatus.setText(R.string.free_for_life_promo_status);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setIcon(0);
-
-        builder.setPositiveButton("Agree!", new Dialog.OnClickListener() {
-
-            public void onClick(DialogInterface dialog, int which) {
-
-                TwitterFetchUsers.FinishedCallback callback = TwitterManager
-                        .get().getFetchUsersInstance().new FinishedCallback() {
-
-                    @Override
-                    public void finished(TwitterFetchResult result,
-                                         TwitterUsers users) {
-
-                        if (result.isSuccessful()) {
-
-                            String statusText = getString(R.string.promote_status_text);
-                            TwitterStatusUpdate statusUpdate = new TwitterStatusUpdate(
-                                    statusText);
-
-                            TwitterManager
-                                    .get()
-                                    .setStatus(
-                                            statusUpdate,
-                                            TwitterManager.get()
-                                                    .getFetchStatusInstance().new FinishedCallback() {
-
-                                                @Override
-                                                public void finished(
-                                                        TwitterFetchResult result,
-                                                        TwitterStatus status) {
-
-                                                    if (result.isSuccessful()) {
-                                                        showFreeForLifeSuccess();
-                                                    } else {
-                                                        showFreeForLifeError();
-                                                    }
-                                                }
-                                            });
-                        }
-
-                    }
-                };
-
-                getApp().triggerFollowPromoAccounts(callback);
-            }
-        });
-        builder.setNegativeButton("Cancel", null);
-        builder.setView(layout);
-        builder.setTitle("Promote Tweet Lanes!");
-
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
     }
 
     private void cacheFollowers() {
@@ -801,9 +625,7 @@ public class HomeActivity extends BaseLaneActivity {
         }
     };
 
-    /*
-	 *
-	 */
+
     void onLaneDataSetChanged() {
         if (mHomeLaneAdapter != null) {
             mHomeLaneAdapter.notifyDataSetChanged();
@@ -814,9 +636,7 @@ public class HomeActivity extends BaseLaneActivity {
         getApp().getCurrentAccount().setDisplayedLaneDefinitionsDirty(false);
     }
 
-    /*
-     *
-     */
+
     class HomeLaneAdapter extends FragmentStatePagerAdapter implements
             TitleProvider {
 
