@@ -1490,13 +1490,25 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             if (mFavoriteMenuItem != null) {
                 boolean isDarkTheme = AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Dark;
                 if (favorited) {
-                    mFavoriteMenuItem.setIcon(
-                            isDarkTheme ? R.drawable.ic_action_star_on_dark : R.drawable.ic_action_star_on_light);
-                    mFavoriteMenuItem.setTitle(R.string.action_unfavorite);
+                     if(AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Light_DarkAction){
+                        mFavoriteMenuItem.setIcon(R.drawable.ic_action_star_on_dark);
+                        mFavoriteMenuItem.setTitle(R.string.action_unfavorite);
+                      }else{
+                         mFavoriteMenuItem.setIcon(
+                                 isDarkTheme ? R.drawable.ic_action_star_on_dark : R.drawable.ic_action_star_on_light);
+                         mFavoriteMenuItem.setTitle(R.string.action_unfavorite);
+                     }
+
                 } else {
-                    mFavoriteMenuItem.setIcon(
-                            isDarkTheme ? R.drawable.ic_action_star_off_dark : R.drawable.ic_action_star_off_light);
-                    mFavoriteMenuItem.setTitle(R.string.action_favorite);
+                    if(AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Light_DarkAction){
+                        mFavoriteMenuItem.setIcon(R.drawable.ic_action_star_off_dark);
+                        mFavoriteMenuItem.setTitle(R.string.action_favorite);
+                    }  else{
+                        mFavoriteMenuItem.setIcon(
+                                isDarkTheme ? R.drawable.ic_action_star_off_dark : R.drawable.ic_action_star_off_light);
+                        mFavoriteMenuItem.setTitle(R.string.action_favorite);
+                    }
+
                 }
             }
         }
