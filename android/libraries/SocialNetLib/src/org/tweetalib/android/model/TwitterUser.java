@@ -36,20 +36,20 @@ public class TwitterUser {
             mUrl = user.getURL().toString();
         }
 
-        if (user.getOriginalProfileImageURL() != null) {
-            mProfileImageUrlOriginal = user.getOriginalProfileImageURL().toString();
+        if (user.getOriginalProfileImageURLHttps() != null) {
+            mProfileImageUrlOriginal = user.getOriginalProfileImageURLHttps().toString();
         }
 
-        if (user.getBiggerProfileImageURL() != null) {
-            mProfileImageUrlBigger = user.getBiggerProfileImageURL().toString();
+        if (user.getBiggerProfileImageURLHttps() != null) {
+            mProfileImageUrlBigger = user.getBiggerProfileImageURLHttps().toString();
         }
 
-        if (user.getBiggerProfileImageURL() != null) {
-            mProfileImageUrlNormal = user.getBiggerProfileImageURL().toString();
+        if (user.getProfileImageURLHttps() != null) {
+            mProfileImageUrlNormal = user.getProfileImageURLHttps().toString();
         }
 
-        if (user.getProfileImageURL() != null) {
-            mProfileImageUrlMini = user.getProfileImageURL().toString();
+        if (user.getMiniProfileImageURLHttps() != null) {
+            mProfileImageUrlMini = user.getMiniProfileImageURLHttps().toString();
         }
 
         mStatusesCount = user.getStatusesCount();
@@ -63,7 +63,6 @@ public class TwitterUser {
     }
 
     public TwitterUser(AdnUser user) {
-
         mId = user.mId;
         mScreenName = user.mUserName;
         mName = user.mName;
@@ -76,9 +75,9 @@ public class TwitterUser {
         mCurrentUserFollows = user.mCurrentUserFollows;
         mFollowsCurrentUser = user.mFollowsCurrentUser;
         mFavoritesCount = user.mFavoritesCount;
-        mProfileImageUrlMini = "https://alpha-api.app.net/stream/0/users/@" + user.mUserName + "/avatar?w=64";
-        mProfileImageUrlNormal = "https://alpha-api.app.net/stream/0/users/@" + user.mUserName + "/avatar?w=96";
-        mProfileImageUrlBigger = "https://alpha-api.app.net/stream/0/users/@" + user.mUserName + "/avatar?w=144";
+        mProfileImageUrlMini = "https://alpha-api.app.net/stream/0/users/@" + user.mUserName + "/avatar?w=32";
+        mProfileImageUrlNormal = "https://alpha-api.app.net/stream/0/users/@" + user.mUserName + "/avatar?w=48";
+        mProfileImageUrlBigger = "https://alpha-api.app.net/stream/0/users/@" + user.mUserName + "/avatar?w=73";
         mProfileImageUrlOriginal = "https://alpha-api.app.net/stream/0/users/@" + user.mUserName + "/avatar";
     }
 
@@ -90,8 +89,8 @@ public class TwitterUser {
         mDescriptionUrlEntities = user.getDescriptionUrlEntities();
         mLocation = user.getLocation();
         mUrl = user.getUrl();
-        mProfileImageUrlMini = user.getProfileImageUrlNormal();
-        mProfileImageUrlNormal = user.getProfileImageUrlBigger();
+        mProfileImageUrlMini = user.getProfileImageUrlMini();
+        mProfileImageUrlNormal = user.getProfileImageUrlNormal();
         mProfileImageUrlBigger = user.getProfileImageUrlBigger();
         mProfileImageUrlOriginal = user.getProfileImageUrlOriginal();
 
