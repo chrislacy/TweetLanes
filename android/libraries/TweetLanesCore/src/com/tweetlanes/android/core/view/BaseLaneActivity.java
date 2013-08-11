@@ -72,21 +72,20 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class BaseLaneActivity extends FragmentActivity implements
+class BaseLaneActivity extends FragmentActivity implements
         SearchView.OnQueryTextListener {
 
     private ViewPager mViewPager;
     PageIndicator mPageIndicator;
     private ActionMode mCurrentActionMode;
     private Menu mCurrentMenu;
-    private SearchView mSearchView;
     private View mLaneMask;
     private LinearLayout mDummyFocusItem;
-    TwitterStatusesFilter mStatusesFilter = new TwitterStatusesFilter();
+    final TwitterStatusesFilter mStatusesFilter = new TwitterStatusesFilter();
     private String mShareImagePath;
 
-    protected static final int COMPOSE_TWEET = 0;
-    protected static final int COMPOSE_DIRECT_MESSAGE = 1;
+    static final int COMPOSE_TWEET = 0;
+    static final int COMPOSE_DIRECT_MESSAGE = 1;
     private ComposeTweetFragment mComposeTweetFragment;
     private View mComposeTweetView;
     private ComposeDirectMessageFragment mComposeDirectMessageFragment;
@@ -115,13 +114,6 @@ public class BaseLaneActivity extends FragmentActivity implements
                     ConsumerKeyConstants.CRITTERCISM_APP_ID);
         }
 
-        // Key the screen from dimming -
-        // http://stackoverflow.com/a/4197370/328679
-        if (AppSettings.get().isDimScreenEnabled() == false) {
-            getWindow()
-                    .addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        }
-
         PagerAdapter pagerAdapter = getAdapterForViewPager();
         if (pagerAdapter != null) {
 
@@ -142,8 +134,6 @@ public class BaseLaneActivity extends FragmentActivity implements
                 public void onCurrentItemClicked() {
                     onCurrentLaneReselected();
                 }
-
-                ;
 
             });
 
@@ -301,7 +291,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     /*
 	 *
 	 */
-    private BroadcastReceiver mDisplayToastReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver mDisplayToastReceiver = new BroadcastReceiver() {
 
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -356,13 +346,13 @@ public class BaseLaneActivity extends FragmentActivity implements
     /*
 	 *
 	 */
-    private HashMap<Integer, BaseLaneFragment> mLaneFragmentHashMap = new HashMap<Integer, BaseLaneFragment>();
+    private final HashMap<Integer, BaseLaneFragment> mLaneFragmentHashMap = new HashMap<Integer, BaseLaneFragment>();
     private int activeInitialDownloadCount = 0;
 
     /*
 	 *
 	 */
-    protected BaseLaneFragment getFragmentAtIndex(int index) {
+    BaseLaneFragment getFragmentAtIndex(int index) {
         if (mLaneFragmentHashMap != null) {
             return mLaneFragmentHashMap.get(index);
         }
@@ -373,7 +363,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     /*
 	 *
 	 */
-    protected void clearFragmentsCache() {
+    void clearFragmentsCache() {
         if (mLaneFragmentHashMap != null) {
             for (Integer key : mLaneFragmentHashMap.keySet()) {
                 BaseLaneFragment lane = mLaneFragmentHashMap.get(key);
@@ -393,7 +383,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     /*
 	 *
 	 */
-    protected int getCurrentLaneIndex() {
+    int getCurrentLaneIndex() {
         if (mViewPager != null) {
             return mViewPager.getCurrentItem();
         }
@@ -403,18 +393,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     /*
 	 *
 	 */
-    private int getLaneCount() {
-        if (mViewPager != null) {
-            return mViewPager.getAdapter().getCount();
-        }
-
-        return getApp().getCurrentAccount().getDisplayedLaneDefinitionsSize();
-    }
-
-    /*
-	 *
-	 */
-    protected void onLaneFragmentInitialDownloadStateChange(
+    void onLaneFragmentInitialDownloadStateChange(
             BaseLaneFragment fragment) {
 
         mLaneFragmentHashMap.put(fragment.getLaneIndex(), fragment);
@@ -470,7 +449,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     /*
 	 *
 	 */
-    protected void onLaneChange(int position, int oldPosition) {
+    void onLaneChange(int position, int oldPosition) {
 
         invalidateOptionsMenu();
 
@@ -491,7 +470,7 @@ public class BaseLaneActivity extends FragmentActivity implements
             }
         }
 
-        if (triggeredDownload == false) {
+        if (!triggeredDownload) {
             //triggerNeighbourInitialDownload(position);
         }
 
@@ -502,7 +481,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     /*
 	 *
 	 */
-    protected void onCurrentLaneReselected() {
+    void onCurrentLaneReselected() {
 
         BaseLaneFragment fragment = mLaneFragmentHashMap
                 .get(getCurrentLaneIndex());
@@ -518,44 +497,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     /*
 	 *
 	 */
-    protected boolean triggerNeighbourInitialDownload(int currentLane) {
-
-        boolean triggeredDownload = false;
-        if (currentLane > 0) {
-            BaseLaneFragment leftFragment = mLaneFragmentHashMap
-                    .get(currentLane - 1);
-            if (leftFragment != null
-                    && leftFragment.getInitialDownloadState() == InitialDownloadState.WAITING) {
-                // Log.d("tweetlanes url fetch", "trigger Left lane '" +
-                // adapter.getTitle(currentLane-1) + "'  (index = " +
-                // (currentLane-1) + ")");
-                leftFragment.triggerInitialDownload();
-                triggeredDownload = true;
-            }
-        }
-
-        if (triggeredDownload == false) {
-            if (currentLane + 1 < getLaneCount()) {
-                BaseLaneFragment rightFragment = mLaneFragmentHashMap
-                        .get(currentLane + 1);
-                if (rightFragment != null
-                        && rightFragment.getInitialDownloadState() == InitialDownloadState.WAITING) {
-                    // Log.d("tweetlanes url fetch",
-                    // "trigger Right lane (index =  '" +
-                    // adapter.getTitle(currentLane+1) + "' " + (currentLane+1)
-                    // + ")");
-                    rightFragment.triggerInitialDownload();
-                }
-            }
-        }
-
-        return false;
-    }
-
-    /*
-	 *
-	 */
-    ComposeListener mComposeTweetListener = new ComposeListener() {
+    private final ComposeListener mComposeTweetListener = new ComposeListener() {
 
         @Override
         public void onShowCompose() {
@@ -653,7 +595,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     /*
 	 *
 	 */
-    ComposeListener mComposeDirectMessageListener = new ComposeListener() {
+    private final ComposeListener mComposeDirectMessageListener = new ComposeListener() {
 
         @Override
         public void onShowCompose() {
@@ -760,24 +702,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     /*
 	 *
 	 */
-    MenuItem getMenuItem(int resourceId) {
-
-        if (mCurrentMenu != null) {
-            for (int i = 0; i < mCurrentMenu.size(); i++) {
-                MenuItem menuItem = mCurrentMenu.getItem(i);
-                if (menuItem.getItemId() == resourceId) {
-                    return menuItem;
-                }
-            }
-        }
-
-        return null;
-    }
-
-    /*
-	 *
-	 */
-    OnPageChangeListener mOnPageChangeListener = new OnPageChangeListener() {
+    private final OnPageChangeListener mOnPageChangeListener = new OnPageChangeListener() {
 
         @Override
         public void onPageScrollStateChanged(int arg0) {
@@ -807,7 +732,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     /*
 	 *
 	 */
-    OnClickListener mLaneMaskOnClickListener = new OnClickListener() {
+    private final OnClickListener mLaneMaskOnClickListener = new OnClickListener() {
 
         @Override
         public void onClick(View v) {
@@ -841,27 +766,8 @@ public class BaseLaneActivity extends FragmentActivity implements
     /*
 	 *
 	 */
-    boolean composeReleaseFocus() {
-
-        boolean result = false;
-
-        if (mCurrentComposeFragment != null
-                && mCurrentComposeFragment.hasFocus()) {
-            mCurrentComposeFragment.releaseFocus(true);
-            result = true;
-        }
-
-        return result;
-    }
-
-    /*
-	 *
-	 */
     boolean composeHasFocus() {
-        if (mCurrentComposeFragment != null) {
-            return mCurrentComposeFragment.hasFocus();
-        }
-        return false;
+        return mCurrentComposeFragment != null && mCurrentComposeFragment.hasFocus();
     }
 
     /*
@@ -1003,31 +909,27 @@ public class BaseLaneActivity extends FragmentActivity implements
         // Early exit on these events so that the volume up/down sound doesn't
         // play
         // TODO: Handle user options for volume scrolling
-        if ((keyCode == KeyEvent.KEYCODE_VOLUME_UP)
-                || (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)) {
-            return true;
-        }
-        return super.onKeyUp(keyCode, event);
+        return (keyCode == KeyEvent.KEYCODE_VOLUME_UP) || (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) || super.onKeyUp(keyCode, event);
     }
 
     /*
 	 *
 	 */
-    protected PagerAdapter getAdapterForViewPager() {
+    PagerAdapter getAdapterForViewPager() {
         throw new RuntimeException("Derived class must implement me");
     }
 
     /*
 	 *
 	 */
-    protected FragmentStatePagerAdapter getFragmentStatePagerAdapter() {
+    FragmentStatePagerAdapter getFragmentStatePagerAdapter() {
         throw new RuntimeException("Derived class must implement me");
     }
 
     /*
 	 *
 	 */
-    private BroadcastReceiver mForceFragmentPagerAdapterRefreshReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver mForceFragmentPagerAdapterRefreshReceiver = new BroadcastReceiver() {
 
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -1042,7 +944,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     /*
 	 *
 	 */
-    private BroadcastReceiver mRestartAppReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver mRestartAppReceiver = new BroadcastReceiver() {
 
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -1053,14 +955,14 @@ public class BaseLaneActivity extends FragmentActivity implements
     /*
 	 *
 	 */
-    protected int getInitialLaneIndex() {
+    int getInitialLaneIndex() {
         return 0;
     }
 
     /*
 	 *
 	 */
-    public String getPath(Uri uri) {
+    String getPath(Uri uri) {
         String[] projection = {MediaStore.Images.Media.DATA};
         Cursor cursor = managedQuery(uri, projection, null, null, null);
         if (cursor != null) {
@@ -1202,18 +1104,14 @@ public class BaseLaneActivity extends FragmentActivity implements
             MenuInflater inflater = getMenuInflater();
             inflater.inflate(R.menu.compose_tweet_action_bar, menu);
             return true;
-        } else if (mComposeDirectMessageFragment != null
-                && mComposeDirectMessageFragment.hasFocus()) {
-            return true;
-        } else {
-            return configureOptionsMenu(menu);
-        }
+        } else
+            return mComposeDirectMessageFragment != null && mComposeDirectMessageFragment.hasFocus() || configureOptionsMenu(menu);
     }
 
     /*
 	 *
 	 */
-    public boolean configureOptionsMenu(Menu menu) {
+    boolean configureOptionsMenu(Menu menu) {
 
         Integer defaultOptionsMenu = getDefaultOptionsMenu();
         if (defaultOptionsMenu != null) {
@@ -1223,14 +1121,14 @@ public class BaseLaneActivity extends FragmentActivity implements
                     .get(getCurrentLaneIndex());
 
             if (fragment != null) {
-                if (fragment.configureOptionsMenu(inflater, menu) == false) {
+                if (!fragment.configureOptionsMenu(inflater, menu)) {
                     inflater.inflate(defaultOptionsMenu.intValue(), menu);
                 }
             } else {
                 inflater.inflate(defaultOptionsMenu.intValue(), menu);
             }
 
-            if (menu != null && App.getActionLauncherInstalled() == true) {
+            if (menu != null && App.getActionLauncherInstalled()) {
                 MenuItem buyALP = menu.findItem(R.id.action_buy_alp);
                 if (buyALP != null) {
                     buyALP.setVisible(false);
@@ -1245,7 +1143,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     /*
 	 *
 	 */
-    public Integer getDefaultOptionsMenu() {
+    Integer getDefaultOptionsMenu() {
         return R.menu.default_action_bar;
     }
 
@@ -1258,7 +1156,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     public boolean onOptionsItemSelected(MenuItem item) {
         int i = item.getItemId();
         if (i == android.R.id.home) {
-            if (composeReleaseFocus(false) == true) {
+            if (composeReleaseFocus(false)) {
                 return true;
             }
 
@@ -1300,21 +1198,21 @@ public class BaseLaneActivity extends FragmentActivity implements
 	 */
     public boolean isComposing() {
         return mCurrentComposeFragment != null
-                && mCurrentComposeFragment.hasFocus() ? true : false;
+                && mCurrentComposeFragment.hasFocus();
     }
 
     /*
 	 *
 	 */
-    protected void configureActionBarSearchView(Menu menu) {
+    void configureActionBarSearchView(Menu menu) {
 
         MenuItem searchItem = menu.findItem(R.id.action_search);
-        mSearchView = (SearchView) searchItem.getActionView();
+        SearchView searchView = (SearchView) searchItem.getActionView();
 
         searchItem.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM
                 | MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
 
-        mSearchView.setOnQueryTextListener(this);
+        searchView.setOnQueryTextListener(this);
 
         OnFocusChangeListener onFocusChangeListener = new OnFocusChangeListener() {
 
@@ -1335,14 +1233,14 @@ public class BaseLaneActivity extends FragmentActivity implements
 
         };
 
-        mSearchView.setOnQueryTextFocusChangeListener(onFocusChangeListener);
-        mSearchView.setOnFocusChangeListener(onFocusChangeListener);
+        searchView.setOnQueryTextFocusChangeListener(onFocusChangeListener);
+        searchView.setOnFocusChangeListener(onFocusChangeListener);
     }
 
     /*
 	 *
 	 */
-    protected void finishCurrentActionMode() {
+    void finishCurrentActionMode() {
         if (mCurrentActionMode != null) {
             // This is messy, but to prevent a circular loop, clear
             // mCurrentActionMode before calling .finish()
@@ -1355,7 +1253,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     /*
 	 *
 	 */
-    protected void setDirectMessageOtherUserScreenName(
+    void setDirectMessageOtherUserScreenName(
             String otherUserScreenName) {
         if (mComposeDirectMessageFragment != null) {
             mComposeDirectMessageFragment
@@ -1366,7 +1264,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     /*
      * Override if necessary
      */
-    protected ComposeTweetDefault getComposeTweetDefault() {
+    ComposeTweetDefault getComposeTweetDefault() {
 
         if (mShareImagePath != null) {
             return new ComposeTweetDefault(null, null, null, mShareImagePath);
@@ -1378,7 +1276,7 @@ public class BaseLaneActivity extends FragmentActivity implements
     /*
 	 *
 	 */
-    protected void setComposeTweetDefault(ComposeTweetDefault composeDefault) {
+    void setComposeTweetDefault(ComposeTweetDefault composeDefault) {
         if (mComposeTweetFragment != null) {
             mComposeTweetFragment.setComposeDefault(composeDefault);
         }
@@ -1387,14 +1285,14 @@ public class BaseLaneActivity extends FragmentActivity implements
     /*
 	 *
 	 */
-    protected void setComposeTweetDefault() {
+    void setComposeTweetDefault() {
         setComposeTweetDefault(getComposeTweetDefault());
     }
 
     /*
 	 *
 	 */
-    protected void setComposeDefault() {
+    void setComposeDefault() {
         if (this.mCurrentComposeFragment == mComposeTweetFragment)
         {
             String draft = mComposeTweetFragment.getTweetDefaultDraft();
@@ -1416,13 +1314,13 @@ public class BaseLaneActivity extends FragmentActivity implements
     /*
 	 *
 	 */
-    protected void beginShareStatus(String initialStatus) {
+    void beginShareStatus(String initialStatus) {
         if (mComposeTweetFragment != null) {
             mComposeTweetFragment.beginShare(initialStatus);
         }
     }
 
-    protected void beginShareImage(String imagePath) {
+    void beginShareImage(String imagePath) {
         mShareImagePath = imagePath;
         if (imagePath != null && mComposeTweetFragment != null) {
             setComposeTweetDefault(null);
@@ -1431,23 +1329,11 @@ public class BaseLaneActivity extends FragmentActivity implements
         }
     }
 
-    public void beginCompose() {
-        if (mCurrentComposeFragment != null) {
-            mCurrentComposeFragment.showCompose();
-        }
-    }
-
-    public void beginQuote(TwitterStatus statusToQuote) {
-        if (mComposeTweetFragment != null) {
-            mComposeTweetFragment.beginQuote(statusToQuote);
-        }
-    }
-
     public void retweetSelected(TwitterStatus status, TwitterFetchStatus.FinishedCallback callback) {
         if (mComposeTweetFragment != null) {
 
             TwitterUser user = TwitterManager.get().getUser(status.mUserId);
-            if (user != null && user.getProtected() == true) {
+            if (user != null && user.getProtected()) {
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                         this);
                 alertDialogBuilder

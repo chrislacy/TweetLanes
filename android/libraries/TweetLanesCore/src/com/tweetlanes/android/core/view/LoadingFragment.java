@@ -47,8 +47,7 @@ public class LoadingFragment extends BaseLaneFragment {
 
         setInitialDownloadState(InitialDownloadState.DOWNLOADED);
 
-        View resultView = inflater.inflate(R.layout.loading, null);
-        return resultView;
+        return inflater.inflate(R.layout.loading, null);
     }
 
     /*

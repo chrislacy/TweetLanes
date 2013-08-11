@@ -26,7 +26,7 @@ import java.util.Map;
  * framework's implementation. See the framework SDK documentation for a class
  * overview.
  */
-public class LruCache<K, V> {
+class LruCache<K, V> {
     private final LinkedHashMap<K, V> map;
 
     /**
@@ -46,7 +46,7 @@ public class LruCache<K, V> {
      *                the maximum number of entries in the cache. For all other caches,
      *                this is the maximum sum of the sizes of the entries in this cache.
      */
-    public LruCache(int maxSize) {
+    LruCache(int maxSize) {
         if (maxSize <= 0) {
             throw new IllegalArgumentException("maxSize <= 0");
         }
@@ -207,7 +207,7 @@ public class LruCache<K, V> {
      *                 this removal was caused by a {@link #put}. Otherwise it was caused by
      *                 an eviction or a {@link #remove}.
      */
-    protected void entryRemoved(boolean evicted, K key, V oldValue, V newValue) {
+    void entryRemoved(boolean evicted, K key, V oldValue, V newValue) {
     }
 
     /**
@@ -225,7 +225,7 @@ public class LruCache<K, V> {
      * thread calls {@link #put} while another is creating a value for the same
      * key.
      */
-    protected V create(K key) {
+    V create(K key) {
         return null;
     }
 
@@ -244,7 +244,7 @@ public class LruCache<K, V> {
      * <p/>
      * <p>An entry's size must not change while it is in the cache.
      */
-    protected int sizeOf(K key, V value) {
+    int sizeOf(K key, V value) {
         return 1;
     }
 

@@ -35,14 +35,12 @@ public class UserFeedItemView extends LinearLayout {
 
     private Context mContext;
     private TwitterUser mUser;
-    private TextView mScreenNameTextView;
-    private TextView mNameTextView;
     private long mUserId;
     private String mUserScreenName;
     private View mMessageBlock;
     private QuickContactDivot mAvatar;
-    private Path mPath = new Path();
-    private Paint mPaint = new Paint();
+    private final Path mPath = new Path();
+    private final Paint mPaint = new Paint();
 
     public UserFeedItemView(Context context) {
         super(context);
@@ -59,7 +57,7 @@ public class UserFeedItemView extends LinearLayout {
         init(context);
     }
 
-    public void init(Context context) {
+    void init(Context context) {
         mContext = context;
     }
 
@@ -70,11 +68,11 @@ public class UserFeedItemView extends LinearLayout {
 
         mUserId = user.getId();
         mUserScreenName = user.getScreenName();
-        mScreenNameTextView = (TextView) findViewById(R.id.screen_name);
-        mScreenNameTextView.setText("@" + user.getScreenName());
+        TextView screenNameTextView = (TextView) findViewById(R.id.screen_name);
+        screenNameTextView.setText("@" + user.getScreenName());
 
-        mNameTextView = (TextView) findViewById(R.id.name);
-        mNameTextView.setText(user.getName());
+        TextView nameTextView = (TextView) findViewById(R.id.name);
+        nameTextView.setText(user.getName());
 
         mAvatar = (QuickContactDivot) findViewById(R.id.avatar);
         if (AppSettings.get().downloadFeedImages()) {
@@ -91,18 +89,6 @@ public class UserFeedItemView extends LinearLayout {
         }
 
         mMessageBlock = findViewById(R.id.message_block);
-    }
-
-    public void onProfileImageClick() {
-        Intent profileIntent = new Intent(mContext, ProfileActivity.class);
-        profileIntent.putExtra("userId", Long.valueOf(mUserId).toString());
-        profileIntent.putExtra("userScreenName", mUserScreenName);
-        profileIntent.putExtra("clearCompose","true");
-        ((Activity)mContext).startActivityForResult(profileIntent, Constant.REQUEST_CODE_PROFILE);
-    }
-
-    public TwitterUser getTwitterUser() {
-        return mUser;
     }
 
     /**

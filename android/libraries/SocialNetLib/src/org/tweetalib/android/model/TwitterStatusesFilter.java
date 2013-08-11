@@ -23,7 +23,7 @@ public final class TwitterStatusesFilter {
 
     enum FilterType {
         ALL, HIDE_RETWEETS, HIDE_REPLIES, HIDE_RETWEETS_REPLIES, FILTER_MAX,
-    };
+    }
 
     public void setShowRetweets(boolean show) {
         mShowRetweets = show;
@@ -44,17 +44,17 @@ public final class TwitterStatusesFilter {
     /*
 	 * 
 	 */
-    boolean mShowRetweets = true;
-    boolean mShowReplies = true;
+    private boolean mShowRetweets = true;
+    private boolean mShowReplies = true;
 
     FilterType getFilterType() {
-        if (mShowRetweets == false && mShowReplies == false) {
+        if (!mShowRetweets && !mShowReplies) {
             return FilterType.HIDE_RETWEETS_REPLIES;
-        } else if (mShowReplies == false) {
+        } else if (!mShowReplies) {
             return FilterType.HIDE_REPLIES;
-        } else if (mShowRetweets == false) {
+        } else if (!mShowRetweets) {
             return FilterType.HIDE_RETWEETS;
         }
         return FilterType.ALL;
     }
-};
+}

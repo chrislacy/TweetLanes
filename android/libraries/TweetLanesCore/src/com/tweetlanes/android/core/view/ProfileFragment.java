@@ -37,7 +37,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.tweetlanes.android.core.Constant;
 import com.tweetlanes.android.core.R;
 import com.tweetlanes.android.core.util.Util;
 import com.tweetlanes.android.core.widget.urlimageviewhelper.UrlImageViewHelper;
@@ -147,7 +146,7 @@ public class ProfileFragment extends BaseLaneFragment {
                             TextView followingTextView = (TextView) mProfileView
                                     .findViewById(R.id.followState);
                             if (mFollowsLoggedInUser != null
-                                    && mFollowsLoggedInUser.booleanValue() == true) {
+                                    && mFollowsLoggedInUser.booleanValue()) {
                                 followingTextView.setText(R.string.follows_you);
                             } else {
                                 followingTextView.setText(null);
@@ -205,8 +204,7 @@ public class ProfileFragment extends BaseLaneFragment {
                 .findViewById(R.id.private_account_image);
         mFriendshipButton = (Button) mProfileView
                 .findViewById(R.id.friendship_button);
-        mFriendshipDivider = (View) mProfileView
-                .findViewById(R.id.friendship_divider);
+        mFriendshipDivider = mProfileView.findViewById(R.id.friendship_divider);
 
         if (mUser != null) {
             ImageView avatar = (ImageView) mProfileView
@@ -232,7 +230,7 @@ public class ProfileFragment extends BaseLaneFragment {
 
             fullNameTextView.setText(mUser.getName());
             if (mFollowsLoggedInUser != null
-                    && mFollowsLoggedInUser.booleanValue() == true) {
+                    && mFollowsLoggedInUser.booleanValue()) {
                 followingTextView.setText(R.string.follows_you);
             } else {
                 followingTextView.setText(null);
@@ -321,7 +319,7 @@ public class ProfileFragment extends BaseLaneFragment {
     /*
 	 * 
 	 */
-    private OnClickListener mFrienshipButtonListener = new OnClickListener() {
+    private final OnClickListener mFrienshipButtonListener = new OnClickListener() {
 
         @Override
         public void onClick(View v) {
@@ -331,8 +329,7 @@ public class ProfileFragment extends BaseLaneFragment {
                 String loggedInUserScreenName = getBaseLaneActivity().getApp()
                         .getCurrentAccountScreenName();
 
-                final boolean willCreateFriendship = mLoggedInUserFollows == false ? true
-                        : false;
+                final boolean willCreateFriendship = mLoggedInUserFollows != null && !mLoggedInUserFollows;
                 configureFriendshipButtonVisibility(willCreateFriendship);
 
                 mUpdateFriendshipFinishedCallback = TwitterManager.get()

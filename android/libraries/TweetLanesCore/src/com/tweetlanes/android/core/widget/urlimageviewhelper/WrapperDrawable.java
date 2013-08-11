@@ -6,16 +6,12 @@ import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
-public class WrapperDrawable extends Drawable {
+class WrapperDrawable extends Drawable {
     public WrapperDrawable(BitmapDrawable drawable) {
         mDrawable = drawable;
     }
 
-    BitmapDrawable mDrawable;
-
-    public WrapperDrawable(WrapperDrawable drawable) {
-        this(drawable.mDrawable);
-    }
+    final BitmapDrawable mDrawable;
 
     @Override
     public void draw(Canvas canvas) {
@@ -57,16 +53,6 @@ public class WrapperDrawable extends Drawable {
     @Override
     public int getIntrinsicWidth() {
         return mDrawable.getIntrinsicWidth();
-    }
-
-    /**
-     * Returns the underlying {@link BitmapDrawable}.
-     *
-     * @return An instance of {@link BitmapDrawable}
-     */
-    @Deprecated
-    public BitmapDrawable toBitmapDrawable() {
-        return mDrawable;
     }
 
     /**

@@ -3,8 +3,8 @@ package com.tweetlanes.android.core.widget.urlimageviewhelper;
 import java.lang.ref.SoftReference;
 import java.util.Hashtable;
 
-public class SoftReferenceHashTable<K, V> {
-    Hashtable<K, SoftReference<V>> mTable = new Hashtable<K, SoftReference<V>>();
+class SoftReferenceHashTable<K, V> {
+    private final Hashtable<K, SoftReference<V>> mTable = new Hashtable<K, SoftReference<V>>();
 
     public V put(K key, V value) {
         SoftReference<V> old = mTable.put(key, new SoftReference<V>(value));

@@ -30,12 +30,11 @@ import com.tweetlanes.android.core.widget.viewpagerindicator.TitleProvider;
 
 public class DirectMessageActivity extends BaseLaneActivity {
 
-    DirectMessageLaneAdapter mDirectMessageLaneAdapter;
-    ViewSwitcher mViewSwitcher;
+    private DirectMessageLaneAdapter mDirectMessageLaneAdapter;
 
-    static final String KEY_HANDLE_BASE = "handleBase";
-    static final String KEY_OTHER_USER_ID = "otherUserId";
-    static final String KEY_OTHER_USER_SCREEN_NAME = "otherUserScreenName";
+    private static final String KEY_HANDLE_BASE = "handleBase";
+    private static final String KEY_OTHER_USER_ID = "otherUserId";
+    private static final String KEY_OTHER_USER_SCREEN_NAME = "otherUserScreenName";
 
     /*
      *
@@ -63,9 +62,9 @@ public class DirectMessageActivity extends BaseLaneActivity {
 
         configureActionBarView();
 
-        mViewSwitcher = (ViewSwitcher) findViewById(R.id.rootViewSwitcher);
-        mViewSwitcher.reset();
-        mViewSwitcher.setDisplayedChild(1);
+        ViewSwitcher viewSwitcher = (ViewSwitcher) findViewById(R.id.rootViewSwitcher);
+        viewSwitcher.reset();
+        viewSwitcher.setDisplayedChild(1);
 
         setDirectMessageOtherUserScreenName(getOtherUserScreenName());
     }
@@ -78,7 +77,7 @@ public class DirectMessageActivity extends BaseLaneActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if (super.onOptionsItemSelected(item) == true) {
+        if (super.onOptionsItemSelected(item)) {
             return true;
         }
 
@@ -97,15 +96,14 @@ public class DirectMessageActivity extends BaseLaneActivity {
 	 */
     @Override
     public boolean configureOptionsMenu(Menu menu) {
-        super.configureOptionsMenu(menu);
+        boolean result = super.configureOptionsMenu(menu);
 
-        return configureActionBarView();
+        configureActionBarView();
+
+        return result;
     }
 
-    /*
-	 *
-	 */
-    boolean configureActionBarView() {
+    void configureActionBarView() {
 
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayShowTitleEnabled(true);
@@ -113,7 +111,6 @@ public class DirectMessageActivity extends BaseLaneActivity {
                 + getOtherUserScreenName());
         actionBar.setDisplayUseLogoEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
-        return true;
     }
 
     /*

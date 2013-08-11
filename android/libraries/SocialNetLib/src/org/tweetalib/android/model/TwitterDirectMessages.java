@@ -134,8 +134,8 @@ public class TwitterDirectMessages {
         /*
 		 * 
 		 */
-        private ArrayList<TwitterDirectMessage> mMessages;
-        Long mOtherUserId;
+        private final ArrayList<TwitterDirectMessage> mMessages;
+        final Long mOtherUserId;
     }
 
     /*
@@ -154,13 +154,6 @@ public class TwitterDirectMessages {
         mConversationHandle = new TwitterDirectMessagesHandle(messageOwnerId,
                 null);
         mMessageOwnerId = messageOwnerId;
-    }
-
-    public TwitterDirectMessages(TwitterDirectMessages another, Long otherUserId) {
-        mConversations = new ArrayList<Conversation>(another.mConversations);
-        mConversationHandle = new TwitterDirectMessagesHandle(
-                another.mMessageOwnerId, otherUserId);
-        mMessageOwnerId = another.mMessageOwnerId;
     }
 
     /*
@@ -213,7 +206,7 @@ public class TwitterDirectMessages {
     /*
 	 * 
 	 */
-    public void add(TwitterDirectMessage message) {
+    void add(TwitterDirectMessage message) {
 
         Conversation conversation = getConversationForMessage(message);
         if (conversation == null) {
@@ -292,48 +285,12 @@ public class TwitterDirectMessages {
     /*
 	 * 
 	 */
-    public TwitterDirectMessage getFirstMessage(
-            TwitterDirectMessagesHandle handle) {
-        ArrayList<TwitterDirectMessage> messages = getList(handle);
-        if (messages != null) {
-            return messages.get(0);
-        }
-
-        return null;
-    }
-
-    /*
-	 * 
-	 */
-    public TwitterDirectMessage getMessage(TwitterDirectMessagesHandle handle,
-            int position) {
-        ArrayList<TwitterDirectMessage> messages = getList(handle);
-        if (messages != null && position < messages.size()) {
-            return messages.get(position);
-        }
-
-        return null;
-    }
-
-    /*
-	 * 
-	 */
     public int getConversationCount() {
         if (mConversations != null) {
             return mConversations.size();
         }
 
         return 0;
-    }
-
-    /*
-	 * 
-	 */
-    Conversation getConversation(int index) {
-        if (mConversations != null) {
-            return mConversations.get(index);
-        }
-        return null;
     }
 
     /*
@@ -361,14 +318,14 @@ public class TwitterDirectMessages {
     /*
 	 * 
 	 */
-    public void sort() {
+    void sort() {
         Collections.sort(mConversations);
     }
 
     /*
 	 * 
 	 */
-    private long mMessageOwnerId;
-    private ArrayList<Conversation> mConversations;
-    private TwitterDirectMessagesHandle mConversationHandle;
+    private final long mMessageOwnerId;
+    private final ArrayList<Conversation> mConversations;
+    private final TwitterDirectMessagesHandle mConversationHandle;
 }

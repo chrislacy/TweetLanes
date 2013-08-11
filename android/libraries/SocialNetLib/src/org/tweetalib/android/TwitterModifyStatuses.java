@@ -32,7 +32,7 @@ public class TwitterModifyStatuses {
 
     private ModifyStatusesWorkerCallbacks mCallbacks;
     private Integer mModifyStatusesCallbackHandle;
-    private HashMap<Integer, FinishedCallback> mFinishedCallbackMap;
+    private final HashMap<Integer, FinishedCallback> mFinishedCallbackMap;
 
     /*
      *
@@ -72,10 +72,6 @@ public class TwitterModifyStatuses {
             mHandle = kInvalidHandle;
         }
 
-        void setHandle(int handle) {
-            mHandle = handle;
-        }
-
         private int mHandle;
     }
 
@@ -85,7 +81,7 @@ public class TwitterModifyStatuses {
     public abstract class FinishedDeleteCallback extends FinishedCallback {
 
         static final int kInvalidHandle = -1;
-        private TwitterStatuses mStatuses;
+        private final TwitterStatuses mStatuses;
 
 
         public FinishedDeleteCallback(TwitterStatuses statuses) {
@@ -127,8 +123,7 @@ public class TwitterModifyStatuses {
 	 *
 	 */
     FinishedCallback getModifyStatusesCallback(Integer callbackHandle) {
-        FinishedCallback callback = mFinishedCallbackMap.get(callbackHandle);
-        return callback;
+        return mFinishedCallbackMap.get(callbackHandle);
     }
 
     /*
@@ -200,10 +195,10 @@ public class TwitterModifyStatuses {
             mValue = value;
         }
 
-        Integer mCallbackHandle;
-        StatusesType mStatusesType;
-        TwitterStatuses mStatuses;
-        Integer mValue;
+        final Integer mCallbackHandle;
+        final StatusesType mStatusesType;
+        final TwitterStatuses mStatuses;
+        final Integer mValue;
     }
 
     /*
@@ -219,10 +214,10 @@ public class TwitterModifyStatuses {
             mResult = result;
         }
 
-        Integer mCallbackHandle;
-        TwitterStatuses mFeed;
-        Integer mValue;
-        TwitterFetchResult mResult;
+        final Integer mCallbackHandle;
+        final TwitterStatuses mFeed;
+        final Integer mValue;
+        final TwitterFetchResult mResult;
     }
 
     /*
@@ -255,7 +250,7 @@ public class TwitterModifyStatuses {
                 }
 
                 case SET_FAVORITE: {
-                    boolean favorite = input.mValue == 1 ? true : false;
+                    boolean favorite = input.mValue == 1;
 
                     if (input.mStatuses != null) {
                         for (int i = 0; i < input.mStatuses.getStatusCount(); i++) {
@@ -290,7 +285,7 @@ public class TwitterModifyStatuses {
                     }
 
                     case SET_FAVORITE: {
-                        boolean favorite = input.mValue == 1 ? true : false;
+                        boolean favorite = input.mValue == 1;
 
                         if (input.mStatuses != null) {
                             for (int i = 0; i < input.mStatuses.getStatusCount(); i++) {
@@ -337,7 +332,7 @@ public class TwitterModifyStatuses {
             }
 
             return new ModifyStatusesTaskOutput(
-                    new TwitterFetchResult(errorDescription == null ? true : false, errorDescription),
+                    new TwitterFetchResult(errorDescription == null, errorDescription),
                     input.mCallbackHandle, contentFeed, null);
         }
 

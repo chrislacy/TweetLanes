@@ -26,8 +26,8 @@ class PriorityExecutor implements BaseExecutor {
 	 * 
 	 */
     private static class PrioritizedRunnable {
-        public Runnable mRunnable;
-        public int mPriority;
+        public final Runnable mRunnable;
+        public final int mPriority;
 
         public PrioritizedRunnable(int priority, Runnable runnable) {
             mPriority = priority;
@@ -38,7 +38,7 @@ class PriorityExecutor implements BaseExecutor {
     /*
 	 * 
 	 */
-    public static class PrioritizedRunnableComparator implements
+    private static class PrioritizedRunnableComparator implements
             Comparator<PrioritizedRunnable> {
         @Override
         public int compare(PrioritizedRunnable left, PrioritizedRunnable right) {
@@ -46,8 +46,8 @@ class PriorityExecutor implements BaseExecutor {
         }
     }
 
-    final ArrayList<PrioritizedRunnable> mTasks = new ArrayList<PrioritizedRunnable>();
-    PrioritizedRunnable mActive;
+    private final ArrayList<PrioritizedRunnable> mTasks = new ArrayList<PrioritizedRunnable>();
+    private PrioritizedRunnable mActive;
 
     /*
      * (non-Javadoc)
@@ -85,7 +85,7 @@ class PriorityExecutor implements BaseExecutor {
     /*
      * 
      */
-    protected synchronized void scheduleNext() {
+    synchronized void scheduleNext() {
 
         if (mTasks.size() > 0) {
             mActive = mTasks.get(0);

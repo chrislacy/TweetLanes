@@ -18,7 +18,7 @@ import com.tweetlanes.android.core.widget.pulltorefresh.PullToRefreshBase;
 
 public class LoadingLayout extends FrameLayout {
 
-    static final int DEFAULT_ROTATION_ANIMATION_DURATION = 150;
+    private static final int DEFAULT_ROTATION_ANIMATION_DURATION = 150;
 
     private final ImageView mHeaderImage;
     private final ProgressBar mHeaderProgress;

@@ -34,10 +34,10 @@ import twitter4j.User;
 public class TwitterFetchUser {
 
     private FetchUserWorkerCallbacks mCallbacks;
-    private HashMap<Long, TwitterUser> mUserIdHashMap;
-    private HashMap<String, TwitterUser> mUserScreenNameHashMap;
+    private final HashMap<Long, TwitterUser> mUserIdHashMap;
+    private final HashMap<String, TwitterUser> mUserScreenNameHashMap;
     private Integer mFetchUserCallbackHandle;
-    private HashMap<Integer, FinishedCallback> mFinishedCallbackMap;
+    private final HashMap<Integer, FinishedCallback> mFinishedCallbackMap;
 
     /*
 	 *
@@ -78,10 +78,6 @@ public class TwitterFetchUser {
             mHandle = kInvalidHandle;
         }
 
-        void setHandle(int handle) {
-            mHandle = handle;
-        }
-
         private int mHandle;
     }
 
@@ -106,8 +102,7 @@ public class TwitterFetchUser {
 	 *
 	 */
     FinishedCallback getFetchStatusesCallback(Integer callbackHandle) {
-        FinishedCallback callback = mFinishedCallbackMap.get(callbackHandle);
-        return callback;
+        return mFinishedCallbackMap.get(callbackHandle);
     }
 
     /*
@@ -138,10 +133,10 @@ public class TwitterFetchUser {
             return;
         }
 
-        if (mUserIdHashMap.containsKey(twitterUser.getId()) == false) {
+        if (!mUserIdHashMap.containsKey(twitterUser.getId())) {
             mUserIdHashMap.put(twitterUser.getId(), twitterUser);
         }
-        if (mUserScreenNameHashMap.containsKey(twitterUser.getScreenName()) == false) {
+        if (!mUserScreenNameHashMap.containsKey(twitterUser.getScreenName())) {
             mUserScreenNameHashMap
                     .put(twitterUser.getScreenName(), twitterUser);
         }
@@ -150,11 +145,11 @@ public class TwitterFetchUser {
     public void setUser(User user, boolean forceUpdate) {
         Long userId = Long.valueOf(user.getId());
         TwitterUser twitterUser = new TwitterUser(user);
-        if (forceUpdate == true || mUserIdHashMap.containsKey(userId) == false) {
+        if (forceUpdate || !mUserIdHashMap.containsKey(userId)) {
             mUserIdHashMap.put(userId, twitterUser);
         }
-        if (forceUpdate == true
-                || mUserIdHashMap.containsKey(twitterUser.getScreenName()) == false) {
+        if (forceUpdate
+                || !mUserIdHashMap.containsKey(twitterUser.getScreenName())) {
             mUserScreenNameHashMap
                     .put(twitterUser.getScreenName(), twitterUser);
         }
@@ -163,11 +158,11 @@ public class TwitterFetchUser {
     public void setUser(AdnUser user, boolean forceUpdate) {
         Long userId = Long.valueOf(user.mId);
         TwitterUser twitterUser = new TwitterUser(user);
-        if (forceUpdate == true || mUserIdHashMap.containsKey(userId) == false) {
+        if (forceUpdate || !mUserIdHashMap.containsKey(userId)) {
             mUserIdHashMap.put(userId, twitterUser);
         }
-        if (forceUpdate == true
-                || mUserIdHashMap.containsKey(twitterUser.getScreenName()) == false) {
+        if (forceUpdate
+                || !mUserIdHashMap.containsKey(twitterUser.getScreenName())) {
             mUserScreenNameHashMap
                     .put(twitterUser.getScreenName(), twitterUser);
         }
@@ -201,8 +196,7 @@ public class TwitterFetchUser {
     }
 
     public List<TwitterUser> getCachedUsers() {
-        List<TwitterUser> users = new ArrayList<TwitterUser>(mUserIdHashMap.values());
-        return users;
+        return new ArrayList<TwitterUser>(mUserIdHashMap.values());
     }
 
     public TwitterUser getCachedUser(Long userId) {
@@ -220,7 +214,7 @@ public class TwitterFetchUser {
     public void verifyUser(FinishedCallback callback,
             ConnectionStatus connectionStatus) {
 
-        if (connectionStatus != null && connectionStatus.isOnline() == false) {
+        if (connectionStatus != null && !connectionStatus.isOnline()) {
             if (callback != null) {
                 callback.finished(new TwitterFetchResult(false,
                         connectionStatus.getErrorMessageNoConnection()), null);
@@ -241,7 +235,7 @@ public class TwitterFetchUser {
     private void trigger(Long userId, FinishedCallback callback,
             ConnectionStatus connectionStatus) {
 
-        if (connectionStatus != null && connectionStatus.isOnline() == false) {
+        if (connectionStatus != null && !connectionStatus.isOnline()) {
             if (callback != null) {
                 callback.finished(new TwitterFetchResult(false,
                         connectionStatus.getErrorMessageNoConnection()), null);
@@ -249,7 +243,7 @@ public class TwitterFetchUser {
             return;
         }
 
-        assert (mFinishedCallbackMap.containsValue(callback) == false);
+        assert (!mFinishedCallbackMap.containsValue(callback));
 
         mFinishedCallbackMap.put(mFetchUserCallbackHandle, callback);
         new FetchUserTask().execute(AsyncTaskEx.PRIORITY_HIGH, "Fetch User",
@@ -262,7 +256,7 @@ public class TwitterFetchUser {
     private void trigger(String screenName, FinishedCallback callback,
             ConnectionStatus connectionStatus) {
 
-        if (connectionStatus != null && connectionStatus.isOnline() == false) {
+        if (connectionStatus != null && !connectionStatus.isOnline()) {
             if (callback != null) {
                 callback.finished(new TwitterFetchResult(false,
                         connectionStatus.getErrorMessageNoConnection()), null);
@@ -270,7 +264,7 @@ public class TwitterFetchUser {
             return;
         }
 
-        assert (mFinishedCallbackMap.containsValue(callback) == false);
+        assert (!mFinishedCallbackMap.containsValue(callback));
 
         mFinishedCallbackMap.put(mFetchUserCallbackHandle, callback);
         new FetchUserTask().execute(AsyncTaskEx.PRIORITY_HIGH, "Fetch User",
@@ -314,11 +308,11 @@ public class TwitterFetchUser {
             mConnectionStatus = connectionStatus;
         }
 
-        Integer mCallbackHandle;
+        final Integer mCallbackHandle;
         Boolean mVerifyCredentials;
         Long mUserId;
         String mScreenName;
-        ConnectionStatus mConnectionStatus;
+        final ConnectionStatus mConnectionStatus;
 
     }
 
@@ -334,9 +328,9 @@ public class TwitterFetchUser {
             mUser = user;
         }
 
-        TwitterFetchResult mFetchResult;
-        Integer mCallbackHandle;
-        TwitterUser mUser;
+        final TwitterFetchResult mFetchResult;
+        final Integer mCallbackHandle;
+        final TwitterUser mUser;
     }
 
     /*
@@ -352,7 +346,7 @@ public class TwitterFetchUser {
             TwitterUser result = null;
             FetchUserTaskInput input = inputArray[0];
 
-            if (input.mConnectionStatus != null && input.mConnectionStatus.isOnline() == false) {
+            if (input.mConnectionStatus != null && !input.mConnectionStatus.isOnline()) {
                 return new FetchUserTaskOutput(new TwitterFetchResult(false,
                         input.mConnectionStatus.getErrorMessageNoConnection()),
                         input.mCallbackHandle, null);
@@ -364,7 +358,7 @@ public class TwitterFetchUser {
                 try {
                     User user = null;
                     if (input.mVerifyCredentials != null
-                            && input.mVerifyCredentials.booleanValue() == true) {
+                            && input.mVerifyCredentials.booleanValue()) {
                         Log.d("api-call", "verifyCredentials");
                         user = twitter.verifyCredentials();
                     } else {
@@ -395,7 +389,7 @@ public class TwitterFetchUser {
             }
 
             return new FetchUserTaskOutput(new TwitterFetchResult(
-                    errorDescription == null ? true : false, errorDescription),
+                    errorDescription == null, errorDescription),
                     input.mCallbackHandle, result);
         }
 

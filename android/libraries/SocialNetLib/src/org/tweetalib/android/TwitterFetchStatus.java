@@ -31,7 +31,7 @@ public class TwitterFetchStatus {
 
     private FetchStatusWorkerCallbacks mCallbacks;
     private Integer mFetchStatusCallbackHandle;
-    private HashMap<Integer, FinishedCallback> mFinishedCallbackMap;
+    private final HashMap<Integer, FinishedCallback> mFinishedCallbackMap;
 
     /*
 	 *
@@ -74,10 +74,6 @@ public class TwitterFetchStatus {
             mHandle = kInvalidHandle;
         }
 
-        void setHandle(int handle) {
-            mHandle = handle;
-        }
-
         private int mHandle;
     }
 
@@ -104,8 +100,7 @@ public class TwitterFetchStatus {
 	 *
 	 */
     FinishedCallback getFetchStatusCallback(Integer callbackHandle) {
-        FinishedCallback callback = mFinishedCallbackMap.get(callbackHandle);
-        return callback;
+        return mFinishedCallbackMap.get(callbackHandle);
     }
 
     /*
@@ -167,7 +162,7 @@ public class TwitterFetchStatus {
     void triggerFetchStatusTask(FetchStatusTaskInput taskInput,
             FinishedCallback callback, ConnectionStatus connectionStatus) {
 
-        if (connectionStatus != null && connectionStatus.isOnline() == false) {
+        if (connectionStatus != null && !connectionStatus.isOnline()) {
             if (callback != null) {
                 callback.finished(new TwitterFetchResult(false,
                         connectionStatus.getErrorMessageNoConnection()), null);
@@ -211,11 +206,11 @@ public class TwitterFetchStatus {
             mConnectionStatus = connectionStatus;
         }
 
-        Integer mCallbackHandle;
-        StatusType mStatusType;
+        final Integer mCallbackHandle;
+        final StatusType mStatusType;
         TwitterStatusUpdate mStatusUpdate;
         Long mExistingStatusId;
-        ConnectionStatus mConnectionStatus;
+        final ConnectionStatus mConnectionStatus;
     }
 
     /*
@@ -230,9 +225,9 @@ public class TwitterFetchStatus {
             mStatus = status;
         }
 
-        TwitterFetchResult mResult;
-        Integer mCallbackHandle;
-        TwitterStatus mStatus;
+        final TwitterFetchResult mResult;
+        final Integer mCallbackHandle;
+        final TwitterStatus mStatus;
     }
 
     /*
@@ -250,7 +245,7 @@ public class TwitterFetchStatus {
             TwitterStatus twitterStatus = null;
             String errorDescription = null;
 
-            if (input.mConnectionStatus != null && input.mConnectionStatus.isOnline() == false) {
+            if (input.mConnectionStatus != null && !input.mConnectionStatus.isOnline()) {
                 return new FetchStatusTaskOutput(new TwitterFetchResult(false,
                         input.mConnectionStatus.getErrorMessageNoConnection()),
                         input.mCallbackHandle, null);
@@ -368,7 +363,7 @@ public class TwitterFetchStatus {
             }
 
             return new FetchStatusTaskOutput(new TwitterFetchResult(
-                    errorDescription == null ? true : false, errorDescription),
+                    errorDescription == null, errorDescription),
                     input.mCallbackHandle, twitterStatus);
         }
 

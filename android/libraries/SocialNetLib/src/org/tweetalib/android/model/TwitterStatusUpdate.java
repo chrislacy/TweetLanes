@@ -27,7 +27,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.net.SecureCacheResponse;
 
 import org.appdotnet4j.model.AdnPostCompose;
 import twitter4j.StatusUpdate;
@@ -78,17 +77,16 @@ public class TwitterStatusUpdate {
             error.printStackTrace();
         }
 
-        AdnPostCompose statusUpdate = new AdnPostCompose(mStatus, mInReplyToStatusId, mediaFile);
-        return statusUpdate;
+        return new AdnPostCompose(mStatus, mInReplyToStatusId, mediaFile);
     }
 
     public void setMediaFilePath(String mediaFilePath) {
         mMediaFilePath = mediaFilePath;
     }
 
-    String mStatus;
-    Long mInReplyToStatusId;
-    String mMediaFilePath;
+    private final String mStatus;
+    private final Long mInReplyToStatusId;
+    private String mMediaFilePath;
 
 
     private File getMediaFile(String mediaFilePath) throws IOException {
@@ -148,7 +146,7 @@ public class TwitterStatusUpdate {
         return resizeImage;
     }
 
-    private File SaveImage(Bitmap resizeImage) throws IOException
+    private File SaveImage(Bitmap resizeImage)
     {
         File path = new File(Environment.getExternalStorageDirectory(),"temp/images/Tweet Lanes");
 

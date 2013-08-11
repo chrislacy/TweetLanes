@@ -31,27 +31,15 @@ import twitter4j.URLEntity;
 import twitter4j.UserMentionEntity;
 
 import com.twitter.Autolink;
-import com.twitter.AutolinkEx;
 
 public class TwitterUtil {
 
-    private static AutolinkEx mAutolinkEx;
-    private static Autolink mAutolink;
+    private static Autolink mAutoLink;
 
     private static void initCommon() {
 
-        if (mAutolinkEx == null) {
-            mAutolinkEx = new AutolinkEx();
-            mAutolinkEx.setNoFollow(false);
-            mAutolinkEx.setUsernameIncludeSymbol(true);
-            mAutolinkEx.setUrlTarget("_blank");
-        }
-
-        if (mAutolink == null) {
-            mAutolink = new Autolink();
-            mAutolink.setNoFollow(false);
-            mAutolink.setUsernameIncludeSymbol(true);
-            mAutolink.setUrlTarget("_blank");
+        if (mAutoLink == null) {
+            mAutoLink = new Autolink();
         }
     }
 
@@ -61,13 +49,6 @@ public class TwitterUtil {
     public static String stripMarkup(String text) {
         return text != null ? android.text.Html.fromHtml(text).toString()
                 : null;
-    }
-
-    /*
-	 * 
-	 */
-    public static String getTextMarkup(String text) {
-        return getStatusMarkup(text, null, null, null);
     }
 
     public static String getTextMarkup(String text, URLEntity[] urlEntities) {
@@ -87,14 +68,6 @@ public class TwitterUtil {
     /*
 	 * 
 	 */
-    public static String getStatusMarkup(Status tweet) {
-        return getStatusMarkup(tweet.getText(), null, tweet.getMediaEntities(),
-                tweet.getURLEntities());
-    }
-
-    /*
-	 * 
-	 */
     public static String getStatusMarkup(AdnPost post,
             TwitterMediaEntity mediaEntity) {
         return getStatusMarkup(post.mText, mediaEntity, null, null);
@@ -109,9 +82,8 @@ public class TwitterUtil {
 
         initCommon();
 
-        String autoLinkAll = mAutolinkEx.autoLinkAll(statusText,
+        return mAutoLink.autoLinkAll(statusText,
                 twitterMediaEntity, mediaEntities, urlEntities);
-        return autoLinkAll;
     }
 
     /*
@@ -192,8 +164,7 @@ public class TwitterUtil {
         } catch (IndexOutOfBoundsException e) {
             throw new ParseException("Invalid length", 0);
         }
-        Date date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").parse(s);
-        return date;
+        return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").parse(s);
     }
 
 }

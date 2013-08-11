@@ -23,9 +23,9 @@ import com.tweetlanes.android.core.R;
  */
 public class ListTabPageIndicator extends ListView implements PageIndicator {
 
-    Runnable mTabSelector;
+    private Runnable mTabSelector;
 
-    private OnClickListener mTabClickListener = new OnClickListener() {
+    private final OnClickListener mTabClickListener = new OnClickListener() {
 
         public void onClick(View view) {
             TabView tabView = (TabView) view;
@@ -34,12 +34,11 @@ public class ListTabPageIndicator extends ListView implements PageIndicator {
     };
 
     // private LinearLayout mTabLayout;
-    private Context mContext;
-    private ListArrayAdapter mListAdapter;
+    private final Context mContext;
     private ViewPager mViewPager;
     private ViewPager.OnPageChangeListener mListener;
 
-    private LayoutInflater mInflater;
+    private final LayoutInflater mInflater;
 
     int mMaxTabWidth;
     private int mSelectedTabIndex;
@@ -171,11 +170,11 @@ public class ListTabPageIndicator extends ListView implements PageIndicator {
 
         if (names.size() > 0) {
             String[] array = names.toArray(new String[names.size()]);
-            mListAdapter = new ListArrayAdapter(mContext, array);
+            ListArrayAdapter listAdapter = new ListArrayAdapter(mContext, array);
 
             // mListAdapter.notify();
 
-            setAdapter(mListAdapter);
+            setAdapter(listAdapter);
 
             /*
              * TitleProvider adapter = (TitleProvider)mViewPager.getAdapter();

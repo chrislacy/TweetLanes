@@ -11,7 +11,6 @@
 
 package com.tweetlanes.android.core.view;
 
-import org.socialnetlib.android.SocialNetConstant;
 import org.tweetalib.android.TwitterManager;
 
 import android.app.Activity;
@@ -26,9 +25,9 @@ import com.tweetlanes.android.core.ConsumerKeyConstants;
 
 public class BootActivity extends Activity {
 
-    Class<?> mLastStartedClass;
+    private Class<?> mLastStartedClass;
 
-    public App getApp() {
+    App getApp() {
         return (App) getApplication();
     }
 
@@ -68,23 +67,6 @@ public class BootActivity extends Activity {
         jumpToNext();
     }
 
-    @Override
-    protected void onDestroy() {
-        // LocalBroadcastManager.getInstance(this).unregisterReceiver(mOAuthLoginStateChangeReceiver);
-        super.onDestroy();
-    }
-
-    /*
-     *
-	 */
-    /*
-     * private BroadcastReceiver mOAuthLoginStateChangeReceiver = new
-     * BroadcastReceiver() {
-     *
-     * @Override public void onReceive(Context context, Intent intent) {
-     * jumpToNext(); } };
-     */
-
     /*
 	 *
 	 */
@@ -97,7 +79,7 @@ public class BootActivity extends Activity {
             intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivity(intent);
         } else {
-            if (TwitterManager.get().hasValidTwitterInstance() == true) {
+            if (TwitterManager.get().hasValidTwitterInstance()) {
                 if (mLastStartedClass != HomeActivity.class) {
                     mLastStartedClass = HomeActivity.class;
                     // We don't want to come back here, so remove from the
@@ -105,7 +87,7 @@ public class BootActivity extends Activity {
                     finish();
 
                     Class<?> nextClass = HomeActivity.class;
-                    if (getApp().getTutorialCompleted() == false) {
+                    if (!getApp().getTutorialCompleted()) {
                         nextClass = TutorialActivity.class;
                     }
                     Intent intent = new Intent(getApplicationContext(),

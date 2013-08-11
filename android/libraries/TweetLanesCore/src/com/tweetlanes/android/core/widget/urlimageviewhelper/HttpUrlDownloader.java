@@ -15,22 +15,13 @@ import com.tweetlanes.android.core.widget.urlimageviewhelper.UrlImageViewHelper.
 public class HttpUrlDownloader implements UrlDownloader {
     private RequestPropertiesCallback mRequestPropertiesCallback;
 
-    public RequestPropertiesCallback getRequestPropertiesCallback() {
-        return mRequestPropertiesCallback;
-    }
-
-    public void setRequestPropertiesCallback(final RequestPropertiesCallback callback) {
-        mRequestPropertiesCallback = callback;
-    }
-
-
     @Override
     public void download(final Context context, final String url, final String filename, final UrlDownloaderCallback callback, final Runnable completion) {
         final AsyncTask<Void, Void, Void> downloader = new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(final Void... params) {
                 try {
-                    InputStream is = null;
+                    InputStream is;
 
                     String thisUrl = url;
                     HttpURLConnection urlConnection;
@@ -76,8 +67,8 @@ public class HttpUrlDownloader implements UrlDownloader {
     }
 
     @Override
-    public boolean allowCache() {
-        return true;
+    public boolean doNotCache() {
+        return false;
     }
 
     @Override

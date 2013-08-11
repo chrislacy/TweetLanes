@@ -31,9 +31,9 @@ import twitter4j.UserList;
 public class TwitterFetchLists {
 
     private FetchListsWorkerCallbacks mCallbacks;
-    private HashMap<Integer, TwitterLists> mListsHashMap;
+    private final HashMap<Integer, TwitterLists> mListsHashMap;
     private Integer mFetchListsCallbackHandle;
-    private HashMap<Integer, FinishedCallback> mFinishedCallbackMap;
+    private final HashMap<Integer, FinishedCallback> mFinishedCallbackMap;
 
     /*
 	 *
@@ -72,10 +72,6 @@ public class TwitterFetchLists {
             mHandle = kInvalidHandle;
         }
 
-        void setHandle(int handle) {
-            mHandle = handle;
-        }
-
         private int mHandle;
     }
 
@@ -100,8 +96,7 @@ public class TwitterFetchLists {
 	 *
 	 */
     FinishedCallback getFetchStatusesCallback(Integer callbackHandle) {
-        FinishedCallback callback = mFinishedCallbackMap.get(callbackHandle);
-        return callback;
+        return mFinishedCallbackMap.get(callbackHandle);
     }
 
     /*
@@ -148,7 +143,7 @@ public class TwitterFetchLists {
 	 */
     private void trigger(Integer userId, FinishedCallback callback) {
 
-        assert (mFinishedCallbackMap.containsValue(callback) == false);
+        assert (!mFinishedCallbackMap.containsValue(callback));
 
         mFinishedCallbackMap.put(mFetchListsCallbackHandle, callback);
         new FetchListsTask().execute(AsyncTaskEx.PRIORITY_MEDIUM,
@@ -160,7 +155,7 @@ public class TwitterFetchLists {
 
     private void trigger(String screenName, FinishedCallback callback) {
 
-        assert (mFinishedCallbackMap.containsValue(callback) == false);
+        assert (!mFinishedCallbackMap.containsValue(callback));
 
         mFinishedCallbackMap.put(mFetchListsCallbackHandle, callback);
         new FetchListsTask().execute(AsyncTaskEx.PRIORITY_MEDIUM,
@@ -193,7 +188,7 @@ public class TwitterFetchLists {
             mScreenName = screenName;
         }
 
-        Integer mCallbackHandle;
+        final Integer mCallbackHandle;
         Integer mUserId;
         String mScreenName;
     }
@@ -208,8 +203,8 @@ public class TwitterFetchLists {
             mLists = lists;
         }
 
-        Integer mCallbackHandle;
-        TwitterLists mLists;
+        final Integer mCallbackHandle;
+        final TwitterLists mLists;
     }
 
     /*

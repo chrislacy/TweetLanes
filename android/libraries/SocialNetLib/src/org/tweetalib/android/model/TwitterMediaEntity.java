@@ -16,8 +16,6 @@
 
 package org.tweetalib.android.model;
 
-import java.net.URL;
-
 import org.appdotnet4j.model.AdnPost;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -47,7 +45,7 @@ public class TwitterMediaEntity {
 	 */
     public enum Size {
         THUMB, SMALL, MEDIUM, LARGE,
-    };
+    }
 
     /*
 	 * 
@@ -131,30 +129,6 @@ public class TwitterMediaEntity {
         return null;
     }
 
-    /*
-	 * 
-	 */
-    public static TwitterMediaEntity createMediaEntity(AdnPost post) {
-
-        // TODO: This is a hack, but for now just replace newlines with a space
-        // so the split works.
-        String status = post.mText.replace("\n", " ").replace("<", "&lt;")
-                .replace(">", "&gt;");
-        String[] tokens = status.split(" ");
-        for (String token : tokens) {
-            if (token.length() > 1) {
-                if (token.contains("http://") || token.contains("https://")) {
-                    TwitterMediaEntity entity = getTwitterMediaEntityFromUrl(
-                            token, token);
-                    if (entity != null) {
-                        return entity;
-                    }
-                }
-            }
-        }
-
-        return null;
-    }
 
     private static TwitterMediaEntity getTwitterMediaEntityFromUrl(
             String tinyUrl, String expandedUrl) {
@@ -241,8 +215,7 @@ public class TwitterMediaEntity {
         int startIndex = lowerCaseUrl.indexOf(match);
         if (startIndex > -1) {
             startIndex += match.length();
-            String code = url.substring(startIndex);
-            return code;
+            return url.substring(startIndex);
         }
 
         return null;
@@ -340,9 +313,9 @@ public class TwitterMediaEntity {
 	 */
     private TwitterMediaEntity(MediaEntity mediaEntity) {
         mSource = Source.TWITTER;
-        mMediaCode = mediaEntity.getMediaURL().toString();
-        mUrl = mediaEntity.getURL().toString();
-        mExpandedUrl = mediaEntity.getExpandedURL().toString();
+        mMediaCode = mediaEntity.getMediaURL();
+        mUrl = mediaEntity.getURL();
+        mExpandedUrl = mediaEntity.getExpandedURL();
 
         /*
          * mSizeThumb = new
@@ -359,7 +332,7 @@ public class TwitterMediaEntity {
     /*
 	 * 
 	 */
-    public TwitterMediaEntity(String jsonAsString) throws JSONException {
+    private TwitterMediaEntity(String jsonAsString) throws JSONException {
         JSONObject object = new JSONObject(jsonAsString);
         mSource = Source.valueOf(object.getString(KEY_SOURCE));
         mMediaCode = object.getString(KEY_MEDIA_CODE);
@@ -391,13 +364,6 @@ public class TwitterMediaEntity {
             e.printStackTrace();
         }
         return object.toString();
-    }
-
-    /*
-	 * 
-	 */
-    public String getUrl() {
-        return mUrl;
     }
 
     public String getExpandedUrl() {

@@ -28,7 +28,7 @@ public class TwitterFetchBooleans {
 
     private FetchBooleansWorkerCallbacks mCallbacks;
     private Integer mFetchBooleanCallbackHandle;
-    private HashMap<Integer, FinishedCallback> mFinishedCallbackMap;
+    private final HashMap<Integer, FinishedCallback> mFinishedCallbackMap;
 
     /*
 	 *
@@ -70,10 +70,6 @@ public class TwitterFetchBooleans {
             mHandle = kInvalidHandle;
         }
 
-        void setHandle(int handle) {
-            mHandle = handle;
-        }
-
         private int mHandle;
     }
 
@@ -100,8 +96,7 @@ public class TwitterFetchBooleans {
 	 *
 	 */
     FinishedCallback getFetchBooleanCallback(Integer callbackHandle) {
-        FinishedCallback callback = mFinishedCallbackMap.get(callbackHandle);
-        return callback;
+        return mFinishedCallbackMap.get(callbackHandle);
     }
 
     /*
@@ -143,7 +138,7 @@ public class TwitterFetchBooleans {
     void triggerFetchBooleanTask(FetchBooleanTaskInput taskInput,
             FinishedCallback callback, ConnectionStatus connectionStatus) {
 
-        if (connectionStatus != null && connectionStatus.isOnline() == false) {
+        if (connectionStatus != null && !connectionStatus.isOnline()) {
             if (callback != null) {
                 callback.finished(new TwitterFetchResult(false,
                         connectionStatus.getErrorMessageNoConnection()), null);
@@ -180,11 +175,11 @@ public class TwitterFetchBooleans {
             mUserScreenNameToCheck = userScreenNameToCheck;
         }
 
-        Integer mCallbackHandle;
-        ConnectionStatus mConnectionStatus;
-        BooleanType mBooleanType;
-        String mUserScreenName;
-        String mUserScreenNameToCheck;
+        final Integer mCallbackHandle;
+        final ConnectionStatus mConnectionStatus;
+        final BooleanType mBooleanType;
+        final String mUserScreenName;
+        final String mUserScreenNameToCheck;
     }
 
     /*
@@ -201,8 +196,8 @@ public class TwitterFetchBooleans {
             }
         }
 
-        TwitterFetchResult mResult;
-        Integer mCallbackHandle;
+        final TwitterFetchResult mResult;
+        final Integer mCallbackHandle;
         ArrayList<Boolean> mReturnValues;
     }
 
@@ -222,7 +217,7 @@ public class TwitterFetchBooleans {
             AppdotnetApi appdotnet = getAppdotnetInstance();
             String errorDescription = null;
 
-            if (input.mConnectionStatus != null && input.mConnectionStatus.isOnline() == false) {
+            if (input.mConnectionStatus != null && !input.mConnectionStatus.isOnline()) {
                 return new FetchBooleanTaskOutput(new TwitterFetchResult(false,
                         input.mConnectionStatus.getErrorMessageNoConnection()),
                         input.mCallbackHandle, null);
@@ -232,8 +227,8 @@ public class TwitterFetchBooleans {
                 try {
                     switch (input.mBooleanType) {
                     case FRIENDSHIP_EXISTS: {
-                        if (input.mUserScreenName.toLowerCase().equals(
-                                input.mUserScreenNameToCheck.toLowerCase()) == false) {
+                        if (!input.mUserScreenName.toLowerCase().equals(
+                                input.mUserScreenNameToCheck.toLowerCase())) {
                             ResponseList<Friendship> response = twitter
                                     .lookupFriendships(new String[] { input.mUserScreenName });
                             if (response != null && response.size() == 1) {
@@ -254,8 +249,8 @@ public class TwitterFetchBooleans {
             } else if (appdotnet != null) {
                 switch (input.mBooleanType) {
                 case FRIENDSHIP_EXISTS: {
-                    if (input.mUserScreenName.toLowerCase().equals(
-                            input.mUserScreenNameToCheck.toLowerCase()) == false) {
+                    if (!input.mUserScreenName.toLowerCase().equals(
+                            input.mUserScreenNameToCheck.toLowerCase())) {
                         TwitterUser user = appdotnet
                                 .getAdnUser(input.mUserScreenName);
                         if (user != null) {
@@ -275,7 +270,7 @@ public class TwitterFetchBooleans {
             }
 
             return new FetchBooleanTaskOutput(new TwitterFetchResult(
-                    errorDescription == null ? true : false, errorDescription),
+                    errorDescription == null, errorDescription),
                     input.mCallbackHandle, result);
         }
 

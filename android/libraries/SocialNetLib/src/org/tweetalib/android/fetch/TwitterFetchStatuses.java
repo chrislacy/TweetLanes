@@ -45,10 +45,10 @@ import twitter4j.User;
 public class TwitterFetchStatuses {
 
     private FetchStatusesWorkerCallbacks mCallbacks;
-    private HashMap<String, TwitterStatuses> mStatusesHashMap;
+    private final HashMap<String, TwitterStatuses> mStatusesHashMap;
     private Integer mFetchStatusesCallbackHandle;
-    private HashMap<Integer, TwitterFetchStatusesFinishedCallback> mFinishedCallbackMap;
-    private HashMap<String, String> mHashtagMap;
+    private final HashMap<Integer, TwitterFetchStatusesFinishedCallback> mFinishedCallbackMap;
+    private final HashMap<String, String> mHashtagMap;
 
     /*
      *
@@ -102,8 +102,7 @@ public class TwitterFetchStatuses {
      *
 	 */
     TwitterFetchStatusesFinishedCallback getFetchStatusesCallback(Integer callbackHandle) {
-        TwitterFetchStatusesFinishedCallback callback = mFinishedCallbackMap.get(callbackHandle);
-        return callback;
+        return mFinishedCallbackMap.get(callbackHandle);
     }
 
     /*
@@ -191,8 +190,8 @@ public class TwitterFetchStatuses {
     /*
 	 *
 	 */
-    public TwitterStatuses setStatuses(TwitterContentHandle contentHandle, TwitterStatuses statuses,
-            boolean resetExisting) {
+    TwitterStatuses setStatuses(TwitterContentHandle contentHandle, TwitterStatuses statuses,
+                                boolean resetExisting) {
         TwitterStatuses feed = getStatuses(contentHandle);
         if (resetExisting) {
             feed.reset();
@@ -225,7 +224,7 @@ public class TwitterFetchStatuses {
     public void trigger(TwitterContentHandle contentHandle, TwitterPaging paging,
             TwitterFetchStatusesFinishedCallback callback, ConnectionStatus connectionStatus, int priorityOffset) {
 
-        if (connectionStatus != null && connectionStatus.isOnline() == false) {
+        if (connectionStatus != null && !connectionStatus.isOnline()) {
             if (callback != null) {
                 callback.finished(new TwitterFetchResult(false, connectionStatus.getErrorMessageNoConnection()),
                         null, contentHandle);
@@ -265,10 +264,10 @@ public class TwitterFetchStatuses {
             mConnectionStatus = connectionStatus;
         }
 
-        Integer mCallbackHandle;
-        TwitterContentHandle mContentHandle;
-        TwitterPaging mPaging;
-        ConnectionStatus mConnectionStatus;
+        final Integer mCallbackHandle;
+        final TwitterContentHandle mContentHandle;
+        final TwitterPaging mPaging;
+        final ConnectionStatus mConnectionStatus;
     }
 
     /*
@@ -284,10 +283,10 @@ public class TwitterFetchStatuses {
             mFeed = feed;
         }
 
-        TwitterFetchResult mResult;
-        Integer mCallbackHandle;
-        TwitterContentHandle mContentHandle;
-        TwitterStatuses mFeed;
+        final TwitterFetchResult mResult;
+        final Integer mCallbackHandle;
+        final TwitterContentHandle mContentHandle;
+        final TwitterStatuses mFeed;
     }
 
     /*
@@ -304,7 +303,7 @@ public class TwitterFetchStatuses {
             FetchStatusesTaskInput input = inputArray[0];
             String errorDescription = null;
 
-            if (input.mConnectionStatus != null && input.mConnectionStatus.isOnline() == false) {
+            if (input.mConnectionStatus != null && !input.mConnectionStatus.isOnline()) {
                 return new FetchStatusesTaskOutput(
                         new TwitterFetchResult(false, input.mConnectionStatus.getErrorMessageNoConnection()),
                         input.mCallbackHandle, null, input.mContentHandle);
@@ -314,8 +313,7 @@ public class TwitterFetchStatuses {
             if (appdotnetApi != null) {
 
                 AdnPaging defaultPaging = new AdnPaging(1);
-                defaultPaging.setCount(TwitterPaging.DEFAULT_STATUS_COUNT);
-                AdnPaging paging = null;
+                AdnPaging paging;
 
                 if (input.mPaging != null) {
                     paging = input.mPaging.getAdnPaging();
@@ -411,7 +409,6 @@ public class TwitterFetchStatuses {
                             contentFeed = setStatuses(input.mContentHandle, statuses, false);
                         }
                     }
-                    statuses = null;
                 }
 
                 case FULL_CONVERSATION: {
@@ -449,7 +446,7 @@ public class TwitterFetchStatuses {
 
                     Paging defaultPaging = new Paging(1);
                     defaultPaging.setCount(TwitterPaging.DEFAULT_STATUS_COUNT);
-                    Paging paging = null;
+                    Paging paging;
                     if (input.mPaging != null) {
                         paging = input.mPaging.getT4JPaging();
                     } else {
@@ -553,7 +550,7 @@ public class TwitterFetchStatuses {
                                 statuses.sort();
                                 contentFeed = setStatuses(input.mContentHandle, statuses, true);
                             }
-                            statuses = null;
+
                             break;
                         }
 
@@ -576,7 +573,7 @@ public class TwitterFetchStatuses {
             cacheHashtags(contentFeed);
 
             return new FetchStatusesTaskOutput(
-                    new TwitterFetchResult(errorDescription == null ? true : false, errorDescription),
+                    new TwitterFetchResult(errorDescription == null, errorDescription),
                     input.mCallbackHandle, contentFeed, input.mContentHandle);
         }
 

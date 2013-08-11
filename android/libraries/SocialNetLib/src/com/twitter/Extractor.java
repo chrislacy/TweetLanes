@@ -12,15 +12,15 @@ public class Extractor {
             URL, HASHTAG, MENTION, CASHTAG
         }
 
-        protected int start;
-        protected int end;
-        protected final String value;
+        int start;
+        int end;
+        final String value;
         // listSlug is used to store the list portion of @mention/list.
-        protected final String listSlug;
-        protected final Type type;
+        final String listSlug;
+        final Type type;
 
-        protected String displayURL = null;
-        protected String expandedURL = null;
+        String displayURL = null;
+        String expandedURL = null;
 
         public Entity(int start, int end, String value, String listSlug,
                 Type type) {
@@ -59,12 +59,8 @@ public class Extractor {
 
             Entity other = (Entity) obj;
 
-            if (this.type.equals(other.type) && this.start == other.start
-                    && this.end == other.end && this.value.equals(other.value)) {
-                return true;
-            } else {
-                return false;
-            }
+            return this.type.equals(other.type) && this.start == other.start
+                    && this.end == other.end && this.value.equals(other.value);
         }
 
         @Override
@@ -115,7 +111,7 @@ public class Extractor {
         }
     }
 
-    protected boolean extractURLWithoutProtocol = true;
+    private boolean extractURLWithoutProtocol = true;
 
     /**
      * Create a new extractor.
@@ -125,7 +121,7 @@ public class Extractor {
 
     private void removeOverlappingEntities(List<Entity> entities) {
         // sort by index
-        Collections.<Entity> sort(entities, new Comparator<Entity>() {
+        Collections.sort(entities, new Comparator<Entity>() {
             public int compare(Entity e1, Entity e2) {
                 return e1.start - e2.start;
             }
@@ -197,7 +193,7 @@ public class Extractor {
      *            of the tweet from which to extract usernames
      * @return List of usernames referenced (without the leading @ sign)
      */
-    public List<Entity> extractMentionedScreennamesWithIndices(String text) {
+    List<Entity> extractMentionedScreennamesWithIndices(String text) {
         List<Entity> extracted = new ArrayList<Entity>();
         for (Entity entity : extractMentionsOrListsWithIndices(text)) {
             if (entity.listSlug == null) {
@@ -549,13 +545,13 @@ public class Extractor {
      * An efficient converter of indices between code points and code units.
      */
     private static final class IndexConverter {
-        protected final String text;
+        final String text;
 
         // Keep track of a single corresponding pair of code unit and code point
         // offsets so that we can re-use counting work if the next requested
         // entity is near the most recent entity.
-        protected int codePointIndex = 0;
-        protected int charIndex = 0;
+        int codePointIndex = 0;
+        int charIndex = 0;
 
         IndexConverter(String text) {
             this.text = text;

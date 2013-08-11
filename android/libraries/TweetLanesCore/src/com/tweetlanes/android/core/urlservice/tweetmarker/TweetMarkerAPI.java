@@ -33,7 +33,7 @@ import android.net.Uri;
 import com.tweetlanes.android.core.model.AccountDescriptor;
 import com.tweetlanes.android.core.urlservice.ApiService;
 
-public class TweetMarkerAPI extends ApiService {
+class TweetMarkerAPI extends ApiService {
 
     private static final String BASE_URL = "http://api.tweetmarker.net/v2/";
 
@@ -103,7 +103,7 @@ public class TweetMarkerAPI extends ApiService {
                 String screenName = "chrismlacy";// inputArray[0];
                 String errorDescription = null;
 
-                if (connectionStatus != null && connectionStatus.isOnline() == false) {
+                if (connectionStatus != null && !connectionStatus.isOnline()) {
                     return new TaskOutput(new TwitterFetchResult(false,
                             connectionStatus.getErrorMessageNoConnection()),
                             null);
@@ -130,7 +130,7 @@ public class TweetMarkerAPI extends ApiService {
                 }
 
                 return new TaskOutput(new TwitterFetchResult(
-                        errorDescription == null ? true : false,
+                        errorDescription == null,
                         errorDescription), jsonAsString);
             }
 

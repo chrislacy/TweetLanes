@@ -29,11 +29,9 @@ import java.net.HttpURLConnection;
 import java.net.Proxy;
 import java.net.URL;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
@@ -76,7 +74,6 @@ public class LazyImageLoader {
     private final ExecutorService mExecutorService;
     private final int mFallbackRes;
     private final int mRequiredWidth, mRequiredHeight;
-    private boolean mIgnoreSSLError;
     private Proxy mProxy;
 
     // private final SharedPreferences mPreferences;
@@ -112,7 +109,7 @@ public class LazyImageLoader {
         displayImage(Util.parseURL(url), imageview);
     }
 
-    public void displayImage(URL url, ImageView imageview) {
+    void displayImage(URL url, ImageView imageview) {
         if (imageview == null) return;
         if (url == null) {
             imageview.setImageResource(mFallbackRes);
@@ -126,23 +123,6 @@ public class LazyImageLoader {
             queuePhoto(url, imageview);
             imageview.setImageResource(mFallbackRes);
         }
-    }
-
-    public String getCachedImagePath(URL url) {
-        if (mFileCache == null) return null;
-        final File f = mFileCache.getFile(url);
-        if (f != null && f.exists())
-            return f.getPath();
-        else {
-            queuePhoto(url, null);
-        }
-        return null;
-    }
-
-    public void reloadConnectivitySettings() {
-        mProxy = Util.getProxy(mContext);
-        // mIgnoreSSLError =
-        // mPreferences.getBoolean(PREFERENCE_KEY_IGNORE_SSL_ERROR, false);
     }
 
     private void copyStream(InputStream is, OutputStream os) {
@@ -202,15 +182,14 @@ public class LazyImageLoader {
 
     boolean imageViewReused(ImageToLoad imagetoload) {
         final Object tag = mImageViews.get(imagetoload.imageview);
-        if (tag == null || !tag.equals(imagetoload.source)) return true;
-        return false;
+        return tag == null || !tag.equals(imagetoload.source);
     }
 
     // Used to display bitmap in the UI thread
     private class BitmapDisplayer implements Runnable {
 
-        Bitmap mBitmap;
-        ImageToLoad mImageToLoad;
+        final Bitmap mBitmap;
+        final ImageToLoad mImageToLoad;
 
         public BitmapDisplayer(Bitmap b, ImageToLoad p) {
             mBitmap = b;
@@ -233,7 +212,7 @@ public class LazyImageLoader {
         private final String mCacheDirName;
 
         private File mCacheDir;
-        private Context mContext;
+        private final Context mContext;
 
         public FileCache(Context context, String cache_dir_name) {
             mContext = context;
@@ -245,8 +224,7 @@ public class LazyImageLoader {
             if (mCacheDir == null) return null;
             final String filename = getURLFilename(tag);
             if (filename == null) return null;
-            final File file = new File(mCacheDir, filename);
-            return file;
+            return new File(mCacheDir, filename);
         }
 
         public void saveFile(Bitmap image, URL tag) {
@@ -254,7 +232,7 @@ public class LazyImageLoader {
             final String filename = getURLFilename(tag);
             if (filename == null) return;
             final File file = new File(mCacheDir, filename);
-            FileOutputStream fOut = null;
+            FileOutputStream fOut;
             try
             {
                 fOut = new FileOutputStream(file);
@@ -339,7 +317,7 @@ public class LazyImageLoader {
 
     private class ImageLoader implements Runnable {
 
-        private ImageToLoad mImageToLoad;
+        private final ImageToLoad mImageToLoad;
 
         public ImageLoader(ImageToLoad imagetoload) {
             this.mImageToLoad = imagetoload;
@@ -361,12 +339,10 @@ public class LazyImageLoader {
         private Bitmap DownloadBitmapFromWeb(URL url, File f, Boolean isRetry)
         {
             try {
-                Bitmap bitmap = null;
+                Bitmap bitmap;
                 final HttpURLConnection conn = (HttpURLConnection) url
                         .openConnection(mProxy);
-                if (mIgnoreSSLError) {
-                    Util.setIgnoreSSLError(conn);
-                }
+
                 conn.setConnectTimeout(30000);
                 conn.setReadTimeout(30000);
                 conn.setInstanceFollowRedirects(true);
@@ -500,7 +476,6 @@ public class LazyImageLoader {
                     if (bitmap.expires.before(new Date())) {
                         mHardCache.remove(url);
                         fileCache.deleteFile(url);
-                        bitmap = null;
                     } else {
                         // Put bitmap on top of cache so it's purged last.
                         try {

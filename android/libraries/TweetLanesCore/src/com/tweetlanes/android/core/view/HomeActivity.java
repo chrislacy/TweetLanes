@@ -72,7 +72,7 @@ import java.util.List;
 
 public class HomeActivity extends BaseLaneActivity {
 
-   private HomeLaneAdapter mHomeLaneAdapter;
+    private HomeLaneAdapter mHomeLaneAdapter;
     private SpinnerAdapter mSpinnerAdapter;
     private ViewSwitcher mViewSwitcher;
     private FinishedCallback mFetchListsCallback;
@@ -211,7 +211,7 @@ public class HomeActivity extends BaseLaneActivity {
             } else if (type.contains("image/")) {
                 // From http://stackoverflow.com/a/2641363/328679
                 if (extras.containsKey(Intent.EXTRA_STREAM)) {
-                    Uri uri =extras.getParcelable(Intent.EXTRA_STREAM);
+                    Uri uri = extras.getParcelable(Intent.EXTRA_STREAM);
                     String scheme = uri.getScheme();
                     if (scheme.equals("content")) {
                         ContentResolver contentResolver = getContentResolver();
@@ -561,7 +561,10 @@ public class HomeActivity extends BaseLaneActivity {
         startActivity(new Intent(this, NewAccountActivity.class));
     }
 
-    void showUserPreferences() {
+    /*
+	 *
+	 */
+    public void showUserPreferences() {
         startActivity(new Intent(this, SettingsActivity.class));
     }
 
@@ -598,7 +601,7 @@ public class HomeActivity extends BaseLaneActivity {
     /*
      * Hanlder for refreshing a user's lists
      */
-    private Handler mRefreshListsHandler = new Handler();
+    private final Handler mRefreshListsHandler = new Handler();
     private final Runnable mRefreshListsTask = new Runnable() {
 
         public void run() {
@@ -733,8 +736,8 @@ public class HomeActivity extends BaseLaneActivity {
 
     class AccountAdapter extends android.widget.BaseAdapter {
 
-        Context mContext;
-        List<AccountData> mData;
+        final Context mContext;
+        final List<AccountData> mData;
 
         public AccountAdapter(Context context, List<AccountDescriptor> data)
         {
@@ -808,15 +811,14 @@ public class HomeActivity extends BaseLaneActivity {
             public AccountData(long id, String screenName, SocialNetConstant.Type serviceType, String avatarImageUrl) {
                 Id = id;
                 ScreenName = screenName;
-
                 AvatarImageUrl = avatarImageUrl;
                 ServiceType = serviceType;
             }
 
-            public String AvatarImageUrl;
-            public SocialNetConstant.Type ServiceType;
-            public String ScreenName;
-            public long Id;
+            public final String AvatarImageUrl;
+            public final SocialNetConstant.Type ServiceType;
+            public final String ScreenName;
+            public final long Id;
         }
 
         class AccountHolder {

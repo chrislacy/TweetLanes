@@ -38,7 +38,7 @@ public final class Util {
      *
 	 */
     public static boolean isValidString(String s) {
-        return s != null && s.equals("") == false ? true : false;
+        return s != null && !s.equals("");
     }
 
     /*
@@ -69,7 +69,7 @@ public final class Util {
     /*
 	 * 
 	 */
-    public static String getPrettyDate(Date olderDate, Date newerDate) {
+    private static String getPrettyDate(Date olderDate, Date newerDate) {
 
         String result;
 
@@ -133,8 +133,7 @@ public final class Util {
     public static float convertDpToPixel(float dp, Context context) {
         Resources resources = context.getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();
-        float px = dp * (metrics.densityDpi / 160f);
-        return px;
+        return dp * (metrics.densityDpi / 160f);
     }
 
     /**
@@ -147,21 +146,20 @@ public final class Util {
     public static float convertPixelsToDp(float px, Context context) {
         Resources resources = context.getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();
-        float dp = px / (metrics.densityDpi / 160f);
-        return dp;
+        return px / (metrics.densityDpi / 160f);
     }
 
     /*
 	 * 
 	 */
-    public static String trimLeft(String s) {
+    private static String trimLeft(String s) {
         return s.replaceAll("^\\s+", "");
     }
 
     /*
 	 * 
 	 */
-    public static String trimRight(String s) {
+    private static String trimRight(String s) {
         return s.replaceAll("\\s+$", "");
     }
 
@@ -179,7 +177,7 @@ public final class Util {
 
         if (tag != null) {
             String tagAsString = tag.toString();
-            if (tagAsString != null && tagAsString.equals("") == false) {
+            if (tagAsString != null && !tagAsString.equals("")) {
                 try {
                     int tagAsInt = Integer.parseInt(tagAsString);
                     if (tagAsInt == comparisonId) {
@@ -252,15 +250,6 @@ public final class Util {
         return Proxy.NO_PROXY;
     }
 
-    public static void setIgnoreSSLError(URLConnection conn) {
-        /*
-         * if (conn instanceof HttpsURLConnection) { ((HttpsURLConnection)
-         * conn).setHostnameVerifier(ALLOW_ALL_HOSTNAME_VERIFIER); if
-         * (IGNORE_ERROR_SSL_FACTORY != null) { ((HttpsURLConnection)
-         * conn).setSSLSocketFactory(IGNORE_ERROR_SSL_FACTORY); } }
-         */
-    }
-
     /*
      * via https://developer.android.com/training/camera/photobasics.html#
      * TaskCaptureIntent
@@ -279,45 +268,5 @@ public final class Util {
                 Environment
                         .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
                 albumName);
-    }
-
-    /*
-	 * 
-	 */
-    public static File getAlbumDir(String albumName) {
-        File storageDir = null;
-
-        if (Environment.MEDIA_MOUNTED.equals(Environment
-                .getExternalStorageState())) {
-
-            storageDir = getAlbumStorageDir(albumName);
-
-            if (storageDir != null) {
-                if (!storageDir.mkdirs()) {
-                    if (!storageDir.exists()) {
-                        // Log.d("CameraSample", "failed to create directory");
-                        return null;
-                    }
-                }
-            }
-
-        } else {
-            // Log.v(getString(R.string.app_name),
-            // "External storage is not mounted READ/WRITE.");
-        }
-
-        return storageDir;
-    }
-
-    /*
-	 * 
-	 */
-    public static void copyFile(InputStream in, OutputStream out)
-            throws IOException {
-        byte[] buffer = new byte[1024];
-        int read;
-        while ((read = in.read(buffer)) != -1) {
-            out.write(buffer, 0, read);
-        }
     }
 }
