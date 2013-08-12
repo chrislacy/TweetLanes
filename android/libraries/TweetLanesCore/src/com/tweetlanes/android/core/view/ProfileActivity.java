@@ -11,6 +11,7 @@
 
 package com.tweetlanes.android.core.view;
 
+import com.tweetlanes.android.core.AppSettings;
 import org.tweetalib.android.TwitterFetchResult;
 import org.tweetalib.android.TwitterFetchUser;
 import org.tweetalib.android.TwitterManager;
@@ -67,6 +68,8 @@ public class ProfileActivity extends BaseLaneActivity {
                     .replace("com.tweetlanes.android.core.profile://", "")
                     .replace("@", "");
         }
+
+
 
         if (mScreenName == null) {
             restartApp();
@@ -235,6 +238,10 @@ public class ProfileActivity extends BaseLaneActivity {
             View profileTitleView = inflator.inflate(layout, null);
             ((TextView) profileTitleView.findViewById(R.id.screenname))
                     .setText("@" + mScreenName);
+
+            if(AppSettings.get().getCurrentThemeStyle() == R.style.Theme_TweetLanes_Light_DarkActionBar){
+                ((TextView) profileTitleView.findViewById(R.id.screenname)).setTextColor(getResources().getColor(R.color.white));
+            }
 
             TextView fullNameTextView = (TextView) profileTitleView
                     .findViewById(R.id.fullname);

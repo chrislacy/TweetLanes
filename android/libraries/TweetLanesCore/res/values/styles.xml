@@ -56,7 +56,7 @@
         <item name="ic_action_save">@style/ic_action_save_dark</item>
         <item name="ic_action_select_image">@style/ic_action_select_image_dark</item>
         <item name="ic_action_search">@style/ic_action_search_dark</item>
-        <item name="ic_action_send">@style/ic_action_send_dark</item>
+        <item name="ic_action_send">@style/ic_action_send_light</item>
         <item name="ic_action_share">@style/ic_action_share_dark</item>
         <item name="ic_action_star_on">@style/ic_action_star_on_dark</item>
         <item name="ic_action_star_off">@style/ic_action_star_off_dark</item>
