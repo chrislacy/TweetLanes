@@ -234,7 +234,8 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 	 *
 	 */
     void fetchNewestTweets(final long sinceStatusId, Long maxStatusId) {
-        if (mTweetDataRefreshCallback == null) {
+        if (mTweetDataRefreshCallback == null)
+        {
             mTweetDataRefreshCallback = new TwitterFetchStatusesFinishedCallback() {
 
                 @Override
@@ -245,18 +246,18 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                         return;
                     }
 
-                    beginListHeadingCount();
-
-                    onRefreshFinished(fetchResult, feed);
                     mTweetDataRefreshCallback = null;
 
                     if (fetchResult.isSuccessful()) {
                         // If there are more statuses to get, go get 'em
                         if (feed != null && feed.getNewStatusesMaxId() != null) {
                             fetchNewestTweets(sinceStatusId, feed.getNewStatusesMaxId());
-                            // Log.d("Statuses", "Fetching more");
-                        } else {
-                            // Log.d("Statuses", "DONE!!!");
+                        }
+                        else
+                        {
+                            beginListHeadingCount();
+
+                            onRefreshFinished(fetchResult, feed);
                         }
                     }
                 }
