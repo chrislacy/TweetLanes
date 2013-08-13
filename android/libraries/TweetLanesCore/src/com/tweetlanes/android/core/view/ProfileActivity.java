@@ -60,6 +60,12 @@ public class ProfileActivity extends BaseLaneActivity {
         setResult(RESULT_OK, returnIntent);
 
         String clearCompose = getIntent().getStringExtra("clearCompose");
+        boolean savedStateRecreate = false;
+        if(savedInstanceState != null && savedInstanceState.containsKey("Recreate"))
+        {
+            savedStateRecreate = savedInstanceState.getBoolean("Recreate");
+        }
+
         mScreenName = getIntent().getStringExtra("userScreenName");
         if (mScreenName == null) {
             Uri data = getIntent().getData();
@@ -77,7 +83,7 @@ public class ProfileActivity extends BaseLaneActivity {
         super.setCurrentComposeFragment((fragment instanceof DirectMessageFeedFragment) ? super.COMPOSE_DIRECT_MESSAGE
                 : super.COMPOSE_TWEET);
 
-        if(clearCompose != null && clearCompose.equals("true"))
+        if((clearCompose != null && clearCompose.equals("true")) && !savedStateRecreate)
         {
             clearCompose();
             getIntent().removeExtra("clearCompose");
@@ -123,6 +129,12 @@ public class ProfileActivity extends BaseLaneActivity {
         setComposeDefault();
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle bundle) {
+        super.onSaveInstanceState(bundle);
+        bundle.putBoolean("Recreate", true);
+    }
+
     /*
      * (non-Javadoc)
      *
@@ -135,7 +147,7 @@ public class ProfileActivity extends BaseLaneActivity {
         // destroyed, yet a callback is still initiated from a Twitter fetch
         // operation. A better solution is needed here, but this works for now.
         mProfileAdapter = null;
-        
+
         super.onDestroy();
     }
 
@@ -279,6 +291,11 @@ public class ProfileActivity extends BaseLaneActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        clearCompose();
+    }
     /*
 	 *
 	 */
