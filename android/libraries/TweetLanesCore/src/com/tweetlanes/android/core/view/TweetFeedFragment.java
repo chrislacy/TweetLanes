@@ -234,6 +234,8 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 	 *
 	 */
     void fetchNewestTweets(final long sinceStatusId, Long maxStatusId) {
+
+
         if (mTweetDataRefreshCallback == null)
         {
             mTweetDataRefreshCallback = new TwitterFetchStatusesFinishedCallback() {
@@ -250,14 +252,20 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
                     if (fetchResult.isSuccessful()) {
                         // If there are more statuses to get, go get 'em
+                        boolean doneGettingStatus = true;
+
                         if (feed != null && feed.getNewStatusesMaxId() != null) {
-                            fetchNewestTweets(sinceStatusId, feed.getNewStatusesMaxId());
+                            doneGettingStatus = false;
+                        }
+
+                        if(doneGettingStatus)
+                        {
+                            beginListHeadingCount();
+                            onRefreshFinished(fetchResult, feed);
                         }
                         else
                         {
-                            beginListHeadingCount();
-
-                            onRefreshFinished(fetchResult, feed);
+                            fetchNewestTweets(sinceStatusId, feed.getNewStatusesMaxId());
                         }
                     }
                 }
@@ -272,6 +280,11 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                 getBaseLaneActivity().finishCurrentActionMode();
             }
         }
+        else
+        {
+            mTweetFeedListView.setRefreshing();
+        }
+
     }
 
     /*
@@ -444,28 +457,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
      * com.tweetlanes.android.core.view.BaseLaneFragment#triggerInitialDownload()
      */
     public void triggerInitialDownload() {
-        mTweetDataRefreshCallback = new TwitterFetchStatusesFinishedCallback() {
-
-            @Override
-            public void finished(TwitterFetchResult fetchResult, TwitterStatuses feed, TwitterContentHandle handle) {
-                if (!handle.getCurrentAccountKey().equals(getApp().getCurrentAccountKey())) {
-                    Log.e("Statuses", "account changed, don't display statuses");
-                    return;
-                }
-
-
-                if (feed != null) {
-                    setStatusFeed(feed, true);
-                }
-                updateViewVisibility(true);
-                setInitialDownloadState(InitialDownloadState.DOWNLOADED);
-                mTweetDataRefreshCallback = null;
-            }
-        };
-
-        Log.d("api-call", "--triggerInitialDownload((" + mContentHandle.getStatusesType().toString() + ")");
-        TwitterManager.get()
-                .triggerFetchStatuses(mContentHandle, null, mTweetDataRefreshCallback, getAsyncTaskPriorityOffset());
+        fetchNewestTweets();
         setInitialDownloadState(InitialDownloadState.DOWNLOADING);
     }
 
