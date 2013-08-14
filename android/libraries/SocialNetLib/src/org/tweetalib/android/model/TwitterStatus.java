@@ -646,7 +646,7 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
 	 *
 	 */
     void setStatusMarkup(Status status) {
-        mStatusFullMarkup = TwitterUtil.getStatusMarkup(status, mMediaEntity);
+        mStatusFullMarkup = TwitterUtil.getStatusMarkup(status);
         mStatusFullSpanned = URLSpanNoUnderline.stripUnderlines(Html
                 .fromHtml(mStatusFullMarkup.replace("\n", "<br/>") + " "));
     }
@@ -661,7 +661,7 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
     }
 
     void setStatusMarkup(AdnPost post) {
-        mStatusFullMarkup = TwitterUtil.getStatusMarkup(post, mMediaEntity);
+        mStatusFullMarkup = TwitterUtil.getStatusMarkup(post);
         mStatusFullSpanned = URLSpanNoUnderline.stripUnderlines(Html
                 .fromHtml(mStatusFullMarkup.replace("\n", "<br/>") + " "));
     }

@@ -2,10 +2,14 @@
 <changelog>
 	<release version="1.2.1" versioncode="51">
         <change>Feature - Added a visual cue when favorite button is pressed</change>
-        <change>Fix - Links are now shown in full, rather than a "display link"</change>
         <change>Feature - Added Holo Light Dark Actionbar Theme</change>
+		<change>Fix - Links are now shown in full, rather than a "display link"</change>
         <change>Fix - Links in profile descriptions converted from t.co links</change>
         <change>Fix - Reply when loading profile correction.  Show "Tweet @username"</change>
+		<change>Fix - Correct issues around compose box after loading profile</change>
+		<change>Fix - Use the t.co display url, rather than expanded url.  These are formatted nicer</change>
+		<change>Fix - Fix issue when more than 1 page of tweets.  Fetch only completes when all tweets collected preventing feed jumping</change>
+		<change>Other - Large codebase tidy-up - hopefully small improvement to performance, size and reliability</change>
     </release>
     <release version="1.2.0" versioncode="49">
         <change>Feature - Auto complete of @mentions and #hashtags</change>

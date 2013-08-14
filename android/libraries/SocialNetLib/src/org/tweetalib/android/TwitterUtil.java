@@ -20,6 +20,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Map;
 
 import org.appdotnet4j.model.AdnPost;
 import org.tweetalib.android.model.TwitterMediaEntity;
@@ -52,38 +53,34 @@ public class TwitterUtil {
     }
 
     public static String getTextMarkup(String text, URLEntity[] urlEntities) {
-        return getStatusMarkup(text, null, null, urlEntities);
+        return getStatusMarkup(text, null, urlEntities);
     }
 
     /*
      * return the markup for a status, which replaces t.co/ links with the
      * visible links
      */
-    public static String getStatusMarkup(Status status,
-            TwitterMediaEntity twitterMediaEntity) {
-        return getStatusMarkup(status.getText(), twitterMediaEntity,
-                status.getMediaEntities(), status.getURLEntities());
+    public static String getStatusMarkup(Status status) {
+        return getStatusMarkup(status.getText(),status.getMediaEntities(), status.getURLEntities());
     }
 
     /*
 	 * 
 	 */
-    public static String getStatusMarkup(AdnPost post,
-            TwitterMediaEntity mediaEntity) {
-        return getStatusMarkup(post.mText, mediaEntity, null, null);
+    public static String getStatusMarkup(AdnPost post) {
+
+        return getStatusMarkup(post.mText, null, null);
     }
 
     /*
 	 * 
 	 */
-    public static String getStatusMarkup(String statusText,
-            TwitterMediaEntity twitterMediaEntity, MediaEntity[] mediaEntities,
+    public static String getStatusMarkup(String statusText, MediaEntity[] mediaEntities,
             URLEntity[] urlEntities) {
 
         initCommon();
 
-        return mAutoLink.autoLinkAll(statusText,
-                twitterMediaEntity, mediaEntities, urlEntities);
+        return mAutoLink.autoLinkAll(statusText, mediaEntities, urlEntities);
     }
 
     /*

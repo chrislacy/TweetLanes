@@ -234,7 +234,10 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 	 *
 	 */
     void fetchNewestTweets(final long sinceStatusId, Long maxStatusId) {
-        if (mTweetDataRefreshCallback == null) {
+
+
+        if (mTweetDataRefreshCallback == null)
+        {
             mTweetDataRefreshCallback = new TwitterFetchStatusesFinishedCallback() {
 
                 @Override
@@ -245,18 +248,24 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                         return;
                     }
 
-                    beginListHeadingCount();
-
-                    onRefreshFinished(fetchResult, feed);
                     mTweetDataRefreshCallback = null;
 
                     if (fetchResult.isSuccessful()) {
                         // If there are more statuses to get, go get 'em
+                        boolean doneGettingStatus = true;
+
                         if (feed != null && feed.getNewStatusesMaxId() != null) {
+                            doneGettingStatus = false;
+                        }
+
+                        if(doneGettingStatus)
+                        {
+                            beginListHeadingCount();
+                            onRefreshFinished(fetchResult, feed);
+                        }
+                        else
+                        {
                             fetchNewestTweets(sinceStatusId, feed.getNewStatusesMaxId());
-                            // Log.d("Statuses", "Fetching more");
-                        } else {
-                            // Log.d("Statuses", "DONE!!!");
                         }
                     }
                 }
@@ -271,6 +280,11 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                 getBaseLaneActivity().finishCurrentActionMode();
             }
         }
+        else
+        {
+            mTweetFeedListView.setRefreshing();
+        }
+
     }
 
     /*
@@ -443,28 +457,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
      * com.tweetlanes.android.core.view.BaseLaneFragment#triggerInitialDownload()
      */
     public void triggerInitialDownload() {
-        mTweetDataRefreshCallback = new TwitterFetchStatusesFinishedCallback() {
-
-            @Override
-            public void finished(TwitterFetchResult fetchResult, TwitterStatuses feed, TwitterContentHandle handle) {
-                if (!handle.getCurrentAccountKey().equals(getApp().getCurrentAccountKey())) {
-                    Log.e("Statuses", "account changed, don't display statuses");
-                    return;
-                }
-
-
-                if (feed != null) {
-                    setStatusFeed(feed, true);
-                }
-                updateViewVisibility(true);
-                setInitialDownloadState(InitialDownloadState.DOWNLOADED);
-                mTweetDataRefreshCallback = null;
-            }
-        };
-
-        Log.d("api-call", "--triggerInitialDownload((" + mContentHandle.getStatusesType().toString() + ")");
-        TwitterManager.get()
-                .triggerFetchStatuses(mContentHandle, null, mTweetDataRefreshCallback, getAsyncTaskPriorityOffset());
+        fetchNewestTweets();
         setInitialDownloadState(InitialDownloadState.DOWNLOADING);
     }
 

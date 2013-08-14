@@ -1049,8 +1049,10 @@ class BaseLaneActivity extends FragmentActivity implements
                     fragment.UpdateTweetCache(status, deleteStatus);
                 }
 
-                clearCompose();
+
             }
+
+            clearCompose();
         } else if( requestCode == Constant.REQUEST_CODE_PROFILE ) {
             clearCompose();
         }
@@ -1157,6 +1159,7 @@ class BaseLaneActivity extends FragmentActivity implements
         int i = item.getItemId();
         if (i == android.R.id.home) {
             if (composeReleaseFocus(false)) {
+                clearCompose();
                 return true;
             }
 
