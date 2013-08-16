@@ -1,5 +1,7 @@
 package com.twitter;
 
+import android.text.TextUtils;
+
 import com.twitter.Extractor.Entity;
 
 import org.tweetalib.android.model.TwitterMediaEntity;
@@ -166,15 +168,19 @@ public class Autolink {
     void linkToURL(Entity entity, String text, StringBuilder builder,
                    URLEntity urlEntity) {
         CharSequence url = entity.getValue();
-        CharSequence linkText = escapeHTML(url);
+        String linkText = escapeHTML(url).toString();
 
-        if (urlEntity != null && urlEntity.getDisplayURL() != null) {
-            linkText = urlEntity.getDisplayURL();
-        } else if (urlEntity != null && urlEntity.getExpandedURL() != null) {
+        if (urlEntity != null && urlEntity.getExpandedURL() != null) {
             linkText = urlEntity.getExpandedURL();
+        } else if (urlEntity != null && urlEntity.getDisplayURL() != null) {
+            linkText = urlEntity.getDisplayURL();
         } else if (entity.displayURL != null) {
             linkText = entity.displayURL;
         }
+
+        //Remove "http://" or "https://"
+        //Then remove "www."
+        linkText = linkText.replaceAll("^https?://", "").replaceAll("^www.", "");
 
         Map<String, String> attrs = new LinkedHashMap<String, String>();
         attrs.put("href", url.toString());
