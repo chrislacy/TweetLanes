@@ -237,7 +237,7 @@ public class TwitterFetchStatuses {
         }
 
         mFinishedCallbackMap.put(mFetchStatusesCallbackHandle, callback);
-        new FetchStatusesTask().execute(AsyncTaskEx.PRIORITY_HIGH + priorityOffset, "Fetch Statuses",
+        new FetchStatusesTask().execute(AsyncTaskEx.PRIORITY_NOT_QUITE_HIGHEST + priorityOffset, "Fetch Statuses",
                 new FetchStatusesTaskInput(mFetchStatusesCallbackHandle, contentHandle, paging, connectionStatus));
 
         mFetchStatusesCallbackHandle += 1;

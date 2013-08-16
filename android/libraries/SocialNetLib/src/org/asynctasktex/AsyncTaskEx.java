@@ -233,7 +233,7 @@ import android.os.Process;
 public abstract class AsyncTaskEx<Params, Progress, Result> {
     private static final String LOG_TAG = "AsyncTask";
 
-    private static final int CORE_POOL_SIZE = 10;
+    private static final int CORE_POOL_SIZE = 5;
     private static final int MAXIMUM_POOL_SIZE = 128;
     private static final int KEEP_ALIVE = 1;
 
@@ -245,7 +245,8 @@ public abstract class AsyncTaskEx<Params, Progress, Result> {
     public static final int PRIORITY_LOW = 1;
     public static final int PRIORITY_MEDIUM = 2;
     public static final int PRIORITY_HIGH = 3;
-    public static final int PRIORITY_HIGHEST = 7;
+    public static final int PRIORITY_NOT_QUITE_HIGHEST = 4;
+    public static final int PRIORITY_HIGHEST = 5;
 
     private static final ThreadFactory sThreadFactory = new ThreadFactory() {
         private final AtomicInteger mCount = new AtomicInteger(1);

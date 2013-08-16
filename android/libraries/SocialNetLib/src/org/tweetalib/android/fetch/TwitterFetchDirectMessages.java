@@ -147,7 +147,7 @@ public class TwitterFetchDirectMessages {
         }
 
         mFinishedCallbackMap.put(mFetchMessagesCallbackHandle, callback);
-        new FetchStatusesTask().execute(AsyncTaskEx.PRIORITY_MEDIUM,
+        new FetchStatusesTask().execute(AsyncTaskEx.PRIORITY_HIGH,
                 "Fetch DMs", new FetchDirectMessagesTaskInput(
                         mFetchMessagesCallbackHandle, contentHandle, paging,
                         connectionStatus));
@@ -172,7 +172,7 @@ public class TwitterFetchDirectMessages {
         }
 
         mFinishedCallbackMap.put(mFetchMessagesCallbackHandle, callback);
-        new FetchStatusesTask().execute(AsyncTaskEx.PRIORITY_MEDIUM,
+        new FetchStatusesTask().execute(AsyncTaskEx.PRIORITY_HIGH,
                 "Fetch DMs", new FetchDirectMessagesTaskInput(
                         mFetchMessagesCallbackHandle, userId,
                         recipientScreenName, statusText, connectionStatus));

@@ -268,6 +268,10 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                             fetchNewestTweets(sinceStatusId, feed.getNewStatusesMaxId());
                         }
                     }
+                    else
+                    {
+                        onRefreshFinished(fetchResult, null);
+                    }
                 }
             };
 
@@ -457,8 +461,30 @@ public final class TweetFeedFragment extends BaseLaneFragment {
      * com.tweetlanes.android.core.view.BaseLaneFragment#triggerInitialDownload()
      */
     public void triggerInitialDownload() {
-        fetchNewestTweets();
+        mTweetDataRefreshCallback = new TwitterFetchStatusesFinishedCallback() {
+
+            @Override
+            public void finished(TwitterFetchResult fetchResult, TwitterStatuses feed, TwitterContentHandle handle) {
+                if (!handle.getCurrentAccountKey().equals(getApp().getCurrentAccountKey())) {
+                    Log.e("Statuses", "account changed, don't display statuses");
+                    return;
+                }
+
+
+                if (feed != null) {
+                    setStatusFeed(feed, true);
+                }
+                updateViewVisibility(true);
+                setInitialDownloadState(InitialDownloadState.DOWNLOADED);
+                mTweetDataRefreshCallback = null;
+            }
+        };
+
+        Log.d("api-call", "--triggerInitialDownload((" + mContentHandle.getStatusesType().toString() + ")");
+        TwitterManager.get()
+                .triggerFetchStatuses(mContentHandle, null, mTweetDataRefreshCallback, getAsyncTaskPriorityOffset());
         setInitialDownloadState(InitialDownloadState.DOWNLOADING);
+        mTweetFeedListView.setRefreshing();
     }
 
     /*
