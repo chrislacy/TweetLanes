@@ -477,6 +477,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                 updateViewVisibility(true);
                 setInitialDownloadState(InitialDownloadState.DOWNLOADED);
                 mTweetDataRefreshCallback = null;
+                mTweetFeedListView.onRefreshComplete();
             }
         };
 
