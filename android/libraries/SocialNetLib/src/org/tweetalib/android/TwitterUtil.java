@@ -16,22 +16,21 @@
 
 package org.tweetalib.android;
 
+import com.twitter.Autolink;
+
+import org.appdotnet4j.model.AdnPost;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Map;
 
-import org.appdotnet4j.model.AdnPost;
-import org.tweetalib.android.model.TwitterMediaEntity;
 import twitter4j.MediaEntity;
 import twitter4j.Paging;
 import twitter4j.Query;
 import twitter4j.Status;
 import twitter4j.URLEntity;
 import twitter4j.UserMentionEntity;
-
-import com.twitter.Autolink;
 
 public class TwitterUtil {
 
@@ -45,7 +44,7 @@ public class TwitterUtil {
     }
 
     /*
-	 * 
+     *
 	 */
     public static String stripMarkup(String text) {
         return text != null ? android.text.Html.fromHtml(text).toString()
@@ -61,7 +60,7 @@ public class TwitterUtil {
      * visible links
      */
     public static String getStatusMarkup(Status status) {
-        return getStatusMarkup(status.getText(),status.getMediaEntities(), status.getURLEntities());
+        return getStatusMarkup(status.getText(), status.getMediaEntities(), status.getURLEntities());
     }
 
     /*
@@ -76,7 +75,7 @@ public class TwitterUtil {
 	 * 
 	 */
     public static String getStatusMarkup(String statusText, MediaEntity[] mediaEntities,
-            URLEntity[] urlEntities) {
+                                         URLEntity[] urlEntities) {
 
         initCommon();
 

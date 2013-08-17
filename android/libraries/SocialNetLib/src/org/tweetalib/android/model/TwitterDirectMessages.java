@@ -42,7 +42,7 @@ public class TwitterDirectMessages {
     class Conversation implements Comparable<Conversation> {
 
         /*
-		 * 
+         *
 		 */
         public Conversation(Long otherUserId) {
             mMessages = new ArrayList<TwitterDirectMessage>();
@@ -92,7 +92,7 @@ public class TwitterDirectMessages {
             if (thisMostRecent != null
                     && otherMostRecent != null
                     && thisMostRecent.getCreatedAt().before(
-                            otherMostRecent.getCreatedAt())) {
+                    otherMostRecent.getCreatedAt())) {
                 return 1;
             }
             return -1;
@@ -113,7 +113,7 @@ public class TwitterDirectMessages {
             if (size != 0) {
                 TwitterDirectMessage previous = null;
                 for (Iterator<TwitterDirectMessage> it = mMessages.iterator(); it
-                        .hasNext();) {
+                        .hasNext(); ) {
                     TwitterDirectMessage current = it.next();
                     if (previous != null && current.getId() == previous.getId()) {
                         it.remove();
@@ -160,8 +160,8 @@ public class TwitterDirectMessages {
 	 * 
 	 */
     public void add(ResponseList<DirectMessage> sentDirectMessages,
-            ResponseList<DirectMessage> receivedDirectMessages,
-            AddUserCallback addUserCallback) {
+                    ResponseList<DirectMessage> receivedDirectMessages,
+                    AddUserCallback addUserCallback) {
 
         for (int i = 0; i < 2; i++) {
 

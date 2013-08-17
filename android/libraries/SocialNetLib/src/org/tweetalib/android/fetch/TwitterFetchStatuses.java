@@ -54,7 +54,7 @@ public class TwitterFetchStatuses {
      *
 	 */
     public void clearCallbacks() {
-        if (mFinishedCallbackMap != null ) {
+        if (mFinishedCallbackMap != null) {
             for (Integer key : mFinishedCallbackMap.keySet()) {
                 TwitterFetchStatusesFinishedCallback callback = mFinishedCallbackMap.get(key);
                 cancel(callback);
@@ -126,7 +126,7 @@ public class TwitterFetchStatuses {
     }
 
     /*
-	 *
+     *
 	 */
     TwitterStatuses setStatuses(TwitterContentHandle contentHandle, QueryResult result) {
         TwitterStatuses feed = getStatuses(contentHandle);
@@ -222,7 +222,7 @@ public class TwitterFetchStatuses {
 	 *
 	 */
     public void trigger(TwitterContentHandle contentHandle, TwitterPaging paging,
-            TwitterFetchStatusesFinishedCallback callback, ConnectionStatus connectionStatus, int priorityOffset) {
+                        TwitterFetchStatusesFinishedCallback callback, ConnectionStatus connectionStatus, int priorityOffset) {
 
         if (connectionStatus != null && !connectionStatus.isOnline()) {
             if (callback != null) {
@@ -257,7 +257,7 @@ public class TwitterFetchStatuses {
     class FetchStatusesTaskInput {
 
         FetchStatusesTaskInput(Integer callbackHandle, TwitterContentHandle contentHandle, TwitterPaging paging,
-                ConnectionStatus connectionStatus) {
+                               ConnectionStatus connectionStatus) {
             mCallbackHandle = callbackHandle;
             mContentHandle = contentHandle;
             mPaging = paging;
@@ -276,7 +276,7 @@ public class TwitterFetchStatuses {
     class FetchStatusesTaskOutput {
 
         FetchStatusesTaskOutput(TwitterFetchResult result, Integer callbackHandle, TwitterStatuses feed,
-                TwitterContentHandle contentHandle) {
+                                TwitterContentHandle contentHandle) {
             mResult = result;
             mCallbackHandle = callbackHandle;
             mContentHandle = contentHandle;
@@ -322,122 +322,122 @@ public class TwitterFetchStatuses {
                 }
 
                 switch (input.mContentHandle.getStatusesType()) {
-                case USER_HOME_TIMELINE: {
-                    AdnPosts posts = appdotnetApi.getAdnStream(paging);
-                    contentFeed = setStatuses(input.mContentHandle, posts);
-                    break;
-                }
-
-                case USER_TIMELINE: {
-                    String userIdAsString = input.mContentHandle.getIdentifier();
-                    try {
-                        int userId = Integer.valueOf(userIdAsString);
-                        AdnPosts posts = appdotnetApi.getAdnUserStream(userId, paging);
+                    case USER_HOME_TIMELINE: {
+                        AdnPosts posts = appdotnetApi.getAdnStream(paging);
                         contentFeed = setStatuses(input.mContentHandle, posts);
-                    } catch (NumberFormatException e) {
+                        break;
                     }
-                    break;
-                }
 
-                case RETWEETS_OF_ME: {
-                    AdnInteractions interactions = appdotnetApi.getAdnInteractions();
-                    AdnPosts posts = null;
-                    if (interactions != null) {
-                        posts = interactions.getAsPosts();
+                    case USER_TIMELINE: {
+                        String userIdAsString = input.mContentHandle.getIdentifier();
+                        try {
+                            int userId = Integer.valueOf(userIdAsString);
+                            AdnPosts posts = appdotnetApi.getAdnUserStream(userId, paging);
+                            contentFeed = setStatuses(input.mContentHandle, posts);
+                        } catch (NumberFormatException e) {
+                        }
+                        break;
                     }
-                    contentFeed = setStatuses(input.mContentHandle, posts);
-                    break;
-                }
 
-                case SCREEN_NAME_SEARCH:
-                case USER_MENTIONS: {
-                    String userIdAsString = input.mContentHandle.getIdentifier();
-                    try {
-                        int userId = Integer.valueOf(userIdAsString);
-                        AdnPosts posts = appdotnetApi.getAdnMentions(userId, paging);
+                    case RETWEETS_OF_ME: {
+                        AdnInteractions interactions = appdotnetApi.getAdnInteractions();
+                        AdnPosts posts = null;
+                        if (interactions != null) {
+                            posts = interactions.getAsPosts();
+                        }
                         contentFeed = setStatuses(input.mContentHandle, posts);
-                    } catch (NumberFormatException e) {
+                        break;
                     }
-                    break;
-                }
 
-                case USER_FAVORITES: {
-                    String userIdAsString = input.mContentHandle.getIdentifier();
-                    AdnPosts posts = appdotnetApi.getAdnFavorites(userIdAsString, paging);
-                    contentFeed = setStatuses(input.mContentHandle, posts);
-                    break;
-                }
-
-                case STATUS_SEARCH: {
-                    String searchTerm = input.mContentHandle.getScreenName();
-                    if (searchTerm.length() > 1 && searchTerm.charAt(0) == '#') {
-                        searchTerm = searchTerm.substring(1);
+                    case SCREEN_NAME_SEARCH:
+                    case USER_MENTIONS: {
+                        String userIdAsString = input.mContentHandle.getIdentifier();
+                        try {
+                            int userId = Integer.valueOf(userIdAsString);
+                            AdnPosts posts = appdotnetApi.getAdnMentions(userId, paging);
+                            contentFeed = setStatuses(input.mContentHandle, posts);
+                        } catch (NumberFormatException e) {
+                        }
+                        break;
                     }
-                    AdnPosts posts = appdotnetApi.getAdnTagPosts(searchTerm, paging);
-                    contentFeed = setStatuses(input.mContentHandle, posts);
-                    break;
-                }
 
-                case GLOBAL_FEED: {
-                    AdnPosts posts = appdotnetApi.getAdnGlobalStream(paging);
-                    contentFeed = setStatuses(input.mContentHandle, posts);
-                    break;
-                }
+                    case USER_FAVORITES: {
+                        String userIdAsString = input.mContentHandle.getIdentifier();
+                        AdnPosts posts = appdotnetApi.getAdnFavorites(userIdAsString, paging);
+                        contentFeed = setStatuses(input.mContentHandle, posts);
+                        break;
+                    }
 
-                case PREVIOUS_CONVERSATION: {
-                    TwitterStatuses statuses = new TwitterStatuses();
-                    long statusId = Long.parseLong(input.mContentHandle.getIdentifier());
-                    AdnPost post = appdotnetApi.getAdnPost(statusId);
-                    if (post != null) {
-                        TwitterStatus status = new TwitterStatus(post);
-                        if (status.mInReplyToStatusId != null) {
-                            long inReplyToStatusId = status.mInReplyToStatusId;
-                            for (int i = 0; i < 4; i++) {
-                                TwitterStatus reply = new TwitterStatus(appdotnetApi.getAdnPost(inReplyToStatusId));
-                                statuses.add(reply, false);
-                                if (reply.mInReplyToStatusId != null) {
-                                    inReplyToStatusId = reply.mInReplyToStatusId;
-                                } else {
-                                    break;
+                    case STATUS_SEARCH: {
+                        String searchTerm = input.mContentHandle.getScreenName();
+                        if (searchTerm.length() > 1 && searchTerm.charAt(0) == '#') {
+                            searchTerm = searchTerm.substring(1);
+                        }
+                        AdnPosts posts = appdotnetApi.getAdnTagPosts(searchTerm, paging);
+                        contentFeed = setStatuses(input.mContentHandle, posts);
+                        break;
+                    }
+
+                    case GLOBAL_FEED: {
+                        AdnPosts posts = appdotnetApi.getAdnGlobalStream(paging);
+                        contentFeed = setStatuses(input.mContentHandle, posts);
+                        break;
+                    }
+
+                    case PREVIOUS_CONVERSATION: {
+                        TwitterStatuses statuses = new TwitterStatuses();
+                        long statusId = Long.parseLong(input.mContentHandle.getIdentifier());
+                        AdnPost post = appdotnetApi.getAdnPost(statusId);
+                        if (post != null) {
+                            TwitterStatus status = new TwitterStatus(post);
+                            if (status.mInReplyToStatusId != null) {
+                                long inReplyToStatusId = status.mInReplyToStatusId;
+                                for (int i = 0; i < 4; i++) {
+                                    TwitterStatus reply = new TwitterStatus(appdotnetApi.getAdnPost(inReplyToStatusId));
+                                    statuses.add(reply, false);
+                                    if (reply.mInReplyToStatusId != null) {
+                                        inReplyToStatusId = reply.mInReplyToStatusId;
+                                    } else {
+                                        break;
+                                    }
                                 }
                             }
-                        }
 
-                        statuses.add(status, false);
-                        if (statuses.getStatusCount() > 0) {
-                            statuses.sort();
-                            contentFeed = setStatuses(input.mContentHandle, statuses, false);
+                            statuses.add(status, false);
+                            if (statuses.getStatusCount() > 0) {
+                                statuses.sort();
+                                contentFeed = setStatuses(input.mContentHandle, statuses, false);
+                            }
                         }
                     }
-                }
 
-                case FULL_CONVERSATION: {
-                    long statusId = Long.parseLong(input.mContentHandle.getIdentifier());
+                    case FULL_CONVERSATION: {
+                        long statusId = Long.parseLong(input.mContentHandle.getIdentifier());
 
-                    AddUserCallback addUserCallback = new AddUserCallback() {
+                        AddUserCallback addUserCallback = new AddUserCallback() {
 
-                        @Override
-                        public void addUser(User user) {
-                            mCallbacks.addUser(user);
+                            @Override
+                            public void addUser(User user) {
+                                mCallbacks.addUser(user);
+                            }
+
+                            @Override
+                            public void addUser(AdnUser user) {
+                                mCallbacks.addUser(user);
+                            }
+                        };
+
+                        AdnPosts conversation = appdotnetApi.getAdnConversation(statusId, paging);
+                        if (conversation != null && conversation.mPosts != null && conversation.mPosts.size() > 0) {
+                            TwitterStatuses statuses = new TwitterStatuses();
+                            statuses.add(conversation, addUserCallback);
+                            contentFeed = setStatuses(input.mContentHandle, statuses, true);
                         }
-
-                        @Override
-                        public void addUser(AdnUser user) {
-                            mCallbacks.addUser(user);
-                        }
-                    };
-
-                    AdnPosts conversation = appdotnetApi.getAdnConversation(statusId, paging);
-                    if (conversation != null && conversation.mPosts != null && conversation.mPosts.size() > 0) {
-                        TwitterStatuses statuses = new TwitterStatuses();
-                        statuses.add(conversation, addUserCallback);
-                        contentFeed = setStatuses(input.mContentHandle, statuses, true);
                     }
-                }
-                break;
-
-                default:
                     break;
+
+                    default:
+                        break;
                 }
             } else {
 
@@ -455,107 +455,107 @@ public class TwitterFetchStatuses {
 
                     try {
                         switch (input.mContentHandle.getStatusesType()) {
-                        case USER_HOME_TIMELINE: {
-                            Log.d("api-call", "getHomeTimeline");
-                            ResponseList<twitter4j.Status> statuses;
-                            statuses = twitter.getHomeTimeline(paging);
-                            contentFeed = setStatuses(input.mContentHandle, statuses);
-                            break;
-                        }
-
-                        case USER_TIMELINE: {
-                            Log.d("api-call", "getUserTimeline");
-                            ResponseList<twitter4j.Status> statuses =
-                                    twitter.getUserTimeline(input.mContentHandle.getScreenName(), paging);
-                            contentFeed = setStatuses(input.mContentHandle, statuses);
-                            break;
-                        }
-
-                        case USER_MENTIONS: {
-                            Log.d("api-call", "getMentionsTimeline");
-                            ResponseList<twitter4j.Status> statuses = twitter.getMentionsTimeline(paging);
-                            contentFeed = setStatuses(input.mContentHandle, statuses);
-                            break;
-                        }
-
-                        case USER_LIST_TIMELINE: {
-                            String listIdAsString = input.mContentHandle.getIdentifier();
-                            try {
-                                Log.d("api-call", "getUserListStatuses");
-                                int listId = Integer.valueOf(listIdAsString);
-                                ResponseList<twitter4j.Status> statuses = twitter.getUserListStatuses(listId, paging);
+                            case USER_HOME_TIMELINE: {
+                                Log.d("api-call", "getHomeTimeline");
+                                ResponseList<twitter4j.Status> statuses;
+                                statuses = twitter.getHomeTimeline(paging);
                                 contentFeed = setStatuses(input.mContentHandle, statuses);
-                            } catch (NumberFormatException e) {
+                                break;
                             }
-                            break;
-                        }
 
-                        case USER_FAVORITES: {
-                            Log.d("api-call", "getFavorites");
-                            ResponseList<twitter4j.Status> statuses =
-                                    twitter.getFavorites(input.mContentHandle.getScreenName(), paging);
-                            contentFeed = setStatuses(input.mContentHandle, statuses);
-                            break;
-                        }
+                            case USER_TIMELINE: {
+                                Log.d("api-call", "getUserTimeline");
+                                ResponseList<twitter4j.Status> statuses =
+                                        twitter.getUserTimeline(input.mContentHandle.getScreenName(), paging);
+                                contentFeed = setStatuses(input.mContentHandle, statuses);
+                                break;
+                            }
 
-                        case RETWEETS_OF_ME: {
-                            Log.d("api-call", "getRetweetsOfMe");
-                            ResponseList<twitter4j.Status> statuses = twitter.getRetweetsOfMe(paging);
-                            contentFeed = setStatuses(input.mContentHandle, statuses);
-                            break;
-                        }
+                            case USER_MENTIONS: {
+                                Log.d("api-call", "getMentionsTimeline");
+                                ResponseList<twitter4j.Status> statuses = twitter.getMentionsTimeline(paging);
+                                contentFeed = setStatuses(input.mContentHandle, statuses);
+                                break;
+                            }
 
-                        case SCREEN_NAME_SEARCH: {
-                            Log.d("api-call", "search");
-                            Query query = new Query("@" + input.mContentHandle.getScreenName());
-                            query = TwitterUtil.updateQueryWithPaging(query, paging);
-                            QueryResult result = twitter.search(query);
-                            contentFeed = setStatuses(input.mContentHandle, result);
-                            break;
-                        }
+                            case USER_LIST_TIMELINE: {
+                                String listIdAsString = input.mContentHandle.getIdentifier();
+                                try {
+                                    Log.d("api-call", "getUserListStatuses");
+                                    int listId = Integer.valueOf(listIdAsString);
+                                    ResponseList<twitter4j.Status> statuses = twitter.getUserListStatuses(listId, paging);
+                                    contentFeed = setStatuses(input.mContentHandle, statuses);
+                                } catch (NumberFormatException e) {
+                                }
+                                break;
+                            }
 
-                        case STATUS_SEARCH: {
-                            Log.d("api-call", "search");
-                            Query query = new Query(input.mContentHandle.getScreenName());
-                            query = TwitterUtil.updateQueryWithPaging(query, paging);
-                            QueryResult result = twitter.search(query);
-                            contentFeed = setStatuses(input.mContentHandle, result);
-                            break;
-                        }
+                            case USER_FAVORITES: {
+                                Log.d("api-call", "getFavorites");
+                                ResponseList<twitter4j.Status> statuses =
+                                        twitter.getFavorites(input.mContentHandle.getScreenName(), paging);
+                                contentFeed = setStatuses(input.mContentHandle, statuses);
+                                break;
+                            }
+
+                            case RETWEETS_OF_ME: {
+                                Log.d("api-call", "getRetweetsOfMe");
+                                ResponseList<twitter4j.Status> statuses = twitter.getRetweetsOfMe(paging);
+                                contentFeed = setStatuses(input.mContentHandle, statuses);
+                                break;
+                            }
+
+                            case SCREEN_NAME_SEARCH: {
+                                Log.d("api-call", "search");
+                                Query query = new Query("@" + input.mContentHandle.getScreenName());
+                                query = TwitterUtil.updateQueryWithPaging(query, paging);
+                                QueryResult result = twitter.search(query);
+                                contentFeed = setStatuses(input.mContentHandle, result);
+                                break;
+                            }
+
+                            case STATUS_SEARCH: {
+                                Log.d("api-call", "search");
+                                Query query = new Query(input.mContentHandle.getScreenName());
+                                query = TwitterUtil.updateQueryWithPaging(query, paging);
+                                QueryResult result = twitter.search(query);
+                                contentFeed = setStatuses(input.mContentHandle, result);
+                                break;
+                            }
 
 
-                        case PREVIOUS_CONVERSATION:
-                        case FULL_CONVERSATION: {
-                            Log.d("api-call", "showStatus");
-                            TwitterStatuses statuses = new TwitterStatuses();
-                            long statusId = Long.parseLong(input.mContentHandle.getIdentifier());
-                            TwitterStatus status = new TwitterStatus(twitter.showStatus(statusId));
-                            if (status.mInReplyToStatusId != null) {
-                                long inReplyToStatusId = status.mInReplyToStatusId;
-                                for (int i = 0; i < 4; i++) {
-                                    Log.d("api-call", "showStatus");
-                                    TwitterStatus reply = new TwitterStatus(twitter.showStatus(inReplyToStatusId));
-                                    statuses.add(reply, false);
-                                    if (reply.mInReplyToStatusId != null) {
-                                        inReplyToStatusId = reply.mInReplyToStatusId;
-                                    } else {
-                                        break;
+                            case PREVIOUS_CONVERSATION:
+                            case FULL_CONVERSATION: {
+                                Log.d("api-call", "showStatus");
+                                TwitterStatuses statuses = new TwitterStatuses();
+                                long statusId = Long.parseLong(input.mContentHandle.getIdentifier());
+                                TwitterStatus status = new TwitterStatus(twitter.showStatus(statusId));
+                                if (status.mInReplyToStatusId != null) {
+                                    long inReplyToStatusId = status.mInReplyToStatusId;
+                                    for (int i = 0; i < 4; i++) {
+                                        Log.d("api-call", "showStatus");
+                                        TwitterStatus reply = new TwitterStatus(twitter.showStatus(inReplyToStatusId));
+                                        statuses.add(reply, false);
+                                        if (reply.mInReplyToStatusId != null) {
+                                            inReplyToStatusId = reply.mInReplyToStatusId;
+                                        } else {
+                                            break;
+                                        }
                                     }
                                 }
+
+                                statuses.add(status, false);
+
+                                if (statuses.getStatusCount() > 0) {
+                                    statuses.sort();
+                                    contentFeed = setStatuses(input.mContentHandle, statuses, true);
+                                }
+
+                                break;
                             }
 
-                            statuses.add(status, false);
-
-                            if (statuses.getStatusCount() > 0) {
-                                statuses.sort();
-                                contentFeed = setStatuses(input.mContentHandle, statuses, true);
-                            }
-
-                            break;
-                        }
-
-                        default:
-                            break;
+                            default:
+                                break;
                         }
 
                     } catch (TwitterException e) {

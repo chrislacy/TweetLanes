@@ -1,10 +1,6 @@
 package com.twitter;
 
-import android.text.TextUtils;
-
 import com.twitter.Extractor.Entity;
-
-import org.tweetalib.android.model.TwitterMediaEntity;
 
 import java.util.LinkedHashMap;
 import java.util.List;

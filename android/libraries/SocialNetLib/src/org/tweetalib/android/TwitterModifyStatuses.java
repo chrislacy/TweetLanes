@@ -17,16 +17,18 @@
 package org.tweetalib.android;
 
 import android.util.Log;
+
 import org.appdotnet4j.model.AdnPost;
 import org.asynctasktex.AsyncTaskEx;
 import org.socialnetlib.android.AppdotnetApi;
 import org.tweetalib.android.TwitterConstant.StatusesType;
 import org.tweetalib.android.model.TwitterStatus;
 import org.tweetalib.android.model.TwitterStatuses;
-import twitter4j.Twitter;
-import twitter4j.TwitterException;
 
 import java.util.HashMap;
+
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
 
 public class TwitterModifyStatuses {
 
@@ -49,6 +51,7 @@ public class TwitterModifyStatuses {
     public interface ModifyStatusesWorkerCallbacks {
 
         public Twitter getTwitterInstance();
+
         public AppdotnetApi getAppdotnetApi();
     }
 
@@ -109,7 +112,7 @@ public class TwitterModifyStatuses {
     }
 
     /*
-	 *
+     *
 	 */
     public void setWorkerCallbacks(ModifyStatusesWorkerCallbacks callbacks) {
         mCallbacks = callbacks;
@@ -188,7 +191,7 @@ public class TwitterModifyStatuses {
     class ModifyStatusesTaskInput {
 
         public ModifyStatusesTaskInput(Integer callbackHandle, StatusesType statusesType, TwitterStatuses statuses,
-                Integer value) {
+                                       Integer value) {
             mCallbackHandle = callbackHandle;
             mStatusesType = statusesType;
             mStatuses = new TwitterStatuses(statuses);
@@ -207,7 +210,7 @@ public class TwitterModifyStatuses {
     class ModifyStatusesTaskOutput {
 
         ModifyStatusesTaskOutput(TwitterFetchResult result, Integer callbackHandle, TwitterStatuses feed,
-                Integer outputValue) {
+                                 Integer outputValue) {
             mCallbackHandle = callbackHandle;
             mFeed = feed;
             mValue = outputValue;
@@ -236,49 +239,14 @@ public class TwitterModifyStatuses {
             AppdotnetApi appdotnetApi = getAppdotnetApi();
             if (appdotnetApi != null) {
                 switch (input.mStatusesType) {
-                case DELETE: {
-                    if (input.mStatuses != null) {
-                        for (int i = 0; i < input.mStatuses.getStatusCount(); i++) {
-                            TwitterStatus twitterStatus = input.mStatuses.getStatus(i);
-                            AdnPost post = appdotnetApi.deleteTweet(twitterStatus.mId);
-                            if (post == null) {
-                                errorDescription = "Unable to delete status";
-                            }
-                        }
-                    }
-                    break;
-                }
-
-                case SET_FAVORITE: {
-                    boolean favorite = input.mValue == 1;
-
-                    if (input.mStatuses != null) {
-                        for (int i = 0; i < input.mStatuses.getStatusCount(); i++) {
-                            TwitterStatus twitterStatus = input.mStatuses.getStatus(i);
-                            if (twitterStatus.mIsFavorited != favorite) {
-                                AdnPost post = appdotnetApi.setAdnFavorite(twitterStatus.mId, favorite);
-
-                                if (post != null) {
-                                    twitterStatus = new TwitterStatus(post);
-                                    twitterStatus.setFavorite(favorite);
-                                    contentFeed.add(twitterStatus);
-                                }
-                            }
-                        }
-                    }
-                    break;
-                }
-                }
-            }
-            else if (twitter != null) {
-
-                try {
-                    switch (input.mStatusesType) {
                     case DELETE: {
                         if (input.mStatuses != null) {
                             for (int i = 0; i < input.mStatuses.getStatusCount(); i++) {
                                 TwitterStatus twitterStatus = input.mStatuses.getStatus(i);
-                                twitter.destroyStatus(twitterStatus.mId);
+                                AdnPost post = appdotnetApi.deleteTweet(twitterStatus.mId);
+                                if (post == null) {
+                                    errorDescription = "Unable to delete status";
+                                }
                             }
                         }
                         break;
@@ -291,34 +259,68 @@ public class TwitterModifyStatuses {
                             for (int i = 0; i < input.mStatuses.getStatusCount(); i++) {
                                 TwitterStatus twitterStatus = input.mStatuses.getStatus(i);
                                 if (twitterStatus.mIsFavorited != favorite) {
-                                    try {
-                                        twitter4j.Status status;
-                                        if (favorite) {
-                                            status = twitter.createFavorite(twitterStatus.mId);
-                                        } else {
-                                            status = twitter.destroyFavorite(twitterStatus.mId);
-                                        }
+                                    AdnPost post = appdotnetApi.setAdnFavorite(twitterStatus.mId, favorite);
 
-                                        // Yuck: See the comment for
-                                        // TwitterStatus.setFavorite() for
-                                        // reasons for this
-                                        twitterStatus = new TwitterStatus(status);
+                                    if (post != null) {
+                                        twitterStatus = new TwitterStatus(post);
                                         twitterStatus.setFavorite(favorite);
-
                                         contentFeed.add(twitterStatus);
-                                    } catch (TwitterException e) {
-                                        // we might get errors setting the favorite
-                                        // state to the same
-                                        // value again.
-                                        // Just ignore those ones...
                                     }
                                 }
                             }
-
                         }
-
                         break;
                     }
+                }
+            } else if (twitter != null) {
+
+                try {
+                    switch (input.mStatusesType) {
+                        case DELETE: {
+                            if (input.mStatuses != null) {
+                                for (int i = 0; i < input.mStatuses.getStatusCount(); i++) {
+                                    TwitterStatus twitterStatus = input.mStatuses.getStatus(i);
+                                    twitter.destroyStatus(twitterStatus.mId);
+                                }
+                            }
+                            break;
+                        }
+
+                        case SET_FAVORITE: {
+                            boolean favorite = input.mValue == 1;
+
+                            if (input.mStatuses != null) {
+                                for (int i = 0; i < input.mStatuses.getStatusCount(); i++) {
+                                    TwitterStatus twitterStatus = input.mStatuses.getStatus(i);
+                                    if (twitterStatus.mIsFavorited != favorite) {
+                                        try {
+                                            twitter4j.Status status;
+                                            if (favorite) {
+                                                status = twitter.createFavorite(twitterStatus.mId);
+                                            } else {
+                                                status = twitter.destroyFavorite(twitterStatus.mId);
+                                            }
+
+                                            // Yuck: See the comment for
+                                            // TwitterStatus.setFavorite() for
+                                            // reasons for this
+                                            twitterStatus = new TwitterStatus(status);
+                                            twitterStatus.setFavorite(favorite);
+
+                                            contentFeed.add(twitterStatus);
+                                        } catch (TwitterException e) {
+                                            // we might get errors setting the favorite
+                                            // state to the same
+                                            // value again.
+                                            // Just ignore those ones...
+                                        }
+                                    }
+                                }
+
+                            }
+
+                            break;
+                        }
                     }
                 } catch (TwitterException e) {
                     e.printStackTrace();

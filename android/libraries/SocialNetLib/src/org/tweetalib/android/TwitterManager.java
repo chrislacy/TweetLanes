@@ -45,9 +45,9 @@ public class TwitterManager {
 
     // / TODO: This is probably too C++ ish. Will come back to this later...
     public static void initModule(SocialNetConstant.Type socNetType,
-            String consumerKey, String consumerSecret, String oAuthToken,
-            String oAuthSecret, String currentAccountKey,
-            ConnectionStatus.Callbacks connectionStatusCallbacks) {
+                                  String consumerKey, String consumerSecret, String oAuthToken,
+                                  String oAuthSecret, String currentAccountKey,
+                                  ConnectionStatus.Callbacks connectionStatusCallbacks) {
         mInstance = new TwitterManager(socNetType, consumerKey, consumerSecret, currentAccountKey);
         mInstance.setOAuthTokenWithSecret(oAuthToken, oAuthSecret, true);
         mInstance.setConnectionStatus(connectionStatusCallbacks);
@@ -70,7 +70,7 @@ public class TwitterManager {
     private SocialNetApi mApi;
 
     /*
-	 *
+     *
 	 */
     private TwitterManager(SocialNetConstant.Type socialNetType, String consumerKey,
                            String consumerSecret, String currentAccountKey) {
@@ -82,25 +82,24 @@ public class TwitterManager {
     }
 
     public void setSocialNetType(SocialNetConstant.Type socialNetType,
-            String consumerKey, String consumerSecret, String currentAccountKey) {
+                                 String consumerKey, String consumerSecret, String currentAccountKey) {
         switch (socialNetType) {
-        case Appdotnet:
-            mApi = new AppdotnetApi(socialNetType, consumerKey, consumerSecret, currentAccountKey);
-            break;
+            case Appdotnet:
+                mApi = new AppdotnetApi(socialNetType, consumerKey, consumerSecret, currentAccountKey);
+                break;
 
-        default:
-            mApi = new TwitterApi(socialNetType, consumerKey, consumerSecret, currentAccountKey);
-            break;
+            default:
+                mApi = new TwitterApi(socialNetType, consumerKey, consumerSecret, currentAccountKey);
+                break;
         }
     }
-
 
 
     /*
 	 *
 	 */
     public void setOAuthTokenWithSecret(String oAuthToken, String oAuthSecret,
-            boolean cancelPending) {
+                                        boolean cancelPending) {
         mApi.setOAuthTokenWithSecret(oAuthToken, oAuthSecret, cancelPending);
     }
 
@@ -138,10 +137,10 @@ public class TwitterManager {
         NORMAL, // 48x48
         BIGGER, // 73x73
         ORIGINAL, // undefined. This will be the size the image was originally
-                  // uploaded in.
-                  // The filesize of original images can be very big so use this
-                  // parameter with
-                  // caution.
+        // uploaded in.
+        // The filesize of original images can be very big so use this
+        // parameter with
+        // caution.
     }
 
     /*
@@ -199,8 +198,8 @@ public class TwitterManager {
     }
 
     public void getOAuthAccessToken(RequestToken requestToken,
-            String oauthVerifier,
-            TwitterSignIn.GetOAuthAccessTokenCallback callback) {
+                                    String oauthVerifier,
+                                    TwitterSignIn.GetOAuthAccessTokenCallback callback) {
         mApi.getOAuthAccessToken(requestToken, oauthVerifier, callback);
     }
 
@@ -216,12 +215,12 @@ public class TwitterManager {
     }
 
     public TwitterUser getUser(Long userId,
-            TwitterFetchUser.FinishedCallback callback) {
+                               TwitterFetchUser.FinishedCallback callback) {
         return mApi.getUser(userId, callback);
     }
 
     public TwitterUser getUser(String screenName,
-            TwitterFetchUser.FinishedCallback callback) {
+                               TwitterFetchUser.FinishedCallback callback) {
         return mApi.getUser(screenName, callback);
     }
 
@@ -229,12 +228,12 @@ public class TwitterManager {
 	 *
 	 */
     public TwitterUsers getUsers(TwitterContentHandle contentHandle,
-            TwitterPaging paging) {
+                                 TwitterPaging paging) {
         return mApi.getUsers(contentHandle, paging);
     }
 
     public TwitterUsers getUsers(TwitterContentHandle contentHandle,
-            TwitterPaging paging, TwitterFetchUsers.FinishedCallback callback) {
+                                 TwitterPaging paging, TwitterFetchUsers.FinishedCallback callback) {
         return mApi.getUsers(contentHandle, paging, callback);
     }
 
@@ -255,8 +254,8 @@ public class TwitterManager {
     }
 
     public void sendDirectMessage(long userId, String recipientScreenName,
-            String statusText, TwitterContentHandle contentHandle,
-            TwitterFetchDirectMessagesFinishedCallback callback) {
+                                  String statusText, TwitterContentHandle contentHandle,
+                                  TwitterFetchDirectMessagesFinishedCallback callback) {
         mApi.sendDirectMessage(userId, recipientScreenName, statusText,
                 contentHandle, callback);
     }
@@ -265,32 +264,33 @@ public class TwitterManager {
 	 *
 	 */
     public void updateFriendship(String currentUserScreenName,
-            TwitterUser userToUpdate, boolean create,
-            TwitterFetchUsers.FinishedCallback callback) {
+                                 TwitterUser userToUpdate, boolean create,
+                                 TwitterFetchUsers.FinishedCallback callback) {
         mApi.updateFriendship(currentUserScreenName, userToUpdate, create,
                 callback);
     }
+
     public void updateFriendshipUserIds(long currentUserId,
-            ArrayList<Long> userIdsToUpdate, boolean create,
-            TwitterFetchUsers.FinishedCallback callback) {
+                                        ArrayList<Long> userIdsToUpdate, boolean create,
+                                        TwitterFetchUsers.FinishedCallback callback) {
         mApi.updateFriendshipUserIds(currentUserId, userIdsToUpdate, create,
                 callback);
     }
 
     public void createBlock(long currentUserId, ArrayList<Long> userIds,
-            TwitterFetchUsers.FinishedCallback callback) {
+                            TwitterFetchUsers.FinishedCallback callback) {
         mApi.createBlock(currentUserId, userIds, callback);
     }
 
 
     public void reportSpam(long currentUserId, ArrayList<Long> userIds,
-            TwitterFetchUsers.FinishedCallback callback) {
+                           TwitterFetchUsers.FinishedCallback callback) {
         mApi.reportSpam(currentUserId, userIds, callback);
     }
 
 
     public TwitterLists getLists(String screenName,
-            TwitterFetchLists.FinishedCallback callback) {
+                                 TwitterFetchLists.FinishedCallback callback) {
         return mApi.getLists(screenName, callback);
     }
 
@@ -298,7 +298,7 @@ public class TwitterManager {
 	 *
 	 */
     public TwitterStatus getStatus(long statusId,
-            TwitterFetchStatus.FinishedCallback callback) {
+                                   TwitterFetchStatus.FinishedCallback callback) {
         return mApi.getStatus(statusId, callback);
     }
 
@@ -306,7 +306,7 @@ public class TwitterManager {
 	 *
 	 */
     public void setStatus(TwitterStatusUpdate statusUpdate,
-            TwitterFetchStatus.FinishedCallback callback) {
+                          TwitterFetchStatus.FinishedCallback callback) {
         mApi.setStatus(statusUpdate, callback);
     }
 
@@ -314,7 +314,7 @@ public class TwitterManager {
 	 *
 	 */
     public void setRetweet(long statusId,
-            TwitterFetchStatus.FinishedCallback callback) {
+                           TwitterFetchStatus.FinishedCallback callback) {
         mApi.setRetweet(statusId, callback);
     }
 
@@ -322,12 +322,12 @@ public class TwitterManager {
 	 *
 	 */
     public void setFavorite(TwitterStatus status, boolean isFavorite,
-            TwitterModifyStatuses.FinishedCallback callback) {
+                            TwitterModifyStatuses.FinishedCallback callback) {
         mApi.setFavorite(status, isFavorite, callback);
     }
 
     public void setFavorite(TwitterStatuses statuses, boolean isFavorite,
-            TwitterModifyStatuses.FinishedCallback callback) {
+                            TwitterModifyStatuses.FinishedCallback callback) {
         mApi.setFavorite(statuses, isFavorite, callback);
     }
 
@@ -340,8 +340,8 @@ public class TwitterManager {
 	 *
 	 */
     public void triggerFetchStatuses(TwitterContentHandle contentHandle,
-            TwitterPaging paging,
-            TwitterFetchStatusesFinishedCallback callback, int priorityOffset) {
+                                     TwitterPaging paging,
+                                     TwitterFetchStatusesFinishedCallback callback, int priorityOffset) {
         mApi.triggerFetchStatuses(contentHandle, paging, callback,
                 priorityOffset);
     }
@@ -350,8 +350,8 @@ public class TwitterManager {
 	 *
 	 */
     public void getFriendshipExists(String userScreenName,
-            String userScreenNameToCheck,
-            TwitterFetchBooleans.FinishedCallback callback) {
+                                    String userScreenNameToCheck,
+                                    TwitterFetchBooleans.FinishedCallback callback) {
         mApi.getFriendshipExists(userScreenName, userScreenNameToCheck,
                 callback);
     }

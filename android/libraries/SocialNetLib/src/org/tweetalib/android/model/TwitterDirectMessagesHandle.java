@@ -19,7 +19,7 @@ package org.tweetalib.android.model;
 public class TwitterDirectMessagesHandle {
 
     /*
-	 * 
+     *
 	 */
     public TwitterDirectMessagesHandle(long userId, Long otherUserId) {
         mUserId = userId;
