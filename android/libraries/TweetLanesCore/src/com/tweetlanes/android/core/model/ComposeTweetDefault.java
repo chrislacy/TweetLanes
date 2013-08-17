@@ -162,6 +162,10 @@ public class ComposeTweetDefault {
         mMediaFilePath = filePath;
     }
 
+    public void clearMediaFilePath() {
+        mMediaFilePath = null;
+    }
+
     public Long getInReplyToStatusId() {
         return mInReplyToStatusId;
     }

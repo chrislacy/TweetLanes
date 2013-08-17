@@ -65,6 +65,19 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
                 .findViewById(R.id.statusImage);
         mAttachImagePreview.setVisibility(View.GONE);
 
+        mAttachImagePreview.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+
+                if (mListener != null) {
+                    mListener.onMediaDetach();
+                }
+                getComposeTweetDefault().clearMediaFilePath();
+                mAttachImagePreview.setVisibility(View.GONE);
+                return true;
+            }
+        });
+
         return resultView;
     }
 
