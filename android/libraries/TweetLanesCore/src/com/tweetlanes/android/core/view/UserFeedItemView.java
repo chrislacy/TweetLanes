@@ -11,12 +11,7 @@
 
 package com.tweetlanes.android.core.view;
 
-import org.tweetalib.android.TwitterManager;
-import org.tweetalib.android.model.TwitterUser;
-
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
@@ -26,10 +21,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.tweetlanes.android.core.AppSettings;
-import com.tweetlanes.android.core.Constant;
 import com.tweetlanes.android.core.R;
 import com.tweetlanes.android.core.util.LazyImageLoader;
 import com.tweetlanes.android.core.view.UserFeedFragment.UserFeedItemViewCallbacks;
+
+import org.tweetalib.android.TwitterManager;
+import org.tweetalib.android.model.TwitterUser;
 
 public class UserFeedItemView extends LinearLayout {
 

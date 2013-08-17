@@ -1,7 +1,5 @@
 package com.tweetlanes.android.core.widget.viewpagerindicator;
 
-import java.util.ArrayList;
-
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -16,6 +14,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.tweetlanes.android.core.R;
+
+import java.util.ArrayList;
 
 /**
  * This widget implements the dynamic action bar tab behavior that can change

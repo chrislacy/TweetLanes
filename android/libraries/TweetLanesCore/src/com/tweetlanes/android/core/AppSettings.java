@@ -70,7 +70,7 @@ public class AppSettings {
     }
 
     /*
-	 *
+     *
 	 */
     public enum StatusSize {
         ExtraSmall, Small, Medium, Large, ExtraLarge, ExtraExtraLarge, Supersize
@@ -136,12 +136,11 @@ public class AppSettings {
         String theme = mSharedPreferences.getString(
                 SettingsActivity.KEY_THEME_PREFERENCE, THEME_DEFAULT);
 
-        if(theme.equals(THEME_LIGHT)){
+        if (theme.equals(THEME_LIGHT)) {
             setCurrentTheme(Theme.Holo_Light);
-        }
-        else if(theme.equals(THEME_DARK)){
+        } else if (theme.equals(THEME_DARK)) {
             setCurrentTheme(Theme.Holo_Dark);
-        }else{
+        } else {
             setCurrentTheme(Theme.Holo_Light_DarkAction);
         }
 
@@ -271,13 +270,13 @@ public class AppSettings {
 	 *
 	 */
     public int getCurrentThemeStyle() {
-          if(mCurrentTheme == Theme.Holo_Dark){
-              return R.style.Theme_TweetLanes;
-          }else if(mCurrentTheme == Theme.Holo_Light){
-              return R.style.Theme_TweetLanes_Light;
-          }else{
-              return R.style.Theme_TweetLanes_Light_DarkActionBar;
-          }
+        if (mCurrentTheme == Theme.Holo_Dark) {
+            return R.style.Theme_TweetLanes;
+        } else if (mCurrentTheme == Theme.Holo_Light) {
+            return R.style.Theme_TweetLanes_Light;
+        } else {
+            return R.style.Theme_TweetLanes_Light_DarkActionBar;
+        }
 
     }
 
@@ -321,7 +320,7 @@ public class AppSettings {
                 mStatusSize = StatusSize.ExtraExtraLarge;
             } else if (statusSize.equals(STATUS_SIZE_SUPERSIZE)) {
                 mStatusSize = StatusSize.Supersize;
-            }else {
+            } else {
                 mStatusSize = StatusSize.Medium;
             }
 

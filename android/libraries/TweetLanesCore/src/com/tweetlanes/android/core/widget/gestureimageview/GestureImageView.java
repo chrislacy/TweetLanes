@@ -10,10 +10,6 @@
  */
 package com.tweetlanes.android.core.widget.gestureimageview;
 
-import java.io.InputStream;
-import java.util.concurrent.Semaphore;
-import java.util.concurrent.TimeUnit;
-
 import android.content.Context;
 import android.content.res.Configuration;
 import android.database.Cursor;
@@ -32,6 +28,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
+
+import java.io.InputStream;
+import java.util.concurrent.Semaphore;
+import java.util.concurrent.TimeUnit;
 
 public class GestureImageView extends ImageView {
 

@@ -100,7 +100,7 @@ public class UserFeedFragment extends BaseLaneFragment {
     private boolean mMoreUsersAvailable = true;
 
     /*
-	 *
+     *
 	 */
     public App getApp() {
         return (App) getActivity().getApplication();
@@ -424,7 +424,7 @@ public class UserFeedFragment extends BaseLaneFragment {
                 profileIntent.putExtra("userId", Long.valueOf(user.getId())
                         .toString());
                 profileIntent.putExtra("userScreenName", user.getScreenName());
-                getActivity().startActivityForResult(profileIntent, Constant.REQUEST_CODE_PROFILE );
+                getActivity().startActivityForResult(profileIntent, Constant.REQUEST_CODE_PROFILE);
             }
         }
     };

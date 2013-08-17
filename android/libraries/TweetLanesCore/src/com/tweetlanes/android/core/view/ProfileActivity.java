@@ -11,11 +11,6 @@
 
 package com.tweetlanes.android.core.view;
 
-import org.tweetalib.android.TwitterFetchResult;
-import org.tweetalib.android.TwitterFetchUser;
-import org.tweetalib.android.TwitterManager;
-import org.tweetalib.android.model.TwitterUser;
-
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
@@ -37,6 +32,11 @@ import com.tweetlanes.android.core.R;
 import com.tweetlanes.android.core.model.ComposeTweetDefault;
 import com.tweetlanes.android.core.model.LaneDescriptor;
 import com.tweetlanes.android.core.widget.viewpagerindicator.TitleProvider;
+
+import org.tweetalib.android.TwitterFetchResult;
+import org.tweetalib.android.TwitterFetchUser;
+import org.tweetalib.android.TwitterManager;
+import org.tweetalib.android.model.TwitterUser;
 
 public class ProfileActivity extends BaseLaneActivity {
 
@@ -61,8 +61,7 @@ public class ProfileActivity extends BaseLaneActivity {
 
         String clearCompose = getIntent().getStringExtra("clearCompose");
         boolean savedStateRecreate = false;
-        if(savedInstanceState != null && savedInstanceState.containsKey("Recreate"))
-        {
+        if (savedInstanceState != null && savedInstanceState.containsKey("Recreate")) {
             savedStateRecreate = savedInstanceState.getBoolean("Recreate");
         }
 
@@ -83,8 +82,7 @@ public class ProfileActivity extends BaseLaneActivity {
         super.setCurrentComposeFragment((fragment instanceof DirectMessageFeedFragment) ? super.COMPOSE_DIRECT_MESSAGE
                 : super.COMPOSE_TWEET);
 
-        if((clearCompose != null && clearCompose.equals("true")) && !savedStateRecreate)
-        {
+        if ((clearCompose != null && clearCompose.equals("true")) && !savedStateRecreate) {
             clearCompose();
             getIntent().removeExtra("clearCompose");
         }
@@ -187,7 +185,7 @@ public class ProfileActivity extends BaseLaneActivity {
     }
 
     /*
-	 *
+     *
 	 */
     private void updateViewVisibility() {
 
@@ -296,6 +294,7 @@ public class ProfileActivity extends BaseLaneActivity {
         super.onBackPressed();
         clearCompose();
     }
+
     /*
 	 *
 	 */

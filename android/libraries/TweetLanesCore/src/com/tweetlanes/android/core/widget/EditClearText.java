@@ -97,7 +97,7 @@ public class EditClearText extends EditText {
     }
 
     /*
-	 * 
+     *
 	 */
     public void setEditClearTextListener(EditClearTextListener listener) {
         mListener = listener;

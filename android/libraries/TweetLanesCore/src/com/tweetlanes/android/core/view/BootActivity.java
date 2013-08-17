@@ -11,8 +11,6 @@
 
 package com.tweetlanes.android.core.view;
 
-import org.tweetalib.android.TwitterManager;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,6 +20,8 @@ import com.tweetlanes.android.core.App;
 import com.tweetlanes.android.core.AppSettings;
 import com.tweetlanes.android.core.Constant;
 import com.tweetlanes.android.core.ConsumerKeyConstants;
+
+import org.tweetalib.android.TwitterManager;
 
 public class BootActivity extends Activity {
 
@@ -68,7 +68,7 @@ public class BootActivity extends Activity {
     }
 
     /*
-	 *
+     *
 	 */
     void jumpToNext() {
 

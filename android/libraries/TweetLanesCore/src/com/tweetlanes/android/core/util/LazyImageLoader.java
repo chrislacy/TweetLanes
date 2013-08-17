@@ -13,8 +13,15 @@
 
 package com.tweetlanes.android.core.util;
 
-import static android.os.Environment.getExternalStorageDirectory;
-import static android.os.Environment.getExternalStorageState;
+import android.app.Activity;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Build;
+import android.os.Environment;
+import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.ListView;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -30,6 +37,7 @@ import java.net.Proxy;
 import java.net.URL;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -39,17 +47,9 @@ import java.util.WeakHashMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.Date;
 
-import android.app.Activity;
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.Build;
-import android.os.Environment;
-import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.ListView;
+import static android.os.Environment.getExternalStorageDirectory;
+import static android.os.Environment.getExternalStorageState;
 // import static org.mariotaku.twidere.util.Utils.getProxy;
 // import static com.tweetlanes.android.core.util.parseURL;
 // import static org.mariotaku.twidere.util.Utils.setIgnoreSSLError;
@@ -233,8 +233,7 @@ public class LazyImageLoader {
             if (filename == null) return;
             final File file = new File(mCacheDir, filename);
             FileOutputStream fOut;
-            try
-            {
+            try {
                 fOut = new FileOutputStream(file);
                 image.compress(Bitmap.CompressFormat.PNG, 100, fOut);
                 fOut.flush();
@@ -244,7 +243,7 @@ public class LazyImageLoader {
             }
         }
 
-        private void deleteFile(final URL tag){
+        private void deleteFile(final URL tag) {
             if (mCacheDir == null) return;
             final File[] files = mCacheDir.listFiles(new FileFilter() {
                 @Override
@@ -258,13 +257,13 @@ public class LazyImageLoader {
             }
         }
 
-        public void clearUrls(Set<URL> urls){
-            for(URL url : urls){
+        public void clearUrls(Set<URL> urls) {
+            for (URL url : urls) {
                 deleteFile(url);
             }
         }
 
-        public void clearUnrecognisedFiles(Set<URL> urls){
+        public void clearUnrecognisedFiles(Set<URL> urls) {
             Calendar cal = Calendar.getInstance();
             cal.add(Calendar.DATE, -1);
 
@@ -272,17 +271,15 @@ public class LazyImageLoader {
             if (files == null) return;
             for (final File f : files) {
                 Date lastModDate = new Date(f.lastModified());
-                if(lastModDate.before(cal.getTime()))
-                {
+                if (lastModDate.before(cal.getTime())) {
                     boolean fileInCache = false;
-                    for(URL url : urls){
-                        if(f.getName() == getURLFilename(url))
-                        {
+                    for (URL url : urls) {
+                        if (f.getName() == getURLFilename(url)) {
                             fileInCache = true;
                         }
                     }
 
-                    if (!fileInCache){
+                    if (!fileInCache) {
                         f.delete();
                     }
                 }
@@ -336,8 +333,7 @@ public class LazyImageLoader {
 
         }
 
-        private Bitmap DownloadBitmapFromWeb(URL url, File f, Boolean isRetry)
-        {
+        private Bitmap DownloadBitmapFromWeb(URL url, File f, Boolean isRetry) {
             try {
                 Bitmap bitmap;
                 final HttpURLConnection conn = (HttpURLConnection) url
@@ -353,13 +349,10 @@ public class LazyImageLoader {
                 bitmap = decodeFile(f);
 
                 int bitmapBytes = bitmap.getByteCount();
-                if (bitmapBytes == 0){
-                    if (isRetry)
-                    {
+                if (bitmapBytes == 0) {
+                    if (isRetry) {
                         return null;
-                    }
-                    else
-                    {
+                    } else {
                         return DownloadBitmapFromWeb(url, f, true);
                     }
                 }
@@ -447,7 +440,7 @@ public class LazyImageLoader {
                 Calendar cal = Calendar.getInstance();
                 cal.add(Calendar.DATE, -1);
                 Map<URL, ExpiringBitmap> copy = new HashMap<URL, ExpiringBitmap>(mHardCache);
-                for (URL url : copy.keySet()){
+                for (URL url : copy.keySet()) {
 
                     ExpiringBitmap bitmap = mHardCache.get(url);
                     if (bitmap != null) {
@@ -456,7 +449,7 @@ public class LazyImageLoader {
                         }
                     }
                 }
-                for (URL url : clearedUrls){
+                for (URL url : clearedUrls) {
                     mHardCache.remove(url);
                     mSoftCache.remove(url);
                 }
@@ -465,7 +458,7 @@ public class LazyImageLoader {
             return clearedUrls;
         }
 
-        public Set<URL> getActiveUrls(){
+        public Set<URL> getActiveUrls() {
             return new HashSet<URL>(mHardCache.keySet());
         }
 

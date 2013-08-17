@@ -4,12 +4,12 @@ import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.support.v4.app.NotificationCompat;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 
 import com.tweetlanes.android.core.view.AlarmReceiver;
@@ -32,7 +32,7 @@ public class Notifier {
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(bigText));
 
         if (AppSettings.get().isNotificationVibrationEnabled()) {
-            long[] pattern = {200,500,200};
+            long[] pattern = {200, 500, 200};
             builder.setVibrate(pattern);
         }
 
@@ -88,10 +88,8 @@ public class Notifier {
     public static void setNotificationAlarm(Context context) {
         if (AppSettings.get().isShowNotificationsEnabled()) {
             long mNewNotificationTime = AppSettings.get().getNotificationTime();
-            if (mNotificationTime != mNewNotificationTime)
-            {
-                if (mNotificationTime > 0)
-                {
+            if (mNotificationTime != mNewNotificationTime) {
+                if (mNotificationTime > 0) {
                     cancelNotificationAlarm(context);
                 }
                 mNotificationTime = mNewNotificationTime;
@@ -127,8 +125,7 @@ public class Notifier {
         String pref = type.equals(SharedPreferencesConstants.NOTIFICATION_TYPE_MENTION) ? SharedPreferencesConstants.NOTIFICATION_LAST_ACTIONED_MENTION_ID : SharedPreferencesConstants.NOTIFICATION_LAST_ACTIONED_DIRECT_MESSAGE_ID;
         long lastDisplayedMentionId = preferences.getLong(pref + accountKey, 0);
 
-        if (postId > lastDisplayedMentionId)
-        {
+        if (postId > lastDisplayedMentionId) {
             SharedPreferences.Editor edit = preferences.edit();
             edit.putLong(pref + accountKey, postId);
             edit.commit();
@@ -144,15 +141,14 @@ public class Notifier {
         String pref = type.equals(SharedPreferencesConstants.NOTIFICATION_TYPE_MENTION) ? SharedPreferencesConstants.NOTIFICATION_LAST_DISPLAYED_MENTION_ID : SharedPreferencesConstants.NOTIFICATION_LAST_DISPLAYED_DIRECT_MESSAGE_ID;
         long lastDisplayedMentionId = preferences.getLong(pref + accountKey, 0);
 
-        if (postId > lastDisplayedMentionId)
-        {
+        if (postId > lastDisplayedMentionId) {
             SharedPreferences.Editor edit = preferences.edit();
             edit.putLong(pref + accountKey, postId);
             edit.commit();
         }
     }
 
-    public static void setDashclockValues(Context context, String accountKey, String type,  int count, String detail) {
+    public static void setDashclockValues(Context context, String accountKey, String type, int count, String detail) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor edit = preferences.edit();
         edit.putInt(SharedPreferencesConstants.NOTIFICATION_COUNT + accountKey + type, count);

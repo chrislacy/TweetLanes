@@ -11,20 +11,6 @@
 
 package com.tweetlanes.android.core.view;
 
-import java.util.ArrayList;
-
-import org.socialnetlib.android.SocialNetConstant;
-import org.tweetalib.android.TwitterFetchBooleans.FinishedCallback;
-import org.tweetalib.android.TwitterFetchResult;
-import org.tweetalib.android.TwitterFetchUser;
-import org.tweetalib.android.TwitterFetchUsers;
-import org.tweetalib.android.TwitterManager;
-import org.tweetalib.android.TwitterUtil;
-import org.tweetalib.android.model.TwitterStatus;
-import org.tweetalib.android.model.TwitterUser;
-import org.tweetalib.android.model.TwitterUsers;
-import org.tweetalib.android.widget.URLSpanNoUnderline;
-
 import android.os.Bundle;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
@@ -40,6 +26,20 @@ import android.widget.TextView;
 import com.tweetlanes.android.core.R;
 import com.tweetlanes.android.core.util.Util;
 import com.tweetlanes.android.core.widget.urlimageviewhelper.UrlImageViewHelper;
+
+import org.socialnetlib.android.SocialNetConstant;
+import org.tweetalib.android.TwitterFetchBooleans.FinishedCallback;
+import org.tweetalib.android.TwitterFetchResult;
+import org.tweetalib.android.TwitterFetchUser;
+import org.tweetalib.android.TwitterFetchUsers;
+import org.tweetalib.android.TwitterManager;
+import org.tweetalib.android.TwitterUtil;
+import org.tweetalib.android.model.TwitterStatus;
+import org.tweetalib.android.model.TwitterUser;
+import org.tweetalib.android.model.TwitterUsers;
+import org.tweetalib.android.widget.URLSpanNoUnderline;
+
+import java.util.ArrayList;
 
 import twitter4j.URLEntity;
 
@@ -68,7 +68,7 @@ public class ProfileFragment extends BaseLaneFragment {
     }
 
     /*
-	 * 
+     *
 	 */
     public static ProfileFragment newInstance(int laneIndex,
                                               final String screenName) {

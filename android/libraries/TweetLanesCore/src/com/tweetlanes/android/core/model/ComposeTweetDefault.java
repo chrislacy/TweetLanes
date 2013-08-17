@@ -11,14 +11,14 @@
 
 package com.tweetlanes.android.core.model;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.tweetalib.android.model.TwitterStatus;
 import org.tweetalib.android.model.TwitterStatuses;
 import org.tweetalib.android.model.TwitterUsers;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class ComposeTweetDefault {
 
@@ -59,7 +59,7 @@ public class ComposeTweetDefault {
     }
 
     /*
-	 * 
+     *
 	 */
     public ComposeTweetDefault(String jsonAsString) {
 
@@ -92,12 +92,9 @@ public class ComposeTweetDefault {
         mStatus = defaultStatus;
         mInitialStatus = defaultStatus;
         mInitialStatusIsPlaceholder = false;
-        if(defaultStatus == "")
-        {
+        if (defaultStatus == "") {
             mInReplyToStatusId = null;
-        }
-        else
-        {
+        } else {
             mInReplyToStatusId = inReplyToStatusId;
         }
         mMediaFilePath = mediaFilePath;

@@ -1,8 +1,8 @@
 package com.tweetlanes.android.core.widget.urlimageviewhelper;
 
-import java.io.InputStream;
-
 import android.content.Context;
+
+import java.io.InputStream;
 
 public interface UrlDownloader {
     public static interface UrlDownloaderCallback {

@@ -109,7 +109,7 @@ public class HomeActivity extends BaseLaneActivity {
                 Constant.LaneType notificationLaneType = notificationType.equals(SharedPreferencesConstants.NOTIFICATION_TYPE_MENTION) ? Constant.LaneType.USER_MENTIONS : Constant.LaneType.DIRECT_MESSAGES;
 
                 if (notificationAccount != null) {
-                    long  notificationAccountId = notificationAccount.getId();
+                    long notificationAccountId = notificationAccount.getId();
                     long currentAccountId = account.getId();
                     if (notificationAccountId == currentAccountId) {
                         int index = account.getCurrentLaneIndex(notificationLaneType);
@@ -171,9 +171,9 @@ public class HomeActivity extends BaseLaneActivity {
         whatsNewDialog.show();
     }
 
-    void clearTempFolder(){
+    void clearTempFolder() {
 
-        File dir = new File(Environment.getExternalStorageDirectory(),"temp/images/Tweet Lanes");
+        File dir = new File(Environment.getExternalStorageDirectory(), "temp/images/Tweet Lanes");
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.HOUR, -1);
 
@@ -181,8 +181,7 @@ public class HomeActivity extends BaseLaneActivity {
         if (files == null) return;
         for (final File f : files) {
             Date lastModDate = new Date(f.lastModified());
-            if(lastModDate.before(cal.getTime()))
-            {
+            if (lastModDate.before(cal.getTime())) {
                 f.delete();
             }
         }
@@ -562,7 +561,7 @@ public class HomeActivity extends BaseLaneActivity {
     }
 
     /*
-	 *
+     *
 	 */
     public void showUserPreferences() {
         startActivity(new Intent(this, SettingsActivity.class));
@@ -740,8 +739,7 @@ public class HomeActivity extends BaseLaneActivity {
         final List<AccountData> mData;
         boolean mShowImages;
 
-        public AccountAdapter(Context context, List<AccountDescriptor> data)
-        {
+        public AccountAdapter(Context context, List<AccountDescriptor> data) {
             mContext = context;
             mData = new ArrayList<AccountData>();
 
@@ -757,18 +755,15 @@ public class HomeActivity extends BaseLaneActivity {
                     mData.add(new AccountData(account.getId(), "@" + account.getScreenName(),
                             networkType, account.getProfileImageUrl()));
 
-                    if(networkType== SocialNetConstant.Type.Appdotnet){
+                    if (networkType == SocialNetConstant.Type.Appdotnet) {
                         seenAdn = true;
-                    }
-                    else
-                    {
-                        seenTwitter=true;
+                    } else {
+                        seenTwitter = true;
                     }
                 }
             }
 
-            if(seenAdn && seenTwitter)
-            {
+            if (seenAdn && seenTwitter) {
                 mShowImages = true;
             }
 
@@ -795,41 +790,34 @@ public class HomeActivity extends BaseLaneActivity {
             View row = convertView;
             AccountHolder holder;
 
-            if (row == null)
-            {
-                LayoutInflater inflater = ((Activity)mContext).getLayoutInflater();
+            if (row == null) {
+                LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
                 row = inflater.inflate(R.layout.account_row, parent, false);
 
                 holder = new AccountHolder();
-                holder.AvatarImage = (ImageView)row.findViewById(R.id.accountAvatar);
-                holder.ServiceImage = (ImageView)row.findViewById(R.id.serviceImage);
-                holder.ScreenName = (TextView)row.findViewById(R.id.accountScreenName);
+                holder.AvatarImage = (ImageView) row.findViewById(R.id.accountAvatar);
+                holder.ServiceImage = (ImageView) row.findViewById(R.id.serviceImage);
+                holder.ScreenName = (TextView) row.findViewById(R.id.accountScreenName);
 
                 row.setTag(holder);
-            }
-            else
-            {
-                holder = (AccountHolder)row.getTag();
+            } else {
+                holder = (AccountHolder) row.getTag();
             }
 
             AccountData account = mData.get(position);
 
-            if (account == null)
-            {
+            if (account == null) {
                 return row;
             }
 
             holder.ScreenName.setText(account.ScreenName, TextView.BufferType.NORMAL);
-            if(AppSettings.get().getCurrentThemeStyle() == R.style.Theme_TweetLanes_Light_DarkActionBar){
+            if (AppSettings.get().getCurrentThemeStyle() == R.style.Theme_TweetLanes_Light_DarkActionBar) {
                 holder.ScreenName.setTextColor(getResources().getColor(R.color.white));
             }
 
-            if (mShowImages)
-            {
+            if (mShowImages) {
                 setProfileImage(account.AvatarImageUrl, account.ServiceType, holder.AvatarImage, holder.ServiceImage);
-            }
-            else
-            {
+            } else {
                 holder.AvatarImage.setVisibility(View.GONE);
                 holder.ServiceImage.setVisibility(View.GONE);
             }
@@ -866,12 +854,11 @@ public class HomeActivity extends BaseLaneActivity {
 
                     profileImageLoader.displayImage(profileImageUrl, avatar);
                 }
-            }
-            else {
-                 int resource;
-                if(AppSettings.get().getCurrentThemeStyle() == R.style.Theme_TweetLanes_Light_DarkActionBar){
-                       resource = R.drawable.ic_action_user_add_dark;
-                }else{
+            } else {
+                int resource;
+                if (AppSettings.get().getCurrentThemeStyle() == R.style.Theme_TweetLanes_Light_DarkActionBar) {
+                    resource = R.drawable.ic_action_user_add_dark;
+                } else {
                     resource = AppSettings.get().getCurrentThemeStyle() ==
                             R.style.Theme_TweetLanes_Light ?
                             R.drawable.ic_action_user_add :

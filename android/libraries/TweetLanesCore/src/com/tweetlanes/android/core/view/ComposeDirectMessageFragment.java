@@ -69,7 +69,7 @@ public class ComposeDirectMessageFragment extends ComposeBaseFragment {
     }
 
     /*
-	 *
+     *
 	 */
     private String getOtherUserScreenName() {
         String otherUserScreenName = mOtherUserScreenName;
@@ -90,14 +90,14 @@ public class ComposeDirectMessageFragment extends ComposeBaseFragment {
         return otherUserScreenName;
     }
 
-    public void setMediaPreviewVisibility() {}
+    public void setMediaPreviewVisibility() {
+    }
 
     /*
 	 *
 	 */
     @Override
-    protected void updateComposeTweetDefault()
-    {
+    protected void updateComposeTweetDefault() {
         String currentStatus = mEditText.getText().toString();
 
         if (Util.isValidString(currentStatus)) {
@@ -212,8 +212,8 @@ public class ComposeDirectMessageFragment extends ComposeBaseFragment {
             int statusLength = mStatusValidator.getTweetLength(status);
             if (otherUserScreenName == null) {
                 showSimpleAlert(R.string.alert_direct_message_no_recipient);
-            } else if(statusLength==0){
-                    showSimpleAlert(R.string.alert_direct_message_empty);
+            } else if (statusLength == 0) {
+                showSimpleAlert(R.string.alert_direct_message_empty);
             } else if (!mStatusValidator.isValidTweet(status)) {
                 showSimpleAlert(mStatusValidator.getTweetLength(status) <= getMaxPostLength() ? R.string.alert_direct_message_invalid
                         : R.string.alert_direct_message_too_long);

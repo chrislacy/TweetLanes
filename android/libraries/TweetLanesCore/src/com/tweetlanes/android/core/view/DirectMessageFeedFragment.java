@@ -103,7 +103,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
     private boolean mMoreDirectMessagesAvailable = true;
 
     /*
-	 *
+     *
 	 */
     public App getApp() {
         return (App) getActivity().getApplication();

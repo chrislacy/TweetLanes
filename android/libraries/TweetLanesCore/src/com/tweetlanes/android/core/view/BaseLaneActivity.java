@@ -40,7 +40,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
-import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -203,9 +202,8 @@ class BaseLaneActivity extends FragmentActivity implements
                 new IntentFilter("" + SystemEvent.RESTART_APP));
 
         Intent intent = getIntent();
-        if(intent.getAction() == Intent.ACTION_VIEW)
-        {
-            intent.putExtra("clearCompose","true");
+        if (intent.getAction() == Intent.ACTION_VIEW) {
+            intent.putExtra("clearCompose", "true");
         }
     }
 
@@ -219,8 +217,7 @@ class BaseLaneActivity extends FragmentActivity implements
         super.onPostCreate(savedInstanceState);
 
         Intent intent = getIntent();
-        if(intent.getAction() != Intent.ACTION_SEND && intent.getAction() != Intent.ACTION_VIEW)
-        {
+        if (intent.getAction() != Intent.ACTION_SEND && intent.getAction() != Intent.ACTION_VIEW) {
             setComposeDefault();
         }
     }
@@ -289,7 +286,7 @@ class BaseLaneActivity extends FragmentActivity implements
     }
 
     /*
-	 *
+     *
 	 */
     private final BroadcastReceiver mDisplayToastReceiver = new BroadcastReceiver() {
 
@@ -338,8 +335,7 @@ class BaseLaneActivity extends FragmentActivity implements
         }
     }
 
-    void clearCompose()
-    {
+    void clearCompose() {
         mCurrentComposeFragment.clearCompose(false);
     }
 
@@ -801,7 +797,7 @@ class BaseLaneActivity extends FragmentActivity implements
      *         directory
      */
     private File getFixedTempFile(Context context) {
-        File path = new File(Environment.getExternalStorageDirectory(),"temp/images/Tweet Lanes");
+        File path = new File(Environment.getExternalStorageDirectory(), "temp/images/Tweet Lanes");
         path.mkdirs();
 
         File tempFile;
@@ -818,7 +814,7 @@ class BaseLaneActivity extends FragmentActivity implements
      *         directory
      */
     private File getTempFile(Context context) {
-        File path = new File(Environment.getExternalStorageDirectory(),"temp/images/Tweet Lanes");
+        File path = new File(Environment.getExternalStorageDirectory(), "temp/images/Tweet Lanes");
         path.mkdirs();
 
         File tempFile;
@@ -1026,14 +1022,12 @@ class BaseLaneActivity extends FragmentActivity implements
                 // Toast.makeText(this,R.string.picture_attached,Toast.LENGTH_SHORT).show();
 
             }
-        } else if( requestCode == Constant.REQUEST_CODE_SPOTLIGHT ) {
-            if (data != null)
-            {
+        } else if (requestCode == Constant.REQUEST_CODE_SPOTLIGHT) {
+            if (data != null) {
                 boolean deleteStatus = false;
                 if (resultCode != Activity.RESULT_OK) {
                     String result = data.getStringExtra("result");
-                    if (result.contains("does not exist"))
-                    {
+                    if (result.contains("does not exist")) {
                         deleteStatus = true;
                     }
                 }
@@ -1053,7 +1047,7 @@ class BaseLaneActivity extends FragmentActivity implements
             }
 
             clearCompose();
-        } else if( requestCode == Constant.REQUEST_CODE_PROFILE ) {
+        } else if (requestCode == Constant.REQUEST_CODE_PROFILE) {
             clearCompose();
         }
 
@@ -1296,20 +1290,14 @@ class BaseLaneActivity extends FragmentActivity implements
 	 *
 	 */
     void setComposeDefault() {
-        if (this.mCurrentComposeFragment == mComposeTweetFragment)
-        {
+        if (this.mCurrentComposeFragment == mComposeTweetFragment) {
             String draft = mComposeTweetFragment.getTweetDefaultDraft();
-            if(draft == null || draft=="")
-            {
+            if (draft == null || draft == "") {
                 setComposeTweetDefault();
-            }
-            else
-            {
+            } else {
                 mComposeTweetFragment.updateStatusHint();
             }
-        }
-        else
-        {
+        } else {
             mComposeTweetFragment.clearCompose(false);
         }
     }

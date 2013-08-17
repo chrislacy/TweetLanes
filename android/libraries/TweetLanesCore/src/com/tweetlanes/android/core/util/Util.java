@@ -11,19 +11,6 @@
 
 package com.tweetlanes.android.core.util;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.MalformedURLException;
-import java.net.Proxy;
-import java.net.URL;
-import java.net.URLConnection;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -31,6 +18,15 @@ import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.os.Environment;
 import android.util.DisplayMetrics;
+
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.Proxy;
+import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public final class Util {
 
@@ -42,7 +38,7 @@ public final class Util {
     }
 
     /*
-	 * 
+     *
 	 */
     public static String getFullDate(Date date) {
         SimpleDateFormat formatted = new SimpleDateFormat(

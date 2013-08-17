@@ -61,7 +61,7 @@ public class AccountDescriptor {
     }
 
     /*
-	 *
+     *
 	 */
     public AccountDescriptor(Context context, String jsonAsString) {
 
@@ -352,11 +352,11 @@ public class AccountDescriptor {
         return mOAuthSecret;
     }
 
-    public String getProfileImageUrl(){
+    public String getProfileImageUrl() {
         return mProfileImageUrl;
     }
 
-    public void setProfileImageUrl(String profileImageUrl){
+    public void setProfileImageUrl(String profileImageUrl) {
         mProfileImageUrl = profileImageUrl;
     }
 
@@ -484,6 +484,7 @@ public class AccountDescriptor {
     private final Context mContext;
     private SocialNetConstant.Type mSocialNetType;
     private String mProfileImageUrl;
+
     /*
      * Stripped version of the List class. Possibly should use TwitterList, but
      * I thought I thought it best to save the string space of that much larger
