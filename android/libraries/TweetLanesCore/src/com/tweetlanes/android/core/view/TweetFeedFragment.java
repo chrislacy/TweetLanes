@@ -172,9 +172,10 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
         if(savedInstanceState != null)
         {
-            mTwitterStatusIdWhenRefreshed = savedInstanceState.getLong("TwitterStatusIdWhenRefreshed");
-            mLastTwitterStatusIdSeen = savedInstanceState.getLong("LastTwitterStatusIdSeen");
+            mTwitterStatusIdWhenRefreshed = savedInstanceState.containsKey("TwitterStatusIdWhenRefreshed") ? savedInstanceState.getLong("TwitterStatusIdWhenRefreshed") : null;
+            mLastTwitterStatusIdSeen = savedInstanceState.containsKey("LastTwitterStatusIdSeen") ? savedInstanceState.getLong("LastTwitterStatusIdSeen") : null;
             mNewStatuses = savedInstanceState.getInt("NewStatuses",0);
+            mHidingListHeading = savedInstanceState.getBoolean("HidingListHeading", false);
         }
 
         return resultView;
@@ -184,9 +185,12 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     public void onSaveInstanceState(Bundle state)
     {
         super.onSaveInstanceState(state);
+
         if (mTwitterStatusIdWhenRefreshed != null) state.putLong("TwitterStatusIdWhenRefreshed", mTwitterStatusIdWhenRefreshed);
         if (mLastTwitterStatusIdSeen != null) state.putLong("LastTwitterStatusIdSeen", mLastTwitterStatusIdSeen);
         state.putInt("NewStatuses", mNewStatuses);
+        state.putBoolean("HidingListHeading", mHidingListHeading);
+
     }
 
     /*
@@ -735,7 +739,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
         SocialNetConstant.Type socialNetType = getApp().getCurrentAccount().getSocialNetType();
 
-        if (mTwitterStatusIdWhenRefreshed != null && firstVisibleItem > 0) {
+        if (mTwitterStatusIdWhenRefreshed != null && mTwitterStatusIdWhenRefreshed > 0 && firstVisibleItem > 0) {
             if (!mHidingListHeading) {
                 TwitterStatus status = getStatusFeed().getStatus(firstVisibleItem);
                 if((mNewStatuses == 0 || status.mId >= mTwitterStatusIdWhenRefreshed) && status.mId >= mLastTwitterStatusIdSeen)
