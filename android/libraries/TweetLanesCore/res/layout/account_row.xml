@@ -33,7 +33,7 @@
     <TextView
             android:id="@+id/accountScreenName"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="48dp"
             android:gravity="center_vertical"
             android:text="ScreenName"
             android:textSize="@dimen/account_row_size"

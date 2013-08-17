@@ -738,16 +738,38 @@ public class HomeActivity extends BaseLaneActivity {
 
         final Context mContext;
         final List<AccountData> mData;
+        boolean mShowImages;
 
         public AccountAdapter(Context context, List<AccountDescriptor> data)
         {
             mContext = context;
             mData = new ArrayList<AccountData>();
+
+            mShowImages = data != null && data.size() >= 3;
+
+            boolean seenAdn = false;
+            boolean seenTwitter = false;
+
             if (data != null) {
+
                 for (AccountDescriptor account : data) {
+                    SocialNetConstant.Type networkType = account.getSocialNetType();
                     mData.add(new AccountData(account.getId(), "@" + account.getScreenName(),
-                            account.getSocialNetType(), account.getProfileImageUrl()));
+                            networkType, account.getProfileImageUrl()));
+
+                    if(networkType== SocialNetConstant.Type.Appdotnet){
+                        seenAdn = true;
+                    }
+                    else
+                    {
+                        seenTwitter=true;
+                    }
                 }
+            }
+
+            if(seenAdn && seenTwitter)
+            {
+                mShowImages = true;
             }
 
             mData.add(new AccountData(0, getString(R.string.add_account), null, null));
@@ -802,7 +824,15 @@ public class HomeActivity extends BaseLaneActivity {
                 holder.ScreenName.setTextColor(getResources().getColor(R.color.white));
             }
 
-            setProfileImage(account.AvatarImageUrl, account.ServiceType, holder.AvatarImage, holder.ServiceImage);
+            if (mShowImages)
+            {
+                setProfileImage(account.AvatarImageUrl, account.ServiceType, holder.AvatarImage, holder.ServiceImage);
+            }
+            else
+            {
+                holder.AvatarImage.setVisibility(View.GONE);
+                holder.ServiceImage.setVisibility(View.GONE);
+            }
 
             return row;
         }
