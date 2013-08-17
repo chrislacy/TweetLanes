@@ -235,6 +235,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 	 */
     void fetchNewestTweets(final long sinceStatusId, Long maxStatusId) {
 
+        mTweetFeedListView.setRefreshing();
 
         if (mTweetDataRefreshCallback == null)
         {
@@ -284,11 +285,6 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                 getBaseLaneActivity().finishCurrentActionMode();
             }
         }
-        else
-        {
-            mTweetFeedListView.setRefreshing();
-        }
-
     }
 
     /*
