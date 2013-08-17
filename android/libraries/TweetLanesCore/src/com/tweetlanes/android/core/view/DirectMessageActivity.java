@@ -11,8 +11,6 @@
 
 package com.tweetlanes.android.core.view;
 
-import org.tweetalib.android.TwitterContentHandle;
-
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
@@ -27,6 +25,8 @@ import android.widget.ViewSwitcher;
 
 import com.tweetlanes.android.core.R;
 import com.tweetlanes.android.core.widget.viewpagerindicator.TitleProvider;
+
+import org.tweetalib.android.TwitterContentHandle;
 
 public class DirectMessageActivity extends BaseLaneActivity {
 
@@ -92,7 +92,7 @@ public class DirectMessageActivity extends BaseLaneActivity {
     }
 
     /*
-	 *
+     *
 	 */
     @Override
     public boolean configureOptionsMenu(Menu menu) {

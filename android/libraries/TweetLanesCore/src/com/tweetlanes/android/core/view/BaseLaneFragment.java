@@ -50,7 +50,7 @@ public abstract class BaseLaneFragment extends Fragment {
     }
 
     /*
-	 * 
+     *
 	 */
     App getApp() {
         FragmentActivity fragmentActivity = getActivity();

@@ -16,10 +16,6 @@
 
 package org.tweetalib.android.model;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import org.appdotnet4j.model.AdnPost;
 import org.appdotnet4j.model.AdnPosts;
 import org.appdotnet4j.model.AdnUser;
@@ -27,6 +23,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.tweetalib.android.model.TwitterStatusesFilter.FilterType;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import twitter4j.QueryResult;
 import twitter4j.ResponseList;
 import twitter4j.Status;
@@ -35,7 +36,7 @@ import twitter4j.User;
 public class TwitterStatuses {
 
     /*
-	 * 
+     *
 	 */
     public TwitterStatuses(TwitterStatuses another) {
         _mStatuses = new ArrayList<TwitterStatus>(another._mStatuses);
@@ -151,27 +152,27 @@ public class TwitterStatuses {
                 boolean isRetweet = status.mIsRetweet;
 
                 switch (filterType) {
-                case HIDE_RETWEETS:
-                    if (isRetweet) {
-                        // filterCount += 1;
-                        continue;
-                    }
-                    break;
-                case HIDE_REPLIES:
-                    if (isReply) {
-                        // filterCount += 1;
-                        continue;
-                    }
-                    break;
-                case HIDE_RETWEETS_REPLIES:
-                    if (isReply || isRetweet) {
-                        // filterCount += 1;
-                        continue;
-                    }
-                    break;
+                    case HIDE_RETWEETS:
+                        if (isRetweet) {
+                            // filterCount += 1;
+                            continue;
+                        }
+                        break;
+                    case HIDE_REPLIES:
+                        if (isReply) {
+                            // filterCount += 1;
+                            continue;
+                        }
+                        break;
+                    case HIDE_RETWEETS_REPLIES:
+                        if (isReply || isRetweet) {
+                            // filterCount += 1;
+                            continue;
+                        }
+                        break;
 
-                default:
-                    break;
+                    default:
+                        break;
                 }
 
                 if (filteredIndex == index) {
@@ -249,7 +250,7 @@ public class TwitterStatuses {
 	 * 
 	 */
     public void add(ResponseList<twitter4j.Status> statuses,
-            AddUserCallback addUserCallback) {
+                    AddUserCallback addUserCallback) {
 
         TwitterStatus firstItem = size() > 0 ? get(0) : null;
         int addCount = 0;
@@ -463,8 +464,7 @@ public class TwitterStatuses {
 
         //Since original status ids have no order, a long search through each is required.
 
-        for (int i=0; i <size() ;i++)
-        {
+        for (int i = 0; i < size(); i++) {
             TwitterStatus status = get(i);
             if (originalStatusId == status.mOriginalRetweetId) {
                 return i;

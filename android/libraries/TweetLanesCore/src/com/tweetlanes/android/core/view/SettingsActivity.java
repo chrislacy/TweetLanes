@@ -423,7 +423,7 @@ public class SettingsActivity extends PreferenceActivity implements
     }
 
     /*
-	 *
+     *
 	 */
     public class LaneCustomizationAdapter extends ArrayAdapter<LaneDescriptor> {
 

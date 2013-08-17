@@ -16,12 +16,12 @@
 
 package org.tweetalib.android;
 
-import java.util.HashMap;
-
 import android.util.Log;
-import org.asynctasktex.AsyncTaskEx;
 
+import org.asynctasktex.AsyncTaskEx;
 import org.tweetalib.android.model.TwitterLists;
+
+import java.util.HashMap;
 
 import twitter4j.ResponseList;
 import twitter4j.Twitter;
@@ -36,10 +36,10 @@ public class TwitterFetchLists {
     private final HashMap<Integer, FinishedCallback> mFinishedCallbackMap;
 
     /*
-	 *
+     *
 	 */
     public void clearCallbacks() {
-        if (mFinishedCallbackMap != null ) {
+        if (mFinishedCallbackMap != null) {
             mFinishedCallbackMap.clear();
         }
     }
@@ -148,7 +148,7 @@ public class TwitterFetchLists {
         mFinishedCallbackMap.put(mFetchListsCallbackHandle, callback);
         new FetchListsTask().execute(AsyncTaskEx.PRIORITY_MEDIUM,
                 "Fetch Lists", new FetchListsTaskInput(userId,
-                        mFetchListsCallbackHandle));
+                mFetchListsCallbackHandle));
 
         mFetchListsCallbackHandle += 1;
     }
@@ -160,7 +160,7 @@ public class TwitterFetchLists {
         mFinishedCallbackMap.put(mFetchListsCallbackHandle, callback);
         new FetchListsTask().execute(AsyncTaskEx.PRIORITY_MEDIUM,
                 "Fetch Lists", new FetchListsTaskInput(screenName,
-                        mFetchListsCallbackHandle));
+                mFetchListsCallbackHandle));
 
         mFetchListsCallbackHandle += 1;
     }

@@ -65,6 +65,19 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
                 .findViewById(R.id.statusImage);
         mAttachImagePreview.setVisibility(View.GONE);
 
+        mAttachImagePreview.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+
+                if (mListener != null) {
+                    mListener.onMediaDetach();
+                }
+                getComposeTweetDefault().clearMediaFilePath();
+                mAttachImagePreview.setVisibility(View.GONE);
+                return true;
+            }
+        });
+
         return resultView;
     }
 
@@ -278,7 +291,11 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
     protected void onSendClick(String status) {
         if (status != null) {
             int statusLength = mStatusValidator.getTweetLength(status);
-            if (!mStatusValidator.isValidTweet(status, getMaxPostLength())) {
+            if (statusLength == 0){
+                showSimpleAlert(getApp().getCurrentAccount().getSocialNetType() == SocialNetConstant.Type.Twitter ? R
+                        .string.alert_status_empty : R.string.alert_status_empty_adn);
+            }
+            else if (!mStatusValidator.isValidTweet(status, getMaxPostLength())) {
                 showSimpleAlert(mStatusValidator.getTweetLength(status) <= getMaxPostLength() ? R.string.alert_status_invalid
                         : (getApp().getCurrentAccount().getSocialNetType() == SocialNetConstant.Type.Twitter ? R
                         .string.alert_status_too_long : R.string.alert_status_too_long_adn));

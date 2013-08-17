@@ -1,12 +1,12 @@
 package com.tweetlanes.android.core.widget.urlimageviewhelper;
 
-import java.io.InputStream;
-
 import android.content.ContentResolver;
 import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.ContactsContract;
+
+import java.io.InputStream;
 
 public class ContactContentUrlDownloader implements UrlDownloader {
     @Override

@@ -77,12 +77,11 @@ public class AlarmReceiver extends BroadcastReceiver {
                             contentHandle.getCurrentAccountKey(), SharedPreferencesConstants.NOTIFICATION_TYPE_MENTION, first.mId, mContext);
 
                     Notifier.setDashclockValues(mContext, contentHandle.getCurrentAccountKey(), SharedPreferencesConstants.NOTIFICATION_TYPE_MENTION, count, fullDetail);
-                }
-                else {
-                    Notifier.setDashclockValues(mContext, contentHandle.getCurrentAccountKey(), SharedPreferencesConstants.NOTIFICATION_TYPE_MENTION,  0, "");
+                } else {
+                    Notifier.setDashclockValues(mContext, contentHandle.getCurrentAccountKey(), SharedPreferencesConstants.NOTIFICATION_TYPE_MENTION, 0, "");
                 }
             } else {
-                Notifier.setDashclockValues(mContext, contentHandle.getCurrentAccountKey(), SharedPreferencesConstants.NOTIFICATION_TYPE_MENTION,  0, "");
+                Notifier.setDashclockValues(mContext, contentHandle.getCurrentAccountKey(), SharedPreferencesConstants.NOTIFICATION_TYPE_MENTION, 0, "");
             }
         }
     };
@@ -134,8 +133,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                             contentHandle.getCurrentAccountKey(), SharedPreferencesConstants.NOTIFICATION_TYPE_DIRECT_MESSAGE, first.getId(), mContext);
 
                     Notifier.setDashclockValues(mContext, contentHandle.getCurrentAccountKey(), SharedPreferencesConstants.NOTIFICATION_TYPE_DIRECT_MESSAGE, count, fullDetail);
-                }
-                else {
+                } else {
                     Notifier.setDashclockValues(mContext, contentHandle.getCurrentAccountKey(), SharedPreferencesConstants.NOTIFICATION_TYPE_DIRECT_MESSAGE, 0, "");
                 }
             } else {

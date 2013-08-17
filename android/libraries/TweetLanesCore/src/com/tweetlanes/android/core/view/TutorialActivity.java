@@ -92,7 +92,7 @@ public class TutorialActivity extends FragmentActivity {
     }
 
     /*
-	 * 
+     *
 	 */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

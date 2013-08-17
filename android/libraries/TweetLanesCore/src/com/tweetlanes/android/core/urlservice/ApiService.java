@@ -11,16 +11,16 @@
 
 package com.tweetlanes.android.core.urlservice;
 
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 public abstract class ApiService {
 
@@ -54,7 +54,7 @@ public abstract class ApiService {
     }
 
     /*
-	 * 
+     *
 	 */
     public static HttpResponse postRequest(String url, String debugName) {
         HttpClient client = new DefaultHttpClient();

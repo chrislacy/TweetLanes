@@ -111,13 +111,6 @@
                 android:title="@string/title_downloadimages_preference"
                 android:summary="@string/summary_downloadimages_preference"/>
 
-        <!--
-        <Preference
-            android:key="freeforlife_preference"
-            android:title="@string/title_freeforlife_preference"
-             />
-
-              -->
 
     </PreferenceCategory>
 

@@ -16,19 +16,19 @@
 
 package org.tweetalib.android;
 
-import java.io.Serializable;
-
 import org.tweetalib.android.TwitterConstant.ContentType;
 import org.tweetalib.android.TwitterConstant.DirectMessagesType;
 import org.tweetalib.android.TwitterConstant.StatusType;
 import org.tweetalib.android.TwitterConstant.StatusesType;
 import org.tweetalib.android.TwitterConstant.UsersType;
 
+import java.io.Serializable;
+
 public class TwitterContentHandleBase implements Serializable {
 
     /**
-	 * 
-	 */
+     *
+     */
     private static final long serialVersionUID = 4132026070249216175L;
 
     TwitterContentHandleBase(TwitterContentHandleBase other) {
@@ -40,7 +40,7 @@ public class TwitterContentHandleBase implements Serializable {
     }
 
     public TwitterContentHandleBase(ContentType contentType,
-            DirectMessagesType directMessagesType) {
+                                    DirectMessagesType directMessagesType) {
         this(contentType, directMessagesType, null, null, null);
     }
 
@@ -49,12 +49,12 @@ public class TwitterContentHandleBase implements Serializable {
     }
 
     public TwitterContentHandleBase(ContentType contentType,
-            StatusType statusType) {
+                                    StatusType statusType) {
         this(contentType, null, statusType, null, null);
     }
 
     public TwitterContentHandleBase(ContentType contentType,
-            StatusesType statusesType) {
+                                    StatusesType statusesType) {
         this(contentType, null, null, statusesType, null);
     }
 

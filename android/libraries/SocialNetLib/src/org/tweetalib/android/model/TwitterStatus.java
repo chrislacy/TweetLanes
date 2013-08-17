@@ -36,7 +36,7 @@ import twitter4j.UserMentionEntity;
 public class TwitterStatus implements Comparable<TwitterStatus> {
 
     /*
-	 *
+     *
 	 */
     public TwitterStatus(TwitterStatus other) {
         mAuthorId = other.mAuthorId;
@@ -138,9 +138,7 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
                 mUserMentions = TwitterUtil.getUserMentions(retweetedStatus.getUserMentionEntities());
                 mIsRetweetedByMe = retweetedStatus.isRetweetedByMe();
             }
-        }
-        else
-        {
+        } else {
             if (statusUser != null) {
                 SetProfileImagesFromUser(new TwitterUser(statusUser));
             }
@@ -188,10 +186,8 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
             mAuthorName = post.mOriginalAuthor.mName;
             mAuthorScreenName = post.mOriginalAuthor.mUserName;
             SetProfileImagesFromUser(new TwitterUser(post.mOriginalAuthor));
-            mOriginalRetweetId =  post.mOriginalAuthor.mId;
-        }
-        else
-        {
+            mOriginalRetweetId = post.mOriginalAuthor.mId;
+        } else {
             SetProfileImagesFromUser(new TwitterUser(post.mUser));
         }
 
@@ -204,8 +200,7 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
 
     }
 
-    private void SetProfileImagesFromUser(TwitterUser user)
-    {
+    private void SetProfileImagesFromUser(TwitterUser user) {
         if (user.getProfileImageUrlOriginal() != null) {
             mProfileImageOriginalUrl = user.getProfileImageUrlOriginal();
         }
@@ -646,22 +641,21 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
 	 *
 	 */
     void setStatusMarkup(Status status) {
-        mStatusFullMarkup = TwitterUtil.getStatusMarkup(status, mMediaEntity);
+        mStatusFullMarkup = TwitterUtil.getStatusMarkup(status);
         mStatusFullSpanned = URLSpanNoUnderline.stripUnderlines(Html
                 .fromHtml(mStatusFullMarkup.replace("\n", "<br/>") + " "));
     }
 
     void setStatusMarkup(String full) {
         mStatusFullMarkup = full;
-        if (mStatusFullMarkup != null)
-        {
+        if (mStatusFullMarkup != null) {
             mStatusFullSpanned = URLSpanNoUnderline.stripUnderlines(Html
-                .fromHtml(mStatusFullMarkup.replace("\n", "<br/>") + " "));
+                    .fromHtml(mStatusFullMarkup.replace("\n", "<br/>") + " "));
         }
     }
 
     void setStatusMarkup(AdnPost post) {
-        mStatusFullMarkup = TwitterUtil.getStatusMarkup(post, mMediaEntity);
+        mStatusFullMarkup = TwitterUtil.getStatusMarkup(post);
         mStatusFullSpanned = URLSpanNoUnderline.stripUnderlines(Html
                 .fromHtml(mStatusFullMarkup.replace("\n", "<br/>") + " "));
     }
@@ -683,8 +677,7 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
 
     public String getProfileImageUrl(TwitterManager.ProfileImageSize size) {
 
-        switch (size)
-        {
+        switch (size) {
             case MINI:
                 return mProfileImageMiniUrl;
             case NORMAL:

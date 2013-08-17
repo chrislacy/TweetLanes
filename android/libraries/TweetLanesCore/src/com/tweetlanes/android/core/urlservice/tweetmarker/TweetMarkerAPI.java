@@ -11,9 +11,10 @@
 
 package com.tweetlanes.android.core.urlservice.tweetmarker;
 
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
+import android.net.Uri;
+
+import com.tweetlanes.android.core.model.AccountDescriptor;
+import com.tweetlanes.android.core.urlservice.ApiService;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.ParseException;
@@ -28,10 +29,9 @@ import org.tweetalib.android.ConnectionStatus;
 import org.tweetalib.android.TwitterFetchResult;
 import org.tweetalib.android.TwitterManager;
 
-import android.net.Uri;
-
-import com.tweetlanes.android.core.model.AccountDescriptor;
-import com.tweetlanes.android.core.urlservice.ApiService;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 class TweetMarkerAPI extends ApiService {
 
@@ -75,7 +75,7 @@ class TweetMarkerAPI extends ApiService {
     }
 
     /*
-	 *
+     *
 	 */
     public static void getLastRead(AccountDescriptor account,
                                    final ConnectionStatus.Callbacks connectionStatus,

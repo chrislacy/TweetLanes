@@ -16,7 +16,8 @@
 
 package org.tweetalib.android.model;
 
-import org.appdotnet4j.model.AdnPost;
+import android.net.Uri;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -25,18 +26,16 @@ import twitter4j.MediaEntity;
 import twitter4j.Status;
 import twitter4j.URLEntity;
 
-import android.net.Uri;
-
 public class TwitterMediaEntity {
     // https://dev.twitter.com/docs/tweet-entities
 
     /*
-	 * 
+     *
 	 */
     public enum Source {
         TWITTER, INSTAGRAM, TWITPIC, LOCKERZ, // Note that Plixi and Lockerz use
-                                              // the same API, so
-                                              // Plixi is treated as Lockerz
+        // the same API, so
+        // Plixi is treated as Lockerz
         YFROG, IMGUR, YOUTUBE,
     }
 
@@ -69,12 +68,10 @@ public class TwitterMediaEntity {
         MediaEntity[] mediaEntities;
         URLEntity[] urlEntities;
 
-        if(status.isRetweet()){
+        if (status.isRetweet()) {
             mediaEntities = status.getRetweetedStatus().getMediaEntities();
             urlEntities = status.getRetweetedStatus().getURLEntities();
-        }
-        else
-        {
+        } else {
             mediaEntities = status.getMediaEntities();
             urlEntities = status.getURLEntities();
         }
@@ -178,30 +175,30 @@ public class TwitterMediaEntity {
     private static String getInstagramMediaUrl(String url) {
 
         String lowerCaseUrl = url.toLowerCase();
-    	if (lowerCaseUrl.indexOf("://instagr.am/p/") > -1 ) {
-	        String instagramMatch = "://instagr.am/p/";
-	        int startIndex = lowerCaseUrl.indexOf(instagramMatch);
-	        if (startIndex > -1) {
-	            startIndex += instagramMatch.length();
-	            int endIndex = lowerCaseUrl.indexOf("/", startIndex);
-	            if (endIndex > -1) {
-	                String code = url.substring(startIndex, endIndex);
-	                return "http://instagr.am/p/" + code + "/media/";
-	            }
-	        }
-    	}
-    	if (lowerCaseUrl.indexOf("://instagram.com/p/") > -1 ) {
-	        String instagramMatch = "://instagram.com/p/";
-	        int startIndex = lowerCaseUrl.indexOf(instagramMatch);
-	        if (startIndex > -1) {
-	            startIndex += instagramMatch.length();
-	            int endIndex = lowerCaseUrl.indexOf("/", startIndex);
-	            if (endIndex > -1) {
-	                String code = url.substring(startIndex, endIndex);
-	                return "http://instagram.com/p/" + code + "/media/";
-	            }
-	        }
-    	}
+        if (lowerCaseUrl.indexOf("://instagr.am/p/") > -1) {
+            String instagramMatch = "://instagr.am/p/";
+            int startIndex = lowerCaseUrl.indexOf(instagramMatch);
+            if (startIndex > -1) {
+                startIndex += instagramMatch.length();
+                int endIndex = lowerCaseUrl.indexOf("/", startIndex);
+                if (endIndex > -1) {
+                    String code = url.substring(startIndex, endIndex);
+                    return "http://instagr.am/p/" + code + "/media/";
+                }
+            }
+        }
+        if (lowerCaseUrl.indexOf("://instagram.com/p/") > -1) {
+            String instagramMatch = "://instagram.com/p/";
+            int startIndex = lowerCaseUrl.indexOf(instagramMatch);
+            if (startIndex > -1) {
+                startIndex += instagramMatch.length();
+                int endIndex = lowerCaseUrl.indexOf("/", startIndex);
+                if (endIndex > -1) {
+                    String code = url.substring(startIndex, endIndex);
+                    return "http://instagram.com/p/" + code + "/media/";
+                }
+            }
+        }
 
         return null;
     }
@@ -301,7 +298,7 @@ public class TwitterMediaEntity {
 	 * 
 	 */
     private TwitterMediaEntity(Source source, String mediaCode, String url,
-            String expandedUrl) {
+                               String expandedUrl) {
         mSource = source;
         mMediaCode = mediaCode;
         mUrl = url;
@@ -380,97 +377,97 @@ public class TwitterMediaEntity {
     public String getMediaUrl(Size size) {
 
         switch (mSource) {
-        case TWITTER:
-            switch (size) {
-            case THUMB:
-                return mMediaCode + ":thumb";
-            case SMALL:
-                return mMediaCode + ":small";
-            case MEDIUM:
-                return mMediaCode + ":medium";
-            case LARGE:
-                return mMediaCode + ":large";
-            }
-            break;
+            case TWITTER:
+                switch (size) {
+                    case THUMB:
+                        return mMediaCode + ":thumb";
+                    case SMALL:
+                        return mMediaCode + ":small";
+                    case MEDIUM:
+                        return mMediaCode + ":medium";
+                    case LARGE:
+                        return mMediaCode + ":large";
+                }
+                break;
 
-        case INSTAGRAM:
-            switch (size) {
-            case THUMB:
-                return mMediaCode + "?size=t";
-            case SMALL:
-                return mMediaCode + "?size=t";
-            case MEDIUM:
-                return mMediaCode + "?size=m";
-            case LARGE:
-                return mMediaCode + "?size=l";
-            }
-            break;
+            case INSTAGRAM:
+                switch (size) {
+                    case THUMB:
+                        return mMediaCode + "?size=t";
+                    case SMALL:
+                        return mMediaCode + "?size=t";
+                    case MEDIUM:
+                        return mMediaCode + "?size=m";
+                    case LARGE:
+                        return mMediaCode + "?size=l";
+                }
+                break;
 
-        case TWITPIC:
-            switch (size) {
-            case THUMB:
-                return "http://twitpic.com/show/mini/" + mMediaCode;
-            case SMALL:
-                return "http://twitpic.com/show/thumb/" + mMediaCode;
-            case MEDIUM:
-                return "http://twitpic.com/show/thumb/" + mMediaCode;
-            case LARGE:
-                return "http://twitpic.com/show/full/" + mMediaCode;
-            }
-            break;
+            case TWITPIC:
+                switch (size) {
+                    case THUMB:
+                        return "http://twitpic.com/show/mini/" + mMediaCode;
+                    case SMALL:
+                        return "http://twitpic.com/show/thumb/" + mMediaCode;
+                    case MEDIUM:
+                        return "http://twitpic.com/show/thumb/" + mMediaCode;
+                    case LARGE:
+                        return "http://twitpic.com/show/full/" + mMediaCode;
+                }
+                break;
 
-        case LOCKERZ:
-            switch (size) {
-            case THUMB:
-                return mMediaCode + "&size=thumbnail";
-            case SMALL:
-                return mMediaCode + "&size=small";
-            case MEDIUM:
-                return mMediaCode + "&size=medium";
-            case LARGE:
-                return mMediaCode + "&size=big";
-            }
+            case LOCKERZ:
+                switch (size) {
+                    case THUMB:
+                        return mMediaCode + "&size=thumbnail";
+                    case SMALL:
+                        return mMediaCode + "&size=small";
+                    case MEDIUM:
+                        return mMediaCode + "&size=medium";
+                    case LARGE:
+                        return mMediaCode + "&size=big";
+                }
 
-        case YFROG:
-            switch (size) {
-            // http://yfrog.com/page/api#a5
-            case THUMB:
-                return mMediaCode + ":small";
-            case SMALL:
-                return mMediaCode + ":small";
-            case MEDIUM:
-                return mMediaCode + ":iphone";
-            case LARGE:
-                return mMediaCode + ":medium";
-            }
+            case YFROG:
+                switch (size) {
+                    // http://yfrog.com/page/api#a5
+                    case THUMB:
+                        return mMediaCode + ":small";
+                    case SMALL:
+                        return mMediaCode + ":small";
+                    case MEDIUM:
+                        return mMediaCode + ":iphone";
+                    case LARGE:
+                        return mMediaCode + ":medium";
+                }
 
-        case IMGUR:
-            switch (size) {
-            // http://webapps.stackexchange.com/a/16104
-            case THUMB:
-                return "http://i.imgur.com/" + mMediaCode + "s.png";
-            case SMALL:
-                return "http://i.imgur.com/" + mMediaCode + "b.png";
-            case MEDIUM:
-                return "http://i.imgur.com/" + mMediaCode + "m.png";
-            case LARGE:
-                return "http://i.imgur.com/" + mMediaCode + ".png";
-            }
+            case IMGUR:
+                switch (size) {
+                    // http://webapps.stackexchange.com/a/16104
+                    case THUMB:
+                        return "http://i.imgur.com/" + mMediaCode + "s.png";
+                    case SMALL:
+                        return "http://i.imgur.com/" + mMediaCode + "b.png";
+                    case MEDIUM:
+                        return "http://i.imgur.com/" + mMediaCode + "m.png";
+                    case LARGE:
+                        return "http://i.imgur.com/" + mMediaCode + ".png";
+                }
 
-        case YOUTUBE: {
-            switch (size) {
-            case THUMB:
-            case SMALL:
-                return "http://img.youtube.com/vi/" + mMediaCode
-                        + "/default.jpg";
-            case MEDIUM:
-                return "http://img.youtube.com/vi/" + mMediaCode
-                        + "/mqdefault.jpg";
-            case LARGE:
-                return "http://img.youtube.com/vi/" + mMediaCode
-                        + "/hqdefault.jpg";
+            case YOUTUBE: {
+                switch (size) {
+                    case THUMB:
+                    case SMALL:
+                        return "http://img.youtube.com/vi/" + mMediaCode
+                                + "/default.jpg";
+                    case MEDIUM:
+                        return "http://img.youtube.com/vi/" + mMediaCode
+                                + "/mqdefault.jpg";
+                    case LARGE:
+                        return "http://img.youtube.com/vi/" + mMediaCode
+                                + "/hqdefault.jpg";
+                }
             }
-        }
         }
 
         return null;

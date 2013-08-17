@@ -1,7 +1,11 @@
 package com.twitter;
 
-import java.util.*;
-import java.util.regex.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+import java.util.regex.Matcher;
 
 /**
  * A class to extract usernames, lists, hashtags and URLs from Tweet text.
@@ -23,7 +27,7 @@ public class Extractor {
         String expandedURL = null;
 
         public Entity(int start, int end, String value, String listSlug,
-                Type type) {
+                      Type type) {
             this.start = start;
             this.end = end;
             this.value = value;
@@ -42,7 +46,7 @@ public class Extractor {
         }
 
         public Entity(Matcher matcher, Type type, int groupNumber,
-                int startOffset) {
+                      int startOffset) {
             this(matcher.start(groupNumber) + startOffset, matcher
                     .end(groupNumber), matcher.group(groupNumber), type);
         }
@@ -149,9 +153,8 @@ public class Extractor {
 
     /**
      * Extract URLs, @mentions, lists and #hashtag from a given text/tweet.
-     * 
-     * @param text
-     *            text of tweet
+     *
+     * @param text text of tweet
      * @return list of extracted entities
      */
     public List<Entity> extractEntitiesWithIndices(String text) {
@@ -168,9 +171,8 @@ public class Extractor {
     /**
      * Extract @username references from Tweet text. A mention is an occurance
      * of @username anywhere in a Tweet.
-     * 
-     * @param text
-     *            of the tweet from which to extract usernames
+     *
+     * @param text of the tweet from which to extract usernames
      * @return List of usernames referenced (without the leading @ sign)
      */
     public List<String> extractMentionedScreennames(String text) {
@@ -188,9 +190,8 @@ public class Extractor {
     /**
      * Extract @username references from Tweet text. A mention is an occurance
      * of @username anywhere in a Tweet.
-     * 
-     * @param text
-     *            of the tweet from which to extract usernames
+     *
+     * @param text of the tweet from which to extract usernames
      * @return List of usernames referenced (without the leading @ sign)
      */
     List<Entity> extractMentionedScreennamesWithIndices(String text) {
@@ -248,9 +249,8 @@ public class Extractor {
      * Extract a @username reference from the beginning of Tweet text. A reply
      * is an occurance of @username at the beginning of a Tweet, preceded by 0
      * or more spaces.
-     * 
-     * @param text
-     *            of the tweet from which to extract the replied to username
+     *
+     * @param text of the tweet from which to extract the replied to username
      * @return username referenced, if any (without the leading @ sign). Returns
      *         null if this is not a reply.
      */
@@ -274,9 +274,8 @@ public class Extractor {
 
     /**
      * Extract URL references from Tweet text.
-     * 
-     * @param text
-     *            of the tweet from which to extract URLs
+     *
+     * @param text of the tweet from which to extract URLs
      * @return List of URLs referenced.
      */
     public List<String> extractURLs(String text) {
@@ -293,16 +292,15 @@ public class Extractor {
 
     /**
      * Extract URL references from Tweet text.
-     * 
-     * @param text
-     *            of the tweet from which to extract URLs
+     *
+     * @param text of the tweet from which to extract URLs
      * @return List of URLs referenced.
      */
     public List<Entity> extractURLsWithIndices(String text) {
         if (text == null
                 || text.isEmpty()
                 || (extractURLWithoutProtocol ? text.indexOf('.') : text
-                        .indexOf(':')) == -1) {
+                .indexOf(':')) == -1) {
             // Performance optimization.
             // If text doesn't contain '.' or ':' at all, text doesn't contain
             // URL,
@@ -320,9 +318,9 @@ public class Extractor {
                 // or URL is preceded by invalid character.
                 if (!extractURLWithoutProtocol
                         || Regex.INVALID_URL_WITHOUT_PROTOCOL_MATCH_BEGIN
-                                .matcher(
-                                        matcher.group(Regex.VALID_URL_GROUP_BEFORE))
-                                .matches()) {
+                        .matcher(
+                                matcher.group(Regex.VALID_URL_GROUP_BEFORE))
+                        .matches()) {
                     continue;
                 }
             }
@@ -345,9 +343,8 @@ public class Extractor {
 
     /**
      * Extract #hashtag references from Tweet text.
-     * 
-     * @param text
-     *            of the tweet from which to extract hashtags
+     *
+     * @param text of the tweet from which to extract hashtags
      * @return List of hashtags referenced (without the leading # sign)
      */
     public List<String> extractHashtags(String text) {
@@ -365,9 +362,8 @@ public class Extractor {
 
     /**
      * Extract #hashtag references from Tweet text.
-     * 
-     * @param text
-     *            of the tweet from which to extract hashtags
+     *
+     * @param text of the tweet from which to extract hashtags
      * @return List of hashtags referenced (without the leading # sign)
      */
     public List<Entity> extractHashtagsWithIndices(String text) {
@@ -376,16 +372,14 @@ public class Extractor {
 
     /**
      * Extract #hashtag references from Tweet text.
-     * 
-     * @param text
-     *            of the tweet from which to extract hashtags
-     * @param checkUrlOverlap
-     *            if true, check if extracted hashtags overlap URLs and remove
-     *            overlapping ones
+     *
+     * @param text            of the tweet from which to extract hashtags
+     * @param checkUrlOverlap if true, check if extracted hashtags overlap URLs and remove
+     *                        overlapping ones
      * @return List of hashtags referenced (without the leading # sign)
      */
     private List<Entity> extractHashtagsWithIndices(String text,
-            boolean checkUrlOverlap) {
+                                                    boolean checkUrlOverlap) {
         if (text == null || text.isEmpty()) {
             return Collections.emptyList();
         }
@@ -438,9 +432,8 @@ public class Extractor {
 
     /**
      * Extract $cashtag references from Tweet text.
-     * 
-     * @param text
-     *            of the tweet from which to extract cashtags
+     *
+     * @param text of the tweet from which to extract cashtags
      * @return List of cashtags referenced (without the leading $ sign)
      */
     public List<String> extractCashtags(String text) {
@@ -458,9 +451,8 @@ public class Extractor {
 
     /**
      * Extract $cashtag references from Tweet text.
-     * 
-     * @param text
-     *            of the tweet from which to extract cashtags
+     *
+     * @param text of the tweet from which to extract cashtags
      * @return List of cashtags referenced (without the leading $ sign)
      */
     public List<Entity> extractCashtagsWithIndices(String text) {
@@ -509,7 +501,7 @@ public class Extractor {
      * @param entities entities with Unicode based indices
      */
     public void modifyIndicesFromUnicodeToUTF16(String text,
-            List<Entity> entities) {
+                                                List<Entity> entities) {
         IndexConverter convert = new IndexConverter(text);
 
         for (Entity entity : entities) {
@@ -532,7 +524,7 @@ public class Extractor {
      * @param entities entities with UTF-16 based indices
      */
     public void modifyIndicesFromUTF16ToToUnicode(String text,
-            List<Entity> entities) {
+                                                  List<Entity> entities) {
         IndexConverter convert = new IndexConverter(text);
 
         for (Entity entity : entities) {
@@ -558,8 +550,7 @@ public class Extractor {
         }
 
         /**
-         * @param charIndex
-         *            Index into the string measured in code units.
+         * @param charIndex Index into the string measured in code units.
          * @return The code point index that corresponds to the specified
          *         character index.
          */
@@ -578,15 +569,14 @@ public class Extractor {
             // surrogate pair.
             if (charIndex > 0
                     && Character.isSupplementaryCodePoint(text
-                            .codePointAt(charIndex - 1))) {
+                    .codePointAt(charIndex - 1))) {
                 this.charIndex -= 1;
             }
             return this.codePointIndex;
         }
 
         /**
-         * @param codePointIndex
-         *            Index into the string measured in code points.
+         * @param codePointIndex Index into the string measured in code points.
          * @return the code unit index that corresponds to the specified code
          *         point index.
          */

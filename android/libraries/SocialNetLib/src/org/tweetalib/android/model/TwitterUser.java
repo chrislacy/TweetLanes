@@ -190,8 +190,7 @@ public class TwitterUser {
 
     public String getProfileImageUrl(ProfileImageSize size) {
 
-        switch (size)
-        {
+        switch (size) {
             case MINI:
                 return mProfileImageUrlMini;
             case NORMAL:

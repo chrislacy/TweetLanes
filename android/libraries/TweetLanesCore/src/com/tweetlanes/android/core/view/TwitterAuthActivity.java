@@ -98,7 +98,7 @@ public class TwitterAuthActivity extends Activity {
     }
 
     /*
-	 *
+     *
 	 */
     App getApp() {
         return (App) getApplication();

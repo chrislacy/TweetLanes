@@ -22,7 +22,7 @@ public class TwitterFetchResult {
     final String mErrorMessage;
 
     /*
-	 *
+     *
 	 */
     public TwitterFetchResult(boolean successful, String errorMessage) {
         mSuccessful = successful;
@@ -30,7 +30,7 @@ public class TwitterFetchResult {
 
         if (!mSuccessful && TwitterManager.get() != null && TwitterManager.get().getConnectionStatus() !=
                 null) {
-                    TwitterManager.get().getConnectionStatus().handleError(this);
+            TwitterManager.get().getConnectionStatus().handleError(this);
         }
     }
 

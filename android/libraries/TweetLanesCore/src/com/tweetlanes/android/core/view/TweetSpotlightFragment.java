@@ -11,11 +11,6 @@
 
 package com.tweetlanes.android.core.view;
 
-import org.tweetalib.android.TwitterFetchResult;
-import org.tweetalib.android.TwitterFetchStatus.FinishedCallback;
-import org.tweetalib.android.TwitterManager;
-import org.tweetalib.android.model.TwitterStatus;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -28,6 +23,11 @@ import com.tweetlanes.android.core.R;
 import com.tweetlanes.android.core.util.LazyImageLoader;
 import com.tweetlanes.android.core.widget.pulltorefresh.PullToRefreshBase.OnRefreshListener;
 import com.tweetlanes.android.core.widget.pulltorefresh.PullToRefreshListView;
+
+import org.tweetalib.android.TwitterFetchResult;
+import org.tweetalib.android.TwitterFetchStatus.FinishedCallback;
+import org.tweetalib.android.TwitterManager;
+import org.tweetalib.android.model.TwitterStatus;
 
 public final class TweetSpotlightFragment extends BaseLaneFragment {
 
@@ -75,12 +75,9 @@ public final class TweetSpotlightFragment extends BaseLaneFragment {
                 if (mTweetFeedListAdapter != null) {
                     onStatusRefresh(status);
                     updateViewVisibility();
-                }
-                else if(result.getErrorMessage().contains("does not exist"))
-                {
-                    TweetSpotlightActivity spotlightActivity = (TweetSpotlightActivity)getActivity();
-                    if (spotlightActivity != null)
-                    {
+                } else if (result.getErrorMessage().contains("does not exist")) {
+                    TweetSpotlightActivity spotlightActivity = (TweetSpotlightActivity) getActivity();
+                    if (spotlightActivity != null) {
                         spotlightActivity.TweetDeleted(result.getErrorMessage());
                     }
                 }
@@ -88,9 +85,8 @@ public final class TweetSpotlightFragment extends BaseLaneFragment {
             }
         };
 
-        TweetSpotlightActivity spotlightActivity = (TweetSpotlightActivity)getActivity();
-        if (spotlightActivity != null)
-        {
+        TweetSpotlightActivity spotlightActivity = (TweetSpotlightActivity) getActivity();
+        if (spotlightActivity != null) {
             mStatus = spotlightActivity.mStatus;
         }
 
@@ -126,8 +122,7 @@ public final class TweetSpotlightFragment extends BaseLaneFragment {
                         // TODO: Handle error properly
                         if (result.isSuccessful()) {
 
-                            if(mStatus.mIsRetweet && mStatus.mOriginalRetweetId > 0)
-                            {
+                            if (mStatus.mIsRetweet && mStatus.mOriginalRetweetId > 0) {
                                 mGetStatusCallback = TwitterManager.get()
                                         .getFetchStatusInstance().new FinishedCallback() {
 
@@ -138,12 +133,9 @@ public final class TweetSpotlightFragment extends BaseLaneFragment {
                                         if (result.isSuccessful()) {
                                             mStatus.mIsRetweetedByMe = status.mIsRetweetedByMe;
                                             onStatusRefresh(mStatus);
-                                        }
-                                        else if(result.getErrorMessage().contains("does not exist"))
-                                        {
-                                            TweetSpotlightActivity spotlightActivity = (TweetSpotlightActivity)getActivity();
-                                            if (spotlightActivity != null)
-                                            {
+                                        } else if (result.getErrorMessage().contains("does not exist")) {
+                                            TweetSpotlightActivity spotlightActivity = (TweetSpotlightActivity) getActivity();
+                                            if (spotlightActivity != null) {
                                                 spotlightActivity.TweetDeleted(result.getErrorMessage());
                                             }
                                         }
@@ -153,17 +145,12 @@ public final class TweetSpotlightFragment extends BaseLaneFragment {
 
                                 mStatus = status;
                                 TwitterManager.get().getStatus(mStatus.mOriginalRetweetId, mGetStatusCallback);
-                            }
-                            else
-                            {
+                            } else {
                                 onStatusRefresh(status);
                             }
-                        }
-                        else if(result.getErrorMessage().contains("does not exist"))
-                        {
-                            TweetSpotlightActivity spotlightActivity = (TweetSpotlightActivity)getActivity();
-                            if (spotlightActivity != null)
-                            {
+                        } else if (result.getErrorMessage().contains("does not exist")) {
+                            TweetSpotlightActivity spotlightActivity = (TweetSpotlightActivity) getActivity();
+                            if (spotlightActivity != null) {
                                 spotlightActivity.TweetDeleted(result.getErrorMessage());
                             }
                         }
@@ -219,9 +206,8 @@ public final class TweetSpotlightFragment extends BaseLaneFragment {
             mStatus = status;
             mTweetFeedListAdapter.notifyDataSetChanged();
             mTweetFeedListView.onRefreshComplete();
-            TweetSpotlightActivity spotlightActivity = (TweetSpotlightActivity)getActivity();
-            if (spotlightActivity != null)
-            {
+            TweetSpotlightActivity spotlightActivity = (TweetSpotlightActivity) getActivity();
+            if (spotlightActivity != null) {
                 spotlightActivity.onGetStatus(mStatus);
             }
         }

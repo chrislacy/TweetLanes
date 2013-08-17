@@ -29,7 +29,7 @@ import android.widget.TextView;
 public class URLSpanNoUnderline extends URLSpan {
 
     /*
-	 * 
+     *
 	 */
     private URLSpanNoUnderline(String url) {
         super(url);

@@ -21,7 +21,7 @@ public class ConnectionStatus {
     private final Callbacks mCallbacks;
 
     /*
-	 * 
+     *
 	 */
     public ConnectionStatus(Callbacks callbacks) {
         mCallbacks = callbacks;

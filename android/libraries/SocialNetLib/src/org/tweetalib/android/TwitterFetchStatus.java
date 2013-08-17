@@ -11,9 +11,8 @@
 
 package org.tweetalib.android;
 
-import java.util.HashMap;
-
 import android.util.Log;
+
 import org.appdotnet4j.model.AdnPost;
 import org.appdotnet4j.model.AdnPostCompose;
 import org.asynctasktex.AsyncTaskEx;
@@ -21,6 +20,8 @@ import org.socialnetlib.android.AppdotnetApi;
 import org.tweetalib.android.TwitterConstant.StatusType;
 import org.tweetalib.android.model.TwitterStatus;
 import org.tweetalib.android.model.TwitterStatusUpdate;
+
+import java.util.HashMap;
 
 import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
@@ -34,10 +35,10 @@ public class TwitterFetchStatus {
     private final HashMap<Integer, FinishedCallback> mFinishedCallbackMap;
 
     /*
-	 *
+     *
 	 */
     public void clearCallbacks() {
-        if (mFinishedCallbackMap != null ) {
+        if (mFinishedCallbackMap != null) {
             mFinishedCallbackMap.clear();
         }
     }
@@ -127,7 +128,7 @@ public class TwitterFetchStatus {
 	 *
 	 */
     public TwitterStatus getStatus(long statusId, FinishedCallback callback,
-            ConnectionStatus connectionStatus) {
+                                   ConnectionStatus connectionStatus) {
 
         triggerFetchStatusTask(new FetchStatusTaskInput(
                 mFetchStatusCallbackHandle, StatusType.GET_STATUS, statusId,
@@ -139,7 +140,7 @@ public class TwitterFetchStatus {
 	 *
 	 */
     public void setStatus(TwitterStatusUpdate statusUpdate,
-            FinishedCallback callback, ConnectionStatus connectionStatus) {
+                          FinishedCallback callback, ConnectionStatus connectionStatus) {
 
         triggerFetchStatusTask(new FetchStatusTaskInput(
                 mFetchStatusCallbackHandle, statusUpdate, connectionStatus),
@@ -150,7 +151,7 @@ public class TwitterFetchStatus {
 	 *
 	 */
     public void setRetweet(long statusId, FinishedCallback callback,
-            ConnectionStatus connectionStatus) {
+                           ConnectionStatus connectionStatus) {
         triggerFetchStatusTask(new FetchStatusTaskInput(
                 mFetchStatusCallbackHandle, StatusType.SET_RETWEET, statusId,
                 connectionStatus), callback, connectionStatus);
@@ -160,7 +161,7 @@ public class TwitterFetchStatus {
 	 *
 	 */
     void triggerFetchStatusTask(FetchStatusTaskInput taskInput,
-            FinishedCallback callback, ConnectionStatus connectionStatus) {
+                                FinishedCallback callback, ConnectionStatus connectionStatus) {
 
         if (connectionStatus != null && !connectionStatus.isOnline()) {
             if (callback != null) {
@@ -190,8 +191,8 @@ public class TwitterFetchStatus {
     class FetchStatusTaskInput {
 
         FetchStatusTaskInput(Integer callbackHandle,
-                TwitterStatusUpdate statusUpdate,
-                ConnectionStatus connectionStatus) {
+                             TwitterStatusUpdate statusUpdate,
+                             ConnectionStatus connectionStatus) {
             mCallbackHandle = callbackHandle;
             mStatusUpdate = statusUpdate;
             mStatusType = StatusType.SET_STATUS;
@@ -199,7 +200,7 @@ public class TwitterFetchStatus {
         }
 
         FetchStatusTaskInput(Integer callbackHandle, StatusType statusType,
-                long existingStatus, ConnectionStatus connectionStatus) {
+                             long existingStatus, ConnectionStatus connectionStatus) {
             mCallbackHandle = callbackHandle;
             mExistingStatusId = existingStatus;
             mStatusType = statusType;
@@ -219,7 +220,7 @@ public class TwitterFetchStatus {
     class FetchStatusTaskOutput {
 
         FetchStatusTaskOutput(TwitterFetchResult result,
-                Integer callbackHandle, TwitterStatus status) {
+                              Integer callbackHandle, TwitterStatus status) {
             mResult = result;
             mCallbackHandle = callbackHandle;
             mStatus = status;
@@ -255,23 +256,23 @@ public class TwitterFetchStatus {
             if (appdotnetApi != null) {
                 AdnPost status = null;
                 switch (input.mStatusType) {
-                case SET_STATUS:
-                    AdnPostCompose post = input.mStatusUpdate.getAdnComposePost();
-                    appdotnetApi.setAdnStatus(post);
-                    break;
+                    case SET_STATUS:
+                        AdnPostCompose post = input.mStatusUpdate.getAdnComposePost();
+                        appdotnetApi.setAdnStatus(post);
+                        break;
 
-                case GET_STATUS: {
-                    status = appdotnetApi.getAdnPost(input.mExistingStatusId);
-                    break;
-                }
+                    case GET_STATUS: {
+                        status = appdotnetApi.getAdnPost(input.mExistingStatusId);
+                        break;
+                    }
 
-                case SET_RETWEET: {
-                    status = appdotnetApi.setAdnRepost(input.mExistingStatusId);
-                    break;
-                }
+                    case SET_RETWEET: {
+                        status = appdotnetApi.setAdnRepost(input.mExistingStatusId);
+                        break;
+                    }
 
-                default:
-                    break;
+                    default:
+                        break;
                 }
 
                 if (status != null) {
@@ -282,17 +283,17 @@ public class TwitterFetchStatus {
                 try {
 
                     switch (input.mStatusType) {
-                    case GET_STATUS: {
-                        Log.d("api-call", "showStatus");
-                        status = twitter.showStatus(input.mExistingStatusId);
-                        break;
-                    }
+                        case GET_STATUS: {
+                            Log.d("api-call", "showStatus");
+                            status = twitter.showStatus(input.mExistingStatusId);
+                            break;
+                        }
 
-                    case SET_STATUS: {
-                        Log.d("api-call", "updateStatus");
-                        StatusUpdate statusUpdate = input.mStatusUpdate
-                                .getT4JStatusUpdate();
-                        status = twitter.updateStatus(statusUpdate);
+                        case SET_STATUS: {
+                            Log.d("api-call", "updateStatus");
+                            StatusUpdate statusUpdate = input.mStatusUpdate
+                                    .getT4JStatusUpdate();
+                            status = twitter.updateStatus(statusUpdate);
 
                         /*
                          * Configuration conf = getConfiguration();
@@ -331,15 +332,15 @@ public class TwitterFetchStatus {
                          * e.printStackTrace(); } }
                          */
 
-                        // status = twitter.showStatus(181681943774117888L);
-                        break;
-                    }
+                            // status = twitter.showStatus(181681943774117888L);
+                            break;
+                        }
 
-                    case SET_RETWEET: {
-                        Log.d("api-call", "retweetStatus");
-                        status = twitter.retweetStatus(input.mExistingStatusId);
-                        break;
-                    }
+                        case SET_RETWEET: {
+                            Log.d("api-call", "retweetStatus");
+                            status = twitter.retweetStatus(input.mExistingStatusId);
+                            break;
+                        }
 
                     }
 
@@ -351,7 +352,7 @@ public class TwitterFetchStatus {
                         errorDescription += "\nTry again in " + e.getRateLimitStatus().getSecondsUntilReset()
                                 + " " + "seconds";
                     }
-                }catch (OutOfMemoryError e) {
+                } catch (OutOfMemoryError e) {
                     e.printStackTrace();
                     errorDescription = e.getMessage();
                     Log.e("api-call", errorDescription, e);

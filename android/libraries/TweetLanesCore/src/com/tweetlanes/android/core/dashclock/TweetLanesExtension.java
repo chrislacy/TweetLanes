@@ -59,8 +59,7 @@ public class TweetLanesExtension extends DashClockExtension {
             String title = mentionCount > 0 ? mentionCount + " new mentions" : "";
             if (title.length() == 0) {
                 title = dmCount + " new direct messages";
-            }
-            else if (dmCount > 0) {
+            } else if (dmCount > 0) {
                 title += ", " + dmCount + " new direct mentions";
             }
             publishUpdate(new ExtensionData().visible(true).icon(R.drawable.ic_launcher).status(String.valueOf(mentionCount + dmCount))
@@ -76,8 +75,7 @@ public class TweetLanesExtension extends DashClockExtension {
 
         if (type.equals(SharedPreferencesConstants.NOTIFICATION_TYPE_MENTION)) {
             postId = preferences.getLong(SharedPreferencesConstants.NOTIFICATION_LAST_DISPLAYED_MENTION_ID + accountKey, 0);
-        }
-        else {
+        } else {
             postId = preferences.getLong(SharedPreferencesConstants.NOTIFICATION_LAST_DISPLAYED_DIRECT_MESSAGE_ID + accountKey, 0);
         }
 
