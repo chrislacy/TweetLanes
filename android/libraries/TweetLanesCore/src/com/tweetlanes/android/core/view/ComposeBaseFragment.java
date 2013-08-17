@@ -552,8 +552,13 @@ abstract class ComposeBaseFragment extends Fragment {
         ArrayList<TwitterUser> list = new ArrayList<TwitterUser>();
         List<TwitterUser> users = TwitterManager.get().getFetchUserInstance().getCachedUsers();
 
+        text = text.replace("@", "");
+
         for (TwitterUser user : users) {
-            if (("@" + user.getScreenName()).toLowerCase().startsWith(text.toLowerCase())) {
+
+            if (user.getScreenName().toLowerCase().contains(text.toLowerCase()) ||
+                    user.getName().toLowerCase().contains(text.toLowerCase()))
+            {
                 list.add(user);
             }
         }
