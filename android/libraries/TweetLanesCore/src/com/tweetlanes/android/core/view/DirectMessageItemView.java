@@ -153,6 +153,12 @@ public class DirectMessageItemView extends LinearLayout {
                 case ExtraLarge:
                     textSize = R.dimen.font_size_extra_large;
                     break;
+                case ExtraExtraLarge:
+                    textSize = R.dimen.font_size_extra_extra_large;
+                    break;
+                case Supersize:
+                    textSize = R.dimen.font_size_supersize;
+                    break;
             }
 
             if (textSize != null) {
