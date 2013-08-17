@@ -11,7 +11,17 @@
 
 package com.tweetlanes.android.core.view;
 
+import android.app.Activity;
+import android.content.Context;
+import android.util.AttributeSet;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+
+import com.tweetlanes.android.core.R;
+import com.tweetlanes.android.core.util.LazyImageLoader;
 
 import org.socialnetlib.android.SocialNetConstant;
 import org.tweetalib.android.TwitterConstant;
@@ -22,17 +32,6 @@ import org.tweetalib.android.TwitterManager;
 import org.tweetalib.android.callback.TwitterFetchStatusesFinishedCallback;
 import org.tweetalib.android.model.TwitterStatus;
 import org.tweetalib.android.model.TwitterStatuses;
-
-import android.app.Activity;
-import android.content.Context;
-import android.util.AttributeSet;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-
-import com.tweetlanes.android.core.R;
-import com.tweetlanes.android.core.util.LazyImageLoader;
 
 public class ConversationView extends LinearLayout {
 
@@ -121,7 +120,7 @@ public class ConversationView extends LinearLayout {
     }
 
     /*
-	 *
+     *
 	 */
     private void setStatuses(TwitterStatuses statuses) {
 

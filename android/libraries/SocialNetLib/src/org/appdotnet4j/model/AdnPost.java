@@ -11,14 +11,14 @@
 
 package org.appdotnet4j.model;
 
-import java.text.ParseException;
-import java.util.Date;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.tweetalib.android.TwitterManager;
 import org.tweetalib.android.TwitterUtil;
+
+import java.text.ParseException;
+import java.util.Date;
 
 public class AdnPost {
 
@@ -35,7 +35,8 @@ public class AdnPost {
     public AdnUser mOriginalAuthor;
     public AdnMedia mEmbeddedMedia;
 
-    public AdnPost() {}
+    public AdnPost() {
+    }
 
     public AdnPost(String jsonAsString) {
         try {

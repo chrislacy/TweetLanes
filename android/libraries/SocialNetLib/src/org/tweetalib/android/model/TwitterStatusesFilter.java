@@ -42,7 +42,7 @@ public final class TwitterStatusesFilter {
     }
 
     /*
-	 * 
+     *
 	 */
     private boolean mShowRetweets = true;
     private boolean mShowReplies = true;

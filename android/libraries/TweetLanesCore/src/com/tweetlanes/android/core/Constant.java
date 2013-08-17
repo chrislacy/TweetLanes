@@ -54,7 +54,7 @@ public class Constant {
     }
 
     /*
-	 *
+     *
 	 */
     public enum SystemEvent {
         VOLUME_UP_KEY_DOWN, VOLUME_DOWN_KEY_DOWN, FORCE_FRAGMENT_PAGER_ADAPTER_REFRESH, RESTART_APP, DISPLAY_TOAST,

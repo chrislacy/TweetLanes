@@ -262,7 +262,7 @@ public class App extends Application {
     }
 
     /*
-	 *
+     *
 	 */
     public String getTweetDraftAsString() {
 

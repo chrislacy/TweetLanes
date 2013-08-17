@@ -47,17 +47,16 @@ class AdnInteraction {
                     if (mAction.equals("repost")) {
                         verb = "reposted";
                     } else if (mAction.equals("star")) {
-                    	verb = "starred";
+                        verb = "starred";
                     } else if (mAction.equals("reply")) {
-                    	verb = "replied to";
+                        verb = "replied to";
                     }
                     for (AdnPost post : mPosts.mPosts) {
                         String userString = "";
                         for (AdnUser user : users.mUsers) {
                             if (userString.equals("")) {
                                 userString = "@" + user.mUserName;
-                            }
-                            else {
+                            } else {
                                 userString += ", " + "@" + user.mUserName;
                             }
                         }
@@ -68,16 +67,14 @@ class AdnInteraction {
                         post.mCreatedAt = createdAt;
                     }
                 }
-            }
-            else if (mAction.equals("follow") && users != null && users.mUsers != null) {
+            } else if (mAction.equals("follow") && users != null && users.mUsers != null) {
                 mPosts = new AdnPosts();
                 String userString = "";
                 long id = 0;
                 for (AdnUser user : users.mUsers) {
                     if (userString.equals("")) {
                         userString = "@" + user.mUserName;
-                    }
-                    else {
+                    } else {
                         userString += ", " + "@" + user.mUserName;
                     }
                     id += user.mId;

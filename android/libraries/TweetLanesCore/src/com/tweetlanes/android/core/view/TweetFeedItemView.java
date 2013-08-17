@@ -25,7 +25,11 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.util.AttributeSet;
 import android.util.TypedValue;
-import android.view.*;
+import android.view.GestureDetector;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewConfiguration;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -154,16 +158,12 @@ public class TweetFeedItemView extends LinearLayout {
             if (twitterStatus.mIsRetweet) {
 
                 String text = verb + " by " + twitterStatus.mUserName;
-                if (twitterStatus.mRetweetCount > 1)
-                {
+                if (twitterStatus.mRetweetCount > 1) {
                     long otherRetweets = (twitterStatus.mRetweetCount - 1);
-                    text += " and " +  otherRetweets;
-                    if (otherRetweets > 1)
-                    {
-                        text +=  " others.";
-                    }
-                    else
-                    {
+                    text += " and " + otherRetweets;
+                    if (otherRetweets > 1) {
+                        text += " others.";
+                    } else {
                         text += " other.";
                     }
                 }
@@ -224,6 +224,12 @@ public class TweetFeedItemView extends LinearLayout {
                 break;
             case ExtraLarge:
                 textSize = R.dimen.font_size_extra_large;
+                break;
+            case ExtraExtraLarge:
+                textSize = R.dimen.font_size_extra_extra_large;
+                break;
+            case Supersize:
+                textSize = R.dimen.font_size_supersize;
                 break;
         }
 
@@ -360,7 +366,7 @@ public class TweetFeedItemView extends LinearLayout {
     }
 
     /*
-	 *
+     *
 	 */
     void insertConversationView() {
         if (mConversationView == null) {
@@ -562,9 +568,9 @@ public class TweetFeedItemView extends LinearLayout {
         profileIntent.putExtra("userScreenName",
                 mTwitterStatus.getAuthorScreenName());
 
-        profileIntent.putExtra("clearCompose","true");
+        profileIntent.putExtra("clearCompose", "true");
 
-        ((Activity)mContext).startActivityForResult(profileIntent, Constant.REQUEST_CODE_PROFILE);
+        ((Activity) mContext).startActivityForResult(profileIntent, Constant.REQUEST_CODE_PROFILE);
     }
 
     /*

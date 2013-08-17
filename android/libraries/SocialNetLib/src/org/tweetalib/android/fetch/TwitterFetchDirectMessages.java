@@ -44,10 +44,10 @@ public class TwitterFetchDirectMessages {
     private final HashMap<Integer, TwitterFetchDirectMessagesFinishedCallback> mFinishedCallbackMap;
 
     /*
-	 *
+     *
 	 */
     public void clearCallbacks() {
-        if (mFinishedCallbackMap != null ) {
+        if (mFinishedCallbackMap != null) {
             mFinishedCallbackMap.clear();
         }
     }
@@ -147,10 +147,10 @@ public class TwitterFetchDirectMessages {
         }
 
         mFinishedCallbackMap.put(mFetchMessagesCallbackHandle, callback);
-        new FetchStatusesTask().execute(AsyncTaskEx.PRIORITY_MEDIUM,
+        new FetchStatusesTask().execute(AsyncTaskEx.PRIORITY_HIGH,
                 "Fetch DMs", new FetchDirectMessagesTaskInput(
-                        mFetchMessagesCallbackHandle, contentHandle, paging,
-                        connectionStatus));
+                mFetchMessagesCallbackHandle, contentHandle, paging,
+                connectionStatus));
         mFetchMessagesCallbackHandle += 1;
 
         return null;
@@ -160,10 +160,10 @@ public class TwitterFetchDirectMessages {
 	 *
 	 */
     public void sendDirectMessage(long userId, String recipientScreenName,
-            String statusText,
-            TwitterContentHandle contentHandle,
-            TwitterFetchDirectMessagesFinishedCallback callback,
-            ConnectionStatus connectionStatus) {
+                                  String statusText,
+                                  TwitterContentHandle contentHandle,
+                                  TwitterFetchDirectMessagesFinishedCallback callback,
+                                  ConnectionStatus connectionStatus) {
         if (connectionStatus != null && !connectionStatus.isOnline()) {
             if (callback != null) {
                 callback.finished(contentHandle, new TwitterFetchResult(false,
@@ -172,10 +172,10 @@ public class TwitterFetchDirectMessages {
         }
 
         mFinishedCallbackMap.put(mFetchMessagesCallbackHandle, callback);
-        new FetchStatusesTask().execute(AsyncTaskEx.PRIORITY_MEDIUM,
+        new FetchStatusesTask().execute(AsyncTaskEx.PRIORITY_HIGH,
                 "Fetch DMs", new FetchDirectMessagesTaskInput(
-                        mFetchMessagesCallbackHandle, userId,
-                        recipientScreenName, statusText, connectionStatus));
+                mFetchMessagesCallbackHandle, userId,
+                recipientScreenName, statusText, connectionStatus));
         mFetchMessagesCallbackHandle += 1;
     }
 
@@ -193,8 +193,8 @@ public class TwitterFetchDirectMessages {
     class FetchDirectMessagesTaskInput {
 
         FetchDirectMessagesTaskInput(Integer callbackHandle,
-                TwitterContentHandle contentHandle, TwitterPaging paging,
-                ConnectionStatus connectionStatus) {
+                                     TwitterContentHandle contentHandle, TwitterPaging paging,
+                                     ConnectionStatus connectionStatus) {
             mCallbackHandle = callbackHandle;
             mContentHandle = contentHandle;
             mPaging = paging;
@@ -202,8 +202,8 @@ public class TwitterFetchDirectMessages {
         }
 
         FetchDirectMessagesTaskInput(Integer callbackHandle, Long userId,
-                String recipientScreenName, String statusText,
-                ConnectionStatus connectionStatus) {
+                                     String recipientScreenName, String statusText,
+                                     ConnectionStatus connectionStatus) {
             mCallbackHandle = callbackHandle;
             mUserId = userId;
             mRecipientScreenName = recipientScreenName;
@@ -226,7 +226,7 @@ public class TwitterFetchDirectMessages {
     class FetchDirectMessagesTaskOutput {
 
         FetchDirectMessagesTaskOutput(TwitterContentHandle contentHandle, TwitterFetchResult result,
-                Integer callbackHandle, TwitterDirectMessages messages) {
+                                      Integer callbackHandle, TwitterDirectMessages messages) {
             mContentHandle = contentHandle;
             mResult = result;
             mCallbackHandle = callbackHandle;
@@ -287,33 +287,33 @@ public class TwitterFetchDirectMessages {
                         }
 
                         switch (input.mContentHandle.getDirectMessagesType()) {
-                        case ALL_MESSAGES: {
-                            messages = getDirectMessages(input.mContentHandle);
-                            // Annoyingly, DMs can't be retrieved in a threaded
-                            // format. Handle this
-                            // by getting sent and received and managing
-                            // ourselves...
-                            Log.d("api-call", "getDirectMessages");
-                            ResponseList<DirectMessage> receivedDirectMessages = twitter
-                                    .getDirectMessages(paging);
-                            Log.d("api-call", "getSendDirectMessages");
-                            ResponseList<DirectMessage> sentDirectMessages = twitter
-                                    .getSentDirectMessages(paging);
+                            case ALL_MESSAGES: {
+                                messages = getDirectMessages(input.mContentHandle);
+                                // Annoyingly, DMs can't be retrieved in a threaded
+                                // format. Handle this
+                                // by getting sent and received and managing
+                                // ourselves...
+                                Log.d("api-call", "getDirectMessages");
+                                ResponseList<DirectMessage> receivedDirectMessages = twitter
+                                        .getDirectMessages(paging);
+                                Log.d("api-call", "getSendDirectMessages");
+                                ResponseList<DirectMessage> sentDirectMessages = twitter
+                                        .getSentDirectMessages(paging);
 
-                            AddUserCallback addUserCallback = new AddUserCallback() {
+                                AddUserCallback addUserCallback = new AddUserCallback() {
 
-                                @Override
-                                public void addUser(User user) {
-                                    mCallbacks.addUser(user);
-                                }
-                            };
+                                    @Override
+                                    public void addUser(User user) {
+                                        mCallbacks.addUser(user);
+                                    }
+                                };
 
-                            messages.add(sentDirectMessages,
-                                    receivedDirectMessages, addUserCallback);
-                            break;
-                        }
-                        default:
-                            break;
+                                messages.add(sentDirectMessages,
+                                        receivedDirectMessages, addUserCallback);
+                                break;
+                            }
+                            default:
+                                break;
                         }
                     }
 

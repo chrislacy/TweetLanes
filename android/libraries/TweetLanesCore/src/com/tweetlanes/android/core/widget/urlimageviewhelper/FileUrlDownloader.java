@@ -1,10 +1,10 @@
 package com.tweetlanes.android.core.widget.urlimageviewhelper;
 
-import java.io.File;
-import java.net.URI;
-
 import android.content.Context;
 import android.os.AsyncTask;
+
+import java.io.File;
+import java.net.URI;
 
 public class FileUrlDownloader implements UrlDownloader {
     @Override

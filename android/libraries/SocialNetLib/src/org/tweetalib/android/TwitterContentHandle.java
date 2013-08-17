@@ -19,12 +19,12 @@ package org.tweetalib.android;
 public class TwitterContentHandle extends TwitterContentHandleBase {
 
     /**
-	 *
-	 */
+     *
+     */
     private static final long serialVersionUID = 231396385372202288L;
 
-   public TwitterContentHandle(TwitterContentHandleBase contentHandleBase,
-            String screenName, String identifier, String currentAccountKey) {
+    public TwitterContentHandle(TwitterContentHandleBase contentHandleBase,
+                                String screenName, String identifier, String currentAccountKey) {
 
         super(contentHandleBase);
         mScreenName = screenName;

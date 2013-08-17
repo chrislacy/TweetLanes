@@ -14,16 +14,25 @@ package org.socialnetlib.android;
 import com.turbomanage.httpclient.BasicHttpClient;
 import com.turbomanage.httpclient.HttpResponse;
 import com.turbomanage.httpclient.ParameterMap;
-import org.appdotnet4j.model.*;
+
+import org.appdotnet4j.model.AdnFile;
+import org.appdotnet4j.model.AdnInteractions;
+import org.appdotnet4j.model.AdnPaging;
+import org.appdotnet4j.model.AdnPost;
+import org.appdotnet4j.model.AdnPostCompose;
+import org.appdotnet4j.model.AdnPosts;
+import org.appdotnet4j.model.AdnUser;
+import org.appdotnet4j.model.AdnUsers;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.tweetalib.android.model.TwitterUser;
-import twitter4j.Twitter;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+
+import twitter4j.Twitter;
 
 public class AppdotnetApi extends SocialNetApi {
 
@@ -116,7 +125,7 @@ public class AppdotnetApi extends SocialNetApi {
     }
 
     /*
-	 *
+     *
 	 */
     public TwitterUser getAdnUser(long userId) {
 
@@ -272,7 +281,7 @@ public class AppdotnetApi extends SocialNetApi {
             params = new ParameterMap();
         }
         String interactionString = doGet(path, params);
-        if (interactionString!= null) {
+        if (interactionString != null) {
             return new AdnInteractions(interactionString);
         }
 
@@ -308,8 +317,8 @@ public class AppdotnetApi extends SocialNetApi {
         try {
 
             post = new JSONObject()
-                .put("text", compose.mText)
-                .put("reply_to", compose.mInReplyTo);
+                    .put("text", compose.mText)
+                    .put("reply_to", compose.mInReplyTo);
 
 
             if (compose.mMediaFile != null) {
@@ -327,8 +336,7 @@ public class AppdotnetApi extends SocialNetApi {
                 post.put("annotations", new JSONArray().put(ann));
             }
 
-        }
-        catch (JSONException e) {
+        } catch (JSONException e) {
             e.printStackTrace();
             return null;
         }
@@ -346,10 +354,10 @@ public class AppdotnetApi extends SocialNetApi {
         JSONObject json;
         try {
             json = new JSONObject()
-                .put("kind", "image")
-                .put("type", "com.tweetlanes.image")
-                .put("public", "0")
-                .put("name", file.getName());
+                    .put("kind", "image")
+                    .put("type", "com.tweetlanes.image")
+                    .put("public", "0")
+                    .put("name", file.getName());
 
             JSONObject response = new JSONObject(doPost("/stream/0/files", json));
             if (response.has("data")) {
@@ -367,17 +375,13 @@ public class AppdotnetApi extends SocialNetApi {
             if (isResponseValid(httpResponse)) {
                 return new AdnFile(id, fileToken);
             }
-        }
-        catch (JSONException e) {
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
-        catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-
-
 
 
         return null;
@@ -419,8 +423,7 @@ public class AppdotnetApi extends SocialNetApi {
         HttpResponse httpResponse;
         if (favorite) {
             httpResponse = httpClient.post("/stream/0/posts/" + existingPostId + "/star", null);
-        }
-        else {
+        } else {
             httpResponse = httpClient.delete("/stream/0/posts/" + existingPostId + "/star", null);
         }
 
@@ -504,7 +507,7 @@ public class AppdotnetApi extends SocialNetApi {
         return SocialNetConstant.Type.Appdotnet;
     }
 
-    private static byte[] readFile (File file) throws IOException {
+    private static byte[] readFile(File file) throws IOException {
         // Open file
         RandomAccessFile f = new RandomAccessFile(file, "r");
 
@@ -518,8 +521,7 @@ public class AppdotnetApi extends SocialNetApi {
             byte[] data = new byte[length];
             f.readFully(data);
             return data;
-        }
-        finally {
+        } finally {
             f.close();
         }
     }

@@ -6,7 +6,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.tweetalib.android.model.TwitterMediaEntity;
 import twitter4j.MediaEntity;
 import twitter4j.URLEntity;
 
@@ -66,7 +65,7 @@ public class Autolink {
     public Autolink() {
         usernameUrlBase = "com.tweetlanes.android.core.profile://";
         listUrlBase = "com.tweetlanes.android.core.profile://";
-        hashtagUrlBase =  "com.tweetlanes.android.core.search://";
+        hashtagUrlBase = "com.tweetlanes.android.core.search://";
         cashtagUrlBase = "com.tweetlanes.android.core.search://";
         extractor.setExtractURLWithoutProtocol(false);
     }
@@ -165,13 +164,19 @@ public class Autolink {
     void linkToURL(Entity entity, String text, StringBuilder builder,
                    URLEntity urlEntity) {
         CharSequence url = entity.getValue();
-        CharSequence linkText = escapeHTML(url);
+        String linkText = escapeHTML(url).toString();
 
         if (urlEntity != null && urlEntity.getExpandedURL() != null) {
             linkText = urlEntity.getExpandedURL();
+        } else if (urlEntity != null && urlEntity.getDisplayURL() != null) {
+            linkText = urlEntity.getDisplayURL();
         } else if (entity.displayURL != null) {
             linkText = entity.displayURL;
         }
+
+        //Remove "http://" or "https://"
+        //Then remove "www."
+        linkText = linkText.replaceAll("^https?://", "").replaceAll("^www.", "");
 
         Map<String, String> attrs = new LinkedHashMap<String, String>();
         attrs.put("href", url.toString());
@@ -179,8 +184,7 @@ public class Autolink {
         linkToText(entity, linkText, attrs, builder);
     }
 
-    String autoLinkEntities(String text,
-                            TwitterMediaEntity twitterMediaEntity, List<Entity> entities,
+    String autoLinkEntities(String text, List<Entity> entities,
                             MediaEntity[] mediaEntities, URLEntity[] urlEntities) {
         StringBuilder builder = new StringBuilder(text.length() * 2);
         int beginIndex = 0;
@@ -231,14 +235,13 @@ public class Autolink {
         return builder.toString();
     }
 
-    public String autoLinkAll(String text,
-                              TwitterMediaEntity twitterMediaEntity, MediaEntity[] mediaEntities,
+    public String autoLinkAll(String text, MediaEntity[] mediaEntities,
                               URLEntity[] urlEntities) {
         text = escapeBrackets(text);
 
         // extract entities
         List<Entity> entities = extractor.extractEntitiesWithIndices(text);
-        return autoLinkEntities(text, twitterMediaEntity, entities,
+        return autoLinkEntities(text, entities,
                 mediaEntities, urlEntities);
     }
 }

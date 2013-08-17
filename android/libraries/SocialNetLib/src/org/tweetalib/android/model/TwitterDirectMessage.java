@@ -16,19 +16,20 @@
 
 package org.tweetalib.android.model;
 
-import java.util.Date;
-
-import org.tweetalib.android.TwitterUtil;
-import twitter4j.DirectMessage;
-import twitter4j.User;
-
 import android.text.Html;
 import android.text.Spanned;
+
+import org.tweetalib.android.TwitterUtil;
+
+import java.util.Date;
+
+import twitter4j.DirectMessage;
+import twitter4j.User;
 
 public class TwitterDirectMessage implements Comparable<TwitterDirectMessage> {
 
     /*
-	 * 
+     *
 	 */
     public enum MessageType {
         SENT, RECEIVED
@@ -43,7 +44,7 @@ public class TwitterDirectMessage implements Comparable<TwitterDirectMessage> {
                 : MessageType.RECEIVED;
         mText = message.getText();
         TwitterMediaEntity mediaEntity = TwitterMediaEntity.createMediaEntity(message);
-        String descriptionMarkup = TwitterUtil.getStatusMarkup(mText,mediaEntity, message.getMediaEntities() ,message.getURLEntities());
+        String descriptionMarkup = TwitterUtil.getStatusMarkup(mText, message.getMediaEntities(), message.getURLEntities());
         mTextSpanned = Html.fromHtml(descriptionMarkup + " ");
         mCreatedAt = message.getCreatedAt();
         mOtherUserId = otherUser.getId();
@@ -79,13 +80,11 @@ public class TwitterDirectMessage implements Comparable<TwitterDirectMessage> {
         return mOtherUserScreenName;
     }
 
-    public TwitterUser getOtherUser()
-    {
+    public TwitterUser getOtherUser() {
         return mOtherUser;
     }
 
-    public TwitterUser getSender()
-    {
+    public TwitterUser getSender() {
         return mSender;
     }
 

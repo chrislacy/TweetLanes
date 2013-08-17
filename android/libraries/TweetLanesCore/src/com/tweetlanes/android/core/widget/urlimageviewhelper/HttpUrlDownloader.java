@@ -1,16 +1,16 @@
 package com.tweetlanes.android.core.widget.urlimageviewhelper;
 
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
-
-import org.apache.http.NameValuePair;
-
 import android.content.Context;
 import android.os.AsyncTask;
 
 import com.tweetlanes.android.core.widget.urlimageviewhelper.UrlImageViewHelper.RequestPropertiesCallback;
+
+import org.apache.http.NameValuePair;
+
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
 
 public class HttpUrlDownloader implements UrlDownloader {
     private RequestPropertiesCallback mRequestPropertiesCallback;

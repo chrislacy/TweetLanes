@@ -179,7 +179,7 @@ public class ImageViewActivity extends FragmentActivity {
     }
 
     /*
-	 *
+     *
 	 */
     String getMediaUrl() {
         String mediaUrl = getIntent().getStringExtra(KEY_MEDIA_URL);

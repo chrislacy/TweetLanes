@@ -11,12 +11,6 @@
 
 package com.tweetlanes.android.core.view;
 
-import org.tweetalib.android.TwitterManager;
-import org.tweetalib.android.model.TwitterDirectMessage;
-import org.tweetalib.android.model.TwitterDirectMessage.MessageType;
-import org.tweetalib.android.model.TwitterUser;
-import org.tweetalib.android.widget.URLSpanNoUnderline;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -39,6 +33,12 @@ import com.tweetlanes.android.core.R;
 import com.tweetlanes.android.core.model.AccountDescriptor;
 import com.tweetlanes.android.core.util.LazyImageLoader;
 import com.tweetlanes.android.core.util.Util;
+
+import org.tweetalib.android.TwitterManager;
+import org.tweetalib.android.model.TwitterDirectMessage;
+import org.tweetalib.android.model.TwitterDirectMessage.MessageType;
+import org.tweetalib.android.model.TwitterUser;
+import org.tweetalib.android.widget.URLSpanNoUnderline;
 
 public class DirectMessageItemView extends LinearLayout {
 
@@ -153,6 +153,12 @@ public class DirectMessageItemView extends LinearLayout {
                 case ExtraLarge:
                     textSize = R.dimen.font_size_extra_large;
                     break;
+                case ExtraExtraLarge:
+                    textSize = R.dimen.font_size_extra_extra_large;
+                    break;
+                case Supersize:
+                    textSize = R.dimen.font_size_supersize;
+                    break;
             }
 
             if (textSize != null) {
@@ -227,7 +233,7 @@ public class DirectMessageItemView extends LinearLayout {
     }
 
     /*
-	 * 
+     *
 	 */
     private void onViewClicked() {
         if (mCallbacks != null) {
@@ -264,8 +270,8 @@ public class DirectMessageItemView extends LinearLayout {
             }
         }
 
-        profileIntent.putExtra("clearCompose","true");
-        ((Activity)mContext).startActivityForResult(profileIntent, Constant.REQUEST_CODE_PROFILE );
+        profileIntent.putExtra("clearCompose", "true");
+        ((Activity) mContext).startActivityForResult(profileIntent, Constant.REQUEST_CODE_PROFILE);
     }
 
     /**

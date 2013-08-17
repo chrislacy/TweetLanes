@@ -1,19 +1,5 @@
 package com.tweetlanes.android.core.widget.urlimageviewhelper;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Hashtable;
-
-import junit.framework.Assert;
-
-import org.apache.http.NameValuePair;
-
 import android.annotation.TargetApi;
 import android.app.ActivityManager;
 import android.content.Context;
@@ -30,6 +16,20 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.WindowManager;
 import android.widget.ImageView;
+
+import junit.framework.Assert;
+
+import org.apache.http.NameValuePair;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Hashtable;
 
 public final class UrlImageViewHelper {
     static void clog(String format, Object... args) {
@@ -85,7 +85,7 @@ public final class UrlImageViewHelper {
                 stream = new FileInputStream(filename);
                 BitmapFactory.decodeStream(stream, null, o);
                 stream.close();
-                o.inSampleSize =calculateInSampleSize(o, targetWidth, targetHeight);
+                o.inSampleSize = calculateInSampleSize(o, targetWidth, targetHeight);
                 o.inJustDecodeBounds = false;
             }
             stream = new FileInputStream(filename);
@@ -176,7 +176,7 @@ public final class UrlImageViewHelper {
         setUrlDrawable(context, imageView, url, d, cacheDurationMs, null);
     }
 
-       /**
+    /**
      * Download and shrink an Image located at a specified URL, and display it
      * in the provided {@link ImageView}.
      *

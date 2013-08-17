@@ -11,9 +11,9 @@
 
 package com.tweetlanes.android.core.model;
 
-import org.tweetalib.android.TwitterContentHandleBase;
-
 import com.tweetlanes.android.core.Constant;
+
+import org.tweetalib.android.TwitterContentHandleBase;
 
 public class LaneDescriptor {
 
@@ -29,7 +29,7 @@ public class LaneDescriptor {
     }
 
     /*
-	 * 
+     *
 	 */
     public LaneDescriptor(Constant.LaneType laneType, String laneTitle,
                           String identifier, TwitterContentHandleBase contentHandleBase) {
