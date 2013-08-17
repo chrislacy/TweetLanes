@@ -200,12 +200,15 @@
     <string name="alert_status_invalid">Your status update cannot be posted as it contains invalid
         characters.
     </string>
+    <string name="alert_status_empty">Twitter doesn't know how to read silence.</string>
+    <string name="alert_status_empty_adn">App.net doesn't know how to read silence.</string>
     <string name="alert_direct_message_no_recipient">Please enter the Twitter username of the person
         to message.
     </string>
     <string name="alert_direct_message_too_long">The text of your Direct Message is too long and
         cannot be posted.\n\nYou message can be a maximum 140 characters in length.
     </string>
+    <string name="alert_direct_message_empty">Got nothin' to say do ya?</string>
     <string name="alert_direct_message_invalid">Your Direct Message cannot be posted as it contains
         invalid characters.
     </string>
