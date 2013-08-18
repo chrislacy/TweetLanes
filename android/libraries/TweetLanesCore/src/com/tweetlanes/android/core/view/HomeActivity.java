@@ -94,9 +94,10 @@ public class HomeActivity extends BaseLaneActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
+            // Notifications
             String accountKey = extras.getString("account_key");
             String notificationType = extras.getString("notification_type");
-            long postId = extras.getLong("post_id");
+            long notificationPostId = extras.getLong("notification_post_id");
             String laneName = extras.getString("lane");
 
             if (accountKey != null) {
@@ -104,7 +105,7 @@ public class HomeActivity extends BaseLaneActivity {
                 getIntent().removeExtra("notification_type");
                 AccountDescriptor notificationAccount = getApp().getAccountByKey(accountKey);
 
-                Notifier.saveLastNotificationActioned(this, accountKey, notificationType, postId);
+                Notifier.saveLastNotificationActioned(this, accountKey, notificationType, notificationPostId);
 
                 Constant.LaneType notificationLaneType = notificationType.equals(SharedPreferencesConstants.NOTIFICATION_TYPE_MENTION) ? Constant.LaneType.USER_MENTIONS : Constant.LaneType.DIRECT_MESSAGES;
 

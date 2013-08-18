@@ -70,7 +70,10 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
             statusId = Long.parseLong(statusIdAsString);
         }
 
-        TwitterStatus status = new TwitterStatus(statusAsString);
+        TwitterStatus status = null;
+        if (statusAsString != null) {
+            status = new TwitterStatus(statusAsString);
+        }
 
         BaseLaneFragment fragment = super.getFragmentAtIndex(0);
         super.setCurrentComposeFragment((fragment instanceof DirectMessageFeedFragment) ? super.COMPOSE_DIRECT_MESSAGE
@@ -85,7 +88,7 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
         mViewSwitcher = (ViewSwitcher) findViewById(R.id.rootViewSwitcher);
         updateViewVisibility();
 
-        if (status.mId == statusId) {
+        if (status != null && status.mId == statusId) {
             onGetStatus(status);
         } else if (statusId > 0) {
             mGetStatusCallback = TwitterManager.get().getFetchStatusInstance().new FinishedCallback() {
