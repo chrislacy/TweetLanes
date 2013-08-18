@@ -13,6 +13,7 @@ package com.tweetlanes.android.core.view;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import com.crittercism.app.Crittercism;
@@ -20,7 +21,9 @@ import com.tweetlanes.android.core.App;
 import com.tweetlanes.android.core.AppSettings;
 import com.tweetlanes.android.core.Constant;
 import com.tweetlanes.android.core.ConsumerKeyConstants;
+import com.tweetlanes.android.core.model.AccountDescriptor;
 
+import org.socialnetlib.android.SocialNetConstant;
 import org.tweetalib.android.TwitterManager;
 
 public class BootActivity extends Activity {
@@ -80,11 +83,32 @@ public class BootActivity extends Activity {
             startActivity(intent);
         } else {
             if (TwitterManager.get().hasValidTwitterInstance()) {
-                if (mLastStartedClass != HomeActivity.class) {
+
+                Uri uriData = getIntent().getData();
+                if (uriData != null) {
+                    String host = uriData.getHost();
+                    String statusId = uriData.getLastPathSegment();
+                    finish();
+
+                    if (host.contains("twitter")) {
+                        if (getApp().getCurrentAccount().getSocialNetType() != SocialNetConstant.Type.Twitter) {
+                            changeToFirstAccountOfType(SocialNetConstant.Type.Twitter);
+                        }
+                    }
+                    else if (host.contains("app.net")) {
+                        if (getApp().getCurrentAccount().getSocialNetType() != SocialNetConstant.Type.Appdotnet) {
+                            changeToFirstAccountOfType(SocialNetConstant.Type.Appdotnet);
+                        }
+                    }
+
+                    startTweetSpotlight(statusId);
+                }
+                else if (mLastStartedClass != HomeActivity.class) {
                     mLastStartedClass = HomeActivity.class;
                     // We don't want to come back here, so remove from the
                     // activity stack
                     finish();
+
 
                     Class<?> nextClass = HomeActivity.class;
                     if (!getApp().getTutorialCompleted()) {
@@ -93,6 +117,7 @@ public class BootActivity extends Activity {
                     Intent intent = new Intent(getApplicationContext(),
                             nextClass);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+
                     overridePendingTransition(0, 0);
                     startActivity(intent);
                 }
@@ -100,5 +125,23 @@ public class BootActivity extends Activity {
                 // TODO: Handle this case
             }
         }
+
+    }
+
+    private void changeToFirstAccountOfType(SocialNetConstant.Type socialNetType) {
+        for (AccountDescriptor account : getApp().getAccounts()) {
+            if (account.getSocialNetType() == socialNetType) {
+                getApp().setCurrentAccount(account.getId());
+                return;
+            }
+        }
+    }
+
+    private void startTweetSpotlight(String statusId) {
+        Intent tweetSpotlightIntent = new Intent(this, TweetSpotlightActivity.class);
+        tweetSpotlightIntent.putExtra("statusId", statusId);
+        tweetSpotlightIntent.putExtra("clearCompose", "true");
+        overridePendingTransition(0, 0);
+        startActivity(tweetSpotlightIntent);
     }
 }

@@ -44,7 +44,7 @@ public class Notifier {
         Intent resultIntent = new Intent(context, HomeActivity.class);
         resultIntent.putExtra("account_key", accountKey);
         resultIntent.putExtra("notification_type", type);
-        resultIntent.putExtra("post_id", postId);
+        resultIntent.putExtra("notification_post_id", postId);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
         stackBuilder.addParentStack(HomeActivity.class);
         stackBuilder.addNextIntent(resultIntent);
@@ -56,7 +56,7 @@ public class Notifier {
 
         Intent deleteIntent = new Intent(context, DeleteNotificationsReceiver.class);
         deleteIntent.putExtra("account_key", accountKey);
-        deleteIntent.putExtra("post_id", postId);
+        deleteIntent.putExtra("notification_post_id", postId);
         deleteIntent.putExtra("notification_type", type);
         requestCode = (int) (Math.random() * Integer.MAX_VALUE);
         PendingIntent deletePendingIntent = PendingIntent.getBroadcast(context, requestCode, deleteIntent, 0);
