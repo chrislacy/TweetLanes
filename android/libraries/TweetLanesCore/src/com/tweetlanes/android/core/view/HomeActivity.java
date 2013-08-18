@@ -129,15 +129,6 @@ public class HomeActivity extends BaseLaneActivity {
                     mDefaultLaneOverride = index;
                 }
             }
-
-            // URI handling
-            String uriStatusId = extras.getString("uri_status_id");
-            if (uriStatusId != null) {
-                Intent tweetSpotlightIntent = new Intent(this, TweetSpotlightActivity.class);
-                tweetSpotlightIntent.putExtra("statusId", uriStatusId);
-                tweetSpotlightIntent.putExtra("clearCompose", "true");
-                startActivityForResult(tweetSpotlightIntent, Constant.REQUEST_CODE_SPOTLIGHT);
-            }
         }
 
         // Attempt at fixing a crash found in HomeActivity

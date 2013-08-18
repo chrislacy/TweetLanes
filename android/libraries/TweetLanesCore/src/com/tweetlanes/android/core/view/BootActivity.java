@@ -81,7 +81,19 @@ public class BootActivity extends Activity {
             startActivity(intent);
         } else {
             if (TwitterManager.get().hasValidTwitterInstance()) {
-                if (mLastStartedClass != HomeActivity.class) {
+
+                Uri uriData = getIntent().getData();
+                if (uriData != null) {
+                    String host = uriData.getHost();
+                    finish();
+                    if (host.contains("twitter")) {
+                        String statusId = uriData.getLastPathSegment();
+                        startTweetSpotlight(statusId);
+                    }
+                    else if (host.contains("app.net")) {
+                    }
+                }
+                else if (mLastStartedClass != HomeActivity.class) {
                     mLastStartedClass = HomeActivity.class;
                     // We don't want to come back here, so remove from the
                     // activity stack
@@ -96,17 +108,6 @@ public class BootActivity extends Activity {
                             nextClass);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 
-                    Uri uriData = getIntent().getData();
-                    if (uriData != null) {
-                        if (uriData.getHost().contains("twitter")) {
-                            String statusId = uriData.getLastPathSegment();
-                            intent.putExtra("uri_status_id", statusId);
-                        }
-                        else if (uriData.getHost().contains("app.net")) {
-                        }
-                    }
-
-
                     overridePendingTransition(0, 0);
                     startActivity(intent);
                 }
@@ -114,5 +115,14 @@ public class BootActivity extends Activity {
                 // TODO: Handle this case
             }
         }
+
+    }
+
+    private void startTweetSpotlight(String statusId) {
+        Intent tweetSpotlightIntent = new Intent(this, TweetSpotlightActivity.class);
+        tweetSpotlightIntent.putExtra("statusId", statusId);
+        tweetSpotlightIntent.putExtra("clearCompose", "true");
+        overridePendingTransition(0, 0);
+        startActivity(tweetSpotlightIntent);
     }
 }
