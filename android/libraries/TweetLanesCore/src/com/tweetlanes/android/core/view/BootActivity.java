@@ -21,7 +21,9 @@ import com.tweetlanes.android.core.App;
 import com.tweetlanes.android.core.AppSettings;
 import com.tweetlanes.android.core.Constant;
 import com.tweetlanes.android.core.ConsumerKeyConstants;
+import com.tweetlanes.android.core.model.AccountDescriptor;
 
+import org.socialnetlib.android.SocialNetConstant;
 import org.tweetalib.android.TwitterManager;
 
 public class BootActivity extends Activity {
@@ -85,13 +87,21 @@ public class BootActivity extends Activity {
                 Uri uriData = getIntent().getData();
                 if (uriData != null) {
                     String host = uriData.getHost();
+                    String statusId = uriData.getLastPathSegment();
                     finish();
+
                     if (host.contains("twitter")) {
-                        String statusId = uriData.getLastPathSegment();
-                        startTweetSpotlight(statusId);
+                        if (getApp().getCurrentAccount().getSocialNetType() != SocialNetConstant.Type.Twitter) {
+                            changeToFirstAccountOfType(SocialNetConstant.Type.Twitter);
+                        }
                     }
                     else if (host.contains("app.net")) {
+                        if (getApp().getCurrentAccount().getSocialNetType() != SocialNetConstant.Type.Appdotnet) {
+                            changeToFirstAccountOfType(SocialNetConstant.Type.Appdotnet);
+                        }
                     }
+
+                    startTweetSpotlight(statusId);
                 }
                 else if (mLastStartedClass != HomeActivity.class) {
                     mLastStartedClass = HomeActivity.class;
@@ -116,6 +126,15 @@ public class BootActivity extends Activity {
             }
         }
 
+    }
+
+    private void changeToFirstAccountOfType(SocialNetConstant.Type socialNetType) {
+        for (AccountDescriptor account : getApp().getAccounts()) {
+            if (account.getSocialNetType() == socialNetType) {
+                getApp().setCurrentAccount(account.getId());
+                return;
+            }
+        }
     }
 
     private void startTweetSpotlight(String statusId) {

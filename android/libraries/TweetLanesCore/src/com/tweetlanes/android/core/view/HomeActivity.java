@@ -61,7 +61,6 @@ import org.tweetalib.android.TwitterFetchUser;
 import org.tweetalib.android.TwitterManager;
 import org.tweetalib.android.TwitterPaging;
 import org.tweetalib.android.model.TwitterLists;
-import org.tweetalib.android.model.TwitterStatus;
 import org.tweetalib.android.model.TwitterUser;
 import org.tweetalib.android.model.TwitterUsers;
 
