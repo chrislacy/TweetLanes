@@ -336,6 +336,9 @@ class BaseLaneActivity extends FragmentActivity implements
     }
 
     void clearCompose() {
+        if (mCurrentComposeFragment == null) {
+            return;
+        }
         mCurrentComposeFragment.clearCompose(false);
     }
 

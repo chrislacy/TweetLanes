@@ -61,6 +61,7 @@ import org.tweetalib.android.TwitterFetchUser;
 import org.tweetalib.android.TwitterManager;
 import org.tweetalib.android.TwitterPaging;
 import org.tweetalib.android.model.TwitterLists;
+import org.tweetalib.android.model.TwitterStatus;
 import org.tweetalib.android.model.TwitterUser;
 import org.tweetalib.android.model.TwitterUsers;
 
@@ -94,9 +95,10 @@ public class HomeActivity extends BaseLaneActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
+            // Notifications
             String accountKey = extras.getString("account_key");
             String notificationType = extras.getString("notification_type");
-            long postId = extras.getLong("post_id");
+            long notificationPostId = extras.getLong("notification_post_id");
             String laneName = extras.getString("lane");
 
             if (accountKey != null) {
@@ -104,7 +106,7 @@ public class HomeActivity extends BaseLaneActivity {
                 getIntent().removeExtra("notification_type");
                 AccountDescriptor notificationAccount = getApp().getAccountByKey(accountKey);
 
-                Notifier.saveLastNotificationActioned(this, accountKey, notificationType, postId);
+                Notifier.saveLastNotificationActioned(this, accountKey, notificationType, notificationPostId);
 
                 Constant.LaneType notificationLaneType = notificationType.equals(SharedPreferencesConstants.NOTIFICATION_TYPE_MENTION) ? Constant.LaneType.USER_MENTIONS : Constant.LaneType.DIRECT_MESSAGES;
 
@@ -126,6 +128,15 @@ public class HomeActivity extends BaseLaneActivity {
                 if (index > -1) {
                     mDefaultLaneOverride = index;
                 }
+            }
+
+            // URI handling
+            String uriStatusId = extras.getString("uri_status_id");
+            if (uriStatusId != null) {
+                Intent tweetSpotlightIntent = new Intent(this, TweetSpotlightActivity.class);
+                tweetSpotlightIntent.putExtra("statusId", uriStatusId);
+                tweetSpotlightIntent.putExtra("clearCompose", "true");
+                startActivityForResult(tweetSpotlightIntent, Constant.REQUEST_CODE_SPOTLIGHT);
             }
         }
 

@@ -81,7 +81,7 @@ public class TweetLanesExtension extends DashClockExtension {
 
         Intent intent = new Intent(this, HomeActivity.class);
         intent.putExtra("account_key", accountKey);
-        intent.putExtra("post_id", postId);
+        intent.putExtra("notification_post_id", postId);
         intent.putExtra("notification_type", type);
 
         return intent;

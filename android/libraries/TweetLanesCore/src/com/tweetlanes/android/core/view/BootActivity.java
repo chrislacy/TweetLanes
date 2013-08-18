@@ -13,6 +13,7 @@ package com.tweetlanes.android.core.view;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import com.crittercism.app.Crittercism;
@@ -86,6 +87,7 @@ public class BootActivity extends Activity {
                     // activity stack
                     finish();
 
+
                     Class<?> nextClass = HomeActivity.class;
                     if (!getApp().getTutorialCompleted()) {
                         nextClass = TutorialActivity.class;
@@ -93,6 +95,18 @@ public class BootActivity extends Activity {
                     Intent intent = new Intent(getApplicationContext(),
                             nextClass);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+
+                    Uri uriData = getIntent().getData();
+                    if (uriData != null) {
+                        if (uriData.getHost().contains("twitter")) {
+                            String statusId = uriData.getLastPathSegment();
+                            intent.putExtra("uri_status_id", statusId);
+                        }
+                        else if (uriData.getHost().contains("app.net")) {
+                        }
+                    }
+
+
                     overridePendingTransition(0, 0);
                     startActivity(intent);
                 }
