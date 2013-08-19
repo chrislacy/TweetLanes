@@ -204,19 +204,17 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         TwitterStatuses cachedFeed = TwitterManager.get().getContentFeed(mContentHandle);
         if (cachedFeed != null && cachedFeed.getStatusCount(getBaseLaneActivity().mStatusesFilter) > 0) {
             setStatusFeed(cachedFeed, true);
-        } else {
-            if (configuredCachedStatuses) {
-                autoUpdateStatuses = true;
-            } else {
-                setStatusFeed(null, true);
-            }
+        } else if (!configuredCachedStatuses) {
+            autoUpdateStatuses = true;
+            setStatusFeed(null, true);
         }
 
         if (getStatusFeed() == null || getFilteredStatusCount() == 0) {
             updateViewVisibility(false);
             setInitialDownloadState(InitialDownloadState.WAITING);
         } else {
-            if (autoUpdateStatuses && mTweetDataRefreshCallback == null) {
+
+            if (autoUpdateStatuses) {
                 fetchNewestTweets();
             }
 
@@ -405,7 +403,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     }
 
     /*
-	 *
+     *
 	 */
     boolean configureCachedStatuses() {
 
@@ -478,7 +476,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     }
 
     /*
-	 *
+     *
 	 */
     private final BroadcastReceiver mVolumeUpKeyDownReceiver = new BroadcastReceiver() {
 
@@ -820,33 +818,42 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
         int newCount = newFeedCount - oldFeedCount;
         if (newCount > 0) {
+            Integer statusIndex = null;
+
             if (visibleStatus != null) {
-                Integer statusIndex = getStatusFeed().getStatusIndex(visibleStatus.mId);
-                if (statusIndex != null) {
-                    mTweetFeedListView.getRefreshableView()
-                            .setSelectionFromTop(statusIndex.intValue(), mScrollTracker.getFirstVisibleYOffset());
+                statusIndex = getStatusFeed().getStatusIndex(visibleStatus.mId);
+            } else if (mLastTwitterStatusIdSeen != null) {
+                statusIndex = getStatusFeed().getStatusIndex(mLastTwitterStatusIdSeen);
+            }
 
-                    int total = getStatusFeed().getStatusCount();
-                    int newStatuses = 0;
+            if (statusIndex != null) {
+                mTweetFeedListView.getRefreshableView()
+                        .setSelectionFromTop(statusIndex.intValue(), mScrollTracker.getFirstVisibleYOffset());
 
-                    for (int i = 0; i < total; i++) {
-                        TwitterStatus status = getStatusFeed().getStatus(i);
-                        if (status != null && status.mId > visibleStatus.mId) {
-                            newStatuses++;
-                        }
+                int total = getStatusFeed().getStatusCount();
+                int newStatuses = 0;
+
+                for (int i = 0; i < total; i++) {
+                    TwitterStatus status = getStatusFeed().getStatus(i);
+                    if (status != null && status.mId > visibleStatus.mId) {
+                        newStatuses++;
                     }
-
-                    mNewStatuses = newStatuses;
-                    mLastTwitterStatusIdSeen = visibleStatus.mId;
                 }
+
+                mNewStatuses = newStatuses;
+                mLastTwitterStatusIdSeen = visibleStatus.mId;
             }
         }
+        else{
+            showToast(getString(R.string.lost_position));
+        }
+
         mTweetDataRefreshCallback = null;
     }
 
     /*
-	 *
-	 */
+     *
+     */
     private final OnRefreshListener mTweetFeedOnRefreshListener = new OnRefreshListener() {
 
         @Override
@@ -1132,8 +1139,8 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     }
 
     /*
-	 *
-	 */
+     *
+     */
     enum ItemSelectedState {
         NONE,
         SOME,
@@ -1181,8 +1188,8 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     }
 
     /*
-	 *
-	 */
+     *
+     */
     private class MultipleTweetSelectionCallback implements ListView.MultiChoiceModeListener {
 
         private MenuItem mFavoriteMenuItem;
