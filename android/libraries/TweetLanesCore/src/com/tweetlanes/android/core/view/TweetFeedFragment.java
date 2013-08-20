@@ -171,8 +171,8 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
 
         if (savedInstanceState != null) {
-            mTwitterStatusIdWhenRefreshed = savedInstanceState.containsKey("TwitterStatusIdWhenRefreshed") ? savedInstanceState.getLong("TwitterStatusIdWhenRefreshed") : null;
-            mLastTwitterStatusIdSeen = savedInstanceState.containsKey("LastTwitterStatusIdSeen") ? savedInstanceState.getLong("LastTwitterStatusIdSeen") : null;
+            mTwitterStatusIdWhenRefreshed = savedInstanceState.containsKey("TwitterStatusIdWhenRefreshed") ? savedInstanceState.getLong("TwitterStatusIdWhenRefreshed") : 0L;
+            mLastTwitterStatusIdSeen = savedInstanceState.containsKey("LastTwitterStatusIdSeen") ? savedInstanceState.getLong("LastTwitterStatusIdSeen") : 0L;
             mNewStatuses = savedInstanceState.getInt("NewStatuses", 0);
             mHidingListHeading = savedInstanceState.getBoolean("HidingListHeading", false);
         }
