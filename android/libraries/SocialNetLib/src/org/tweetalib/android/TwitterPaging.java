@@ -54,7 +54,7 @@ public class TwitterPaging {
         if (page != null) {
             mPage = page;
         }
-        if (count != null) {
+        if (count != null && count > 0) {
             mCount = count;
         } else {
             mCount = DEFAULT_STATUS_COUNT;

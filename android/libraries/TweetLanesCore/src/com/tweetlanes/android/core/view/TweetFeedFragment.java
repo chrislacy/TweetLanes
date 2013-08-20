@@ -282,7 +282,9 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                 mLastTwitterStatusIdSeen = visibleStatus.mId;
             }
 
-            Log.d("api-call", "--fetchNewestTweets(" + mContentHandle.getStatusesType().toString() + ")");
+            mTimesFetchCalled++;
+
+            Log.d("api-call", "--fetchNewestTweets(" + mContentHandle.getStatusesType().toString() + ") --page: " + mTimesFetchCalled);
 
             int pageSize = (TwitterPaging.INCREMENTING_STATUS_COUNT_START * mTimesFetchCalled);
             if(pageSize > TwitterPaging.INCREMENTING_STATUS_COUNT_MAX){
@@ -297,7 +299,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                 getBaseLaneActivity().finishCurrentActionMode();
             }
 
-            mTimesFetchCalled++;
+
         }
     }
 
