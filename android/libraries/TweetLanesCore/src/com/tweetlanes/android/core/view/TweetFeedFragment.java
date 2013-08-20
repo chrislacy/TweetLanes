@@ -108,6 +108,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     // accessors
     private TwitterStatuses _mCachedStatusFeed;
     private TwitterFetchStatusesFinishedCallback mTweetDataRefreshCallback;
+    private int mTimesFetchCalled;
     private TwitterFetchStatusesFinishedCallback mTweetDataLoadMoreCallback;
     private ViewSwitcher mViewSwitcher;
     private final ArrayList<TweetFeedItemView> mSelectedItems = new ArrayList<TweetFeedItemView>();
@@ -239,6 +240,10 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
         mTweetFeedListView.setRefreshing();
 
+        if (maxStatusId==null){
+            mTimesFetchCalled = 0;
+        }
+
         if (mTweetDataRefreshCallback == null) {
             mTweetDataRefreshCallback = new TwitterFetchStatusesFinishedCallback() {
 
@@ -278,13 +283,21 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             }
 
             Log.d("api-call", "--fetchNewestTweets(" + mContentHandle.getStatusesType().toString() + ")");
-            TwitterPaging paging = new TwitterPaging(null, null, sinceStatusId, maxStatusId);
+
+            int pageSize = (TwitterPaging.INCREMENTING_STATUS_COUNT_START * mTimesFetchCalled);
+            if(pageSize > TwitterPaging.INCREMENTING_STATUS_COUNT_MAX){
+                pageSize = TwitterPaging.INCREMENTING_STATUS_COUNT_MAX;
+            }
+
+            TwitterPaging paging = new TwitterPaging(null, pageSize, sinceStatusId, maxStatusId);
             TwitterManager.get().triggerFetchStatuses(mContentHandle, paging, mTweetDataRefreshCallback,
                     getAsyncTaskPriorityOffset());
             if (!getBaseLaneActivity().isComposing() &&
                     !(mSelectedItems == null || mSelectedItems.size() == 0)) {
                 getBaseLaneActivity().finishCurrentActionMode();
             }
+
+            mTimesFetchCalled++;
         }
     }
 
