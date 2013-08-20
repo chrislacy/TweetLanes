@@ -273,7 +273,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             };
 
             TwitterStatus visibleStatus = getVisibleStatus();
-            if(visibleStatus != null && mLastTwitterStatusIdSeen < visibleStatus.mId) {
+            if (visibleStatus != null && mLastTwitterStatusIdSeen < visibleStatus.mId) {
                 mLastTwitterStatusIdSeen = visibleStatus.mId;
             }
 
@@ -503,7 +503,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     };
 
     /*
-	 *
+     *
 	 */
     private final BroadcastReceiver mVolumeDownKeyDownReceiver = new BroadcastReceiver() {
 
@@ -700,7 +700,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                 mTwitterStatusIdWhenRefreshed = status.mId;
                 mHidingListHeading = false;
 
-                if(visibleStatus != null && mLastTwitterStatusIdSeen < visibleStatus.mId) {
+                if (visibleStatus != null && mLastTwitterStatusIdSeen < visibleStatus.mId) {
                     mLastTwitterStatusIdSeen = visibleStatus.mId;
                 }
             }
@@ -733,23 +733,27 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
         SocialNetConstant.Type socialNetType = getApp().getCurrentAccount().getSocialNetType();
 
-        TwitterStatus status = getStatusFeed().getStatus(firstVisibleItem);
-        if (mLastTwitterStatusIdSeen < status.mId) {
-            mLastTwitterStatusIdSeen = status.mId;
-        }
-
         if (mTwitterStatusIdWhenRefreshed != null && mTwitterStatusIdWhenRefreshed > 0 && firstVisibleItem > 0) {
-
             if (!mHidingListHeading) {
+                TwitterStatus status = getStatusFeed().getStatus(firstVisibleItem);
                 if ((mNewStatuses == 0 || status.mId >= mTwitterStatusIdWhenRefreshed) && status.mId >= mLastTwitterStatusIdSeen) {
                     mNewStatuses = firstVisibleItem;
+                    mLastTwitterStatusIdSeen = status.mId;
                 }
 
-                setListHeadingVisiblilty(View.VISIBLE);
-                mListHeadingTextView.setText(mNewStatuses + " " + getString(mNewStatuses == 1 ?
-                        socialNetType == SocialNetConstant.Type.Twitter ? R.string.new_tweet : R.string.new_post :
-                        socialNetType == SocialNetConstant.Type.Twitter ? R.string.new_tweets :
-                                R.string.new_posts));
+                if (mNewStatuses > 0)
+                {
+                    setListHeadingVisiblilty(View.VISIBLE);
+                    mListHeadingTextView.setText(mNewStatuses + " " + getString(mNewStatuses == 1 ?
+                            socialNetType == SocialNetConstant.Type.Twitter ? R.string.new_tweet : R.string.new_post :
+                            socialNetType == SocialNetConstant.Type.Twitter ? R.string.new_tweets :
+                                    R.string.new_posts));
+                }
+                else
+                {
+                    setListHeadingVisiblilty(View.GONE);
+                    mTwitterStatusIdWhenRefreshed = null;
+                }
             }
         } else {
             setListHeadingVisiblilty(View.GONE);
@@ -845,7 +849,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                 int total = getStatusFeed().getStatusCount();
                 int newStatuses = 0;
 
-                if(visibleStatus != null && mLastTwitterStatusIdSeen < visibleStatus.mId) {
+                if (visibleStatus != null && mLastTwitterStatusIdSeen < visibleStatus.mId) {
                     mLastTwitterStatusIdSeen = visibleStatus.mId;
                 }
 
@@ -857,8 +861,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                 }
 
                 mNewStatuses = newStatuses;
-            }
-            else{
+            } else {
                 showToast(getString(R.string.lost_position));
             }
         }
