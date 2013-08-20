@@ -822,48 +822,42 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
         TwitterStatus visibleStatus = getVisibleStatus();
 
-        int oldFeedCount = getFilteredStatusCount();
-
         if (feed != null) {
             setStatusFeed(feed, true);
         }
 
-        int newFeedCount = getFilteredStatusCount();
         mTweetFeedListView.onRefreshComplete();
         mTweetFeedListAdapter.notifyDataSetChanged();
 
-        int newCount = newFeedCount - oldFeedCount;
-        if (newCount > 0) {
-            Integer statusIndex = null;
+        Integer statusIndex = null;
 
-            if (visibleStatus != null) {
-                statusIndex = getStatusFeed().getStatusIndex(visibleStatus.mId);
-            } else if (mLastTwitterStatusIdSeen != null) {
-                statusIndex = getStatusFeed().getStatusIndex(mLastTwitterStatusIdSeen);
+        if (visibleStatus != null) {
+            statusIndex = getStatusFeed().getStatusIndex(visibleStatus.mId);
+        } else if (mLastTwitterStatusIdSeen != null) {
+            statusIndex = getStatusFeed().getStatusIndex(mLastTwitterStatusIdSeen);
+        }
+
+        if (statusIndex != null) {
+            mTweetFeedListView.getRefreshableView()
+                    .setSelectionFromTop(statusIndex.intValue(), mScrollTracker.getFirstVisibleYOffset());
+
+            int total = getStatusFeed().getStatusCount();
+            int newStatuses = 0;
+
+            if (visibleStatus != null && mLastTwitterStatusIdSeen < visibleStatus.mId) {
+                mLastTwitterStatusIdSeen = visibleStatus.mId;
             }
 
-            if (statusIndex != null) {
-                mTweetFeedListView.getRefreshableView()
-                        .setSelectionFromTop(statusIndex.intValue(), mScrollTracker.getFirstVisibleYOffset());
-
-                int total = getStatusFeed().getStatusCount();
-                int newStatuses = 0;
-
-                if (visibleStatus != null && mLastTwitterStatusIdSeen < visibleStatus.mId) {
-                    mLastTwitterStatusIdSeen = visibleStatus.mId;
+            for (int i = 0; i < total; i++) {
+                TwitterStatus status = getStatusFeed().getStatus(i);
+                if (status != null && status.mId > mLastTwitterStatusIdSeen) {
+                    newStatuses++;
                 }
-
-                for (int i = 0; i < total; i++) {
-                    TwitterStatus status = getStatusFeed().getStatus(i);
-                    if (status != null && status.mId > mLastTwitterStatusIdSeen) {
-                        newStatuses++;
-                    }
-                }
-
-                mNewStatuses = newStatuses;
-            } else {
-                showToast(getString(R.string.lost_position));
             }
+
+            mNewStatuses = newStatuses;
+        } else {
+            showToast(getString(R.string.lost_position));
         }
 
         mTweetDataRefreshCallback = null;
