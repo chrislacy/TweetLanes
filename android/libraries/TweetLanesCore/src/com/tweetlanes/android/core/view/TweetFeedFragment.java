@@ -184,13 +184,10 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     public void onSaveInstanceState(Bundle state) {
         super.onSaveInstanceState(state);
 
-        if (mTwitterStatusIdWhenRefreshed != null)
-            state.putLong("TwitterStatusIdWhenRefreshed", mTwitterStatusIdWhenRefreshed);
-        if (mLastTwitterStatusIdSeen != null)
-            state.putLong("LastTwitterStatusIdSeen", mLastTwitterStatusIdSeen);
+        state.putLong("TwitterStatusIdWhenRefreshed", mTwitterStatusIdWhenRefreshed);
+        state.putLong("LastTwitterStatusIdSeen", mLastTwitterStatusIdSeen);
         state.putInt("NewStatuses", mNewStatuses);
         state.putBoolean("HidingListHeading", mHidingListHeading);
-
     }
 
     /*
@@ -1008,6 +1005,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         mNewestTweetId = null;
         mOldestTweetId = null;
         TwitterStatus visibleStatus = getVisibleStatus();
+        boolean statusPresentAtStart = _mStatusFeed != null && _mStatusFeed.getStatusCount() > 0;
 
         if (statuses == null) {
             _mStatusFeed = null;
@@ -1023,25 +1021,28 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             mNewestTweetId = _mStatusFeed.getStatus(0).mId;
             mOldestTweetId = _mStatusFeed.getStatus(_mStatusFeed.getStatusCount() - 1).mId;
 
-            Integer statusIndex = null;
+            if(statusPresentAtStart)
+            {
+                Integer statusIndex = null;
 
-            if (visibleStatus != null) {
-                statusIndex = getStatusFeed().getStatusIndex(visibleStatus.mId);
-            } else if (mLastTwitterStatusIdSeen != null) {
-                statusIndex = getStatusFeed().getStatusIndex(mLastTwitterStatusIdSeen);
-            }
-
-            if (statusIndex != null) {
-                mTweetFeedListView.getRefreshableView()
-                        .setSelectionFromTop(statusIndex.intValue() + 1, mScrollTracker.getFirstVisibleYOffset());
-
-                if (visibleStatus != null && mLastTwitterStatusIdSeen < visibleStatus.mId) {
-                    mLastTwitterStatusIdSeen = visibleStatus.mId;
+                if (visibleStatus != null) {
+                    statusIndex = getStatusFeed().getStatusIndex(visibleStatus.mId);
+                } else if (mLastTwitterStatusIdSeen != null && mLastTwitterStatusIdSeen > 0) {
+                    statusIndex = getStatusFeed().getStatusIndex(mLastTwitterStatusIdSeen);
                 }
 
-                updateListHeading(statusIndex.intValue() + 1);
-            } else {
-                showToast(getString(R.string.lost_position));
+                if (statusIndex != null) {
+                    mTweetFeedListView.getRefreshableView()
+                            .setSelectionFromTop(statusIndex.intValue() + 1, mScrollTracker.getFirstVisibleYOffset());
+
+                    if (visibleStatus != null && mLastTwitterStatusIdSeen < visibleStatus.mId) {
+                        mLastTwitterStatusIdSeen = visibleStatus.mId;
+                    }
+
+                    updateListHeading(statusIndex.intValue() + 1);
+                } else {
+                    showToast(getString(R.string.lost_position));
+                }
             }
         }
     }
