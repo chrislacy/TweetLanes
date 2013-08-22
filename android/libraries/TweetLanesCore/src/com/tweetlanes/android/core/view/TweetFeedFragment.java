@@ -271,6 +271,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                             fetchNewestTweets(sinceStatusId, feed.getNewStatusesMaxId());
                         }
                     } else {
+                        showToast(fetchResult.getErrorMessage());
                         onRefreshFinished(fetchResult, null);
                     }
                 }
@@ -548,7 +549,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     }
 
     /*
-	 *
+     *
 	 */
     private class ScrollTracker {
 
@@ -831,8 +832,6 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             return;
         }
 
-        TwitterStatus visibleStatus = getVisibleStatus();
-
         if (feed != null) {
             setStatusFeed(feed, true);
         }
@@ -840,38 +839,17 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         mTweetFeedListView.onRefreshComplete();
         mTweetFeedListAdapter.notifyDataSetChanged();
 
-        Integer statusIndex = null;
+        int total = getStatusFeed().getStatusCount();
+        int newStatuses = 0;
 
-        if (visibleStatus != null) {
-            statusIndex = getStatusFeed().getStatusIndex(visibleStatus.mId);
-        } else if (mLastTwitterStatusIdSeen != null) {
-            statusIndex = getStatusFeed().getStatusIndex(mLastTwitterStatusIdSeen);
+        for (int i = 0; i < total; i++) {
+            TwitterStatus status = getStatusFeed().getStatus(i);
+            if (status != null && status.mId > mLastTwitterStatusIdSeen) {
+                newStatuses++;
+            }
         }
 
-        if (statusIndex != null) {
-            mTweetFeedListView.getRefreshableView()
-                    .setSelectionFromTop(statusIndex.intValue() + 1, mScrollTracker.getFirstVisibleYOffset());
-
-            int total = getStatusFeed().getStatusCount();
-            int newStatuses = 0;
-
-            if (visibleStatus != null && mLastTwitterStatusIdSeen < visibleStatus.mId) {
-                mLastTwitterStatusIdSeen = visibleStatus.mId;
-            }
-
-            for (int i = 0; i < total; i++) {
-                TwitterStatus status = getStatusFeed().getStatus(i);
-                if (status != null && status.mId > mLastTwitterStatusIdSeen) {
-                    newStatuses++;
-                }
-            }
-
-            mNewStatuses = newStatuses;
-
-            updateListHeading(statusIndex.intValue() + 1);
-        } else {
-            showToast(getString(R.string.lost_position));
-        }
+        mNewStatuses = newStatuses;
 
         mTweetDataRefreshCallback = null;
     }
@@ -1029,6 +1007,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
         mNewestTweetId = null;
         mOldestTweetId = null;
+        TwitterStatus visibleStatus = getVisibleStatus();
 
         if (statuses == null) {
             _mStatusFeed = null;
@@ -1043,6 +1022,27 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         if (_mStatusFeed != null && _mStatusFeed.getStatusCount() > 0) {
             mNewestTweetId = _mStatusFeed.getStatus(0).mId;
             mOldestTweetId = _mStatusFeed.getStatus(_mStatusFeed.getStatusCount() - 1).mId;
+
+            Integer statusIndex = null;
+
+            if (visibleStatus != null) {
+                statusIndex = getStatusFeed().getStatusIndex(visibleStatus.mId);
+            } else if (mLastTwitterStatusIdSeen != null) {
+                statusIndex = getStatusFeed().getStatusIndex(mLastTwitterStatusIdSeen);
+            }
+
+            if (statusIndex != null) {
+                mTweetFeedListView.getRefreshableView()
+                        .setSelectionFromTop(statusIndex.intValue() + 1, mScrollTracker.getFirstVisibleYOffset());
+
+                if (visibleStatus != null && mLastTwitterStatusIdSeen < visibleStatus.mId) {
+                    mLastTwitterStatusIdSeen = visibleStatus.mId;
+                }
+
+                updateListHeading(statusIndex.intValue() + 1);
+            } else {
+                showToast(getString(R.string.lost_position));
+            }
         }
     }
 
