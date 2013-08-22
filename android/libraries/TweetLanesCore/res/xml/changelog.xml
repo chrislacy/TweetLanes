@@ -7,6 +7,7 @@
         <change>Feature - Extended the auto complete to match typed text anywhere in username and in full name</change>
         <change>Feature - Added ability to remove an attached image by pressing and holding</change>
         <change>Feature - Added URL handling so that Tweetlanes is a choice when loading Twitter or App.net items</change>
+        <change>Feature - Added smarter fetching starting with small pages, and incrementing as extra pages required</change>
 	<change>Fix - Links are now shown in full, rather than a "display link"</change>
         <change>Fix - Links in profile descriptions converted from t.co links</change>
         <change>Fix - Reply when loading profile correction.  Show "Tweet @username"</change>

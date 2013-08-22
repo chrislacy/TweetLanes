@@ -25,6 +25,8 @@ import twitter4j.Paging;
 public class TwitterPaging {
 
     public static final int DEFAULT_STATUS_COUNT = 100;
+    public static final int INCREMENTING_STATUS_COUNT_START = 25;
+    public static final int INCREMENTING_STATUS_COUNT_MAX = 200;
 
     /*
      *
@@ -52,7 +54,7 @@ public class TwitterPaging {
         if (page != null) {
             mPage = page;
         }
-        if (count != null) {
+        if (count != null && count > 0) {
             mCount = count;
         } else {
             mCount = DEFAULT_STATUS_COUNT;

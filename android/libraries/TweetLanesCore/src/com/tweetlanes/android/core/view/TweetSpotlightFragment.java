@@ -75,10 +75,19 @@ public final class TweetSpotlightFragment extends BaseLaneFragment {
                 if (mTweetFeedListAdapter != null) {
                     onStatusRefresh(status);
                     updateViewVisibility();
-                } else if (result.getErrorMessage().contains("does not exist")) {
-                    TweetSpotlightActivity spotlightActivity = (TweetSpotlightActivity) getActivity();
-                    if (spotlightActivity != null) {
-                        spotlightActivity.TweetDeleted(result.getErrorMessage());
+                } else {
+                    String errorMessage = "";
+                    if (result != null) {
+                        errorMessage = result.getErrorMessage();
+                        if (errorMessage == null) {
+                            errorMessage = "";
+                        }
+                    }
+                    if (errorMessage.contains("does not exist")) {
+                        TweetSpotlightActivity spotlightActivity = (TweetSpotlightActivity) getActivity();
+                        if (spotlightActivity != null) {
+                            spotlightActivity.TweetDeleted(errorMessage);
+                        }
                     }
                 }
                 mGetStatusCallback = null;

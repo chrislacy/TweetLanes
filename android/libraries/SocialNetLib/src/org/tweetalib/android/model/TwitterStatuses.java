@@ -447,8 +447,12 @@ public class TwitterStatuses {
                 high = middle - 1;
             } else if (statusId < status.mId) {
                 low = middle + 1;
-            } else { // The element has been found
+            } else if (statusId == status.mId){
+                // The element has been found
                 return middle;
+            } else{
+                // Couldn't find the element
+                break;
             }
         }
 

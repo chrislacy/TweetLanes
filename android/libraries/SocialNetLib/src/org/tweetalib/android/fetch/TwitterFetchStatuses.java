@@ -486,6 +486,8 @@ public class TwitterFetchStatuses {
                                     ResponseList<twitter4j.Status> statuses = twitter.getUserListStatuses(listId, paging);
                                     contentFeed = setStatuses(input.mContentHandle, statuses);
                                 } catch (NumberFormatException e) {
+                                }catch (OutOfMemoryError e) {
+                                    errorDescription="There was an out of memory doing that!";
                                 }
                                 break;
                             }
