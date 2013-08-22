@@ -184,8 +184,12 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     public void onSaveInstanceState(Bundle state) {
         super.onSaveInstanceState(state);
 
-        state.putLong("TwitterStatusIdWhenRefreshed", mTwitterStatusIdWhenRefreshed);
-        state.putLong("LastTwitterStatusIdSeen", mLastTwitterStatusIdSeen);
+        if(mTwitterStatusIdWhenRefreshed != null)
+            state.putLong("TwitterStatusIdWhenRefreshed", mTwitterStatusIdWhenRefreshed);
+
+        if(mLastTwitterStatusIdSeen != null)
+            state.putLong("LastTwitterStatusIdSeen", mLastTwitterStatusIdSeen);
+
         state.putInt("NewStatuses", mNewStatuses);
         state.putBoolean("HidingListHeading", mHidingListHeading);
     }
