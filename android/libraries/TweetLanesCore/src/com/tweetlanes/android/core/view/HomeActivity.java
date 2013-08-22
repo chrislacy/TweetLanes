@@ -88,8 +88,6 @@ public class HomeActivity extends BaseLaneActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        super.onCreate(savedInstanceState);
-
         AccountDescriptor account = getApp().getCurrentAccount();
 
         Bundle extras = getIntent().getExtras();
@@ -129,6 +127,8 @@ public class HomeActivity extends BaseLaneActivity {
                 }
             }
         }
+
+        super.onCreate(savedInstanceState);
 
         // Attempt at fixing a crash found in HomeActivity
         if (account == null) {
@@ -305,7 +305,7 @@ public class HomeActivity extends BaseLaneActivity {
         AccountDescriptor account = getApp().getCurrentAccount();
 
         if (mDefaultLaneOverride != null) {
-            int lane = mDefaultLaneOverride.intValue();
+            int lane = mDefaultLaneOverride;
             mDefaultLaneOverride = null;
             return lane;
         }
