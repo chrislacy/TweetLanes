@@ -175,6 +175,7 @@
     <string name="posting_tweet">Posting</string>
     <string name="posting_tweet_ongoing">Posting &#8230;</string>
     <string name="lost_position">The position on the feed has been lost</string>
+    <string name="pottential_lost_position">The refresh was cancelled to stop position being lost</string>
 
     <string name="share_tweet">Tweet Text</string>
     <string name="share_tweet_link">Link to Tweet</string>
