@@ -375,11 +375,11 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
             // View view = (View)listView.getItemAtPosition(visible);
 
-            int startIndex = Math.max(0, visibleIndex - 5);
+            int startIndex = Math.max(0, visibleIndex - 10);
             // int endIndex = Math.min(visibleIndex + 5,
             // Math.min(getStatusFeed().getStatusCount(),
             // mTweetFeedListAdapter.getCount()));
-            int endIndex = Math.min(visibleIndex + 5, feed.getStatusCount());
+            int endIndex = Math.min(visibleIndex + 10, feed.getStatusCount());
 
             Long visibleStatusId = null;
 
