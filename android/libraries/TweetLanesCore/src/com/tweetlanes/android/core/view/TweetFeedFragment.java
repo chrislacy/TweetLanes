@@ -388,7 +388,6 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             // mTweetFeedListAdapter.getCount()));
             int endIndex = Math.min(visibleIndex + 10, feed.getStatusCount());
 
-            Long visibleStatusId = null;
 
             TwitterStatuses statuses = new TwitterStatuses();
             for (int i = startIndex; i < endIndex; i++) {
@@ -397,13 +396,22 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                     break;
                 }
 
-                if (i == visibleIndex) {
-                    visibleStatusId = status.mId;
-                    // Log.d("StatusCache", "Set visible: " +
-                    // status.getStatus());
-                }
-
                 statuses.add(status);
+            }
+
+            Long visibleStatusId = null;
+            TwitterStatus visibleStatus = getVisibleStatus();
+            if(visibleStatus!=null){
+                visibleStatusId=visibleStatus.mId;
+            }else if(mLastTwitterStatusIdSeen!=null && mLastTwitterStatusIdSeen > 0){
+                visibleStatusId = mLastTwitterStatusIdSeen;
+            }
+
+            if(visibleStatusId!= null){
+                if (statuses.getStatusIndex(visibleStatusId)==null){
+                    int index = feed.getStatusIndex(visibleStatusId);
+                    statuses.add(feed.getStatus(index));
+                }
             }
 
             if (statuses.getStatusCount() > 0 && visibleStatusId != null) {
