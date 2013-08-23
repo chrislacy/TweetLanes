@@ -237,7 +237,7 @@ public class ProfileFragment extends BaseLaneFragment {
             }
 
             String description = mUser.getDescription();
-            URLEntity[] urlEntities = mUser.getDescriptionUrlEntities();
+            URLEntity[] urlEntities = mUser.getUrlEntities();
             if (description != null) {
                 String descriptionMarkup = TwitterUtil.getTextMarkup(description, urlEntities);
                 descriptionTextView.setText(Html.fromHtml(descriptionMarkup
@@ -245,6 +245,16 @@ public class ProfileFragment extends BaseLaneFragment {
                 descriptionTextView.setMovementMethod(LinkMovementMethod
                         .getInstance());
                 URLSpanNoUnderline.stripUnderlines(descriptionTextView);
+            }
+
+            if (mUser.getUrl() != null) {
+                linkLayout.setVisibility(View.VISIBLE);
+                String urlMarkup = TwitterUtil.getTextMarkup(mUser.getUrl(), urlEntities);
+                link.setText(Html.fromHtml(urlMarkup + ""));
+                link.setMovementMethod(LinkMovementMethod.getInstance());
+                URLSpanNoUnderline.stripUnderlines(link);
+            } else {
+                linkLayout.setVisibility(View.GONE);
             }
 
             detailsLayout.setVisibility(View.VISIBLE);
@@ -260,18 +270,6 @@ public class ProfileFragment extends BaseLaneFragment {
             if (favoritesCount != null) {
                 favoritesCount.setText(Util.getPrettyCount(mUser
                         .getFavoritesCount()));
-            }
-
-            if (mUser.getUrl() != null) {
-                linkLayout.setVisibility(View.VISIBLE);
-                // link.setText(mUser.getUrl());
-                // URLSpanNoUnderline.stripUnderlines(link);
-                link.setText(Html.fromHtml("<a href=\"" + mUser.getUrl()
-                        + "\">" + mUser.getUrl() + "</a>"));
-                link.setMovementMethod(LinkMovementMethod.getInstance());
-                URLSpanNoUnderline.stripUnderlines(link);
-            } else {
-                linkLayout.setVisibility(View.GONE);
             }
 
             if (mUser.getLocation() != null) {

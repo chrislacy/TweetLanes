@@ -83,6 +83,8 @@ public abstract class BaseLaneFragment extends Fragment {
         return getArguments().getInt(KEY_LANE_INDEX);
     }
 
+    public void fetchNewestTweets(){}
+
     /*
 	 * 
 	 */
