@@ -198,6 +198,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
      *
 	 */
     private void configureInitialStatuses() {
+        boolean autoUpdateStatuses = false;
 
         boolean configuredCachedStatuses = configureCachedStatuses();
 
@@ -205,6 +206,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         if (cachedFeed != null && cachedFeed.getStatusCount(getBaseLaneActivity().mStatusesFilter) > 0) {
             setStatusFeed(cachedFeed, true);
         } else if (!configuredCachedStatuses) {
+            autoUpdateStatuses = true;
             setStatusFeed(null, true);
         }
 
@@ -213,7 +215,9 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             setInitialDownloadState(InitialDownloadState.WAITING);
         } else {
 
-            fetchNewestTweets();
+            if (autoUpdateStatuses) {
+                fetchNewestTweets();
+            }
 
             setInitialDownloadState(InitialDownloadState.DOWNLOADED);
             updateViewVisibility(true);
