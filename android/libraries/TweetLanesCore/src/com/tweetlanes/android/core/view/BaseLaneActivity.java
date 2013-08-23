@@ -154,11 +154,6 @@ class BaseLaneActivity extends FragmentActivity implements
 
             mPageIndicator.setViewPager(mViewPager, initialLaneIndex);
             mPageIndicator.setOnPageChangeListener(mOnPageChangeListener);
-
-            BaseLaneFragment fragment = getFragmentAtIndex(initialLaneIndex);
-            if(fragment!=null){
-                fragment.fetchNewestTweets();
-            }
         }
 
         mLaneMask = findViewById(R.id.lane_mask);

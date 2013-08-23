@@ -126,6 +126,11 @@ public class HomeActivity extends BaseLaneActivity {
                     mDefaultLaneOverride = index;
                 }
             }
+
+            BaseLaneFragment fragment = getFragmentAtIndex(mDefaultLaneOverride);
+            if(fragment!=null){
+                fragment.fetchNewestTweets();
+            }
         }
 
         super.onCreate(savedInstanceState);
