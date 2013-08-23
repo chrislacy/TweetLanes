@@ -717,6 +717,9 @@ class BaseLaneActivity extends FragmentActivity implements
                     && mLaneFragmentHashMap.containsKey(position)) {
 
             }
+
+            int oldPosition = getApp().getCurrentAccount().getInitialLaneIndex();
+
             getApp().getCurrentAccount().setCurrentLaneIndex(position);
             if (mCurrentActionMode != null) {
                 // TODO: Probably shouldn't clear this in the event the
@@ -724,7 +727,7 @@ class BaseLaneActivity extends FragmentActivity implements
                 mCurrentActionMode.finish();
             }
 
-            onLaneChange(position, -1);
+            onLaneChange(position, oldPosition);
         }
     };
 
