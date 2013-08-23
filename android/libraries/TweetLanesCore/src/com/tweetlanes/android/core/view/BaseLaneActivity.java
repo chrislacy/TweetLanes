@@ -154,6 +154,11 @@ class BaseLaneActivity extends FragmentActivity implements
 
             mPageIndicator.setViewPager(mViewPager, initialLaneIndex);
             mPageIndicator.setOnPageChangeListener(mOnPageChangeListener);
+
+            BaseLaneFragment fragment = getFragmentAtIndex(initialLaneIndex);
+            if(fragment!=null){
+                fragment.fetchNewestTweets();
+            }
         }
 
         mLaneMask = findViewById(R.id.lane_mask);
@@ -551,6 +556,11 @@ class BaseLaneActivity extends FragmentActivity implements
         public void onStatusUpdateSuccess() {
             setComposeDefault();
             mShareImagePath = null;
+            int position = getApp().getCurrentAccount().getInitialLaneIndex();
+            BaseLaneFragment fragment = getFragmentAtIndex(position);
+            if(fragment!=null){
+                fragment.fetchNewestTweets();
+            }
         }
 
         @Override
@@ -648,6 +658,11 @@ class BaseLaneActivity extends FragmentActivity implements
         @Override
         public void onStatusUpdateSuccess() {
             setComposeDefault();
+            int position = getApp().getCurrentAccount().getInitialLaneIndex();
+            BaseLaneFragment fragment = getFragmentAtIndex(position);
+            if(fragment!=null){
+                fragment.fetchNewestTweets();
+            }
         }
 
         @Override

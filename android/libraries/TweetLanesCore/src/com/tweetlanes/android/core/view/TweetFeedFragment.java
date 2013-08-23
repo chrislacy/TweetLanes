@@ -227,7 +227,10 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     /*
      *
 	 */
-    void fetchNewestTweets() {
+    @Override
+    public void fetchNewestTweets() {
+        super.fetchNewestTweets();
+
         if (mNewestTweetId != null) {
             fetchNewestTweets(mNewestTweetId.longValue(), null);
         }
