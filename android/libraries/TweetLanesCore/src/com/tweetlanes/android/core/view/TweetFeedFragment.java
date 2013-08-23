@@ -276,7 +276,6 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                             fetchNewestTweets(sinceStatusId, feed.getNewStatusesMaxId());
                         }
                     } else {
-                        showToast(fetchResult.getErrorMessage());
                         onRefreshFinished(null);
                     }
                 }
