@@ -551,6 +551,11 @@ class BaseLaneActivity extends FragmentActivity implements
         public void onStatusUpdateSuccess() {
             setComposeDefault();
             mShareImagePath = null;
+            int position = getApp().getCurrentAccount().getInitialLaneIndex();
+            BaseLaneFragment fragment = getFragmentAtIndex(position);
+            if(fragment!=null){
+                fragment.fetchNewestTweets();
+            }
         }
 
         @Override
@@ -648,6 +653,11 @@ class BaseLaneActivity extends FragmentActivity implements
         @Override
         public void onStatusUpdateSuccess() {
             setComposeDefault();
+            int position = getApp().getCurrentAccount().getInitialLaneIndex();
+            BaseLaneFragment fragment = getFragmentAtIndex(position);
+            if(fragment!=null){
+                fragment.fetchNewestTweets();
+            }
         }
 
         @Override
@@ -717,6 +727,9 @@ class BaseLaneActivity extends FragmentActivity implements
                     && mLaneFragmentHashMap.containsKey(position)) {
 
             }
+
+            int oldPosition = getApp().getCurrentAccount().getInitialLaneIndex();
+
             getApp().getCurrentAccount().setCurrentLaneIndex(position);
             if (mCurrentActionMode != null) {
                 // TODO: Probably shouldn't clear this in the event the
@@ -724,7 +737,7 @@ class BaseLaneActivity extends FragmentActivity implements
                 mCurrentActionMode.finish();
             }
 
-            onLaneChange(position, -1);
+            onLaneChange(position, oldPosition);
         }
     };
 

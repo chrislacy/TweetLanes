@@ -15,6 +15,9 @@ import org.appdotnet4j.model.AdnUser;
 import org.socialnetlib.android.SocialNetConstant;
 import org.tweetalib.android.TwitterManager.ProfileImageSize;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import twitter4j.URLEntity;
 import twitter4j.User;
 
@@ -25,15 +28,21 @@ public class TwitterUser {
         mScreenName = user.getScreenName();
         mName = user.getName();
         mDescription = user.getDescription();
+        ArrayList<URLEntity> urlEntityArrayList = new ArrayList<URLEntity>();
         if (user.getDescriptionURLEntities() != null) {
-            mDescriptionUrlEntities = user.getDescriptionURLEntities();
+            urlEntityArrayList = new ArrayList<URLEntity>(Arrays.asList(user.getDescriptionURLEntities()));
         }
+
+        if (user.getURL() != null) {
+            mUrl = user.getURL();
+            urlEntityArrayList.add(user.getURLEntity());
+        }
+
+        mUrlEntities = urlEntityArrayList.toArray(new URLEntity[urlEntityArrayList.size()]);
+
         if (user.getLocation() != null
                 && !user.getLocation().equals("")) {
             mLocation = user.getLocation();
-        }
-        if (user.getURL() != null) {
-            mUrl = user.getURL();
         }
 
         if (user.getOriginalProfileImageURLHttps() != null) {
@@ -86,9 +95,10 @@ public class TwitterUser {
         mScreenName = user.getScreenName();
         mName = user.getName();
         mDescription = user.getDescription();
-        mDescriptionUrlEntities = user.getDescriptionUrlEntities();
+        mUrlEntities = user.getUrlEntities();
         mLocation = user.getLocation();
         mUrl = user.getUrl();
+
         mProfileImageUrlMini = user.getProfileImageUrlMini();
         mProfileImageUrlNormal = user.getProfileImageUrlNormal();
         mProfileImageUrlBigger = user.getProfileImageUrlBigger();
@@ -203,15 +213,15 @@ public class TwitterUser {
         return "";
     }
 
-    public URLEntity[] getDescriptionUrlEntities() {
-        return mDescriptionUrlEntities;
+    public URLEntity[] getUrlEntities() {
+        return mUrlEntities;
     }
 
     private final long mId;
     private final String mScreenName;
     private final String mName;
     private final String mDescription;
-    private URLEntity[] mDescriptionUrlEntities;
+    private URLEntity[] mUrlEntities;
     private String mCoverImageUrl;
     private String mLocation;
     private String mProfileImageUrlMini;

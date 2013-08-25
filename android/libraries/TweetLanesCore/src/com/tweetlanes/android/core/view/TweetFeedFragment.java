@@ -184,10 +184,10 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     public void onSaveInstanceState(Bundle state) {
         super.onSaveInstanceState(state);
 
-        if(mTwitterStatusIdWhenRefreshed != null)
+        if (mTwitterStatusIdWhenRefreshed != null)
             state.putLong("TwitterStatusIdWhenRefreshed", mTwitterStatusIdWhenRefreshed);
 
-        if(mLastTwitterStatusIdSeen != null)
+        if (mLastTwitterStatusIdSeen != null)
             state.putLong("LastTwitterStatusIdSeen", mLastTwitterStatusIdSeen);
 
         state.putInt("NewStatuses", mNewStatuses);
@@ -227,7 +227,10 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     /*
      *
 	 */
-    void fetchNewestTweets() {
+    @Override
+    public void fetchNewestTweets() {
+        super.fetchNewestTweets();
+
         if (mNewestTweetId != null) {
             fetchNewestTweets(mNewestTweetId.longValue(), null);
         }
@@ -277,7 +280,6 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                             fetchNewestTweets(sinceStatusId, feed.getNewStatusesMaxId());
                         }
                     } else {
-                        showToast(fetchResult.getErrorMessage());
                         onRefreshFinished(null);
                     }
                 }
@@ -388,7 +390,6 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             // mTweetFeedListAdapter.getCount()));
             int endIndex = Math.min(visibleIndex + 10, feed.getStatusCount());
 
-            Long visibleStatusId = null;
 
             TwitterStatuses statuses = new TwitterStatuses();
             for (int i = startIndex; i < endIndex; i++) {
@@ -397,13 +398,22 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                     break;
                 }
 
-                if (i == visibleIndex) {
-                    visibleStatusId = status.mId;
-                    // Log.d("StatusCache", "Set visible: " +
-                    // status.getStatus());
-                }
-
                 statuses.add(status);
+            }
+
+            Long visibleStatusId = null;
+            TwitterStatus visibleStatus = getVisibleStatus();
+            if (visibleStatus != null) {
+                visibleStatusId = visibleStatus.mId;
+            } else if (mLastTwitterStatusIdSeen != null && mLastTwitterStatusIdSeen > 0) {
+                visibleStatusId = mLastTwitterStatusIdSeen;
+            }
+
+            if (visibleStatusId != null) {
+                if (statuses.getStatusIndex(visibleStatusId) == null) {
+                    int index = feed.getStatusIndex(visibleStatusId);
+                    statuses.add(feed.getStatus(index));
+                }
             }
 
             if (statuses.getStatusCount() > 0 && visibleStatusId != null) {
@@ -657,7 +667,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     };
 
     /*
-	 *
+     *
 	 */
     private final OnLastItemVisibleListener mTweetFeedOnLastItemVisibleListener = new OnLastItemVisibleListener() {
 
