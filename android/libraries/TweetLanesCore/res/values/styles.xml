@@ -48,7 +48,7 @@
 
         <item name="ic_action_camera">@style/ic_action_camera_dark</item>
         <item name="ic_action_collapse">@style/ic_action_collapse_dark</item>
-        <item name="ic_action_expand">@style/ic_action_expand_dark</item>
+        <item name="ic_action_expand">@style/ic_action_expand_light</item>
         <item name="ic_action_message">@style/ic_action_message_dark</item>
         <item name="ic_action_overflow">@style/ic_action_overflow_dark</item>
         <item name="ic_action_rt_on">@style/ic_action_rt_on_dark</item>
