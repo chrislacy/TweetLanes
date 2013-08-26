@@ -27,6 +27,15 @@
                 />
 
         <ListPreference
+                android:key="displaytime_preference"
+                android:title="@string/title_diplaytime_preference"
+                android:entries="@array/diplaytime_list_preference"
+                android:entryValues="@array/diplaytime_list_preference"
+                android:dialogTitle="@string/dialog_title_diplaytime_preference"
+                android:defaultValue="relative"
+                />
+
+        <ListPreference
                 android:key="statussize_preference"
                 android:title="@string/title_statussize_preference"
                 android:entries="@array/statussize_list_preference"

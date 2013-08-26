@@ -1374,7 +1374,7 @@ class BaseLaneActivity extends FragmentActivity implements
             alertDialog.setTitle(getString(R.string.alert_share_title));
             alertDialog.setMessage(getString(R.string.alert_share_message));
             alertDialog
-                    .setIcon(AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Dark ? R.drawable.ic_action_share_dark
+                    .setIcon(AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Dark || AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Light_DarkAction ? R.drawable.ic_action_share_dark
                             : R.drawable.ic_action_share_light);
             // TODO: The order these buttons are set looks wrong, but appears
             // correctly. Have to ensure this is consistent on other devices.

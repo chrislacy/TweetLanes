@@ -1284,7 +1284,10 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                                         showToast(getString(R.string.retweeted_marking_un_successful));
                                     }
                                 } else {
-                                    showToast(getString(R.string.retweeted_marking_un_successful));
+                                    if(!result.getErrorMessage().equals("CancelPressed") && !result.getErrorMessage().equals("QutotePressed"))
+                                    {
+                                        showToast(getString(R.string.retweeted_un_successful));
+                                    }
                                 }
                             } else {
                                 showToast(getString(R.string.retweeted_un_successful));
@@ -1338,6 +1341,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
                         };
                 boolean newState = getSelectedFavoriteState() != ItemSelectedState.ALL;
+                showToast(getString(R.string.favorite_in_progress));
                 TwitterManager.get().setFavorite(getSelectedStatuses(), newState, callback);
                 mode.finish();
             } else if (itemId == R.id.action_manage_friendship) {
@@ -1516,34 +1520,22 @@ public final class TweetFeedFragment extends BaseLaneFragment {
          */
         void setIsFavorited(boolean favorited) {
             if (mFavoriteMenuItem != null) {
-                boolean isDarkTheme = AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Dark;
+                boolean isDarkTheme = AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Dark || AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Light_DarkAction;
                 if (favorited) {
-                    if (AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Light_DarkAction) {
-                        mFavoriteMenuItem.setIcon(R.drawable.ic_action_star_on_dark);
-                        mFavoriteMenuItem.setTitle(R.string.action_unfavorite);
-                    } else {
                         mFavoriteMenuItem.setIcon(
                                 isDarkTheme ? R.drawable.ic_action_star_on_dark : R.drawable.ic_action_star_on_light);
                         mFavoriteMenuItem.setTitle(R.string.action_unfavorite);
-                    }
-
                 } else {
-                    if (AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Light_DarkAction) {
-                        mFavoriteMenuItem.setIcon(R.drawable.ic_action_star_off_dark);
-                        mFavoriteMenuItem.setTitle(R.string.action_favorite);
-                    } else {
                         mFavoriteMenuItem.setIcon(
                                 isDarkTheme ? R.drawable.ic_action_star_off_dark : R.drawable.ic_action_star_off_light);
                         mFavoriteMenuItem.setTitle(R.string.action_favorite);
-                    }
-
                 }
             }
         }
 
         void setIsRetweet(boolean retweet) {
             if (mRetweetMenuItem != null) {
-                boolean isDarkTheme = AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Dark;
+                boolean isDarkTheme = AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Dark || AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Light_DarkAction;
                 if (retweet) {
                     mRetweetMenuItem.setIcon(
                             isDarkTheme ? R.drawable.ic_action_rt_on_dark : R.drawable.ic_action_rt_on_light);

@@ -571,6 +571,14 @@ public class TwitterFetchStatuses {
                             errorDescription += "\nTry again in " + e.getRateLimitStatus().getSecondsUntilReset()
                                     + " " + "seconds";
                         }
+                    } catch (OutOfMemoryError e){
+                        e.printStackTrace();
+                        errorDescription = e.getMessage();
+                        Log.e("api-call", errorDescription, e);
+                    } catch (Exception e){
+                        e.printStackTrace();
+                        errorDescription = e.getMessage();
+                        Log.e("api-call", errorDescription, e);
                     }
                 }
             }
