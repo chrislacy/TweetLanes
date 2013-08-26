@@ -46,6 +46,12 @@ public final class Util {
         return formatted.format(date);
     }
 
+    public static String getShortDate(Date date) {
+        SimpleDateFormat formatted = new SimpleDateFormat(
+                "hh:mm aa");
+        return formatted.format(date);
+    }
+
     /*
      * Given 1234567890, return "1,234,567,890"
      */

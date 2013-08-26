@@ -437,6 +437,9 @@
     <string name="title_customizelanes_preference">Customize Lanes</string>
     <string name="summary_customizelanes_preference">Show/hide specific lanes</string>
 
+    <string name="title_diplaytime_preference">Time Format/Display</string>
+    <string name="dialog_title_diplaytime_preference">Time Format/Display</string>
+
     <string name="title_statussize_preference">Font Size</string>
     <string name="dialog_title_statussize_preference">Font Size</string>
 

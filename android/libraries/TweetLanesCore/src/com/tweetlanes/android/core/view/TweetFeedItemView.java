@@ -51,6 +51,11 @@ import org.tweetalib.android.model.TwitterMediaEntity;
 import org.tweetalib.android.model.TwitterMediaEntity.Size;
 import org.tweetalib.android.model.TwitterStatus;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 public class TweetFeedItemView extends LinearLayout {
 
     private Context mContext;
@@ -253,8 +258,29 @@ public class TweetFeedItemView extends LinearLayout {
 
         TextView prettyDateTextView = (TextView) findViewById(R.id.pretty_date);
         if (prettyDateTextView != null) {
-            prettyDateTextView.setText(Util
-                    .getPrettyDate(mTwitterStatus.mCreatedAt));
+
+            String dateDisplay;
+
+            AppSettings.DisplayTimeFormat displayTimeFormat = AppSettings.get().getCurrentDisplayTimeFormat();
+            if(displayTimeFormat== AppSettings.DisplayTimeFormat.Relative){
+                dateDisplay = Util.getPrettyDate(mTwitterStatus.mCreatedAt);
+            }else if(displayTimeFormat== AppSettings.DisplayTimeFormat.Absolute){
+                dateDisplay = Util.getShortDate(mTwitterStatus.mCreatedAt);
+            } else{
+                int diffInMinutes = (int)((new Date().getTime() - mTwitterStatus.mCreatedAt.getTime()) / (1000 * 60));
+                if(diffInMinutes > 59)
+                {
+                    dateDisplay = Util.getShortDate(mTwitterStatus.mCreatedAt);
+                }
+                else
+                {
+                    dateDisplay = Util.getPrettyDate(mTwitterStatus.mCreatedAt);
+                }
+            }
+
+            prettyDateTextView.setText(dateDisplay);
+
+
         }
 
         TextView fullDateTextView = (TextView) findViewById(R.id.full_date);
