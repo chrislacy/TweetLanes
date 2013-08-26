@@ -184,6 +184,9 @@ public class TwitterFetchStatuses {
         if (posts != null && posts.mPosts != null && posts.mPosts.size() > 0) {
             feed.add(posts, addUserCallback);
         }
+        else {
+            feed.setFeedFullyRefreshed();
+        }
         return feed;
     }
 

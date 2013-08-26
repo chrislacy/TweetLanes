@@ -236,6 +236,10 @@ public class TwitterStatuses {
         sort();
     }
 
+    public void setFeedFullyRefreshed() {
+        mGetNewStatusesMaxId = null;
+    }
+
     /*
 	 * 
 	 */
@@ -315,11 +319,6 @@ public class TwitterStatuses {
 
             if (addUserCallback != null) {
                 addUserCallback.addUser(post.mUser);
-                /*
-                 * if (post.isRetweet()) { Status retweetedStatus =
-                 * post.getRetweetedStatus(); if (retweetedStatus != null) {
-                 * addUserCallback.addUser(retweetedStatus.getUser()); } }
-                 */
             }
 
             addCount += 1;
@@ -513,46 +512,4 @@ public class TwitterStatuses {
         mCounts = new int[FilterType.FILTER_MAX.ordinal()];
         mGetNewStatusesMaxId = null;
     }
-
-    /*
-	 * 
-	 */
-    /*
-     * public class Iterator {
-     * 
-     * public Iterator(TwitterStatusesFilter filter) { mFilter = filter;
-     * mLastIndex = 0; }
-     * 
-     * public void next() { int size = size(); for (; mLastIndex < size;
-     * mLastIndex++) { TwitterStatus status = get(mLastIndex); if (status !=
-     * null) { if (status.getInReplyToStatusId() != null &&
-     * mFilter.getShowReplies() == false) { mSkipReplyCount += 1; continue; } if
-     * (status.getIsRetweet() == true && mFilter.getShowRetweets() == false) {
-     * mSkipRetweetCount += 1; continue; } break; } } }
-     * 
-     * public boolean finished() {
-     * 
-     * if (mLastIndex == size()) { Log.d("TwitterStatus iterator",
-     * "finished - skipped " + mSkipRetweetCount + " retweets, skipped " +
-     * mSkipReplyCount + " replies."); }
-     * 
-     * return mLastIndex == size() ? true : false; }
-     * 
-     * private TwitterStatusesFilter mFilter; int mLastIndex;
-     * 
-     * int mSkipRetweetCount = 0; int mSkipReplyCount = 0; }
-     */
-
-    /*
-	 * 
-	 */
-    /*
-     * private void filterTest(TwitterStatusesFilter filter) {
-     * 
-     * int[] counts = mCounts.clone();
-     * 
-     * int count = getStatusCount(filter); for (int i = 0; i < count; i++) {
-     * TwitterStatus status = getStatus(i, filter); if (status == null) {
-     * getStatus(i, filter); } } }
-     */
 }
