@@ -1284,7 +1284,10 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                                         showToast(getString(R.string.retweeted_marking_un_successful));
                                     }
                                 } else {
-                                    showToast(getString(R.string.retweeted_marking_un_successful));
+                                    if(!result.getErrorMessage().equals("CancelPressed") && !result.getErrorMessage().equals("QutotePressed"))
+                                    {
+                                        showToast(getString(R.string.retweeted_un_successful));
+                                    }
                                 }
                             } else {
                                 showToast(getString(R.string.retweeted_un_successful));
@@ -1338,6 +1341,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
                         };
                 boolean newState = getSelectedFavoriteState() != ItemSelectedState.ALL;
+                showToast(getString(R.string.favorite_in_progress));
                 TwitterManager.get().setFavorite(getSelectedStatuses(), newState, callback);
                 mode.finish();
             } else if (itemId == R.id.action_manage_friendship) {
