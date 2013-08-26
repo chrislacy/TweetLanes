@@ -176,28 +176,7 @@ public class DirectMessageItemView extends LinearLayout {
 
         TextView prettyDateTextView = (TextView) findViewById(R.id.pretty_date);
         if (prettyDateTextView != null) {
-            String dateDisplay;
-
-            AppSettings.DisplayTimeFormat displayTimeFormat = AppSettings.get().getCurrentDisplayTimeFormat();
-            if(displayTimeFormat== AppSettings.DisplayTimeFormat.Relative){
-                dateDisplay = Util.getPrettyDate(directMessage.getCreatedAt());
-            }else if(displayTimeFormat== AppSettings.DisplayTimeFormat.Absolute){
-                DateFormat df = new SimpleDateFormat("d MMM, HH:mm");
-                dateDisplay = df.format(directMessage.getCreatedAt());
-            } else{
-                int diffInMinutes = (int)((new Date().getTime() - directMessage.getCreatedAt().getTime()) / (1000 * 60));
-                if(diffInMinutes > 59)
-                {
-                    DateFormat df = new SimpleDateFormat("d MMM, HH:mm");
-                    dateDisplay = df.format(directMessage.getCreatedAt());
-                }
-                else
-                {
-                    dateDisplay = Util.getPrettyDate(directMessage.getCreatedAt());
-                }
-            }
-
-            prettyDateTextView.setText(dateDisplay);
+            prettyDateTextView.setText(Util.getDisplayDate(directMessage.getCreatedAt()));
         }
 
         mAvatar = (QuickContactDivot) findViewById(R.id.avatar);

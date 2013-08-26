@@ -19,6 +19,8 @@ import android.content.res.Resources;
 import android.os.Environment;
 import android.util.DisplayMetrics;
 
+import com.tweetlanes.android.core.AppSettings;
+
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.Proxy;
@@ -46,10 +48,43 @@ public final class Util {
         return formatted.format(date);
     }
 
-    public static String getShortDate(Date date) {
+    private static String getShortDateYear(Date date) {
+        SimpleDateFormat formatted = new SimpleDateFormat(
+                "dd MMM yy, hh:mm aa");
+        return formatted.format(date);
+    }
+
+    private static String getShortDate(Date date) {
+        SimpleDateFormat formatted = new SimpleDateFormat(
+                "dd MMM, hh:mm aa");
+        return formatted.format(date);
+    }
+
+    private static String getTimeOnly(Date date) {
         SimpleDateFormat formatted = new SimpleDateFormat(
                 "hh:mm aa");
         return formatted.format(date);
+    }
+
+    public static String getDisplayDate(Date date)
+    {
+        AppSettings.DisplayTimeFormat displayTimeFormat = AppSettings.get().getCurrentDisplayTimeFormat();
+        if(displayTimeFormat== AppSettings.DisplayTimeFormat.Relative){
+            return Util.getPrettyDate(date);
+        }else if(displayTimeFormat== AppSettings.DisplayTimeFormat.Absolute){
+            return getPrettyFullDate(date);
+        } else{
+            Date currentDate = new Date();
+            int diffInMinutes = (int)((currentDate.getTime() - date.getTime()) / (1000 * 60));
+            if(diffInMinutes > 59)
+            {
+                return getPrettyFullDate(date);
+            }
+            else
+            {
+                return Util.getPrettyDate(date);
+            }
+        }
     }
 
     /*
@@ -58,6 +93,28 @@ public final class Util {
     public static String getPrettyCount(int count) {
         String regex = "(\\d)(?=(\\d{3})+$)";
         return Integer.toString(count).replaceAll(regex, "$1,");
+    }
+
+
+    public static String getPrettyFullDate(Date date)
+    {
+        Date currentDate = new Date();
+        int diffInDays = (int) ((currentDate.getTime() - date.getTime()) / (1000 * 60 * 60 * 24));
+        if(diffInDays > 0)
+        {
+            if(diffInDays > 300)
+            {
+                return Util.getShortDateYear(date);
+            }
+            else
+            {
+                return Util.getShortDate(date);
+            }
+        }
+        else
+        {
+            return Util.getTimeOnly(date);
+        }
     }
 
     /*
