@@ -238,6 +238,7 @@
     <string name="favorited_successfully">Favorited successfully</string>
     <string name="unfavorited_successfully">Unfavorited successfully</string>
     <string name="favorited_un_successfully">Favorited failed</string>
+    <string name="favorite_in_progress">Favorite being marked</string>
     <string name="unfavorited_un_successfully">Unfavorited failed</string>
     <string name="favorite_marking_un_successful">Unable to change Favorite marker</string>
     <string name="retweeted_successfully">Retweeted successfully</string>
@@ -435,6 +436,9 @@
 
     <string name="title_customizelanes_preference">Customize Lanes</string>
     <string name="summary_customizelanes_preference">Show/hide specific lanes</string>
+
+    <string name="title_diplaytime_preference">Time Format/Display</string>
+    <string name="dialog_title_diplaytime_preference">Time Format/Display</string>
 
     <string name="title_statussize_preference">Font Size</string>
     <string name="dialog_title_statussize_preference">Font Size</string>

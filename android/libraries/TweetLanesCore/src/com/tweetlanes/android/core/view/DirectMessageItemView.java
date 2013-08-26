@@ -40,6 +40,10 @@ import org.tweetalib.android.model.TwitterDirectMessage.MessageType;
 import org.tweetalib.android.model.TwitterUser;
 import org.tweetalib.android.widget.URLSpanNoUnderline;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class DirectMessageItemView extends LinearLayout {
 
     private Context mContext;
@@ -172,8 +176,7 @@ public class DirectMessageItemView extends LinearLayout {
 
         TextView prettyDateTextView = (TextView) findViewById(R.id.pretty_date);
         if (prettyDateTextView != null) {
-            prettyDateTextView.setText(Util.getPrettyDate(directMessage
-                    .getCreatedAt()));
+            prettyDateTextView.setText(Util.getDisplayDate(directMessage.getCreatedAt()));
         }
 
         mAvatar = (QuickContactDivot) findViewById(R.id.avatar);

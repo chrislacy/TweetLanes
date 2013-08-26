@@ -253,11 +253,23 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
              * case R.id.action_reply: beginCompose(); return true;
              */
         } else if (i == R.id.action_retweet) {
+
+            boolean isDarkTheme = AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Dark || AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Light_DarkAction;
+            mRetweetMenuItem
+                    .setIcon(isDarkTheme ? R.drawable.ic_action_rt_pressed_dark
+                            : R.drawable.ic_action_rt_pressed_light);
+
             TwitterFetchStatus.FinishedCallback callback = TwitterManager.get()
                     .getFetchStatusInstance().new FinishedCallback() {
 
                 @Override
                 public void finished(TwitterFetchResult result, TwitterStatus status) {
+
+                    boolean isDarkTheme = AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Dark || AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Light_DarkAction;
+                    mRetweetMenuItem.setIcon(
+                            isDarkTheme ? R.drawable.ic_action_rt_off_dark : R.drawable.ic_action_rt_off_light);
+                    mRetweetMenuItem.setTitle(R.string.action_retweet);
+
                     if (result != null && result.isSuccessful()) {
                         if (status != null && status.mOriginalRetweetId > 0) {
                             mStatus.mIsRetweetedByMe = true;
@@ -265,12 +277,14 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
                             showToast(getString(R.string.retweeted_successfully));
                             setIsRetweeted();
                         } else {
-                            showToast(getString(R.string.retweeted_marking_un_successful));
+                            if(!result.getErrorMessage().equals("CancelPressed") && !result.getErrorMessage().equals("QutotePressed"))
+                            {
+                                showToast(getString(R.string.retweeted_un_successful));
+                            }
                         }
                     } else {
                         showToast(getString(R.string.retweeted_un_successful));
                     }
-
                 }
 
             };

@@ -26,6 +26,11 @@ public class AppSettings {
     public static final boolean DEFAULT_SHOW_TABLET_MARGIN = true;
     public static final boolean DEFAULT_SHOW_TWEET_SOURCE = false;
 
+    private static final String DISAPLY_TIME_RELATIVE = "Relative";
+    private static final String DISAPLY_TIME_ABSOLUTE = "Absolute";
+    private static final String DISAPLY_TIME_MIXED = "Mixed";
+    private static final String DISAPLY_TIME_DEFAULT = DISAPLY_TIME_RELATIVE;
+
     private static final String STATUS_SIZE_EXTRA_SMALL = "Extra Small";
     private static final String STATUS_SIZE_SMALL = "Small";
     private static final String STATUS_SIZE_MEDIUM = "Medium";
@@ -90,6 +95,10 @@ public class AppSettings {
         Standard, RT, Via,
     }
 
+    public enum DisplayTimeFormat {
+        Relative, Absolute, Mixed,
+    }
+
     /*
 	 *
 	 */
@@ -102,6 +111,7 @@ public class AppSettings {
     private StatusSize mStatusSize;
     private ProfileImageSize mProfileImageSize;
     private QuoteType mQuoteType;
+    private DisplayTimeFormat mDisplayTimeFormat;
 
     /*
 	 *
@@ -129,6 +139,7 @@ public class AppSettings {
         Theme oldTheme = mCurrentTheme;
         StatusSize oldStatusSize = mStatusSize;
         ProfileImageSize oldProfileImageSize = mProfileImageSize;
+        DisplayTimeFormat oldDisplayTimeFormat = mDisplayTimeFormat;
 
         mSharedPreferences = PreferenceManager
                 .getDefaultSharedPreferences(mContext);
@@ -143,6 +154,11 @@ public class AppSettings {
         } else {
             setCurrentTheme(Theme.Holo_Light_DarkAction);
         }
+
+        String displayTimeFormat = mSharedPreferences.getString(
+                SettingsActivity.KEY_DISPLAY_TIME_PREFERENCE,
+                DISAPLY_TIME_DEFAULT);
+        setDisplayTimeFormat(displayTimeFormat);
 
         String statusSize = mSharedPreferences.getString(
                 SettingsActivity.KEY_STATUS_SIZE_PREFERENCE,
@@ -160,7 +176,7 @@ public class AppSettings {
 
         if (mRefreshCount > 0) {
             if (oldTheme != mCurrentTheme || oldStatusSize != mStatusSize
-                    || oldProfileImageSize != mProfileImageSize) {
+                    || oldProfileImageSize != mProfileImageSize || oldDisplayTimeFormat != mDisplayTimeFormat) {
                 mIsDirty = true;
             } else if (preferenceKey != null) {
                 if (preferenceKey
@@ -301,6 +317,18 @@ public class AppSettings {
         mCurrentTheme = theme;
     }
 
+    void setDisplayTimeFormat(String displayTimeFormat) {
+        if(displayTimeFormat!= null){
+            if(displayTimeFormat.equals(DISAPLY_TIME_RELATIVE)){
+                mDisplayTimeFormat = DisplayTimeFormat.Relative;
+            } else if(displayTimeFormat.equals(DISAPLY_TIME_ABSOLUTE)){
+                mDisplayTimeFormat = DisplayTimeFormat.Absolute;
+            } else if(displayTimeFormat.equals(DISAPLY_TIME_MIXED)){
+                mDisplayTimeFormat = DisplayTimeFormat.Mixed;
+            }
+        }
+    }
+
     /*
 	 *
 	 */
@@ -332,6 +360,10 @@ public class AppSettings {
 	 */
     public StatusSize getCurrentStatusSize() {
         return mStatusSize;
+    }
+
+    public DisplayTimeFormat getCurrentDisplayTimeFormat() {
+        return mDisplayTimeFormat;
     }
 
     /*

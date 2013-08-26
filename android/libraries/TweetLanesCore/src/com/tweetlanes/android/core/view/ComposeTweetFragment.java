@@ -539,6 +539,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
                 new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int which) {
+                        callback.finished(new TwitterFetchResult(true, "CancelPressed"), null);
 
                     }
                 });
@@ -547,6 +548,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
 
                     public void onClick(DialogInterface dialog, int which) {
                         if (mRetweetStatus != null) {
+                            callback.finished(new TwitterFetchResult(true, "QutotePressed"), null);
                             beginQuote(mRetweetStatus);
                             mRetweetStatus = null;
                         }

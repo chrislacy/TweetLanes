@@ -9,6 +9,7 @@
         <change>Feature - Added URL handling so that Tweetlanes is a choice when loading Twitter or App.net items</change>
         <change>Feature - Added smarter fetching starting with small pages, and incrementing as extra pages required</change>
         <change>Feature - Added refresh after posting &amp; refresh when loading app from notification</change>
+        <change>Feature - Added ability to show absolute times on timeline, also a mixed mode (59 mins a less is relative)</change>
 	    <change>Fix - Links are now shown in full, rather than a "display link"</change>
         <change>Fix - Links in profile descriptions converted from t.co links</change>
         <change>Fix - Reply when loading profile correction.  Show "Tweet @username"</change>

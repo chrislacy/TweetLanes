@@ -51,6 +51,11 @@ import org.tweetalib.android.model.TwitterMediaEntity;
 import org.tweetalib.android.model.TwitterMediaEntity.Size;
 import org.tweetalib.android.model.TwitterStatus;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 public class TweetFeedItemView extends LinearLayout {
 
     private Context mContext;
@@ -253,8 +258,7 @@ public class TweetFeedItemView extends LinearLayout {
 
         TextView prettyDateTextView = (TextView) findViewById(R.id.pretty_date);
         if (prettyDateTextView != null) {
-            prettyDateTextView.setText(Util
-                    .getPrettyDate(mTwitterStatus.mCreatedAt));
+            prettyDateTextView.setText(Util.getDisplayDate(mTwitterStatus.mCreatedAt));
         }
 
         TextView fullDateTextView = (TextView) findViewById(R.id.full_date);
