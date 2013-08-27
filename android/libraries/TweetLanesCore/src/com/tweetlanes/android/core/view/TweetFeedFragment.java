@@ -198,6 +198,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     @Override
     public void onDetach ()
     {
+        super.onDetach();
         mDetached = true;
     }
 
