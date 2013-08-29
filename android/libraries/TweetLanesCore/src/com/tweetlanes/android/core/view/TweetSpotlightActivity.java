@@ -197,7 +197,7 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
     }
 
     /*
-	 *
+     *
 	 */
     void onGetStatus(TwitterStatus status) {
         mStatus = new TwitterStatus(status);
@@ -254,21 +254,13 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
              */
         } else if (i == R.id.action_retweet) {
 
-            boolean isDarkTheme = AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Dark || AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Light_DarkAction;
-            mRetweetMenuItem
-                    .setIcon(isDarkTheme ? R.drawable.ic_action_rt_pressed_dark
-                            : R.drawable.ic_action_rt_pressed_light);
-
             TwitterFetchStatus.FinishedCallback callback = TwitterManager.get()
                     .getFetchStatusInstance().new FinishedCallback() {
 
                 @Override
                 public void finished(TwitterFetchResult result, TwitterStatus status) {
 
-                    boolean isDarkTheme = AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Dark || AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Light_DarkAction;
-                    mRetweetMenuItem.setIcon(
-                            isDarkTheme ? R.drawable.ic_action_rt_off_dark : R.drawable.ic_action_rt_off_light);
-                    mRetweetMenuItem.setTitle(R.string.action_retweet);
+                    setIsRetweeted();
 
                     if (result != null && result.isSuccessful()) {
                         if (status != null && status.mOriginalRetweetId > 0) {
@@ -277,8 +269,7 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
                             showToast(getString(R.string.retweeted_successfully));
                             setIsRetweeted();
                         } else {
-                            if(!result.getErrorMessage().equals("CancelPressed") && !result.getErrorMessage().equals("QutotePressed"))
-                            {
+                            if (!result.getErrorMessage().equals("CancelPressed") && !result.getErrorMessage().equals("QutotePressed")) {
                                 showToast(getString(R.string.retweeted_un_successful));
                             }
                         }
@@ -291,7 +282,11 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
 
             if (mStatus.mIsRetweetedByMe) {
                 showToast(getString(R.string.cannot_unretweet));
+                setIsRetweeted();
             } else {
+                boolean isDarkTheme = AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Dark || AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Light_DarkAction;
+                mRetweetMenuItem.setIcon(isDarkTheme ? R.drawable.ic_action_rt_pressed_dark : R.drawable.ic_action_rt_pressed_light);
+
                 retweetSelected(mStatus, callback);
             }
 
