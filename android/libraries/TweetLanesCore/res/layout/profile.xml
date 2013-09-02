@@ -108,7 +108,7 @@
                 android:paddingRight="20dip"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="The person's bio goes here. It could be anywhere up to 160 characters in length, which is anywhere up to and including the length of this wordly, informative string"
+                android:text="Loading bio..."
                 android:linksClickable="true"
                 />
 
