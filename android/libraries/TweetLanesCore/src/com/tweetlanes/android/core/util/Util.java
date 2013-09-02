@@ -32,37 +32,27 @@ import java.util.List;
 
 public final class Util {
 
-    /*
-     *
-	 */
     public static boolean isValidString(String s) {
         return s != null && !s.equals("");
     }
 
-    /*
-     *
-	 */
     public static String getFullDate(Date date) {
-        SimpleDateFormat formatted = new SimpleDateFormat(
-                "hh:mm aa - dd MMM yy");
+        SimpleDateFormat formatted = new SimpleDateFormat("hh:mm aa - dd MMM yy");
         return formatted.format(date);
     }
 
     private static String getShortDateYear(Date date) {
-        SimpleDateFormat formatted = new SimpleDateFormat(
-                "dd MMM yy, hh:mm aa");
+        SimpleDateFormat formatted = new SimpleDateFormat("dd MMM yy, hh:mm aa");
         return formatted.format(date);
     }
 
     private static String getShortDate(Date date) {
-        SimpleDateFormat formatted = new SimpleDateFormat(
-                "dd MMM, hh:mm aa");
+        SimpleDateFormat formatted = new SimpleDateFormat("dd MMM, hh:mm aa");
         return formatted.format(date);
     }
 
     private static String getTimeOnly(Date date) {
-        SimpleDateFormat formatted = new SimpleDateFormat(
-                "hh:mm aa");
+        SimpleDateFormat formatted = new SimpleDateFormat("hh:mm aa");
         return formatted.format(date);
     }
 
@@ -99,7 +89,9 @@ public final class Util {
     public static String getPrettyFullDate(Date date)
     {
         Date currentDate = new Date();
-        int diffInDays = (int) ((currentDate.getTime() - date.getTime()) / (1000 * 60 * 60 * 24));
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        int diffInDays = sdf.format(currentDate).compareTo(sdf.format(date));
+
         if(diffInDays > 0)
         {
             if(diffInDays > 300)

@@ -103,6 +103,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     private TextView mListHeadingTextView;
     private ImageView mListHeadingHideImage;
     private boolean mHidingListHeading = false;
+    private boolean mDetached = false;
     private TwitterContentHandle mContentHandle;
     private TwitterStatuses _mStatusFeed; // Don't touch me directly. Use the
     // accessors
@@ -192,6 +193,13 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
         state.putInt("NewStatuses", mNewStatuses);
         state.putBoolean("HidingListHeading", mHidingListHeading);
+    }
+
+    @Override
+    public void onDetach ()
+    {
+        super.onDetach();
+        mDetached = true;
     }
 
     /*
@@ -885,7 +893,10 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                 mLastTwitterStatusIdSeen = visibleStatus.mId;
             }
 
-            updateListHeading(statusIndex.intValue() + 1);
+            if(!mDetached)
+            {
+                updateListHeading(statusIndex.intValue() + 1);
+            }
         } else {
             showToast(getString(R.string.lost_position));
         }
