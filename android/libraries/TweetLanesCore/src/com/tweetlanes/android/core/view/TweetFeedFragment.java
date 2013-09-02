@@ -222,13 +222,12 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             updateViewVisibility(false);
             setInitialDownloadState(InitialDownloadState.WAITING);
         } else {
+            setInitialDownloadState(InitialDownloadState.DOWNLOADED);
+            updateViewVisibility(true);
 
             if (autoUpdateStatuses) {
                 fetchNewestTweets();
             }
-
-            setInitialDownloadState(InitialDownloadState.DOWNLOADED);
-            updateViewVisibility(true);
         }
     }
 
