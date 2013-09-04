@@ -103,7 +103,12 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
                         }
                     } else {
                         Intent returnIntent = new Intent();
-                        returnIntent.putExtra("status", mStatus.toString());
+                        if(mStatus!=null){
+                            returnIntent.putExtra("status", mStatus.toString());
+                        }
+                        else{
+                            returnIntent.putExtra("status", "");
+                        }
                         setResult(RESULT_OK, returnIntent);
                         finish();
                     }

@@ -485,6 +485,11 @@ public class TwitterStatuses {
     }
 
     private TwitterStatus get(int index) {
+
+        if(index >= _mStatuses.size()){
+            return null;
+        }
+
         return _mStatuses.get(index);
     }
 
