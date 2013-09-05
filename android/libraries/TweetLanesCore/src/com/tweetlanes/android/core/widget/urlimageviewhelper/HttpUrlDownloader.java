@@ -1,8 +1,10 @@
+
 package com.tweetlanes.android.core.widget.urlimageviewhelper;
 
 import android.content.Context;
 import android.os.AsyncTask;
 
+import com.tweetlanes.android.core.util.Util;
 import com.tweetlanes.android.core.widget.urlimageviewhelper.UrlImageViewHelper.RequestPropertiesCallback;
 
 import org.apache.http.NameValuePair;
@@ -20,11 +22,10 @@ public class HttpUrlDownloader implements UrlDownloader {
         final AsyncTask<Void, Void, Void> downloader = new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(final Void... params) {
+                HttpURLConnection urlConnection = null;
+                InputStream is = null;
                 try {
-                    InputStream is;
-
                     String thisUrl = url;
-                    HttpURLConnection urlConnection;
                     while (true) {
                         final URL u = new URL(thisUrl);
                         urlConnection = (HttpURLConnection) u.openConnection();
@@ -54,6 +55,12 @@ public class HttpUrlDownloader implements UrlDownloader {
                 } catch (final Throwable e) {
                     e.printStackTrace();
                     return null;
+                } finally {
+                    if (urlConnection != null) {
+                        urlConnection.disconnect();
+                        urlConnection = null;
+                    }
+                    Util.closeQuietly(is);
                 }
             }
 
