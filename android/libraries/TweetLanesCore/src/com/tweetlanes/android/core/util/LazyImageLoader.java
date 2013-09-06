@@ -141,11 +141,14 @@ public class LazyImageLoader {
 
     // decodes image and scales it to reduce memory consumption
     private Bitmap decodeFile(File f) {
+        InputStream enter = null;
+        InputStream exit = null;
         try {
             // decode image size
+            enter = new FileInputStream(f);
             final BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;
-            BitmapFactory.decodeStream(new FileInputStream(f), null, options);
+            BitmapFactory.decodeStream(enter, null, options);
 
             // Find the correct scale value. It should be the power of 2.
             int width_tmp = options.outWidth, height_tmp = options.outHeight;
@@ -158,10 +161,10 @@ public class LazyImageLoader {
             }
 
             // decode with inSampleSize
+            exit = new FileInputStream(f);
             final BitmapFactory.Options o2 = new BitmapFactory.Options();
             o2.inSampleSize = scale;
-            final Bitmap bitmap = BitmapFactory.decodeStream(
-                    new FileInputStream(f), null, o2);
+            final Bitmap bitmap = BitmapFactory.decodeStream(exit, null, o2);
             if (bitmap == null) {
                 // The file is corrupted, so we remove it from cache.
                 if (f.isFile()) {
@@ -171,6 +174,9 @@ public class LazyImageLoader {
             return bitmap;
         } catch (final FileNotFoundException e) {
             // e.printStackTrace();
+        } finally {
+            Util.closeQuietly(enter);
+            Util.closeQuietly(exit);
         }
         return null;
     }
@@ -345,16 +351,16 @@ public class LazyImageLoader {
                 final InputStream is = conn.getInputStream();
                 final OutputStream os = new FileOutputStream(f);
                 copyStream(is, os);
+                is.close();
                 os.close();
                 bitmap = decodeFile(f);
 
-                int bitmapBytes = bitmap.getByteCount();
+                final int bitmapBytes = bitmap.getByteCount();
                 if (bitmapBytes == 0) {
                     if (isRetry) {
                         return null;
-                    } else {
-                        return DownloadBitmapFromWeb(url, f, true);
                     }
+                    return DownloadBitmapFromWeb(url, f, true);
                 }
                 mFileCache.saveFile(bitmap, url);
                 return bitmap;
