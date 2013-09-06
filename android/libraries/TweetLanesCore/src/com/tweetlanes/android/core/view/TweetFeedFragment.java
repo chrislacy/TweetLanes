@@ -770,7 +770,13 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
         SocialNetConstant.Type socialNetType = getApp().getCurrentAccount().getSocialNetType();
 
-        TwitterStatus status = getStatusFeed().getStatus(firstVisibleItem);
+        TwitterStatuses twitterStatuses = getStatusFeed();
+        TwitterStatus status = null;
+
+        if(twitterStatuses!=null)
+        {
+            status = twitterStatuses.getStatus(firstVisibleItem);
+        }
 
         if (mTwitterStatusIdWhenRefreshed != null && mTwitterStatusIdWhenRefreshed > 0 && firstVisibleItem > 0) {
             if (!mHidingListHeading) {
@@ -791,7 +797,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                     if (status != null &&  status.mId >= mLastTwitterStatusIdSeen) {
                         mLastTwitterStatusIdSeen = status.mId;
                     }
-                    
+
                     setListHeadingVisiblilty(View.GONE);
                     mTwitterStatusIdWhenRefreshed = null;
                 }
