@@ -87,15 +87,28 @@ public class BootActivity extends Activity {
                 Uri uriData = getIntent().getData();
                 if (uriData != null) {
                     String host = uriData.getHost();
-                    String statusId = uriData.getLastPathSegment();
+                    String statusId = "";
+
                     finish();
 
                     if (host.contains("twitter")) {
+                        boolean nextPartStatus = false;
+                        for (String uriPart : uriData.getPathSegments()){
+                            if(nextPartStatus==true){
+                                statusId = uriPart;
+                                break;
+                            }
+                            if(uriPart.toLowerCase().equals("status")){
+                                nextPartStatus = true;
+                            }
+                        }
                         if (getApp().getCurrentAccount().getSocialNetType() != SocialNetConstant.Type.Twitter) {
                             changeToFirstAccountOfType(SocialNetConstant.Type.Twitter);
                         }
                     }
                     else if (host.contains("app.net")) {
+                        statusId = uriData.getLastPathSegment();
+
                         if (getApp().getCurrentAccount().getSocialNetType() != SocialNetConstant.Type.Appdotnet) {
                             changeToFirstAccountOfType(SocialNetConstant.Type.Appdotnet);
                         }
