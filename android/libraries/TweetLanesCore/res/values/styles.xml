@@ -114,15 +114,15 @@
     </style>
 
     <style name="background_light">
-        <item name="android:background">#fff</item>
+        <item name="android:background">@android:color/white</item>
     </style>
 
     <style name="feed_background_light">
-        <item name="android:background">#fff</item>
+        <item name="android:background">@null</item>
     </style>
 
     <style name="list_background_light">
-        <item name="android:background">#fff1f1f1</item>
+        <item name="android:background">@null</item>
     </style>
 
     <style name="free_for_life_background_light">
@@ -130,14 +130,15 @@
     </style>
 
     <style name="background_dark">
-        <item name="android:background">#000</item>
+        <item name="android:background">@android:color/black</item>
     </style>
 
     <style name="feed_background_dark">
+        <item name="android:background">@null</item>
     </style>
 
     <style name="list_background_dark">
-        <item name="android:background">#ff0f0f0f</item>
+        <item name="android:background">@null</item>
     </style>
 
     <style name="free_for_life_background_dark">

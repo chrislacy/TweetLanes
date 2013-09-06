@@ -115,6 +115,12 @@ public class TweetFeedItemView extends LinearLayout {
 
     void init(Context context) {
         mContext = context;
+        final int theme = AppSettings.get().getCurrentThemeStyle();
+        int background = android.R.color.white;
+        if (theme == R.style.Theme_TweetLanes) {
+            background = android.R.color.black;
+        }
+        setBackgroundColor(getResources().getColor(background));
     }
 
     /*
