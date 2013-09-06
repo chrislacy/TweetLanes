@@ -248,7 +248,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 	 */
     void fetchNewestTweets(final long sinceStatusId, Long maxStatusId) {
 
-        mTweetFeedListView.setRefreshing();
+        mTweetFeedListView.setRefreshing(false);
 
         if (mTweetDataRefreshCallback == null) {
 
@@ -515,7 +515,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         TwitterManager.get()
                 .triggerFetchStatuses(mContentHandle, null, mTweetDataRefreshCallback, getAsyncTaskPriorityOffset());
         setInitialDownloadState(InitialDownloadState.DOWNLOADING);
-        mTweetFeedListView.setRefreshing();
+        mTweetFeedListView.setRefreshing(true);
     }
 
     /*
