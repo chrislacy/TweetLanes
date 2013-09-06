@@ -695,7 +695,7 @@ public final class DiskLruCache implements Closeable {
         deleteContents(directory);
     }
 
-    private void validateKey(String key) {
+    private static void validateKey(String key) {
         if (key.contains(" ") || key.contains("\n") || key.contains("\r")) {
             throw new IllegalArgumentException(
                     "keys must not contain spaces or newlines: \"" + key + "\"");

@@ -85,8 +85,7 @@ public class TwitterStatusUpdate {
     private final Long mInReplyToStatusId;
     private String mMediaFilePath;
 
-
-    private File getMediaFile(String mediaFilePath) throws IOException {
+    private static File getMediaFile(String mediaFilePath) throws IOException {
 
         if (mediaFilePath == null) {
             return null;
@@ -108,7 +107,7 @@ public class TwitterStatusUpdate {
         return resizedFile;
     }
 
-    private Bitmap TryResizeImage(File originalFile) throws FileNotFoundException {
+    private static Bitmap TryResizeImage(File originalFile) throws FileNotFoundException {
         Bitmap resizeImage = null;
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
@@ -133,14 +132,16 @@ public class TwitterStatusUpdate {
             options = new BitmapFactory.Options();
             options.inSampleSize = scale;
 
-            resizeImage = BitmapFactory.decodeStream(new FileInputStream(originalFile), null, options);
+            resizeImage = BitmapFactory.decodeStream(new FileInputStream(originalFile), null,
+                    options);
         }
 
         return resizeImage;
     }
 
-    private File SaveImage(Bitmap resizeImage) {
-        File path = new File(Environment.getExternalStorageDirectory(), "temp/images/Tweet Lanes");
+    private static File SaveImage(Bitmap resizeImage) {
+        final File path = new File(Environment.getExternalStorageDirectory(),
+                "temp/images/Tweet Lanes");
 
         File tempFile = null;
 

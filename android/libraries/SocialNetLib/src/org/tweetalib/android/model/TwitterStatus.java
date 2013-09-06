@@ -551,7 +551,7 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
     /*
 	 *
 	 */
-    private boolean compareString(String string1, String string2) {
+    private static boolean compareString(String string1, String string2) {
         if (string1 == null) {
             if (string2 == null) {
                 return true;
@@ -565,7 +565,7 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
         return false;
     }
 
-    private boolean compareLong(Long long1, Long long2) {
+    private static boolean compareLong(Long long1, Long long2) {
         if (long1 == null) {
             if (long2 == null) {
                 return true;

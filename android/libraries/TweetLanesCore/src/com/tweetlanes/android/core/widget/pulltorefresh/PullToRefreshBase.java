@@ -627,7 +627,7 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout {
         }
     }
 
-    private void measureView(View child) {
+    private static void measureView(View child) {
         ViewGroup.LayoutParams p = child.getLayoutParams();
         if (p == null) {
             p = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,
