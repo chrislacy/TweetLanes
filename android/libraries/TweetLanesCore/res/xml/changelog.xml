@@ -21,6 +21,7 @@
         <change>Fix - Profile and service icon only show when you use both networks, or have 3 or more accounts</change>
         <change>Fix - Position in lanes remembered between loads and lane switches</change>
         <change>Fix - Profile URL is now expanded from a t.co</change>
+        <change>Fix - Close several leaks dealing with the image loader</change>
         <change>Fix - Significantly reduce overdraw in lists containing tweets</change>
 	    <change>Other - Large codebase tidy-up - hopefully small improvement to performance, size and reliability</change>
     </release>
