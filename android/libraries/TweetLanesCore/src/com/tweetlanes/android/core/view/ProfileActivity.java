@@ -11,7 +11,6 @@
 
 package com.tweetlanes.android.core.view;
 
-import com.tweetlanes.android.core.AppSettings;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
@@ -26,7 +25,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
 import com.tweetlanes.android.core.R;
@@ -227,15 +225,15 @@ public class ProfileActivity extends BaseLaneActivity {
 
         if (mScreenName != null) {
 
-            ActionBar actionBar = getActionBar();
+            final ActionBar actionBar = getActionBar();
             actionBar.setDisplayUseLogoEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setDisplayShowTitleEnabled(true);
+            actionBar.setTitle("@" + mScreenName);
 
-            LayoutInflater inflator = (LayoutInflater) this
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            final LayoutInflater inflator = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-            int layout = R.layout.profile_title_thin;
+            final int layout = R.layout.profile_title_thin;
             /*
              * // TODO: This is messy, and likely won't work for large screen
              * devices. Need to come up with a better solution int layout; if
@@ -245,28 +243,12 @@ public class ProfileActivity extends BaseLaneActivity {
              * R.layout.profile_title; }
              */
 
-            View profileTitleView = inflator.inflate(layout, null);
-            ((TextView) profileTitleView.findViewById(R.id.screenname))
-                    .setText("@" + mScreenName);
-
-            if(AppSettings.get().getCurrentThemeStyle() == R.style.Theme_TweetLanes_Light_DarkActionBar){
-                ((TextView) profileTitleView.findViewById(R.id.screenname)).setTextColor(getResources().getColor(R.color.white));
-            }
-
-            TextView fullNameTextView = (TextView) profileTitleView
-                    .findViewById(R.id.fullname);
-            if (fullNameTextView != null && mUser != null) {
-                fullNameTextView.setText(mUser.getName());
-            }
-
-            ImageView verifiedImage = (ImageView) profileTitleView
-                    .findViewById(R.id.verifiedImage);
-            verifiedImage
-                    .setVisibility(mUser != null && mUser.getVerified() ? View.VISIBLE
-                            : View.GONE);
+            final View abView = inflator.inflate(layout, null);
+            final ImageView verified = (ImageView) abView.findViewById(R.id.verifiedImage);
+            verified.setVisibility(mUser != null && mUser.getVerified() ? View.VISIBLE : View.GONE);
 
             actionBar.setDisplayShowCustomEnabled(true);
-            actionBar.setCustomView(profileTitleView);
+            actionBar.setCustomView(abView);
         }
     }
 
