@@ -21,7 +21,9 @@ import android.util.DisplayMetrics;
 
 import com.tweetlanes.android.core.AppSettings;
 
+import java.io.Closeable;
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.Proxy;
 import java.net.URL;
@@ -320,4 +322,21 @@ public final class Util {
                         .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
                 albumName);
     }
+
+    /**
+     * Close the {@link Closeable} ignoring any {@link IOException}
+     * 
+     * @param closeable The {@link Closeable} to close
+     */
+    public static void closeQuietly(Closeable closeable) {
+        if (closeable != null) {
+            try {
+                closeable.close();
+                closeable = null;
+            } catch (final IOException ignored) {
+                // Nothing to do
+            }
+        }
+    }
+
 }
