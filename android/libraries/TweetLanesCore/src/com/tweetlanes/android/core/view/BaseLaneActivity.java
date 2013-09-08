@@ -807,13 +807,14 @@ class BaseLaneActivity extends FragmentActivity implements
 
     /**
      * Get a temporary file with a fixed (=known in advance) file name
-     *
+     * 
      * @param context activity context
      * @return a temp file in the external storage in a package-specific
      *         directory
      */
-    private File getFixedTempFile(Context context) {
-        File path = new File(Environment.getExternalStorageDirectory(), "temp/images/Tweet Lanes");
+    private static File getFixedTempFile(Context context) {
+        final File path = new File(Environment.getExternalStorageDirectory(),
+                "temp/images/Tweet Lanes");
         path.mkdirs();
 
         File tempFile;
@@ -829,8 +830,9 @@ class BaseLaneActivity extends FragmentActivity implements
      * @return a temp file in the external storage in a package-specific
      *         directory
      */
-    private File getTempFile(Context context) {
-        File path = new File(Environment.getExternalStorageDirectory(), "temp/images/Tweet Lanes");
+    private static File getTempFile(Context context) {
+        final File path = new File(Environment.getExternalStorageDirectory(),
+                "temp/images/Tweet Lanes");
         path.mkdirs();
 
         File tempFile;

@@ -125,7 +125,7 @@ public class LazyImageLoader {
         }
     }
 
-    private void copyStream(InputStream is, OutputStream os) {
+    private static void copyStream(InputStream is, OutputStream os) {
         final int buffer_size = 1024;
         try {
             final byte[] bytes = new byte[buffer_size];
@@ -305,8 +305,10 @@ public class LazyImageLoader {
             }
         }
 
-        private String getURLFilename(URL url) {
-            if (url == null) return null;
+        private static String getURLFilename(URL url) {
+            if (url == null) {
+                return null;
+            }
             return url.toString().replaceAll("[^a-zA-Z0-9]", "_");
         }
 
