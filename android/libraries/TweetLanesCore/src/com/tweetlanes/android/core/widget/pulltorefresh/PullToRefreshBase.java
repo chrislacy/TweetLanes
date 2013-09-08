@@ -278,7 +278,7 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout {
         }
     }
 
-    public final void setRefreshing() {
+    final void setRefreshing() {
         this.setRefreshing(true);
     }
 
@@ -288,7 +288,7 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout {
      *
      * @param doScroll - true if you want to force a scroll to the Refreshing view.
      */
-    final void setRefreshing(boolean doScroll) {
+    public final void setRefreshing(boolean doScroll) {
         if (!isRefreshing()) {
             setRefreshingInternal(doScroll);
             mState = MANUAL_REFRESHING;

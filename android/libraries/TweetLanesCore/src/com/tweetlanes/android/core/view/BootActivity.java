@@ -15,12 +15,14 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.crittercism.app.Crittercism;
 import com.tweetlanes.android.core.App;
 import com.tweetlanes.android.core.AppSettings;
 import com.tweetlanes.android.core.Constant;
 import com.tweetlanes.android.core.ConsumerKeyConstants;
+import com.tweetlanes.android.core.R;
 import com.tweetlanes.android.core.model.AccountDescriptor;
 
 import org.socialnetlib.android.SocialNetConstant;
@@ -87,21 +89,44 @@ public class BootActivity extends Activity {
                 Uri uriData = getIntent().getData();
                 if (uriData != null) {
                     String host = uriData.getHost();
-                    String statusId = uriData.getLastPathSegment();
-                    finish();
 
-                    if (host.contains("twitter")) {
-                        if (getApp().getCurrentAccount().getSocialNetType() != SocialNetConstant.Type.Twitter) {
-                            changeToFirstAccountOfType(SocialNetConstant.Type.Twitter);
-                        }
-                    }
-                    else if (host.contains("app.net")) {
-                        if (getApp().getCurrentAccount().getSocialNetType() != SocialNetConstant.Type.Appdotnet) {
-                            changeToFirstAccountOfType(SocialNetConstant.Type.Appdotnet);
-                        }
-                    }
 
-                    startTweetSpotlight(statusId);
+                    if(uriData.getPath().contains("/status/") || uriData.getPath().contains("/post/"))
+                    {
+                        String statusId = "";
+
+                        finish();
+
+                        if (host.contains("twitter")) {
+                            boolean nextPartStatus = false;
+                            for (String uriPart : uriData.getPathSegments()){
+                                if(nextPartStatus==true){
+                                    statusId = uriPart;
+                                    break;
+                                }
+                                if(uriPart.toLowerCase().equals("status")){
+                                    nextPartStatus = true;
+                                }
+                            }
+                            if (getApp().getCurrentAccount().getSocialNetType() != SocialNetConstant.Type.Twitter) {
+                                changeToFirstAccountOfType(SocialNetConstant.Type.Twitter);
+                            }
+                        }
+                        else if (host.contains("app.net")) {
+                            statusId = uriData.getLastPathSegment();
+
+                            if (getApp().getCurrentAccount().getSocialNetType() != SocialNetConstant.Type.Appdotnet) {
+                                changeToFirstAccountOfType(SocialNetConstant.Type.Appdotnet);
+                            }
+                        }
+
+                        startTweetSpotlight(statusId);
+                    }
+                    else
+                    {
+                        Toast.makeText(getApplicationContext(), getString(R.string.unknown_intent),
+                                Constant.DEFAULT_TOAST_DISPLAY_TIME).show();
+                    }
                 }
                 else if (mLastStartedClass != HomeActivity.class) {
                     mLastStartedClass = HomeActivity.class;
