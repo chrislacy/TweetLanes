@@ -1298,6 +1298,8 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                         @Override
                         public void finished(TwitterFetchResult result, TwitterStatus status) {
 
+                            boolean showUnsuccessful = false;
+
                             if (result != null && result.isSuccessful()) {
                                 if (status != null && status.mOriginalRetweetId > 0) {
                                     TwitterStatuses cachedStatuses = getStatusFeed();
@@ -1310,11 +1312,17 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                                         showToast(getString(R.string.retweeted_marking_un_successful));
                                     }
                                 } else {
-                                    if (!result.getErrorMessage().equals("CancelPressed") && !result.getErrorMessage().equals("QutotePressed")) {
-                                        showToast(getString(R.string.retweeted_un_successful));
+                                    if (result.getErrorMessage() == null){
+                                        showUnsuccessful = true;
+                                    } else if(!result.getErrorMessage().equals("CancelPressed") && !result.getErrorMessage().equals("QutotePressed")){
+                                        showUnsuccessful = true;
                                     }
                                 }
                             } else {
+                                showUnsuccessful = true;
+                            }
+
+                            if(showUnsuccessful){
                                 showToast(getString(R.string.retweeted_un_successful));
                             }
                         }
