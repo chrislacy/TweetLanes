@@ -593,6 +593,12 @@ abstract class ComposeBaseFragment extends Fragment {
         @Override
         public void onClick(View v) {
             String status = mEditText.getText().toString();
+            if (status==null || status.equals("")){
+                ComposeTweetDefault composeTweetDefault = getComposeTweetDefault();
+                if(composeTweetDefault!= null){
+                    status = composeTweetDefault.getStatus();
+                }
+            }
             onSendClick(status);
         }
     };
