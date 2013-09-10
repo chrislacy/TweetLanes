@@ -31,7 +31,9 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.text.TextUtils;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.ActionMode;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -69,7 +71,6 @@ import org.tweetalib.android.model.TwitterUser;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 class BaseLaneActivity extends FragmentActivity implements
         SearchView.OnQueryTextListener {
@@ -163,7 +164,7 @@ class BaseLaneActivity extends FragmentActivity implements
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
-        mComposeDirectMessageView = findViewById(R.id.composeTweetFragment);
+        mComposeDirectMessageView = findViewById(R.id.composeDirectMessageFragment);
         mComposeDirectMessageFragment = (ComposeDirectMessageFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.composeDirectMessageFragment);
         if (mComposeDirectMessageFragment != null) {
@@ -245,6 +246,7 @@ class BaseLaneActivity extends FragmentActivity implements
         LocalBroadcastManager.getInstance(this).unregisterReceiver(
                 mRestartAppReceiver);
 
+        clearCompose();
         super.onDestroy();
     }
 
@@ -304,7 +306,12 @@ class BaseLaneActivity extends FragmentActivity implements
 	 *
 	 */
     void setCurrentComposeFragment(int type) {
-        if (type == COMPOSE_DIRECT_MESSAGE) {
+        boolean share = false;
+        final String action = getIntent().getAction();
+        if (!TextUtils.isEmpty(action) && action.equals(Intent.ACTION_SEND)) {
+            share = true;
+        }
+        if (type == COMPOSE_DIRECT_MESSAGE && !share) {
             if (mCurrentComposeFragment != mComposeDirectMessageFragment) {
 
                 FragmentTransaction ft = getSupportFragmentManager()
@@ -345,7 +352,7 @@ class BaseLaneActivity extends FragmentActivity implements
     /*
 	 *
 	 */
-    private final HashMap<Integer, BaseLaneFragment> mLaneFragmentHashMap = new HashMap<Integer, BaseLaneFragment>();
+    private final SparseArray<BaseLaneFragment> mLaneFragmentHashMap = new SparseArray<BaseLaneFragment>();
     private int activeInitialDownloadCount = 0;
 
     /*
@@ -364,8 +371,8 @@ class BaseLaneActivity extends FragmentActivity implements
 	 */
     void clearFragmentsCache() {
         if (mLaneFragmentHashMap != null) {
-            for (Integer key : mLaneFragmentHashMap.keySet()) {
-                BaseLaneFragment lane = mLaneFragmentHashMap.get(key);
+            for (int i = 0; i < mLaneFragmentHashMap.size(); i++) {
+                final BaseLaneFragment lane = mLaneFragmentHashMap.valueAt(i);
                 lane.clearLocalCache();
             }
         }
@@ -723,12 +730,7 @@ class BaseLaneActivity extends FragmentActivity implements
 
         @Override
         public void onPageSelected(int position) {
-            if (mLaneFragmentHashMap != null
-                    && mLaneFragmentHashMap.containsKey(position)) {
-
-            }
-
-            int oldPosition = getApp().getCurrentAccount().getInitialLaneIndex();
+            final int oldPosition = getApp().getCurrentAccount().getInitialLaneIndex();
 
             getApp().getCurrentAccount().setCurrentLaneIndex(position);
             if (mCurrentActionMode != null) {
