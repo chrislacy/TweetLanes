@@ -225,6 +225,9 @@ public class HomeActivity extends BaseLaneActivity {
                         } catch (java.lang.IllegalArgumentException e) {
                             Toast.makeText(this, R.string.picture_attach_error,
                                     Toast.LENGTH_SHORT).show();
+                        } finally {
+                            cursor.close();
+                            cursor = null;
                         }
 
                         turnSoftKeyboardOff = false;
