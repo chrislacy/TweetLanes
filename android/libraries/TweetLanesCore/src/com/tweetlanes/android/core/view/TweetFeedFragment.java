@@ -16,6 +16,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
@@ -252,6 +253,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         if (mTweetDataRefreshCallback == null) {
 
             if (maxStatusId == null) {
+                getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
                 mTimesFetchCalled = 0;
                 TwitterStatus visibleStatus = getVisibleStatus();
                 if (visibleStatus != null && mLastTwitterStatusIdSeen < visibleStatus.mId) {
@@ -390,7 +392,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
             // View view = (View)listView.getItemAtPosition(visible);
 
-            int startIndex = Math.max(0, visibleIndex - 10);
+            int startIndex = 0;
             // int endIndex = Math.min(visibleIndex + 5,
             // Math.min(getStatusFeed().getStatusCount(),
             // mTweetFeedListAdapter.getCount()));
@@ -917,6 +919,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         }
 
         mTweetDataRefreshCallback = null;
+        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
     }
 
     /*
@@ -1298,6 +1301,8 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                         @Override
                         public void finished(TwitterFetchResult result, TwitterStatus status) {
 
+                            boolean showUnsuccessful = false;
+
                             if (result != null && result.isSuccessful()) {
                                 if (status != null && status.mOriginalRetweetId > 0) {
                                     TwitterStatuses cachedStatuses = getStatusFeed();
@@ -1310,11 +1315,17 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                                         showToast(getString(R.string.retweeted_marking_un_successful));
                                     }
                                 } else {
-                                    if (!result.getErrorMessage().equals("CancelPressed") && !result.getErrorMessage().equals("QutotePressed")) {
-                                        showToast(getString(R.string.retweeted_un_successful));
+                                    if (result.getErrorMessage() == null){
+                                        showUnsuccessful = true;
+                                    } else if(!result.getErrorMessage().equals("CancelPressed") && !result.getErrorMessage().equals("QutotePressed")){
+                                        showUnsuccessful = true;
                                     }
                                 }
                             } else {
+                                showUnsuccessful = true;
+                            }
+
+                            if(showUnsuccessful){
                                 showToast(getString(R.string.retweeted_un_successful));
                             }
                         }

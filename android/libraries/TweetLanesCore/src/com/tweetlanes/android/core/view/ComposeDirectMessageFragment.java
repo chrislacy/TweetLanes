@@ -145,6 +145,7 @@ public class ComposeDirectMessageFragment extends ComposeBaseFragment {
 
             mUpdatingStatus = false;
             mEditText.setEnabled(true);
+            mSendToEditText.setEnabled(true);
             mSendButton.setEnabled(true);
 
             if (result.isSuccessful()) {
@@ -224,6 +225,7 @@ public class ComposeDirectMessageFragment extends ComposeBaseFragment {
                     mUpdatingStatus = true;
                     mEditText.setHint(null);
                     mEditText.setEnabled(false);
+                    mSendToEditText.setEnabled(false);
                     mSendButton.setEnabled(false);
 
                     TwitterContentHandleBase contentBase = new TwitterContentHandleBase(TwitterConstant.ContentType.DIRECT_MESSAGES, TwitterConstant.DirectMessagesType.SENT_MESSAGE);
