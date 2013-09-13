@@ -545,6 +545,7 @@ public class HomeActivity extends BaseLaneActivity {
             clearFragmentsCache();
 
             app.setCurrentAccount(selectedAccount.getId());
+            mHomeLaneAdapter.notifyDataSetChanged();
 
             // From http://stackoverflow.com/a/3419987/328679
             Intent intent = getIntent();
