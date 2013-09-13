@@ -253,7 +253,9 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         if (mTweetDataRefreshCallback == null) {
 
             if (maxStatusId == null) {
-                getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
+                if(getActivity() != null){
+                    getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
+                }
                 mTimesFetchCalled = 0;
                 TwitterStatus visibleStatus = getVisibleStatus();
                 if (visibleStatus != null && mLastTwitterStatusIdSeen < visibleStatus.mId) {
@@ -919,7 +921,9 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         }
 
         mTweetDataRefreshCallback = null;
-        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+        if(getActivity() != null){
+            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+        }
     }
 
     /*
