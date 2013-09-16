@@ -40,13 +40,12 @@ public class BootActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setTheme(AppSettings.get().getCurrentThemeStyle());
-
         if (Constant.ENABLE_CRASH_TRACKING) {
             Crittercism.init(getApplicationContext(),
                     ConsumerKeyConstants.CRITTERCISM_APP_ID);
         }
 
+        setTheme(AppSettings.get().getCurrentThemeStyle());
         // LocalBroadcastManager.getInstance(this).registerReceiver(mOAuthLoginStateChangeReceiver,
         // new IntentFilter("" + SystemEvent.OAuthLoginStateChange));
     }
@@ -90,9 +89,9 @@ public class BootActivity extends Activity {
                 if (uriData != null) {
                     String host = uriData.getHost();
                     boolean urlValid = false;
+                    finish();
 
                     if (host.contains("twitter")) {
-                        finish();
                         if (getApp().getCurrentAccount().getSocialNetType() != SocialNetConstant.Type.Twitter) {
                             changeToFirstAccountOfType(SocialNetConstant.Type.Twitter);
                         }
