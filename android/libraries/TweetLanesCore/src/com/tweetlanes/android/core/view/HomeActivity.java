@@ -198,7 +198,7 @@ public class HomeActivity extends BaseLaneActivity {
         Bundle extras = intent.getExtras();
         if (extras != null) {
             String composeText = extras.getString("composeText");
-            if(!!composeText.isEmpty()){
+            if(composeText!= null && !composeText.isEmpty()){
                 beginShareStatus(composeText);
             }
         }
