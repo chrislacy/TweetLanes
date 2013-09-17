@@ -68,7 +68,10 @@ public class TwitterUtil {
 	 */
     public static String getStatusMarkup(AdnPost post) {
 
-        return getStatusMarkup(post.mText, null, null);
+        initCommon();
+        mAutoLink.setExtractURLWithoutProtocol(true);
+
+        return getStatusMarkup(post.mText, null, post.mUrls);
     }
 
     /*

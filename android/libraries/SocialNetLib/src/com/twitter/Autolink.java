@@ -70,6 +70,10 @@ public class Autolink {
         extractor.setExtractURLWithoutProtocol(false);
     }
 
+    public void setExtractURLWithoutProtocol(boolean newValue){
+        extractor.setExtractURLWithoutProtocol(newValue);
+    }
+
     String escapeBrackets(String text) {
         int len = text.length();
         if (len == 0) return text;
@@ -179,7 +183,7 @@ public class Autolink {
         linkText = linkText.replaceAll("^https?://", "").replaceAll("^www.", "");
 
         Map<String, String> attrs = new LinkedHashMap<String, String>();
-        attrs.put("href", url.toString());
+        attrs.put("href", urlEntity.getExpandedURL());
 
         linkToText(entity, linkText, attrs, builder);
     }
