@@ -141,7 +141,10 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
             Intent returnIntent = new Intent();
-            returnIntent.putExtra("status", mStatus.toString());
+            if (mStatus != null)
+            {
+                returnIntent.putExtra("status", mStatus.toString());
+            }
             setResult(RESULT_OK, returnIntent);
             finish();
             return true;
