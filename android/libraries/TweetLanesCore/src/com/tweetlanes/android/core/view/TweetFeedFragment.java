@@ -253,7 +253,9 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         if (mTweetDataRefreshCallback == null) {
 
             if (maxStatusId == null) {
-                getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
+                if (getActivity() != null) {
+                    getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
+                }
                 mTimesFetchCalled = 0;
                 TwitterStatus visibleStatus = getVisibleStatus();
                 if (visibleStatus != null && mLastTwitterStatusIdSeen < visibleStatus.mId) {
@@ -360,6 +362,9 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     }
 
     private static final String KEY_VISIBLE_STATUS_ID = "visibleStatusId";
+    private static final String KEY_LAST_SEEN_STATUS_ID = "lastSeenStatusId";
+    private static final String KEY_HIDE_LIST_HEADING = "hideListHeading";
+    private static final String KEY_REFRESH_STATUS_ID = "refreshStatusId";
     private static final String KEY_STATUSES = "statuses";
 
     /*
@@ -428,6 +433,9 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                 JSONObject object = new JSONObject();
                 try {
                     object.put(KEY_VISIBLE_STATUS_ID, visibleStatusId);
+                    object.put(KEY_LAST_SEEN_STATUS_ID, mLastTwitterStatusIdSeen);
+                    object.put(KEY_REFRESH_STATUS_ID, mTwitterStatusIdWhenRefreshed);
+                    object.put(KEY_HIDE_LIST_HEADING, mHidingListHeading);
                     JSONArray statusArray = new JSONArray();
                     int statusCount = statuses.getStatusCount();
                     for (int i = 0; i < statusCount; ++i) {
@@ -458,6 +466,16 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                 object = new JSONObject(cachedData);
                 if (object.has(KEY_VISIBLE_STATUS_ID)) {
                     mResumeStatusId = object.getLong(KEY_VISIBLE_STATUS_ID);
+                    if (object.has(KEY_LAST_SEEN_STATUS_ID)) {
+                        mLastTwitterStatusIdSeen = object.getLong(KEY_LAST_SEEN_STATUS_ID);
+                    }
+                    if (object.has(KEY_HIDE_LIST_HEADING)) {
+                        mHidingListHeading = object.getBoolean(KEY_HIDE_LIST_HEADING);
+                    }
+                    if (object.has(KEY_REFRESH_STATUS_ID)) {
+                        mTwitterStatusIdWhenRefreshed = object.getLong(KEY_REFRESH_STATUS_ID);
+                    }
+
                     if (object.has(KEY_STATUSES)) {
                         String statusesAsString = object.getString(KEY_STATUSES);
                         if (statusesAsString != null) {
@@ -472,6 +490,10 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                             TwitterManager.get().getFetchStatusesInstance().cacheHashtags(_mCachedStatusFeed);
 
                             setStatusFeed(_mCachedStatusFeed, false);
+                            if (getStatusFeed() != null && mLastTwitterStatusIdSeen != null) {
+                                updateListHeading(getStatusFeed().getStatusIndex(mLastTwitterStatusIdSeen));
+                            }
+
                             return true;
                         }
                     }
@@ -747,7 +769,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     }
 
     /*
-	 *
+     *
 	 */ private final OnClickListener mListHeadingHideImageOnClickListener = new OnClickListener() {
 
         @Override
@@ -775,8 +797,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         TwitterStatuses twitterStatuses = getStatusFeed();
         TwitterStatus status = null;
 
-        if(twitterStatuses!=null)
-        {
+        if (twitterStatuses != null) {
             status = twitterStatuses.getStatus(firstVisibleItem);
         }
 
@@ -796,7 +817,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                                     R.string.new_posts));
                 } else {
 
-                    if (status != null &&  status.mId >= mLastTwitterStatusIdSeen) {
+                    if (status != null && status.mId >= mLastTwitterStatusIdSeen) {
                         mLastTwitterStatusIdSeen = status.mId;
                     }
 
@@ -806,7 +827,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             }
         } else {
 
-            if (status != null &&  status.mId >= mLastTwitterStatusIdSeen) {
+            if (status != null && status.mId >= mLastTwitterStatusIdSeen) {
                 mLastTwitterStatusIdSeen = status.mId;
             }
 
@@ -919,7 +940,9 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         }
 
         mTweetDataRefreshCallback = null;
-        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+        if (getActivity() != null) {
+            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+        }
     }
 
     /*
@@ -1315,9 +1338,9 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                                         showToast(getString(R.string.retweeted_marking_un_successful));
                                     }
                                 } else {
-                                    if (result.getErrorMessage() == null){
+                                    if (result.getErrorMessage() == null) {
                                         showUnsuccessful = true;
-                                    } else if(!result.getErrorMessage().equals("CancelPressed") && !result.getErrorMessage().equals("QutotePressed")){
+                                    } else if (!result.getErrorMessage().equals("CancelPressed") && !result.getErrorMessage().equals("QutotePressed")) {
                                         showUnsuccessful = true;
                                     }
                                 }
@@ -1325,7 +1348,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                                 showUnsuccessful = true;
                             }
 
-                            if(showUnsuccessful){
+                            if (showUnsuccessful) {
                                 showToast(getString(R.string.retweeted_un_successful));
                             }
                         }

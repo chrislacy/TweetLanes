@@ -24,6 +24,8 @@
         <change>Fix - Profile URL is now expanded from a t.co</change>
         <change>Fix - Close several leaks dealing with the image loader</change>
         <change>Fix - Significantly reduce overdraw in lists containing tweets</change>
+        <change>Fix - Force close when switching accounts</change>
+        <change>Fix - New tweet count on close and re-open</change>
 	    <change>Other - Large codebase tidy-up - hopefully small improvement to performance, size and reliability</change>
     </release>
     <release version="1.2.0" versioncode="49">

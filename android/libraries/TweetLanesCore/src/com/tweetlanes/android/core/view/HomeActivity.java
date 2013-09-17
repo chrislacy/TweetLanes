@@ -194,9 +194,17 @@ public class HomeActivity extends BaseLaneActivity {
         boolean turnSoftKeyboardOff = true;
 
         Intent intent = getIntent();
+
+        Bundle extras = intent.getExtras();
+        if (extras != null) {
+            String composeText = extras.getString("composeText");
+            if(composeText!= null && !composeText.isEmpty()){
+                beginShareStatus(composeText);
+            }
+        }
+
         if (intent.getAction() == Intent.ACTION_SEND) {
 
-            Bundle extras = intent.getExtras();
             String type = intent.getType();
             if (type.equals("text/plain")) {
 
@@ -545,6 +553,7 @@ public class HomeActivity extends BaseLaneActivity {
             clearFragmentsCache();
 
             app.setCurrentAccount(selectedAccount.getId());
+            mHomeLaneAdapter.notifyDataSetChanged();
 
             // From http://stackoverflow.com/a/3419987/328679
             Intent intent = getIntent();
