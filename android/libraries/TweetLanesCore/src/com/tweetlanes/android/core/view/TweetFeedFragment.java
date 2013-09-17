@@ -491,7 +491,10 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
                             setStatusFeed(_mCachedStatusFeed, false);
                             if (getStatusFeed() != null && mLastTwitterStatusIdSeen != null) {
-                                updateListHeading(getStatusFeed().getStatusIndex(mLastTwitterStatusIdSeen));
+                                Integer index = getStatusFeed().getStatusIndex(mLastTwitterStatusIdSeen);
+                                if(index != null){
+                                    updateListHeading(index);
+                                }
                             }
 
                             return true;
