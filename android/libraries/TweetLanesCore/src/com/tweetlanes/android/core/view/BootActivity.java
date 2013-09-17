@@ -40,13 +40,12 @@ public class BootActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setTheme(AppSettings.get().getCurrentThemeStyle());
-
         if (Constant.ENABLE_CRASH_TRACKING) {
             Crittercism.init(getApplicationContext(),
                     ConsumerKeyConstants.CRITTERCISM_APP_ID);
         }
 
+        setTheme(AppSettings.get().getCurrentThemeStyle());
         // LocalBroadcastManager.getInstance(this).registerReceiver(mOAuthLoginStateChangeReceiver,
         // new IntentFilter("" + SystemEvent.OAuthLoginStateChange));
     }
@@ -89,43 +88,40 @@ public class BootActivity extends Activity {
                 Uri uriData = getIntent().getData();
                 if (uriData != null) {
                     String host = uriData.getHost();
+                    boolean urlValid = false;
+                    finish();
 
-
-                    if(uriData.getPath().contains("/status/") || uriData.getPath().contains("/post/"))
-                    {
-                        String statusId = "";
-
-                        finish();
-
-                        if (host.contains("twitter")) {
-                            boolean nextPartStatus = false;
-                            for (String uriPart : uriData.getPathSegments()){
-                                if(nextPartStatus==true){
-                                    statusId = uriPart;
-                                    break;
-                                }
-                                if(uriPart.toLowerCase().equals("status")){
-                                    nextPartStatus = true;
-                                }
-                            }
-                            if (getApp().getCurrentAccount().getSocialNetType() != SocialNetConstant.Type.Twitter) {
-                                changeToFirstAccountOfType(SocialNetConstant.Type.Twitter);
-                            }
-                        }
-                        else if (host.contains("app.net")) {
-                            statusId = uriData.getLastPathSegment();
-
-                            if (getApp().getCurrentAccount().getSocialNetType() != SocialNetConstant.Type.Appdotnet) {
-                                changeToFirstAccountOfType(SocialNetConstant.Type.Appdotnet);
-                            }
+                    if (host.contains("twitter")) {
+                        if (getApp().getCurrentAccount().getSocialNetType() != SocialNetConstant.Type.Twitter) {
+                            changeToFirstAccountOfType(SocialNetConstant.Type.Twitter);
                         }
 
-                        startTweetSpotlight(statusId);
+                        if(uriData.getPath().contains("/status/"))
+                        {
+                            String statusId = getUriPartAfterText(uriData, "status");
+                            startTweetSpotlight(statusId);
+                            urlValid = true;
+                        }
                     }
-                    else
+                    else if (host.contains("app.net")) {
+                        if (getApp().getCurrentAccount().getSocialNetType() != SocialNetConstant.Type.Appdotnet) {
+                            changeToFirstAccountOfType(SocialNetConstant.Type.Appdotnet);
+                        }
+
+                        if(uriData.getPath().contains("/post/"))
+                        {
+                            String statusId = getUriPartAfterText(uriData, "post");
+                            startTweetSpotlight(statusId);
+                            urlValid = true;
+                        }
+                    }
+
+                    if(!urlValid)
                     {
                         Toast.makeText(getApplicationContext(), getString(R.string.unknown_intent),
                                 Constant.DEFAULT_TOAST_DISPLAY_TIME).show();
+
+                        startHomeActivity("");
                     }
                 }
                 else if (mLastStartedClass != HomeActivity.class) {
@@ -153,6 +149,21 @@ public class BootActivity extends Activity {
 
     }
 
+    private String getUriPartAfterText(Uri uriData, String partBefore)
+    {
+        boolean nextPartStatus = false;
+        for (String uriPart : uriData.getPathSegments()){
+            if(nextPartStatus==true){
+                return uriPart;
+            }
+            if(uriPart.toLowerCase().equals(partBefore)){
+                nextPartStatus = true;
+            }
+        }
+
+        return "";
+    }
+
     private void changeToFirstAccountOfType(SocialNetConstant.Type socialNetType) {
         for (AccountDescriptor account : getApp().getAccounts()) {
             if (account.getSocialNetType() == socialNetType) {
@@ -165,6 +176,23 @@ public class BootActivity extends Activity {
     private void startTweetSpotlight(String statusId) {
         Intent tweetSpotlightIntent = new Intent(this, TweetSpotlightActivity.class);
         tweetSpotlightIntent.putExtra("statusId", statusId);
+        tweetSpotlightIntent.putExtra("clearCompose", "true");
+        overridePendingTransition(0, 0);
+        startActivity(tweetSpotlightIntent);
+    }
+
+    private void startHomeActivity(String composeText) {
+        Intent tweetSpotlightIntent = new Intent(this, HomeActivity.class);
+        if(!composeText.isEmpty()){
+            tweetSpotlightIntent.putExtra("composeText", composeText);
+        }
+        overridePendingTransition(0, 0);
+        startActivity(tweetSpotlightIntent);
+    }
+
+    private void startProfileSpotlight(String userName) {
+        Intent tweetSpotlightIntent = new Intent(this, ProfileActivity.class);
+        tweetSpotlightIntent.putExtra("userScreenName", userName);
         tweetSpotlightIntent.putExtra("clearCompose", "true");
         overridePendingTransition(0, 0);
         startActivity(tweetSpotlightIntent);

@@ -304,7 +304,9 @@ public class AppdotnetApi extends SocialNetApi {
 	 *
 	 */
     public AdnPost getAdnPost(long id) {
-        String postString = doGet("/stream/0/posts/" + id, null);
+        ParameterMap params = new ParameterMap();
+        params.add("include_post_annotations", "1");
+        String postString = doGet("/stream/0/posts/" + id, params);
         if (postString != null) {
             return new AdnPost(postString);
         }

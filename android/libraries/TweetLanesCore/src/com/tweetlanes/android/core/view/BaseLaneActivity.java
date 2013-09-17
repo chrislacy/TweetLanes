@@ -246,7 +246,6 @@ class BaseLaneActivity extends FragmentActivity implements
         LocalBroadcastManager.getInstance(this).unregisterReceiver(
                 mRestartAppReceiver);
 
-        clearCompose();
         super.onDestroy();
     }
 

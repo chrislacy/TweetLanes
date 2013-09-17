@@ -20,6 +20,8 @@ import org.tweetalib.android.TwitterUtil;
 import java.text.ParseException;
 import java.util.Date;
 
+import twitter4j.URLEntity;
+
 public class AdnPost {
 
     public long mId;
@@ -34,6 +36,7 @@ public class AdnPost {
     public boolean mIsFavorited;
     public AdnUser mOriginalAuthor;
     public AdnMedia mEmbeddedMedia;
+    public URLEntity[] mUrls;
 
     public AdnPost() {
     }
@@ -110,6 +113,17 @@ public class AdnPost {
                             String username = mention.getString("name");
                             // HACK
                             TwitterManager.addUserIdentifier(username, id);
+                        }
+                    }
+                }
+                if (entities.has("links")) {
+                    JSONArray jsonArray = entities.getJSONArray("links");
+                    mUrls = new URLEntity[jsonArray.length()];
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject link = jsonArray.getJSONObject(i);
+                        if (link.has("text") && link.has("url")) {
+                            URLEntity url = new AdnUrl(link.getString("text"),link.getString("url"));
+                            mUrls[i] = url;
                         }
                     }
                 }
