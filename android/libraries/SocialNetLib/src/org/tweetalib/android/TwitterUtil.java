@@ -35,11 +35,17 @@ import twitter4j.UserMentionEntity;
 public class TwitterUtil {
 
     private static Autolink mAutoLink;
+    private static boolean mAllowReInit = true;
 
     private static void initCommon() {
 
-        if (mAutoLink == null) {
-            mAutoLink = new Autolink();
+        if(mAllowReInit)
+        {
+            if (mAutoLink == null) {
+                mAutoLink = new Autolink();
+            }
+
+            mAutoLink.setExtractURLWithoutProtocol(false);
         }
     }
 
@@ -70,8 +76,12 @@ public class TwitterUtil {
 
         initCommon();
         mAutoLink.setExtractURLWithoutProtocol(true);
+        mAllowReInit = false;
 
-        return getStatusMarkup(post.mText, null, post.mUrls);
+        String statusMarkup =  getStatusMarkup(post.mText, null, post.mUrls);
+        mAllowReInit = true;
+
+        return statusMarkup;
     }
 
     /*

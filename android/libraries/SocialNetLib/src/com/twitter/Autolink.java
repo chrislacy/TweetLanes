@@ -183,7 +183,14 @@ public class Autolink {
         linkText = linkText.replaceAll("^https?://", "").replaceAll("^www.", "");
 
         Map<String, String> attrs = new LinkedHashMap<String, String>();
-        attrs.put("href", urlEntity.getExpandedURL());
+
+        if(urlEntity != null && urlEntity.getExpandedURL() != null){
+            attrs.put("href", urlEntity.getExpandedURL());
+        }
+        else
+        {
+            attrs.put("href", url.toString());
+        }
 
         linkToText(entity, linkText, attrs, builder);
     }
