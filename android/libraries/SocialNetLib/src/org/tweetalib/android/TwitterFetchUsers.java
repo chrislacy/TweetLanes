@@ -49,7 +49,7 @@ public class TwitterFetchUsers {
     }
 
     /*
-	 *
+     *
 	 */
     public interface FetchUsersWorkerCallbacks {
 
@@ -734,12 +734,13 @@ public class TwitterFetchUsers {
                         while (check) {
                             //Establish ids for this batch
                             for (int i = start; i < finish; i++) {
-                                fetchIds.add(ids[i]);
 
                                 if (ids.length - 1 == i) {
                                     check = false;
                                     break;
                                 }
+
+                                fetchIds.add(ids[i]);
                             }
 
                             //Mark where to start and end next time round
