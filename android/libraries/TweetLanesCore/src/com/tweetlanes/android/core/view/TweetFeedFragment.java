@@ -17,6 +17,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
@@ -243,6 +244,28 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         }
     }
 
+    private void lockScreenRotation()
+    {
+        if (getActivity() != null) {
+            switch (getActivity().getResources().getConfiguration().orientation)
+            {
+                case Configuration.ORIENTATION_PORTRAIT:
+                    getActivity().setRequestedOrientation( ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                    break;
+                case Configuration.ORIENTATION_LANDSCAPE:
+                    getActivity().setRequestedOrientation( ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                    break;
+            }
+        }
+    }
+
+    private void resetScreenRotation()
+    {
+        if (getActivity() != null) {
+            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+        }
+    }
+
     /*
      *
 	 */
@@ -253,9 +276,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         if (mTweetDataRefreshCallback == null) {
 
             if (maxStatusId == null) {
-                if (getActivity() != null) {
-                    getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
-                }
+                lockScreenRotation();
                 mTimesFetchCalled = 0;
                 TwitterStatus visibleStatus = getVisibleStatus();
                 if (visibleStatus != null && mLastTwitterStatusIdSeen < visibleStatus.mId) {
@@ -943,9 +964,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         }
 
         mTweetDataRefreshCallback = null;
-        if (getActivity() != null) {
-            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
-        }
+        resetScreenRotation();
     }
 
     /*
