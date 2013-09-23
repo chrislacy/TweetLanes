@@ -1335,10 +1335,16 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                                     TwitterStatus cachedStatus = cachedStatuses.findByStatusId(status.mOriginalRetweetId);
                                     if (cachedStatus != null) {
                                         cachedStatus.setRetweet(true);
-                                        showToast(getString(R.string.retweeted_successfully));
+                                        if(!mDetached)
+                                        {
+                                            showToast(getString(R.string.retweeted_successfully));
+                                        }
                                         setIsRetweet(true);
                                     } else {
-                                        showToast(getString(R.string.retweeted_marking_un_successful));
+                                        if(!mDetached)
+                                        {
+                                            showToast(getString(R.string.retweeted_marking_un_successful));
+                                        }
                                     }
                                 } else {
                                     if (result.getErrorMessage() == null) {
@@ -1351,7 +1357,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                                 showUnsuccessful = true;
                             }
 
-                            if (showUnsuccessful) {
+                            if (showUnsuccessful && !mDetached) {
                                 showToast(getString(R.string.retweeted_un_successful));
                             }
                         }
@@ -1390,14 +1396,20 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                                         }
                                     }
 
-                                    showToast(getString(settingFavorited ? R.string.favorited_successfully : R.string
-                                            .unfavorited_successfully));
+                                    if(!mDetached)
+                                    {
+                                        showToast(getString(settingFavorited ? R.string.favorited_successfully : R.string
+                                                .unfavorited_successfully));
+                                    }
 
                                     setIsFavorited(settingFavorited);
                                 } else {
                                     boolean newState = getSelectedFavoriteState() != ItemSelectedState.ALL;
-                                    showToast(getString(newState ? R.string.favorited_un_successfully : R.string
+                                    if(!mDetached)
+                                    {
+                                        showToast(getString(newState ? R.string.favorited_un_successfully : R.string
                                             .unfavorited_un_successfully));
+                                    }
                                 }
                             }
 
@@ -1429,7 +1441,10 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                                             _mCachedStatusFeed.remove(selectedStatuses);
                                     }
                                 } else {
-                                    showToast(getString(R.string.deleted_un_successfully));
+                                    if(!mDetached)
+                                    {
+                                        showToast(getString(R.string.deleted_un_successfully));
+                                    }
                                 }
                             }
                         };
@@ -1470,22 +1485,25 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                                         if (result.isSuccessful() && users != null && users.getUserCount() > 0) {
                                             int userCount = users.getUserCount();
                                             String notice;
-                                            if (itemId == R.id.action_report_for_spam) {
-                                                if (userCount == 1) {
-                                                    notice = "Reported @" + users.getUser(0).getScreenName() +
-                                                            " for Spam.";
+                                            if(!mDetached)
+                                            {
+                                                if (itemId == R.id.action_report_for_spam) {
+                                                    if (userCount == 1) {
+                                                        notice = "Reported @" + users.getUser(0).getScreenName() +
+                                                                " for Spam.";
+                                                    } else {
+                                                        notice = "Reported " + userCount + " users for Spam.";
+                                                    }
                                                 } else {
-                                                    notice = "Reported " + userCount + " users for Spam.";
+                                                    if (userCount == 1) {
+                                                        notice = "Blocked @" + users.getUser(0).getScreenName() + ".";
+                                                    } else {
+                                                        notice = "Blocked " + userCount + " users.";
+                                                    }
                                                 }
-                                            } else {
-                                                if (userCount == 1) {
-                                                    notice = "Blocked @" + users.getUser(0).getScreenName() + ".";
-                                                } else {
-                                                    notice = "Blocked " + userCount + " users.";
+                                                if (notice != null) {
+                                                    showToast(notice);
                                                 }
-                                            }
-                                            if (notice != null) {
-                                                showToast(notice);
                                             }
                                         }
                                     }
