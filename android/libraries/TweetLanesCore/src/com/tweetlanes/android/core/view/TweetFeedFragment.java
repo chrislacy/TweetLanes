@@ -244,23 +244,20 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         }
     }
 
-    private void lockScreenRotation()
-    {
+    private void lockScreenRotation() {
         if (getActivity() != null) {
-            switch (getActivity().getResources().getConfiguration().orientation)
-            {
+            switch (getActivity().getResources().getConfiguration().orientation) {
                 case Configuration.ORIENTATION_PORTRAIT:
-                    getActivity().setRequestedOrientation( ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                    getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                     break;
                 case Configuration.ORIENTATION_LANDSCAPE:
-                    getActivity().setRequestedOrientation( ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                    getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
                     break;
             }
         }
     }
 
-    private void resetScreenRotation()
-    {
+    private void resetScreenRotation() {
         if (getActivity() != null) {
             getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
         }
@@ -513,7 +510,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                             setStatusFeed(_mCachedStatusFeed, false);
                             if (getStatusFeed() != null && mLastTwitterStatusIdSeen != null) {
                                 Integer index = getStatusFeed().getStatusIndex(mLastTwitterStatusIdSeen);
-                                if(index != null){
+                                if (index != null) {
                                     updateListHeading(index);
                                 }
                             }
@@ -804,7 +801,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     };
 
     /*
-	 *
+     *
 	 */
     void setListHeadingVisiblilty(int value) {
         mListHeadingTextView.setVisibility(value);
@@ -949,20 +946,31 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         }
 
         if (statusIndex != null) {
-            mTweetFeedListView.getRefreshableView()
-                    .setSelectionFromTop(statusIndex.intValue() + 1, mScrollTracker.getFirstVisibleYOffset());
+            int newIndex = statusIndex.intValue() + 1;
+
+            if (mNewStatuses == 1 && getStatusFeed() != null) {
+                TwitterStatus firstStatus = getStatusFeed().getStatus(0);
+                if (firstStatus != null && firstStatus.getAuthorScreenName().equals(getApp().getCurrentAccount().getScreenName())) {
+                    newIndex = statusIndex.intValue();
+                }
+            }
+
+            mTweetFeedListView.getRefreshableView().setSelectionFromTop(newIndex, mScrollTracker.getFirstVisibleYOffset());
 
             if (visibleStatus != null && mLastTwitterStatusIdSeen < visibleStatus.mId) {
                 mLastTwitterStatusIdSeen = visibleStatus.mId;
             }
 
             if (!mDetached) {
-                updateListHeading(statusIndex.intValue() + 1);
+                updateListHeading(newIndex);
             }
         } else {
             showToast(getString(R.string.lost_position));
         }
 
+        if (mNewStatuses == 0) {
+            mTweetFeedListView.getRefreshableView().setSelectionFromTop(0, mScrollTracker.getFirstVisibleYOffset());
+        }
         mTweetDataRefreshCallback = null;
         resetScreenRotation();
     }
@@ -1354,14 +1362,12 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                                     TwitterStatus cachedStatus = cachedStatuses.findByStatusId(status.mOriginalRetweetId);
                                     if (cachedStatus != null) {
                                         cachedStatus.setRetweet(true);
-                                        if(!mDetached)
-                                        {
+                                        if (!mDetached) {
                                             showToast(getString(R.string.retweeted_successfully));
                                         }
                                         setIsRetweet(true);
                                     } else {
-                                        if(!mDetached)
-                                        {
+                                        if (!mDetached) {
                                             showToast(getString(R.string.retweeted_marking_un_successful));
                                         }
                                     }
@@ -1415,8 +1421,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                                         }
                                     }
 
-                                    if(!mDetached)
-                                    {
+                                    if (!mDetached) {
                                         showToast(getString(settingFavorited ? R.string.favorited_successfully : R.string
                                                 .unfavorited_successfully));
                                     }
@@ -1424,10 +1429,9 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                                     setIsFavorited(settingFavorited);
                                 } else {
                                     boolean newState = getSelectedFavoriteState() != ItemSelectedState.ALL;
-                                    if(!mDetached)
-                                    {
+                                    if (!mDetached) {
                                         showToast(getString(newState ? R.string.favorited_un_successfully : R.string
-                                            .unfavorited_un_successfully));
+                                                .unfavorited_un_successfully));
                                     }
                                 }
                             }
@@ -1460,8 +1464,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                                             _mCachedStatusFeed.remove(selectedStatuses);
                                     }
                                 } else {
-                                    if(!mDetached)
-                                    {
+                                    if (!mDetached) {
                                         showToast(getString(R.string.deleted_un_successfully));
                                     }
                                 }
@@ -1504,8 +1507,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                                         if (result.isSuccessful() && users != null && users.getUserCount() > 0) {
                                             int userCount = users.getUserCount();
                                             String notice;
-                                            if(!mDetached)
-                                            {
+                                            if (!mDetached) {
                                                 if (itemId == R.id.action_report_for_spam) {
                                                     if (userCount == 1) {
                                                         notice = "Reported @" + users.getUser(0).getScreenName() +
