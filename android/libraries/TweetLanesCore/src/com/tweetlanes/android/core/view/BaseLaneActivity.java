@@ -1242,9 +1242,7 @@ class BaseLaneActivity extends FragmentActivity implements
                 if (mComposeTweetView != null) {
                     mComposeTweetView.setVisibility(hasFocus ? View.GONE
                             : View.VISIBLE);
-                    hasFocus = false;
                 }
-
                 if (mComposeDirectMessageView != null) {
                     mComposeDirectMessageView
                             .setVisibility(hasFocus ? View.GONE : View.VISIBLE);
