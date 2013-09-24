@@ -1239,14 +1239,29 @@ class BaseLaneActivity extends FragmentActivity implements
             public void onFocusChange(View v, boolean hasFocus) {
 
                 mCurrentComposeFragment.setIgnoreFocusChange(true);
+
                 if (mComposeTweetView != null) {
-                    mComposeTweetView.setVisibility(hasFocus ? View.GONE
-                            : View.VISIBLE);
+                    mComposeTweetView.setVisibility(View.GONE);
                 }
                 if (mComposeDirectMessageView != null) {
-                    mComposeDirectMessageView
-                            .setVisibility(hasFocus ? View.GONE : View.VISIBLE);
+                    mComposeDirectMessageView.setVisibility(View.GONE);
                 }
+
+                if(!hasFocus)
+                {
+                    if (mCurrentComposeFragment == mComposeDirectMessageFragment) {
+                        if (mComposeDirectMessageView != null) {
+                            mComposeDirectMessageView.setVisibility(View.VISIBLE);
+                        }
+                    }
+                    else
+                    {
+                        if (mComposeTweetView != null) {
+                            mComposeTweetView.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }
+
                 mCurrentComposeFragment.setIgnoreFocusChange(false);
             }
 
