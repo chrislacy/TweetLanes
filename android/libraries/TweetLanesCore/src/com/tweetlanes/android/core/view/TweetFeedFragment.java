@@ -17,6 +17,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
@@ -243,6 +244,25 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         }
     }
 
+    private void lockScreenRotation() {
+        if (getActivity() != null) {
+            switch (getActivity().getResources().getConfiguration().orientation) {
+                case Configuration.ORIENTATION_PORTRAIT:
+                    getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                    break;
+                case Configuration.ORIENTATION_LANDSCAPE:
+                    getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                    break;
+            }
+        }
+    }
+
+    private void resetScreenRotation() {
+        if (getActivity() != null) {
+            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+        }
+    }
+
     /*
      *
 	 */
@@ -253,9 +273,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         if (mTweetDataRefreshCallback == null) {
 
             if (maxStatusId == null) {
-                if (getActivity() != null) {
-                    getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
-                }
+                lockScreenRotation();
                 mTimesFetchCalled = 0;
                 TwitterStatus visibleStatus = getVisibleStatus();
                 if (visibleStatus != null && mLastTwitterStatusIdSeen < visibleStatus.mId) {
@@ -492,7 +510,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                             setStatusFeed(_mCachedStatusFeed, false);
                             if (getStatusFeed() != null && mLastTwitterStatusIdSeen != null) {
                                 Integer index = getStatusFeed().getStatusIndex(mLastTwitterStatusIdSeen);
-                                if(index != null){
+                                if (index != null) {
                                     updateListHeading(index);
                                 }
                             }
@@ -783,7 +801,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     };
 
     /*
-	 *
+     *
 	 */
     void setListHeadingVisiblilty(int value) {
         mListHeadingTextView.setVisibility(value);
@@ -928,24 +946,33 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         }
 
         if (statusIndex != null) {
-            mTweetFeedListView.getRefreshableView()
-                    .setSelectionFromTop(statusIndex.intValue() + 1, mScrollTracker.getFirstVisibleYOffset());
+            int newIndex = statusIndex.intValue() + 1;
+
+            if (mNewStatuses == 1 && getStatusFeed() != null) {
+                TwitterStatus firstStatus = getStatusFeed().getStatus(0);
+                if (firstStatus != null && firstStatus.getAuthorScreenName().equals(getApp().getCurrentAccount().getScreenName())) {
+                    newIndex = statusIndex.intValue();
+                }
+            }
+
+            mTweetFeedListView.getRefreshableView().setSelectionFromTop(newIndex, mScrollTracker.getFirstVisibleYOffset());
 
             if (visibleStatus != null && mLastTwitterStatusIdSeen < visibleStatus.mId) {
                 mLastTwitterStatusIdSeen = visibleStatus.mId;
             }
 
             if (!mDetached) {
-                updateListHeading(statusIndex.intValue() + 1);
+                updateListHeading(newIndex);
             }
         } else {
             showToast(getString(R.string.lost_position));
         }
 
-        mTweetDataRefreshCallback = null;
-        if (getActivity() != null) {
-            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+        if (mNewStatuses == 0) {
+            mTweetFeedListView.getRefreshableView().setSelectionFromTop(0, mScrollTracker.getFirstVisibleYOffset());
         }
+        mTweetDataRefreshCallback = null;
+        resetScreenRotation();
     }
 
     /*
@@ -1335,10 +1362,14 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                                     TwitterStatus cachedStatus = cachedStatuses.findByStatusId(status.mOriginalRetweetId);
                                     if (cachedStatus != null) {
                                         cachedStatus.setRetweet(true);
-                                        showToast(getString(R.string.retweeted_successfully));
+                                        if (!mDetached) {
+                                            showToast(getString(R.string.retweeted_successfully));
+                                        }
                                         setIsRetweet(true);
                                     } else {
-                                        showToast(getString(R.string.retweeted_marking_un_successful));
+                                        if (!mDetached) {
+                                            showToast(getString(R.string.retweeted_marking_un_successful));
+                                        }
                                     }
                                 } else {
                                     if (result.getErrorMessage() == null) {
@@ -1351,7 +1382,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                                 showUnsuccessful = true;
                             }
 
-                            if (showUnsuccessful) {
+                            if (showUnsuccessful && !mDetached) {
                                 showToast(getString(R.string.retweeted_un_successful));
                             }
                         }
@@ -1390,14 +1421,18 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                                         }
                                     }
 
-                                    showToast(getString(settingFavorited ? R.string.favorited_successfully : R.string
-                                            .unfavorited_successfully));
+                                    if (!mDetached) {
+                                        showToast(getString(settingFavorited ? R.string.favorited_successfully : R.string
+                                                .unfavorited_successfully));
+                                    }
 
                                     setIsFavorited(settingFavorited);
                                 } else {
                                     boolean newState = getSelectedFavoriteState() != ItemSelectedState.ALL;
-                                    showToast(getString(newState ? R.string.favorited_un_successfully : R.string
-                                            .unfavorited_un_successfully));
+                                    if (!mDetached) {
+                                        showToast(getString(newState ? R.string.favorited_un_successfully : R.string
+                                                .unfavorited_un_successfully));
+                                    }
                                 }
                             }
 
@@ -1429,7 +1464,9 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                                             _mCachedStatusFeed.remove(selectedStatuses);
                                     }
                                 } else {
-                                    showToast(getString(R.string.deleted_un_successfully));
+                                    if (!mDetached) {
+                                        showToast(getString(R.string.deleted_un_successfully));
+                                    }
                                 }
                             }
                         };
@@ -1470,22 +1507,24 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                                         if (result.isSuccessful() && users != null && users.getUserCount() > 0) {
                                             int userCount = users.getUserCount();
                                             String notice;
-                                            if (itemId == R.id.action_report_for_spam) {
-                                                if (userCount == 1) {
-                                                    notice = "Reported @" + users.getUser(0).getScreenName() +
-                                                            " for Spam.";
+                                            if (!mDetached) {
+                                                if (itemId == R.id.action_report_for_spam) {
+                                                    if (userCount == 1) {
+                                                        notice = "Reported @" + users.getUser(0).getScreenName() +
+                                                                " for Spam.";
+                                                    } else {
+                                                        notice = "Reported " + userCount + " users for Spam.";
+                                                    }
                                                 } else {
-                                                    notice = "Reported " + userCount + " users for Spam.";
+                                                    if (userCount == 1) {
+                                                        notice = "Blocked @" + users.getUser(0).getScreenName() + ".";
+                                                    } else {
+                                                        notice = "Blocked " + userCount + " users.";
+                                                    }
                                                 }
-                                            } else {
-                                                if (userCount == 1) {
-                                                    notice = "Blocked @" + users.getUser(0).getScreenName() + ".";
-                                                } else {
-                                                    notice = "Blocked " + userCount + " users.";
+                                                if (notice != null) {
+                                                    showToast(notice);
                                                 }
-                                            }
-                                            if (notice != null) {
-                                                showToast(notice);
                                             }
                                         }
                                     }
