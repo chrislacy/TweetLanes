@@ -354,6 +354,12 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                     TwitterStatuses selectedStatuses = new TwitterStatuses(cachedStatus);
                     if (statusFeed != null) statusFeed.remove(selectedStatuses);
                     if (_mCachedStatusFeed != null) _mCachedStatusFeed.remove(selectedStatuses);
+
+                    setStatusFeed(getStatusFeed(), true);
+                    mTweetFeedListAdapter.notifyDataSetChanged();
+                    mTweetFeedListView.onRefreshComplete();
+                    updateViewVisibility(true);
+
                 } else {
                     cachedStatus.setFavorite(status.mIsFavorited);
                     cachedStatus.setRetweet(status.mIsRetweetedByMe);
@@ -1446,23 +1452,26 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                 mode.finish();
 
             } else if (itemId == R.id.action_delete_status) {
-                TwitterStatuses selectedStatuses = getSelectedStatuses();
+                final TwitterStatuses selected = getSelectedStatuses();
                 TwitterModifyStatuses.FinishedDeleteCallback callback =
-                        TwitterManager.get().getSetStatusesInstance().new FinishedDeleteCallback(selectedStatuses) {
+                        TwitterManager.get().getSetStatusesInstance().new FinishedDeleteCallback(selected) {
 
                             @Override
                             public void finished(boolean successful, TwitterStatuses statuses, Integer value) {
                                 if (successful) {
 
                                     showToast(getString(R.string.deleted_successfully));
-                                    TwitterStatuses cachedStatuses = getStatusFeed();
-                                    TwitterStatuses selectedStatuses = getSelectedStatuses();
-                                    if (selectedStatuses != null && selectedStatuses.getStatusCount() > 0) {
-                                        if (cachedStatuses != null)
-                                            cachedStatuses.remove(selectedStatuses);
-                                        if (_mCachedStatusFeed != null)
-                                            _mCachedStatusFeed.remove(selectedStatuses);
+                                    if (getStatusFeed() != null) {
+                                        getStatusFeed().remove(selected);
                                     }
+                                    if (_mCachedStatusFeed != null){
+                                        _mCachedStatusFeed.remove(selected);
+                                    }
+
+                                    setStatusFeed(getStatusFeed(), true);
+                                    mTweetFeedListAdapter.notifyDataSetChanged();
+                                    mTweetFeedListView.onRefreshComplete();
+                                    updateViewVisibility(true);
                                 } else {
                                     if (!mDetached) {
                                         showToast(getString(R.string.deleted_un_successfully));
@@ -1471,7 +1480,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                             }
                         };
 
-                TwitterManager.get().deleteTweet(selectedStatuses, callback);
+                TwitterManager.get().deleteTweet(selected, callback);
                 mode.finish();
             } else if (itemId == R.id.action_report_for_spam || itemId == R.id.action_block) {
                 AccountDescriptor account = getApp().getCurrentAccount();
@@ -1497,6 +1506,9 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
                                         if (getStatusFeed() != null) {
                                             getStatusFeed().remove(selected);
+                                        }
+                                        if (_mCachedStatusFeed != null){
+                                            _mCachedStatusFeed.remove(selected);
                                         }
 
                                         setStatusFeed(getStatusFeed(), true);

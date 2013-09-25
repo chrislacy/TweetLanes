@@ -189,7 +189,7 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
             mAuthorName = post.mOriginalAuthor.mName;
             mAuthorScreenName = post.mOriginalAuthor.mUserName;
             SetProfileImagesFromUser(new TwitterUser(post.mOriginalAuthor));
-            mOriginalRetweetId = post.mOriginalAuthor.mId;
+            mOriginalRetweetId = post.mOriginalId;
         } else {
             SetProfileImagesFromUser(new TwitterUser(post.mUser));
         }
