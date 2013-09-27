@@ -38,4 +38,11 @@
             android:text="ScreenName"
             android:textSize="@dimen/account_row_size"
             android:layout_marginLeft="10dp"/>
+
+    <TextView
+            android:id="@+id/filler"
+            android:layout_width="1px"
+            android:layout_height="48dp"
+            android:adjustViewBounds="true"
+            />
 </LinearLayout>
