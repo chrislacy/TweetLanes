@@ -814,6 +814,7 @@ public class HomeActivity extends BaseLaneActivity {
                 holder.AvatarImage = (ImageView) row.findViewById(R.id.accountAvatar);
                 holder.ServiceImage = (ImageView) row.findViewById(R.id.serviceImage);
                 holder.ScreenName = (TextView) row.findViewById(R.id.accountScreenName);
+                holder.Filler = (TextView) row.findViewById(R.id.filler);
 
                 row.setTag(holder);
             } else {
@@ -833,9 +834,11 @@ public class HomeActivity extends BaseLaneActivity {
 
             if (mShowImages) {
                 setProfileImage(account.AvatarImageUrl, account.ServiceType, holder.AvatarImage, holder.ServiceImage);
+                holder.Filler.setVisibility(View.GONE);
             } else {
                 holder.AvatarImage.setVisibility(View.GONE);
                 holder.ServiceImage.setVisibility(View.GONE);
+                holder.Filler.setVisibility(View.VISIBLE);
             }
 
             return row;
@@ -859,6 +862,7 @@ public class HomeActivity extends BaseLaneActivity {
             public ImageView AvatarImage;
             public ImageView ServiceImage;
             public TextView ScreenName;
+            public TextView Filler;
         }
 
         private void setProfileImage(String profileImageUrl, SocialNetConstant.Type serviceType, ImageView avatar, ImageView service) {
