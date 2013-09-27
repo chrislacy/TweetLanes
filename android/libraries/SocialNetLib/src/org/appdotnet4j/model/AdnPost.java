@@ -35,6 +35,7 @@ public class AdnPost {
     public boolean mIsRetweetedByMe;
     public boolean mIsFavorited;
     public AdnUser mOriginalAuthor;
+    public long mOriginalId;
     public AdnMedia mEmbeddedMedia;
     public URLEntity[] mUrls;
 
@@ -60,6 +61,7 @@ public class AdnPost {
                 AdnPost repost = new AdnPost(object.getJSONObject("repost_of")
                         .toString());
                 mOriginalAuthor = repost.mUser;
+                mOriginalId = repost.mId;
                 mText = repost.mText;
                 mEmbeddedMedia = repost.mEmbeddedMedia;
             }
