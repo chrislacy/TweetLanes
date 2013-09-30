@@ -17,12 +17,16 @@
 package org.tweetalib.android;
 
 import android.util.Log;
+
 import org.appdotnet4j.model.AdnPaging;
+
 import twitter4j.Paging;
 
 public class TwitterPaging {
 
     public static final int DEFAULT_STATUS_COUNT = 100;
+    public static final int INCREMENTING_STATUS_COUNT_START = 25;
+    public static final int INCREMENTING_STATUS_COUNT_MAX = 200;
 
     /*
      *
@@ -50,7 +54,7 @@ public class TwitterPaging {
         if (page != null) {
             mPage = page;
         }
-        if (count != null) {
+        if (count != null && count > 0) {
             mCount = count;
         } else {
             mCount = DEFAULT_STATUS_COUNT;
@@ -138,33 +142,15 @@ public class TwitterPaging {
             }
         }
 
-        if (mCount != null) {
-            result.setCount(mCount);
-        } else {
-            result.setCount(DEFAULT_STATUS_COUNT);
-        }
-
         return result;
-    }
-
-    public Integer getPage() {
-        return mPage;
     }
 
     public Integer getCount() {
         return mCount;
     }
 
-    public Long getMaxId() {
-        return mMaxId;
-    }
-
-    public Long getSinceId() {
-        return mSinceId;
-    }
-
     private Integer mPage;
-    private Integer mCount;
+    private final Integer mCount;
     private Long mMaxId;
     private Long mSinceId;
 

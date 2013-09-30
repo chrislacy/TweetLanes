@@ -11,12 +11,6 @@
 
 package com.tweetlanes.android.core.view;
 
-import org.tweetalib.android.TwitterManager;
-import org.tweetalib.android.model.TwitterDirectMessage;
-import org.tweetalib.android.model.TwitterDirectMessage.MessageType;
-import org.tweetalib.android.model.TwitterUser;
-import org.tweetalib.android.widget.URLSpanNoUnderline;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -40,20 +34,27 @@ import com.tweetlanes.android.core.model.AccountDescriptor;
 import com.tweetlanes.android.core.util.LazyImageLoader;
 import com.tweetlanes.android.core.util.Util;
 
+import org.tweetalib.android.TwitterManager;
+import org.tweetalib.android.model.TwitterDirectMessage;
+import org.tweetalib.android.model.TwitterDirectMessage.MessageType;
+import org.tweetalib.android.model.TwitterUser;
+import org.tweetalib.android.widget.URLSpanNoUnderline;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class DirectMessageItemView extends LinearLayout {
 
     private Context mContext;
     private int mPosition;
     private TwitterDirectMessage mDirectMessage;
     private DirectMessageItemViewCallbacks mCallbacks;
-    private TextView mAuthorScreenNameTextView;
-    private TextView mStatusTextView;
-    private TextView mPrettyDateTextView;
     private View mMessageBlock;
     private QuickContactDivot mAvatar;
     private boolean mFullConversation;
-    private Path mPath = new Path();
-    private Paint mPaint = new Paint();
+    private final Path mPath = new Path();
+    private final Paint mPaint = new Paint();
 
     /*
      * 
@@ -86,8 +87,15 @@ public class DirectMessageItemView extends LinearLayout {
         init(context);
     }
 
-    public void init(Context context) {
+    void init(Context context) {
         mContext = context;
+        
+        final int theme = AppSettings.get().getCurrentThemeStyle();
+        int background = android.R.color.white;
+        if (theme == R.style.Theme_TweetLanes) {
+            background = android.R.color.black;
+        }
+        setBackgroundColor(getResources().getColor(background));
     }
 
     /*
@@ -105,9 +113,9 @@ public class DirectMessageItemView extends LinearLayout {
 
         mPosition = position;
         mCallbacks = callbacks;
-        mAuthorScreenNameTextView = (TextView) findViewById(R.id.authorScreenName);
-        if (mAuthorScreenNameTextView != null) {
-            mAuthorScreenNameTextView.setText("@"
+        TextView authorScreenNameTextView = (TextView) findViewById(R.id.authorScreenName);
+        if (authorScreenNameTextView != null) {
+            authorScreenNameTextView.setText("@"
                     + (messageType == MessageType.SENT ? userScreenName
                     : directMessage.getOtherUserScreenName()));
 
@@ -118,7 +126,7 @@ public class DirectMessageItemView extends LinearLayout {
                 textSize = 18;
             }
             if (textSize != null) {
-                mAuthorScreenNameTextView.setTextSize(
+                authorScreenNameTextView.setTextSize(
                         TypedValue.COMPLEX_UNIT_SP, textSize);
             }
         }
@@ -127,16 +135,16 @@ public class DirectMessageItemView extends LinearLayout {
         // mAuthorNameTextView.setText(directMessage.getOtherUserName());
         // }
 
-        mStatusTextView = (TextView) findViewById(R.id.status);
+        TextView statusTextView = (TextView) findViewById(R.id.status);
         String text = directMessage.getText();
         if (text != null) {
-            if (mFullConversation == true) {
-                mStatusTextView.setText(directMessage.mTextSpanned);
-                mStatusTextView.setMovementMethod(LinkMovementMethod
+            if (mFullConversation) {
+                statusTextView.setText(directMessage.mTextSpanned);
+                statusTextView.setMovementMethod(LinkMovementMethod
                         .getInstance());
-                URLSpanNoUnderline.stripUnderlines(mStatusTextView);
+                URLSpanNoUnderline.stripUnderlines(statusTextView);
             } else {
-                mStatusTextView.setText(text);
+                statusTextView.setText(text);
             }
 
             Integer textSize = null;
@@ -156,21 +164,26 @@ public class DirectMessageItemView extends LinearLayout {
                 case ExtraLarge:
                     textSize = R.dimen.font_size_extra_large;
                     break;
+                case ExtraExtraLarge:
+                    textSize = R.dimen.font_size_extra_extra_large;
+                    break;
+                case Supersize:
+                    textSize = R.dimen.font_size_supersize;
+                    break;
             }
 
             if (textSize != null) {
                 int dimensionValue = mContext.getResources()
                         .getDimensionPixelSize(textSize);
-                mStatusTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                statusTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
                         dimensionValue);
             }
 
         }
 
-        mPrettyDateTextView = (TextView) findViewById(R.id.pretty_date);
-        if (mPrettyDateTextView != null) {
-            mPrettyDateTextView.setText(Util.getPrettyDate(directMessage
-                    .getCreatedAt()));
+        TextView prettyDateTextView = (TextView) findViewById(R.id.pretty_date);
+        if (prettyDateTextView != null) {
+            prettyDateTextView.setText(Util.getDisplayDate(directMessage.getCreatedAt()));
         }
 
         mAvatar = (QuickContactDivot) findViewById(R.id.avatar);
@@ -225,12 +238,12 @@ public class DirectMessageItemView extends LinearLayout {
         };
 
         setOnClickListener(onClickListener);
-        mStatusTextView.setOnClickListener(onClickListener);
-        mAuthorScreenNameTextView.setOnClickListener(onClickListener);
+        statusTextView.setOnClickListener(onClickListener);
+        authorScreenNameTextView.setOnClickListener(onClickListener);
     }
 
     /*
-	 * 
+     *
 	 */
     private void onViewClicked() {
         if (mCallbacks != null) {
@@ -245,11 +258,11 @@ public class DirectMessageItemView extends LinearLayout {
     /*
 	 * 
 	 */
-    public void onProfileImageClick() {
+    void onProfileImageClick() {
         Intent profileIntent = new Intent(mContext, ProfileActivity.class);
 
         if (mDirectMessage != null) {
-            if (mFullConversation == true
+            if (mFullConversation
                     && mDirectMessage.getMessageType() == MessageType.SENT) {
                 AccountDescriptor account = ((App) mCallbacks.getActivity()
                         .getApplication()).getCurrentAccount();
@@ -267,8 +280,8 @@ public class DirectMessageItemView extends LinearLayout {
             }
         }
 
-        profileIntent.putExtra("clearCompose","true");
-        ((Activity)mContext).startActivityForResult(profileIntent, Constant.REQUEST_CODE_PROFILE );
+        profileIntent.putExtra("clearCompose", "true");
+        ((Activity) mContext).startActivityForResult(profileIntent, Constant.REQUEST_CODE_PROFILE);
     }
 
     /**

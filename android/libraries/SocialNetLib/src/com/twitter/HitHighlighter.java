@@ -1,21 +1,27 @@
 package com.twitter;
 
-import java.util.*;
-import java.util.regex.*;
-import java.text.*;
+import java.text.CharacterIterator;
+import java.text.StringCharacterIterator;
+import java.util.List;
 
 /**
  * A class for adding HTML highlighting in Tweet text (such as would be returned
  * from a Search)
  */
-public class HitHighlighter {
-    /** Default HTML tag for highlight hits */
-    public static final String DEFAULT_HIGHLIGHT_TAG = "em";
+class HitHighlighter {
+    /**
+     * Default HTML tag for highlight hits
+     */
+    private static final String DEFAULT_HIGHLIGHT_TAG = "em";
 
-    /** the current HTML tag used for hit highlighting */
-    protected String highlightTag;
+    /**
+     * the current HTML tag used for hit highlighting
+     */
+    private String highlightTag;
 
-    /** Create a new HitHighlighter object. */
+    /**
+     * Create a new HitHighlighter object.
+     */
     public HitHighlighter() {
         highlightTag = DEFAULT_HIGHLIGHT_TAG;
     }
@@ -24,12 +30,10 @@ public class HitHighlighter {
      * Surround the <code>hits</code> in the provided <code>text</code> with an
      * HTML tag. This is used with offsets from the search API to support the
      * highlighting of query terms.
-     * 
-     * @param text
-     *            of the Tweet to highlight
-     * @param hits
-     *            A List of highlighting offsets (themselves lists of two
-     *            elements)
+     *
+     * @param text of the Tweet to highlight
+     * @param hits A List of highlighting offsets (themselves lists of two
+     *             elements)
      * @return text with highlight HTML added
      */
     public String highlight(String text, List<List<Integer>> hits) {
@@ -80,10 +84,10 @@ public class HitHighlighter {
      * Format the current <code>highlightTag</code> by adding &lt; and >. If
      * <code>closeTag</code> is <code>true</code> then the tag returned will
      * include a <code>/</code> to signify a closing tag.
-     * 
+     *
      * @param true if this is a closing tag, false otherwise
      */
-    protected String tag(boolean closeTag) {
+    String tag(boolean closeTag) {
         StringBuilder sb = new StringBuilder(highlightTag.length() + 3);
         sb.append("<");
         if (closeTag) {
@@ -95,7 +99,7 @@ public class HitHighlighter {
 
     /**
      * Get the current HTML tag used for phrase highlighting.
-     * 
+     *
      * @return current HTML tag (without &lt; or >)
      */
     public String getHighlightTag() {
@@ -104,7 +108,7 @@ public class HitHighlighter {
 
     /**
      * Set the current HTML tag used for phrase highlighting.
-     * 
+     *
      * @param new HTML tag (without &lt; or >)
      */
     public void setHighlightTag(String highlightTag) {

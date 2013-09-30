@@ -18,10 +18,10 @@ package org.tweetalib.android;
 
 public class ConnectionStatus {
 
-    Callbacks mCallbacks;
+    private final Callbacks mCallbacks;
 
     /*
-	 * 
+     *
 	 */
     public ConnectionStatus(Callbacks callbacks) {
         mCallbacks = callbacks;

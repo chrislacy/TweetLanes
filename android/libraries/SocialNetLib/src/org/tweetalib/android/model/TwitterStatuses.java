@@ -16,10 +16,6 @@
 
 package org.tweetalib.android.model;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import org.appdotnet4j.model.AdnPost;
 import org.appdotnet4j.model.AdnPosts;
 import org.appdotnet4j.model.AdnUser;
@@ -27,6 +23,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.tweetalib.android.model.TwitterStatusesFilter.FilterType;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import twitter4j.QueryResult;
 import twitter4j.ResponseList;
 import twitter4j.Status;
@@ -35,19 +36,12 @@ import twitter4j.User;
 public class TwitterStatuses {
 
     /*
-	 * 
+     *
 	 */
     public TwitterStatuses(TwitterStatuses another) {
         _mStatuses = new ArrayList<TwitterStatus>(another._mStatuses);
-        mCounts = (int[]) another.mCounts.clone();
+        mCounts = another.mCounts.clone();
         mGetNewStatusesMaxId = another.mGetNewStatusesMaxId;
-        // TwitterStatusesFilter filter = new TwitterStatusesFilter();
-        // filter.setShowReplies(false);
-        // filterTest(filter);
-        // filter.setShowRetweets(false);
-        // filterTest(filter);
-        // filter.setShowReplies(true);
-        // filterTest(filter);
     }
 
     /*
@@ -68,7 +62,7 @@ public class TwitterStatuses {
     /*
 	 * 
 	 */
-    static final String KEY_STATUSES = "statuses";
+    private static final String KEY_STATUSES = "statuses";
 
     public TwitterStatuses(String jsonAsString) {
         _mStatuses = new ArrayList<TwitterStatus>();
@@ -155,30 +149,30 @@ public class TwitterStatuses {
             if (status != null) {
 
                 boolean isReply = status.mInReplyToStatusId != null;
-                boolean isRetweet = status.mIsRetweet == true;
+                boolean isRetweet = status.mIsRetweet;
 
                 switch (filterType) {
-                case HIDE_RETWEETS:
-                    if (isRetweet) {
-                        // filterCount += 1;
-                        continue;
-                    }
-                    break;
-                case HIDE_REPLIES:
-                    if (isReply) {
-                        // filterCount += 1;
-                        continue;
-                    }
-                    break;
-                case HIDE_RETWEETS_REPLIES:
-                    if (isReply || isRetweet) {
-                        // filterCount += 1;
-                        continue;
-                    }
-                    break;
+                    case HIDE_RETWEETS:
+                        if (isRetweet) {
+                            // filterCount += 1;
+                            continue;
+                        }
+                        break;
+                    case HIDE_REPLIES:
+                        if (isReply) {
+                            // filterCount += 1;
+                            continue;
+                        }
+                        break;
+                    case HIDE_RETWEETS_REPLIES:
+                        if (isReply || isRetweet) {
+                            // filterCount += 1;
+                            continue;
+                        }
+                        break;
 
-                default:
-                    break;
+                    default:
+                        break;
                 }
 
                 if (filteredIndex == index) {
@@ -242,6 +236,10 @@ public class TwitterStatuses {
         sort();
     }
 
+    public void setFeedFullyRefreshed() {
+        mGetNewStatusesMaxId = null;
+    }
+
     /*
 	 * 
 	 */
@@ -256,7 +254,7 @@ public class TwitterStatuses {
 	 * 
 	 */
     public void add(ResponseList<twitter4j.Status> statuses,
-            AddUserCallback addUserCallback) {
+                    AddUserCallback addUserCallback) {
 
         TwitterStatus firstItem = size() > 0 ? get(0) : null;
         int addCount = 0;
@@ -288,7 +286,7 @@ public class TwitterStatuses {
             addCount += 1;
         }
 
-        if (stillMore == true && lastAddedStatus != null) {
+        if (stillMore && lastAddedStatus != null) {
             mGetNewStatusesMaxId = lastAddedStatus.mId;
         }
 
@@ -321,17 +319,12 @@ public class TwitterStatuses {
 
             if (addUserCallback != null) {
                 addUserCallback.addUser(post.mUser);
-                /*
-                 * if (post.isRetweet()) { Status retweetedStatus =
-                 * post.getRetweetedStatus(); if (retweetedStatus != null) {
-                 * addUserCallback.addUser(retweetedStatus.getUser()); } }
-                 */
             }
 
             addCount += 1;
         }
 
-        if (stillMore == true && lastAddedStatus != null) {
+        if (stillMore && lastAddedStatus != null) {
             mGetNewStatusesMaxId = lastAddedStatus.mId;
         }
 
@@ -453,8 +446,12 @@ public class TwitterStatuses {
                 high = middle - 1;
             } else if (statusId < status.mId) {
                 low = middle + 1;
-            } else { // The element has been found
+            } else if (statusId == status.mId){
+                // The element has been found
                 return middle;
+            } else{
+                // Couldn't find the element
+                break;
             }
         }
 
@@ -463,15 +460,14 @@ public class TwitterStatuses {
         return getStatusIndexFromOriginalStatusId(statusId);
     }
 
-    public Integer getStatusIndexFromOriginalStatusId(long originalStatusId) {
+    Integer getStatusIndexFromOriginalStatusId(long originalStatusId) {
         if (size() == 0) {
             return null;
         }
 
         //Since original status ids have no order, a long search through each is required.
 
-        for (int i=0; i <size() ;i++)
-        {
+        for (int i = 0; i < size(); i++) {
             TwitterStatus status = get(i);
             if (originalStatusId == status.mOriginalRetweetId) {
                 return i;
@@ -489,6 +485,11 @@ public class TwitterStatuses {
     }
 
     private TwitterStatus get(int index) {
+
+        if(index >= _mStatuses.size()){
+            return null;
+        }
+
         return _mStatuses.get(index);
     }
 
@@ -499,8 +500,8 @@ public class TwitterStatuses {
     /*
 	 * 
 	 */
-    ArrayList<TwitterStatus> _mStatuses;
-    int[] mCounts = new int[FilterType.FILTER_MAX.ordinal()];
+    private final ArrayList<TwitterStatus> _mStatuses;
+    private int[] mCounts = new int[FilterType.FILTER_MAX.ordinal()];
 
     private Long mGetNewStatusesMaxId = null;
 
@@ -516,46 +517,4 @@ public class TwitterStatuses {
         mCounts = new int[FilterType.FILTER_MAX.ordinal()];
         mGetNewStatusesMaxId = null;
     }
-
-    /*
-	 * 
-	 */
-    /*
-     * public class Iterator {
-     * 
-     * public Iterator(TwitterStatusesFilter filter) { mFilter = filter;
-     * mLastIndex = 0; }
-     * 
-     * public void next() { int size = size(); for (; mLastIndex < size;
-     * mLastIndex++) { TwitterStatus status = get(mLastIndex); if (status !=
-     * null) { if (status.getInReplyToStatusId() != null &&
-     * mFilter.getShowReplies() == false) { mSkipReplyCount += 1; continue; } if
-     * (status.getIsRetweet() == true && mFilter.getShowRetweets() == false) {
-     * mSkipRetweetCount += 1; continue; } break; } } }
-     * 
-     * public boolean finished() {
-     * 
-     * if (mLastIndex == size()) { Log.d("TwitterStatus iterator",
-     * "finished - skipped " + mSkipRetweetCount + " retweets, skipped " +
-     * mSkipReplyCount + " replies."); }
-     * 
-     * return mLastIndex == size() ? true : false; }
-     * 
-     * private TwitterStatusesFilter mFilter; int mLastIndex;
-     * 
-     * int mSkipRetweetCount = 0; int mSkipReplyCount = 0; }
-     */
-
-    /*
-	 * 
-	 */
-    /*
-     * private void filterTest(TwitterStatusesFilter filter) {
-     * 
-     * int[] counts = mCounts.clone();
-     * 
-     * int count = getStatusCount(filter); for (int i = 0; i < count; i++) {
-     * TwitterStatus status = getStatus(i, filter); if (status == null) {
-     * getStatus(i, filter); } } }
-     */
 }

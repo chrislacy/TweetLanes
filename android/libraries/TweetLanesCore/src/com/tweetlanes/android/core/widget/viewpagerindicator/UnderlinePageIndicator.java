@@ -114,10 +114,6 @@ public class UnderlinePageIndicator extends View implements PageIndicator {
                 .getScaledPagingTouchSlop(configuration);
     }
 
-    public boolean getFades() {
-        return mFades;
-    }
-
     public void setFades(boolean fades) {
         if (fades != mFades) {
             mFades = fades;
@@ -131,28 +127,16 @@ public class UnderlinePageIndicator extends View implements PageIndicator {
         }
     }
 
-    public int getFadeDelay() {
-        return mFadeDelay;
-    }
-
-    public void setFadeDelay(int fadeDelay) {
+    void setFadeDelay(int fadeDelay) {
         mFadeDelay = fadeDelay;
     }
 
-    public int getFadeLength() {
-        return mFadeLength;
-    }
-
-    public void setFadeLength(int fadeLength) {
+    void setFadeLength(int fadeLength) {
         mFadeLength = fadeLength;
         mFadeBy = 0xFF / (mFadeLength / FADE_FRAME_MS);
     }
 
-    public int getSelectedColor() {
-        return mPaint.getColor();
-    }
-
-    public void setSelectedColor(int selectedColor) {
+    void setSelectedColor(int selectedColor) {
         mPaint.setColor(selectedColor);
         invalidate();
     }
@@ -248,8 +232,7 @@ public class UnderlinePageIndicator extends View implements PageIndicator {
 
             case MotionEventCompat.ACTION_POINTER_DOWN: {
                 final int index = MotionEventCompat.getActionIndex(ev);
-                final float x = MotionEventCompat.getX(ev, index);
-                mLastMotionX = x;
+                mLastMotionX = MotionEventCompat.getX(ev, index);
                 mActivePointerId = MotionEventCompat.getPointerId(ev, index);
                 break;
             }
@@ -270,8 +253,6 @@ public class UnderlinePageIndicator extends View implements PageIndicator {
 
         return true;
     }
-
-    ;
 
     @Override
     public void setViewPager(ViewPager viewPager) {

@@ -42,15 +42,15 @@ import org.tweetalib.android.model.TwitterStatuses;
 
 public class TweetSpotlightActivity extends BaseLaneActivity {
 
-    TweetSpotlightAdapter mTweetSpotlightAdapter;
-    ViewSwitcher mViewSwitcher;
+    private TweetSpotlightAdapter mTweetSpotlightAdapter;
+    private ViewSwitcher mViewSwitcher;
     TwitterStatus mStatus;
-    FinishedCallback mGetStatusCallback;
-    MenuItem mFavoriteMenuItem;
-    MenuItem mRetweetMenuItem;
+    private FinishedCallback mGetStatusCallback;
+    private MenuItem mFavoriteMenuItem;
+    private MenuItem mRetweetMenuItem;
 
-    public final static String STATUS_ID_KEY = "statusId";
-    public final static String STATUS_KEY = "status";
+    private final static String STATUS_ID_KEY = "statusId";
+    private final static String STATUS_KEY = "status";
 
     /*
      * (non-Javadoc)
@@ -70,15 +70,17 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
             statusId = Long.parseLong(statusIdAsString);
         }
 
-        TwitterStatus status = new TwitterStatus(statusAsString);
+        TwitterStatus status = null;
+        if (statusAsString != null) {
+            status = new TwitterStatus(statusAsString);
+        }
 
         BaseLaneFragment fragment = super.getFragmentAtIndex(0);
         super.setCurrentComposeFragment((fragment instanceof DirectMessageFeedFragment) ? super.COMPOSE_DIRECT_MESSAGE
                 : super.COMPOSE_TWEET);
 
 
-        if(clearCompose != null && clearCompose.equals("true"))
-        {
+        if (clearCompose != null && clearCompose.equals("true")) {
             clearCompose();
             getIntent().removeExtra("clearCompose");
         }
@@ -86,12 +88,9 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
         mViewSwitcher = (ViewSwitcher) findViewById(R.id.rootViewSwitcher);
         updateViewVisibility();
 
-        if (status.mId == statusId)
-        {
+        if (status != null && status.mId == statusId) {
             onGetStatus(status);
-        }
-        else if(statusId > 0)
-        {
+        } else if (statusId > 0) {
             mGetStatusCallback = TwitterManager.get().getFetchStatusInstance().new FinishedCallback() {
 
                 @Override
@@ -104,8 +103,13 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
                         }
                     } else {
                         Intent returnIntent = new Intent();
-                        returnIntent.putExtra("status",mStatus.toString());
-                        setResult(RESULT_OK,returnIntent);
+                        if(mStatus!=null){
+                            returnIntent.putExtra("status", mStatus.toString());
+                        }
+                        else{
+                            returnIntent.putExtra("status", "");
+                        }
+                        setResult(RESULT_OK, returnIntent);
                         finish();
                     }
                     mGetStatusCallback = null;
@@ -117,30 +121,31 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
 
         } else {
             Intent returnIntent = new Intent();
-            returnIntent.putExtra("status",mStatus.toString());
-            setResult(RESULT_OK,returnIntent);
+            returnIntent.putExtra("status", mStatus.toString());
+            setResult(RESULT_OK, returnIntent);
             finish();
-            return;
         }
 
 
     }
 
-    protected void TweetDeleted(String result)
-    {
+    void TweetDeleted(String result) {
         Intent returnIntent = new Intent();
-        returnIntent.putExtra("status",mStatus.toString());
+        returnIntent.putExtra("status", mStatus.toString());
         returnIntent.putExtra("result", result);
-        setResult(RESULT_CANCELED,returnIntent);
+        setResult(RESULT_CANCELED, returnIntent);
         finish();
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
             Intent returnIntent = new Intent();
-            returnIntent.putExtra("status",mStatus.toString());
-            setResult(RESULT_OK,returnIntent);
+            if (mStatus != null)
+            {
+                returnIntent.putExtra("status", mStatus.toString());
+            }
+            setResult(RESULT_OK, returnIntent);
             finish();
             return true;
         }
@@ -187,7 +192,7 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
     }
 
     /*
-	 *
+     *
 	 */
     @Override
     protected ComposeTweetDefault getComposeTweetDefault() {
@@ -200,9 +205,9 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
     }
 
     /*
-	 *
+     *
 	 */
-    protected void onGetStatus(TwitterStatus status) {
+    void onGetStatus(TwitterStatus status) {
         mStatus = new TwitterStatus(status);
         updateViewVisibility();
 
@@ -240,14 +245,14 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if (super.onOptionsItemSelected(item) == true) {
+        if (super.onOptionsItemSelected(item)) {
             return true;
         }
 
         int i = item.getItemId();
         if (i == android.R.id.home) {// app icon in action bar clicked; go home
             Intent returnIntent = new Intent();
-            returnIntent.putExtra("status",mStatus.toString());
+            returnIntent.putExtra("status", mStatus.toString());
             setResult(RESULT_OK, returnIntent);
             finish();
             return true;
@@ -256,45 +261,52 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
              * case R.id.action_reply: beginCompose(); return true;
              */
         } else if (i == R.id.action_retweet) {
+
             TwitterFetchStatus.FinishedCallback callback = TwitterManager.get()
                     .getFetchStatusInstance().new FinishedCallback() {
 
                 @Override
                 public void finished(TwitterFetchResult result, TwitterStatus status) {
-                    if (result != null && result.isSuccessful())
-                    {
-                        if (status != null && status.mOriginalRetweetId > 0)
-                        {
+
+                    setIsRetweeted();
+
+                    if (result != null && result.isSuccessful()) {
+                        if (status != null && status.mOriginalRetweetId > 0) {
                             mStatus.mIsRetweetedByMe = true;
                             onGetStatus(mStatus);
                             showToast(getString(R.string.retweeted_successfully));
                             setIsRetweeted();
+                        } else {
+                            if (!result.getErrorMessage().equals("CancelPressed") && !result.getErrorMessage().equals("QutotePressed")) {
+                                showToast(getString(R.string.retweeted_un_successful));
+                            }
                         }
-                        else
-                        {
-                            showToast(getString(R.string.retweeted_marking_un_successful));
-                        }
-                    }
-                    else
-                    {
+                    } else {
                         showToast(getString(R.string.retweeted_un_successful));
                     }
-
                 }
 
             };
 
-            if(mStatus.mIsRetweetedByMe)
-            {
+            if (mStatus.mIsRetweetedByMe) {
                 showToast(getString(R.string.cannot_unretweet));
-            }
-            else
-            {
+                setIsRetweeted();
+            } else {
+                boolean isDarkTheme = AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Dark || AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Light_DarkAction;
+                mRetweetMenuItem.setIcon(isDarkTheme ? R.drawable.ic_action_rt_pressed_dark : R.drawable.ic_action_rt_pressed_light);
+
                 retweetSelected(mStatus, callback);
             }
 
             return true;
         } else if (i == R.id.action_favorite) {
+
+            //test to see if dark theme and show visual cue when favorite button is pressed
+            boolean isDarkTheme = AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Dark || AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Light_DarkAction;
+            mFavoriteMenuItem
+                    .setIcon(isDarkTheme ? R.drawable.ic_action_star_pressed_dark
+                            : R.drawable.ic_action_star_pressed_light);
+
             TwitterModifyStatuses.FinishedCallback callback = TwitterManager
                     .get().getSetStatusesInstance().new FinishedCallback() {
 
@@ -312,9 +324,7 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
 
                             setIsFavorited();
                         }
-                    }
-                    else
-                    {
+                    } else {
                         showToast(getString(mStatus.mIsFavorited ? R.string.unfavorited_un_successfully : R.string
                                 .favorited_un_successfully));
                     }
@@ -329,9 +339,9 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
         }
     }
 
-    protected void showToast(String message) {
-            Toast.makeText(getApplicationContext(), message,
-                    Constant.DEFAULT_TOAST_DISPLAY_TIME).show();
+    void showToast(String message) {
+        Toast.makeText(getApplicationContext(), message,
+                Constant.DEFAULT_TOAST_DISPLAY_TIME).show();
     }
 
     /**
@@ -351,12 +361,10 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
         return false;
     }
 
-    void setIsFavorited()
-    {
-        if(mFavoriteMenuItem != null)
-        {
-            boolean isDarkTheme = AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Dark;
-            if (mStatus.mIsFavorited == true) {
+    void setIsFavorited() {
+        if (mFavoriteMenuItem != null) {
+            boolean isDarkTheme = AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Dark || AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Light_DarkAction;
+            if (mStatus.mIsFavorited) {
                 mFavoriteMenuItem
                         .setIcon(isDarkTheme ? R.drawable.ic_action_star_on_dark
                                 : R.drawable.ic_action_star_on_light);
@@ -370,11 +378,9 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
         }
     }
 
-    void setIsRetweeted()
-    {
-        if (mRetweetMenuItem != null)
-        {
-            boolean isDarkTheme = AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Dark;
+    void setIsRetweeted() {
+        if (mRetweetMenuItem != null) {
+            boolean isDarkTheme = AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Dark || AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Light_DarkAction;
             if (mStatus.mIsRetweetedByMe) {
                 mRetweetMenuItem.setIcon(
                         isDarkTheme ? R.drawable.ic_action_rt_on_dark : R.drawable.ic_action_rt_on_light);
@@ -417,7 +423,7 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
         @Override
         public Fragment getItem(int position) {
 
-            Fragment result = null;
+            Fragment result;
             if (mStatus != null) {
                 LaneDescriptor laneDescriptor = getApp()
                         .getTweetSpotlightLaneDescriptor(position);

@@ -33,6 +33,40 @@
 
     </style>
 
+
+    <style name="Theme.TweetLanes.Light.DarkActionBar" parent="android:Theme.Holo.Light.DarkActionBar">
+        <item name="vpiListTabPageIndicatorStyle">@style/Widget.ListTabPageIndicator</item>
+        <item name="vpiTabPageIndicatorStyle">@style/Widget.TabPageIndicator</item>
+        <item name="vpiTabTextStyle">@style/Widget.TabPageIndicator.Text.Light</item>
+
+        <item name="lane_background">@style/lane_background_light</item>
+        <item name="background">@style/background_light</item>
+        <item name="feedBackground">@style/feed_background_light</item>
+        <item name="listBackground">@style/list_background_light</item>
+        <item name="themeOppositeText">@style/status_text_bl</item>
+        <item name="freeForLifeBackground">@style/free_for_life_background_light</item>
+
+        <item name="ic_action_camera">@style/ic_action_camera_dark</item>
+        <item name="ic_action_collapse">@style/ic_action_collapse_dark</item>
+        <item name="ic_action_expand">@style/ic_action_expand_light</item>
+        <item name="ic_action_message">@style/ic_action_message_dark</item>
+        <item name="ic_action_overflow">@style/ic_action_overflow_dark</item>
+        <item name="ic_action_rt_on">@style/ic_action_rt_on_dark</item>
+        <item name="ic_action_rt_off">@style/ic_action_rt_off_dark</item>
+        <item name="ic_action_save">@style/ic_action_save_dark</item>
+        <item name="ic_action_select_image">@style/ic_action_select_image_dark</item>
+        <item name="ic_action_search">@style/ic_action_search_dark</item>
+        <item name="ic_action_send">@style/ic_action_send_light</item>
+        <item name="ic_action_share">@style/ic_action_share_dark</item>
+        <item name="ic_action_star_on">@style/ic_action_star_on_dark</item>
+        <item name="ic_action_star_off">@style/ic_action_star_off_dark</item>
+
+
+        <item name="feed_divider">@style/feed_divider_light</item>
+
+    </style>
+
+
     <style name="Theme.TweetLanes" parent="android:Theme.Holo">
         <item name="vpiListTabPageIndicatorStyle">@style/Widget.ListTabPageIndicator</item>
         <item name="vpiTabPageIndicatorStyle">@style/Widget.TabPageIndicator</item>
@@ -80,15 +114,15 @@
     </style>
 
     <style name="background_light">
-        <item name="android:background">#fff</item>
+        <item name="android:background">@android:color/white</item>
     </style>
 
     <style name="feed_background_light">
-        <item name="android:background">#fff</item>
+        <item name="android:background">@null</item>
     </style>
 
     <style name="list_background_light">
-        <item name="android:background">#fff1f1f1</item>
+        <item name="android:background">@null</item>
     </style>
 
     <style name="free_for_life_background_light">
@@ -96,14 +130,15 @@
     </style>
 
     <style name="background_dark">
-        <item name="android:background">#000</item>
+        <item name="android:background">@android:color/black</item>
     </style>
 
     <style name="feed_background_dark">
+        <item name="android:background">@null</item>
     </style>
 
     <style name="list_background_dark">
-        <item name="android:background">#ff0f0f0f</item>
+        <item name="android:background">@null</item>
     </style>
 
     <style name="free_for_life_background_dark">

@@ -16,38 +16,29 @@
 
 package org.tweetalib.android;
 
+import org.asynctasktex.AsyncTaskEx;
+import org.socialnetlib.android.SocialNetConstant;
+import org.tweetalib.android.model.TwitterUser;
+
 import java.util.HashMap;
 
-import org.asynctasktex.AsyncTaskEx;
-
-import org.socialnetlib.android.SocialNetConstant;
-import org.socialnetlib.android.SocialNetConstant.Type;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 
-import org.tweetalib.android.model.TwitterUser;
-
 public class TwitterSignIn {
 
     private SignInWorkerCallbacks mCallbacks;
     private Integer mGetAuthUrlCallbackHandle;
-    private HashMap<Integer, GetAuthUrlCallback> mGetAuthUrlCallbackMap;
+    private final HashMap<Integer, GetAuthUrlCallback> mGetAuthUrlCallbackMap;
     private Integer mGetOAuthAccessTokenCallbackHandle;
-    private HashMap<Integer, GetOAuthAccessTokenCallback> mGetOAuthAccessTokenCallbackMap;
+    private final HashMap<Integer, GetOAuthAccessTokenCallback> mGetOAuthAccessTokenCallbackMap;
+
 
     /*
-	 *
-	 */
-    public void clearCallbacks() {
-        mGetAuthUrlCallbackMap.clear();
-        mGetOAuthAccessTokenCallbackMap.clear();
-    }
-
-    /*
-	 *
+     *
 	 */
     public interface SignInWorkerCallbacks {
 
@@ -58,7 +49,7 @@ public class TwitterSignIn {
         public String getConsumerSecret();
 
         public TwitterUser verifyCredentials(String accessToken,
-                String accessTokenSecret);
+                                             String accessTokenSecret);
     }
 
     /*
@@ -75,7 +66,7 @@ public class TwitterSignIn {
     public interface GetAuthUrlCallbackInterface {
 
         public void finished(boolean successful, String url,
-                RequestToken requestToken);
+                             RequestToken requestToken);
 
     }
 
@@ -91,10 +82,6 @@ public class TwitterSignIn {
             mHandle = kInvalidHandle;
         }
 
-        void setHandle(int handle) {
-            mHandle = handle;
-        }
-
         private int mHandle;
     }
 
@@ -104,7 +91,7 @@ public class TwitterSignIn {
     public interface GetOAuthAccessTokenCallbackInterface {
 
         public void finished(boolean successful, TwitterUser user,
-                String accessToken, String accessTokenSecret);
+                             String accessToken, String accessTokenSecret);
 
     }
 
@@ -142,9 +129,8 @@ public class TwitterSignIn {
 	 *
 	 */
     GetAuthUrlCallback getAuthUrlCallback(Integer callbackHandle) {
-        GetAuthUrlCallback callback = mGetAuthUrlCallbackMap
+        return mGetAuthUrlCallbackMap
                 .get(callbackHandle);
-        return callback;
     }
 
     /*
@@ -161,9 +147,8 @@ public class TwitterSignIn {
 	 */
     GetOAuthAccessTokenCallback getOAuthAccessTokenCallback(
             Integer callbackHandle) {
-        GetOAuthAccessTokenCallback callback = mGetOAuthAccessTokenCallbackMap
+        return mGetOAuthAccessTokenCallbackMap
                 .get(callbackHandle);
-        return callback;
     }
 
     /*
@@ -180,12 +165,12 @@ public class TwitterSignIn {
 	 */
     public void getAuthUrl(GetAuthUrlCallback callback) {
 
-        assert (mGetAuthUrlCallbackMap.containsValue(callback) == false);
+        assert (!mGetAuthUrlCallbackMap.containsValue(callback));
 
         mGetAuthUrlCallbackMap.put(mGetAuthUrlCallbackHandle, callback);
         new FetchAuthUrlTask().execute(AsyncTaskEx.PRIORITY_HIGHEST,
                 "Get Auth URL", new FetchAuthUrlTaskInput(
-                        mGetAuthUrlCallbackHandle));
+                mGetAuthUrlCallbackHandle));
 
         mGetAuthUrlCallbackHandle += 1;
     }
@@ -194,16 +179,16 @@ public class TwitterSignIn {
 	 *
 	 */
     public void getOAuthAccessToken(RequestToken requestToken,
-            String oauthVerifier, GetOAuthAccessTokenCallback callback) {
+                                    String oauthVerifier, GetOAuthAccessTokenCallback callback) {
 
-        assert (mGetOAuthAccessTokenCallbackMap.containsValue(callback) == false);
+        assert (!mGetOAuthAccessTokenCallbackMap.containsValue(callback));
 
         mGetOAuthAccessTokenCallbackMap.put(mGetOAuthAccessTokenCallbackHandle,
                 callback);
         new FetchOAuthAccessTokenTask().execute(AsyncTaskEx.PRIORITY_HIGHEST,
                 "Get OAuth AccessToken", new FetchOAuthAccessTokenTaskInput(
-                        requestToken, oauthVerifier,
-                        mGetOAuthAccessTokenCallbackHandle));
+                requestToken, oauthVerifier,
+                mGetOAuthAccessTokenCallbackHandle));
 
         mGetOAuthAccessTokenCallbackHandle += 1;
     }
@@ -217,7 +202,7 @@ public class TwitterSignIn {
             mCallbackHandle = callbackHandle;
         }
 
-        Integer mCallbackHandle;
+        final Integer mCallbackHandle;
     }
 
     /*
@@ -226,15 +211,15 @@ public class TwitterSignIn {
     class FetchAuthUrlTaskOutput {
 
         FetchAuthUrlTaskOutput(Integer callbackHandle,
-                RequestToken requestToken, String url) {
+                               RequestToken requestToken, String url) {
             mCallbackHandle = callbackHandle;
             mRequestToken = requestToken;
             mUrl = url;
         }
 
-        Integer mCallbackHandle;
-        RequestToken mRequestToken;
-        String mUrl;
+        final Integer mCallbackHandle;
+        final RequestToken mRequestToken;
+        final String mUrl;
     }
 
     /*
@@ -287,16 +272,16 @@ public class TwitterSignIn {
     class FetchOAuthAccessTokenTaskInput {
 
         FetchOAuthAccessTokenTaskInput(RequestToken requestToken,
-                String oauthVerifier, Integer callbackHandle) {
+                                       String oauthVerifier, Integer callbackHandle) {
 
             mRequestToken = requestToken;
             mOAuthVerifier = oauthVerifier;
             mCallbackHandle = callbackHandle;
         }
 
-        RequestToken mRequestToken;
-        String mOAuthVerifier;
-        Integer mCallbackHandle;
+        final RequestToken mRequestToken;
+        final String mOAuthVerifier;
+        final Integer mCallbackHandle;
     }
 
     /*
@@ -305,7 +290,7 @@ public class TwitterSignIn {
     class FetchOAuthAccessTokenTaskOutput {
 
         FetchOAuthAccessTokenTaskOutput(TwitterUser user, String accessToken,
-                String accessTokenSecret, Integer callbackHandle) {
+                                        String accessTokenSecret, Integer callbackHandle) {
 
             mUser = user;
             mAccessToken = accessToken;
@@ -313,10 +298,10 @@ public class TwitterSignIn {
             mCallbackHandle = callbackHandle;
         }
 
-        TwitterUser mUser;
-        String mAccessToken;
-        String mAccessTokenSecret;
-        Integer mCallbackHandle;
+        final TwitterUser mUser;
+        final String mAccessToken;
+        final String mAccessTokenSecret;
+        final Integer mCallbackHandle;
     }
 
     /*
@@ -337,19 +322,19 @@ public class TwitterSignIn {
                 String accessTokenSecret = null;
 
                 switch (mCallbacks.getType()) {
-                case Twitter:
-                    Twitter twitter = new TwitterFactory().getInstance();
-                    twitter.setOAuthConsumer(mCallbacks.getConsumerKey(),
-                            mCallbacks.getConsumerSecret());
-                    AccessToken at = twitter.getOAuthAccessToken(
-                            input.mRequestToken, input.mOAuthVerifier);
-                    accessToken = at.getToken();
-                    accessTokenSecret = at.getTokenSecret();
-                    break;
+                    case Twitter:
+                        Twitter twitter = new TwitterFactory().getInstance();
+                        twitter.setOAuthConsumer(mCallbacks.getConsumerKey(),
+                                mCallbacks.getConsumerSecret());
+                        AccessToken at = twitter.getOAuthAccessToken(
+                                input.mRequestToken, input.mOAuthVerifier);
+                        accessToken = at.getToken();
+                        accessTokenSecret = at.getTokenSecret();
+                        break;
 
-                case Appdotnet:
-                    accessToken = input.mOAuthVerifier;
-                    break;
+                    case Appdotnet:
+                        accessToken = input.mOAuthVerifier;
+                        break;
                 }
 
                 TwitterUser user = mCallbacks.verifyCredentials(accessToken,
@@ -357,11 +342,9 @@ public class TwitterSignIn {
 
                 return new FetchOAuthAccessTokenTaskOutput(user, accessToken,
                         accessTokenSecret, input.mCallbackHandle);
-            }
-            catch (NullPointerException e) {
+            } catch (NullPointerException e) {
                 e.printStackTrace();
-            }
-            catch (TwitterException e) {
+            } catch (TwitterException e) {
                 e.printStackTrace();
             }
 

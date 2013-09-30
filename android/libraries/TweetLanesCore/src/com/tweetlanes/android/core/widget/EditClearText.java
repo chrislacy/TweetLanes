@@ -39,9 +39,7 @@ public class EditClearText extends EditText {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
 
-                boolean canClearText = true;
                 if (mListener != null) {
-                    canClearText = mListener.canClearText();
                     mListener.onTouch(v, event);
                 }
 
@@ -70,7 +68,7 @@ public class EditClearText extends EditText {
         if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
 
             if (mListener != null) {
-                if (mListener.onBackButtonPressed() == true) {
+                if (mListener.onBackButtonPressed()) {
                     return true;
                 }
             }
@@ -99,7 +97,7 @@ public class EditClearText extends EditText {
     }
 
     /*
-	 * 
+     *
 	 */
     public void setEditClearTextListener(EditClearTextListener listener) {
         mListener = listener;

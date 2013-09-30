@@ -30,7 +30,7 @@ public class TwitterIds {
         return mIds.get(index);
     }
 
-    private ArrayList<Long> mIds;
+    private final ArrayList<Long> mIds;
 
     public void add(IDs ids) {
         long[] idsArray = ids.getIDs();

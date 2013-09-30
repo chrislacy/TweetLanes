@@ -13,8 +13,15 @@
 
 package com.tweetlanes.android.core.util;
 
-import static android.os.Environment.getExternalStorageDirectory;
-import static android.os.Environment.getExternalStorageState;
+import android.app.Activity;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Build;
+import android.os.Environment;
+import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.ListView;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -29,11 +36,10 @@ import java.net.HttpURLConnection;
 import java.net.Proxy;
 import java.net.URL;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
@@ -41,17 +47,9 @@ import java.util.WeakHashMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.Date;
 
-import android.app.Activity;
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.Build;
-import android.os.Environment;
-import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.ListView;
+import static android.os.Environment.getExternalStorageDirectory;
+import static android.os.Environment.getExternalStorageState;
 // import static org.mariotaku.twidere.util.Utils.getProxy;
 // import static com.tweetlanes.android.core.util.parseURL;
 // import static org.mariotaku.twidere.util.Utils.setIgnoreSSLError;
@@ -76,7 +74,6 @@ public class LazyImageLoader {
     private final ExecutorService mExecutorService;
     private final int mFallbackRes;
     private final int mRequiredWidth, mRequiredHeight;
-    private boolean mIgnoreSSLError;
     private Proxy mProxy;
 
     // private final SharedPreferences mPreferences;
@@ -112,7 +109,7 @@ public class LazyImageLoader {
         displayImage(Util.parseURL(url), imageview);
     }
 
-    public void displayImage(URL url, ImageView imageview) {
+    void displayImage(URL url, ImageView imageview) {
         if (imageview == null) return;
         if (url == null) {
             imageview.setImageResource(mFallbackRes);
@@ -128,24 +125,7 @@ public class LazyImageLoader {
         }
     }
 
-    public String getCachedImagePath(URL url) {
-        if (mFileCache == null) return null;
-        final File f = mFileCache.getFile(url);
-        if (f != null && f.exists())
-            return f.getPath();
-        else {
-            queuePhoto(url, null);
-        }
-        return null;
-    }
-
-    public void reloadConnectivitySettings() {
-        mProxy = Util.getProxy(mContext);
-        // mIgnoreSSLError =
-        // mPreferences.getBoolean(PREFERENCE_KEY_IGNORE_SSL_ERROR, false);
-    }
-
-    private void copyStream(InputStream is, OutputStream os) {
+    private static void copyStream(InputStream is, OutputStream os) {
         final int buffer_size = 1024;
         try {
             final byte[] bytes = new byte[buffer_size];
@@ -161,11 +141,14 @@ public class LazyImageLoader {
 
     // decodes image and scales it to reduce memory consumption
     private Bitmap decodeFile(File f) {
+        InputStream enter = null;
+        InputStream exit = null;
         try {
             // decode image size
+            enter = new FileInputStream(f);
             final BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;
-            BitmapFactory.decodeStream(new FileInputStream(f), null, options);
+            BitmapFactory.decodeStream(enter, null, options);
 
             // Find the correct scale value. It should be the power of 2.
             int width_tmp = options.outWidth, height_tmp = options.outHeight;
@@ -178,10 +161,10 @@ public class LazyImageLoader {
             }
 
             // decode with inSampleSize
+            exit = new FileInputStream(f);
             final BitmapFactory.Options o2 = new BitmapFactory.Options();
             o2.inSampleSize = scale;
-            final Bitmap bitmap = BitmapFactory.decodeStream(
-                    new FileInputStream(f), null, o2);
+            final Bitmap bitmap = BitmapFactory.decodeStream(exit, null, o2);
             if (bitmap == null) {
                 // The file is corrupted, so we remove it from cache.
                 if (f.isFile()) {
@@ -191,6 +174,9 @@ public class LazyImageLoader {
             return bitmap;
         } catch (final FileNotFoundException e) {
             // e.printStackTrace();
+        } finally {
+            Util.closeQuietly(enter);
+            Util.closeQuietly(exit);
         }
         return null;
     }
@@ -202,15 +188,14 @@ public class LazyImageLoader {
 
     boolean imageViewReused(ImageToLoad imagetoload) {
         final Object tag = mImageViews.get(imagetoload.imageview);
-        if (tag == null || !tag.equals(imagetoload.source)) return true;
-        return false;
+        return tag == null || !tag.equals(imagetoload.source);
     }
 
     // Used to display bitmap in the UI thread
     private class BitmapDisplayer implements Runnable {
 
-        Bitmap mBitmap;
-        ImageToLoad mImageToLoad;
+        final Bitmap mBitmap;
+        final ImageToLoad mImageToLoad;
 
         public BitmapDisplayer(Bitmap b, ImageToLoad p) {
             mBitmap = b;
@@ -233,7 +218,7 @@ public class LazyImageLoader {
         private final String mCacheDirName;
 
         private File mCacheDir;
-        private Context mContext;
+        private final Context mContext;
 
         public FileCache(Context context, String cache_dir_name) {
             mContext = context;
@@ -245,8 +230,7 @@ public class LazyImageLoader {
             if (mCacheDir == null) return null;
             final String filename = getURLFilename(tag);
             if (filename == null) return null;
-            final File file = new File(mCacheDir, filename);
-            return file;
+            return new File(mCacheDir, filename);
         }
 
         public void saveFile(Bitmap image, URL tag) {
@@ -254,9 +238,8 @@ public class LazyImageLoader {
             final String filename = getURLFilename(tag);
             if (filename == null) return;
             final File file = new File(mCacheDir, filename);
-            FileOutputStream fOut = null;
-            try
-            {
+            FileOutputStream fOut;
+            try {
                 fOut = new FileOutputStream(file);
                 image.compress(Bitmap.CompressFormat.PNG, 100, fOut);
                 fOut.flush();
@@ -266,7 +249,7 @@ public class LazyImageLoader {
             }
         }
 
-        private void deleteFile(final URL tag){
+        private void deleteFile(final URL tag) {
             if (mCacheDir == null) return;
             final File[] files = mCacheDir.listFiles(new FileFilter() {
                 @Override
@@ -280,13 +263,13 @@ public class LazyImageLoader {
             }
         }
 
-        public void clearUrls(Set<URL> urls){
-            for(URL url : urls){
+        public void clearUrls(Set<URL> urls) {
+            for (URL url : urls) {
                 deleteFile(url);
             }
         }
 
-        public void clearUnrecognisedFiles(Set<URL> urls){
+        public void clearUnrecognisedFiles(Set<URL> urls) {
             Calendar cal = Calendar.getInstance();
             cal.add(Calendar.DATE, -1);
 
@@ -294,17 +277,15 @@ public class LazyImageLoader {
             if (files == null) return;
             for (final File f : files) {
                 Date lastModDate = new Date(f.lastModified());
-                if(lastModDate.before(cal.getTime()))
-                {
+                if (lastModDate.before(cal.getTime())) {
                     boolean fileInCache = false;
-                    for(URL url : urls){
-                        if(f.getName() == getURLFilename(url))
-                        {
+                    for (URL url : urls) {
+                        if (f.getName() == getURLFilename(url)) {
                             fileInCache = true;
                         }
                     }
 
-                    if (!fileInCache){
+                    if (!fileInCache) {
                         f.delete();
                     }
                 }
@@ -330,8 +311,10 @@ public class LazyImageLoader {
             }
         }
 
-        private String getURLFilename(URL url) {
-            if (url == null) return null;
+        private static String getURLFilename(URL url) {
+            if (url == null) {
+                return null;
+            }
             return url.toString().replaceAll("[^a-zA-Z0-9]", "_");
         }
 
@@ -339,7 +322,7 @@ public class LazyImageLoader {
 
     private class ImageLoader implements Runnable {
 
-        private ImageToLoad mImageToLoad;
+        private final ImageToLoad mImageToLoad;
 
         public ImageLoader(ImageToLoad imagetoload) {
             this.mImageToLoad = imagetoload;
@@ -358,34 +341,28 @@ public class LazyImageLoader {
 
         }
 
-        private Bitmap DownloadBitmapFromWeb(URL url, File f, Boolean isRetry)
-        {
+        private Bitmap DownloadBitmapFromWeb(URL url, File f, Boolean isRetry) {
             try {
-                Bitmap bitmap = null;
+                Bitmap bitmap;
                 final HttpURLConnection conn = (HttpURLConnection) url
                         .openConnection(mProxy);
-                if (mIgnoreSSLError) {
-                    Util.setIgnoreSSLError(conn);
-                }
+
                 conn.setConnectTimeout(30000);
                 conn.setReadTimeout(30000);
                 conn.setInstanceFollowRedirects(true);
                 final InputStream is = conn.getInputStream();
                 final OutputStream os = new FileOutputStream(f);
                 copyStream(is, os);
+                is.close();
                 os.close();
                 bitmap = decodeFile(f);
 
-                int bitmapBytes = bitmap.getByteCount();
-                if (bitmapBytes == 0){
-                    if (isRetry)
-                    {
+                final int bitmapBytes = bitmap.getByteCount();
+                if (bitmapBytes == 0) {
+                    if (isRetry) {
                         return null;
                     }
-                    else
-                    {
-                        return DownloadBitmapFromWeb(url, f, true);
-                    }
+                    return DownloadBitmapFromWeb(url, f, true);
                 }
                 mFileCache.saveFile(bitmap, url);
                 return bitmap;
@@ -471,7 +448,7 @@ public class LazyImageLoader {
                 Calendar cal = Calendar.getInstance();
                 cal.add(Calendar.DATE, -1);
                 Map<URL, ExpiringBitmap> copy = new HashMap<URL, ExpiringBitmap>(mHardCache);
-                for (URL url : copy.keySet()){
+                for (URL url : copy.keySet()) {
 
                     ExpiringBitmap bitmap = mHardCache.get(url);
                     if (bitmap != null) {
@@ -480,7 +457,7 @@ public class LazyImageLoader {
                         }
                     }
                 }
-                for (URL url : clearedUrls){
+                for (URL url : clearedUrls) {
                     mHardCache.remove(url);
                     mSoftCache.remove(url);
                 }
@@ -489,7 +466,7 @@ public class LazyImageLoader {
             return clearedUrls;
         }
 
-        public Set<URL> getActiveUrls(){
+        public Set<URL> getActiveUrls() {
             return new HashSet<URL>(mHardCache.keySet());
         }
 
@@ -500,7 +477,6 @@ public class LazyImageLoader {
                     if (bitmap.expires.before(new Date())) {
                         mHardCache.remove(url);
                         fileCache.deleteFile(url);
-                        bitmap = null;
                     } else {
                         // Put bitmap on top of cache so it's purged last.
                         try {

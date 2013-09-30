@@ -65,6 +65,19 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
                 .findViewById(R.id.statusImage);
         mAttachImagePreview.setVisibility(View.GONE);
 
+        mAttachImagePreview.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+
+                if (mListener != null) {
+                    mListener.onMediaDetach();
+                }
+                getComposeTweetDefault().clearMediaFilePath();
+                mAttachImagePreview.setVisibility(View.GONE);
+                return true;
+            }
+        });
+
         return resultView;
     }
 
@@ -104,7 +117,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
 
         if (getComposeTweetDefault() != null) {
             String result = getComposeTweetDefault().toString();
-            if (result != null && result.equals("") == false) {
+            if (result != null && !result.equals("")) {
                 return result;
             }
         }
@@ -112,7 +125,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
         {
             if (mListener != null) {
                 String draftAsJsonString = mListener.getDraft();
-                if (draftAsJsonString != null  && draftAsJsonString.equals("") == false)
+                if (draftAsJsonString != null  && !draftAsJsonString.equals(""))
                 {
                     return draftAsJsonString;
                 }
@@ -139,7 +152,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
     /*
 	 *
 	 */
-    FinishedCallback mOnSetStatusCallback = TwitterManager.get()
+    private final FinishedCallback mOnSetStatusCallback = TwitterManager.get()
             .getFetchStatusInstance().new FinishedCallback() {
 
         @Override
@@ -154,8 +167,6 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
             mUpdatingStatus = false;
             mEditText.setEnabled(true);
             mSendButton.setEnabled(true);
-
-            Activity activity = getActivity();
 
             if (result.isSuccessful()) {
                 releaseFocus(false);
@@ -183,7 +194,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
 	 */
     String getDefaultQuoteStatus(TwitterStatus statusToQuote) {
         if (statusToQuote.mStatus.length() > 0) {
-            String quote = null;
+            String quote;
             switch (AppSettings.get().getCurrentQuoteType()) {
 
                 case RT:
@@ -236,11 +247,11 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
         ComposeTweetDefault composeDraft = null;
 
         String currentStatus = mEditText.getText().toString();
-        if (currentStatus != null && currentStatus.equals("") == false) {
+        if (currentStatus != null && !currentStatus.equals("")) {
             if (mStatusValidator.getTweetLength(currentStatus) > 0) {
                 if (getComposeTweetDefault() != null) {
                     getComposeTweetDefault().updateStatus(currentStatus);
-                    if (getComposeTweetDefault().isPlaceholderStatus() == false) {
+                    if (!getComposeTweetDefault().isPlaceholderStatus()) {
                         composeDraft = getComposeTweetDefault();
                     }
                 } else {
@@ -280,7 +291,11 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
     protected void onSendClick(String status) {
         if (status != null) {
             int statusLength = mStatusValidator.getTweetLength(status);
-            if (mStatusValidator.isValidTweet(status, getMaxPostLength()) == false) {
+            if (statusLength == 0){
+                showSimpleAlert(getApp().getCurrentAccount().getSocialNetType() == SocialNetConstant.Type.Twitter ? R
+                        .string.alert_status_empty : R.string.alert_status_empty_adn);
+            }
+            else if (!mStatusValidator.isValidTweet(status, getMaxPostLength())) {
                 showSimpleAlert(mStatusValidator.getTweetLength(status) <= getMaxPostLength() ? R.string.alert_status_invalid
                         : (getApp().getCurrentAccount().getSocialNetType() == SocialNetConstant.Type.Twitter ? R
                         .string.alert_status_too_long : R.string.alert_status_too_long_adn));
@@ -356,7 +371,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
     @Override
     protected void updateStatusHint() {
 
-        if (mUpdatingStatus == true) {
+        if (mUpdatingStatus) {
             mEditText.setHint(R.string.posting_tweet_ongoing);
             return;
         }
@@ -451,8 +466,8 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
         }
     }
 
-    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth,
-                                            int reqHeight) {
+    private static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth,
+                                             int reqHeight) {
         // Raw height and width of image
         final int height = options.outHeight;
         final int width = options.outWidth;
@@ -509,7 +524,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
     /*
 	 *
 	 */
-    TwitterStatus mRetweetStatus;
+    private TwitterStatus mRetweetStatus;
 
     public void retweetSelected(TwitterStatus status, final FinishedCallback callback) {
 
@@ -524,7 +539,8 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
                 new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int which) {
-                        return;
+                        callback.finished(new TwitterFetchResult(true, "CancelPressed"), null);
+
                     }
                 });
         alertDialog.setButton3(getString(R.string.quote),
@@ -532,6 +548,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
 
                     public void onClick(DialogInterface dialog, int which) {
                         if (mRetweetStatus != null) {
+                            callback.finished(new TwitterFetchResult(true, "QutotePressed"), null);
                             beginQuote(mRetweetStatus);
                             mRetweetStatus = null;
                         }

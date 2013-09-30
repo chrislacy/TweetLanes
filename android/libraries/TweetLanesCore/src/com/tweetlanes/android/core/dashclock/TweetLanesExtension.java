@@ -59,8 +59,7 @@ public class TweetLanesExtension extends DashClockExtension {
             String title = mentionCount > 0 ? mentionCount + " new mentions" : "";
             if (title.length() == 0) {
                 title = dmCount + " new direct messages";
-            }
-            else if (dmCount > 0) {
+            } else if (dmCount > 0) {
                 title += ", " + dmCount + " new direct mentions";
             }
             publishUpdate(new ExtensionData().visible(true).icon(R.drawable.ic_launcher).status(String.valueOf(mentionCount + dmCount))
@@ -76,21 +75,20 @@ public class TweetLanesExtension extends DashClockExtension {
 
         if (type.equals(SharedPreferencesConstants.NOTIFICATION_TYPE_MENTION)) {
             postId = preferences.getLong(SharedPreferencesConstants.NOTIFICATION_LAST_DISPLAYED_MENTION_ID + accountKey, 0);
-        }
-        else {
+        } else {
             postId = preferences.getLong(SharedPreferencesConstants.NOTIFICATION_LAST_DISPLAYED_DIRECT_MESSAGE_ID + accountKey, 0);
         }
 
         Intent intent = new Intent(this, HomeActivity.class);
         intent.putExtra("account_key", accountKey);
-        intent.putExtra("post_id", postId);
+        intent.putExtra("notification_post_id", postId);
         intent.putExtra("notification_type", type);
 
         return intent;
     }
 
-    private ArrayList<AccountDescriptor> getAccounts(Context context) {
-        ArrayList<AccountDescriptor> accounts = new ArrayList<AccountDescriptor>();
+    private static ArrayList<AccountDescriptor> getAccounts(Context context) {
+        final ArrayList<AccountDescriptor> accounts = new ArrayList<AccountDescriptor>();
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         String accountIndices = preferences.getString(SharedPreferencesConstants.ACCOUNT_INDICES, null);

@@ -19,8 +19,8 @@ package org.asynctasktex;
 import java.util.ArrayDeque;
 
 class SerialExecutor implements BaseExecutor {
-    final ArrayDeque<Runnable> mTasks = new ArrayDeque<Runnable>();
-    Runnable mActive;
+    private final ArrayDeque<Runnable> mTasks = new ArrayDeque<Runnable>();
+    private Runnable mActive;
 
     @Override
     public synchronized void execute(int priority, Runnable r) {
@@ -42,7 +42,7 @@ class SerialExecutor implements BaseExecutor {
         }
     }
 
-    protected synchronized void scheduleNext() {
+    synchronized void scheduleNext() {
         if ((mActive = mTasks.poll()) != null) {
             AsyncTaskEx.THREAD_POOL_EXECUTOR.execute(mActive);
         }

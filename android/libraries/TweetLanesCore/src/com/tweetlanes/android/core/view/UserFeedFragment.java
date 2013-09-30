@@ -91,8 +91,7 @@ public class UserFeedFragment extends BaseLaneFragment {
     private TwitterUsers _mUsersFeed;
     private FinishedCallback mUserDataRefreshCallback;
     private ViewSwitcher mViewSwitcher;
-    private ArrayList<TwitterUser> mSelectedItems = new ArrayList<TwitterUser>();
-    private MultipleUserSelectionCallback mMultipleUserSelectionCallback;
+    private final ArrayList<TwitterUser> mSelectedItems = new ArrayList<TwitterUser>();
 
     private Long mNewestUserId;
     private Long mRefreshingNewestUserId;
@@ -101,7 +100,7 @@ public class UserFeedFragment extends BaseLaneFragment {
     private boolean mMoreUsersAvailable = true;
 
     /*
-	 *
+     *
 	 */
     public App getApp() {
         return (App) getActivity().getApplication();
@@ -144,7 +143,7 @@ public class UserFeedFragment extends BaseLaneFragment {
         mViewSwitcher = (ViewSwitcher) resultView
                 .findViewById(R.id.profileSwitcher);
         mUserFeedListAdapter = new UserFeedListAdapter(inflater);
-        mMultipleUserSelectionCallback = new MultipleUserSelectionCallback();
+        MultipleUserSelectionCallback multipleUserSelectionCallback = new MultipleUserSelectionCallback();
         mUserFeedListView = (PullToRefreshListView) resultView
                 .findViewById(R.id.pull_to_refresh_listview);
         mUserFeedListView.getRefreshableView().setOnItemClickListener(
@@ -152,7 +151,7 @@ public class UserFeedFragment extends BaseLaneFragment {
         mUserFeedListView.getRefreshableView().setChoiceMode(
                 ListView.CHOICE_MODE_MULTIPLE_MODAL);
         mUserFeedListView.getRefreshableView().setMultiChoiceModeListener(
-                mMultipleUserSelectionCallback);
+                multipleUserSelectionCallback);
         mUserFeedListView.getRefreshableView().setOnScrollListener(
                 mUserFeedOnScrollListener);
         mUserFeedListView.getRefreshableView().setAdapter(mUserFeedListAdapter);
@@ -163,7 +162,7 @@ public class UserFeedFragment extends BaseLaneFragment {
         //
         //
         //
-        TwitterUsers cachedUsers = null;
+        TwitterUsers cachedUsers;
         if (mContentHandle.getUsersType() == UsersType.RETWEETED_BY) {
             cachedUsers = TwitterManager.get().getUsers(mContentHandle,
                     TwitterPaging.createGetMostRecent(20));
@@ -185,27 +184,6 @@ public class UserFeedFragment extends BaseLaneFragment {
         }
 
         return resultView;
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * android.support.v4.app.Fragment#onSaveInstanceState(android.os.Bundle)
-     */
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see android.support.v4.app.Fragment#onDestroy()
-     */
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
     }
 
     private TwitterContentHandleBase getContentHandleBase() {
@@ -266,7 +244,7 @@ public class UserFeedFragment extends BaseLaneFragment {
 
         mViewSwitcher.reset();
 
-        if (loadHasFinished == false
+        if (!loadHasFinished
                 && (getUserFeed() == null || getUserFeed().getUserCount() == 0)) {
             mViewSwitcher.setDisplayedChild(0);
         } else {
@@ -295,7 +273,7 @@ public class UserFeedFragment extends BaseLaneFragment {
         if (mUserFeedListView != null) {
             ListView listView = mUserFeedListView.getRefreshableView();
             if (listView != null && listView.getAdapter() != null
-                    && listView.getAdapter().isEmpty() == false) {
+                    && !listView.getAdapter().isEmpty()) {
                 listView.setSelection(0);
             }
         }
@@ -324,7 +302,7 @@ public class UserFeedFragment extends BaseLaneFragment {
     /*
 	 *
 	 */
-    private OnScrollListener mUserFeedOnScrollListener = new OnScrollListener() {
+    private final OnScrollListener mUserFeedOnScrollListener = new OnScrollListener() {
 
         @Override
         public void onScroll(AbsListView view, int firstVisibleItem,
@@ -350,7 +328,7 @@ public class UserFeedFragment extends BaseLaneFragment {
     /*
 	 *
 	 */
-    private OnLastItemVisibleListener mUserFeedOnLastItemVisibleListener = new OnLastItemVisibleListener() {
+    private final OnLastItemVisibleListener mUserFeedOnLastItemVisibleListener = new OnLastItemVisibleListener() {
 
         @Override
         public void onLastItemVisible() {
@@ -391,7 +369,7 @@ public class UserFeedFragment extends BaseLaneFragment {
     /*
 	 *
 	 */
-    private OnRefreshListener mUserFeedOnRefreshListener = new OnRefreshListener() {
+    private final OnRefreshListener mUserFeedOnRefreshListener = new OnRefreshListener() {
 
         @Override
         public void onRefresh() {
@@ -446,7 +424,7 @@ public class UserFeedFragment extends BaseLaneFragment {
                 profileIntent.putExtra("userId", Long.valueOf(user.getId())
                         .toString());
                 profileIntent.putExtra("userScreenName", user.getScreenName());
-                getActivity().startActivityForResult(profileIntent, Constant.REQUEST_CODE_PROFILE );
+                getActivity().startActivityForResult(profileIntent, Constant.REQUEST_CODE_PROFILE);
             }
         }
     };
@@ -513,7 +491,7 @@ public class UserFeedFragment extends BaseLaneFragment {
                                 if (result.isSuccessful() && users != null
                                         && users.getUserCount() > 0) {
                                     int userCount = users.getUserCount();
-                                    String notice = null;
+                                    String notice;
                                     if (itemId == R.id.action_report_for_spam) {
                                         if (userCount == 1) {
                                             notice = "Reported @"
@@ -559,7 +537,7 @@ public class UserFeedFragment extends BaseLaneFragment {
 
         public void onDestroyActionMode(ActionMode mode) {
             mSelectedItems.clear();
-            if (getBaseLaneActivity().composeHasFocus() == false) {
+            if (!getBaseLaneActivity().composeHasFocus()) {
                 getBaseLaneActivity().setComposeDefault();
             }
         }
@@ -723,13 +701,13 @@ public class UserFeedFragment extends BaseLaneFragment {
             int userCount = getUserFeed() != null ? getUserFeed()
                     .getUserCount() : 0;
 
-            View resultView = null;
+            View resultView;
             if (userCount == 0 && position == getCount() - 1) {
-                resultView = getLoadMoreView(convertView);
+                resultView = getLoadMoreView();
             } else if (position == userCount) {
-                resultView = getLoadMoreView(convertView);
+                resultView = getLoadMoreView();
             } else {
-                resultView = getUserFeedItemView(position, convertView);
+                resultView = getUserFeedItemView(position);
             }
 
             return resultView;
@@ -739,9 +717,9 @@ public class UserFeedFragment extends BaseLaneFragment {
         /*
          *
          */
-        View getUserFeedItemView(int position, View convertView) {
+        View getUserFeedItemView(int position) {
 
-            convertView = mInflater.inflate(R.layout.user_feed_item, null);
+            View convertView = mInflater.inflate(R.layout.user_feed_item, null);
 
             TwitterUser user = getUserFeed().getUser(position);
 
@@ -770,9 +748,9 @@ public class UserFeedFragment extends BaseLaneFragment {
         /*
          *
          */
-        View getLoadMoreView(View convertView) {
+        View getLoadMoreView() {
 
-            convertView = mInflater.inflate(R.layout.load_more, null);
+            View convertView = mInflater.inflate(R.layout.load_more, null);
             LoadMoreView loadMoreView = (LoadMoreView) convertView
                     .findViewById(R.id.loadMoreView);
 
@@ -780,7 +758,7 @@ public class UserFeedFragment extends BaseLaneFragment {
             if (getUserFeed() == null || getUserFeed().getUserCount() == 0) {
                 mode = LoadMoreView.Mode.NONE_FOUND;
             } else {
-                mode = mMoreUsersAvailable == true ? LoadMoreView.Mode.LOADING
+                mode = mMoreUsersAvailable ? LoadMoreView.Mode.LOADING
                         : LoadMoreView.Mode.NO_MORE;
             }
 
@@ -792,7 +770,7 @@ public class UserFeedFragment extends BaseLaneFragment {
          * Remember our context so we can use it when constructing views.
          */
         // private Context mContext;
-        private LayoutInflater mInflater;
+        private final LayoutInflater mInflater;
     }
 
     /*
@@ -822,7 +800,7 @@ public class UserFeedFragment extends BaseLaneFragment {
 
         };
 
-        TwitterUsers cachedUsers = null;
+        TwitterUsers cachedUsers;
         if (mContentHandle.getUsersType() == UsersType.RETWEETED_BY) {
             cachedUsers = TwitterManager.get().getUsers(mContentHandle,
                     TwitterPaging.createGetMostRecent(20),

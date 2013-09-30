@@ -16,13 +16,15 @@
 
 package org.tweetalib.android;
 
+import com.twitter.Autolink;
+
+import org.appdotnet4j.model.AdnPost;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import org.appdotnet4j.model.AdnPost;
-import org.tweetalib.android.model.TwitterMediaEntity;
 import twitter4j.MediaEntity;
 import twitter4j.Paging;
 import twitter4j.Query;
@@ -30,84 +32,67 @@ import twitter4j.Status;
 import twitter4j.URLEntity;
 import twitter4j.UserMentionEntity;
 
-import com.twitter.Autolink;
-import com.twitter.AutolinkEx;
-
 public class TwitterUtil {
 
-    private static AutolinkEx mAutolinkEx;
-    private static Autolink mAutolink;
+    private static Autolink mAutoLink;
+    private static boolean mAllowReInit = true;
 
     private static void initCommon() {
 
-        if (mAutolinkEx == null) {
-            mAutolinkEx = new AutolinkEx();
-            mAutolinkEx.setNoFollow(false);
-            mAutolinkEx.setUsernameIncludeSymbol(true);
-            mAutolinkEx.setUrlTarget("_blank");
-        }
+        if(mAllowReInit)
+        {
+            if (mAutoLink == null) {
+                mAutoLink = new Autolink();
+            }
 
-        if (mAutolink == null) {
-            mAutolink = new Autolink();
-            mAutolink.setNoFollow(false);
-            mAutolink.setUsernameIncludeSymbol(true);
-            mAutolink.setUrlTarget("_blank");
+            mAutoLink.setExtractURLWithoutProtocol(false);
         }
     }
 
     /*
-	 * 
+     *
 	 */
     public static String stripMarkup(String text) {
         return text != null ? android.text.Html.fromHtml(text).toString()
                 : null;
     }
 
-    /*
-	 * 
-	 */
-    public static String getTextMarkup(String text) {
-        return getStatusMarkup(text, null, null, null);
+    public static String getTextMarkup(String text, URLEntity[] urlEntities) {
+        return getStatusMarkup(text, null, urlEntities);
     }
 
     /*
      * return the markup for a status, which replaces t.co/ links with the
      * visible links
      */
-    public static String getStatusMarkup(Status status,
-            TwitterMediaEntity twitterMediaEntity) {
-        return getStatusMarkup(status.getText(), twitterMediaEntity,
-                status.getMediaEntities(), status.getURLEntities());
+    public static String getStatusMarkup(Status status) {
+        return getStatusMarkup(status.getText(), status.getMediaEntities(), status.getURLEntities());
     }
 
     /*
 	 * 
 	 */
-    public static String getStatusMarkup(Status tweet) {
-        return getStatusMarkup(tweet.getText(), null, tweet.getMediaEntities(),
-                tweet.getURLEntities());
+    public static String getStatusMarkup(AdnPost post) {
+
+        initCommon();
+        mAutoLink.setExtractURLWithoutProtocol(true);
+        mAllowReInit = false;
+
+        String statusMarkup =  getStatusMarkup(post.mText, null, post.mUrls);
+        mAllowReInit = true;
+
+        return statusMarkup;
     }
 
     /*
 	 * 
 	 */
-    public static String getStatusMarkup(AdnPost post,
-            TwitterMediaEntity mediaEntity) {
-        return getStatusMarkup(post.mText, mediaEntity, null, null);
-    }
-
-    /*
-	 * 
-	 */
-    public static String getStatusMarkup(String statusText,
-            TwitterMediaEntity twitterMediaEntity, MediaEntity[] mediaEntities,
-            URLEntity[] urlEntities) {
+    public static String getStatusMarkup(String statusText, MediaEntity[] mediaEntities,
+                                         URLEntity[] urlEntities) {
 
         initCommon();
 
-        String autoLinkAll = mAutolinkEx.autoLinkAll(statusText,
-                twitterMediaEntity, mediaEntities, urlEntities);
-        return autoLinkAll;
+        return mAutoLink.autoLinkAll(statusText, mediaEntities, urlEntities);
     }
 
     /*
@@ -188,8 +173,7 @@ public class TwitterUtil {
         } catch (IndexOutOfBoundsException e) {
             throw new ParseException("Invalid length", 0);
         }
-        Date date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").parse(s);
-        return date;
+        return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").parse(s);
     }
 
 }

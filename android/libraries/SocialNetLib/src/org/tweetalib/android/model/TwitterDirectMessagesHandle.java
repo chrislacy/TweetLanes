@@ -19,7 +19,7 @@ package org.tweetalib.android.model;
 public class TwitterDirectMessagesHandle {
 
     /*
-	 * 
+     *
 	 */
     public TwitterDirectMessagesHandle(long userId, Long otherUserId) {
         mUserId = userId;
@@ -37,6 +37,6 @@ public class TwitterDirectMessagesHandle {
         return key;
     }
 
-    Long mUserId;
-    Long mOtherUserId;
+    private final Long mUserId;
+    final Long mOtherUserId;
 }

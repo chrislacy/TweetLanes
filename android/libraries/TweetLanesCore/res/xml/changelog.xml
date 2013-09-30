@@ -1,5 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+	<release version="1.2.1" versioncode="51">
+        <change>Feature - Make the ActionBar title selectable when viewing a profile</change>
+        <change>Feature - Added a visual cue when favorite button is pressed</change>
+        <change>Feature - Added Holo Light Dark Actionbar Theme</change>
+        <change>Feature - Added "Extra Extra Large" and "Supersize" font sizes</change>
+        <change>Feature - Extended the auto complete to match typed text anywhere in username and in full name</change>
+        <change>Feature - Added ability to remove an attached image by pressing and holding</change>
+        <change>Feature - Added URL handling so that Tweetlanes is a choice when loading Twitter or App.net items</change>
+        <change>Feature - Added smarter fetching starting with small pages, and incrementing as extra pages required</change>
+        <change>Feature - Added refresh after posting &amp; refresh when loading app from notification</change>
+        <change>Feature - Added ability to show absolute times on timeline, also a mixed mode (59 mins a less is relative)</change>
+	    <change>Fix - Links are now shown in full, rather than a "display link"</change>
+        <change>Fix - Links in profile descriptions converted from t.co links</change>
+        <change>Fix - Reply when loading profile correction.  Show "Tweet @username"</change>
+	    <change>Fix - Correct issues around compose box after loading profile</change>
+	    <change>Fix - Use the t.co display url, rather than expanded url.  These are formatted nicer</change>
+	    <change>Fix - Fix issue when more than 1 page of tweets.  Fetch only completes when all tweets collected preventing feed jumping</change>
+        <change>Fix - Change the message when you try and send an empty status update</change>
+        <change>Fix - Correct issue with the new tweet bar when orientation changes and account switches</change>
+        <change>Fix - Profile and service icon only show when you use both networks, or have 3 or more accounts</change>
+        <change>Fix - Position in lanes remembered between loads and lane switches</change>
+        <change>Fix - Profile URL is now expanded from a t.co</change>
+        <change>Fix - Close several leaks dealing with the image loader</change>
+        <change>Fix - Significantly reduce overdraw in lists containing tweets</change>
+        <change>Fix - Force close when switching accounts</change>
+        <change>Fix - New tweet count on close and re-open</change>
+	    <change>Other - Large codebase tidy-up - hopefully small improvement to performance, size and reliability</change>
+    </release>
     <release version="1.2.0" versioncode="49">
         <change>Feature - Auto complete of @mentions and #hashtags</change>
         <change>Feature - New account switcher with picture and service icon</change>
@@ -55,3 +83,4 @@
         <change>Other - Removed open source code from Twidere, as it was license incompatible with Tweet Lanes</change>
     </release>
 </changelog>
+

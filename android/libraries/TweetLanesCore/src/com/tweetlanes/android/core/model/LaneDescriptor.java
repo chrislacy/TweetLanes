@@ -11,9 +11,9 @@
 
 package com.tweetlanes.android.core.model;
 
-import org.tweetalib.android.TwitterContentHandleBase;
-
 import com.tweetlanes.android.core.Constant;
+
+import org.tweetalib.android.TwitterContentHandleBase;
 
 public class LaneDescriptor {
 
@@ -29,7 +29,7 @@ public class LaneDescriptor {
     }
 
     /*
-	 * 
+     *
 	 */
     public LaneDescriptor(Constant.LaneType laneType, String laneTitle,
                           String identifier, TwitterContentHandleBase contentHandleBase) {
@@ -86,9 +86,9 @@ public class LaneDescriptor {
         return key;
     }
 
-    private Constant.LaneType mLaneType;
-    private TwitterContentHandleBase mContentHandleBase;
+    private final Constant.LaneType mLaneType;
+    private final TwitterContentHandleBase mContentHandleBase;
     private String mLaneTitle;
-    private String mIdentifier;
+    private final String mIdentifier;
     private boolean mDisplay; // Will the lane be drawn?
 }

@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.tweetlanes.android.beta"
-    android:versionCode="5"
-    android:versionName="1.2.0_b2">
+    android:versionCode="51"
+    android:versionName="1.2.1_b8">
+
+
 
     <uses-sdk android:targetSdkVersion="17"
         android:minSdkVersion="14" />
@@ -31,6 +33,24 @@
             <intent-filter android:label="@string/beta_launcher_name">
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="twitter.com" android:pathPattern="/.*/status/.*" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="mobile.twitter.com" android:pathPattern="/.*/status/.*" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="alpha.app.net" android:pathPattern="/.*/post/.*" />
             </intent-filter>
         </activity>
 

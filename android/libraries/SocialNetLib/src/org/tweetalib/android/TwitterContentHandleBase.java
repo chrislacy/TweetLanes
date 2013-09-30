@@ -16,22 +16,22 @@
 
 package org.tweetalib.android;
 
-import java.io.Serializable;
-
 import org.tweetalib.android.TwitterConstant.ContentType;
 import org.tweetalib.android.TwitterConstant.DirectMessagesType;
 import org.tweetalib.android.TwitterConstant.StatusType;
 import org.tweetalib.android.TwitterConstant.StatusesType;
 import org.tweetalib.android.TwitterConstant.UsersType;
 
+import java.io.Serializable;
+
 public class TwitterContentHandleBase implements Serializable {
 
     /**
-	 * 
-	 */
+     *
+     */
     private static final long serialVersionUID = 4132026070249216175L;
 
-    public TwitterContentHandleBase(TwitterContentHandleBase other) {
+    TwitterContentHandleBase(TwitterContentHandleBase other) {
         mContentType = other.mContentType;
         mDirectMessagesType = other.mDirectMessagesType;
         mStatusType = other.mStatusType;
@@ -40,7 +40,7 @@ public class TwitterContentHandleBase implements Serializable {
     }
 
     public TwitterContentHandleBase(ContentType contentType,
-            DirectMessagesType directMessagesType) {
+                                    DirectMessagesType directMessagesType) {
         this(contentType, directMessagesType, null, null, null);
     }
 
@@ -49,12 +49,12 @@ public class TwitterContentHandleBase implements Serializable {
     }
 
     public TwitterContentHandleBase(ContentType contentType,
-            StatusType statusType) {
+                                    StatusType statusType) {
         this(contentType, null, statusType, null, null);
     }
 
     public TwitterContentHandleBase(ContentType contentType,
-            StatusesType statusesType) {
+                                    StatusesType statusesType) {
         this(contentType, null, null, statusesType, null);
     }
 
@@ -62,9 +62,9 @@ public class TwitterContentHandleBase implements Serializable {
         this(contentType, null, null, null, usersType);
     }
 
-    public TwitterContentHandleBase(ContentType contentType,
-            DirectMessagesType directMessagesType, StatusType statusType,
-            StatusesType statusesType, UsersType usersType) {
+    private TwitterContentHandleBase(ContentType contentType,
+                                     DirectMessagesType directMessagesType, StatusType statusType,
+                                     StatusesType statusesType, UsersType usersType) {
         mContentType = contentType;
         mDirectMessagesType = directMessagesType;
         mStatusType = statusType;
@@ -72,7 +72,7 @@ public class TwitterContentHandleBase implements Serializable {
         mUsersType = usersType;
     }
 
-    public String getTypeAsString() {
+    String getTypeAsString() {
         String result = mContentType.toString();
         if (mDirectMessagesType != null) {
             result += "_" + mDirectMessagesType.toString();
@@ -89,16 +89,8 @@ public class TwitterContentHandleBase implements Serializable {
         return result;
     }
 
-    public ContentType getContentType() {
-        return mContentType;
-    }
-
     public DirectMessagesType getDirectMessagesType() {
         return mDirectMessagesType;
-    }
-
-    public StatusType getStatusType() {
-        return mStatusType;
     }
 
     public StatusesType getStatusesType() {
@@ -109,9 +101,9 @@ public class TwitterContentHandleBase implements Serializable {
         return mUsersType;
     }
 
-    protected ContentType mContentType;
-    protected DirectMessagesType mDirectMessagesType;
-    protected StatusType mStatusType;
-    protected StatusesType mStatusesType;
-    protected UsersType mUsersType;
+    final ContentType mContentType;
+    private final DirectMessagesType mDirectMessagesType;
+    final StatusType mStatusType;
+    final StatusesType mStatusesType;
+    final UsersType mUsersType;
 }

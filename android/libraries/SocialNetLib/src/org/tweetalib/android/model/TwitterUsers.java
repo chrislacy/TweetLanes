@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class TwitterUsers {
 
     /*
-	 * 
+     *
 	 */
     public TwitterUsers() {
         mUsers = new ArrayList<TwitterUser>();
@@ -90,5 +90,5 @@ public class TwitterUsers {
     /*
 	 * 
 	 */
-    private ArrayList<TwitterUser> mUsers;
+    private final ArrayList<TwitterUser> mUsers;
 }

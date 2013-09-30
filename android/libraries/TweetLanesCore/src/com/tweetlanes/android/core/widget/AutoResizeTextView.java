@@ -22,7 +22,7 @@ import android.widget.TextView;
 public class AutoResizeTextView extends TextView {
 
     // Minimum text size for this text view
-    public static final float MIN_TEXT_SIZE = 20;
+    private static final float MIN_TEXT_SIZE = 20;
 
     // Interface for resize notifications
     public interface OnTextResizeListener {
@@ -134,68 +134,9 @@ public class AutoResizeTextView extends TextView {
     }
 
     /**
-     * Set the upper text size limit and invalidate the view
-     *
-     * @param maxTextSize
-     */
-    public void setMaxTextSize(float maxTextSize) {
-        mMaxTextSize = maxTextSize;
-        requestLayout();
-        invalidate();
-    }
-
-    /**
-     * Return upper text size limit
-     *
-     * @return
-     */
-    public float getMaxTextSize() {
-        return mMaxTextSize;
-    }
-
-    /**
-     * Set the lower text size limit and invalidate the view
-     *
-     * @param minTextSize
-     */
-    public void setMinTextSize(float minTextSize) {
-        mMinTextSize = minTextSize;
-        requestLayout();
-        invalidate();
-    }
-
-    /**
-     * Return lower text size limit
-     *
-     * @return
-     */
-    public float getMinTextSize() {
-        return mMinTextSize;
-    }
-
-    /**
-     * Set flag to add ellipsis to text that overflows at the smallest text size
-     *
-     * @param addEllipsis
-     */
-    public void setAddEllipsis(boolean addEllipsis) {
-        mAddEllipsis = addEllipsis;
-    }
-
-    /**
-     * Return flag to add ellipsis to text that overflows at the smallest text
-     * size
-     *
-     * @return
-     */
-    public boolean getAddEllipsis() {
-        return mAddEllipsis;
-    }
-
-    /**
      * Reset the text to the original size
      */
-    public void resetTextSize() {
+    void resetTextSize() {
         if (mTextSize > 0) {
             super.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTextSize);
             mMaxTextSize = mTextSize;
@@ -219,21 +160,12 @@ public class AutoResizeTextView extends TextView {
     }
 
     /**
-     * Resize the text size with default width and height
-     */
-    public void resizeText() {
-        int heightLimit = getHeight() - getPaddingBottom() - getPaddingTop();
-        int widthLimit = getWidth() - getPaddingLeft() - getPaddingRight();
-        resizeText(widthLimit, heightLimit);
-    }
-
-    /**
      * Resize the text size with specified width and height
      *
      * @param width
      * @param height
      */
-    public void resizeText(int width, int height) {
+    void resizeText(int width, int height) {
         CharSequence text = getText();
         // Do not resize if the view does not have dimensions or there is no
         // text

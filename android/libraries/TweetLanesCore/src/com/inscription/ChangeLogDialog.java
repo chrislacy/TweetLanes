@@ -53,13 +53,13 @@ public class ChangeLogDialog {
             + ".summary { font-size: 9pt; color: #606060; display: block; clear: left; }"
             + ".date { font-size: 9pt; color: #606060;  display: block; }";
 
-    protected DialogInterface.OnDismissListener mOnDismissListener;
+    DialogInterface.OnDismissListener mOnDismissListener;
 
     public ChangeLogDialog(final Context context) {
         mContext = context;
     }
 
-    protected Context getContext() {
+    Context getContext() {
         return mContext;
     }
 
@@ -109,7 +109,7 @@ public class ChangeLogDialog {
         while ((eventType != XmlPullParser.END_TAG) || (resourceParser.getName().equals("change"))) {
             if ((eventType == XmlPullParser.START_TAG) && (resourceParser.getName().equals("change"))) {
                 eventType = resourceParser.next();
-                changelogBuilder.append("<li>" + resourceParser.getText() + "</li>");
+                changelogBuilder.append("<li>").append(resourceParser.getText()).append("</li>");
             }
             eventType = resourceParser.next();
         }
@@ -190,7 +190,7 @@ public class ChangeLogDialog {
         show(0);
     }
 
-    protected void show(final int version) {
+    void show(final int version) {
         //Get resources
         final String packageName = mContext.getPackageName();
         final Resources resources;
@@ -205,15 +205,19 @@ public class ChangeLogDialog {
         title = String.format("%s v%s", title, getAppVersion());
 
         //Create html change log
-        final String htmlChangelog = getHTMLChangelog(R.xml.changelog, resources, version);
+        String htmlChangelog = getHTMLChangelog(R.xml.changelog, resources, version);
 
         //Get button strings
         final String closeString = resources.getString(R.string.changelog_close);
 
         //Check for empty change log
         if (htmlChangelog.length() == 0) {
-            //It seems like there is nothing to show, just bail out.
-            return;
+            //It seems like there is nothing to try with version 0.
+            htmlChangelog = getHTMLChangelog(R.xml.changelog, resources, 0);
+            if (htmlChangelog.length() == 0) {
+                //It seems like there is still nothing to show, just bail out.
+                return;
+            }
         }
 
         //Create web view and load html

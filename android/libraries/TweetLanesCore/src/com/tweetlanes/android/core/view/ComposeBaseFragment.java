@@ -56,7 +56,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
-public abstract class ComposeBaseFragment extends Fragment {
+abstract class ComposeBaseFragment extends Fragment {
 
     /*
      *
@@ -84,25 +84,23 @@ public abstract class ComposeBaseFragment extends Fragment {
         public String getDraft();
     }
 
-    final int SHORT_URL_LENGTH_HTTPS = 23;
-
     ImageButton mSendButton;
     EditClearText mEditText;
-    EditText mAutocompleteTarget;
-    TextView mCharacterCountTextView;
-    Long mShowStartTime;
-    Validator mStatusValidator = new Validator();
-    ListView mAutocompleteListView;
+    private EditText mAutocompleteTarget;
+    private TextView mCharacterCountTextView;
+    private Long mShowStartTime;
+    final Validator mStatusValidator = new Validator();
+    private ListView mAutocompleteListView;
 
     ComposeListener mListener;
-    boolean mHasFocus = false;
-    boolean mIgnoreFocusChange = false;
+    private boolean mHasFocus = false;
+    private boolean mIgnoreFocusChange = false;
     boolean mUpdatingStatus = false;
 
     /*
-	 *
+     *
 	 */
-    public App getApp() {
+    App getApp() {
         if (getActivity() == null || getActivity().getApplication() == null) {
             return null;
         }
@@ -172,22 +170,19 @@ public abstract class ComposeBaseFragment extends Fragment {
         }
     }
 
-    protected int getMaxPostLength() {
-        if (getApp() == null)
-        {
+    int getMaxPostLength() {
+        if (getApp() == null) {
             return 140;
         }
 
         AccountDescriptor account = getApp().getCurrentAccount();
 
-        if (account == null){
+        if (account == null) {
             return 140;
             //best to use the lower number in case
-        }
-        else
-        {
+        } else {
             return account.getSocialNetType() == SocialNetConstant.Type.Appdotnet ? 256 : 140;
-        }       
+        }
     }
 
     /*
@@ -212,7 +207,6 @@ public abstract class ComposeBaseFragment extends Fragment {
                 new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int which) {
-                        return;
                     }
                 });
         alertDialog.show();
@@ -235,19 +229,11 @@ public abstract class ComposeBaseFragment extends Fragment {
     /*
 	 *
 	 */
-    String getFormattedStatus(String status) {
-        status.replaceAll("\\s+$", "");
-        return status;
-    }
-
-    /*
-	 *
-	 */
-    public boolean releaseFocus(boolean saveCurrentTweet) {
+    public void releaseFocus(boolean saveCurrentTweet) {
 
         clearCompose(saveCurrentTweet);
         setMediaPreviewVisibility();
-        return hideCompose();
+        hideCompose();
     }
 
     /*
@@ -255,7 +241,7 @@ public abstract class ComposeBaseFragment extends Fragment {
 	 */
     boolean hideCompose() {
 
-        if (mHasFocus == true) {
+        if (mHasFocus) {
 
             hideKeyboard();
             if (mAutocompleteListView != null) {
@@ -293,10 +279,10 @@ public abstract class ComposeBaseFragment extends Fragment {
     /*
 	 *
 	 */
-    OnFocusChangeListener mOnFocusChangeListener = new OnFocusChangeListener() {
+    private final OnFocusChangeListener mOnFocusChangeListener = new OnFocusChangeListener() {
 
         public void onFocusChange(View v, boolean hasFocus) {
-            if (hasFocus == true && mIgnoreFocusChange == false) {
+            if (hasFocus && !mIgnoreFocusChange) {
                 showCompose();
                 setMediaPreviewVisibility();
             }
@@ -314,15 +300,13 @@ public abstract class ComposeBaseFragment extends Fragment {
     /*
 	 *
 	 */
-    TextWatcher mTextChangedListener = new TextWatcher() {
+    private final TextWatcher mTextChangedListener = new TextWatcher() {
 
         public void afterTextChanged(Editable s) {
             String asString = s.toString();
             configureCharacterCountForString(asString);
-            if (asString == null || asString.equals("") == true)
-            {
-                if (mListener.getDraft() == null)
-                {
+            if (asString == null || asString.equals("")) {
+                if (mListener.getDraft() == null) {
                     setComposeTweetDefault(null);
                     updateStatusHint();
                 }
@@ -340,7 +324,7 @@ public abstract class ComposeBaseFragment extends Fragment {
         }
     };
 
-    protected void autoComplete(String text, EditText editText) {
+    void autoComplete(String text, EditText editText) {
         if (mAutocompleteListView == null) {
             return;
         }
@@ -364,28 +348,24 @@ public abstract class ComposeBaseFragment extends Fragment {
             mAutocompleteListView.setAdapter(new AutoCompleteMentionAdapter(this.getActivity(), autoCompleteMentions));
             mAutocompleteTarget = editText;
             mAutocompleteListView.setOnItemClickListener(mOnAutoCompleteItemClickListener);
-        }
-        else if (lastWholeWord.startsWith("#")) {
+        } else if (lastWholeWord.startsWith("#")) {
             List<String> autoCompleteHashtags = getAutoCompleteHashtags(lastWholeWord);
 
             mAutocompleteListView.setVisibility(View.VISIBLE);
             mAutocompleteListView.setAdapter(new AutoCompleteHashtagAdapter(this.getActivity(), autoCompleteHashtags));
             mAutocompleteTarget = editText;
             mAutocompleteListView.setOnItemClickListener(mOnAutoCompleteItemClickListener);
-        }
-
-        else {
+        } else {
             mAutocompleteListView.setVisibility(View.GONE);
         }
     }
 
     private class AutoCompleteMentionAdapter extends android.widget.BaseAdapter {
 
-        Context mContext;
-        List<TwitterUser> mData;
+        final Context mContext;
+        final List<TwitterUser> mData;
 
-        public AutoCompleteMentionAdapter(Context context, List<TwitterUser> data)
-        {
+        public AutoCompleteMentionAdapter(Context context, List<TwitterUser> data) {
             mContext = context;
             mData = data;
         }
@@ -410,18 +390,17 @@ public abstract class ComposeBaseFragment extends Fragment {
             View row = convertView;
             UserHolder holder;
 
-            if (row == null)
-            {
-                LayoutInflater inflater = ((Activity)mContext).getLayoutInflater();
+            if (row == null) {
+                LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
                 row = inflater.inflate(R.layout.autocompletemention_row, parent, false);
 
                 holder = new UserHolder();
-                holder.AvatarImage = (ImageView)row.findViewById(R.id.autoCompleteAvatar);
-                holder.ScreenName = (TextView)row.findViewById(R.id.autoCompleteScreenName);
-                holder.FullName = (TextView)row.findViewById(R.id.autoCompleteFullName);
+                holder.AvatarImage = (ImageView) row.findViewById(R.id.autoCompleteAvatar);
+                holder.ScreenName = (TextView) row.findViewById(R.id.autoCompleteScreenName);
+                holder.FullName = (TextView) row.findViewById(R.id.autoCompleteFullName);
 
                 int dimensionValue = mContext.getResources().getDimensionPixelSize(R.dimen.font_size_medium);
-                int imageSize = (int)mContext.getResources().getDimension(R.dimen.font_size_medium);
+                int imageSize = (int) mContext.getResources().getDimension(R.dimen.font_size_medium);
 
                 holder.ScreenName.setTextSize(TypedValue.COMPLEX_UNIT_PX, dimensionValue);
                 holder.FullName.setTextSize(TypedValue.COMPLEX_UNIT_PX, dimensionValue);
@@ -429,16 +408,13 @@ public abstract class ComposeBaseFragment extends Fragment {
                 holder.AvatarImage.setMaxHeight(imageSize);
 
                 row.setTag(holder);
-            }
-            else
-            {
-                holder = (UserHolder)row.getTag();
+            } else {
+                holder = (UserHolder) row.getTag();
             }
 
             TwitterUser user = mData.get(position);
 
-            if (user == null)
-            {
+            if (user == null) {
                 return row;
             }
 
@@ -449,8 +425,7 @@ public abstract class ComposeBaseFragment extends Fragment {
             return row;
         }
 
-        class UserHolder
-        {
+        class UserHolder {
             public ImageView AvatarImage;
             public TextView ScreenName;
             public TextView FullName;
@@ -459,11 +434,10 @@ public abstract class ComposeBaseFragment extends Fragment {
 
     private class AutoCompleteHashtagAdapter extends android.widget.BaseAdapter {
 
-        Context mContext;
-        List<String> mData;
+        final Context mContext;
+        final List<String> mData;
 
-        public AutoCompleteHashtagAdapter(Context context, List<String> data)
-        {
+        public AutoCompleteHashtagAdapter(Context context, List<String> data) {
             mContext = context;
             mData = data;
         }
@@ -488,29 +462,25 @@ public abstract class ComposeBaseFragment extends Fragment {
             View row = convertView;
             HashtagHolder holder;
 
-            if (row == null)
-            {
-                LayoutInflater inflater = ((Activity)mContext).getLayoutInflater();
+            if (row == null) {
+                LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
                 row = inflater.inflate(R.layout.autocompletehashtag_row, parent, false);
 
                 holder = new HashtagHolder();
-                holder.Hashtag = (TextView)row.findViewById(R.id.autoCompleteHashtag);
+                holder.Hashtag = (TextView) row.findViewById(R.id.autoCompleteHashtag);
 
                 int dimensionValue = mContext.getResources().getDimensionPixelSize(R.dimen.font_size_medium);
 
                 holder.Hashtag.setTextSize(TypedValue.COMPLEX_UNIT_PX, dimensionValue);
 
                 row.setTag(holder);
-            }
-            else
-            {
-                holder = (HashtagHolder)row.getTag();
+            } else {
+                holder = (HashtagHolder) row.getTag();
             }
 
             String hashtag = mData.get(position);
 
-            if (hashtag == null)
-            {
+            if (hashtag == null) {
                 return row;
             }
 
@@ -519,8 +489,7 @@ public abstract class ComposeBaseFragment extends Fragment {
             return row;
         }
 
-        class HashtagHolder
-        {
+        class HashtagHolder {
             public TextView Hashtag;
         }
     }
@@ -538,14 +507,15 @@ public abstract class ComposeBaseFragment extends Fragment {
                     profileImageLoader.displayImage(profileImageUrl, avatar);
                 }
             }
-        }}
+        }
+    }
 
 
     private final AdapterView.OnItemClickListener mOnAutoCompleteItemClickListener = new AdapterView.OnItemClickListener() {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            TextView textView = (TextView)view.findViewById(R.id.autoCompleteScreenName);
+            TextView textView = (TextView) view.findViewById(R.id.autoCompleteScreenName);
             if (textView == null) {
-                textView = (TextView)view.findViewById(R.id.autoCompleteHashtag);
+                textView = (TextView) view.findViewById(R.id.autoCompleteHashtag);
             }
 
             String autoCompleteText = String.valueOf(textView.getText());
@@ -564,8 +534,12 @@ public abstract class ComposeBaseFragment extends Fragment {
         ArrayList<TwitterUser> list = new ArrayList<TwitterUser>();
         List<TwitterUser> users = TwitterManager.get().getFetchUserInstance().getCachedUsers();
 
+        text = text.replace("@", "");
+
         for (TwitterUser user : users) {
-            if (("@" + user.getScreenName()).toLowerCase().startsWith(text.toLowerCase())) {
+
+            if (user.getScreenName().toLowerCase().contains(text.toLowerCase()) ||
+                    user.getName().toLowerCase().contains(text.toLowerCase())) {
                 list.add(user);
             }
         }
@@ -614,22 +588,28 @@ public abstract class ComposeBaseFragment extends Fragment {
     /*
 	 *
 	 */
-    OnClickListener mOnSendTweetClickListener = new OnClickListener() {
+    private final OnClickListener mOnSendTweetClickListener = new OnClickListener() {
 
         @Override
         public void onClick(View v) {
             String status = mEditText.getText().toString();
+            if (status==null || status.equals("")){
+                ComposeTweetDefault composeTweetDefault = getComposeTweetDefault();
+                if(composeTweetDefault!= null){
+                    status = composeTweetDefault.getStatus();
+                }
+            }
             onSendClick(status);
         }
     };
 
     protected abstract void onSendClick(String status);
 
-    public abstract void setMediaPreviewVisibility();
+    protected abstract void setMediaPreviewVisibility();
 
     /*
 	 */
-    EditClearTextListener mEditClearTextListener = new EditClearTextListener() {
+    private final EditClearTextListener mEditClearTextListener = new EditClearTextListener() {
 
         @Override
         public boolean canClearText() {
@@ -654,7 +634,7 @@ public abstract class ComposeBaseFragment extends Fragment {
 
         @Override
         public void onTouch(View v, MotionEvent event) {
-            if (mHasFocus == false) {
+            if (!mHasFocus) {
                 showCompose();
                 setMediaPreviewVisibility();
             }
@@ -666,20 +646,19 @@ public abstract class ComposeBaseFragment extends Fragment {
 	 */
     void clearCompose(boolean saveCurrentTweet) {
 
-        if (saveCurrentTweet)
-        {
+        if (saveCurrentTweet) {
             saveCurrentAsDraft();
             updateComposeTweetDefault();
-        }
-        else
-        {
+        } else {
             setComposeTweetDefault(null);
 
             if (mListener != null) {
                 mListener.onMediaDetach();
             }
 
-            getApp().clearTweetDraft();
+            if (getApp() != null) {
+                getApp().clearTweetDraft();
+            }
         }
 
         // NOTE: Changing these text values causes a crash during the copy/paste
@@ -697,7 +676,7 @@ public abstract class ComposeBaseFragment extends Fragment {
 
     void showCompose(String defaultStatus) {
 
-        if (mHasFocus == false) {
+        if (!mHasFocus) {
 
             mHasFocus = true;
             mShowStartTime = new Date().getTime();
@@ -734,7 +713,7 @@ public abstract class ComposeBaseFragment extends Fragment {
     /*
 	 *
 	 */
-    protected static String getStatusHintSnippet(String status, int maxLength) {
+    static String getStatusHintSnippet(String status, int maxLength) {
 
         if (status.length() == 0) {
             return null;
@@ -748,16 +727,16 @@ public abstract class ComposeBaseFragment extends Fragment {
     /*
 	 *
 	 */
-    protected ComposeTweetDefault _mComposeDefault;
+    ComposeTweetDefault _mComposeDefault;
 
-    protected ComposeTweetDefault getComposeTweetDefault() {
+    ComposeTweetDefault getComposeTweetDefault() {
         return _mComposeDefault;
     }
 
     /*
 	 *
 	 */
-    protected void setComposeTweetDefault(
+    void setComposeTweetDefault(
             ComposeTweetDefault composeTweetDefault) {
         _mComposeDefault = composeTweetDefault;
     }
@@ -779,25 +758,21 @@ public abstract class ComposeBaseFragment extends Fragment {
 	 */
     void configureCharacterCountForString(String string) {
 
-        if (string != null)
-        {
+        if (string != null) {
             int length = mStatusValidator.getTweetLength(string);
             if (length > 0) {
                 int remaining = getMaxPostLength() - length;
                 if (_mComposeDefault != null
                         && _mComposeDefault.getMediaFilePath() != null) {
+                    int SHORT_URL_LENGTH_HTTPS = 23;
                     remaining -= SHORT_URL_LENGTH_HTTPS - 1;
                 }
 
                 mCharacterCountTextView.setText("" + remaining);
-            }
-            else
-            {
+            } else {
                 mCharacterCountTextView.setText("" + getMaxPostLength());
             }
-        }
-        else
-        {
+        } else {
             mCharacterCountTextView.setText("");
         }
     }

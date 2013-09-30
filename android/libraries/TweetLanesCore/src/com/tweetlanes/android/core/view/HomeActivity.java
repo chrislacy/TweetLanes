@@ -14,11 +14,8 @@ package com.tweetlanes.android.core.view;
 import android.app.ActionBar;
 import android.app.ActionBar.OnNavigationListener;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -34,7 +31,6 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -62,12 +58,9 @@ import org.tweetalib.android.TwitterContentHandleBase;
 import org.tweetalib.android.TwitterFetchLists.FinishedCallback;
 import org.tweetalib.android.TwitterFetchResult;
 import org.tweetalib.android.TwitterFetchUser;
-import org.tweetalib.android.TwitterFetchUsers;
 import org.tweetalib.android.TwitterManager;
 import org.tweetalib.android.TwitterPaging;
 import org.tweetalib.android.model.TwitterLists;
-import org.tweetalib.android.model.TwitterStatus;
-import org.tweetalib.android.model.TwitterStatusUpdate;
 import org.tweetalib.android.model.TwitterUser;
 import org.tweetalib.android.model.TwitterUsers;
 
@@ -79,10 +72,10 @@ import java.util.List;
 
 public class HomeActivity extends BaseLaneActivity {
 
-    HomeLaneAdapter mHomeLaneAdapter;
-    SpinnerAdapter mSpinnerAdapter;
-    ViewSwitcher mViewSwitcher;
-    FinishedCallback mFetchListsCallback;
+    private HomeLaneAdapter mHomeLaneAdapter;
+    private SpinnerAdapter mSpinnerAdapter;
+    private ViewSwitcher mViewSwitcher;
+    private FinishedCallback mFetchListsCallback;
     private OnNavigationListener mOnNavigationListener;
     private Integer mDefaultLaneOverride = null;
 
@@ -95,15 +88,14 @@ public class HomeActivity extends BaseLaneActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        super.onCreate(savedInstanceState);
-
         AccountDescriptor account = getApp().getCurrentAccount();
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
+            // Notifications
             String accountKey = extras.getString("account_key");
             String notificationType = extras.getString("notification_type");
-            long postId = extras.getLong("post_id");
+            long notificationPostId = extras.getLong("notification_post_id");
             String laneName = extras.getString("lane");
 
             if (accountKey != null) {
@@ -111,12 +103,12 @@ public class HomeActivity extends BaseLaneActivity {
                 getIntent().removeExtra("notification_type");
                 AccountDescriptor notificationAccount = getApp().getAccountByKey(accountKey);
 
-                Notifier.saveLastNotificationActioned(this, accountKey, notificationType, postId);
+                Notifier.saveLastNotificationActioned(this, accountKey, notificationType, notificationPostId);
 
                 Constant.LaneType notificationLaneType = notificationType.equals(SharedPreferencesConstants.NOTIFICATION_TYPE_MENTION) ? Constant.LaneType.USER_MENTIONS : Constant.LaneType.DIRECT_MESSAGES;
 
                 if (notificationAccount != null) {
-                    long  notificationAccountId = notificationAccount.getId();
+                    long notificationAccountId = notificationAccount.getId();
                     long currentAccountId = account.getId();
                     if (notificationAccountId == currentAccountId) {
                         int index = account.getCurrentLaneIndex(notificationLaneType);
@@ -135,6 +127,8 @@ public class HomeActivity extends BaseLaneActivity {
                 }
             }
         }
+
+        super.onCreate(savedInstanceState);
 
         // Attempt at fixing a crash found in HomeActivity
         if (account == null) {
@@ -178,9 +172,9 @@ public class HomeActivity extends BaseLaneActivity {
         whatsNewDialog.show();
     }
 
-    void clearTempFolder(){
+    void clearTempFolder() {
 
-        File dir = new File(Environment.getExternalStorageDirectory(),"temp/images/Tweet Lanes");
+        File dir = new File(Environment.getExternalStorageDirectory(), "temp/images/Tweet Lanes");
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.HOUR, -1);
 
@@ -188,27 +182,31 @@ public class HomeActivity extends BaseLaneActivity {
         if (files == null) return;
         for (final File f : files) {
             Date lastModDate = new Date(f.lastModified());
-            if(lastModDate.before(cal.getTime()))
-            {
+            if (lastModDate.before(cal.getTime())) {
                 f.delete();
             }
         }
 
     }
 
-    /*
-     *
-	 */
     void onCreateHandleIntents() {
 
         boolean turnSoftKeyboardOff = true;
 
         Intent intent = getIntent();
+
+        Bundle extras = intent.getExtras();
+        if (extras != null) {
+            String composeText = extras.getString("composeText");
+            if(composeText!= null && !composeText.isEmpty()){
+                beginShareStatus(composeText);
+            }
+        }
+
         if (intent.getAction() == Intent.ACTION_SEND) {
 
-            Bundle extras = intent.getExtras();
             String type = intent.getType();
-            if (type.equals("text/plain") == true) {
+            if (type.equals("text/plain")) {
 
                 String shareString = extras.getString(Intent.EXTRA_TEXT);
                 if (extras.containsKey(Intent.EXTRA_TEXT)) {
@@ -221,7 +219,7 @@ public class HomeActivity extends BaseLaneActivity {
             } else if (type.contains("image/")) {
                 // From http://stackoverflow.com/a/2641363/328679
                 if (extras.containsKey(Intent.EXTRA_STREAM)) {
-                    Uri uri = (Uri) extras.getParcelable(Intent.EXTRA_STREAM);
+                    Uri uri = extras.getParcelable(Intent.EXTRA_STREAM);
                     String scheme = uri.getScheme();
                     if (scheme.equals("content")) {
                         ContentResolver contentResolver = getContentResolver();
@@ -235,6 +233,9 @@ public class HomeActivity extends BaseLaneActivity {
                         } catch (java.lang.IllegalArgumentException e) {
                             Toast.makeText(this, R.string.picture_attach_error,
                                     Toast.LENGTH_SHORT).show();
+                        } finally {
+                            cursor.close();
+                            cursor = null;
                         }
 
                         turnSoftKeyboardOff = false;
@@ -243,7 +244,7 @@ public class HomeActivity extends BaseLaneActivity {
             }
         }
 
-        if (turnSoftKeyboardOff == true) {
+        if (turnSoftKeyboardOff) {
             // Turn the soft-keyboard off. For some reason it wants to appear on
             // screen by default when coming back from multitasking...
             getWindow().setSoftInputMode(
@@ -267,25 +268,11 @@ public class HomeActivity extends BaseLaneActivity {
             account.setDisplayedLaneDefinitionsDirty(false);
         }
 
-        if (account.shouldRefreshLists() == true) {
+        if (account.shouldRefreshLists()) {
             mRefreshListsHandler.removeCallbacks(mRefreshListsTask);
             mRefreshListsHandler.postDelayed(mRefreshListsTask,
                     Constant.REFRESH_LISTS_WAIT_TIME);
         }
-
-        if (isComposing() == false) {
-            // Check we are using List navigation on the ActionBar. This will
-            // not be the case when ComposeTweet is present.
-            if (getActionBar().getNavigationMode() == android.app.ActionBar.NAVIGATION_MODE_LIST) {
-                /*
-                 * Integer accountIndex =
-                 * mSpinnerAdapter.getIndexOfAccount(getApp
-                 * ().getCurrentAccount()); if (accountIndex != null) {
-                 * getActionBar().setSelectedNavigationItem(accountIndex); }
-                 */
-            }
-        }
-
         getApp().clearImageCaches();
     }
 
@@ -329,7 +316,7 @@ public class HomeActivity extends BaseLaneActivity {
         AccountDescriptor account = getApp().getCurrentAccount();
 
         if (mDefaultLaneOverride != null) {
-            int lane = mDefaultLaneOverride.intValue();
+            int lane = mDefaultLaneOverride;
             mDefaultLaneOverride = null;
             return lane;
         }
@@ -341,13 +328,10 @@ public class HomeActivity extends BaseLaneActivity {
         return account.getInitialLaneIndex();
     }
 
-    /*
-	 *
-	 */
     @Override
     String getCachedData(int laneIndex) {
 
-        if (Constant.ENABLE_STATUS_CACHING == true) {
+        if (Constant.ENABLE_STATUS_CACHING) {
             AccountDescriptor account = getApp().getCurrentAccount();
 
 
@@ -411,9 +395,6 @@ public class HomeActivity extends BaseLaneActivity {
         saveData(oldPosition);
     }
 
-    /*
-	 *
-	 */
     private void saveData(final int position) {
         final App app = getApp();
 
@@ -443,9 +424,6 @@ public class HomeActivity extends BaseLaneActivity {
         }).start();
     }
 
-    /*
-	 *
-	 */
     private void updateViewVisibility() {
         mViewSwitcher.reset();
         mViewSwitcher.setDisplayedChild(1);
@@ -485,7 +463,7 @@ public class HomeActivity extends BaseLaneActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if (super.onOptionsItemSelected(item) == true) {
+        if (super.onOptionsItemSelected(item)) {
             return true;
         }
 
@@ -499,28 +477,6 @@ public class HomeActivity extends BaseLaneActivity {
                     Uri.parse("https://play.google.com/store/apps/details?id=com.chrislacy.actionlauncher.pro"));
             startActivity(browserIntent);
 
-
-        /*
-         * case R.id.action_promote: showPromote(); break;
-         */
-
-        /*
-         * case CHOOSE_LANES: Toast.makeText(getApplicationContext(),
-         * getString(R.string.functionality_not_implemented),
-         * Constant.DEFAULT_TOAST_DISPLAY_TIME).show(); break;
-         */
-
-        /*
-         * case R.id.action_send_feedback: Intent intent = new
-         * Intent(Intent.ACTION_SEND); intent.setType("plain/text"); String
-         * recipient[] = {"lacy@tweetlanes.com"};
-         * intent.putExtra(Intent.EXTRA_EMAIL, recipient);
-         * intent.putExtra(Intent.EXTRA_SUBJECT, "Tweet Lanes Feedback");
-         * //String userScreenName = getApp().getCurrentAccountScreenName();
-         * //intent.putExtra(Intent.EXTRA_TEXT, userScreenName != null ?
-         * "(Feedback sent by @" + userScreenName : ""); startActivity(intent);
-         * break;
-         */
         } else {
             return false;
         }
@@ -528,9 +484,6 @@ public class HomeActivity extends BaseLaneActivity {
         return false;
     }
 
-    /*
-	 *
-	 */
     void onCreateNavigationListener() {
         mOnNavigationListener = new OnNavigationListener() {
 
@@ -553,9 +506,6 @@ public class HomeActivity extends BaseLaneActivity {
         };
     }
 
-    /*
-	 *
-	 */
     private boolean configureListNavigation() {
 
         if (mSpinnerAdapter == null) {
@@ -583,9 +533,6 @@ public class HomeActivity extends BaseLaneActivity {
         return true;
     }
 
-    /*
-     *
-     */
     private void showAccount(AccountDescriptor selectedAccount, Constant.LaneType lane) {
 
         App app = getApp();
@@ -606,6 +553,10 @@ public class HomeActivity extends BaseLaneActivity {
             clearFragmentsCache();
 
             app.setCurrentAccount(selectedAccount.getId());
+            if(mHomeLaneAdapter != null)
+            {
+                mHomeLaneAdapter.notifyDataSetChanged();
+            }
 
             // From http://stackoverflow.com/a/3419987/328679
             Intent intent = getIntent();
@@ -621,124 +572,15 @@ public class HomeActivity extends BaseLaneActivity {
         }
     }
 
-    /*
-	 *
-	 */
     private void showAddAccount() {
         startActivity(new Intent(this, NewAccountActivity.class));
     }
 
     /*
-	 *
+     *
 	 */
     public void showUserPreferences() {
         startActivity(new Intent(this, SettingsActivity.class));
-    }
-
-    /*
-     *
-     */
-    private void showFreeForLifeSuccess() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
-
-        builder.setMessage(getString(R.string.free_for_life_success));
-        builder.setTitle(getString(R.string.success));
-        builder.setIcon(android.R.drawable.btn_star_big_on);
-
-        builder.setPositiveButton("OK", new Dialog.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface arg0, int arg1) {
-
-            }
-
-        });
-
-        builder.create().show();
-    }
-
-    /*
-     *
-     */
-    private void showFreeForLifeError() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
-
-        builder.setMessage(getString(R.string.free_for_life_error));
-        builder.setIcon(0);
-
-        builder.setPositiveButton("OK", new Dialog.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface arg0, int arg1) {
-
-            }
-
-        });
-    }
-
-    /*
-     *
-     */
-    public void showPromote() {
-        final View layout = View.inflate(this, R.layout.promote, null);
-
-        // final EditText promoStatus = ((EditText)
-        // layout.findViewById(R.id.promoStatusEditText));
-        // promoStatus.setText(R.string.free_for_life_promo_status);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setIcon(0);
-
-        builder.setPositiveButton("Agree!", new Dialog.OnClickListener() {
-
-            public void onClick(DialogInterface dialog, int which) {
-
-                TwitterFetchUsers.FinishedCallback callback = TwitterManager
-                        .get().getFetchUsersInstance().new FinishedCallback() {
-
-                    @Override
-                    public void finished(TwitterFetchResult result,
-                                         TwitterUsers users) {
-
-                        if (result.isSuccessful()) {
-
-                            String statusText = getString(R.string.promote_status_text);
-                            TwitterStatusUpdate statusUpdate = new TwitterStatusUpdate(
-                                    statusText);
-
-                            TwitterManager
-                                    .get()
-                                    .setStatus(
-                                            statusUpdate,
-                                            TwitterManager.get()
-                                                    .getFetchStatusInstance().new FinishedCallback() {
-
-                                                @Override
-                                                public void finished(
-                                                        TwitterFetchResult result,
-                                                        TwitterStatus status) {
-
-                                                    if (result.isSuccessful()) {
-                                                        showFreeForLifeSuccess();
-                                                    } else {
-                                                        showFreeForLifeError();
-                                                    }
-                                                }
-                                            });
-                        }
-
-                    }
-                };
-
-                getApp().triggerFollowPromoAccounts(callback);
-            }
-        });
-        builder.setNegativeButton("Cancel", null);
-        builder.setView(layout);
-        builder.setTitle("Promote Tweet Lanes!");
-
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
     }
 
     private void cacheFollowers() {
@@ -771,20 +613,10 @@ public class HomeActivity extends BaseLaneActivity {
         }, null);
     }
 
-    /**
-     * A call-back for when the user presses the back button.
-     */
-    OnClickListener mBackListener = new OnClickListener() {
-
-        public void onClick(View v) {
-            finish();
-        }
-    };
-
     /*
      * Hanlder for refreshing a user's lists
      */
-    private Handler mRefreshListsHandler = new Handler();
+    private final Handler mRefreshListsHandler = new Handler();
     private final Runnable mRefreshListsTask = new Runnable() {
 
         public void run() {
@@ -795,9 +627,9 @@ public class HomeActivity extends BaseLaneActivity {
                 public void finished(boolean successful, TwitterLists lists) {
                     mFetchListsCallback = null;
 
-                    if (successful == true) {
+                    if (successful) {
                         boolean modified = getApp().onUserListsRefresh(lists);
-                        if (modified == true) {
+                        if (modified) {
                             onLaneDataSetChanged();
                         }
                     }
@@ -811,9 +643,7 @@ public class HomeActivity extends BaseLaneActivity {
         }
     };
 
-    /*
-	 *
-	 */
+
     void onLaneDataSetChanged() {
         if (mHomeLaneAdapter != null) {
             mHomeLaneAdapter.notifyDataSetChanged();
@@ -824,9 +654,7 @@ public class HomeActivity extends BaseLaneActivity {
         getApp().getCurrentAccount().setDisplayedLaneDefinitionsDirty(false);
     }
 
-    /*
-     *
-     */
+
     class HomeLaneAdapter extends FragmentStatePagerAdapter implements
             TitleProvider {
 
@@ -923,18 +751,36 @@ public class HomeActivity extends BaseLaneActivity {
 
     class AccountAdapter extends android.widget.BaseAdapter {
 
-        Context mContext;
-        List<AccountData> mData;
+        final Context mContext;
+        final List<AccountData> mData;
+        boolean mShowImages;
 
-        public AccountAdapter(Context context, List<AccountDescriptor> data)
-        {
+        public AccountAdapter(Context context, List<AccountDescriptor> data) {
             mContext = context;
             mData = new ArrayList<AccountData>();
+
+            mShowImages = data != null && data.size() >= 3;
+
+            boolean seenAdn = false;
+            boolean seenTwitter = false;
+
             if (data != null) {
+
                 for (AccountDescriptor account : data) {
+                    SocialNetConstant.Type networkType = account.getSocialNetType();
                     mData.add(new AccountData(account.getId(), "@" + account.getScreenName(),
-                            account.getSocialNetType(), account.getProfileImageUrl()));
+                            networkType, account.getProfileImageUrl()));
+
+                    if (networkType == SocialNetConstant.Type.Appdotnet) {
+                        seenAdn = true;
+                    } else {
+                        seenTwitter = true;
+                    }
                 }
+            }
+
+            if (seenAdn && seenTwitter) {
+                mShowImages = true;
             }
 
             mData.add(new AccountData(0, getString(R.string.add_account), null, null));
@@ -960,32 +806,40 @@ public class HomeActivity extends BaseLaneActivity {
             View row = convertView;
             AccountHolder holder;
 
-            if (row == null)
-            {
-                LayoutInflater inflater = ((Activity)mContext).getLayoutInflater();
+            if (row == null) {
+                LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
                 row = inflater.inflate(R.layout.account_row, parent, false);
 
                 holder = new AccountHolder();
-                holder.AvatarImage = (ImageView)row.findViewById(R.id.accountAvatar);
-                holder.ServiceImage = (ImageView)row.findViewById(R.id.serviceImage);
-                holder.ScreenName = (TextView)row.findViewById(R.id.accountScreenName);
+                holder.AvatarImage = (ImageView) row.findViewById(R.id.accountAvatar);
+                holder.ServiceImage = (ImageView) row.findViewById(R.id.serviceImage);
+                holder.ScreenName = (TextView) row.findViewById(R.id.accountScreenName);
+                holder.Filler = (TextView) row.findViewById(R.id.filler);
 
                 row.setTag(holder);
-            }
-            else
-            {
-                holder = (AccountHolder)row.getTag();
+            } else {
+                holder = (AccountHolder) row.getTag();
             }
 
             AccountData account = mData.get(position);
 
-            if (account == null)
-            {
+            if (account == null) {
                 return row;
             }
 
             holder.ScreenName.setText(account.ScreenName, TextView.BufferType.NORMAL);
-            setProfileImage(account.AvatarImageUrl, account.ServiceType, holder.AvatarImage, holder.ServiceImage);
+            if (AppSettings.get().getCurrentThemeStyle() == R.style.Theme_TweetLanes_Light_DarkActionBar) {
+                holder.ScreenName.setTextColor(getResources().getColor(R.color.white));
+            }
+
+            if (mShowImages) {
+                setProfileImage(account.AvatarImageUrl, account.ServiceType, holder.AvatarImage, holder.ServiceImage);
+                holder.Filler.setVisibility(View.GONE);
+            } else {
+                holder.AvatarImage.setVisibility(View.GONE);
+                holder.ServiceImage.setVisibility(View.GONE);
+                holder.Filler.setVisibility(View.VISIBLE);
+            }
 
             return row;
         }
@@ -998,16 +852,17 @@ public class HomeActivity extends BaseLaneActivity {
                 ServiceType = serviceType;
             }
 
-            public String AvatarImageUrl;
-            public SocialNetConstant.Type ServiceType;
-            public String ScreenName;
-            public long Id;
+            public final String AvatarImageUrl;
+            public final SocialNetConstant.Type ServiceType;
+            public final String ScreenName;
+            public final long Id;
         }
 
         class AccountHolder {
             public ImageView AvatarImage;
             public ImageView ServiceImage;
             public TextView ScreenName;
+            public TextView Filler;
         }
 
         private void setProfileImage(String profileImageUrl, SocialNetConstant.Type serviceType, ImageView avatar, ImageView service) {
@@ -1019,12 +874,17 @@ public class HomeActivity extends BaseLaneActivity {
 
                     profileImageLoader.displayImage(profileImageUrl, avatar);
                 }
-            }
-            else {
-                int resource = AppSettings.get().getCurrentThemeStyle() ==
-                        R.style.Theme_TweetLanes_Light ?
-                        R.drawable.ic_action_user_add :
-                        R.drawable.ic_action_user_add_dark;
+            } else {
+                int resource;
+                if (AppSettings.get().getCurrentThemeStyle() == R.style.Theme_TweetLanes_Light_DarkActionBar) {
+                    resource = R.drawable.ic_action_user_add_dark;
+                } else {
+                    resource = AppSettings.get().getCurrentThemeStyle() ==
+                            R.style.Theme_TweetLanes_Light ?
+                            R.drawable.ic_action_user_add :
+                            R.drawable.ic_action_user_add_dark;
+                }
+
                 avatar.setImageResource(resource);
                 service.setVisibility(View.GONE);
             }

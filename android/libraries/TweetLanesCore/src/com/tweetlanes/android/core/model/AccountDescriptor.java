@@ -28,20 +28,21 @@ import org.tweetalib.android.model.TwitterLists;
 import org.tweetalib.android.model.TwitterUser;
 
 import java.util.ArrayList;
+import java.util.Vector;
 
 public class AccountDescriptor {
 
-    static final String KEY_ID = "id";
-    static final String KEY_SCREEN_NAME = "screenName";
-    static final String KEY_OAUTH_TOKEN = "oAuthToken";
-    static final String KEY_OAUTH_SECRET = "oAuthSecret";
-    static final String KEY_INITIAL_LANE_INDEX = "lastLaneIndex";
-    static final String KEY_LISTS = "lists";
-    static final String KEY_LIST_ID = "id";
-    static final String KEY_LIST_NAME = "name";
-    static final String KEY_DISPLAYED_LANES = "displayedLanes";
-    static final String KEY_SOCIAL_NET_TYPE = "socialNetType";
-    static final String KEY_PROFILE_IMAGE_URL = "profileImageUrl";
+    private static final String KEY_ID = "id";
+    private static final String KEY_SCREEN_NAME = "screenName";
+    private static final String KEY_OAUTH_TOKEN = "oAuthToken";
+    private static final String KEY_OAUTH_SECRET = "oAuthSecret";
+    private static final String KEY_INITIAL_LANE_INDEX = "lastLaneIndex";
+    private static final String KEY_LISTS = "lists";
+    private static final String KEY_LIST_ID = "id";
+    private static final String KEY_LIST_NAME = "name";
+    private static final String KEY_DISPLAYED_LANES = "displayedLanes";
+    private static final String KEY_SOCIAL_NET_TYPE = "socialNetType";
+    private static final String KEY_PROFILE_IMAGE_URL = "profileImageUrl";
 
     /*
      *
@@ -61,7 +62,7 @@ public class AccountDescriptor {
     }
 
     /*
-	 *
+     *
 	 */
     public AccountDescriptor(Context context, String jsonAsString) {
 
@@ -90,7 +91,7 @@ public class AccountDescriptor {
                 mProfileImageUrl = object.getString(KEY_PROFILE_IMAGE_URL);
             }
             if (object.has(KEY_LISTS)) {
-                mLists = new ArrayList<List>();
+                mLists = new Vector<List>();
                 String listsAsString = object.getString(KEY_LISTS);
                 JSONArray jsonArray = new JSONArray(listsAsString);
                 for (int i = 0; i < jsonArray.length(); i++) {
@@ -127,7 +128,7 @@ public class AccountDescriptor {
 
         mLaneDefinitions = new ArrayList<LaneDescriptor>();
         if (mLists == null) {
-            mLists = new ArrayList<List>();
+            mLists = new Vector<List>();
         }
         configureLaneDefinitions(displayedLanes);
     }
@@ -192,16 +193,19 @@ public class AccountDescriptor {
                             TwitterConstant.DirectMessagesType.ALL_MESSAGES)));
 
             // Add lists
-            for (List list : mLists) {
-                if (list.mId != null) {
-                    mLaneDefinitions
-                            .add(new LaneDescriptor(
-                                    Constant.LaneType.USER_LIST_TIMELINE,
-                                    list.mName,
-                                    String.valueOf(list.mId),
-                                    new TwitterContentHandleBase(
-                                            TwitterConstant.ContentType.STATUSES,
-                                            TwitterConstant.StatusesType.USER_LIST_TIMELINE)));
+            synchronized (mLists)
+            {
+                for (List list : mLists) {
+                    if (list.mId != null) {
+                        mLaneDefinitions
+                                .add(new LaneDescriptor(
+                                        Constant.LaneType.USER_LIST_TIMELINE,
+                                        list.mName,
+                                        String.valueOf(list.mId),
+                                        new TwitterContentHandleBase(
+                                                TwitterConstant.ContentType.STATUSES,
+                                                TwitterConstant.StatusesType.USER_LIST_TIMELINE)));
+                    }
                 }
             }
         }
@@ -248,7 +252,7 @@ public class AccountDescriptor {
         if (mLists != null) {
             mLists.clear();
         } else {
-            mLists = new ArrayList<List>();
+            mLists = new Vector<List>();
         }
         boolean changed = false;
         if (twitterLists != null && twitterLists.getListCount() > 0) {
@@ -265,8 +269,8 @@ public class AccountDescriptor {
                             Long id = Long.valueOf(laneIdAsString);
                             if (id == twitterList.getId()) {
                                 exists = true;
-                                if (lane.getLaneTitle().equals(
-                                        twitterList.getName()) == false) {
+                                if (!lane.getLaneTitle().equals(
+                                        twitterList.getName())) {
                                     changed = true;
                                     lane.setLaneTitle(twitterList.getName());
                                 }
@@ -280,13 +284,13 @@ public class AccountDescriptor {
                     }
                 }
 
-                if (exists == false) {
+                if (!exists) {
                     changed = true;
                 }
             }
         }
 
-        if (changed == true) {
+        if (changed) {
             configureLaneDefinitions(null);
         }
 
@@ -352,11 +356,11 @@ public class AccountDescriptor {
         return mOAuthSecret;
     }
 
-    public String getProfileImageUrl(){
+    public String getProfileImageUrl() {
         return mProfileImageUrl;
     }
 
-    public void setProfileImageUrl(String profileImageUrl){
+    public void setProfileImageUrl(String profileImageUrl) {
         mProfileImageUrl = profileImageUrl;
     }
 
@@ -462,10 +466,6 @@ public class AccountDescriptor {
         return mSocialNetType;
     }
 
-    public void setSocialNetType(SocialNetConstant.Type mSocialNetType) {
-        this.mSocialNetType = mSocialNetType;
-    }
-
     /*
 	 *
 	 */
@@ -483,11 +483,12 @@ public class AccountDescriptor {
     private ArrayList<LaneDescriptor> mLaneDefinitions;
     private boolean mLaneDefinitionsDirty;
     private Integer mInitialLaneIndex;
-    private ArrayList<List> mLists;
+    private Vector<List> mLists;
     private boolean mShouldRefreshLists;
-    private Context mContext;
+    private final Context mContext;
     private SocialNetConstant.Type mSocialNetType;
     private String mProfileImageUrl;
+
     /*
      * Stripped version of the List class. Possibly should use TwitterList, but
      * I thought I thought it best to save the string space of that much larger

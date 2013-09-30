@@ -26,11 +26,18 @@ public class AppSettings {
     public static final boolean DEFAULT_SHOW_TABLET_MARGIN = true;
     public static final boolean DEFAULT_SHOW_TWEET_SOURCE = false;
 
+    private static final String DISAPLY_TIME_RELATIVE = "Relative";
+    private static final String DISAPLY_TIME_ABSOLUTE = "Absolute";
+    private static final String DISAPLY_TIME_MIXED = "Mixed";
+    private static final String DISAPLY_TIME_DEFAULT = DISAPLY_TIME_RELATIVE;
+
     private static final String STATUS_SIZE_EXTRA_SMALL = "Extra Small";
     private static final String STATUS_SIZE_SMALL = "Small";
     private static final String STATUS_SIZE_MEDIUM = "Medium";
     private static final String STATUS_SIZE_LARGE = "Large";
     private static final String STATUS_SIZE_EXTRA_LARGE = "Extra Large";
+    private static final String STATUS_SIZE_EXTRA_EXTRA_LARGE = "Extra Extra Large";
+    private static final String STATUS_SIZE_SUPERSIZE = "Supersize";
     private static final String STATUS_SIZE_DEFAULT = STATUS_SIZE_MEDIUM;
 
     private static final String PROFILE_IMAGE_SIZE_SMALL = "Small";
@@ -38,44 +45,40 @@ public class AppSettings {
     private static final String PROFILE_IMAGE_SIZE_LARGE = "Large";
     private static final String PROFILE_IMAGE_SIZE_DEFAULT = PROFILE_IMAGE_SIZE_MEDIUM;
 
-    public static final String THEME_LIGHT = "Holo Light";
-    public static final String THEME_DEFAULT = THEME_LIGHT;
+    private static final String THEME_LIGHT = "Holo Light";
+    private static final String THEME_DARK = "Holo Dark";
+    private static final String THEME_DEFAULT = THEME_LIGHT;
 
-    public static final String QUOTE_TYPE_STANDARD = "standard";
-    public static final String QUOTE_TYPE_RT = "rt";
-    public static final String QUOTE_TYPE_VIA = "via";
-    public static final String QUOTE_TYPE_DEFAULT = QUOTE_TYPE_STANDARD;
+    private static final String QUOTE_TYPE_STANDARD = "standard";
+    private static final String QUOTE_TYPE_RT = "rt";
+    private static final String QUOTE_TYPE_VIA = "via";
+    private static final String QUOTE_TYPE_DEFAULT = QUOTE_TYPE_STANDARD;
 
-    public static final String NAME_DISPLAY_USERNAME = "username";
-    public static final String NAME_DISPLAY_NAME = "name";
-    public static final String NAME_DISPLAY_USERNAME_NAME = "username_name";
-    public static final String NAME_DISPLAY_NAME_USERNAME = "name_username";
+    private static final String NOTIFICATION_TIME_0M = "0m";
+    private static final String NOTIFICATION_TIME_2M = "2m";
+    private static final String NOTIFICATION_TIME_3M = "3m";
+    private static final String NOTIFICATION_TIME_5M = "5m";
+    private static final String NOTIFICATION_TIME_15M = "15m";
+    private static final String NOTIFICATION_TIME_30M = "30m";
+    private static final String NOTIFICATION_TIME_1H = "1h";
+    private static final String NOTIFICATION_TIME_4H = "4h";
+    private static final String NOTIFICATION_TIME_12H = "12h";
+    private static final String NOTIFICATION_TIME_DEFAULT = NOTIFICATION_TIME_0M;
 
-    public static final String NOTIFICATION_TIME_0M = "0m";
-    public static final String NOTIFICATION_TIME_2M = "2m";
-    public static final String NOTIFICATION_TIME_3M = "3m";
-    public static final String NOTIFICATION_TIME_5M = "5m";
-    public static final String NOTIFICATION_TIME_15M = "15m";
-    public static final String NOTIFICATION_TIME_30M = "30m";
-    public static final String NOTIFICATION_TIME_1H = "1h";
-    public static final String NOTIFICATION_TIME_4H = "4h";
-    public static final String NOTIFICATION_TIME_12H = "12h";
-    public static final String NOTIFICATION_TIME_DEFAULT = NOTIFICATION_TIME_0M;
-
-    public static final String NOTIFICATION_TYPE_DEFAULT = "m,d";
+    private static final String NOTIFICATION_TYPE_DEFAULT = "m,d";
 
     /*
      *
 	 */
     public enum Theme {
-        Holo_Dark, Holo_Light
+        Holo_Dark, Holo_Light_DarkAction, Holo_Light
     }
 
     /*
-	 *
+     *
 	 */
     public enum StatusSize {
-        ExtraSmall, Small, Medium, Large, ExtraLarge,
+        ExtraSmall, Small, Medium, Large, ExtraLarge, ExtraExtraLarge, Supersize
     }
 
     /*
@@ -88,35 +91,32 @@ public class AppSettings {
     /*
 	 *
 	 */
-    public enum NameDisplay {
-        Username, Name, Username_Name, Name_Username,
-    }
-
-    /*
-	 *
-	 */
     public enum QuoteType {
         Standard, RT, Via,
+    }
+
+    public enum DisplayTimeFormat {
+        Relative, Absolute, Mixed,
     }
 
     /*
 	 *
 	 */
     private SharedPreferences mSharedPreferences;
-    private Context mContext;
+    private final Context mContext;
     private boolean mIsDirty = false;
     private int mRefreshCount = 0;
 
     private Theme mCurrentTheme;
     private StatusSize mStatusSize;
     private ProfileImageSize mProfileImageSize;
-    private NameDisplay mNameDisplay;
     private QuoteType mQuoteType;
+    private DisplayTimeFormat mDisplayTimeFormat;
 
     /*
 	 *
 	 */
-    AppSettings(Context context) {
+    private AppSettings(Context context) {
         mContext = context;
         refresh(null);
     }
@@ -139,14 +139,26 @@ public class AppSettings {
         Theme oldTheme = mCurrentTheme;
         StatusSize oldStatusSize = mStatusSize;
         ProfileImageSize oldProfileImageSize = mProfileImageSize;
+        DisplayTimeFormat oldDisplayTimeFormat = mDisplayTimeFormat;
 
         mSharedPreferences = PreferenceManager
                 .getDefaultSharedPreferences(mContext);
 
         String theme = mSharedPreferences.getString(
                 SettingsActivity.KEY_THEME_PREFERENCE, THEME_DEFAULT);
-        setCurrentTheme(theme.equals(THEME_LIGHT) ? Theme.Holo_Light
-                : Theme.Holo_Dark);
+
+        if (theme.equals(THEME_LIGHT)) {
+            setCurrentTheme(Theme.Holo_Light);
+        } else if (theme.equals(THEME_DARK)) {
+            setCurrentTheme(Theme.Holo_Dark);
+        } else {
+            setCurrentTheme(Theme.Holo_Light_DarkAction);
+        }
+
+        String displayTimeFormat = mSharedPreferences.getString(
+                SettingsActivity.KEY_DISPLAY_TIME_PREFERENCE,
+                DISAPLY_TIME_DEFAULT);
+        setDisplayTimeFormat(displayTimeFormat);
 
         String statusSize = mSharedPreferences.getString(
                 SettingsActivity.KEY_STATUS_SIZE_PREFERENCE,
@@ -164,7 +176,7 @@ public class AppSettings {
 
         if (mRefreshCount > 0) {
             if (oldTheme != mCurrentTheme || oldStatusSize != mStatusSize
-                    || oldProfileImageSize != mProfileImageSize) {
+                    || oldProfileImageSize != mProfileImageSize || oldDisplayTimeFormat != mDisplayTimeFormat) {
                 mIsDirty = true;
             } else if (preferenceKey != null) {
                 if (preferenceKey
@@ -215,14 +227,6 @@ public class AppSettings {
     public boolean isNotificationVibrationEnabled() {
         return mSharedPreferences.getBoolean(
                 SettingsActivity.KEY_NOTIFICATION_VIBRATION, false);
-    }
-
-
-    /*
-	 *
-	 */
-    public boolean isDimScreenEnabled() {
-        return true;
     }
 
     public Uri getRingtoneUri() {
@@ -282,8 +286,14 @@ public class AppSettings {
 	 *
 	 */
     public int getCurrentThemeStyle() {
-        return mCurrentTheme == Theme.Holo_Dark ? R.style.Theme_TweetLanes
-                : R.style.Theme_TweetLanes_Light;
+        if (mCurrentTheme == Theme.Holo_Dark) {
+            return R.style.Theme_TweetLanes;
+        } else if (mCurrentTheme == Theme.Holo_Light) {
+            return R.style.Theme_TweetLanes_Light;
+        } else {
+            return R.style.Theme_TweetLanes_Light_DarkActionBar;
+        }
+
     }
 
     /*
@@ -307,6 +317,18 @@ public class AppSettings {
         mCurrentTheme = theme;
     }
 
+    void setDisplayTimeFormat(String displayTimeFormat) {
+        if(displayTimeFormat!= null){
+            if(displayTimeFormat.equals(DISAPLY_TIME_RELATIVE)){
+                mDisplayTimeFormat = DisplayTimeFormat.Relative;
+            } else if(displayTimeFormat.equals(DISAPLY_TIME_ABSOLUTE)){
+                mDisplayTimeFormat = DisplayTimeFormat.Absolute;
+            } else if(displayTimeFormat.equals(DISAPLY_TIME_MIXED)){
+                mDisplayTimeFormat = DisplayTimeFormat.Mixed;
+            }
+        }
+    }
+
     /*
 	 *
 	 */
@@ -322,6 +344,10 @@ public class AppSettings {
                 mStatusSize = StatusSize.Large;
             } else if (statusSize.equals(STATUS_SIZE_EXTRA_LARGE)) {
                 mStatusSize = StatusSize.ExtraLarge;
+            } else if (statusSize.equals(STATUS_SIZE_EXTRA_EXTRA_LARGE)) {
+                mStatusSize = StatusSize.ExtraExtraLarge;
+            } else if (statusSize.equals(STATUS_SIZE_SUPERSIZE)) {
+                mStatusSize = StatusSize.Supersize;
             } else {
                 mStatusSize = StatusSize.Medium;
             }
@@ -334,6 +360,10 @@ public class AppSettings {
 	 */
     public StatusSize getCurrentStatusSize() {
         return mStatusSize;
+    }
+
+    public DisplayTimeFormat getCurrentDisplayTimeFormat() {
+        return mDisplayTimeFormat;
     }
 
     /*
@@ -363,30 +393,6 @@ public class AppSettings {
     /*
 	 *
 	 */
-    void setCurrentNameDisplay(String nameDisplay) {
-        if (nameDisplay.equals(NAME_DISPLAY_USERNAME)) {
-            mNameDisplay = NameDisplay.Username;
-        } else if (nameDisplay.equals(NAME_DISPLAY_NAME)) {
-            mNameDisplay = NameDisplay.Name;
-        } else if (nameDisplay.equals(NAME_DISPLAY_USERNAME_NAME)) {
-            mNameDisplay = NameDisplay.Username_Name;
-        } else if (nameDisplay.equals(NAME_DISPLAY_NAME_USERNAME)) {
-            mNameDisplay = NameDisplay.Name_Username;
-        } else {
-            mNameDisplay = NameDisplay.Username;
-        }
-    }
-
-    /*
-	 *
-	 */
-    NameDisplay getCurrentNameDisplay() {
-        return mNameDisplay;
-    }
-
-    /*
-	 *
-	 */
     void setCurrentQuoteType(String quoteType) {
         if (quoteType.equals(QUOTE_TYPE_STANDARD)) {
             mQuoteType = QuoteType.Standard;
@@ -411,13 +417,6 @@ public class AppSettings {
 	 */
     public static void initModule(Context mContext) {
         mInstance = new AppSettings(mContext);
-    }
-
-    /*
-	 *
-	 */
-    public static void deinitModule() {
-        mInstance = null;
     }
 
     /*

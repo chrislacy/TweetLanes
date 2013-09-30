@@ -19,12 +19,12 @@ package org.tweetalib.android;
 public class TwitterContentHandle extends TwitterContentHandleBase {
 
     /**
-	 *
-	 */
+     *
+     */
     private static final long serialVersionUID = 231396385372202288L;
 
-   public TwitterContentHandle(TwitterContentHandleBase contentHandleBase,
-            String screenName, String identifier, String currentAccountKey) {
+    public TwitterContentHandle(TwitterContentHandleBase contentHandleBase,
+                                String screenName, String identifier, String currentAccountKey) {
 
         super(contentHandleBase);
         mScreenName = screenName;
@@ -34,9 +34,8 @@ public class TwitterContentHandle extends TwitterContentHandleBase {
     }
 
     public String getKey() {
-        String key = mScreenNameLower + "_" + getEnumsAsString() + "_"
+        return mScreenNameLower + "_" + getEnumsAsString() + "_"
                 + mIdentifier;
-        return key;
     }
 
     // TODO: Look at this and ensure there aren't savings to be had
@@ -75,8 +74,8 @@ public class TwitterContentHandle extends TwitterContentHandleBase {
         return mCurrentAccountKey;
     }
 
-    private String mScreenNameLower;
-    private String mScreenName;
-    private String mIdentifier;
-    private String mCurrentAccountKey;
+    private final String mScreenNameLower;
+    private final String mScreenName;
+    private final String mIdentifier;
+    private final String mCurrentAccountKey;
 }

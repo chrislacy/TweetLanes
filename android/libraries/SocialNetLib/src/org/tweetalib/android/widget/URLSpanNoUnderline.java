@@ -29,9 +29,9 @@ import android.widget.TextView;
 public class URLSpanNoUnderline extends URLSpan {
 
     /*
-	 * 
+     *
 	 */
-    public URLSpanNoUnderline(String url) {
+    private URLSpanNoUnderline(String url) {
         super(url);
     }
 
@@ -65,7 +65,7 @@ public class URLSpanNoUnderline extends URLSpan {
     /*
      * 
      */
-    public static Spannable stripUnderlines(Spannable s) {
+    private static Spannable stripUnderlines(Spannable s) {
         URLSpan[] spans = s.getSpans(0, s.length(), URLSpan.class);
         for (URLSpan span : spans) {
             int start = s.getSpanStart(span);

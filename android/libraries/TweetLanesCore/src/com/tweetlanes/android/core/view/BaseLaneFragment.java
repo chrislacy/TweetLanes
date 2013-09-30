@@ -50,9 +50,9 @@ public abstract class BaseLaneFragment extends Fragment {
     }
 
     /*
-	 * 
+     *
 	 */
-    public App getApp() {
+    App getApp() {
         FragmentActivity fragmentActivity = getActivity();
         if (fragmentActivity != null) {
             return (App) fragmentActivity.getApplication();
@@ -83,10 +83,12 @@ public abstract class BaseLaneFragment extends Fragment {
         return getArguments().getInt(KEY_LANE_INDEX);
     }
 
+    public void fetchNewestTweets(){}
+
     /*
 	 * 
 	 */
-    public boolean isCurrentLaneIndex() {
+    boolean isCurrentLaneIndex() {
         BaseLaneActivity baseLaneActivity = getBaseLaneActivity();
         if (baseLaneActivity != null) {
             if (baseLaneActivity.getCurrentLaneIndex() == getLaneIndex()) {
@@ -101,20 +103,13 @@ public abstract class BaseLaneFragment extends Fragment {
      * If we are the current lane, add this offset to async requests so they get
      * dealt with first
      */
-    public int getAsyncTaskPriorityOffset() {
+    int getAsyncTaskPriorityOffset() {
 
         if (isCurrentLaneIndex()) {
             return 1;
         }
 
         return 0;
-    }
-
-    /*
-	 * 
-	 */
-    public String getIdentifier() {
-        return getArguments().getString(KEY_IDENTIFIER);
     }
 
     /*
@@ -128,8 +123,8 @@ public abstract class BaseLaneFragment extends Fragment {
     /*
 	 * 
 	 */
-    public void configureBaseLaneFragment(int laneIndex, String identifier,
-                                          ConfigureBundleListener configureBundleListener) {
+    void configureBaseLaneFragment(int laneIndex, String identifier,
+                                   ConfigureBundleListener configureBundleListener) {
 
         Bundle arguments = new Bundle();
 
@@ -153,7 +148,7 @@ public abstract class BaseLaneFragment extends Fragment {
     /*
 	 * 
 	 */
-    public void setInitialDownloadState(InitialDownloadState initialLoadState) {
+    void setInitialDownloadState(InitialDownloadState initialLoadState) {
         mInitialDownloadState = initialLoadState;
         getBaseLaneActivity().onLaneFragmentInitialDownloadStateChange(this);
     }
@@ -161,7 +156,7 @@ public abstract class BaseLaneFragment extends Fragment {
     /*
 	 * 
 	 */
-    public void configureLaneWidth(View resultView) {
+    void configureLaneWidth(View resultView) {
 
         RelativeLayout laneContent = (RelativeLayout) resultView
                 .findViewById(R.id.lane_content);
@@ -169,7 +164,7 @@ public abstract class BaseLaneFragment extends Fragment {
             RelativeLayout tweetFeedLoaded = (RelativeLayout) resultView
                     .findViewById(R.id.tweet_feed_loaded);
             if (tweetFeedLoaded != null) {
-                if (AppSettings.get().showTabletMargin() == false) {
+                if (!AppSettings.get().showTabletMargin()) {
                     android.view.ViewGroup.LayoutParams parentParams = tweetFeedLoaded
                             .getLayoutParams();
                     laneContent
@@ -218,14 +213,14 @@ public abstract class BaseLaneFragment extends Fragment {
     /*
 	 * 
 	 */
-    public String getCachedData() {
+    String getCachedData() {
         return getBaseLaneActivity().getCachedData(getLaneIndex());
     }
 
     /*
 	 * 
 	 */
-    protected void showToast(String message) {
+    void showToast(String message) {
         FragmentActivity activity = getActivity();
         if (activity != null && activity.getApplicationContext() != null) {
             Toast.makeText(activity.getApplicationContext(), message,

@@ -11,19 +11,6 @@
 
 package com.tweetlanes.android.core.util;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.MalformedURLException;
-import java.net.Proxy;
-import java.net.URL;
-import java.net.URLConnection;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -32,22 +19,64 @@ import android.content.res.Resources;
 import android.os.Environment;
 import android.util.DisplayMetrics;
 
+import com.tweetlanes.android.core.AppSettings;
+
+import java.io.Closeable;
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.Proxy;
+import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 public final class Util {
 
-    /*
-     *
-	 */
     public static boolean isValidString(String s) {
-        return s != null && s.equals("") == false ? true : false;
+        return s != null && !s.equals("");
     }
 
-    /*
-	 * 
-	 */
     public static String getFullDate(Date date) {
-        SimpleDateFormat formatted = new SimpleDateFormat(
-                "hh:mm aa - dd MMM yy");
+        SimpleDateFormat formatted = new SimpleDateFormat("hh:mm aa - dd MMM yy");
         return formatted.format(date);
+    }
+
+    private static String getShortDateYear(Date date) {
+        SimpleDateFormat formatted = new SimpleDateFormat("dd MMM yy, hh:mm aa");
+        return formatted.format(date);
+    }
+
+    private static String getShortDate(Date date) {
+        SimpleDateFormat formatted = new SimpleDateFormat("dd MMM, hh:mm aa");
+        return formatted.format(date);
+    }
+
+    private static String getTimeOnly(Date date) {
+        SimpleDateFormat formatted = new SimpleDateFormat("hh:mm aa");
+        return formatted.format(date);
+    }
+
+    public static String getDisplayDate(Date date)
+    {
+        AppSettings.DisplayTimeFormat displayTimeFormat = AppSettings.get().getCurrentDisplayTimeFormat();
+        if(displayTimeFormat== AppSettings.DisplayTimeFormat.Relative){
+            return Util.getPrettyDate(date);
+        }else if(displayTimeFormat== AppSettings.DisplayTimeFormat.Absolute){
+            return getPrettyFullDate(date);
+        } else{
+            Date currentDate = new Date();
+            int diffInMinutes = (int)((currentDate.getTime() - date.getTime()) / (1000 * 60));
+            if(diffInMinutes > 59)
+            {
+                return getPrettyFullDate(date);
+            }
+            else
+            {
+                return Util.getPrettyDate(date);
+            }
+        }
     }
 
     /*
@@ -56,6 +85,30 @@ public final class Util {
     public static String getPrettyCount(int count) {
         String regex = "(\\d)(?=(\\d{3})+$)";
         return Integer.toString(count).replaceAll(regex, "$1,");
+    }
+
+
+    public static String getPrettyFullDate(Date date)
+    {
+        Date currentDate = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        int diffInDays = sdf.format(currentDate).compareTo(sdf.format(date));
+
+        if(diffInDays > 0)
+        {
+            if(diffInDays > 300)
+            {
+                return Util.getShortDateYear(date);
+            }
+            else
+            {
+                return Util.getShortDate(date);
+            }
+        }
+        else
+        {
+            return Util.getTimeOnly(date);
+        }
     }
 
     /*
@@ -69,7 +122,7 @@ public final class Util {
     /*
 	 * 
 	 */
-    public static String getPrettyDate(Date olderDate, Date newerDate) {
+    private static String getPrettyDate(Date olderDate, Date newerDate) {
 
         String result;
 
@@ -133,8 +186,7 @@ public final class Util {
     public static float convertDpToPixel(float dp, Context context) {
         Resources resources = context.getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();
-        float px = dp * (metrics.densityDpi / 160f);
-        return px;
+        return dp * (metrics.densityDpi / 160f);
     }
 
     /**
@@ -147,21 +199,20 @@ public final class Util {
     public static float convertPixelsToDp(float px, Context context) {
         Resources resources = context.getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();
-        float dp = px / (metrics.densityDpi / 160f);
-        return dp;
+        return px / (metrics.densityDpi / 160f);
     }
 
     /*
 	 * 
 	 */
-    public static String trimLeft(String s) {
+    private static String trimLeft(String s) {
         return s.replaceAll("^\\s+", "");
     }
 
     /*
 	 * 
 	 */
-    public static String trimRight(String s) {
+    private static String trimRight(String s) {
         return s.replaceAll("\\s+$", "");
     }
 
@@ -179,7 +230,7 @@ public final class Util {
 
         if (tag != null) {
             String tagAsString = tag.toString();
-            if (tagAsString != null && tagAsString.equals("") == false) {
+            if (tagAsString != null && !tagAsString.equals("")) {
                 try {
                     int tagAsInt = Integer.parseInt(tagAsString);
                     if (tagAsInt == comparisonId) {
@@ -252,15 +303,6 @@ public final class Util {
         return Proxy.NO_PROXY;
     }
 
-    public static void setIgnoreSSLError(URLConnection conn) {
-        /*
-         * if (conn instanceof HttpsURLConnection) { ((HttpsURLConnection)
-         * conn).setHostnameVerifier(ALLOW_ALL_HOSTNAME_VERIFIER); if
-         * (IGNORE_ERROR_SSL_FACTORY != null) { ((HttpsURLConnection)
-         * conn).setSSLSocketFactory(IGNORE_ERROR_SSL_FACTORY); } }
-         */
-    }
-
     /*
      * via https://developer.android.com/training/camera/photobasics.html#
      * TaskCaptureIntent
@@ -281,43 +323,20 @@ public final class Util {
                 albumName);
     }
 
-    /*
-	 * 
-	 */
-    public static File getAlbumDir(String albumName) {
-        File storageDir = null;
-
-        if (Environment.MEDIA_MOUNTED.equals(Environment
-                .getExternalStorageState())) {
-
-            storageDir = getAlbumStorageDir(albumName);
-
-            if (storageDir != null) {
-                if (!storageDir.mkdirs()) {
-                    if (!storageDir.exists()) {
-                        // Log.d("CameraSample", "failed to create directory");
-                        return null;
-                    }
-                }
+    /**
+     * Close the {@link Closeable} ignoring any {@link IOException}
+     * 
+     * @param closeable The {@link Closeable} to close
+     */
+    public static void closeQuietly(Closeable closeable) {
+        if (closeable != null) {
+            try {
+                closeable.close();
+                closeable = null;
+            } catch (final IOException ignored) {
+                // Nothing to do
             }
-
-        } else {
-            // Log.v(getString(R.string.app_name),
-            // "External storage is not mounted READ/WRITE.");
-        }
-
-        return storageDir;
-    }
-
-    /*
-	 * 
-	 */
-    public static void copyFile(InputStream in, OutputStream out)
-            throws IOException {
-        byte[] buffer = new byte[1024];
-        int read;
-        while ((read = in.read(buffer)) != -1) {
-            out.write(buffer, 0, read);
         }
     }
+
 }

@@ -11,13 +11,13 @@
 
 package org.tweetalib.android;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import org.asynctasktex.AsyncTaskEx;
 import org.socialnetlib.android.AppdotnetApi;
 import org.tweetalib.android.TwitterConstant.BooleanType;
 import org.tweetalib.android.model.TwitterUser;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import twitter4j.Friendship;
 import twitter4j.ResponseList;
@@ -28,10 +28,10 @@ public class TwitterFetchBooleans {
 
     private FetchBooleansWorkerCallbacks mCallbacks;
     private Integer mFetchBooleanCallbackHandle;
-    private HashMap<Integer, FinishedCallback> mFinishedCallbackMap;
+    private final HashMap<Integer, FinishedCallback> mFinishedCallbackMap;
 
     /*
-	 *
+     *
 	 */
     public void clearCallbacks() {
         if (mFinishedCallbackMap != null) {
@@ -55,7 +55,7 @@ public class TwitterFetchBooleans {
     public interface FinishedCallbackInterface {
 
         public void finished(TwitterFetchResult result,
-                ArrayList<Boolean> returnValues);
+                             ArrayList<Boolean> returnValues);
 
     }
 
@@ -68,10 +68,6 @@ public class TwitterFetchBooleans {
 
         public FinishedCallback() {
             mHandle = kInvalidHandle;
-        }
-
-        void setHandle(int handle) {
-            mHandle = handle;
         }
 
         private int mHandle;
@@ -100,8 +96,7 @@ public class TwitterFetchBooleans {
 	 *
 	 */
     FinishedCallback getFetchBooleanCallback(Integer callbackHandle) {
-        FinishedCallback callback = mFinishedCallbackMap.get(callbackHandle);
-        return callback;
+        return mFinishedCallbackMap.get(callbackHandle);
     }
 
     /*
@@ -128,8 +123,8 @@ public class TwitterFetchBooleans {
 	 *
 	 */
     public void getFriendshipExists(String userScreenName,
-            String userScreenNameToCheck, FinishedCallback callback,
-            ConnectionStatus connectionStatus) {
+                                    String userScreenNameToCheck, FinishedCallback callback,
+                                    ConnectionStatus connectionStatus) {
 
         triggerFetchBooleanTask(new FetchBooleanTaskInput(
                 mFetchBooleanCallbackHandle, connectionStatus,
@@ -141,9 +136,9 @@ public class TwitterFetchBooleans {
 	 *
 	 */
     void triggerFetchBooleanTask(FetchBooleanTaskInput taskInput,
-            FinishedCallback callback, ConnectionStatus connectionStatus) {
+                                 FinishedCallback callback, ConnectionStatus connectionStatus) {
 
-        if (connectionStatus != null && connectionStatus.isOnline() == false) {
+        if (connectionStatus != null && !connectionStatus.isOnline()) {
             if (callback != null) {
                 callback.finished(new TwitterFetchResult(false,
                         connectionStatus.getErrorMessageNoConnection()), null);
@@ -171,8 +166,8 @@ public class TwitterFetchBooleans {
     class FetchBooleanTaskInput {
 
         FetchBooleanTaskInput(Integer callbackHandle,
-                ConnectionStatus connectionStatus, BooleanType booleanType,
-                String userScreenName, String userScreenNameToCheck) {
+                              ConnectionStatus connectionStatus, BooleanType booleanType,
+                              String userScreenName, String userScreenNameToCheck) {
             mCallbackHandle = callbackHandle;
             mConnectionStatus = connectionStatus;
             mBooleanType = booleanType;
@@ -180,11 +175,11 @@ public class TwitterFetchBooleans {
             mUserScreenNameToCheck = userScreenNameToCheck;
         }
 
-        Integer mCallbackHandle;
-        ConnectionStatus mConnectionStatus;
-        BooleanType mBooleanType;
-        String mUserScreenName;
-        String mUserScreenNameToCheck;
+        final Integer mCallbackHandle;
+        final ConnectionStatus mConnectionStatus;
+        final BooleanType mBooleanType;
+        final String mUserScreenName;
+        final String mUserScreenNameToCheck;
     }
 
     /*
@@ -193,7 +188,7 @@ public class TwitterFetchBooleans {
     class FetchBooleanTaskOutput {
 
         FetchBooleanTaskOutput(TwitterFetchResult result,
-                Integer callbackHandle, ArrayList<Boolean> returnValues) {
+                               Integer callbackHandle, ArrayList<Boolean> returnValues) {
             mResult = result;
             mCallbackHandle = callbackHandle;
             if (returnValues != null) {
@@ -201,8 +196,8 @@ public class TwitterFetchBooleans {
             }
         }
 
-        TwitterFetchResult mResult;
-        Integer mCallbackHandle;
+        final TwitterFetchResult mResult;
+        final Integer mCallbackHandle;
         ArrayList<Boolean> mReturnValues;
     }
 
@@ -222,7 +217,7 @@ public class TwitterFetchBooleans {
             AppdotnetApi appdotnet = getAppdotnetInstance();
             String errorDescription = null;
 
-            if (input.mConnectionStatus != null && input.mConnectionStatus.isOnline() == false) {
+            if (input.mConnectionStatus != null && !input.mConnectionStatus.isOnline()) {
                 return new FetchBooleanTaskOutput(new TwitterFetchResult(false,
                         input.mConnectionStatus.getErrorMessageNoConnection()),
                         input.mCallbackHandle, null);
@@ -231,20 +226,20 @@ public class TwitterFetchBooleans {
             if (twitter != null) {
                 try {
                     switch (input.mBooleanType) {
-                    case FRIENDSHIP_EXISTS: {
-                        if (input.mUserScreenName.toLowerCase().equals(
-                                input.mUserScreenNameToCheck.toLowerCase()) == false) {
-                            ResponseList<Friendship> response = twitter
-                                    .lookupFriendships(new String[] { input.mUserScreenName });
-                            if (response != null && response.size() == 1) {
-                                result.add(response.get(0).isFollowedBy());
-                                result.add(response.get(0).isFollowing());
+                        case FRIENDSHIP_EXISTS: {
+                            if (!input.mUserScreenName.toLowerCase().equals(
+                                    input.mUserScreenNameToCheck.toLowerCase())) {
+                                ResponseList<Friendship> response = twitter
+                                        .lookupFriendships(new String[]{input.mUserScreenName});
+                                if (response != null && response.size() == 1) {
+                                    result.add(response.get(0).isFollowedBy());
+                                    result.add(response.get(0).isFollowing());
+                                }
                             }
+                            break;
                         }
-                        break;
-                    }
-                    default:
-                        break;
+                        default:
+                            break;
                     }
 
                 } catch (TwitterException e) {
@@ -253,20 +248,20 @@ public class TwitterFetchBooleans {
                 }
             } else if (appdotnet != null) {
                 switch (input.mBooleanType) {
-                case FRIENDSHIP_EXISTS: {
-                    if (input.mUserScreenName.toLowerCase().equals(
-                            input.mUserScreenNameToCheck.toLowerCase()) == false) {
-                        TwitterUser user = appdotnet
-                                .getAdnUser(input.mUserScreenName);
-                        if (user != null) {
-                            result.add(user.getFollowsCurrentUser());
-                            result.add(user.getCurrentUserFollows());
+                    case FRIENDSHIP_EXISTS: {
+                        if (!input.mUserScreenName.toLowerCase().equals(
+                                input.mUserScreenNameToCheck.toLowerCase())) {
+                            TwitterUser user = appdotnet
+                                    .getAdnUser(input.mUserScreenName);
+                            if (user != null) {
+                                result.add(user.getFollowsCurrentUser());
+                                result.add(user.getCurrentUserFollows());
+                            }
                         }
+                        break;
                     }
-                    break;
-                }
-                default:
-                    break;
+                    default:
+                        break;
                 }
             }
 
@@ -275,7 +270,7 @@ public class TwitterFetchBooleans {
             }
 
             return new FetchBooleanTaskOutput(new TwitterFetchResult(
-                    errorDescription == null ? true : false, errorDescription),
+                    errorDescription == null, errorDescription),
                     input.mCallbackHandle, result);
         }
 

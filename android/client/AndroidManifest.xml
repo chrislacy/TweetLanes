@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.tweetlanes.android"
     android:versionCode="51"
-    android:versionName="1.2.0">
+    android:versionName="1.2.1">
 
     <uses-sdk android:targetSdkVersion="17"
         android:minSdkVersion="14" />
@@ -31,6 +31,24 @@
             <intent-filter android:label="@string/app_launcher_name">
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="twitter.com" android:pathPattern="/.*/status/.*" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="mobile.twitter.com" android:pathPattern="/.*/status/.*" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="alpha.app.net" android:pathPattern="/.*/post/.*" />
             </intent-filter>
         </activity>
 

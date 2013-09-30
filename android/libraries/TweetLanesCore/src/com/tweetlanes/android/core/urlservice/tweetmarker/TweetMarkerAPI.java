@@ -11,9 +11,10 @@
 
 package com.tweetlanes.android.core.urlservice.tweetmarker;
 
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
+import android.net.Uri;
+
+import com.tweetlanes.android.core.model.AccountDescriptor;
+import com.tweetlanes.android.core.urlservice.ApiService;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.ParseException;
@@ -28,12 +29,11 @@ import org.tweetalib.android.ConnectionStatus;
 import org.tweetalib.android.TwitterFetchResult;
 import org.tweetalib.android.TwitterManager;
 
-import android.net.Uri;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
-import com.tweetlanes.android.core.model.AccountDescriptor;
-import com.tweetlanes.android.core.urlservice.ApiService;
-
-public class TweetMarkerAPI extends ApiService {
+class TweetMarkerAPI extends ApiService {
 
     private static final String BASE_URL = "http://api.tweetmarker.net/v2/";
 
@@ -75,7 +75,7 @@ public class TweetMarkerAPI extends ApiService {
     }
 
     /*
-	 *
+     *
 	 */
     public static void getLastRead(AccountDescriptor account,
                                    final ConnectionStatus.Callbacks connectionStatus,
@@ -103,7 +103,7 @@ public class TweetMarkerAPI extends ApiService {
                 String screenName = "chrismlacy";// inputArray[0];
                 String errorDescription = null;
 
-                if (connectionStatus != null && connectionStatus.isOnline() == false) {
+                if (connectionStatus != null && !connectionStatus.isOnline()) {
                     return new TaskOutput(new TwitterFetchResult(false,
                             connectionStatus.getErrorMessageNoConnection()),
                             null);
@@ -130,7 +130,7 @@ public class TweetMarkerAPI extends ApiService {
                 }
 
                 return new TaskOutput(new TwitterFetchResult(
-                        errorDescription == null ? true : false,
+                        errorDescription == null,
                         errorDescription), jsonAsString);
             }
 

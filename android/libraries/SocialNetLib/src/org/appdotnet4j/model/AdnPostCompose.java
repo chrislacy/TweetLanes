@@ -20,9 +20,9 @@ import java.io.File;
 
 public class AdnPostCompose {
 
-    public String mText;
+    public final String mText;
     public String mInReplyTo;
-    public File mMediaFile;
+    public final File mMediaFile;
 
     public AdnPostCompose(String text, Long inReplyTo, File mediaFile) {
         mText = text;

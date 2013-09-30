@@ -34,7 +34,7 @@ import java.util.ArrayList;
 
 public class AlarmReceiver extends BroadcastReceiver {
 
-    Context mContext;
+    private Context mContext;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -46,7 +46,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         }
     }
 
-    TwitterFetchStatusesFinishedCallback getMentionsCallback = new TwitterFetchStatusesFinishedCallback() {
+    private final TwitterFetchStatusesFinishedCallback getMentionsCallback = new TwitterFetchStatusesFinishedCallback() {
         @Override
         public void finished(TwitterFetchResult result, TwitterStatuses feed, TwitterContentHandle contentHandle) {
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
@@ -77,17 +77,16 @@ public class AlarmReceiver extends BroadcastReceiver {
                             contentHandle.getCurrentAccountKey(), SharedPreferencesConstants.NOTIFICATION_TYPE_MENTION, first.mId, mContext);
 
                     Notifier.setDashclockValues(mContext, contentHandle.getCurrentAccountKey(), SharedPreferencesConstants.NOTIFICATION_TYPE_MENTION, count, fullDetail);
-                }
-                else {
-                    Notifier.setDashclockValues(mContext, contentHandle.getCurrentAccountKey(), SharedPreferencesConstants.NOTIFICATION_TYPE_MENTION,  0, "");
+                } else {
+                    Notifier.setDashclockValues(mContext, contentHandle.getCurrentAccountKey(), SharedPreferencesConstants.NOTIFICATION_TYPE_MENTION, 0, "");
                 }
             } else {
-                Notifier.setDashclockValues(mContext, contentHandle.getCurrentAccountKey(), SharedPreferencesConstants.NOTIFICATION_TYPE_MENTION,  0, "");
+                Notifier.setDashclockValues(mContext, contentHandle.getCurrentAccountKey(), SharedPreferencesConstants.NOTIFICATION_TYPE_MENTION, 0, "");
             }
         }
     };
 
-    TwitterFetchDirectMessagesFinishedCallback getDirectMessagesCallback = new TwitterFetchDirectMessagesFinishedCallback() {
+    private final TwitterFetchDirectMessagesFinishedCallback getDirectMessagesCallback = new TwitterFetchDirectMessagesFinishedCallback() {
         @Override
         public void finished(TwitterContentHandle contentHandle, TwitterFetchResult result, TwitterDirectMessages messages) {
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
@@ -134,8 +133,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                             contentHandle.getCurrentAccountKey(), SharedPreferencesConstants.NOTIFICATION_TYPE_DIRECT_MESSAGE, first.getId(), mContext);
 
                     Notifier.setDashclockValues(mContext, contentHandle.getCurrentAccountKey(), SharedPreferencesConstants.NOTIFICATION_TYPE_DIRECT_MESSAGE, count, fullDetail);
-                }
-                else {
+                } else {
                     Notifier.setDashclockValues(mContext, contentHandle.getCurrentAccountKey(), SharedPreferencesConstants.NOTIFICATION_TYPE_DIRECT_MESSAGE, 0, "");
                 }
             } else {
@@ -222,8 +220,8 @@ public class AlarmReceiver extends BroadcastReceiver {
                 mConnectionStatusCallbacks);
     }
 
-    private ArrayList<AccountDescriptor> getAccounts(Context context) {
-        ArrayList<AccountDescriptor> accounts = new ArrayList<AccountDescriptor>();
+    private static ArrayList<AccountDescriptor> getAccounts(Context context) {
+        final ArrayList<AccountDescriptor> accounts = new ArrayList<AccountDescriptor>();
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         String accountIndices = preferences.getString(SharedPreferencesConstants.ACCOUNT_INDICES, null);
@@ -251,7 +249,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         return accounts;
     }
 
-    ConnectionStatus.Callbacks mConnectionStatusCallbacks = new ConnectionStatus.Callbacks() {
+    private final ConnectionStatus.Callbacks mConnectionStatusCallbacks = new ConnectionStatus.Callbacks() {
         @Override
         public boolean isOnline() {
             return true;

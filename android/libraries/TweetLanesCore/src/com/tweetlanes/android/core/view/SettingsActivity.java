@@ -58,25 +58,26 @@ public class SettingsActivity extends PreferenceActivity implements
     public static final String KEY_THEME_PREFERENCE = "theme_preference";
     public static final String KEY_CUSTOMIZE_LANES_PREFERENCE = "customizelanes_preference";
     public static final String KEY_SHOW_TABLET_MARGIN_PREFERENCE = "showtabletmargin_preference";
+    public static final String KEY_DISPLAY_TIME_PREFERENCE = "displaytime_preference";
     public static final String KEY_STATUS_SIZE_PREFERENCE = "statussize_preference";
     public static final String KEY_PROFILE_IMAGE_SIZE_PREFERENCE = "profileimagesize_preference";
     public static final String KEY_VOLSCROLL_PREFERENCE = "volscroll_preference";
     public static final String KEY_DOWNLOADIMAGES_PREFERENCE = "downloadimages_preference";
     public static final String KEY_SHOW_TWEET_SOURCE_PREFERENCE = "showtweetsource_preference";
     public static final String KEY_QUOTE_TYPE_PREFERENCE = "quotetype_preference";
-    public static final String KEY_CREDITS_PREFERENCE = "preference_credits";
-    public static final String KEY_SOURCE_CODE_PREFERENCE = "preference_source";
-    public static final String KEY_DONATE_PREFERENCE = "preference_donate";
-    public static final String KEY_VERSION_PREFERENCE = "version_preference";
+    private static final String KEY_CREDITS_PREFERENCE = "preference_credits";
+    private static final String KEY_SOURCE_CODE_PREFERENCE = "preference_source";
+    private static final String KEY_DONATE_PREFERENCE = "preference_donate";
+    private static final String KEY_VERSION_PREFERENCE = "version_preference";
     public static final String KEY_RINGTONE_PREFERENCE = "ringtone_preference";
     public static final String KEY_NOTIFICATION_TIME_PREFERENCE = "notificationtime_preference";
     public static final String KEY_NOTIFICATION_TYPE_PREFERENCE = "notificationtype_preference";
     public static final String KEY_NOTIFICATION_VIBRATION = "notificationvibration_preference";
 
     private ListPreference mThemePreference;
-    private Preference mCustomizeLanesPreference;
     private CheckBoxPreference mShowTabletMarginPreference;
     private ListPreference mStatusSizePreference;
+    private ListPreference mDisplayTimePreference;
     private ListPreference mProfileImageSizePreference;
     private CheckBoxPreference mDownloadImagesPreference;
     private CheckBoxPreference mShowTweetSourcePreference;
@@ -92,7 +93,7 @@ public class SettingsActivity extends PreferenceActivity implements
     /*
      *
 	 */
-    public App getApp() {
+    App getApp() {
         return (App) getApplication();
     }
 
@@ -134,15 +135,17 @@ public class SettingsActivity extends PreferenceActivity implements
             mShowTabletMarginPreference = null;
         }
 
+        mDisplayTimePreference = (ListPreference) getPreferenceScreen()
+                .findPreference(KEY_DISPLAY_TIME_PREFERENCE);
         mStatusSizePreference = (ListPreference) getPreferenceScreen()
                 .findPreference(KEY_STATUS_SIZE_PREFERENCE);
         mProfileImageSizePreference = (ListPreference) getPreferenceScreen()
                 .findPreference(KEY_PROFILE_IMAGE_SIZE_PREFERENCE);
         mDownloadImagesPreference = (CheckBoxPreference) getPreferenceScreen()
                 .findPreference(KEY_DOWNLOADIMAGES_PREFERENCE);
-        mCustomizeLanesPreference = (Preference) getPreferenceScreen()
+        Preference customizeLanesPreference = getPreferenceScreen()
                 .findPreference(KEY_CUSTOMIZE_LANES_PREFERENCE);
-        mCustomizeLanesPreference
+        customizeLanesPreference
                 .setOnPreferenceClickListener(new OnPreferenceClickListener() {
 
                     @Override
@@ -150,9 +153,7 @@ public class SettingsActivity extends PreferenceActivity implements
 
                         ArrayList<LaneDescriptor> laneDefinitions = getApp()
                                 .getCurrentAccount().getAllLaneDefinitions();
-                        LaneCustomizationAdapter adapter = new LaneCustomizationAdapter(
-                                (Context) SettingsActivity.this,
-                                laneDefinitions);
+                        LaneCustomizationAdapter adapter = new LaneCustomizationAdapter(SettingsActivity.this, laneDefinitions);
                         ListView listView = new ListView(SettingsActivity.this);
                         listView.setAdapter(adapter);
 
@@ -224,6 +225,11 @@ public class SettingsActivity extends PreferenceActivity implements
                     AppSettings.DEFAULT_SHOW_TABLET_MARGIN);
             mShowTabletMarginPreference.setChecked(showTabletMargin);
         }
+
+        if (mDisplayTimePreference.getEntry() == null) {
+            mDisplayTimePreference.setValueIndex(0);
+        }
+        mDisplayTimePreference.setSummary(mDisplayTimePreference.getEntry());
 
         if (mStatusSizePreference.getEntry() == null) {
             mStatusSizePreference.setValueIndex(2);
@@ -412,7 +418,7 @@ public class SettingsActivity extends PreferenceActivity implements
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if (super.onOptionsItemSelected(item) == true) {
+        if (super.onOptionsItemSelected(item)) {
             return true;
         }
 
@@ -426,7 +432,7 @@ public class SettingsActivity extends PreferenceActivity implements
     }
 
     /*
-	 *
+     *
 	 */
     public class LaneCustomizationAdapter extends ArrayAdapter<LaneDescriptor> {
 

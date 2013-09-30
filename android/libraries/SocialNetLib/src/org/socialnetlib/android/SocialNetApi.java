@@ -53,28 +53,28 @@ import twitter4j.auth.RequestToken;
 
 public abstract class SocialNetApi {
 
-    public abstract void init();
+    protected abstract void init();
 
-    public abstract TwitterUser verifyCredentialsSync(String oAuthToken,
-            String oAuthSecret);
+    protected abstract TwitterUser verifyCredentialsSync(String oAuthToken,
+                                                         String oAuthSecret);
 
     abstract Twitter getAndConfigureApiInstance();
 
     abstract void clearApiInstance();
 
-    SocialNetConstant.Type mType;
+    private final SocialNetConstant.Type mType;
     String mCurrentOAuthToken;
     String mCurrentOAuthSecret;
-    String mAppConsumerKey;
-    String mAppConsumerSecret;
-    String mCurrentAccountKey;
+    final String mAppConsumerKey;
+    final String mAppConsumerSecret;
+    private final String mCurrentAccountKey;
 
     private TwitterFetchBooleans mFetchBooleans;
     private TwitterFetchDirectMessages mFetchDirectMessages;
     private TwitterFetchStatus mFetchStatus;
     private TwitterFetchStatuses mFetchStatuses;
     private TwitterFetchUser mFetchUser;
-    protected TwitterFetchUsers mFetchUsers;
+    private TwitterFetchUsers mFetchUsers;
     private TwitterFetchLists mFetchLists;
     private TwitterModifyStatuses mModifyStatuses;
     private TwitterSignIn mSignIn;
@@ -263,7 +263,7 @@ public abstract class SocialNetApi {
         mFetchUser.setWorkerCallbacks(callbacks);
     }
 
-    protected AppdotnetApi getAppdotnetApi() {
+    AppdotnetApi getAppdotnetApi() {
 
         if (mType == SocialNetConstant.Type.Appdotnet) {
             return (AppdotnetApi) this;
@@ -413,15 +413,15 @@ public abstract class SocialNetApi {
         if (oAuthToken == null && mCurrentOAuthToken == null) {
             return;
         } else if (oAuthToken != null && mCurrentOAuthToken != null
-                && oAuthToken.equals(mCurrentOAuthToken) == true) {
+                && oAuthToken.equals(mCurrentOAuthToken)) {
             return;
         }
         else if (oAuthSecret != null && mCurrentOAuthSecret != null
-                && oAuthSecret.equals(mCurrentOAuthSecret) == true) {
+                && oAuthSecret.equals(mCurrentOAuthSecret)) {
             return;
         }
 
-        if (cancelPending == true) {
+        if (cancelPending) {
                 mFetchBooleans.clearCallbacks();
                 mFetchLists.clearCallbacks();
                 mFetchDirectMessages.clearCallbacks();
@@ -480,16 +480,14 @@ public abstract class SocialNetApi {
 
     public TwitterUser getUser(Long userId,
             TwitterFetchUser.FinishedCallback callback) {
-        TwitterUser cachedUser = mFetchUser.getUser(userId, callback,
+        return mFetchUser.getUser(userId, callback,
                 mConnectionStatus);
-        return cachedUser;
     }
 
     public TwitterUser getUser(String screenName,
             TwitterFetchUser.FinishedCallback callback) {
-        TwitterUser cachedUser = mFetchUser.getUser(screenName, callback,
+        return mFetchUser.getUser(screenName, callback,
                 mConnectionStatus);
-        return cachedUser;
     }
 
     public void verifyUser(TwitterFetchUser.FinishedCallback callback) {
@@ -501,15 +499,13 @@ public abstract class SocialNetApi {
 	 */
     public TwitterUsers getUsers(TwitterContentHandle contentHandle,
             TwitterPaging paging) {
-        TwitterUsers cachedUsers = mFetchUsers.getUsers(contentHandle, paging);
-        return cachedUsers;
+        return mFetchUsers.getUsers(contentHandle, paging);
     }
 
     public TwitterUsers getUsers(TwitterContentHandle contentHandle,
             TwitterPaging paging, TwitterFetchUsers.FinishedCallback callback) {
-        TwitterUsers cachedUsers = mFetchUsers.getUsers(contentHandle, paging,
+        return mFetchUsers.getUsers(contentHandle, paging,
                 callback, mConnectionStatus);
-        return cachedUsers;
     }
 
     /*
@@ -517,18 +513,16 @@ public abstract class SocialNetApi {
 	 */
     public TwitterDirectMessages getDirectMessages(
             TwitterContentHandle contentHandle) {
-        TwitterDirectMessages cachedMessages = mFetchDirectMessages
+        return mFetchDirectMessages
                 .getDirectMessages(contentHandle);
-        return cachedMessages;
     }
 
     public TwitterDirectMessages getDirectMessages(
             TwitterContentHandle contentHandle, TwitterPaging paging,
             TwitterFetchDirectMessagesFinishedCallback callback) {
-        TwitterDirectMessages cachedMessages = mFetchDirectMessages
+        return mFetchDirectMessages
                 .getDirectMessages(contentHandle, paging, callback,
                         mConnectionStatus);
-        return cachedMessages;
     }
 
     public void sendDirectMessage(long userId, String recipientScreenName,
@@ -613,29 +607,14 @@ public abstract class SocialNetApi {
                 mConnectionStatus);
     }
 
-    /*
-	 *
-	 */
-    public TwitterLists getLists(int userId) {
-        TwitterLists cachedLists = mFetchLists.getLists(userId, null);
-        return cachedLists;
-    }
-
     public TwitterLists getLists(int userId,
             TwitterFetchLists.FinishedCallback callback) {
-        TwitterLists cachedLists = mFetchLists.getLists(userId, callback);
-        return cachedLists;
-    }
-
-    public TwitterLists getLists(String screenName) {
-        TwitterLists cachedLists = mFetchLists.getLists(screenName, null);
-        return cachedLists;
+        return mFetchLists.getLists(userId, callback);
     }
 
     public TwitterLists getLists(String screenName,
             TwitterFetchLists.FinishedCallback callback) {
-        TwitterLists cachedLists = mFetchLists.getLists(screenName, callback);
-        return cachedLists;
+        return mFetchLists.getLists(screenName, callback);
     }
 
     /*

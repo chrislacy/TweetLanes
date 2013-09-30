@@ -35,7 +35,7 @@ public class InflatedLayoutFragment extends Fragment {
     }
 
     /*
-	 * 
+     *
 	 */
     public static InflatedLayoutFragment newInstance(int layoutResourceId) {
         return newInstance(layoutResourceId, null);
@@ -88,7 +88,7 @@ public class InflatedLayoutFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        if (outState != null) {
+        if (outState != null && mLayoutResourceId != null) {
             outState.putInt(KEY_RESOURCE_ID, mLayoutResourceId);
         }
     }

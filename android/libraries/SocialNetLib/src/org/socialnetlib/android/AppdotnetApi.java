@@ -14,16 +14,25 @@ package org.socialnetlib.android;
 import com.turbomanage.httpclient.BasicHttpClient;
 import com.turbomanage.httpclient.HttpResponse;
 import com.turbomanage.httpclient.ParameterMap;
-import org.appdotnet4j.model.*;
+
+import org.appdotnet4j.model.AdnFile;
+import org.appdotnet4j.model.AdnInteractions;
+import org.appdotnet4j.model.AdnPaging;
+import org.appdotnet4j.model.AdnPost;
+import org.appdotnet4j.model.AdnPostCompose;
+import org.appdotnet4j.model.AdnPosts;
+import org.appdotnet4j.model.AdnUser;
+import org.appdotnet4j.model.AdnUsers;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.tweetalib.android.model.TwitterUser;
-import twitter4j.Twitter;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+
+import twitter4j.Twitter;
 
 public class AppdotnetApi extends SocialNetApi {
 
@@ -46,10 +55,7 @@ public class AppdotnetApi extends SocialNetApi {
             return false;
         }
         int status = httpResponse.getStatus();
-        if (status >= 200 && status < 300) {
-            return true;
-        }
-        return false;
+        return status >= 200 && status < 300;
     }
 
     BasicHttpClient getHttpClient() {
@@ -78,8 +84,7 @@ public class AppdotnetApi extends SocialNetApi {
         HttpResponse httpResponse = getHttpClient(accessToken)
                 .get(path, params);
         if (isResponseValid(httpResponse)) {
-            String body = httpResponse.getBodyAsString();
-            return body;
+            return httpResponse.getBodyAsString();
         }
         return null;
     }
@@ -89,8 +94,7 @@ public class AppdotnetApi extends SocialNetApi {
 
         HttpResponse httpResponse = getHttpClient().post(path, "application/json", data);
         if (isResponseValid(httpResponse)) {
-            String body = httpResponse.getBodyAsString();
-            return body;
+            return httpResponse.getBodyAsString();
         }
         return null;
     }
@@ -121,7 +125,7 @@ public class AppdotnetApi extends SocialNetApi {
     }
 
     /*
-	 *
+     *
 	 */
     public TwitterUser getAdnUser(long userId) {
 
@@ -266,8 +270,7 @@ public class AppdotnetApi extends SocialNetApi {
         }
         String streamString = doGet(path, params);
         if (streamString != null) {
-            AdnPosts posts = new AdnPosts(streamString);
-            return posts;
+            return new AdnPosts(streamString);
         }
 
         return null;
@@ -278,9 +281,8 @@ public class AppdotnetApi extends SocialNetApi {
             params = new ParameterMap();
         }
         String interactionString = doGet(path, params);
-        if (interactionString!= null) {
-            AdnInteractions interactions = new AdnInteractions(interactionString);
-            return interactions;
+        if (interactionString != null) {
+            return new AdnInteractions(interactionString);
         }
 
         return null;
@@ -292,8 +294,7 @@ public class AppdotnetApi extends SocialNetApi {
         }
         String userString = doGet(path, params);
         if (userString != null) {
-            AdnUsers users = new AdnUsers(userString);
-            return users;
+            return new AdnUsers(userString);
         }
 
         return null;
@@ -303,7 +304,9 @@ public class AppdotnetApi extends SocialNetApi {
 	 *
 	 */
     public AdnPost getAdnPost(long id) {
-        String postString = doGet("/stream/0/posts/" + id, null);
+        ParameterMap params = new ParameterMap();
+        params.add("include_post_annotations", "1");
+        String postString = doGet("/stream/0/posts/" + id, params);
         if (postString != null) {
             return new AdnPost(postString);
         }
@@ -316,8 +319,8 @@ public class AppdotnetApi extends SocialNetApi {
         try {
 
             post = new JSONObject()
-                .put("text", compose.mText)
-                .put("reply_to", compose.mInReplyTo);
+                    .put("text", compose.mText)
+                    .put("reply_to", compose.mInReplyTo);
 
 
             if (compose.mMediaFile != null) {
@@ -335,8 +338,7 @@ public class AppdotnetApi extends SocialNetApi {
                 post.put("annotations", new JSONArray().put(ann));
             }
 
-        }
-        catch (JSONException e) {
+        } catch (JSONException e) {
             e.printStackTrace();
             return null;
         }
@@ -354,10 +356,10 @@ public class AppdotnetApi extends SocialNetApi {
         JSONObject json;
         try {
             json = new JSONObject()
-                .put("kind", "image")
-                .put("type", "com.tweetlanes.image")
-                .put("public", "0")
-                .put("name", file.getName());
+                    .put("kind", "image")
+                    .put("type", "com.tweetlanes.image")
+                    .put("public", "0")
+                    .put("name", file.getName());
 
             JSONObject response = new JSONObject(doPost("/stream/0/files", json));
             if (response.has("data")) {
@@ -375,17 +377,13 @@ public class AppdotnetApi extends SocialNetApi {
             if (isResponseValid(httpResponse)) {
                 return new AdnFile(id, fileToken);
             }
-        }
-        catch (JSONException e) {
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
-        catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-
-
 
 
         return null;
@@ -427,8 +425,7 @@ public class AppdotnetApi extends SocialNetApi {
         HttpResponse httpResponse;
         if (favorite) {
             httpResponse = httpClient.post("/stream/0/posts/" + existingPostId + "/star", null);
-        }
-        else {
+        } else {
             httpResponse = httpClient.delete("/stream/0/posts/" + existingPostId + "/star", null);
         }
 
@@ -447,7 +444,8 @@ public class AppdotnetApi extends SocialNetApi {
         if (follow) {
             return followUser(username);
         } else {
-            return unfollowUser(username);
+            unfollowUser(username);
+            return null;
         }
     }
 
@@ -455,7 +453,8 @@ public class AppdotnetApi extends SocialNetApi {
         if (follow) {
             return followUser(userId);
         } else {
-            return unfollowUser(userId);
+            unfollowUser(userId);
+            return null;
         }
     }
 
@@ -485,16 +484,14 @@ public class AppdotnetApi extends SocialNetApi {
         return null;
     }
 
-    private AdnUser unfollowUser(long userId) {
+    private void unfollowUser(long userId) {
         BasicHttpClient httpClient = getHttpClient();
         httpClient.delete("/stream/0/users/" + userId + "/follow", null);
-        return null;
     }
 
-    private AdnUser unfollowUser(String username) {
+    private void unfollowUser(String username) {
         BasicHttpClient httpClient = getHttpClient();
         httpClient.delete("/stream/0/users/@" + username + "/follow", null);
-        return null;
     }
 
     @Override
@@ -512,7 +509,7 @@ public class AppdotnetApi extends SocialNetApi {
         return SocialNetConstant.Type.Appdotnet;
     }
 
-    private static byte[] readFile (File file) throws IOException {
+    private static byte[] readFile(File file) throws IOException {
         // Open file
         RandomAccessFile f = new RandomAccessFile(file, "r");
 
@@ -526,8 +523,7 @@ public class AppdotnetApi extends SocialNetApi {
             byte[] data = new byte[length];
             f.readFully(data);
             return data;
-        }
-        finally {
+        } finally {
             f.close();
         }
     }

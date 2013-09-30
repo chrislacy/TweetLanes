@@ -11,11 +11,6 @@
 
 package com.tweetlanes.android.core.view;
 
-import org.tweetalib.android.TwitterFetchResult;
-import org.tweetalib.android.TwitterFetchUser;
-import org.tweetalib.android.TwitterManager;
-import org.tweetalib.android.model.TwitterUser;
-
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
@@ -30,7 +25,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
 import com.tweetlanes.android.core.R;
@@ -38,12 +32,17 @@ import com.tweetlanes.android.core.model.ComposeTweetDefault;
 import com.tweetlanes.android.core.model.LaneDescriptor;
 import com.tweetlanes.android.core.widget.viewpagerindicator.TitleProvider;
 
+import org.tweetalib.android.TwitterFetchResult;
+import org.tweetalib.android.TwitterFetchUser;
+import org.tweetalib.android.TwitterManager;
+import org.tweetalib.android.model.TwitterUser;
+
 public class ProfileActivity extends BaseLaneActivity {
 
-    ProfileAdapter mProfileAdapter;
-    ViewSwitcher mViewSwitcher;
-    TwitterUser mUser;
-    String mScreenName;
+    private ProfileAdapter mProfileAdapter;
+    private ViewSwitcher mViewSwitcher;
+    private TwitterUser mUser;
+    private String mScreenName;
 
     /*
      * (non-Javadoc)
@@ -60,6 +59,11 @@ public class ProfileActivity extends BaseLaneActivity {
         setResult(RESULT_OK, returnIntent);
 
         String clearCompose = getIntent().getStringExtra("clearCompose");
+        boolean savedStateRecreate = false;
+        if (savedInstanceState != null && savedInstanceState.containsKey("Recreate")) {
+            savedStateRecreate = savedInstanceState.getBoolean("Recreate");
+        }
+
         mScreenName = getIntent().getStringExtra("userScreenName");
         if (mScreenName == null) {
             Uri data = getIntent().getData();
@@ -67,6 +71,8 @@ public class ProfileActivity extends BaseLaneActivity {
                     .replace("com.tweetlanes.android.core.profile://", "")
                     .replace("@", "");
         }
+
+
 
         if (mScreenName == null) {
             restartApp();
@@ -77,8 +83,7 @@ public class ProfileActivity extends BaseLaneActivity {
         super.setCurrentComposeFragment((fragment instanceof DirectMessageFeedFragment) ? super.COMPOSE_DIRECT_MESSAGE
                 : super.COMPOSE_TWEET);
 
-        if(clearCompose != null && clearCompose.equals("true"))
-        {
+        if ((clearCompose != null && clearCompose.equals("true")) && !savedStateRecreate) {
             clearCompose();
             getIntent().removeExtra("clearCompose");
         }
@@ -113,7 +118,7 @@ public class ProfileActivity extends BaseLaneActivity {
                 requestedUser = true;
             }
         }
-        if (requestedUser == false) {
+        if (!requestedUser) {
             mUser = TwitterManager.get().getUser(mScreenName, callback);
         }
 
@@ -121,6 +126,12 @@ public class ProfileActivity extends BaseLaneActivity {
         updateViewVisibility();
 
         setComposeDefault();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle bundle) {
+        super.onSaveInstanceState(bundle);
+        bundle.putBoolean("Recreate", true);
     }
 
     /*
@@ -135,7 +146,7 @@ public class ProfileActivity extends BaseLaneActivity {
         // destroyed, yet a callback is still initiated from a Twitter fetch
         // operation. A better solution is needed here, but this works for now.
         mProfileAdapter = null;
-        
+
         super.onDestroy();
     }
 
@@ -175,7 +186,7 @@ public class ProfileActivity extends BaseLaneActivity {
     }
 
     /*
-	 *
+     *
 	 */
     private void updateViewVisibility() {
 
@@ -200,27 +211,29 @@ public class ProfileActivity extends BaseLaneActivity {
 	 */
     @Override
     public boolean configureOptionsMenu(Menu menu) {
-        super.configureOptionsMenu(menu);
+        boolean result = super.configureOptionsMenu(menu);
 
-        return configureActionBarView();
+        configureActionBarView();
+
+        return result;
     }
 
     /*
 	 *
 	 */
-    boolean configureActionBarView() {
+    void configureActionBarView() {
 
         if (mScreenName != null) {
 
-            ActionBar actionBar = getActionBar();
+            final ActionBar actionBar = getActionBar();
             actionBar.setDisplayUseLogoEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setDisplayShowTitleEnabled(true);
+            actionBar.setTitle("@" + mScreenName);
 
-            LayoutInflater inflator = (LayoutInflater) this
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            final LayoutInflater inflator = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-            int layout = R.layout.profile_title_thin;
+            final int layout = R.layout.profile_title_thin;
             /*
              * // TODO: This is messy, and likely won't work for large screen
              * devices. Need to come up with a better solution int layout; if
@@ -230,27 +243,13 @@ public class ProfileActivity extends BaseLaneActivity {
              * R.layout.profile_title; }
              */
 
-            View profileTitleView = inflator.inflate(layout, null);
-            ((TextView) profileTitleView.findViewById(R.id.screenname))
-                    .setText("@" + mScreenName);
-
-            TextView fullNameTextView = (TextView) profileTitleView
-                    .findViewById(R.id.fullname);
-            if (fullNameTextView != null && mUser != null) {
-                fullNameTextView.setText(mUser.getName());
-            }
-
-            ImageView verifiedImage = (ImageView) profileTitleView
-                    .findViewById(R.id.verifiedImage);
-            verifiedImage
-                    .setVisibility(mUser != null && mUser.getVerified() ? View.VISIBLE
-                            : View.GONE);
+            final View abView = inflator.inflate(layout, null);
+            final ImageView verified = (ImageView) abView.findViewById(R.id.verifiedImage);
+            verified.setVisibility(mUser != null && mUser.getVerified() ? View.VISIBLE : View.GONE);
 
             actionBar.setDisplayShowCustomEnabled(true);
-            actionBar.setCustomView(profileTitleView);
+            actionBar.setCustomView(abView);
         }
-
-        return true;
     }
 
     /*
@@ -263,7 +262,7 @@ public class ProfileActivity extends BaseLaneActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if (super.onOptionsItemSelected(item) == true) {
+        if (super.onOptionsItemSelected(item)) {
             return true;
         }
 
@@ -279,6 +278,12 @@ public class ProfileActivity extends BaseLaneActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        clearCompose();
+    }
+
     /*
 	 *
 	 */
@@ -292,7 +297,7 @@ public class ProfileActivity extends BaseLaneActivity {
         @Override
         public Fragment getItem(int position) {
 
-            Fragment result = null;
+            Fragment result;
             if (mUser != null) {
                 LaneDescriptor laneDescriptor = getApp()
                         .getProfileLaneDescriptor(position);

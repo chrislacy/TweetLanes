@@ -11,14 +11,16 @@
 
 package org.appdotnet4j.model;
 
-import java.text.ParseException;
-import java.util.Date;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.tweetalib.android.TwitterManager;
 import org.tweetalib.android.TwitterUtil;
+
+import java.text.ParseException;
+import java.util.Date;
+
+import twitter4j.URLEntity;
 
 public class AdnPost {
 
@@ -33,9 +35,12 @@ public class AdnPost {
     public boolean mIsRetweetedByMe;
     public boolean mIsFavorited;
     public AdnUser mOriginalAuthor;
+    public long mOriginalId;
     public AdnMedia mEmbeddedMedia;
+    public URLEntity[] mUrls;
 
-    public AdnPost() {}
+    public AdnPost() {
+    }
 
     public AdnPost(String jsonAsString) {
         try {
@@ -56,6 +61,7 @@ public class AdnPost {
                 AdnPost repost = new AdnPost(object.getJSONObject("repost_of")
                         .toString());
                 mOriginalAuthor = repost.mUser;
+                mOriginalId = repost.mId;
                 mText = repost.mText;
                 mEmbeddedMedia = repost.mEmbeddedMedia;
             }
@@ -109,6 +115,17 @@ public class AdnPost {
                             String username = mention.getString("name");
                             // HACK
                             TwitterManager.addUserIdentifier(username, id);
+                        }
+                    }
+                }
+                if (entities.has("links")) {
+                    JSONArray jsonArray = entities.getJSONArray("links");
+                    mUrls = new URLEntity[jsonArray.length()];
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject link = jsonArray.getJSONObject(i);
+                        if (link.has("text") && link.has("url")) {
+                            URLEntity url = new AdnUrl(link.getString("text"),link.getString("url"));
+                            mUrls[i] = url;
                         }
                     }
                 }
