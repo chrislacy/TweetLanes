@@ -61,6 +61,18 @@
         <item>12 часов</item>
     </string-array>
 
+    <string-array name="notificationtimevalues_list_preference">
+        <item>0m</item>
+        <item>2m</item>
+        <item>3m</item>
+        <item>5m</item>
+        <item>15m</item>
+        <item>30m</item>
+        <item>1h</item>
+        <item>4h</item>
+        <item>12h</item>
+    </string-array>
+
     <string-array name="notificationtype_list_preference">
         <item>Упоминания и личные сообщения</item>
         <item>Только упоминания</item>
