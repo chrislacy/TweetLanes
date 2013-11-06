@@ -382,6 +382,12 @@ public class App extends Application {
         return mPreferences.getString(key, null);
     }
 
+    public void removeCachedData(String key) {
+        final Editor edit = mPreferences.edit();
+        edit.remove(key);
+        edit.commit();
+    }
+
     /*
 	 *
 	 */

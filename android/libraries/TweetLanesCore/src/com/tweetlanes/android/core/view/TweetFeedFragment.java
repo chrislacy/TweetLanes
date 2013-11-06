@@ -184,6 +184,37 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     }
 
     @Override
+    public void onResume(){
+        super.onResume();
+        if (getLaneIndex() == getApp().getCurrentAccount().getCurrentLaneIndex(Constant.LaneType.USER_MENTIONS)) {
+
+            String cacheKey = "mentions_" + getApp().getCurrentAccountKey();
+            String mentionCachedData = getApp().getCachedData(cacheKey);
+            try {
+                if (mentionCachedData != null) {
+                    TwitterStatuses mentionStatuses = new TwitterStatuses();
+                    JSONArray jsonArray = new JSONArray(mentionCachedData);
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        String statusString = jsonArray.getString(i);
+                        TwitterStatus status = new TwitterStatus(statusString);
+                        mentionStatuses.add(status);
+                    }
+
+                    getApp().removeCachedData(cacheKey);
+
+                    TwitterManager.get().getFetchStatusesInstance().cacheHashtags(mentionStatuses);
+
+                    beginListHeadingCount();
+                    onRefreshFinished(mentionStatuses);
+                }
+            } catch (JSONException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
     public void onSaveInstanceState(Bundle state) {
         super.onSaveInstanceState(state);
 
@@ -419,10 +450,9 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             ListView listView = mTweetFeedListView.getRefreshableView();
             int visibleIndex = Math.max(listView.getFirstVisiblePosition() - 1, 0);
 
-            try
-            {
+            try {
                 visibleIndex = getStatusFeed().getStatusIndex(mLastTwitterStatusIdSeen);
-            }catch (Exception e){
+            } catch (Exception e) {
 
             }
 
@@ -434,7 +464,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             // mTweetFeedListAdapter.getCount()));
             int endIndex = Math.min(visibleIndex + 10, feed.getStatusCount());
 
-            if (endIndex > 100){
+            if (endIndex > 100) {
                 startIndex = endIndex - 100;
             }
 
@@ -825,7 +855,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     }
 
     /*
-	 *
+     *
 	 */
     void updateListHeading(int firstVisibleItem) {
 
@@ -934,7 +964,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
         TwitterStatus visibleStatus = getVisibleStatus();
 
-        if (feed != null) {
+        if (feed != null && feed.getStatusCount() > 0) {
             setStatusFeed(feed, true);
         }
 
@@ -1474,7 +1504,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                                     if (getStatusFeed() != null) {
                                         getStatusFeed().remove(selected);
                                     }
-                                    if (_mCachedStatusFeed != null){
+                                    if (_mCachedStatusFeed != null) {
                                         _mCachedStatusFeed.remove(selected);
                                     }
 
@@ -1517,7 +1547,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                                         if (getStatusFeed() != null) {
                                             getStatusFeed().remove(selected);
                                         }
-                                        if (_mCachedStatusFeed != null){
+                                        if (_mCachedStatusFeed != null) {
                                             _mCachedStatusFeed.remove(selected);
                                         }
 
