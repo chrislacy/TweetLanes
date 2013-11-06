@@ -15,6 +15,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -585,6 +587,24 @@ abstract class ComposeBaseFragment extends Fragment {
         }
     }
 
+    private void lockScreenRotation() {
+        if (getActivity() != null) {
+            switch (getActivity().getResources().getConfiguration().orientation) {
+                case Configuration.ORIENTATION_PORTRAIT:
+                    getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                    break;
+                case Configuration.ORIENTATION_LANDSCAPE:
+                    getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                    break;
+            }
+        }
+    }
+
+    private void resetScreenRotation() {
+        if (getActivity() != null) {
+            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+        }
+    }
     /*
 	 *
 	 */
@@ -599,7 +619,9 @@ abstract class ComposeBaseFragment extends Fragment {
                     status = composeTweetDefault.getStatus();
                 }
             }
+            lockScreenRotation();
             onSendClick(status);
+            resetScreenRotation();
         }
     };
 
