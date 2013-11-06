@@ -226,7 +226,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             setInitialDownloadState(InitialDownloadState.DOWNLOADED);
             updateViewVisibility(true);
 
-            if (autoUpdateStatuses) {
+            if (autoUpdateStatuses || AppSettings.get().isAutoRefreshEnabled()) {
                 fetchNewestTweets();
             }
         }

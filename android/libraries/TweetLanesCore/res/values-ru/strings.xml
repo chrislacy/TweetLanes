@@ -443,6 +443,10 @@
     <string name="summary_downloadimages_preference">Будут загружаться изображения профилей и превью изображений.
     </string>
 
+    <string name="title_autorefresh_preference">Обновлять автоматически</string>
+    <string name="summary_autorefresh_preference">Скачать новые статусы, когда приложение загружается
+    </string>
+
     <string name="title_volscroll_preference">VolScroll</string>
     <string name="summary_volscroll_preference">Прокрутка ленты с помощью клавиш громкости
     </string>

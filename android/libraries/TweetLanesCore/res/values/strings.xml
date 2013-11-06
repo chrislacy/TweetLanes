@@ -464,6 +464,10 @@
         will be downloaded
     </string>
 
+    <string name="title_autorefresh_preference">Auto Refresh</string>
+    <string name="summary_autorefresh_preference">Download new statuses on when app loaded
+    </string>
+
     <string name="title_volscroll_preference">VolScroll</string>
     <string name="summary_volscroll_preference">Scroll up and down the feed using the volume
         buttons
