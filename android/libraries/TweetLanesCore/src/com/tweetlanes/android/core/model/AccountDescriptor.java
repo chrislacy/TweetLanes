@@ -291,7 +291,14 @@ public class AccountDescriptor {
         }
 
         if (changed) {
-            configureLaneDefinitions(null);
+            ArrayList<String> activeLanes = new ArrayList<String>();
+            for (LaneDescriptor lane : mLaneDefinitions){
+                if (lane.getDisplay()){
+                    activeLanes.add(lane.getLaneTitle());
+                }
+            }
+
+            configureLaneDefinitions(activeLanes);
         }
 
         return changed;
