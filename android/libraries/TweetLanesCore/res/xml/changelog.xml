@@ -3,6 +3,8 @@
     <release version="1.3.0" versioncode="52">
         <change>Feature - Added account remover in settings</change>
         <change>Fix - Corrected a few Crittercism reported force close errors</change>
+        <change>Fix - Corrected issue whereby visible lanes would randomly reset</change>
+        <change>Fix - Screen orientation will lock whilst posting to prevent issues with status not posting correctly</change>
     </release>
 	<release version="1.2.1" versioncode="51">
         <change>Feature - Make the ActionBar title selectable when viewing a profile</change>
