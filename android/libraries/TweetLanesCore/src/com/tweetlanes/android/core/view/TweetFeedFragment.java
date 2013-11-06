@@ -419,6 +419,13 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             ListView listView = mTweetFeedListView.getRefreshableView();
             int visibleIndex = Math.max(listView.getFirstVisiblePosition() - 1, 0);
 
+            try
+            {
+                visibleIndex = getStatusFeed().getStatusIndex(mLastTwitterStatusIdSeen);
+            }catch (Exception e){
+
+            }
+
             // View view = (View)listView.getItemAtPosition(visible);
 
             int startIndex = 0;
@@ -427,6 +434,9 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             // mTweetFeedListAdapter.getCount()));
             int endIndex = Math.min(visibleIndex + 10, feed.getStatusCount());
 
+            if (endIndex > 100){
+                startIndex = endIndex - 100;
+            }
 
             TwitterStatuses statuses = new TwitterStatuses();
             for (int i = startIndex; i < endIndex; i++) {
