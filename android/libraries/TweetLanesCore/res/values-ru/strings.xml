@@ -225,6 +225,9 @@
     </string>
 
     <string name="alert_customize_lanes_title">Настройка полос</string>
+    <string name="alert_remove_account_title">Удалить учетную запись</string>
+    <string name="alert_remove_account_sure">Вы уверены, что хотите удалить эту запись?</string>
+    <string name="alert_remove_account_active">Вы не можете удалить активный счет</string>
 
     <string name="functionality_not_implemented">Извините, но эта функция ещё не готова. Но скоро будет, я обещаю!
     </string>
@@ -418,6 +421,9 @@
 
     <string name="title_customizelanes_preference">Управление дорожками</string>
     <string name="summary_customizelanes_preference">Показывать/скрывать отдельные дорожки</string>
+
+    <string name="title_removeaccount_preference">Удалить учетную запись</string>
+    <string name="summary_removeaccount_preference">Выбрать и удалить учетную запись</string>
 
     <string name="title_diplaytime_preference">Формат отображения времени</string>
     <string name="dialog_title_diplaytime_preference">Формат отображения времени</string>
