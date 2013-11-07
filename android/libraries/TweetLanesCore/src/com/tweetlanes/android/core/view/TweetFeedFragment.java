@@ -73,6 +73,7 @@ import org.tweetalib.android.model.TwitterStatuses;
 import org.tweetalib.android.model.TwitterUsers;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public final class TweetFeedFragment extends BaseLaneFragment {
 
@@ -126,6 +127,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
     private LazyImageLoader mProfileImageLoader;
     private LazyImageLoader mPreviewImageLoader;
+    private Calendar mLastRefreshTime = null;
 
     /*
      * (non-Javadoc)
@@ -211,6 +213,17 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             } catch (JSONException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
+            }
+        }
+
+        if(AppSettings.get().isAutoRefreshEnabled())
+        {
+            Calendar cal = Calendar.getInstance();
+            cal.add(Calendar.MINUTE, -2);
+            if(mLastRefreshTime == null){
+                fetchNewestTweets();
+            }else if(mLastRefreshTime.before(cal)){
+                fetchNewestTweets();
             }
         }
     }
@@ -964,6 +977,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             return;
         }
 
+        mLastRefreshTime = Calendar.getInstance();
         TwitterStatus visibleStatus = getVisibleStatus();
 
         if (feed != null && feed.getStatusCount() > 0) {
