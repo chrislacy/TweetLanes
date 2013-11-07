@@ -203,9 +203,10 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                     getApp().removeCachedData(cacheKey);
 
                     TwitterManager.get().getFetchStatusesInstance().cacheHashtags(mentionStatuses);
+                    TwitterStatuses cachedFeed = TwitterManager.get().setContentFeed(mContentHandle, mentionStatuses);
 
                     beginListHeadingCount();
-                    onRefreshFinished(mentionStatuses);
+                    onRefreshFinished(cachedFeed);
                 }
             } catch (JSONException e) {
                 // TODO Auto-generated catch block
@@ -385,6 +386,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                     TwitterStatuses selectedStatuses = new TwitterStatuses(cachedStatus);
                     if (statusFeed != null) statusFeed.remove(selectedStatuses);
                     if (_mCachedStatusFeed != null) _mCachedStatusFeed.remove(selectedStatuses);
+                    TwitterManager.get().removeFromHashMap(selectedStatuses);
 
                     setStatusFeed(getStatusFeed(), true);
                     mTweetFeedListAdapter.notifyDataSetChanged();
@@ -1507,6 +1509,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                                     if (_mCachedStatusFeed != null) {
                                         _mCachedStatusFeed.remove(selected);
                                     }
+                                    TwitterManager.get().removeFromHashMap(selected);
 
                                     setStatusFeed(getStatusFeed(), true);
                                     mTweetFeedListAdapter.notifyDataSetChanged();
@@ -1550,6 +1553,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                                         if (_mCachedStatusFeed != null) {
                                             _mCachedStatusFeed.remove(selected);
                                         }
+                                        TwitterManager.get().removeFromHashMap(selected);
 
                                         setStatusFeed(getStatusFeed(), true);
                                         mTweetFeedListAdapter.notifyDataSetChanged();
