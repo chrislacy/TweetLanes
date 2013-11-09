@@ -218,9 +218,10 @@ public class DirectMessageItemView extends LinearLayout {
 
         if (AppSettings.get().downloadFeedImages()) {
 
-            TwitterUser user = (messageType == MessageType.SENT ? directMessage.getSender() : directMessage.getOtherUser());
+            String imageUrl = (messageType == MessageType.SENT ?
+                    directMessage.getSenderProfileImageUrl(TwitterManager.ProfileImageSize.BIGGER) :
+                    directMessage.getOtherUserProfileImageUrl(TwitterManager.ProfileImageSize.BIGGER));
 
-            String imageUrl = user.getProfileImageUrl(TwitterManager.ProfileImageSize.BIGGER);
             LazyImageLoader imageLoader = callbacks.getProfileImageLoader();
             if (imageLoader != null) {
                 imageLoader.displayImage(imageUrl, mAvatar);
