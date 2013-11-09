@@ -39,6 +39,21 @@ public class TwitterDirectMessages {
         return list;
     }
 
+    public void insert(TwitterDirectMessages directMessages) {
+
+        ArrayList<TwitterDirectMessage> newMessages = directMessages.getAllMessages();
+        for (int i = 0; i < newMessages.size(); i++) {
+            TwitterDirectMessage message = newMessages.get(i);
+
+                add(message);
+        }
+
+        if (newMessages.size() > 0) {
+            sort();
+        }
+
+    }
+
     class Conversation implements Comparable<Conversation> {
 
         /*
@@ -206,7 +221,7 @@ public class TwitterDirectMessages {
     /*
 	 * 
 	 */
-    void add(TwitterDirectMessage message) {
+    public void add(TwitterDirectMessage message) {
 
         Conversation conversation = getConversationForMessage(message);
         if (conversation == null) {
@@ -215,6 +230,7 @@ public class TwitterDirectMessages {
         }
 
         conversation.add(message);
+        conversation.removeDuplicates();
         // Log.d("TweetALib", "Message type: " + (message.getMessageType() ==
         // MessageType.SENT ?
         // "Sent" : "received") + ", message: " + message.getText());
@@ -280,6 +296,17 @@ public class TwitterDirectMessages {
         }
 
         return null;
+    }
+
+    public ArrayList<TwitterDirectMessage> getAllMessages() {
+
+        ArrayList<TwitterDirectMessage> messages = new ArrayList<TwitterDirectMessage>();
+
+        for (Conversation conversation : mConversations) {
+                messages.addAll(conversation.getMessages());
+        }
+
+        return messages;
     }
 
     /*

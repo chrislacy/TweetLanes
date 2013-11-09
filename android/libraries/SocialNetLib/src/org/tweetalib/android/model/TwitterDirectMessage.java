@@ -25,11 +25,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.tweetalib.android.TwitterManager;
 import org.tweetalib.android.TwitterUtil;
+import org.tweetalib.android.widget.URLSpanNoUnderline;
 
 import java.util.ArrayList;
 import java.util.Date;
 
 import twitter4j.DirectMessage;
+import twitter4j.MediaEntity;
+import twitter4j.URLEntity;
 import twitter4j.User;
 
 public class TwitterDirectMessage implements Comparable<TwitterDirectMessage> {
@@ -46,14 +49,12 @@ public class TwitterDirectMessage implements Comparable<TwitterDirectMessage> {
 	 */
     public TwitterDirectMessage(DirectMessage message, User otherUser) {
         mId = message.getId();
-        mMessageType = message.getRecipientId() == otherUser.getId() ? MessageType.SENT
-                : MessageType.RECEIVED;
         mText = message.getText();
-        TwitterMediaEntity mediaEntity = TwitterMediaEntity.createMediaEntity(message);
-        String descriptionMarkup = TwitterUtil.getStatusMarkup(mText, message.getMediaEntities(), message.getURLEntities());
-        mTextSpanned = Html.fromHtml(descriptionMarkup + " ");
+        mStatusFullMarkup = TwitterUtil.getStatusMarkup(mText, message.getMediaEntities(), message.getURLEntities());
+        mTextSpanned = URLSpanNoUnderline.stripUnderlines(Html.fromHtml(mStatusFullMarkup.replace("\n", "<br/>") + " "));
         mCreatedAt = message.getCreatedAt();
         mOtherUserId = otherUser.getId();
+        mRecipientUserId = message.getRecipientId();
         mOtherUserScreenName = otherUser.getScreenName();
         mOtherUserProfileImageOriginalUrl = otherUser.getOriginalProfileImageURL();
         mOtherUserProfileImageMiniUrl = otherUser.getMiniProfileImageURL();
@@ -64,6 +65,7 @@ public class TwitterDirectMessage implements Comparable<TwitterDirectMessage> {
         mSenderProfileImageMiniUrl = sender.getProfileImageUrlMini();
         mSenderProfileImageNormalUrl = sender.getProfileImageUrlNormal();
         mSenderProfileImageBiggerUrl = sender.getProfileImageUrlBigger();
+        mMessageType = mRecipientUserId == mOtherUserId ? MessageType.SENT : MessageType.RECEIVED;
     }
 
     public TwitterDirectMessage(String jsonAsString) {
@@ -75,26 +77,33 @@ public class TwitterDirectMessage implements Comparable<TwitterDirectMessage> {
                 mId = object.getLong(KEY_ID);
             }
 
-            if (object.has(KEY_MESSAGE_TYPE)) {
-                mMessageType = (MessageType)object.get(KEY_MESSAGE_TYPE);
-            }
-
             if (object.has(KEY_TEXT)) {
                 mText = object.getString(KEY_TEXT);
             }
 
-            if (object.has(KEY_TEXT_SPANNED)) {
-                mTextSpanned = (Spanned)object.get(KEY_TEXT_SPANNED);
+            if (object.has(KEY_STATUS_MARKUP)) {
+                mStatusFullMarkup = object.getString(KEY_STATUS_MARKUP);
             }
+            else
+            {
+                mStatusFullMarkup = TwitterUtil.getStatusMarkup(mText, new MediaEntity[0], new URLEntity[0]);
+            }
+            mTextSpanned = URLSpanNoUnderline.stripUnderlines(Html.fromHtml(mStatusFullMarkup.replace("\n", "<br/>") + " "));
 
             if (object.has(KEY_CREATED_AT)) {
                 long createdAt = object.getLong(KEY_CREATED_AT);
                 mCreatedAt = new Date(createdAt);
             }
 
+            if (object.has(KEY_RECIPIENT_USER_ID)) {
+                mRecipientUserId = object.getLong(KEY_RECIPIENT_USER_ID);
+            }
+
             if (object.has(KEY_OTHER_USER_ID)) {
                 mOtherUserId = object.getLong(KEY_OTHER_USER_ID);
             }
+
+            mMessageType = mRecipientUserId == mOtherUserId ? MessageType.SENT : MessageType.RECEIVED;
 
             if (object.has(KEY_OTHER_USER_NAME)) {
                 mOtherUserScreenName = object.getString(KEY_OTHER_USER_NAME);
@@ -156,7 +165,6 @@ public class TwitterDirectMessage implements Comparable<TwitterDirectMessage> {
                 }
             }
 
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -167,10 +175,9 @@ public class TwitterDirectMessage implements Comparable<TwitterDirectMessage> {
         JSONObject object = new JSONObject();
         try {
             object.put(KEY_ID, mId);
-            object.put(KEY_MESSAGE_TYPE, mMessageType);
             object.put(KEY_TEXT, mText);
-            object.put(KEY_TEXT_SPANNED, mTextSpanned);
             object.put(KEY_CREATED_AT, mCreatedAt.getTime());
+            object.put(KEY_RECIPIENT_USER_ID, mRecipientUserId);
             object.put(KEY_OTHER_USER_ID, mOtherUserId);
             object.put(KEY_OTHER_USER_NAME, mOtherUserScreenName);
 
@@ -216,11 +223,11 @@ public class TwitterDirectMessage implements Comparable<TwitterDirectMessage> {
     }
 
     private final String KEY_ID = "mId";
-    private final String KEY_MESSAGE_TYPE = "mMessageType";
     private final String KEY_TEXT = "mText";
-    private final String KEY_TEXT_SPANNED = "mTextSpanned";
+    private final String KEY_STATUS_MARKUP = "mStatusFullMarkup";
     private final String KEY_CREATED_AT = "mCreatedAt";
     private final String KEY_OTHER_USER_ID = "mOtherUserId";
+    private final String KEY_RECIPIENT_USER_ID = "mRecipientUserId";
     private final String KEY_OTHER_USER_NAME = "mOtherUserScreenName";
     private final String KEY_PROFILE_IMAGE_OTHER_USER_ORIGINAL_URL = "mOtherUserProfileImageOriginalUrl";
     private final String KEY_PROFILE_IMAGE_OTHER_USER_MINI_URL = "mOtherUserProfileImageMiniUrl";
@@ -297,6 +304,7 @@ public class TwitterDirectMessage implements Comparable<TwitterDirectMessage> {
     private String mText;
     public Spanned mTextSpanned;
     private Date mCreatedAt;
+    private long mRecipientUserId;
     private long mOtherUserId;
     private String mOtherUserScreenName;
     private String mOtherUserProfileImageOriginalUrl;
@@ -307,6 +315,7 @@ public class TwitterDirectMessage implements Comparable<TwitterDirectMessage> {
     private String mSenderProfileImageMiniUrl;
     private String mSenderProfileImageNormalUrl;
     private String mSenderProfileImageBiggerUrl;
+    private String mStatusFullMarkup;
 
     /*
      * (non-Javadoc)
