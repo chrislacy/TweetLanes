@@ -167,6 +167,8 @@ public class ComposeDirectMessageFragment extends ComposeBaseFragment {
             }
 
             updateStatusHint();
+
+            resetScreenRotation();
         }
     };
 

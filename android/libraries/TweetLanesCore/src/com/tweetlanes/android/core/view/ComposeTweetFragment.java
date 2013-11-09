@@ -185,6 +185,8 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
 
             }
             updateStatusHint();
+
+            resetScreenRotation();
         }
 
     };

@@ -587,7 +587,7 @@ abstract class ComposeBaseFragment extends Fragment {
         }
     }
 
-    private void lockScreenRotation() {
+    protected void lockScreenRotation() {
         if (getActivity() != null) {
             switch (getActivity().getResources().getConfiguration().orientation) {
                 case Configuration.ORIENTATION_PORTRAIT:
@@ -600,7 +600,7 @@ abstract class ComposeBaseFragment extends Fragment {
         }
     }
 
-    private void resetScreenRotation() {
+    protected void resetScreenRotation() {
         if (getActivity() != null) {
             getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
         }
@@ -612,6 +612,8 @@ abstract class ComposeBaseFragment extends Fragment {
 
         @Override
         public void onClick(View v) {
+            lockScreenRotation();
+
             String status = mEditText.getText().toString();
             if (status==null || status.equals("")){
                 ComposeTweetDefault composeTweetDefault = getComposeTweetDefault();
@@ -619,9 +621,8 @@ abstract class ComposeBaseFragment extends Fragment {
                     status = composeTweetDefault.getStatus();
                 }
             }
-            lockScreenRotation();
+
             onSendClick(status);
-            resetScreenRotation();
         }
     };
 
