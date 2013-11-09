@@ -23,6 +23,7 @@ public class AppSettings {
 
     public static final boolean DEFAULT_DOWNLOAD_IMAGES = true;
     public static final boolean DEFAULT_VOLSCROLL = true;
+    public static final boolean DEFAULT_AUTO_REFRESH = false;
     public static final boolean DEFAULT_SHOW_TABLET_MARGIN = true;
     public static final boolean DEFAULT_SHOW_TWEET_SOURCE = false;
 
@@ -217,6 +218,11 @@ public class AppSettings {
     public boolean isVolScrollEnabled() {
         return mSharedPreferences.getBoolean(
                 SettingsActivity.KEY_VOLSCROLL_PREFERENCE, DEFAULT_VOLSCROLL);
+    }
+
+    public boolean isAutoRefreshEnabled() {
+        return mSharedPreferences.getBoolean(
+                SettingsActivity.KEY_AUTO_REFRESH_PREFERENCE, DEFAULT_AUTO_REFRESH);
     }
 
     public boolean isShowNotificationsEnabled() {

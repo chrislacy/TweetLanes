@@ -268,7 +268,7 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
                 @Override
                 public void finished(TwitterFetchResult result, TwitterStatus status) {
 
-                    setIsRetweeted();
+                    boolean success = true;
 
                     if (result != null && result.isSuccessful()) {
                         if (status != null && status.mOriginalRetweetId > 0) {
@@ -277,11 +277,18 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
                             showToast(getString(R.string.retweeted_successfully));
                             setIsRetweeted();
                         } else {
-                            if (!result.getErrorMessage().equals("CancelPressed") && !result.getErrorMessage().equals("QutotePressed")) {
-                                showToast(getString(R.string.retweeted_un_successful));
+                            if(result.getErrorMessage()==null){
+                                success = false;
+                            }else if (!result.getErrorMessage().equals("CancelPressed") && !result.getErrorMessage().equals("QutotePressed")) {
+                                success = false;
                             }
                         }
                     } else {
+                        success = false;
+                    }
+
+                    if(!success)
+                    {
                         showToast(getString(R.string.retweeted_un_successful));
                     }
                 }

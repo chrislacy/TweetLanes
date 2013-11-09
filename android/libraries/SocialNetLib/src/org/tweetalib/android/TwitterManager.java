@@ -150,6 +150,14 @@ public class TwitterManager {
         return mApi.getContentFeed(handle);
     }
 
+    public TwitterStatuses setContentFeed(TwitterContentHandle handle, TwitterStatuses newStatuses) {
+        return mApi.setContentFeed(handle, newStatuses);
+    }
+
+    public void removeFromHashMap(TwitterStatuses statuses) {
+        mApi.removeFromHashMap(statuses);
+    }
+
     /*
      * TODO: This is pretty hacky, just so the callback can be instantiated
      * outside the class

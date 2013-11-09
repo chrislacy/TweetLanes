@@ -73,6 +73,7 @@ import org.tweetalib.android.model.TwitterStatuses;
 import org.tweetalib.android.model.TwitterUsers;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public final class TweetFeedFragment extends BaseLaneFragment {
 
@@ -126,6 +127,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
     private LazyImageLoader mProfileImageLoader;
     private LazyImageLoader mPreviewImageLoader;
+    private Calendar mLastRefreshTime = null;
 
     /*
      * (non-Javadoc)
@@ -184,6 +186,49 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     }
 
     @Override
+    public void onResume(){
+        super.onResume();
+        if (getLaneIndex() == getApp().getCurrentAccount().getCurrentLaneIndex(Constant.LaneType.USER_MENTIONS)) {
+
+            String cacheKey = "mentions_" + getApp().getCurrentAccountKey();
+            String mentionCachedData = getApp().getCachedData(cacheKey);
+            try {
+                if (mentionCachedData != null) {
+                    TwitterStatuses mentionStatuses = new TwitterStatuses();
+                    JSONArray jsonArray = new JSONArray(mentionCachedData);
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        String statusString = jsonArray.getString(i);
+                        TwitterStatus status = new TwitterStatus(statusString);
+                        mentionStatuses.add(status);
+                    }
+
+                    getApp().removeCachedData(cacheKey);
+
+                    TwitterManager.get().getFetchStatusesInstance().cacheHashtags(mentionStatuses);
+                    TwitterStatuses cachedFeed = TwitterManager.get().setContentFeed(mContentHandle, mentionStatuses);
+
+                    beginListHeadingCount();
+                    onRefreshFinished(cachedFeed);
+                }
+            } catch (JSONException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+
+        if(AppSettings.get().isAutoRefreshEnabled())
+        {
+            Calendar cal = Calendar.getInstance();
+            cal.add(Calendar.MINUTE, -2);
+            if(mLastRefreshTime == null){
+                fetchNewestTweets();
+            }else if(mLastRefreshTime.before(cal)){
+                fetchNewestTweets();
+            }
+        }
+    }
+
+    @Override
     public void onSaveInstanceState(Bundle state) {
         super.onSaveInstanceState(state);
 
@@ -226,7 +271,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             setInitialDownloadState(InitialDownloadState.DOWNLOADED);
             updateViewVisibility(true);
 
-            if (autoUpdateStatuses) {
+            if (autoUpdateStatuses || AppSettings.get().isAutoRefreshEnabled()) {
                 fetchNewestTweets();
             }
         }
@@ -354,6 +399,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                     TwitterStatuses selectedStatuses = new TwitterStatuses(cachedStatus);
                     if (statusFeed != null) statusFeed.remove(selectedStatuses);
                     if (_mCachedStatusFeed != null) _mCachedStatusFeed.remove(selectedStatuses);
+                    TwitterManager.get().removeFromHashMap(selectedStatuses);
 
                     setStatusFeed(getStatusFeed(), true);
                     mTweetFeedListAdapter.notifyDataSetChanged();
@@ -419,6 +465,12 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             ListView listView = mTweetFeedListView.getRefreshableView();
             int visibleIndex = Math.max(listView.getFirstVisiblePosition() - 1, 0);
 
+            try {
+                visibleIndex = getStatusFeed().getStatusIndex(mLastTwitterStatusIdSeen);
+            } catch (Exception e) {
+
+            }
+
             // View view = (View)listView.getItemAtPosition(visible);
 
             int startIndex = 0;
@@ -427,6 +479,9 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             // mTweetFeedListAdapter.getCount()));
             int endIndex = Math.min(visibleIndex + 10, feed.getStatusCount());
 
+            if (endIndex > 100) {
+                startIndex = endIndex - 100;
+            }
 
             TwitterStatuses statuses = new TwitterStatuses();
             for (int i = startIndex; i < endIndex; i++) {
@@ -815,7 +870,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     }
 
     /*
-	 *
+     *
 	 */
     void updateListHeading(int firstVisibleItem) {
 
@@ -922,9 +977,10 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             return;
         }
 
+        mLastRefreshTime = Calendar.getInstance();
         TwitterStatus visibleStatus = getVisibleStatus();
 
-        if (feed != null) {
+        if (feed != null && feed.getStatusCount() > 0) {
             setStatusFeed(feed, true);
         }
 
@@ -1464,9 +1520,10 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                                     if (getStatusFeed() != null) {
                                         getStatusFeed().remove(selected);
                                     }
-                                    if (_mCachedStatusFeed != null){
+                                    if (_mCachedStatusFeed != null) {
                                         _mCachedStatusFeed.remove(selected);
                                     }
+                                    TwitterManager.get().removeFromHashMap(selected);
 
                                     setStatusFeed(getStatusFeed(), true);
                                     mTweetFeedListAdapter.notifyDataSetChanged();
@@ -1507,9 +1564,10 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                                         if (getStatusFeed() != null) {
                                             getStatusFeed().remove(selected);
                                         }
-                                        if (_mCachedStatusFeed != null){
+                                        if (_mCachedStatusFeed != null) {
                                             _mCachedStatusFeed.remove(selected);
                                         }
+                                        TwitterManager.get().removeFromHashMap(selected);
 
                                         setStatusFeed(getStatusFeed(), true);
                                         mTweetFeedListAdapter.notifyDataSetChanged();
