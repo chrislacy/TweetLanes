@@ -17,6 +17,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -409,6 +410,43 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
         }
     };
 
+    @Override
+    public void fetchNewestTweets() {
+        super.fetchNewestTweets();
+
+        mRefreshCallback = new TwitterFetchDirectMessagesFinishedCallback() {
+
+            @Override
+            public void finished(TwitterContentHandle contentHandle, TwitterFetchResult result,
+                                 TwitterDirectMessages feed) {
+
+                onRefreshComplete(feed);
+                mConversationListView.onRefreshComplete();
+                mRefreshingNewestDirectMessageId = null;
+            }
+        };
+
+        if (mNewestDirectMessageId != null) {
+            if (mRefreshingNewestDirectMessageId == null) {
+                mRefreshingNewestDirectMessageId = mNewestDirectMessageId;
+                TwitterDirectMessages directMessages = TwitterManager
+                        .get()
+                        .getDirectMessages(
+                                mContentHandle,
+                                TwitterPaging
+                                        .createGetNewer(mNewestDirectMessageId),
+                                mRefreshCallback);
+                if (directMessages == null) {
+                    getBaseLaneActivity().finishCurrentActionMode();
+                }
+            }
+        } else {
+            TwitterManager.get().getDirectMessages(mContentHandle, null,
+                    mRefreshCallback);
+            getBaseLaneActivity().finishCurrentActionMode();
+        }
+    }
+
     /*
 	 *
 	 */
@@ -416,38 +454,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
 
         @Override
         public void onRefresh() {
-
-            mRefreshCallback = new TwitterFetchDirectMessagesFinishedCallback() {
-
-                @Override
-                public void finished(TwitterContentHandle contentHandle, TwitterFetchResult result,
-                                     TwitterDirectMessages feed) {
-
-                    onRefreshComplete(feed);
-                    mConversationListView.onRefreshComplete();
-                    mRefreshingNewestDirectMessageId = null;
-                }
-            };
-
-            if (mNewestDirectMessageId != null) {
-                if (mRefreshingNewestDirectMessageId == null) {
-                    mRefreshingNewestDirectMessageId = mNewestDirectMessageId;
-                    TwitterDirectMessages directMessages = TwitterManager
-                            .get()
-                            .getDirectMessages(
-                                    mContentHandle,
-                                    TwitterPaging
-                                            .createGetNewer(mNewestDirectMessageId),
-                                    mRefreshCallback);
-                    if (directMessages == null) {
-                        getBaseLaneActivity().finishCurrentActionMode();
-                    }
-                }
-            } else {
-                TwitterManager.get().getDirectMessages(mContentHandle, null,
-                        mRefreshCallback);
-                getBaseLaneActivity().finishCurrentActionMode();
-            }
+            fetchNewestTweets();
         }
     };
 

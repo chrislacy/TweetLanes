@@ -661,6 +661,10 @@ class BaseLaneActivity extends FragmentActivity implements
             setComposeDefault();
             int position = getApp().getCurrentAccount().getInitialLaneIndex();
             BaseLaneFragment fragment = getFragmentAtIndex(position);
+            if(fragment==null){
+                fragment = getFragmentAtIndex(0);
+            }
+            
             if(fragment!=null){
                 fragment.fetchNewestTweets();
             }
