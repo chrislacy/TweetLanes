@@ -261,11 +261,18 @@ public class HomeActivity extends BaseLaneActivity {
     protected void onResume() {
         super.onResume();
 
-        AccountDescriptor account = getApp().getCurrentAccount();
+        App app = getApp();
+        AccountDescriptor account = app.getCurrentAccount();
 
         if (account.getDisplayedLaneDefinitionsDirty()) {
             onLaneDataSetChanged();
             account.setDisplayedLaneDefinitionsDirty(false);
+        }
+
+        if (app.getAccountDescriptorsDirty()) {
+            mSpinnerAdapter = new AccountAdapter(this, app.getAccounts());
+            configureListNavigation();
+            app.setAccountDescriptorsDirty(false);
         }
 
         if (account.shouldRefreshLists()) {
@@ -273,7 +280,7 @@ public class HomeActivity extends BaseLaneActivity {
             mRefreshListsHandler.postDelayed(mRefreshListsTask,
                     Constant.REFRESH_LISTS_WAIT_TIME);
         }
-        getApp().clearImageCaches();
+        app.clearImageCaches();
     }
 
     /*
@@ -858,7 +865,7 @@ public class HomeActivity extends BaseLaneActivity {
             public final long Id;
         }
 
-        class AccountHolder {
+        public class AccountHolder {
             public ImageView AvatarImage;
             public ImageView ServiceImage;
             public TextView ScreenName;

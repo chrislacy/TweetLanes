@@ -458,6 +458,14 @@ public abstract class SocialNetApi {
         return mFetchStatuses.getStatuses(handle);
     }
 
+    public TwitterStatuses setContentFeed(TwitterContentHandle handle, TwitterStatuses newStatuses) {
+        return mFetchStatuses.setStatuses(handle, newStatuses, false);
+    }
+
+    public void removeFromHashMap(TwitterStatuses statuses) {
+        mFetchStatuses.removeFromHashMap(statuses);
+    }
+
     /*
 	 *
 	 */
