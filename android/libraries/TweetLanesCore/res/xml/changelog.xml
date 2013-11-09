@@ -5,11 +5,14 @@
         <change>Feature - Mention notification status load into timeline without second refresh</change>
         <change>Feature - Added optional auto refresh on start (but only if it's been more than 2 mins since last refresh)</change>
         <change>Feature - Change in app image save location</change>
+        <change>Feature - DM added to a cache to cut down on data transfer</change>
         <change>Fix - Corrected a few Crittercism reported force close errors</change>
         <change>Fix - Corrected issue whereby visible lanes would randomly reset</change>
         <change>Fix - Screen orientation will lock whilst posting to prevent issues with status not posting correctly</change>
         <change>Fix - Better handling of statuses being removed/deleted</change>
         <change>Fix - DM refresh on send</change>
+        <change>Fix - DM last message correctly passed back to the summary page (without need to refresh)</change>
+        <change>Fix - Make it clear that the summary DM is actually your reply</change>
     </release>
 	<release version="1.2.1" versioncode="51">
         <change>Feature - Make the ActionBar title selectable when viewing a profile</change>

@@ -52,7 +52,9 @@
                         android:text="\@rioferdy5"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textSize="16sp"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentLeft="true"/>
 
                 <TextView
                         android:id="@+id/pretty_date"
@@ -60,14 +62,14 @@
                         android:paddingRight="@dimen/message_item_text_padding_left_right"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toRightOf="@id/authorScreenName"
                         android:layout_alignParentRight="true"
                         android:layout_gravity="center_vertical|right"
                         android:gravity="right"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="@color/text_hairline"
                         android:text="2m"
-                        android:textSize="12sp"/>
+                        android:textSize="12sp"
+                        />
 
             </RelativeLayout>
 
@@ -86,6 +88,15 @@
                     android:text="Here be a DM. Have you ever noticed that Tuesday comes after Monday? It really, really does. Amazing isn't it? This is a real #truestory"/>
 
         </LinearLayout>
+
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:id="@+id/replyIcon"
+                android:src="@drawable/ic_action_reply"
+                android:layout_below="@+id/avatar"
+                android:layout_toLeftOf="@+id/message_block"
+                android:layout_alignParentLeft="true"/>
 
     </RelativeLayout>
 

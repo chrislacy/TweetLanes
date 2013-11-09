@@ -21,6 +21,7 @@ import android.text.method.LinkMovementMethod;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -37,12 +38,7 @@ import com.tweetlanes.android.core.util.Util;
 import org.tweetalib.android.TwitterManager;
 import org.tweetalib.android.model.TwitterDirectMessage;
 import org.tweetalib.android.model.TwitterDirectMessage.MessageType;
-import org.tweetalib.android.model.TwitterUser;
 import org.tweetalib.android.widget.URLSpanNoUnderline;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class DirectMessageItemView extends LinearLayout {
 
@@ -89,7 +85,7 @@ public class DirectMessageItemView extends LinearLayout {
 
     void init(Context context) {
         mContext = context;
-        
+
         final int theme = AppSettings.get().getCurrentThemeStyle();
         int background = android.R.color.white;
         if (theme == R.style.Theme_TweetLanes) {
@@ -113,6 +109,20 @@ public class DirectMessageItemView extends LinearLayout {
 
         mPosition = position;
         mCallbacks = callbacks;
+
+        ImageView replyIcon = (ImageView) findViewById(R.id.replyIcon);
+        if (replyIcon != null) {
+            if (fullConversation) {
+                replyIcon.setVisibility(GONE);
+            } else {
+                if (directMessage.getMessageType() == MessageType.SENT) {
+                    replyIcon.setVisibility(VISIBLE);
+                } else {
+                    replyIcon.setVisibility(GONE);
+                }
+            }
+        }
+
         TextView authorScreenNameTextView = (TextView) findViewById(R.id.authorScreenName);
         if (authorScreenNameTextView != null) {
             authorScreenNameTextView.setText("@"
@@ -130,10 +140,6 @@ public class DirectMessageItemView extends LinearLayout {
                         TypedValue.COMPLEX_UNIT_SP, textSize);
             }
         }
-        // mAuthorNameTextView = (TextView)findViewById(R.id.authorName);
-        // if (mAuthorNameTextView != null) {
-        // mAuthorNameTextView.setText(directMessage.getOtherUserName());
-        // }
 
         TextView statusTextView = (TextView) findViewById(R.id.status);
         String text = directMessage.getText();
@@ -257,7 +263,7 @@ public class DirectMessageItemView extends LinearLayout {
     }
 
     /*
-	 * 
+     *
 	 */
     void onProfileImageClick() {
         Intent profileIntent = new Intent(mContext, ProfileActivity.class);
