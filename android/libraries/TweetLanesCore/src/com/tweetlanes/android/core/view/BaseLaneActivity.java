@@ -1076,13 +1076,15 @@ class BaseLaneActivity extends FragmentActivity implements
         } else if (requestCode == Constant.REQUEST_CODE_PROFILE) {
             clearCompose();
         } else if (requestCode == Constant.REQUEST_CODE_DM) {
-            String messageCache = data.getStringExtra("messageCache");
+            if (data != null) {
+                String messageCache = data.getStringExtra("messageCache");
 
-            DirectMessageFeedFragment fragment = (DirectMessageFeedFragment)mLaneFragmentHashMap
-                    .get(getCurrentLaneIndex());
+                DirectMessageFeedFragment fragment = (DirectMessageFeedFragment)mLaneFragmentHashMap
+                        .get(getCurrentLaneIndex());
 
-            if (fragment != null) {
-                fragment.UpdateTweetCache(messageCache);
+                if (fragment != null) {
+                    fragment.UpdateTweetCache(messageCache);
+                }
             }
         }
 

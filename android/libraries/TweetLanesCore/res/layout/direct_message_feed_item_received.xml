@@ -91,12 +91,13 @@
 
         <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="30dp"
+                android:layout_height="25dp"
                 android:id="@+id/replyIcon"
                 android:src="@drawable/ic_action_reply"
                 android:layout_below="@+id/avatar"
                 android:layout_toLeftOf="@+id/message_block"
-                android:layout_alignParentLeft="true"/>
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="false"/>
 
     </RelativeLayout>
 
