@@ -307,6 +307,20 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
                 mOldestDirectMessageId = oldestDirectMessageId;
             }
         }
+
+        DirectMessageActivity directMessageActivity = null;
+        try
+        {
+            directMessageActivity = (DirectMessageActivity) getActivity();
+        }
+        catch (Exception e)
+        {
+            //Sometimes this is the wrong activity...I'm unsure why.
+            e.printStackTrace();
+        }
+        if (directMessageActivity != null) {
+            directMessageActivity.setCachedMessages(ConvertCacheIntoJSON().toString());
+        }
     }
 
     /*
@@ -371,6 +385,15 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
 
     }
 
+    public void UpdateTweetCache(String newCacheString) {
+        try {
+            addCachedStatusesFromString(newCacheString);
+            mConversationListAdapter.notifyDataSetChanged();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     /*
      * (non-Javadoc)
      *
@@ -398,21 +421,24 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
         JSONObject object = new JSONObject();
 
         try {
-            JSONArray statusArray = new JSONArray();
-            ArrayList<TwitterDirectMessage> messages = mDirectMessages.getAllMessages();
-            int statusCount = messages.size();
-            for (int i = 0; i < statusCount; ++i) {
-                TwitterDirectMessage status = messages.get(i);
-                statusArray.put(status.toString());
-            }
-
-            object.put(KEY_STATUSES, statusArray);
-
+            object.put(KEY_STATUSES, ConvertCacheIntoJSON());
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
         return object.toString();
+    }
+
+    private JSONArray ConvertCacheIntoJSON(){
+        JSONArray statusArray = new JSONArray();
+        ArrayList<TwitterDirectMessage> messages = mDirectMessages.getAllMessages();
+        int statusCount = messages.size();
+        for (int i = 0; i < statusCount; ++i) {
+            TwitterDirectMessage status = messages.get(i);
+            statusArray.put(status.toString());
+        }
+
+        return statusArray;
     }
 
     /*

@@ -351,7 +351,7 @@ class BaseLaneActivity extends FragmentActivity implements
     /*
 	 *
 	 */
-    private final SparseArray<BaseLaneFragment> mLaneFragmentHashMap = new SparseArray<BaseLaneFragment>();
+    protected final SparseArray<BaseLaneFragment> mLaneFragmentHashMap = new SparseArray<BaseLaneFragment>();
     private int activeInitialDownloadCount = 0;
 
     /*
@@ -1075,6 +1075,15 @@ class BaseLaneActivity extends FragmentActivity implements
             clearCompose();
         } else if (requestCode == Constant.REQUEST_CODE_PROFILE) {
             clearCompose();
+        } else if (requestCode == Constant.REQUEST_CODE_DM) {
+            String messageCache = data.getStringExtra("messageCache");
+
+            DirectMessageFeedFragment fragment = (DirectMessageFeedFragment)mLaneFragmentHashMap
+                    .get(getCurrentLaneIndex());
+
+            if (fragment != null) {
+                fragment.UpdateTweetCache(messageCache);
+            }
         }
 
         mShareImagePath = imagePath;
