@@ -190,6 +190,10 @@ public class TwitterManager {
         return mApi.getSetStatusesInstance();
     }
 
+    public TwitterModifyDirectMessages getSetDirectMessagesInstance() {
+        return mApi.getSetDirectMessagesInstance();
+    }
+
     public TwitterSignIn getSignInInstance() {
         return mApi.getSignInInstance();
     }
@@ -347,6 +351,10 @@ public class TwitterManager {
 
     public void deleteTweet(TwitterStatuses statuses, TwitterModifyStatuses.FinishedCallback callback) {
         mApi.deleteTweet(statuses, callback);
+    }
+
+    public void deleteDirectMessage(TwitterDirectMessages messages, TwitterModifyDirectMessages.FinishedCallback callback) {
+        mApi.deleteDirectMessage(messages, callback);
     }
 
 

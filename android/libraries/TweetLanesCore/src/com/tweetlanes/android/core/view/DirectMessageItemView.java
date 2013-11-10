@@ -17,10 +17,16 @@ import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.text.Layout;
+import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.util.AttributeSet;
 import android.util.TypedValue;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -57,7 +63,9 @@ public class DirectMessageItemView extends LinearLayout {
      */
     public interface DirectMessageItemViewCallbacks {
 
-        public void onClicked(View view, int position);
+        public boolean onSingleTapConfirmed(View view, int position);
+
+        public void onLongPress(View view, int position);
 
         public Activity getActivity();
 
@@ -236,25 +244,120 @@ public class DirectMessageItemView extends LinearLayout {
 
         mMessageBlock = findViewById(R.id.message_block);
 
-        OnClickListener onClickListener = new OnClickListener() {
+        setOnTouchListener(mOnTouchListener);
+        if (statusTextView != null) {
+            statusTextView.setOnTouchListener(mStatusOnTouchListener);
+        }
 
-            @Override
-            public void onClick(View v) {
-                onViewClicked();
-            }
-        };
-
-        setOnClickListener(onClickListener);
-        statusTextView.setOnClickListener(onClickListener);
-        authorScreenNameTextView.setOnClickListener(onClickListener);
+        if (authorScreenNameTextView != null) {
+            authorScreenNameTextView.setOnTouchListener(mOnTouchListener);
+        }
     }
+
+    private final OnTouchListener mStatusOnTouchListener = new OnTouchListener() {
+
+        @Override
+        public boolean onTouch(View view, MotionEvent event) {
+
+            // Code from here: http://stackoverflow.com/a/7327332/328679
+            TextView textView = (TextView) view;
+            Object text = textView.getText();
+            if (text instanceof Spanned) {
+                int action = event.getAction();
+
+                if (action == MotionEvent.ACTION_UP
+                        || action == MotionEvent.ACTION_DOWN) {
+                    int x = (int) event.getX();
+                    int y = (int) event.getY();
+
+                    x -= textView.getTotalPaddingLeft();
+                    y -= textView.getTotalPaddingTop();
+
+                    x += textView.getScrollX();
+                    y += textView.getScrollY();
+
+                    Layout layout = textView.getLayout();
+                    int line = layout.getLineForVertical(y);
+                    int off = layout.getOffsetForHorizontal(line, x);
+
+                    Spanned buffer = (Spanned) text;
+                    ClickableSpan[] link = buffer.getSpans(off, off,
+                            ClickableSpan.class);
+
+                    // If this is a link, don't pass the touch back to the
+                    // system. TwitterLinkify will handle these links,
+                    // and by passing false back we ensure the TweetFeedItemView
+                    // instance is not selected int the parent ListView
+
+                    // bug fix (devisnik) for: no switch to action mode when
+                    // longpressing on a link
+                    // only handle link if touch is not a long press
+                    if (action == MotionEvent.ACTION_UP && event.getEventTime() - event.getDownTime() < ViewConfiguration
+                            .getLongPressTimeout() && link.length != 0) {
+
+                        MotionEvent cancelEvent = MotionEvent.obtain(event);
+                        cancelEvent.setAction(MotionEvent.ACTION_CANCEL);
+                        mGestureDetector.onTouchEvent(cancelEvent);
+                        cancelEvent.recycle();
+                        return false;
+                    }
+                }
+
+            }
+
+            return mGestureDetector.onTouchEvent(event);
+        }
+    };
+
+    /*
+	 *
+	 */
+    private final OnTouchListener mOnTouchListener = new OnTouchListener() {
+
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            return mGestureDetector.onTouchEvent(event);
+        }
+    };
+
+    /*
+	 *
+	 */
+    private final GestureDetector mGestureDetector = new GestureDetector(
+            new GestureDetector.SimpleOnGestureListener() {
+
+                @Override
+                public boolean onSingleTapConfirmed(MotionEvent e) {
+                    return mCallbacks != null && mCallbacks.onSingleTapConfirmed(DirectMessageItemView.this, mPosition);
+                }
+
+                @Override
+                public void onLongPress(MotionEvent e) {
+                    if (mCallbacks != null) {
+                        mCallbacks.onLongPress(DirectMessageItemView.this,
+                                mPosition);
+                    }
+                    // return true;
+                }
+
+                @Override
+                public boolean onDown(MotionEvent e) {
+                    return true;
+                }
+            });
 
     /*
      *
 	 */
     private void onViewClicked() {
         if (mCallbacks != null) {
-            mCallbacks.onClicked(this, mPosition);
+            mCallbacks.onSingleTapConfirmed(this, mPosition);
+        }
+    }
+
+    private void onViewLongPressClicked() {
+        if (mCallbacks != null) {
+            mCallbacks.onLongPress(this, mPosition);
         }
     }
 
