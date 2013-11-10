@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="JAVA_MODULE" version="4">
   <component name="EclipseModuleManager" forced_jdk="true">
-    <libelement value="jar://$MODULE_DIR$/libs/twitter4j-core-3.0.3.jar!/" />
-    <libelement value="jar://$MODULE_DIR$/libs/twitter4j-media-support-3.0.3.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/libs/twitter4j-core-3.0.6-SNAPSHOT.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/libs/twitter4j-media-support-3.0.6-SNAPSHOT.jar!/" />
     <conelement value="com.android.ide.eclipse.adt.DEPENDENCIES" />
     <src_description expected_position="3">
       <src_folder value="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK" expected_position="0" />
@@ -32,8 +32,8 @@
       <sourceFolder url="file://$MODULE_DIR$/gen" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
-    <orderEntry type="library" name="twitter4j-media-support-3.0.4-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="twitter4j-core-3.0.4-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="twitter4j-media-support-3.0.6-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="twitter4j-core-3.0.6-SNAPSHOT" level="project" />
     <orderEntry type="library" name="basic-http-client-android-0.88" level="project" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
