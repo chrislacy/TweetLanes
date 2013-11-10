@@ -207,14 +207,11 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
     boolean configureCachedStatuses() {
 
         String statusesAsString = null;
-        try
-        {
+        try {
             String cachedData = getCachedData();
             if (cachedData == null) {
                 statusesAsString = getArguments().getString("cachedMessages");
-            }
-            else
-            {
+            } else {
                 JSONObject object;
                 object = new JSONObject(cachedData);
                 if (object.has(KEY_STATUSES)) {
@@ -308,17 +305,9 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
             }
         }
 
-        DirectMessageActivity directMessageActivity = null;
-        try
-        {
-            directMessageActivity = (DirectMessageActivity) getActivity();
-        }
-        catch (Exception e)
-        {
-            //Sometimes this is the wrong activity...I'm unsure why.
-            e.printStackTrace();
-        }
-        if (directMessageActivity != null) {
+        BaseLaneActivity currentActivity = getBaseLaneActivity();
+        if (currentActivity instanceof DirectMessageActivity) {
+            DirectMessageActivity directMessageActivity = (DirectMessageActivity) getActivity();
             directMessageActivity.setCachedMessages(ConvertCacheIntoJSON().toString());
         }
     }
@@ -418,6 +407,10 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
             return null;
         }
 
+        if (getOtherUserId() != null) {
+            return null;
+        }
+
         JSONObject object = new JSONObject();
 
         try {
@@ -429,7 +422,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
         return object.toString();
     }
 
-    private JSONArray ConvertCacheIntoJSON(){
+    private JSONArray ConvertCacheIntoJSON() {
         JSONArray statusArray = new JSONArray();
         ArrayList<TwitterDirectMessage> messages = mDirectMessages.getAllMessages();
         int statusCount = messages.size();
@@ -485,7 +478,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
     }
 
     /*
-	 *
+     *
 	 */
     private final OnLastItemVisibleListener mOnLastItemVisibleListener = new OnLastItemVisibleListener() {
 
