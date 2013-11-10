@@ -29,6 +29,7 @@ import android.widget.ListView;
 import android.widget.ViewSwitcher;
 
 import com.tweetlanes.android.core.App;
+import com.tweetlanes.android.core.AppSettings;
 import com.tweetlanes.android.core.Constant;
 import com.tweetlanes.android.core.Constant.SystemEvent;
 import com.tweetlanes.android.core.Notifier;
@@ -54,8 +55,10 @@ import org.tweetalib.android.model.TwitterDirectMessage.MessageType;
 import org.tweetalib.android.model.TwitterDirectMessages;
 import org.tweetalib.android.model.TwitterDirectMessagesHandle;
 import org.tweetalib.android.model.TwitterStatus;
+import org.tweetalib.android.model.TwitterStatuses;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class DirectMessageFeedFragment extends BaseLaneFragment {
 
@@ -110,6 +113,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
     private Long mOldestDirectMessageId;
     private Long mRefreshingDirectMessageId;
     private boolean mMoreDirectMessagesAvailable = true;
+    private Calendar mLastRefreshTime = null;
 
     private static final String KEY_STATUSES = "statuses";
 
@@ -182,6 +186,47 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
         configureInitialStatuses();
 
         return resultView;
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        if (getLaneIndex() == getApp().getCurrentAccount().getCurrentLaneIndex(Constant.LaneType.DIRECT_MESSAGES)) {
+
+            String cacheKey = "dm_" + getApp().getCurrentAccountKey();
+            String dmCachedData = getApp().getCachedData(cacheKey);
+            try {
+                if (dmCachedData != null) {
+                    TwitterDirectMessages directMessages = new TwitterDirectMessages(getBaseLaneActivity().getApp().getCurrentAccount().getId());
+                    JSONArray jsonArray = new JSONArray(dmCachedData);
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        String statusString = jsonArray.getString(i);
+                        TwitterDirectMessage status = new TwitterDirectMessage(statusString);
+                        directMessages.add(status);
+                    }
+
+                    getApp().removeCachedData(cacheKey);
+
+                    TwitterDirectMessages cachedFeed = TwitterManager.get().setDirectMessages(mContentHandle, directMessages);
+
+                    onRefreshComplete(cachedFeed, true);
+                }
+            } catch (JSONException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+
+        if(AppSettings.get().isAutoRefreshEnabled())
+        {
+            Calendar cal = Calendar.getInstance();
+            cal.add(Calendar.MINUTE, -2);
+            if(mLastRefreshTime == null){
+                fetchNewestTweets(false);
+            }else if(mLastRefreshTime.before(cal)){
+                fetchNewestTweets(false);
+            }
+        }
     }
 
     private void configureInitialStatuses() {
@@ -316,10 +361,10 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
     /*
      *
 	 */
-    private void onRefreshComplete(TwitterDirectMessages feed) {
+    private void onRefreshComplete(TwitterDirectMessages feed, boolean addCache) {
 
         if (feed != null) {
-            setDirectMessages(feed, true);
+            setDirectMessages(feed, addCache);
         }
         mConversationListAdapter.notifyDataSetChanged();
         mRefreshCallback = null;
@@ -484,7 +529,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
                 public void finished(TwitterContentHandle handle, TwitterFetchResult result,
                                      TwitterDirectMessages feed) {
 
-                    onRefreshComplete(feed);
+                    onRefreshComplete(feed, true);
 
                     if (mRefreshingDirectMessageId.longValue() == mOldestDirectMessageId
                             .longValue()) {
@@ -517,6 +562,12 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
     @Override
     public void fetchNewestTweets() {
         super.fetchNewestTweets();
+        fetchNewestTweets(true);
+    }
+
+
+    public void fetchNewestTweets(boolean fullRefresh) {
+        super.fetchNewestTweets();
 
         mRefreshCallback = new TwitterFetchDirectMessagesFinishedCallback() {
 
@@ -524,30 +575,41 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
             public void finished(TwitterContentHandle contentHandle, TwitterFetchResult result,
                                  TwitterDirectMessages feed) {
 
-                onRefreshComplete(feed);
+                onRefreshComplete(feed, false);
+                mDirectMessagesCache = mDirectMessages;
                 mConversationListView.onRefreshComplete();
                 mRefreshingNewestDirectMessageId = null;
             }
         };
 
-        if (mNewestDirectMessageId != null) {
-            if (mRefreshingNewestDirectMessageId == null) {
-                mRefreshingNewestDirectMessageId = mNewestDirectMessageId;
-                TwitterDirectMessages directMessages = TwitterManager
-                        .get()
-                        .getDirectMessages(
-                                mContentHandle,
-                                TwitterPaging
-                                        .createGetNewer(mNewestDirectMessageId),
-                                mRefreshCallback);
-                if (directMessages == null) {
-                    getBaseLaneActivity().finishCurrentActionMode();
+        TwitterPaging paging = null;
+        if(getOtherUserId() != null || !fullRefresh)
+        {
+            paging = TwitterPaging.createGetNewer(mNewestDirectMessageId);
+            mRefreshCallback = new TwitterFetchDirectMessagesFinishedCallback() {
+
+                @Override
+                public void finished(TwitterContentHandle contentHandle, TwitterFetchResult result,
+                                     TwitterDirectMessages feed) {
+
+                    onRefreshComplete(feed, true);
+                    mConversationListView.onRefreshComplete();
+                    mRefreshingNewestDirectMessageId = null;
                 }
+            };
+        }
+
+        if (mRefreshingNewestDirectMessageId == null) {
+            mRefreshingNewestDirectMessageId = mNewestDirectMessageId;
+            TwitterDirectMessages directMessages = TwitterManager
+                    .get()
+                    .getDirectMessages(
+                            mContentHandle,
+                            paging,
+                            mRefreshCallback);
+            if (directMessages == null) {
+                getBaseLaneActivity().finishCurrentActionMode();
             }
-        } else {
-            TwitterManager.get().getDirectMessages(mContentHandle, null,
-                    mRefreshCallback);
-            getBaseLaneActivity().finishCurrentActionMode();
         }
     }
 
@@ -563,7 +625,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
     };
 
     /*
-	 *
+     *
 	 */
     private final OnItemClickListener mTweetFeedOnItemClickListener = new OnItemClickListener() {
 
@@ -757,7 +819,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
             @Override
             public void finished(TwitterContentHandle contentHandle, TwitterFetchResult fetchResult,
                                  TwitterDirectMessages directMessages) {
-                onRefreshComplete(directMessages);
+                onRefreshComplete(directMessages, true);
                 mConversationListView.onRefreshComplete();
 
                 updateViewVisibility(true);

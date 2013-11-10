@@ -123,8 +123,9 @@ public class TwitterDirectMessages {
 		 * 
 		 */
         void removeDuplicates() {
+            sort();
             int size = mMessages.size();
-            if (size != 0) {
+            if (size > 1) {
                 TwitterDirectMessage previous = null;
                 for (Iterator<TwitterDirectMessage> it = mMessages.iterator(); it
                         .hasNext(); ) {
@@ -200,7 +201,6 @@ public class TwitterDirectMessages {
 
         // Sort the messages in the conversation first up
         for (Conversation conversation : mConversations) {
-            conversation.sort();
             conversation.removeDuplicates();
         }
 
@@ -233,6 +233,14 @@ public class TwitterDirectMessages {
         // Log.d("TweetALib", "Message type: " + (message.getMessageType() ==
         // MessageType.SENT ?
         // "Sent" : "received") + ", message: " + message.getText());
+    }
+
+    public void add(TwitterDirectMessages directMessages) {
+
+        for(TwitterDirectMessage message : directMessages.getAllMessages())
+        {
+            add(message);
+        }
     }
 
     /*

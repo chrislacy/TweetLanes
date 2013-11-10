@@ -119,6 +119,17 @@ public class AlarmReceiver extends BroadcastReceiver {
                 int count = 0;
                 if (first.getId() > lastDisplayedId) {
 
+                    JSONArray statusArray = new JSONArray();
+                    int statusCount = received.size();
+                    for (int i = 0; i < statusCount; ++i) {
+                        TwitterDirectMessage status = received.get(i);
+                        statusArray.put(status.toString());
+                    }
+
+                    final SharedPreferences.Editor edit = preferences.edit();
+                    edit.putString("dm_" + contentHandle.getCurrentAccountKey(), statusArray.toString());
+                    edit.commit();
+
                     String noun = received.size() == 1 ? "direct message" : "direct messages";
 
                     for (int i = 0; i < received.size(); ++i) {
