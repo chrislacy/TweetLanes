@@ -44,8 +44,7 @@ public class TwitterDirectMessages {
         ArrayList<TwitterDirectMessage> newMessages = directMessages.getAllMessages();
         for (int i = 0; i < newMessages.size(); i++) {
             TwitterDirectMessage message = newMessages.get(i);
-
-                add(message);
+            add(message);
         }
 
         if (newMessages.size() > 0) {
@@ -65,7 +64,7 @@ public class TwitterDirectMessages {
         }
 
         /*
-		 * 
+         *
 		 */
         void add(TwitterDirectMessage message) {
             mMessages.add(message);
@@ -303,7 +302,20 @@ public class TwitterDirectMessages {
         ArrayList<TwitterDirectMessage> messages = new ArrayList<TwitterDirectMessage>();
 
         for (Conversation conversation : mConversations) {
+            messages.addAll(conversation.getMessages());
+        }
+
+        return messages;
+    }
+
+    public ArrayList<TwitterDirectMessage> getAllConversation(long otherUserId) {
+
+        ArrayList<TwitterDirectMessage> messages = new ArrayList<TwitterDirectMessage>();
+
+        for (Conversation conversation : mConversations) {
+            if(conversation.mOtherUserId == otherUserId){
                 messages.addAll(conversation.getMessages());
+            }
         }
 
         return messages;

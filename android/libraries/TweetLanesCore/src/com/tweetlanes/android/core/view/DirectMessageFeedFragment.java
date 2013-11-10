@@ -304,12 +304,6 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
                 mOldestDirectMessageId = oldestDirectMessageId;
             }
         }
-
-        BaseLaneActivity currentActivity = getBaseLaneActivity();
-        if (currentActivity instanceof DirectMessageActivity) {
-            DirectMessageActivity directMessageActivity = (DirectMessageActivity) getActivity();
-            directMessageActivity.setCachedMessages(ConvertCacheIntoJSON().toString());
-        }
     }
 
     /*
@@ -374,13 +368,12 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
 
     }
 
-    public void UpdateTweetCache(String newCacheString) {
-        try {
-            addCachedStatusesFromString(newCacheString);
-            mConversationListAdapter.notifyDataSetChanged();
-        } catch (JSONException e) {
-            e.printStackTrace();
+    public void UpdateTweetCache() {
+        TwitterDirectMessages cachedDirectMessages = TwitterManager.get().getDirectMessages(mContentHandle);
+        if (cachedDirectMessages != null) {
+            setDirectMessages(cachedDirectMessages, true);
         }
+        mConversationListAdapter.notifyDataSetChanged();
     }
 
     /*
@@ -559,7 +552,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
     }
 
     /*
-	 *
+     *
 	 */
     private final OnRefreshListener mOnRefreshListener = new OnRefreshListener() {
 
@@ -594,7 +587,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
 
             DirectMessageActivity.createAndStartActivity(getActivity(),
                     mContentHandle, directMessage.getOtherUserId(),
-                    directMessage.getOtherUserScreenName(), mDirectMessages);
+                    directMessage.getOtherUserScreenName(), mDirectMessages.getAllConversation(directMessage.getOtherUserId()));
         }
 
     }

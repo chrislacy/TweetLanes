@@ -44,30 +44,26 @@ public class DirectMessageActivity extends BaseLaneActivity {
     private static final String KEY_OTHER_USER_ID = "otherUserId";
     private static final String KEY_OTHER_USER_SCREEN_NAME = "otherUserScreenName";
     private static final String KEY_CACHE_MESSAGES = "cacheMessages";
-    private static String messageCache = "";
 
     /*
      *
 	 */
     public static void createAndStartActivity(Activity currentActivity,
                                               TwitterContentHandle contentHandle, long otherUserId,
-                                              String otherUserScreenName, TwitterDirectMessages messages) {
+                                              String otherUserScreenName, ArrayList<TwitterDirectMessage> requiredMessages) {
 
         Intent intent = new Intent(currentActivity,
                 DirectMessageActivity.class);
         intent.putExtra(KEY_HANDLE_BASE, contentHandle);
         intent.putExtra(KEY_OTHER_USER_ID, otherUserId);
         intent.putExtra(KEY_OTHER_USER_SCREEN_NAME, otherUserScreenName);
-
         JSONArray statusArray = new JSONArray();
-        ArrayList<TwitterDirectMessage> allMessages = messages.getAllMessages();
-        int statusCount = allMessages.size();
+        int statusCount = requiredMessages.size();
         for (int i = 0; i < statusCount; ++i) {
-            TwitterDirectMessage status = allMessages.get(i);
+            TwitterDirectMessage status = requiredMessages.get(i);
             statusArray.put(status.toString());
         }
-        messageCache = statusArray.toString();
-        intent.putExtra(KEY_CACHE_MESSAGES, messageCache);
+        intent.putExtra(KEY_CACHE_MESSAGES, statusArray.toString());
         currentActivity.startActivityForResult(intent, Constant.REQUEST_CODE_DM);
     }
 
@@ -104,7 +100,6 @@ public class DirectMessageActivity extends BaseLaneActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 Intent returnIntent = new Intent();
-                returnIntent.putExtra("messageCache", messageCache);
                 setResult(RESULT_OK, returnIntent);
                 finish();
                 return true;
@@ -193,15 +188,10 @@ public class DirectMessageActivity extends BaseLaneActivity {
         return mDirectMessageLaneAdapter;
     }
 
-    public void setCachedMessages(String newMessageCache) {
-        messageCache = newMessageCache;
-    }
-
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
             Intent returnIntent = new Intent();
-            returnIntent.putExtra("messageCache", messageCache);
             setResult(RESULT_OK, returnIntent);
             finish();
             return true;

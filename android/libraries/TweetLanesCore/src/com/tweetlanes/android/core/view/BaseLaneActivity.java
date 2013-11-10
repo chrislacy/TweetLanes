@@ -1077,13 +1077,12 @@ class BaseLaneActivity extends FragmentActivity implements
             clearCompose();
         } else if (requestCode == Constant.REQUEST_CODE_DM) {
             if (data != null) {
-                String messageCache = data.getStringExtra("messageCache");
 
                 DirectMessageFeedFragment fragment = (DirectMessageFeedFragment)mLaneFragmentHashMap
                         .get(getCurrentLaneIndex());
 
                 if (fragment != null) {
-                    fragment.UpdateTweetCache(messageCache);
+                    fragment.UpdateTweetCache();
                 }
             }
         }
