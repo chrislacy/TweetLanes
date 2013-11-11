@@ -2,7 +2,7 @@
 <changelog>
     <release version="1.3.0" versioncode="52">
         <change>Feature - Added account remover in settings</change>
-        <change>Feature - Mention notification status load into timeline without second refresh</change>
+        <change>Feature - Mention &amp; DM notification status load into timeline without second refresh</change>
         <change>Feature - Added optional auto refresh on start (but only if it's been more than 2 mins since last refresh)</change>
         <change>Feature - Change in app image save location</change>
         <change>Feature - DM added to a cache to cut down on data transfer</change>

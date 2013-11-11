@@ -368,6 +368,8 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
 	 */
     private void onRefreshComplete(TwitterDirectMessages feed, boolean addCache) {
 
+        mLastRefreshTime = Calendar.getInstance();
+
         if (feed != null) {
             setDirectMessages(feed, addCache);
         }
@@ -567,7 +569,16 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
     @Override
     public void fetchNewestTweets() {
         super.fetchNewestTweets();
-        fetchNewestTweets(true);
+
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.MINUTE, -5);
+        if(mLastRefreshTime == null){
+            fetchNewestTweets(true);
+        }else if(mLastRefreshTime.before(cal)){
+            fetchNewestTweets(true);
+        }else{
+            fetchNewestTweets(false);
+        }
     }
 
 
