@@ -167,27 +167,17 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
         View resultView = inflater.inflate(R.layout.lane, null);
         configureLaneWidth(resultView);
 
-        mViewSwitcher = (ViewSwitcher) resultView
-                .findViewById(R.id.profileSwitcher);
-        mConversationListAdapter = new DirectMessageConversationListAdapter(
-                inflater);
-        // mMultipleConversationSelectionCallback = new
-        // MultipleConversationSelectionCallback();
-        mConversationListView = (PullToRefreshListView) resultView
-                .findViewById(R.id.pull_to_refresh_listview);
-        mConversationListView.getRefreshableView().setOnItemClickListener(
-                mTweetFeedOnItemClickListener);
-        mConversationListView.getRefreshableView().setChoiceMode(
-                ListView.CHOICE_MODE_NONE);
-        // mConversationListView.getRefreshableView().setMultiChoiceModeListener(mMultipleConversationSelectionCallback);
-        // mConversationListView.getRefreshableView()
-        mConversationListView.getRefreshableView().setOnScrollListener(
-                mOnScrollListener);
-        mConversationListView.getRefreshableView().setAdapter(
-                mConversationListAdapter);
+        mViewSwitcher = (ViewSwitcher) resultView.findViewById(R.id.profileSwitcher);
+        mConversationListAdapter = new DirectMessageConversationListAdapter(inflater);
+
+        mMultipleDirectMessageSelectionCallback = new MultipleDirectMessageSelectionCallback();
+
+        mConversationListView = (PullToRefreshListView) resultView.findViewById(R.id.pull_to_refresh_listview);
+        mConversationListView.getRefreshableView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+        mConversationListView.getRefreshableView().setMultiChoiceModeListener(mMultipleDirectMessageSelectionCallback);
+        mConversationListView.getRefreshableView().setOnScrollListener(mOnScrollListener);
+        mConversationListView.getRefreshableView().setAdapter(mConversationListAdapter);
         mConversationListView.setOnRefreshListener(mOnRefreshListener);
-        mConversationListView
-                .setOnLastItemVisibleListener(mOnLastItemVisibleListener);
 
         configureInitialStatuses();
 
