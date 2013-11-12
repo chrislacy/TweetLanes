@@ -161,9 +161,6 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
             return null;
         }
 
-        //
-        //
-        //
         View resultView = inflater.inflate(R.layout.lane, null);
         configureLaneWidth(resultView);
 
@@ -694,7 +691,15 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
             DirectMessageItemView tweetFeedItemView = mSelectedItems.get(i);
             TwitterDirectMessage message = tweetFeedItemView.getDirectMessage();
             if (message != null) {
-                selectedList.add(message);
+                if (getOtherUserId()==null){
+                    for(TwitterDirectMessage conversationMessage : mDirectMessages.getAllMessagesInConversation(message)){
+                        selectedList.add(conversationMessage);
+                    }
+                }
+                else
+                {
+                    selectedList.add(message);
+                }
             }
         }
 

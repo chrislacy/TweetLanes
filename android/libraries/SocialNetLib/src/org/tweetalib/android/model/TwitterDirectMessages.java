@@ -262,8 +262,17 @@ public class TwitterDirectMessages {
 
     public void remove(TwitterDirectMessages directMessages) {
 
+        ArrayList<Conversation> removeConversations = new ArrayList<Conversation>();
+
         for (Conversation conversation : mConversations) {
             conversation.remove(directMessages.getAllMessages());
+            if(conversation.mMessages.size() == 0){
+                removeConversations.add(conversation);
+            }
+        }
+
+        for (Conversation conversation : removeConversations){
+            mConversations.remove(conversation);
         }
     }
 
@@ -286,6 +295,19 @@ public class TwitterDirectMessages {
         }
 
         return result;
+    }
+
+    public ArrayList<TwitterDirectMessage> getAllMessagesInConversation(TwitterDirectMessage message) {
+        Conversation fullConvo = getConversationForMessage(message);
+        ArrayList<TwitterDirectMessage> allMessages = new ArrayList<TwitterDirectMessage>();
+
+        if(fullConvo!=null)
+        {
+            allMessages = fullConvo.mMessages;
+        }
+
+        return allMessages;
+
     }
 
     /*
