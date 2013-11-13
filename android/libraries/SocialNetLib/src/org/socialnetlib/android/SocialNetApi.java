@@ -484,6 +484,10 @@ public abstract class SocialNetApi {
         mFetchStatuses.removeFromHashMap(statuses);
     }
 
+    public void removeFromDirectMessageHashMap(TwitterDirectMessages mesages) {
+        mFetchDirectMessages.removeFromDirectMessageHashMap(mesages);
+    }
+
     /*
 	 *
 	 */

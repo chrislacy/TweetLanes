@@ -238,11 +238,18 @@
     <string name="favorited_un_successfully">Ошибка добавления в избранное</string>
     <string name="favorite_in_progress">Favorite being marked</string> <!-- TODO -->
     <string name="unfavorited_un_successfully">Ошибка удаления из избранного</string>
-    <string name="favorite_marking_un_successful">Unable to change Favorite marker</string> <!-- TODO -->
+    <string name="favorite_marking_un_successful">Невозможно изменить Любимые маркера</string>
     <string name="retweeted_successfully">Ретвит успешно отправлен</string>
     <string name="retweeted_un_successful">Ошибка при отправке ретвита</string>
-    <string name="retweeted_marking_un_successful">Unable to mark as Retweet</string> <!-- TODO -->
-    <string name="cannot_unretweet">Cannot un-reweet using this app</string> <!-- TODO -->
+    <string name="retweeted_marking_un_successful">Невозможно пометить как Retweet</string>
+    <string name="cannot_unretweet">Нельзя отменить reweet с помощью этого приложения</string>
+
+    <string name="deleted_dm_successfully">Прямое сообщение успешно удален</string>
+    <string name="deleted_dm_un_successfully">Прямое сообщение об удалении не удалось</string>
+    <string name="alert_delete_dm_title">Несколько прямое сообщение об удалении</string>
+    <string name="alert_delete_dm_message">Вы собираетесь удалить более одного сообщения, которое может занять некоторое время, чтобы обработать, вы уверены?</string>
+    <string name="delete_dm_processing">Прямое сообщение об удалении в прогрессе</string>
+    <string name="delete_dm_cancelled">Прямое сообщение об удалении отменен</string>
 
     <string name="retweet">Ретвитнуть</string>
     <string name="quote">Цитата</string>

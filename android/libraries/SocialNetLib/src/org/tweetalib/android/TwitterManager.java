@@ -158,6 +158,10 @@ public class TwitterManager {
         mApi.removeFromHashMap(statuses);
     }
 
+    public void removeFromDirectMessageHashMap(TwitterDirectMessages mesages) {
+        mApi.removeFromDirectMessageHashMap(mesages);
+    }
+
     /*
      * TODO: This is pretty hacky, just so the callback can be instantiated
      * outside the class

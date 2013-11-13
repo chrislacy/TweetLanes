@@ -246,68 +246,13 @@ public class DirectMessageItemView extends LinearLayout {
 
         setOnTouchListener(mOnTouchListener);
         if (statusTextView != null) {
-            statusTextView.setOnTouchListener(mStatusOnTouchListener);
+            statusTextView.setOnTouchListener(mOnTouchListener);
         }
 
         if (authorScreenNameTextView != null) {
             authorScreenNameTextView.setOnTouchListener(mOnTouchListener);
         }
     }
-
-    private final OnTouchListener mStatusOnTouchListener = new OnTouchListener() {
-
-        @Override
-        public boolean onTouch(View view, MotionEvent event) {
-
-            // Code from here: http://stackoverflow.com/a/7327332/328679
-            TextView textView = (TextView) view;
-            Object text = textView.getText();
-            if (text instanceof Spanned) {
-                int action = event.getAction();
-
-                if (action == MotionEvent.ACTION_UP
-                        || action == MotionEvent.ACTION_DOWN) {
-                    int x = (int) event.getX();
-                    int y = (int) event.getY();
-
-                    x -= textView.getTotalPaddingLeft();
-                    y -= textView.getTotalPaddingTop();
-
-                    x += textView.getScrollX();
-                    y += textView.getScrollY();
-
-                    Layout layout = textView.getLayout();
-                    int line = layout.getLineForVertical(y);
-                    int off = layout.getOffsetForHorizontal(line, x);
-
-                    Spanned buffer = (Spanned) text;
-                    ClickableSpan[] link = buffer.getSpans(off, off,
-                            ClickableSpan.class);
-
-                    // If this is a link, don't pass the touch back to the
-                    // system. TwitterLinkify will handle these links,
-                    // and by passing false back we ensure the TweetFeedItemView
-                    // instance is not selected int the parent ListView
-
-                    // bug fix (devisnik) for: no switch to action mode when
-                    // longpressing on a link
-                    // only handle link if touch is not a long press
-                    if (action == MotionEvent.ACTION_UP && event.getEventTime() - event.getDownTime() < ViewConfiguration
-                            .getLongPressTimeout() && link.length != 0) {
-
-                        MotionEvent cancelEvent = MotionEvent.obtain(event);
-                        cancelEvent.setAction(MotionEvent.ACTION_CANCEL);
-                        mGestureDetector.onTouchEvent(cancelEvent);
-                        cancelEvent.recycle();
-                        return false;
-                    }
-                }
-
-            }
-
-            return mGestureDetector.onTouchEvent(event);
-        }
-    };
 
     /*
 	 *
@@ -345,21 +290,6 @@ public class DirectMessageItemView extends LinearLayout {
                     return true;
                 }
             });
-
-    /*
-     *
-	 */
-    private void onViewClicked() {
-        if (mCallbacks != null) {
-            mCallbacks.onSingleTapConfirmed(this, mPosition);
-        }
-    }
-
-    private void onViewLongPressClicked() {
-        if (mCallbacks != null) {
-            mCallbacks.onLongPress(this, mPosition);
-        }
-    }
 
     public TwitterDirectMessage getDirectMessage() {
         return mDirectMessage;

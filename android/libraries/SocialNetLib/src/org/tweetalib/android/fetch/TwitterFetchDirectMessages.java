@@ -59,7 +59,7 @@ public class TwitterFetchDirectMessages {
     }
 
     /*
-	 *
+     *
 	 */
     public interface FetchMessagesWorkerCallbacks {
 
@@ -108,6 +108,15 @@ public class TwitterFetchDirectMessages {
 	 */
     Twitter getTwitterInstance() {
         return mCallbacks.getTwitterInstance();
+    }
+
+    public void removeFromDirectMessageHashMap(TwitterDirectMessages mesages) {
+        if (mMessagesHashMap != null) {
+            for (String key : mMessagesHashMap.keySet()) {
+                TwitterDirectMessages feed = mMessagesHashMap.get(key);
+                feed.remove(mesages);
+            }
+        }
     }
 
     /*

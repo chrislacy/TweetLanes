@@ -12,6 +12,8 @@
 package com.tweetlanes.android.core.view;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -175,6 +177,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
         mConversationListView.getRefreshableView().setOnScrollListener(mOnScrollListener);
         mConversationListView.getRefreshableView().setAdapter(mConversationListAdapter);
         mConversationListView.setOnRefreshListener(mOnRefreshListener);
+        mConversationListView.setOnLastItemVisibleListener(mOnLastItemVisibleListener);
 
         configureInitialStatuses();
 
@@ -559,11 +562,11 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
 
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.MINUTE, -5);
-        if(mLastRefreshTime == null){
+        if (mLastRefreshTime == null) {
             fetchNewestTweets(true);
-        }else if(mLastRefreshTime.before(cal)){
+        } else if (mLastRefreshTime.before(cal)) {
             fetchNewestTweets(true);
-        }else{
+        } else {
             fetchNewestTweets(false);
         }
     }
@@ -691,13 +694,11 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
             DirectMessageItemView tweetFeedItemView = mSelectedItems.get(i);
             TwitterDirectMessage message = tweetFeedItemView.getDirectMessage();
             if (message != null) {
-                if (getOtherUserId()==null){
-                    for(TwitterDirectMessage conversationMessage : mDirectMessages.getAllMessagesInConversation(message)){
+                if (getOtherUserId() == null) {
+                    for (TwitterDirectMessage conversationMessage : mDirectMessages.getAllMessagesInConversation(message)) {
                         selectedList.add(conversationMessage);
                     }
-                }
-                else
-                {
+                } else {
                     selectedList.add(message);
                 }
             }
@@ -728,32 +729,52 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
 
             if (itemId == R.id.action_delete_status) {
                 final TwitterDirectMessages selected = getSelectedStatuses();
-                TwitterModifyDirectMessages.FinishedCallback callback =
+                final TwitterModifyDirectMessages.FinishedCallback callback =
                         TwitterManager.get().getSetDirectMessagesInstance().new FinishedCallback() {
 
                             @Override
                             public void finished(boolean successful, Integer value) {
                                 if (successful) {
 
-                                    showToast(getString(R.string.deleted_successfully));
+                                    showToast(getString(R.string.deleted_dm_successfully));
                                     if (mDirectMessages != null) {
                                         mDirectMessages.remove(selected);
                                     }
                                     if (mDirectMessagesCache != null) {
                                         mDirectMessagesCache.remove(selected);
                                     }
+                                    TwitterManager.get().removeFromDirectMessageHashMap(selected);
 
                                     setDirectMessages(mDirectMessages, true);
                                     mConversationListAdapter.notifyDataSetChanged();
                                     mConversationListView.onRefreshComplete();
                                     updateViewVisibility(true);
                                 } else {
-                                    showToast(getString(R.string.deleted_un_successfully));
+                                    showToast(getString(R.string.deleted_dm_un_successfully));
                                 }
                             }
                         };
 
-                TwitterManager.get().deleteDirectMessage(selected, callback);
+                if (selected.getAllMessages().size() > 1) {
+                    new AlertDialog.Builder(getActivity().getApplicationContext())
+                            .setTitle(R.string.alert_delete_dm_title)
+                            .setMessage(R.string.alert_delete_dm_message)
+                            .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    showToast(getString(R.string.delete_dm_processing));
+                                    TwitterManager.get().deleteDirectMessage(selected, callback);
+                                }
+                            })
+                            .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    showToast(getString(R.string.delete_dm_cancelled));
+                                }
+                            })
+                            .show();
+                } else {
+                    TwitterManager.get().deleteDirectMessage(selected, callback);
+                }
+
                 mode.finish();
             } else {
             }
@@ -800,12 +821,12 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
                     mode.getMenu().clear();
                     MenuInflater inflater = getActivity().getMenuInflater();
                     inflater.inflate(R.menu.dm_selected, mode.getMenu());
-                    mode.setTitle("Select Tweets");
+                    mode.setTitle("Select Direct Messages");
                     mode.setSubtitle("" + checkedCount + " items selected");
                     break;
                 }
                 default: {
-                    mode.setTitle("Select Tweets");
+                    mode.setTitle("Select Direct Messages");
                     mode.setSubtitle("" + checkedCount + " items selected");
                     break;
                 }
