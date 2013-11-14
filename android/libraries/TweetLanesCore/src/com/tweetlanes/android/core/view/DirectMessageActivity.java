@@ -32,7 +32,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.tweetalib.android.TwitterContentHandle;
 import org.tweetalib.android.model.TwitterDirectMessage;
-import org.tweetalib.android.model.TwitterDirectMessages;
 
 import java.util.ArrayList;
 
@@ -200,6 +199,13 @@ public class DirectMessageActivity extends BaseLaneActivity {
         return super.onKeyDown(keyCode, event);
     }
 
+    public void FeedEmpty() {
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("emptyFeed", true);
+        setResult(RESULT_OK, returnIntent);
+        finish();
+    }
+
     /*
      *
 	 */
@@ -210,12 +216,17 @@ public class DirectMessageActivity extends BaseLaneActivity {
             super(supportFragmentManager);
         }
 
+        public ArrayList<DirectMessageFeedFragment> directMessageFeedFragments = new ArrayList<DirectMessageFeedFragment>();
+
         @Override
         public Fragment getItem(int position) {
             TwitterContentHandle contentHandle = getContentHandle();
-            return DirectMessageFeedFragment.newInstance(position,
+            DirectMessageFeedFragment fragment = DirectMessageFeedFragment.newInstance(position,
                     contentHandle, contentHandle.getScreenName(),
                     contentHandle.getIdentifier(), getOtherUserId(), getApp().getCurrentAccountKey(), getCachedMessages());
+
+            directMessageFeedFragments.add(fragment);
+            return fragment;
         }
 
         @Override

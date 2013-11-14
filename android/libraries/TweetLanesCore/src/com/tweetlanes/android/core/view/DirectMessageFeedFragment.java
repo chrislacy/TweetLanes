@@ -12,8 +12,6 @@
 package com.tweetlanes.android.core.view;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -425,12 +423,17 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
 
     }
 
-    public void UpdateTweetCache() {
+    public void UpdateTweetCache(boolean allStatusDeleted) {
         TwitterDirectMessages cachedDirectMessages = TwitterManager.get().getDirectMessages(mContentHandle);
         if (cachedDirectMessages != null) {
             setDirectMessages(cachedDirectMessages, true);
         }
+
         mConversationListAdapter.notifyDataSetChanged();
+
+        if(allStatusDeleted){
+            fetchNewestTweets(true,null);
+        }
     }
 
     /*
@@ -545,7 +548,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
         super.fetchNewestTweets();
 
         Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.MINUTE, -5);
+        cal.add(Calendar.MINUTE, -60);
         if (mLastRefreshTime == null) {
             fetchNewestTweets(true, null);
         } else if (mLastRefreshTime.before(cal)) {
@@ -560,6 +563,8 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
     public void fetchNewestTweets(final boolean fullRefresh, final Long statusIdForPaging) {
         super.fetchNewestTweets();
 
+        mConversationListView.setRefreshing(true);
+
         if (mTimesFetchCalled == 0) {
             lockScreenRotation();
         }
@@ -572,59 +577,73 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
 
         TwitterPaging paging = null;
         if (getOtherUserId() != null || !fullRefresh) {
-            paging = TwitterPaging.createGetNewerWithPageSize(statusIdForPaging, pageSize);
+            paging = TwitterPaging.createGetNewerWithPageSize(mNewestDirectMessageId, pageSize);
             mRefreshCallback = new TwitterFetchDirectMessagesFinishedCallback() {
 
                 @Override
                 public void finished(TwitterContentHandle contentHandle, TwitterFetchResult result,
                                      TwitterDirectMessages feed) {
 
-                    if (feed.getNewestDirectMessageId() == statusIdForPaging){
-                        onRefreshComplete(feed, true);
+                    if (result.isSuccessful()) {
+                        if (feed == null || feed.getConversationCount() == 0) {
+                            mConversationListView.onRefreshComplete();
+                            mRefreshingNewestDirectMessageId = null;
+                            mTimesFetchCalled = 0;
+                        } else {
+                            if (statusIdForPaging != null && feed.getNewestDirectMessageId().equals(statusIdForPaging)) {
+                                onRefreshComplete(feed, true);
+                                mConversationListView.onRefreshComplete();
+                                mRefreshingNewestDirectMessageId = null;
+                                mTimesFetchCalled = 0;
+                            } else {
+                                fetchNewestTweets(fullRefresh, feed.getNewestDirectMessageId());
+                            }
+                        }
+                    } else {
                         mConversationListView.onRefreshComplete();
                         mRefreshingNewestDirectMessageId = null;
                         mTimesFetchCalled = 0;
                     }
-                    else
-                    {
-                        fetchNewestTweets(fullRefresh, feed.getNewestDirectMessageId());
-                    }
                 }
             };
-        }
-        else
-        {
-            if(mTimesFetchCalled > 1){
+        } else {
+            if (mTimesFetchCalled > 1 && statusIdForPaging != null) {
                 paging = TwitterPaging.createGetOlderWithPageSize(statusIdForPaging, pageSize);
-            }
-            else
-            {
+            } else {
                 paging = TwitterPaging.createGetMostRecent();
             }
-
             mRefreshCallback = new TwitterFetchDirectMessagesFinishedCallback() {
 
                 @Override
                 public void finished(TwitterContentHandle contentHandle, TwitterFetchResult result,
                                      TwitterDirectMessages feed) {
 
-                    if(feed.getOldestDirectMessageId() == statusIdForPaging)
-                    {
-                        onRefreshComplete(feed, false);
-                        mDirectMessagesCache = mDirectMessages;
+                    if (result.isSuccessful()) {
+                        if (feed == null || feed.getConversationCount() == 0) {
+                            mConversationListView.onRefreshComplete();
+                            mRefreshingNewestDirectMessageId = null;
+                            mTimesFetchCalled = 0;
+                        } else {
+                            if (statusIdForPaging != null && feed.getOldestDirectMessageId().equals(statusIdForPaging)) {
+                                onRefreshComplete(feed, false);
+                                mDirectMessagesCache = mDirectMessages;
+                                mConversationListView.onRefreshComplete();
+                                mRefreshingNewestDirectMessageId = null;
+                                mTimesFetchCalled = 0;
+                            } else {
+                                fetchNewestTweets(fullRefresh, feed.getOldestDirectMessageId());
+                            }
+                        }
+                    } else {
                         mConversationListView.onRefreshComplete();
                         mRefreshingNewestDirectMessageId = null;
                         mTimesFetchCalled = 0;
-                    }
-                    else
-                    {
-                        fetchNewestTweets(fullRefresh, feed.getOldestDirectMessageId());
                     }
                 }
             };
         }
 
-        if (mRefreshingNewestDirectMessageId == null) {
+        if (mRefreshingNewestDirectMessageId == null || mTimesFetchCalled > 1) {
             mRefreshingNewestDirectMessageId = mNewestDirectMessageId;
             TwitterDirectMessages directMessages = TwitterManager
                     .get()
@@ -745,55 +764,47 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
             final int itemId = item.getItemId();
 
             final TwitterDirectMessages selected = getSelectedStatuses();
-            final TwitterModifyDirectMessages.FinishedCallback callback =
-                    TwitterManager.get().getSetDirectMessagesInstance().new FinishedCallback() {
-
-                        @Override
-                        public void finished(boolean successful, Integer value) {
-                            if (successful) {
-
-                                showToast(getString(R.string.deleted_dm_successfully));
-                                if (mDirectMessages != null) {
-                                    mDirectMessages.remove(selected);
-                                }
-                                if (mDirectMessagesCache != null) {
-                                    mDirectMessagesCache.remove(selected);
-                                }
-                                TwitterManager.get().removeFromDirectMessageHashMap(selected);
-
-                                setDirectMessages(mDirectMessages, true);
-                                mConversationListAdapter.notifyDataSetChanged();
-                                mConversationListView.onRefreshComplete();
-                                updateViewVisibility(true);
-                            } else {
-                                showToast(getString(R.string.deleted_dm_un_successfully));
-                            }
-                        }
-                    };
 
             if (itemId == R.id.action_delete_status) {
 
+                final TwitterModifyDirectMessages.FinishedCallback callback =
+                        TwitterManager.get().getSetDirectMessagesInstance().new FinishedCallback() {
+
+                            @Override
+                            public void finished(boolean successful, Integer value) {
+                                if (successful) {
+
+                                    showToast(getString(R.string.deleted_dm_successfully));
+                                    if (mDirectMessages != null) {
+                                        mDirectMessages.remove(selected);
+                                    }
+                                    if (mDirectMessagesCache != null) {
+                                        mDirectMessagesCache.remove(selected);
+                                    }
+                                    TwitterManager.get().removeFromDirectMessageHashMap(selected);
+
+                                    setDirectMessages(mDirectMessages, true);
+                                    mConversationListAdapter.notifyDataSetChanged();
+                                    mConversationListView.onRefreshComplete();
+                                    updateViewVisibility(true);
+
+                                    if(mDirectMessages.getAllConversation(getOtherUserId()).size() == 0){
+                                        DirectMessageActivity activity = (DirectMessageActivity) getActivity();
+                                        activity.FeedEmpty();
+                                    }
+                                } else {
+                                    showToast(getString(R.string.deleted_dm_un_successfully));
+                                }
+                            }
+                        };
+
                 if (selected.getAllMessages().size() > 1) {
-                    new AlertDialog.Builder(getActivity().getApplication().getApplicationContext())
-                            .setTitle(R.string.alert_delete_dm_title)
-                            .setMessage(R.string.alert_delete_dm_message)
-                            .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    showToast(getString(R.string.delete_dm_processing));
-                                    TwitterManager.get().deleteDirectMessage(selected, callback);
-                                }
-                            })
-                            .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    showToast(getString(R.string.delete_dm_cancelled));
-                                }
-                            })
-                            .show();
-                } else {
-                    TwitterManager.get().deleteDirectMessage(selected, callback);
+                    showToast(getString(R.string.delete_dm_multiple));
                 }
 
+                TwitterManager.get().deleteDirectMessage(selected, callback);
                 mode.finish();
+
             } else {
             }
             return true;

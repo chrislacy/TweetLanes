@@ -313,7 +313,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 	 */
     void fetchNewestTweets(final long sinceStatusId, Long maxStatusId) {
 
-        mTweetFeedListView.setRefreshing(false);
+        mTweetFeedListView.setRefreshing(true);
 
         if (mTweetDataRefreshCallback == null) {
 

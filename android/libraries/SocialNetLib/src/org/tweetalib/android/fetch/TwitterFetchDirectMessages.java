@@ -20,6 +20,7 @@ import android.util.Log;
 
 import org.asynctasktex.AsyncTaskEx;
 import org.tweetalib.android.ConnectionStatus;
+import org.tweetalib.android.TwitterConstant;
 import org.tweetalib.android.TwitterContentHandle;
 import org.tweetalib.android.TwitterFetchResult;
 import org.tweetalib.android.TwitterPaging;
@@ -302,6 +303,7 @@ public class TwitterFetchDirectMessages {
                         }
 
                         switch (input.mContentHandle.getDirectMessagesType()) {
+                            case RECIEVED_MESSAGES:
                             case ALL_MESSAGES: {
                                 messages = getDirectMessages(input.mContentHandle);
                                 // Annoyingly, DMs can't be retrieved in a threaded
@@ -311,10 +313,14 @@ public class TwitterFetchDirectMessages {
                                 Log.d("api-call", "getDirectMessages");
                                 ResponseList<DirectMessage> receivedDirectMessages = twitter
                                         .getDirectMessages(paging);
-                                Log.d("api-call", "getSendDirectMessages");
-                                ResponseList<DirectMessage> sentDirectMessages = twitter
-                                        .getSentDirectMessages(paging);
 
+                                ResponseList<DirectMessage> sentDirectMessages = null;
+                                if(input.mContentHandle.getDirectMessagesType()== TwitterConstant.DirectMessagesType.ALL_MESSAGES)
+                                {
+                                    Log.d("api-call", "getSendDirectMessages");
+                                    sentDirectMessages = twitter
+                                            .getSentDirectMessages(paging);
+                                }
                                 AddUserCallback addUserCallback = new AddUserCallback() {
 
                                     @Override

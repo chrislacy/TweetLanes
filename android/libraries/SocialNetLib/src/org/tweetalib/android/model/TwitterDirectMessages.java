@@ -200,19 +200,21 @@ public class TwitterDirectMessages {
 
             ResponseList<DirectMessage> directMessages = i == 0 ? sentDirectMessages
                     : receivedDirectMessages;
-            // Log.d("TweetALib", i == 0 ? "SENT MESSAGES" :
-            // "RECEIVED MESSAGES");
-            for (DirectMessage directMessage : directMessages) {
 
-                User otherUser = getOtherParty(directMessage);
-                if (otherUser != null) {
-                    if (addUserCallback != null) {
-                        if (otherUser != null) {
-                            addUserCallback.addUser(otherUser);
+            if(directMessages != null)
+            {
+                for (DirectMessage directMessage : directMessages) {
+
+                    User otherUser = getOtherParty(directMessage);
+                    if (otherUser != null) {
+                        if (addUserCallback != null) {
+                            if (otherUser != null) {
+                                addUserCallback.addUser(otherUser);
+                            }
                         }
-                    }
 
-                    add(new TwitterDirectMessage(directMessage, otherUser));
+                        add(new TwitterDirectMessage(directMessage, otherUser));
+                    }
                 }
             }
         }

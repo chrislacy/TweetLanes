@@ -1078,11 +1078,12 @@ class BaseLaneActivity extends FragmentActivity implements
         } else if (requestCode == Constant.REQUEST_CODE_DM) {
             if (data != null) {
 
+                boolean emptyFeed = data.getBooleanExtra("emptyFeed", false);
                 DirectMessageFeedFragment fragment = (DirectMessageFeedFragment)mLaneFragmentHashMap
                         .get(getCurrentLaneIndex());
 
                 if (fragment != null) {
-                    fragment.UpdateTweetCache();
+                    fragment.UpdateTweetCache(emptyFeed);
                 }
             }
         }

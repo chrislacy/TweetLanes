@@ -246,10 +246,7 @@
 
     <string name="deleted_dm_successfully">Прямое сообщение успешно удален</string>
     <string name="deleted_dm_un_successfully">Прямое сообщение об удалении не удалось</string>
-    <string name="alert_delete_dm_title">Несколько прямое сообщение об удалении</string>
-    <string name="alert_delete_dm_message">Вы собираетесь удалить более одного сообщения, которое может занять некоторое время, чтобы обработать, вы уверены?</string>
-    <string name="delete_dm_processing">Прямое сообщение об удалении в прогрессе</string>
-    <string name="delete_dm_cancelled">Прямое сообщение об удалении отменен</string>
+    <string name="delete_dm_multiple">Несколько удаление может занять некоторое время!</string>
 
     <string name="retweet">Ретвитнуть</string>
     <string name="quote">Цитата</string>
