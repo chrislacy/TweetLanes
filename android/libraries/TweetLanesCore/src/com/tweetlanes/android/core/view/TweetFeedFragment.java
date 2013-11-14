@@ -313,7 +313,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 	 */
     void fetchNewestTweets(final long sinceStatusId, Long maxStatusId) {
 
-        mTweetFeedListView.setRefreshing(true);
+        mTweetFeedListView.setRefreshing(false);
 
         if (mTweetDataRefreshCallback == null) {
 
@@ -1520,8 +1520,9 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                             @Override
                             public void finished(boolean successful, TwitterStatuses statuses, Integer value) {
                                 if (successful) {
-
-                                    showToast(getString(R.string.deleted_successfully));
+                                    if (!mDetached) {
+                                        showToast(getString(R.string.deleted_successfully));
+                                    }
                                     if (getStatusFeed() != null) {
                                         getStatusFeed().remove(selected);
                                     }

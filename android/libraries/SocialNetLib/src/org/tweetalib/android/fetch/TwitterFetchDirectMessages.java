@@ -130,16 +130,21 @@ public class TwitterFetchDirectMessages {
             TwitterDirectMessages messages = mMessagesHashMap.get(contentHandle
                     .getKey());
             if (messages == null) {
-                String id = contentHandle.getIdentifier();
-                long idLong = Long.parseLong(id);
-                messages = new TwitterDirectMessages(idLong);
-                mMessagesHashMap.put(contentHandle.getKey(), messages);
+                createNewCollectionAndCache(contentHandle);
             }
 
             return messages;
         }
 
         return null;
+    }
+
+    private TwitterDirectMessages createNewCollectionAndCache(TwitterContentHandle contentHandle){
+        String id = contentHandle.getIdentifier();
+        long idLong = Long.parseLong(id);
+        TwitterDirectMessages messages = new TwitterDirectMessages(idLong);
+        mMessagesHashMap.put(contentHandle.getKey(), messages);
+        return messages;
     }
 
     /*
@@ -304,8 +309,17 @@ public class TwitterFetchDirectMessages {
 
                         switch (input.mContentHandle.getDirectMessagesType()) {
                             case RECIEVED_MESSAGES:
-                            case ALL_MESSAGES: {
-                                messages = getDirectMessages(input.mContentHandle);
+                            case ALL_MESSAGES:
+                            case ALL_MESSAGES_FRESH:{
+
+                                if(input.mContentHandle.getDirectMessagesType()== TwitterConstant.DirectMessagesType.ALL_MESSAGES_FRESH){
+                                    mMessagesHashMap.remove(input.mContentHandle.getKey());
+                                    createNewCollectionAndCache(input.mContentHandle);
+                                }
+                                else
+                                {
+                                    messages = getDirectMessages(input.mContentHandle);
+                                }
                                 // Annoyingly, DMs can't be retrieved in a threaded
                                 // format. Handle this
                                 // by getting sent and received and managing
@@ -315,7 +329,8 @@ public class TwitterFetchDirectMessages {
                                         .getDirectMessages(paging);
 
                                 ResponseList<DirectMessage> sentDirectMessages = null;
-                                if(input.mContentHandle.getDirectMessagesType()== TwitterConstant.DirectMessagesType.ALL_MESSAGES)
+                                if(input.mContentHandle.getDirectMessagesType()== TwitterConstant.DirectMessagesType.ALL_MESSAGES ||
+                                        input.mContentHandle.getDirectMessagesType()== TwitterConstant.DirectMessagesType.ALL_MESSAGES_FRESH)
                                 {
                                     Log.d("api-call", "getSendDirectMessages");
                                     sentDirectMessages = twitter

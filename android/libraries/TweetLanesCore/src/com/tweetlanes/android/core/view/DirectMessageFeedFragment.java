@@ -50,6 +50,7 @@ import com.tweetlanes.android.core.widget.pulltorefresh.PullToRefreshListView;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.tweetalib.android.TwitterConstant;
 import org.tweetalib.android.TwitterContentHandle;
 import org.tweetalib.android.TwitterContentHandleBase;
 import org.tweetalib.android.TwitterFetchResult;
@@ -119,10 +120,10 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
     private Long mNewestDirectMessageId;
     private Long mRefreshingNewestDirectMessageId;
     private Long mOldestDirectMessageId;
-    private Long mRefreshingDirectMessageId;
     private boolean mDetached = false;
     private boolean mMoreDirectMessagesAvailable = true;
     private Calendar mLastRefreshTime = null;
+
 
     private static final String KEY_STATUSES = "statuses";
 
@@ -438,8 +439,8 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
 
         mConversationListAdapter.notifyDataSetChanged();
 
-        if(allStatusDeleted){
-            fetchNewestTweets(true,null);
+        if (allStatusDeleted) {
+            fetchNewestTweets(true, mOldestDirectMessageId);
         }
     }
 
@@ -557,9 +558,9 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.MINUTE, -60);
         if (mLastRefreshTime == null) {
-            fetchNewestTweets(true, null);
+            fetchNewestTweets(true, mOldestDirectMessageId);
         } else if (mLastRefreshTime.before(cal)) {
-            fetchNewestTweets(true, null);
+            fetchNewestTweets(true, mOldestDirectMessageId);
         } else {
             fetchNewestTweets(false, mNewestDirectMessageId);
         }
@@ -571,6 +572,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
         super.fetchNewestTweets();
 
         mConversationListView.setRefreshing(true);
+        mContentHandle.setDirectMessagesType(TwitterConstant.DirectMessagesType.ALL_MESSAGES);
 
         if (mTimesFetchCalled == 0) {
             lockScreenRotation();
@@ -618,6 +620,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
                 paging = TwitterPaging.createGetOlderWithPageSize(statusIdForPaging, pageSize);
             } else {
                 paging = TwitterPaging.createGetMostRecent();
+                mContentHandle.setDirectMessagesType(TwitterConstant.DirectMessagesType.ALL_MESSAGES_FRESH);
             }
             mRefreshCallback = new TwitterFetchDirectMessagesFinishedCallback() {
 
@@ -779,9 +782,14 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
 
                             @Override
                             public void finished(boolean successful, Integer value) {
-                                if (successful && !mDetached) {
 
-                                    showToast(getString(R.string.deleted_dm_successfully));
+                                DirectMessageActivity activity = (DirectMessageActivity) getActivity();
+                                activity.setDeleting(false);
+
+                                if (successful) {
+                                    if (!mDetached) {
+                                        showToast(getString(R.string.deleted_dm_successfully));
+                                    }
                                     if (mDirectMessages != null) {
                                         mDirectMessages.remove(selected);
                                     }
@@ -795,12 +803,14 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
                                     mConversationListView.onRefreshComplete();
                                     updateViewVisibility(true);
 
-                                    if(mDirectMessages.getAllConversation(getOtherUserId()).size() == 0){
-                                        DirectMessageActivity activity = (DirectMessageActivity) getActivity();
+                                    if (mDirectMessages.getAllConversation(getOtherUserId()).size() == 0) {
+
                                         activity.FeedEmpty();
                                     }
                                 } else {
-                                    showToast(getString(R.string.deleted_dm_un_successfully));
+                                    if (!mDetached) {
+                                        showToast(getString(R.string.deleted_dm_un_successfully));
+                                    }
                                 }
                             }
                         };
@@ -809,6 +819,8 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
                     showToast(getString(R.string.delete_dm_multiple));
                 }
 
+                DirectMessageActivity activity = (DirectMessageActivity) getActivity();
+                activity.setDeleting(true);
                 TwitterManager.get().deleteDirectMessage(selected, callback);
                 mode.finish();
 

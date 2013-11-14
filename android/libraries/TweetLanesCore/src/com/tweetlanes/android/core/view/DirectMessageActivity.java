@@ -38,6 +38,7 @@ import java.util.ArrayList;
 public class DirectMessageActivity extends BaseLaneActivity {
 
     private DirectMessageLaneAdapter mDirectMessageLaneAdapter;
+    private boolean mDeleting= false;
 
     private static final String KEY_HANDLE_BASE = "handleBase";
     private static final String KEY_OTHER_USER_ID = "otherUserId";
@@ -98,6 +99,11 @@ public class DirectMessageActivity extends BaseLaneActivity {
 
         switch (item.getItemId()) {
             case android.R.id.home:
+
+                if(mDeleting){
+                    return false;
+                }
+
                 Intent returnIntent = new Intent();
                 setResult(RESULT_OK, returnIntent);
                 finish();
@@ -189,7 +195,8 @@ public class DirectMessageActivity extends BaseLaneActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0 && !mDeleting) {
             Intent returnIntent = new Intent();
             setResult(RESULT_OK, returnIntent);
             finish();
@@ -204,6 +211,10 @@ public class DirectMessageActivity extends BaseLaneActivity {
         returnIntent.putExtra("emptyFeed", true);
         setResult(RESULT_OK, returnIntent);
         finish();
+    }
+
+    public void setDeleting(boolean newDeletingValue) {
+        mDeleting = newDeletingValue;
     }
 
     /*
