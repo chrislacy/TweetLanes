@@ -254,6 +254,12 @@ public class TwitterManager {
                 .getDirectMessages(contentHandle);
     }
 
+    public TwitterDirectMessages setDirectMessages(
+            TwitterContentHandle contentHandle, TwitterDirectMessages newMessages) {
+        return mApi
+                .setDirectMessages(contentHandle,newMessages);
+    }
+
     public TwitterDirectMessages getDirectMessages(
             TwitterContentHandle contentHandle, TwitterPaging paging,
             TwitterFetchDirectMessagesFinishedCallback callback) {

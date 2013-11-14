@@ -713,7 +713,7 @@ public class HomeActivity extends BaseLaneActivity {
                     case DIRECT_MESSAGES:
                         result = DirectMessageFeedFragment.newInstance(position,
                                 laneDescriptor.getContentHandleBase(), screenName,
-                                Long.toString(account.getId()), null, getApp().getCurrentAccountKey());
+                                Long.toString(account.getId()), null, getApp().getCurrentAccountKey(), null);
                         break;
 
                     default:

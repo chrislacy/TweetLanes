@@ -1200,6 +1200,9 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         }
 
         if (addCachedStatuses && _mCachedStatusFeed != null && _mCachedStatusFeed.getStatusCount() > 0) {
+            if(_mStatusFeed == null){
+                _mStatusFeed = new TwitterStatuses();
+            }
             _mStatusFeed.insert(_mCachedStatusFeed);
         }
 

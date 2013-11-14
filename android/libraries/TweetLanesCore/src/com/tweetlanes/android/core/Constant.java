@@ -67,6 +67,7 @@ public class Constant {
     public static final int REQUEST_CODE_CAMERA = 12346;
     public static final int REQUEST_CODE_SPOTLIGHT = 12347;
     public static final int REQUEST_CODE_PROFILE = 12348;
+    public static final int REQUEST_CODE_DM = 12349;
 
 
 }
