@@ -120,6 +120,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
     private Long mRefreshingNewestDirectMessageId;
     private Long mOldestDirectMessageId;
     private Long mRefreshingDirectMessageId;
+    private boolean mDetached = false;
     private boolean mMoreDirectMessagesAvailable = true;
     private Calendar mLastRefreshTime = null;
 
@@ -222,6 +223,12 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
                 fetchNewestTweets(false, mNewestDirectMessageId);
             }
         }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mDetached = true;
     }
 
     private void configureInitialStatuses() {
@@ -772,7 +779,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
 
                             @Override
                             public void finished(boolean successful, Integer value) {
-                                if (successful) {
+                                if (successful && !mDetached) {
 
                                     showToast(getString(R.string.deleted_dm_successfully));
                                     if (mDirectMessages != null) {
