@@ -247,6 +247,7 @@
     <string name="deleted_dm_successfully">Прямое сообщение успешно удален</string>
     <string name="deleted_dm_un_successfully">Прямое сообщение об удалении не удалось</string>
     <string name="delete_dm_multiple">Несколько удаление может занять некоторое время!</string>
+    <string name="delete_dm_noback">Не могу вернуться вист удаление!</string>
 
     <string name="retweet">Ретвитнуть</string>
     <string name="quote">Цитата</string>

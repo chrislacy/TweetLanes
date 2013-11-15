@@ -130,21 +130,16 @@ public class TwitterFetchDirectMessages {
             TwitterDirectMessages messages = mMessagesHashMap.get(contentHandle
                     .getKey());
             if (messages == null) {
-                createNewCollectionAndCache(contentHandle);
+                String id = contentHandle.getIdentifier();
+                long idLong = Long.parseLong(id);
+                messages = new TwitterDirectMessages(idLong);
+                mMessagesHashMap.put(contentHandle.getKey(), messages);
             }
 
             return messages;
         }
 
         return null;
-    }
-
-    private TwitterDirectMessages createNewCollectionAndCache(TwitterContentHandle contentHandle){
-        String id = contentHandle.getIdentifier();
-        long idLong = Long.parseLong(id);
-        TwitterDirectMessages messages = new TwitterDirectMessages(idLong);
-        mMessagesHashMap.put(contentHandle.getKey(), messages);
-        return messages;
     }
 
     /*
@@ -314,12 +309,10 @@ public class TwitterFetchDirectMessages {
 
                                 if(input.mContentHandle.getDirectMessagesType()== TwitterConstant.DirectMessagesType.ALL_MESSAGES_FRESH){
                                     mMessagesHashMap.remove(input.mContentHandle.getKey());
-                                    createNewCollectionAndCache(input.mContentHandle);
                                 }
-                                else
-                                {
-                                    messages = getDirectMessages(input.mContentHandle);
-                                }
+
+                                messages = getDirectMessages(input.mContentHandle);
+
                                 // Annoyingly, DMs can't be retrieved in a threaded
                                 // format. Handle this
                                 // by getting sent and received and managing

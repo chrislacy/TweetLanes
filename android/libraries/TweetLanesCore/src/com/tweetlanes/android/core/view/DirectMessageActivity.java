@@ -22,6 +22,7 @@ import android.support.v4.view.PagerAdapter;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import com.tweetlanes.android.core.Constant;
@@ -39,6 +40,7 @@ public class DirectMessageActivity extends BaseLaneActivity {
 
     private DirectMessageLaneAdapter mDirectMessageLaneAdapter;
     private boolean mDeleting= false;
+    private boolean mHasDoneDelete = false;
 
     private static final String KEY_HANDLE_BASE = "handleBase";
     private static final String KEY_OTHER_USER_ID = "otherUserId";
@@ -101,10 +103,12 @@ public class DirectMessageActivity extends BaseLaneActivity {
             case android.R.id.home:
 
                 if(mDeleting){
+                    showNoBackToast();
                     return false;
                 }
 
                 Intent returnIntent = new Intent();
+                returnIntent.putExtra("statusDelete", mHasDoneDelete);
                 setResult(RESULT_OK, returnIntent);
                 finish();
                 return true;
@@ -196,25 +200,36 @@ public class DirectMessageActivity extends BaseLaneActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0 && !mDeleting) {
-            Intent returnIntent = new Intent();
-            setResult(RESULT_OK, returnIntent);
-            finish();
-            return true;
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+
+            if(mDeleting){
+                showNoBackToast();
+                return false;
+            }
+
+            if(event.getRepeatCount() == 0)
+            {
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("statusDelete", mHasDoneDelete);
+                setResult(RESULT_OK, returnIntent);
+                finish();
+                return true;
+            }
         }
 
         return super.onKeyDown(keyCode, event);
     }
 
-    public void FeedEmpty() {
-        Intent returnIntent = new Intent();
-        returnIntent.putExtra("emptyFeed", true);
-        setResult(RESULT_OK, returnIntent);
-        finish();
+    private void showNoBackToast(){
+        Toast.makeText(getApplicationContext(), R.string.delete_dm_noback,
+                Constant.DEFAULT_TOAST_DISPLAY_TIME).show();
     }
 
     public void setDeleting(boolean newDeletingValue) {
         mDeleting = newDeletingValue;
+        if(mDeleting==true && mHasDoneDelete == false){
+            mHasDoneDelete=mDeleting;
+        }
     }
 
     /*

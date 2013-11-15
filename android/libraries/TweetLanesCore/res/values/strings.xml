@@ -253,6 +253,7 @@
     <string name="deleted_dm_successfully">Direct message deleted successfully</string>
     <string name="deleted_dm_un_successfully">Direct message delete failed</string>
     <string name="delete_dm_multiple">Multiple deletes may take some time!</string>
+    <string name="delete_dm_noback">Cannot go back whist deleting!</string>
 
     <string name="retweet">Retweet</string>
     <string name="quote">Quote</string>

@@ -158,7 +158,7 @@ public class DirectMessageItemView extends LinearLayout {
                         .getInstance());
                 URLSpanNoUnderline.stripUnderlines(statusTextView);
             } else {
-                statusTextView.setText(text);
+                statusTextView.setText(directMessage.mTextSpanned);
             }
 
             Integer textSize = null;

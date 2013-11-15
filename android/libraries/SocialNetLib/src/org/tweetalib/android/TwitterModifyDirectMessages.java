@@ -192,14 +192,26 @@ public class TwitterModifyDirectMessages {
                                 ArrayList<TwitterDirectMessage> messages = input.mMessages.getAllMessages();
                                 for (int i = 0; i < input.mMessages.getAllMessages().size(); i++) {
                                     TwitterDirectMessage directMessage = messages.get(i);
-                                    twitter.directMessages().destroyDirectMessage(directMessage.getId());
+                                    try
+                                    {
+                                        twitter.directMessages().destroyDirectMessage(directMessage.getId());
+                                    } catch (TwitterException e) {
+                                        String errorMessage = e.getErrorMessage();
+                                        Log.d("api-call", errorMessage);
+                                        if(errorMessage.toLowerCase().equals("sorry, that page does not exist")){
+                                            Log.d("api-call", "Delete found page doesn't exist, just carry on.");
+                                        }
+                                        else
+                                        {
+                                            throw e;
+                                        }
+                                    }
                                 }
                             }
                             break;
                         }
                     }
                 } catch (TwitterException e) {
-                    e.printStackTrace();
                     errorDescription = e.getErrorMessage();
                     Log.e("api-call", errorDescription, e);
                     if (e.getRateLimitStatus() != null && e.getRateLimitStatus().getRemaining() <= 0) {

@@ -431,7 +431,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
 
     }
 
-    public void UpdateTweetCache(boolean allStatusDeleted) {
+    public void UpdateTweetCache(boolean anyStatusDeleted) {
         TwitterDirectMessages cachedDirectMessages = TwitterManager.get().getDirectMessages(mContentHandle);
         if (cachedDirectMessages != null) {
             setDirectMessages(cachedDirectMessages, true);
@@ -439,7 +439,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
 
         mConversationListAdapter.notifyDataSetChanged();
 
-        if (allStatusDeleted) {
+        if (anyStatusDeleted) {
             fetchNewestTweets(true, mOldestDirectMessageId);
         }
     }
@@ -734,7 +734,10 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
                 mSelectedItems.add(directMessageItemView);
             }
 
-            mConversationListView.getRefreshableView().setItemChecked(position, !isChecked);
+            if(getSelectedStatuses() != null)
+            {
+                mConversationListView.getRefreshableView().setItemChecked(position, !isChecked);
+            }
         }
     }
 
@@ -783,8 +786,12 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
                             @Override
                             public void finished(boolean successful, Integer value) {
 
-                                DirectMessageActivity activity = (DirectMessageActivity) getActivity();
-                                activity.setDeleting(false);
+                                DirectMessageActivity activity = null;
+
+                                if (!mDetached) {
+                                    activity = (DirectMessageActivity) getActivity();
+                                    activity.setDeleting(false);
+                                }
 
                                 if (successful) {
                                     if (!mDetached) {
@@ -803,10 +810,6 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
                                     mConversationListView.onRefreshComplete();
                                     updateViewVisibility(true);
 
-                                    if (mDirectMessages.getAllConversation(getOtherUserId()).size() == 0) {
-
-                                        activity.FeedEmpty();
-                                    }
                                 } else {
                                     if (!mDetached) {
                                         showToast(getString(R.string.deleted_dm_un_successfully));
@@ -815,13 +818,16 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
                             }
                         };
 
-                if (selected.getAllMessages().size() > 1) {
-                    showToast(getString(R.string.delete_dm_multiple));
-                }
+                if(selected != null)
+                {
+                    if (selected.getAllMessages().size() > 1) {
+                        showToast(getString(R.string.delete_dm_multiple));
+                    }
 
-                DirectMessageActivity activity = (DirectMessageActivity) getActivity();
-                activity.setDeleting(true);
-                TwitterManager.get().deleteDirectMessage(selected, callback);
+                    DirectMessageActivity activity = (DirectMessageActivity) getActivity();
+                    activity.setDeleting(true);
+                    TwitterManager.get().deleteDirectMessage(selected, callback);
+                }
                 mode.finish();
 
             } else {
