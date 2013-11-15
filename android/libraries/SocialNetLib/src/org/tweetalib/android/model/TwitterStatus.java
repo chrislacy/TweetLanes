@@ -481,7 +481,7 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
     public boolean mIsFavorited;
     public boolean mIsRetweet;
     public boolean mIsRetweetedByMe;
-    public long mRetweetCount;
+    public int mRetweetCount;
     public String mStatus;
     // public String mStatusSlimMarkup; // 'Slim' has the first media link
     // removed from the text

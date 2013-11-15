@@ -525,6 +525,12 @@ public abstract class SocialNetApi {
                 .getDirectMessages(contentHandle);
     }
 
+    public TwitterDirectMessages setDirectMessages(
+            TwitterContentHandle contentHandle, TwitterDirectMessages messages) {
+        return mFetchDirectMessages
+                .setDirectMessages(contentHandle, messages);
+    }
+
     public TwitterDirectMessages getDirectMessages(
             TwitterContentHandle contentHandle, TwitterPaging paging,
             TwitterFetchDirectMessagesFinishedCallback callback) {

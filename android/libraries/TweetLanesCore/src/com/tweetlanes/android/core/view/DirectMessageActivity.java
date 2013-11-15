@@ -19,14 +19,22 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ViewSwitcher;
 
+import com.tweetlanes.android.core.Constant;
 import com.tweetlanes.android.core.R;
 import com.tweetlanes.android.core.widget.viewpagerindicator.TitleProvider;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.tweetalib.android.TwitterContentHandle;
+import org.tweetalib.android.model.TwitterDirectMessage;
+import org.tweetalib.android.model.TwitterDirectMessages;
+
+import java.util.ArrayList;
 
 public class DirectMessageActivity extends BaseLaneActivity {
 
@@ -35,20 +43,28 @@ public class DirectMessageActivity extends BaseLaneActivity {
     private static final String KEY_HANDLE_BASE = "handleBase";
     private static final String KEY_OTHER_USER_ID = "otherUserId";
     private static final String KEY_OTHER_USER_SCREEN_NAME = "otherUserScreenName";
+    private static final String KEY_CACHE_MESSAGES = "cacheMessages";
 
     /*
      *
 	 */
     public static void createAndStartActivity(Activity currentActivity,
                                               TwitterContentHandle contentHandle, long otherUserId,
-                                              String otherUserScreenName) {
+                                              String otherUserScreenName, ArrayList<TwitterDirectMessage> requiredMessages) {
 
         Intent intent = new Intent(currentActivity,
                 DirectMessageActivity.class);
         intent.putExtra(KEY_HANDLE_BASE, contentHandle);
         intent.putExtra(KEY_OTHER_USER_ID, otherUserId);
         intent.putExtra(KEY_OTHER_USER_SCREEN_NAME, otherUserScreenName);
-        currentActivity.startActivity(intent);
+        JSONArray statusArray = new JSONArray();
+        int statusCount = requiredMessages.size();
+        for (int i = 0; i < statusCount; ++i) {
+            TwitterDirectMessage status = requiredMessages.get(i);
+            statusArray.put(status.toString());
+        }
+        intent.putExtra(KEY_CACHE_MESSAGES, statusArray.toString());
+        currentActivity.startActivityForResult(intent, Constant.REQUEST_CODE_DM);
     }
 
     /*
@@ -83,6 +99,8 @@ public class DirectMessageActivity extends BaseLaneActivity {
 
         switch (item.getItemId()) {
             case android.R.id.home:
+                Intent returnIntent = new Intent();
+                setResult(RESULT_OK, returnIntent);
                 finish();
                 return true;
 
@@ -114,7 +132,7 @@ public class DirectMessageActivity extends BaseLaneActivity {
     }
 
     /*
-	 *
+     *
 	 */
     TwitterContentHandle getContentHandle() {
         return (TwitterContentHandle) getIntent().getSerializableExtra(
@@ -127,6 +145,10 @@ public class DirectMessageActivity extends BaseLaneActivity {
 
     String getOtherUserScreenName() {
         return getIntent().getStringExtra(KEY_OTHER_USER_SCREEN_NAME);
+    }
+
+    String getCachedMessages() {
+        return getIntent().getStringExtra(KEY_CACHE_MESSAGES);
     }
 
     /*
@@ -166,8 +188,20 @@ public class DirectMessageActivity extends BaseLaneActivity {
         return mDirectMessageLaneAdapter;
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            Intent returnIntent = new Intent();
+            setResult(RESULT_OK, returnIntent);
+            finish();
+            return true;
+        }
+
+        return super.onKeyDown(keyCode, event);
+    }
+
     /*
-	 *
+     *
 	 */
     class DirectMessageLaneAdapter extends FragmentStatePagerAdapter implements
             TitleProvider {
@@ -181,7 +215,7 @@ public class DirectMessageActivity extends BaseLaneActivity {
             TwitterContentHandle contentHandle = getContentHandle();
             return DirectMessageFeedFragment.newInstance(position,
                     contentHandle, contentHandle.getScreenName(),
-                    contentHandle.getIdentifier(), getOtherUserId(), getApp().getCurrentAccountKey());
+                    contentHandle.getIdentifier(), getOtherUserId(), getApp().getCurrentAccountKey(), getCachedMessages());
         }
 
         @Override

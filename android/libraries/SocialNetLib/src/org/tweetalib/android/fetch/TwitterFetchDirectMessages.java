@@ -52,6 +52,12 @@ public class TwitterFetchDirectMessages {
         }
     }
 
+    public TwitterDirectMessages setDirectMessages(TwitterContentHandle contentHandle, TwitterDirectMessages messages) {
+        TwitterDirectMessages cachedMessages = getDirectMessages(contentHandle);
+        cachedMessages.add(messages);
+        return cachedMessages;
+    }
+
     /*
 	 *
 	 */

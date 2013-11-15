@@ -466,7 +466,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             int visibleIndex = Math.max(listView.getFirstVisiblePosition() - 1, 0);
 
             try {
-                visibleIndex = getStatusFeed().getStatusIndex(mLastTwitterStatusIdSeen);
+                visibleIndex = feed.getStatusIndex(mLastTwitterStatusIdSeen);
             } catch (Exception e) {
 
             }
@@ -503,8 +503,10 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
             if (visibleStatusId != null) {
                 if (statuses.getStatusIndex(visibleStatusId) == null) {
-                    int index = feed.getStatusIndex(visibleStatusId);
-                    statuses.add(feed.getStatus(index));
+                    Integer index = feed.getStatusIndex(visibleStatusId);
+                    if(index != null){
+                        statuses.add(feed.getStatus(index.intValue()));
+                    }
                 }
             }
 
@@ -1198,6 +1200,9 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         }
 
         if (addCachedStatuses && _mCachedStatusFeed != null && _mCachedStatusFeed.getStatusCount() > 0) {
+            if(_mStatusFeed == null){
+                _mStatusFeed = new TwitterStatuses();
+            }
             _mStatusFeed.insert(_mCachedStatusFeed);
         }
 
