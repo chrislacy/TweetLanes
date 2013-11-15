@@ -859,30 +859,37 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
             }
 
             final int checkedCount = mConversationListView.getRefreshableView().getCheckedItemCount();
-            switch (checkedCount) {
-                case 0:
-                    mode.setSubtitle(null);
-                    break;
-                case 1: {
-                    mode.getMenu().clear();
-                    MenuInflater inflater = getActivity().getMenuInflater();
-                    inflater.inflate(R.menu.dm_selected, mode.getMenu());
-                    mode.setTitle("");
-                    mode.setSubtitle("");
-                    break;
-                }
-                case 2: {
-                    mode.getMenu().clear();
-                    MenuInflater inflater = getActivity().getMenuInflater();
-                    inflater.inflate(R.menu.dm_selected, mode.getMenu());
-                    mode.setTitle("Select Direct Messages");
-                    mode.setSubtitle("" + checkedCount + " items selected");
-                    break;
-                }
-                default: {
-                    mode.setTitle("Select Direct Messages");
-                    mode.setSubtitle("" + checkedCount + " items selected");
-                    break;
+            if(getSelectedStatuses() != null)
+            {
+                mode.setSubtitle(null);
+            }
+            else
+            {
+                switch (checkedCount) {
+                    case 0:
+                        mode.setSubtitle(null);
+                        break;
+                    case 1: {
+                        mode.getMenu().clear();
+                        MenuInflater inflater = getActivity().getMenuInflater();
+                        inflater.inflate(R.menu.dm_selected, mode.getMenu());
+                        mode.setTitle("");
+                        mode.setSubtitle("");
+                        break;
+                    }
+                    case 2: {
+                        mode.getMenu().clear();
+                        MenuInflater inflater = getActivity().getMenuInflater();
+                        inflater.inflate(R.menu.dm_selected, mode.getMenu());
+                        mode.setTitle("Select Direct Messages");
+                        mode.setSubtitle("" + checkedCount + " items selected");
+                        break;
+                    }
+                    default: {
+                        mode.setTitle("Select Direct Messages");
+                        mode.setSubtitle("" + checkedCount + " items selected");
+                        break;
+                    }
                 }
             }
         }
