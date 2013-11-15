@@ -859,7 +859,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
             }
 
             final int checkedCount = mConversationListView.getRefreshableView().getCheckedItemCount();
-            if(getSelectedStatuses() != null)
+            if(getSelectedStatuses() == null)
             {
                 mode.setSubtitle(null);
             }
