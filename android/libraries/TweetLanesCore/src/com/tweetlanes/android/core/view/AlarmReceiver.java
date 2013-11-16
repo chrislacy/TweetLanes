@@ -192,7 +192,7 @@ public class AlarmReceiver extends BroadcastReceiver {
     private void checkForDirectMessages(AccountDescriptor account) {
         TwitterContentHandleBase base = new TwitterContentHandleBase(
                 TwitterConstant.ContentType.DIRECT_MESSAGES,
-                TwitterConstant.DirectMessagesType.ALL_MESSAGES);
+                TwitterConstant.DirectMessagesType.RECIEVED_MESSAGES);
         TwitterContentHandle contentHandle = new TwitterContentHandle(base, account.getScreenName(),
                 Long.valueOf(account.getId()).toString(), account.getAccountKey());
 

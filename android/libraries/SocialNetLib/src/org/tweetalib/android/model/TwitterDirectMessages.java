@@ -71,7 +71,7 @@ public class TwitterDirectMessages {
         }
 
         /*
-		 * 
+         *
 		 */
         public TwitterDirectMessage getNewest() {
             if (mMessages != null && mMessages.size() > 0) {
@@ -82,7 +82,7 @@ public class TwitterDirectMessages {
         }
 
         /*
-		 * 
+         *
 		 */
         public TwitterDirectMessage getOldest() {
             if (mMessages != null && mMessages.size() > 0) {
@@ -151,6 +151,24 @@ public class TwitterDirectMessages {
 		 */
         private final ArrayList<TwitterDirectMessage> mMessages;
         final Long mOtherUserId;
+
+        public void remove(ArrayList<TwitterDirectMessage> searchMessages) {
+
+            for (TwitterDirectMessage message : searchMessages)
+            {
+                TwitterDirectMessage toRemove = null;
+                for (TwitterDirectMessage conversationMessage : getMessages()) {
+                    if (conversationMessage.getId() == message.getId()) {
+                        toRemove = conversationMessage;
+                        break;
+                    }
+                }
+
+                if (toRemove != null) {
+                    mMessages.remove(toRemove);
+                }
+            }
+        }
     }
 
     /*
@@ -182,19 +200,21 @@ public class TwitterDirectMessages {
 
             ResponseList<DirectMessage> directMessages = i == 0 ? sentDirectMessages
                     : receivedDirectMessages;
-            // Log.d("TweetALib", i == 0 ? "SENT MESSAGES" :
-            // "RECEIVED MESSAGES");
-            for (DirectMessage directMessage : directMessages) {
 
-                User otherUser = getOtherParty(directMessage);
-                if (otherUser != null) {
-                    if (addUserCallback != null) {
-                        if (otherUser != null) {
-                            addUserCallback.addUser(otherUser);
+            if(directMessages != null)
+            {
+                for (DirectMessage directMessage : directMessages) {
+
+                    User otherUser = getOtherParty(directMessage);
+                    if (otherUser != null) {
+                        if (addUserCallback != null) {
+                            if (otherUser != null) {
+                                addUserCallback.addUser(otherUser);
+                            }
                         }
-                    }
 
-                    add(new TwitterDirectMessage(directMessage, otherUser));
+                        add(new TwitterDirectMessage(directMessage, otherUser));
+                    }
                 }
             }
         }
@@ -237,9 +257,24 @@ public class TwitterDirectMessages {
 
     public void add(TwitterDirectMessages directMessages) {
 
-        for(TwitterDirectMessage message : directMessages.getAllMessages())
-        {
+        for (TwitterDirectMessage message : directMessages.getAllMessages()) {
             add(message);
+        }
+    }
+
+    public void remove(TwitterDirectMessages directMessages) {
+
+        ArrayList<Conversation> removeConversations = new ArrayList<Conversation>();
+
+        for (Conversation conversation : mConversations) {
+            conversation.remove(directMessages.getAllMessages());
+            if(conversation.mMessages.size() == 0){
+                removeConversations.add(conversation);
+            }
+        }
+
+        for (Conversation conversation : removeConversations){
+            mConversations.remove(conversation);
         }
     }
 
@@ -262,6 +297,19 @@ public class TwitterDirectMessages {
         }
 
         return result;
+    }
+
+    public ArrayList<TwitterDirectMessage> getAllMessagesInConversation(TwitterDirectMessage message) {
+        Conversation fullConvo = getConversationForMessage(message);
+        ArrayList<TwitterDirectMessage> allMessages = new ArrayList<TwitterDirectMessage>();
+
+        if(fullConvo!=null)
+        {
+            allMessages = fullConvo.mMessages;
+        }
+
+        return allMessages;
+
     }
 
     /*
@@ -321,7 +369,7 @@ public class TwitterDirectMessages {
         ArrayList<TwitterDirectMessage> messages = new ArrayList<TwitterDirectMessage>();
 
         for (Conversation conversation : mConversations) {
-            if(conversation.mOtherUserId == otherUserId){
+            if (conversation.mOtherUserId == otherUserId) {
                 messages.addAll(conversation.getMessages());
             }
         }

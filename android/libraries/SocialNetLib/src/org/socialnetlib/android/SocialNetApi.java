@@ -25,6 +25,8 @@ import org.tweetalib.android.TwitterFetchUser;
 import org.tweetalib.android.TwitterFetchUser.FetchUserWorkerCallbacks;
 import org.tweetalib.android.TwitterFetchUsers;
 import org.tweetalib.android.TwitterFetchUsers.FetchUsersWorkerCallbacks;
+import org.tweetalib.android.TwitterModifyDirectMessages;
+import org.tweetalib.android.TwitterModifyDirectMessages.ModifyDirectMessagesWorkerCallbacks;
 import org.tweetalib.android.TwitterModifyStatuses;
 import org.tweetalib.android.TwitterModifyStatuses.ModifyStatusesWorkerCallbacks;
 import org.tweetalib.android.TwitterPaging;
@@ -77,6 +79,7 @@ public abstract class SocialNetApi {
     private TwitterFetchUsers mFetchUsers;
     private TwitterFetchLists mFetchLists;
     private TwitterModifyStatuses mModifyStatuses;
+    private TwitterModifyDirectMessages mModifyDirectMessages;
     private TwitterSignIn mSignIn;
     private ConnectionStatus mConnectionStatus;
 
@@ -98,6 +101,7 @@ public abstract class SocialNetApi {
         initFetchUsers();
         initFetchLists();
         initModifyStatuses();
+        initModifyDirectMessages();
         if (mSignIn == null) {
             mSignIn = new TwitterSignIn();
             initSignIn(consumerKey, consumerSecret, type);
@@ -355,6 +359,20 @@ public abstract class SocialNetApi {
         mModifyStatuses.setWorkerCallbacks(callbacks);
     }
 
+    private void initModifyDirectMessages() {
+        mModifyDirectMessages = new TwitterModifyDirectMessages();
+
+        ModifyDirectMessagesWorkerCallbacks callbacks = new ModifyDirectMessagesWorkerCallbacks() {
+
+            @Override
+            public Twitter getTwitterInstance() {
+                return SocialNetApi.this.getAndConfigureApiInstance();
+            }
+        };
+
+        mModifyDirectMessages.setWorkerCallbacks(callbacks);
+    }
+
     /*
 	 *
 	 */
@@ -464,6 +482,10 @@ public abstract class SocialNetApi {
 
     public void removeFromHashMap(TwitterStatuses statuses) {
         mFetchStatuses.removeFromHashMap(statuses);
+    }
+
+    public void removeFromDirectMessageHashMap(TwitterDirectMessages mesages) {
+        mFetchDirectMessages.removeFromDirectMessageHashMap(mesages);
     }
 
     /*
@@ -672,6 +694,10 @@ public abstract class SocialNetApi {
         mModifyStatuses.deleteTweets(statuses, callback);
     }
 
+    public void deleteDirectMessage(TwitterDirectMessages messages, TwitterModifyDirectMessages.FinishedCallback callback) {
+        mModifyDirectMessages.deleteDirectMessages(messages, callback);
+    }
+
 
     /*
 	 *
@@ -729,6 +755,10 @@ public abstract class SocialNetApi {
 
     public TwitterModifyStatuses getSetStatusesInstance() {
         return mModifyStatuses;
+    }
+
+    public TwitterModifyDirectMessages getSetDirectMessagesInstance() {
+        return mModifyDirectMessages;
     }
 
     public TwitterSignIn getSignInInstance() {

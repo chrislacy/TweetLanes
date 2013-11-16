@@ -1520,8 +1520,9 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                             @Override
                             public void finished(boolean successful, TwitterStatuses statuses, Integer value) {
                                 if (successful) {
-
-                                    showToast(getString(R.string.deleted_successfully));
+                                    if (!mDetached) {
+                                        showToast(getString(R.string.deleted_successfully));
+                                    }
                                     if (getStatusFeed() != null) {
                                         getStatusFeed().remove(selected);
                                     }

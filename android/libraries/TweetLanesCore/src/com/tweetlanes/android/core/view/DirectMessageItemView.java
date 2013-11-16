@@ -17,10 +17,16 @@ import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.text.Layout;
+import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.util.AttributeSet;
 import android.util.TypedValue;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -57,7 +63,9 @@ public class DirectMessageItemView extends LinearLayout {
      */
     public interface DirectMessageItemViewCallbacks {
 
-        public void onClicked(View view, int position);
+        public boolean onSingleTapConfirmed(View view, int position);
+
+        public void onLongPress(View view, int position);
 
         public Activity getActivity();
 
@@ -150,7 +158,7 @@ public class DirectMessageItemView extends LinearLayout {
                         .getInstance());
                 URLSpanNoUnderline.stripUnderlines(statusTextView);
             } else {
-                statusTextView.setText(text);
+                statusTextView.setText(directMessage.mTextSpanned);
             }
 
             Integer textSize = null;
@@ -236,27 +244,52 @@ public class DirectMessageItemView extends LinearLayout {
 
         mMessageBlock = findViewById(R.id.message_block);
 
-        OnClickListener onClickListener = new OnClickListener() {
+        setOnTouchListener(mOnTouchListener);
+        if (statusTextView != null) {
+            statusTextView.setOnTouchListener(mOnTouchListener);
+        }
 
-            @Override
-            public void onClick(View v) {
-                onViewClicked();
-            }
-        };
-
-        setOnClickListener(onClickListener);
-        statusTextView.setOnClickListener(onClickListener);
-        authorScreenNameTextView.setOnClickListener(onClickListener);
+        if (authorScreenNameTextView != null) {
+            authorScreenNameTextView.setOnTouchListener(mOnTouchListener);
+        }
     }
 
     /*
-     *
+	 *
 	 */
-    private void onViewClicked() {
-        if (mCallbacks != null) {
-            mCallbacks.onClicked(this, mPosition);
+    private final OnTouchListener mOnTouchListener = new OnTouchListener() {
+
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            return mGestureDetector.onTouchEvent(event);
         }
-    }
+    };
+
+    /*
+	 *
+	 */
+    private final GestureDetector mGestureDetector = new GestureDetector(
+            new GestureDetector.SimpleOnGestureListener() {
+
+                @Override
+                public boolean onSingleTapConfirmed(MotionEvent e) {
+                    return mCallbacks != null && mCallbacks.onSingleTapConfirmed(DirectMessageItemView.this, mPosition);
+                }
+
+                @Override
+                public void onLongPress(MotionEvent e) {
+                    if (mCallbacks != null) {
+                        mCallbacks.onLongPress(DirectMessageItemView.this,
+                                mPosition);
+                    }
+                    // return true;
+                }
+
+                @Override
+                public boolean onDown(MotionEvent e) {
+                    return true;
+                }
+            });
 
     public TwitterDirectMessage getDirectMessage() {
         return mDirectMessage;
