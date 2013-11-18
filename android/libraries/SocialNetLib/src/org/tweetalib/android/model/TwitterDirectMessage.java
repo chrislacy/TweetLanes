@@ -176,6 +176,7 @@ public class TwitterDirectMessage implements Comparable<TwitterDirectMessage> {
         try {
             object.put(KEY_ID, mId);
             object.put(KEY_TEXT, mText);
+            object.put(KEY_STATUS_MARKUP, mStatusFullMarkup);
             object.put(KEY_CREATED_AT, mCreatedAt.getTime());
             object.put(KEY_RECIPIENT_USER_ID, mRecipientUserId);
             object.put(KEY_OTHER_USER_ID, mOtherUserId);

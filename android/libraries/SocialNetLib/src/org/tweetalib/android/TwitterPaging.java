@@ -39,6 +39,14 @@ public class TwitterPaging {
         return new TwitterPaging(null, null, statusId, null);
     }
 
+    public static TwitterPaging createGetOlderWithPageSize(long statusId, int count) {
+        return new TwitterPaging(null, count, null, statusId);
+    }
+
+    public static TwitterPaging createGetNewerWithPageSize(long statusId, int count) {
+        return new TwitterPaging(null, count, statusId, null);
+    }
+
     public static TwitterPaging createGetMostRecent() {
         return new TwitterPaging(1, null, null, null);
     }

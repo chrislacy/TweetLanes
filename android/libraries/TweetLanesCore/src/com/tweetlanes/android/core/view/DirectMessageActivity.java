@@ -22,6 +22,7 @@ import android.support.v4.view.PagerAdapter;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import com.tweetlanes.android.core.Constant;
@@ -32,13 +33,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.tweetalib.android.TwitterContentHandle;
 import org.tweetalib.android.model.TwitterDirectMessage;
-import org.tweetalib.android.model.TwitterDirectMessages;
 
 import java.util.ArrayList;
 
 public class DirectMessageActivity extends BaseLaneActivity {
 
     private DirectMessageLaneAdapter mDirectMessageLaneAdapter;
+    private boolean mDeleting= false;
+    private boolean mHasDoneDelete = false;
 
     private static final String KEY_HANDLE_BASE = "handleBase";
     private static final String KEY_OTHER_USER_ID = "otherUserId";
@@ -99,7 +101,14 @@ public class DirectMessageActivity extends BaseLaneActivity {
 
         switch (item.getItemId()) {
             case android.R.id.home:
+
+                if(mDeleting){
+                    showNoBackToast();
+                    return false;
+                }
+
                 Intent returnIntent = new Intent();
+                returnIntent.putExtra("statusDelete", mHasDoneDelete);
                 setResult(RESULT_OK, returnIntent);
                 finish();
                 return true;
@@ -190,14 +199,37 @@ public class DirectMessageActivity extends BaseLaneActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-            Intent returnIntent = new Intent();
-            setResult(RESULT_OK, returnIntent);
-            finish();
-            return true;
+
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+
+            if(mDeleting){
+                showNoBackToast();
+                return false;
+            }
+
+            if(event.getRepeatCount() == 0)
+            {
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("statusDelete", mHasDoneDelete);
+                setResult(RESULT_OK, returnIntent);
+                finish();
+                return true;
+            }
         }
 
         return super.onKeyDown(keyCode, event);
+    }
+
+    private void showNoBackToast(){
+        Toast.makeText(getApplicationContext(), R.string.delete_dm_noback,
+                Constant.DEFAULT_TOAST_DISPLAY_TIME).show();
+    }
+
+    public void setDeleting(boolean newDeletingValue) {
+        mDeleting = newDeletingValue;
+        if(mDeleting==true && mHasDoneDelete == false){
+            mHasDoneDelete=mDeleting;
+        }
     }
 
     /*
@@ -210,12 +242,17 @@ public class DirectMessageActivity extends BaseLaneActivity {
             super(supportFragmentManager);
         }
 
+        public ArrayList<DirectMessageFeedFragment> directMessageFeedFragments = new ArrayList<DirectMessageFeedFragment>();
+
         @Override
         public Fragment getItem(int position) {
             TwitterContentHandle contentHandle = getContentHandle();
-            return DirectMessageFeedFragment.newInstance(position,
+            DirectMessageFeedFragment fragment = DirectMessageFeedFragment.newInstance(position,
                     contentHandle, contentHandle.getScreenName(),
                     contentHandle.getIdentifier(), getOtherUserId(), getApp().getCurrentAccountKey(), getCachedMessages());
+
+            directMessageFeedFragments.add(fragment);
+            return fragment;
         }
 
         @Override
