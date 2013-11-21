@@ -591,7 +591,7 @@ public class SettingsActivity extends PreferenceActivity implements
 
             holder.ScreenName.setText("@" + account.getScreenName(), TextView.BufferType.NORMAL);
             if (AppSettings.get().getCurrentThemeStyle() == R.style.Theme_TweetLanes_Light_DarkActionBar) {
-                holder.ScreenName.setTextColor(getResources().getColor(R.color.white));
+                holder.ScreenName.setTextColor(getResources().getColor(R.color.black));
             }
 
             setProfileImage(account.getProfileImageUrl(), account.getSocialNetType(), holder.AvatarImage, holder.ServiceImage);
