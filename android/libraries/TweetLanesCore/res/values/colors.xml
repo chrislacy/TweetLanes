@@ -23,6 +23,7 @@
     <!-- Retrieved via Resources.getColor() and friends. -->
     <color name="red">#f00</color>
     <color name="white">#fff</color>
+    <color name="black">#000</color>
 
     <!-- Retrieved via Resources.getDrawable() and friends. -->
     <drawable name="semi_black">#80000000</drawable>
