@@ -15,6 +15,7 @@ import com.tweetlanes.android.core.model.AccountDescriptor;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.socialnetlib.android.SocialNetConstant;
 import org.tweetalib.android.ConnectionStatus;
 import org.tweetalib.android.TwitterConstant;
@@ -62,6 +63,18 @@ public class AlarmReceiver extends BroadcastReceiver {
 
                 String fullDetail = "";
                 if (first.mId > lastDisplayedMentionId) {
+
+                    JSONArray statusArray = new JSONArray();
+                    int statusCount = feed.getStatusCount();
+                    for (int i = 0; i < statusCount; ++i) {
+                        TwitterStatus status = feed.getStatus(i);
+                        statusArray.put(status.toString());
+                    }
+
+                    final SharedPreferences.Editor edit = preferences.edit();
+                    edit.putString("mentions_" + contentHandle.getCurrentAccountKey(), statusArray.toString());
+                    edit.commit();
+
                     String noun = feed.getStatusCount() == 1 ? "mention" : "mentions";
 
                     String detail = feed.getStatusCount() == 1 ? "@" + first.getAuthorScreenName() + ": " + first.mStatus
@@ -105,6 +118,17 @@ public class AlarmReceiver extends BroadcastReceiver {
                 String fullDetail = "";
                 int count = 0;
                 if (first.getId() > lastDisplayedId) {
+
+                    JSONArray statusArray = new JSONArray();
+                    int statusCount = received.size();
+                    for (int i = 0; i < statusCount; ++i) {
+                        TwitterDirectMessage status = received.get(i);
+                        statusArray.put(status.toString());
+                    }
+
+                    final SharedPreferences.Editor edit = preferences.edit();
+                    edit.putString("dm_" + contentHandle.getCurrentAccountKey(), statusArray.toString());
+                    edit.commit();
 
                     String noun = received.size() == 1 ? "direct message" : "direct messages";
 
@@ -168,7 +192,7 @@ public class AlarmReceiver extends BroadcastReceiver {
     private void checkForDirectMessages(AccountDescriptor account) {
         TwitterContentHandleBase base = new TwitterContentHandleBase(
                 TwitterConstant.ContentType.DIRECT_MESSAGES,
-                TwitterConstant.DirectMessagesType.ALL_MESSAGES);
+                TwitterConstant.DirectMessagesType.RECIEVED_MESSAGES);
         TwitterContentHandle contentHandle = new TwitterContentHandle(base, account.getScreenName(),
                 Long.valueOf(account.getId()).toString(), account.getAccountKey());
 

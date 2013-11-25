@@ -20,6 +20,7 @@ import android.util.Log;
 
 import org.asynctasktex.AsyncTaskEx;
 import org.tweetalib.android.ConnectionStatus;
+import org.tweetalib.android.TwitterConstant;
 import org.tweetalib.android.TwitterContentHandle;
 import org.tweetalib.android.TwitterFetchResult;
 import org.tweetalib.android.TwitterPaging;
@@ -52,8 +53,14 @@ public class TwitterFetchDirectMessages {
         }
     }
 
+    public TwitterDirectMessages setDirectMessages(TwitterContentHandle contentHandle, TwitterDirectMessages messages) {
+        TwitterDirectMessages cachedMessages = getDirectMessages(contentHandle);
+        cachedMessages.add(messages);
+        return cachedMessages;
+    }
+
     /*
-	 *
+     *
 	 */
     public interface FetchMessagesWorkerCallbacks {
 
@@ -102,6 +109,15 @@ public class TwitterFetchDirectMessages {
 	 */
     Twitter getTwitterInstance() {
         return mCallbacks.getTwitterInstance();
+    }
+
+    public void removeFromDirectMessageHashMap(TwitterDirectMessages mesages) {
+        if (mMessagesHashMap != null) {
+            for (String key : mMessagesHashMap.keySet()) {
+                TwitterDirectMessages feed = mMessagesHashMap.get(key);
+                feed.remove(mesages);
+            }
+        }
     }
 
     /*
@@ -287,8 +303,16 @@ public class TwitterFetchDirectMessages {
                         }
 
                         switch (input.mContentHandle.getDirectMessagesType()) {
-                            case ALL_MESSAGES: {
+                            case RECIEVED_MESSAGES:
+                            case ALL_MESSAGES:
+                            case ALL_MESSAGES_FRESH:{
+
+                                if(input.mContentHandle.getDirectMessagesType()== TwitterConstant.DirectMessagesType.ALL_MESSAGES_FRESH){
+                                    mMessagesHashMap.remove(input.mContentHandle.getKey());
+                                }
+
                                 messages = getDirectMessages(input.mContentHandle);
+
                                 // Annoyingly, DMs can't be retrieved in a threaded
                                 // format. Handle this
                                 // by getting sent and received and managing
@@ -296,10 +320,15 @@ public class TwitterFetchDirectMessages {
                                 Log.d("api-call", "getDirectMessages");
                                 ResponseList<DirectMessage> receivedDirectMessages = twitter
                                         .getDirectMessages(paging);
-                                Log.d("api-call", "getSendDirectMessages");
-                                ResponseList<DirectMessage> sentDirectMessages = twitter
-                                        .getSentDirectMessages(paging);
 
+                                ResponseList<DirectMessage> sentDirectMessages = null;
+                                if(input.mContentHandle.getDirectMessagesType()== TwitterConstant.DirectMessagesType.ALL_MESSAGES ||
+                                        input.mContentHandle.getDirectMessagesType()== TwitterConstant.DirectMessagesType.ALL_MESSAGES_FRESH)
+                                {
+                                    Log.d("api-call", "getSendDirectMessages");
+                                    sentDirectMessages = twitter
+                                            .getSentDirectMessages(paging);
+                                }
                                 AddUserCallback addUserCallback = new AddUserCallback() {
 
                                     @Override

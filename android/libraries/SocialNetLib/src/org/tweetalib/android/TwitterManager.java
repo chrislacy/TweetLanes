@@ -150,6 +150,18 @@ public class TwitterManager {
         return mApi.getContentFeed(handle);
     }
 
+    public TwitterStatuses setContentFeed(TwitterContentHandle handle, TwitterStatuses newStatuses) {
+        return mApi.setContentFeed(handle, newStatuses);
+    }
+
+    public void removeFromHashMap(TwitterStatuses statuses) {
+        mApi.removeFromHashMap(statuses);
+    }
+
+    public void removeFromDirectMessageHashMap(TwitterDirectMessages mesages) {
+        mApi.removeFromDirectMessageHashMap(mesages);
+    }
+
     /*
      * TODO: This is pretty hacky, just so the callback can be instantiated
      * outside the class
@@ -180,6 +192,10 @@ public class TwitterManager {
 
     public TwitterModifyStatuses getSetStatusesInstance() {
         return mApi.getSetStatusesInstance();
+    }
+
+    public TwitterModifyDirectMessages getSetDirectMessagesInstance() {
+        return mApi.getSetDirectMessagesInstance();
     }
 
     public TwitterSignIn getSignInInstance() {
@@ -244,6 +260,12 @@ public class TwitterManager {
             TwitterContentHandle contentHandle) {
         return mApi
                 .getDirectMessages(contentHandle);
+    }
+
+    public TwitterDirectMessages setDirectMessages(
+            TwitterContentHandle contentHandle, TwitterDirectMessages newMessages) {
+        return mApi
+                .setDirectMessages(contentHandle,newMessages);
     }
 
     public TwitterDirectMessages getDirectMessages(
@@ -333,6 +355,10 @@ public class TwitterManager {
 
     public void deleteTweet(TwitterStatuses statuses, TwitterModifyStatuses.FinishedCallback callback) {
         mApi.deleteTweet(statuses, callback);
+    }
+
+    public void deleteDirectMessage(TwitterDirectMessages messages, TwitterModifyDirectMessages.FinishedCallback callback) {
+        mApi.deleteDirectMessage(messages, callback);
     }
 
 

@@ -17,10 +17,17 @@ import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.text.Layout;
+import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.util.AttributeSet;
 import android.util.TypedValue;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -37,12 +44,7 @@ import com.tweetlanes.android.core.util.Util;
 import org.tweetalib.android.TwitterManager;
 import org.tweetalib.android.model.TwitterDirectMessage;
 import org.tweetalib.android.model.TwitterDirectMessage.MessageType;
-import org.tweetalib.android.model.TwitterUser;
 import org.tweetalib.android.widget.URLSpanNoUnderline;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class DirectMessageItemView extends LinearLayout {
 
@@ -61,7 +63,9 @@ public class DirectMessageItemView extends LinearLayout {
      */
     public interface DirectMessageItemViewCallbacks {
 
-        public void onClicked(View view, int position);
+        public boolean onSingleTapConfirmed(View view, int position);
+
+        public void onLongPress(View view, int position);
 
         public Activity getActivity();
 
@@ -89,7 +93,7 @@ public class DirectMessageItemView extends LinearLayout {
 
     void init(Context context) {
         mContext = context;
-        
+
         final int theme = AppSettings.get().getCurrentThemeStyle();
         int background = android.R.color.white;
         if (theme == R.style.Theme_TweetLanes) {
@@ -113,6 +117,20 @@ public class DirectMessageItemView extends LinearLayout {
 
         mPosition = position;
         mCallbacks = callbacks;
+
+        ImageView replyIcon = (ImageView) findViewById(R.id.replyIcon);
+        if (replyIcon != null) {
+            if (fullConversation) {
+                replyIcon.setVisibility(GONE);
+            } else {
+                if (directMessage.getMessageType() == MessageType.SENT) {
+                    replyIcon.setVisibility(VISIBLE);
+                } else {
+                    replyIcon.setVisibility(GONE);
+                }
+            }
+        }
+
         TextView authorScreenNameTextView = (TextView) findViewById(R.id.authorScreenName);
         if (authorScreenNameTextView != null) {
             authorScreenNameTextView.setText("@"
@@ -130,10 +148,6 @@ public class DirectMessageItemView extends LinearLayout {
                         TypedValue.COMPLEX_UNIT_SP, textSize);
             }
         }
-        // mAuthorNameTextView = (TextView)findViewById(R.id.authorName);
-        // if (mAuthorNameTextView != null) {
-        // mAuthorNameTextView.setText(directMessage.getOtherUserName());
-        // }
 
         TextView statusTextView = (TextView) findViewById(R.id.status);
         String text = directMessage.getText();
@@ -144,7 +158,7 @@ public class DirectMessageItemView extends LinearLayout {
                         .getInstance());
                 URLSpanNoUnderline.stripUnderlines(statusTextView);
             } else {
-                statusTextView.setText(text);
+                statusTextView.setText(directMessage.mTextSpanned);
             }
 
             Integer textSize = null;
@@ -218,9 +232,10 @@ public class DirectMessageItemView extends LinearLayout {
 
         if (AppSettings.get().downloadFeedImages()) {
 
-            TwitterUser user = (messageType == MessageType.SENT ? directMessage.getSender() : directMessage.getOtherUser());
+            String imageUrl = (messageType == MessageType.SENT ?
+                    directMessage.getSenderProfileImageUrl(TwitterManager.ProfileImageSize.BIGGER) :
+                    directMessage.getOtherUserProfileImageUrl(TwitterManager.ProfileImageSize.BIGGER));
 
-            String imageUrl = user.getProfileImageUrl(TwitterManager.ProfileImageSize.BIGGER);
             LazyImageLoader imageLoader = callbacks.getProfileImageLoader();
             if (imageLoader != null) {
                 imageLoader.displayImage(imageUrl, mAvatar);
@@ -229,34 +244,59 @@ public class DirectMessageItemView extends LinearLayout {
 
         mMessageBlock = findViewById(R.id.message_block);
 
-        OnClickListener onClickListener = new OnClickListener() {
+        setOnTouchListener(mOnTouchListener);
+        if (statusTextView != null) {
+            statusTextView.setOnTouchListener(mOnTouchListener);
+        }
 
-            @Override
-            public void onClick(View v) {
-                onViewClicked();
-            }
-        };
-
-        setOnClickListener(onClickListener);
-        statusTextView.setOnClickListener(onClickListener);
-        authorScreenNameTextView.setOnClickListener(onClickListener);
+        if (authorScreenNameTextView != null) {
+            authorScreenNameTextView.setOnTouchListener(mOnTouchListener);
+        }
     }
 
     /*
-     *
+	 *
 	 */
-    private void onViewClicked() {
-        if (mCallbacks != null) {
-            mCallbacks.onClicked(this, mPosition);
+    private final OnTouchListener mOnTouchListener = new OnTouchListener() {
+
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            return mGestureDetector.onTouchEvent(event);
         }
-    }
+    };
+
+    /*
+	 *
+	 */
+    private final GestureDetector mGestureDetector = new GestureDetector(
+            new GestureDetector.SimpleOnGestureListener() {
+
+                @Override
+                public boolean onSingleTapConfirmed(MotionEvent e) {
+                    return mCallbacks != null && mCallbacks.onSingleTapConfirmed(DirectMessageItemView.this, mPosition);
+                }
+
+                @Override
+                public void onLongPress(MotionEvent e) {
+                    if (mCallbacks != null) {
+                        mCallbacks.onLongPress(DirectMessageItemView.this,
+                                mPosition);
+                    }
+                    // return true;
+                }
+
+                @Override
+                public boolean onDown(MotionEvent e) {
+                    return true;
+                }
+            });
 
     public TwitterDirectMessage getDirectMessage() {
         return mDirectMessage;
     }
 
     /*
-	 * 
+     *
 	 */
     void onProfileImageClick() {
         Intent profileIntent = new Intent(mContext, ProfileActivity.class);

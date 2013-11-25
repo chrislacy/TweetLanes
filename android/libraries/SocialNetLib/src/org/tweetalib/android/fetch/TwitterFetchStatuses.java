@@ -193,7 +193,7 @@ public class TwitterFetchStatuses {
     /*
 	 *
 	 */
-    TwitterStatuses setStatuses(TwitterContentHandle contentHandle, TwitterStatuses statuses,
+    public TwitterStatuses setStatuses(TwitterContentHandle contentHandle, TwitterStatuses statuses,
                                 boolean resetExisting) {
         TwitterStatuses feed = getStatuses(contentHandle);
         if (resetExisting) {
@@ -219,6 +219,16 @@ public class TwitterFetchStatuses {
         }
 
         return null;
+    }
+
+    public void removeFromHashMap(TwitterStatuses removeStatuses){
+        if (mStatusesHashMap != null) {
+
+            for(String key: mStatusesHashMap.keySet()){
+                TwitterStatuses feed = mStatusesHashMap.get(key);
+                feed.remove(removeStatuses);
+            }
+        }
     }
 
     /*

@@ -351,7 +351,7 @@ class BaseLaneActivity extends FragmentActivity implements
     /*
 	 *
 	 */
-    private final SparseArray<BaseLaneFragment> mLaneFragmentHashMap = new SparseArray<BaseLaneFragment>();
+    protected final SparseArray<BaseLaneFragment> mLaneFragmentHashMap = new SparseArray<BaseLaneFragment>();
     private int activeInitialDownloadCount = 0;
 
     /*
@@ -661,6 +661,10 @@ class BaseLaneActivity extends FragmentActivity implements
             setComposeDefault();
             int position = getApp().getCurrentAccount().getInitialLaneIndex();
             BaseLaneFragment fragment = getFragmentAtIndex(position);
+            if(fragment==null){
+                fragment = getFragmentAtIndex(0);
+            }
+            
             if(fragment!=null){
                 fragment.fetchNewestTweets();
             }
@@ -1071,6 +1075,17 @@ class BaseLaneActivity extends FragmentActivity implements
             clearCompose();
         } else if (requestCode == Constant.REQUEST_CODE_PROFILE) {
             clearCompose();
+        } else if (requestCode == Constant.REQUEST_CODE_DM) {
+            if (data != null) {
+
+                boolean statusDelete = data.getBooleanExtra("statusDelete", false);
+                DirectMessageFeedFragment fragment = (DirectMessageFeedFragment)mLaneFragmentHashMap
+                        .get(getCurrentLaneIndex());
+
+                if (fragment != null) {
+                    fragment.UpdateTweetCache(statusDelete);
+                }
+            }
         }
 
         mShareImagePath = imagePath;

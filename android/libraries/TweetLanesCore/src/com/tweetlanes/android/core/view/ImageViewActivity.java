@@ -12,10 +12,12 @@
 package com.tweetlanes.android.core.view;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
@@ -36,8 +38,12 @@ import com.tweetlanes.android.core.widget.urlimageviewhelper.UrlImageViewCallbac
 import com.tweetlanes.android.core.widget.urlimageviewhelper.UrlImageViewHelper;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 public class ImageViewActivity extends FragmentActivity {
 
@@ -150,8 +156,13 @@ public class ImageViewActivity extends FragmentActivity {
                     if (existingFile.exists()) {
                         toastMessage = getString(R.string.unknown_error);
                         try {
-                            String existingPath = existingFile.getAbsolutePath();
-                            MediaStore.Images.Media.insertImage(getContentResolver(), existingPath, "Image", null);
+                            File dir = new File(Environment.getExternalStorageDirectory() + "/TweetLanes");
+                            if(!dir.exists()){
+                                dir.mkdirs();
+                            }
+                            File f = new File(dir, UrlImageViewHelper.getJpgFilenameForUrl(mediaUrl));
+                            copy(existingFile, f);
+                            sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, Uri.parse("file://" +  Environment.getExternalStorageDirectory())));
                             toastMessage = getString(R.string.image_save_success);
                         } catch (FileNotFoundException e) {
                             e.printStackTrace();
@@ -176,6 +187,20 @@ public class ImageViewActivity extends FragmentActivity {
         }
 
         return false;
+    }
+
+    public void copy(File src, File dst) throws IOException {
+        InputStream in = new FileInputStream(src);
+        OutputStream out = new FileOutputStream(dst);
+
+        // Transfer bytes from in to out
+        byte[] buf = new byte[1024];
+        int len;
+        while ((len = in.read(buf)) > 0) {
+            out.write(buf, 0, len);
+        }
+        in.close();
+        out.close();
     }
 
     /*

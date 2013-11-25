@@ -229,6 +229,10 @@
     </string>
 
     <string name="alert_customize_lanes_title">Customize Lanes</string>
+    <string name="alert_remove_account_title">Remove Account</string>
+    <string name="alert_remove_account_sure">Are you sure you want to remove this account?</string>
+    <string name="alert_remove_account_active">You cannot remove the active account</string>
+
 
     <string name="functionality_not_implemented">Sorry, but this feature isn\'t ready just yet.
         It\'s coming very soon though, I promise!
@@ -245,6 +249,11 @@
     <string name="retweeted_un_successful">Retweet failed</string>
     <string name="retweeted_marking_un_successful">Unable to mark as Retweet</string>
     <string name="cannot_unretweet">Cannot un-reweet using this app</string>
+
+    <string name="deleted_dm_successfully">Direct message deleted successfully</string>
+    <string name="deleted_dm_un_successfully">Direct message delete failed</string>
+    <string name="delete_dm_multiple">Multiple deletes may take some time!</string>
+    <string name="delete_dm_noback">Cannot go back whist deleting!</string>
 
     <string name="retweet">Retweet</string>
     <string name="quote">Quote</string>
@@ -438,6 +447,9 @@
     <string name="title_customizelanes_preference">Customize Lanes</string>
     <string name="summary_customizelanes_preference">Show/hide specific lanes</string>
 
+    <string name="title_removeaccount_preference">Remove Account</string>
+    <string name="summary_removeaccount_preference">Choose &amp; Remove An Account</string>
+
     <string name="title_diplaytime_preference">Time Format/Display</string>
     <string name="dialog_title_diplaytime_preference">Time Format/Display</string>
 
@@ -455,6 +467,10 @@
     <string name="title_downloadimages_preference">Download Images</string>
     <string name="summary_downloadimages_preference">Profile images and media thumbnail previews
         will be downloaded
+    </string>
+
+    <string name="title_autorefresh_preference">Auto Refresh</string>
+    <string name="summary_autorefresh_preference">Download new statuses when app loads
     </string>
 
     <string name="title_volscroll_preference">VolScroll</string>
