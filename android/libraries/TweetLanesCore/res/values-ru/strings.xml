@@ -449,7 +449,7 @@
     </string>
 
     <string name="title_autorefresh_preference">Обновлять автоматически</string>
-    <string name="summary_autorefresh_preference">Скачать новые статусы, когда приложение загружается
+    <string name="summary_autorefresh_preference">Скачать новые статусы, когда приложение загружает
     </string>
 
     <string name="title_volscroll_preference">VolScroll</string>

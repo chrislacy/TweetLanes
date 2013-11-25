@@ -470,7 +470,7 @@
     </string>
 
     <string name="title_autorefresh_preference">Auto Refresh</string>
-    <string name="summary_autorefresh_preference">Download new statuses on when app loaded
+    <string name="summary_autorefresh_preference">Download new statuses when app loads
     </string>
 
     <string name="title_volscroll_preference">VolScroll</string>
