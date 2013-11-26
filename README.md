@@ -111,6 +111,7 @@ Contributions are most welcome. In fact, they are actively encouraged.
 
 [Have a read here](https://github.com/chrislacy/TweetLanes/wiki/What-needs-to-be-done) for what I consider to be the most pressing tasks in need to attention.
 
+Before contributing please have a read of [our wiki](https://github.com/chrislacy/TweetLanes/wiki) which contains useful information to get you started and also where to send your pull requests.
 
 ## Note
 
