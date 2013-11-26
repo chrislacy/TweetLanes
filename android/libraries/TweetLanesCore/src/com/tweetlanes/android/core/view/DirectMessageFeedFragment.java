@@ -586,7 +586,14 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
 
         TwitterPaging paging = null;
         if (getOtherUserId() != null || !fullRefresh) {
-            paging = TwitterPaging.createGetNewerWithPageSize(mNewestDirectMessageId, pageSize);
+            if(mNewestDirectMessageId != null)
+            {
+                paging = TwitterPaging.createGetNewerWithPageSize(mNewestDirectMessageId, pageSize);
+            }
+            else
+            {
+                paging = TwitterPaging.createGetMostRecent();
+            }
             mRefreshCallback = new TwitterFetchDirectMessagesFinishedCallback() {
 
                 @Override
