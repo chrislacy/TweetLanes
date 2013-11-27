@@ -27,6 +27,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
+import com.crittercism.app.Crittercism;
 import com.tweetlanes.android.core.Constant.SystemEvent;
 import com.tweetlanes.android.core.model.AccountDescriptor;
 import com.tweetlanes.android.core.model.LaneDescriptor;
@@ -35,6 +36,7 @@ import com.tweetlanes.android.core.widget.urlimageviewhelper.UrlImageViewHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.socialnetlib.android.SocialNetConstant;
 import org.tweetalib.android.ConnectionStatus;
 import org.tweetalib.android.TwitterConstant;
@@ -184,6 +186,18 @@ public class App extends Application {
         } else {
             AccountDescriptor account = mAccounts.get(mCurrentAccountIndex);
             if (account != null) {
+                // Add extra Crittersism meta data
+                try {
+                    JSONObject metadata = new JSONObject();
+                    metadata.put("Username", account.getAccountKey32Chars());
+                    metadata.put("screenName", account.getScreenName());
+                    metadata.put("Network", account.getSocialNetType().toString());
+                    metadata.put("userId", account.getId());
+                    Crittercism.setMetadata(metadata);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
                 if (account.getSocialNetType() == currentSocialNetType) {
                     TwitterManager.get().setOAuthTokenWithSecret(
                             account.getOAuthToken(), account.getOAuthSecret(),

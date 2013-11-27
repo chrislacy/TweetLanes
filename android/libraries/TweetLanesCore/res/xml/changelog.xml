@@ -19,6 +19,7 @@
         <change>Fix - All DM's downloaded rather than just "newest" in conversation</change>
         <change>Fix - DM last message correctly passed back to the summary page (without need to refresh)</change>
         <change>Fix - Make it clear that the summary DM is actually your reply</change>
+        <change>Other - Updated version of crittersim for better app tracking</change>
     </release>
 	<release version="1.2.1" versioncode="51">
         <change>Feature - Make the ActionBar title selectable when viewing a profile</change>

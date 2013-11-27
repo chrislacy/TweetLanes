@@ -73,7 +73,7 @@ public class ImageViewActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
 
         if (Constant.ENABLE_CRASH_TRACKING) {
-            Crittercism.init(getApplicationContext(),
+            Crittercism.initialize(getApplicationContext(),
                     ConsumerKeyConstants.CRITTERCISM_APP_ID);
         }
 

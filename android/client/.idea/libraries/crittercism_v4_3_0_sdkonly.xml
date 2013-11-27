@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="crittercism_v4_3_0_sdkonly">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../libraries/TweetLanesCore/libs/crittercism_v4_3_0_sdkonly.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
