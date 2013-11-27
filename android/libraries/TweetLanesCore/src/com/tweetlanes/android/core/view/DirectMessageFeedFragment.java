@@ -271,6 +271,9 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
         } catch (JSONException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+        } catch (OutOfMemoryError e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
 
         return false;
