@@ -23,9 +23,9 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="library" name="android-support-v4" level="project" />
     <orderEntry type="library" name="basic-http-client-android-0.88" level="project" />
-    <orderEntry type="library" name="crittercism_v3_0_11" level="project" />
     <orderEntry type="library" name="dashclock-api-r1.1" level="project" />
     <orderEntry type="library" name="prime-0.6.1" level="project" />
+    <orderEntry type="library" name="crittercism_v4_3_0_sdkonly" level="project" />
     <orderEntry type="module" module-name="TL-SocialNetLib" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="twitter4j-core-3.0.6-SNAPSHOT" level="project" />
