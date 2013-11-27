@@ -376,6 +376,13 @@ public class AccountDescriptor {
                 "appdotet");
     }
 
+    public String getAccountKey32Chars() {
+        String key = (getSocialNetType() == SocialNetConstant.Type.Twitter ? "t" :
+                "a")  + "_" +  mScreenName.toLowerCase();
+
+        return key.substring(0,30);
+    }
+
     /*
 	 *
 	 */
