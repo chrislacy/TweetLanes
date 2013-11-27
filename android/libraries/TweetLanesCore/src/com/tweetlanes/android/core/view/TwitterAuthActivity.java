@@ -49,7 +49,7 @@ public class TwitterAuthActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         if (Constant.ENABLE_CRASH_TRACKING) {
-            Crittercism.init(getApplicationContext(), ConsumerKeyConstants.CRITTERCISM_APP_ID);
+            Crittercism.initialize(getApplicationContext(), ConsumerKeyConstants.CRITTERCISM_APP_ID);
         }
 
         setTheme(AppSettings.get().getCurrentThemeStyle());
