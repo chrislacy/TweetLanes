@@ -1522,31 +1522,36 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
                             @Override
                             public void finished(boolean successful, TwitterStatuses statuses, Integer value) {
-                                if (successful) {
+                                if (!successful) {
                                     if (!mDetached) {
-                                        showToast(getString(R.string.deleted_successfully));
+                                        showToast(getString(R.string.deleted_un_successfully));
                                     }
-                                    if (getStatusFeed() != null) {
-                                        getStatusFeed().remove(selected);
-                                    }
-                                    if (_mCachedStatusFeed != null) {
-                                        _mCachedStatusFeed.remove(selected);
-                                    }
-                                    TwitterManager.get().removeFromHashMap(selected);
 
+                                    TwitterStatuses statusFeed = getSelectedStatuses();
+                                    statusFeed.add(selected);
                                     setStatusFeed(getStatusFeed(), true);
                                     mTweetFeedListAdapter.notifyDataSetChanged();
                                     mTweetFeedListView.onRefreshComplete();
                                     updateViewVisibility(true);
-                                } else {
-                                    if (!mDetached) {
-                                        showToast(getString(R.string.deleted_un_successfully));
-                                    }
                                 }
                             }
                         };
 
                 TwitterManager.get().deleteTweet(selected, callback);
+
+                if (getStatusFeed() != null) {
+                    getStatusFeed().remove(selected);
+                }
+                if (_mCachedStatusFeed != null) {
+                    _mCachedStatusFeed.remove(selected);
+                }
+                TwitterManager.get().removeFromHashMap(selected);
+
+                setStatusFeed(getStatusFeed(), true);
+                mTweetFeedListAdapter.notifyDataSetChanged();
+                mTweetFeedListView.onRefreshComplete();
+                updateViewVisibility(true);
+
                 mode.finish();
             } else if (itemId == R.id.action_report_for_spam || itemId == R.id.action_block) {
                 AccountDescriptor account = getApp().getCurrentAccount();

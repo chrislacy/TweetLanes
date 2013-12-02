@@ -170,7 +170,6 @@
     <string name="pull_to_refresh_refreshing_label">Loading&#8230;</string>
     <string name="pull_to_refresh_tap_label">Tap to refresh&#8230;</string>
 
-    <string name="tweet_posted_success">Status posted</string>
     <string name="tweet_posted_error">Failed to post status</string>
     <string name="posting_tweet">Posting</string>
     <string name="posting_tweet_ongoing">Posting &#8230;</string>
@@ -185,7 +184,6 @@
     <string name="dm_title">DMs with @</string>
     <string name="dm_username_hint">Username</string>
 
-    <string name="direct_message_posted_success">Direct Message sent</string>
     <string name="direct_message_posted_error">Failed to post Direct Message</string>
     <string name="posting_direct_message">Sending Direct Message</string>
     <string name="posting_direct_message_ongoing">Sending Direct Message&#8230;</string>
@@ -237,7 +235,6 @@
     <string name="functionality_not_implemented">Sorry, but this feature isn\'t ready just yet.
         It\'s coming very soon though, I promise!
     </string>
-    <string name="deleted_successfully">Status deleted successfully</string>
     <string name="deleted_un_successfully">Status delete failed</string>
     <string name="favorited_successfully">Favorited successfully</string>
     <string name="unfavorited_successfully">Unfavorited successfully</string>

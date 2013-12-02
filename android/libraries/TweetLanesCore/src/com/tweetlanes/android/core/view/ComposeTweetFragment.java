@@ -170,13 +170,6 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
 
             if (result.isSuccessful()) {
                 releaseFocus(false);
-                if (getActivity() != null
-                        && getActivity().getApplicationContext() != null) {
-                    Toast.makeText(getActivity().getApplicationContext(),
-                            getString(R.string.tweet_posted_success),
-                            Constant.DEFAULT_TOAST_DISPLAY_TIME).show();
-                }
-                // }
 
                 if (mListener != null) {
                     mListener.saveDraft(null);

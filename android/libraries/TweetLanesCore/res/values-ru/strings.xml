@@ -170,7 +170,6 @@
     <string name="pull_to_refresh_refreshing_label">Загрузка&#8230;</string>
     <string name="pull_to_refresh_tap_label">Нажмите для обновления&#8230;</string>
 
-    <string name="tweet_posted_success">Твит отправлен</string>
     <string name="tweet_posted_error">Проблема при отправке твита</string>
     <string name="posting_tweet">Отправка</string>
     <string name="posting_tweet_ongoing">Отправка &#8230;</string>
@@ -185,7 +184,6 @@
     <string name="dm_title">DMs with @</string> <!-- TODO -->
     <string name="dm_username_hint">Имя пользователя</string>
 
-    <string name="direct_message_posted_success">Личное сообщение отправлено</string>
     <string name="direct_message_posted_error">Ошибка при отправке личного сообщения</string>
     <string name="posting_direct_message">Отправка личного сообщения</string>
     <string name="posting_direct_message_ongoing">Отправка личного сообщения&#8230;</string>
@@ -231,7 +229,6 @@
 
     <string name="functionality_not_implemented">Извините, но эта функция ещё не готова. Но скоро будет, я обещаю!
     </string>
-    <string name="deleted_successfully">Сообщение успешно удалено</string>
     <string name="deleted_un_successfully">Ошибка при удалении сообщения</string>
     <string name="favorited_successfully">Добавлено в избранное</string>
     <string name="unfavorited_successfully">Удалено из избранного</string>
