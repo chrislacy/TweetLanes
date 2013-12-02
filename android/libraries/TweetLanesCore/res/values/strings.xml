@@ -236,10 +236,7 @@
         It\'s coming very soon though, I promise!
     </string>
     <string name="deleted_un_successfully">Status delete failed</string>
-    <string name="favorited_successfully">Favorited successfully</string>
-    <string name="unfavorited_successfully">Unfavorited successfully</string>
     <string name="favorited_un_successfully">Favorited failed</string>
-    <string name="favorite_in_progress">Favorite being marked</string>
     <string name="unfavorited_un_successfully">Unfavorited failed</string>
     <string name="favorite_marking_un_successful">Unable to change Favorite marker</string>
     <string name="retweeted_successfully">Retweeted successfully</string>

@@ -1464,41 +1464,31 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                 }
 
             } else if (itemId == R.id.action_favorite) {
+                final TwitterStatuses selected = getSelectedStatuses();
+                final boolean newState = getSelectedFavoriteState() != ItemSelectedState.ALL;
                 TwitterModifyStatuses.FinishedCallback callback =
                         TwitterManager.get().getSetStatusesInstance().new FinishedCallback() {
 
                             @Override
                             public void finished(boolean successful, TwitterStatuses statuses, Integer value) {
-                                if (successful) {
+                                if (!successful) {
 
                                     TwitterStatuses cachedStatuses = getStatusFeed();
 
-                                    boolean settingFavorited = true;
-
-                                    if (statuses != null && statuses.getStatusCount() > 0) {
-                                        for (int i = 0; i < statuses.getStatusCount(); i++) {
-                                            TwitterStatus updatedStatus = statuses.getStatus(i);
-                                            TwitterStatus cachedStatus =
-                                                    cachedStatuses.findByStatusId(updatedStatus.mId);
+                                    if (selected != null && selected.getStatusCount() > 0) {
+                                        for (int i = 0; i < selected.getStatusCount(); i++) {
+                                            TwitterStatus updatedStatus = selected.getStatus(i);
+                                            TwitterStatus cachedStatus = cachedStatuses.findByStatusId(updatedStatus.mId);
                                             if (cachedStatus != null) {
-                                                cachedStatus.setFavorite(updatedStatus.mIsFavorited);
-                                                if (!updatedStatus.mIsFavorited) {
-                                                    settingFavorited = false;
-                                                }
+                                                cachedStatus.setFavorite(!newState);
                                             } else {
                                                 showToast(getString(R.string.favorite_marking_un_successful));
                                             }
                                         }
                                     }
+                                    setIsFavorited(!newState);
 
-                                    if (!mDetached) {
-                                        showToast(getString(settingFavorited ? R.string.favorited_successfully : R.string
-                                                .unfavorited_successfully));
-                                    }
 
-                                    setIsFavorited(settingFavorited);
-                                } else {
-                                    boolean newState = getSelectedFavoriteState() != ItemSelectedState.ALL;
                                     if (!mDetached) {
                                         showToast(getString(newState ? R.string.favorited_un_successfully : R.string
                                                 .unfavorited_un_successfully));
@@ -1507,9 +1497,24 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                             }
 
                         };
-                boolean newState = getSelectedFavoriteState() != ItemSelectedState.ALL;
-                showToast(getString(R.string.favorite_in_progress));
-                TwitterManager.get().setFavorite(getSelectedStatuses(), newState, callback);
+
+                TwitterManager.get().setFavorite(selected, newState, callback);
+
+                TwitterStatuses cachedStatuses = getStatusFeed();
+
+                if (selected != null && selected.getStatusCount() > 0) {
+                    for (int i = 0; i < selected.getStatusCount(); i++) {
+                        TwitterStatus updatedStatus = selected.getStatus(i);
+                        TwitterStatus cachedStatus = cachedStatuses.findByStatusId(updatedStatus.mId);
+                        if (cachedStatus != null) {
+                            cachedStatus.setFavorite(newState);
+                        } else {
+                            showToast(getString(R.string.favorite_marking_un_successful));
+                        }
+                    }
+                }
+                setIsFavorited(newState);
+
                 mode.finish();
             } else if (itemId == R.id.action_manage_friendship) {
                 showToast(getString(R.string.functionality_not_implemented));

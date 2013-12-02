@@ -230,10 +230,7 @@
     <string name="functionality_not_implemented">Извините, но эта функция ещё не готова. Но скоро будет, я обещаю!
     </string>
     <string name="deleted_un_successfully">Ошибка при удалении сообщения</string>
-    <string name="favorited_successfully">Добавлено в избранное</string>
-    <string name="unfavorited_successfully">Удалено из избранного</string>
     <string name="favorited_un_successfully">Ошибка добавления в избранное</string>
-    <string name="favorite_in_progress">Favorite being marked</string> <!-- TODO -->
     <string name="unfavorited_un_successfully">Ошибка удаления из избранного</string>
     <string name="favorite_marking_un_successful">Невозможно изменить Любимые маркера</string>
     <string name="retweeted_successfully">Ретвит успешно отправлен</string>
