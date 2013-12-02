@@ -274,7 +274,6 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
                         if (status != null && status.mOriginalRetweetId > 0) {
                             mStatus.mIsRetweetedByMe = true;
                             onGetStatus(mStatus);
-                            showToast(getString(R.string.retweeted_successfully));
                             setIsRetweeted();
                         } else {
                             if(result.getErrorMessage()==null){

@@ -239,12 +239,10 @@
     <string name="favorited_un_successfully">Favorited failed</string>
     <string name="unfavorited_un_successfully">Unfavorited failed</string>
     <string name="favorite_marking_un_successful">Unable to change Favorite marker</string>
-    <string name="retweeted_successfully">Retweeted successfully</string>
     <string name="retweeted_un_successful">Retweet failed</string>
     <string name="retweeted_marking_un_successful">Unable to mark as Retweet</string>
     <string name="cannot_unretweet">Cannot un-reweet using this app</string>
 
-    <string name="deleted_dm_successfully">Direct message deleted successfully</string>
     <string name="deleted_dm_un_successfully">Direct message delete failed</string>
     <string name="delete_dm_multiple">Multiple deletes may take some time!</string>
     <string name="delete_dm_noback">Cannot go back whist deleting!</string>
@@ -254,7 +252,6 @@
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="i_agree">I agree</string>
-    <string name="success">Success!</string>
 
     <string name="promote_conditions">Do you like using Tweet Lanes? Do you love the fact that Tweet
         Lanes is completely open source? If so, please help me spread the word about it!

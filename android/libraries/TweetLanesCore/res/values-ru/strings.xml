@@ -233,12 +233,10 @@
     <string name="favorited_un_successfully">Ошибка добавления в избранное</string>
     <string name="unfavorited_un_successfully">Ошибка удаления из избранного</string>
     <string name="favorite_marking_un_successful">Невозможно изменить Любимые маркера</string>
-    <string name="retweeted_successfully">Ретвит успешно отправлен</string>
     <string name="retweeted_un_successful">Ошибка при отправке ретвита</string>
     <string name="retweeted_marking_un_successful">Невозможно пометить как Retweet</string>
     <string name="cannot_unretweet">Нельзя отменить reweet с помощью этого приложения</string>
 
-    <string name="deleted_dm_successfully">Прямое сообщение успешно удален</string>
     <string name="deleted_dm_un_successfully">Прямое сообщение об удалении не удалось</string>
     <string name="delete_dm_multiple">Несколько удаление может занять некоторое время!</string>
     <string name="delete_dm_noback">Не могу вернуться вист удаление!</string>
@@ -248,7 +246,6 @@
     <string name="ok">OK</string>
     <string name="cancel">Отмена</string>
     <string name="i_agree">Я согласен</string>
-    <string name="success">Готово!</string>
 
     <string name="promote_conditions">Вам нравится использовать Tweet Lanes? Вам нравится, что Tweet
         Lanes является открытым программным обеспечением? Если это так, помогите с его распространением!

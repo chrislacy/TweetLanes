@@ -1432,9 +1432,6 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                                     TwitterStatus cachedStatus = cachedStatuses.findByStatusId(status.mOriginalRetweetId);
                                     if (cachedStatus != null) {
                                         cachedStatus.setRetweet(true);
-                                        if (!mDetached) {
-                                            showToast(getString(R.string.retweeted_successfully));
-                                        }
                                         setIsRetweet(true);
                                     } else {
                                         if (!mDetached) {
@@ -1487,7 +1484,6 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                                         }
                                     }
                                     setIsFavorited(!newState);
-
 
                                     if (!mDetached) {
                                         showToast(getString(newState ? R.string.favorited_un_successfully : R.string
