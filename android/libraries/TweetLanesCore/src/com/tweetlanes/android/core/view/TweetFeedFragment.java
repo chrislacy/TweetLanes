@@ -1574,21 +1574,6 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                                     @Override
                                     public void finished(TwitterFetchResult result, TwitterUsers users) {
 
-                                        getBaseLaneActivity().finishCurrentActionMode();
-
-                                        if (getStatusFeed() != null) {
-                                            getStatusFeed().remove(selected);
-                                        }
-                                        if (_mCachedStatusFeed != null) {
-                                            _mCachedStatusFeed.remove(selected);
-                                        }
-                                        TwitterManager.get().removeFromHashMap(selected);
-
-                                        setStatusFeed(getStatusFeed(), true);
-                                        mTweetFeedListAdapter.notifyDataSetChanged();
-                                        mTweetFeedListView.onRefreshComplete();
-                                        updateViewVisibility(true);
-
                                         if (result.isSuccessful() && users != null && users.getUserCount() > 0) {
                                             int userCount = users.getUserCount();
                                             String notice;
@@ -1620,6 +1605,20 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                         } else {
                             TwitterManager.get().createBlock(account.getId(), userIds, callback);
                         }
+
+                        if (getStatusFeed() != null) {
+                            getStatusFeed().remove(selected);
+                        }
+                        if (_mCachedStatusFeed != null) {
+                            _mCachedStatusFeed.remove(selected);
+                        }
+                        TwitterManager.get().removeFromHashMap(selected);
+
+                        setStatusFeed(getStatusFeed(), true);
+                        mTweetFeedListAdapter.notifyDataSetChanged();
+                        mTweetFeedListView.onRefreshComplete();
+                        updateViewVisibility(true);
+                        mode.finish();
                     }
                 }
             } else {
