@@ -805,7 +805,13 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
                                     if (!mDetached) {
                                         showToast(getString(R.string.deleted_dm_un_successfully));
                                     }
+                                    mDirectMessages.add(selected);
+                                    setDirectMessages(mDirectMessages, true);
                                 }
+
+                                mConversationListAdapter.notifyDataSetChanged();
+                                mConversationListView.onRefreshComplete();
+                                updateViewVisibility(true);
                             }
                         };
 
