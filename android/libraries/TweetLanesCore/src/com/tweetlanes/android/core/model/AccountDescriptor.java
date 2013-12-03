@@ -380,7 +380,12 @@ public class AccountDescriptor {
         String key = (getSocialNetType() == SocialNetConstant.Type.Twitter ? "t" :
                 "a")  + "_" +  mScreenName.toLowerCase();
 
-        return key.substring(0,30);
+        int length = 30;
+        if (key.length() < length)
+        {
+            length = key.length();
+        }
+        return key.substring(0,length);
     }
 
     /*

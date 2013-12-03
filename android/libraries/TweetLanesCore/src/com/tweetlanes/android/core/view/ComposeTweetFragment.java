@@ -170,13 +170,6 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
 
             if (result.isSuccessful()) {
                 releaseFocus(false);
-                if (getActivity() != null
-                        && getActivity().getApplicationContext() != null) {
-                    Toast.makeText(getActivity().getApplicationContext(),
-                            getString(R.string.tweet_posted_success),
-                            Constant.DEFAULT_TOAST_DISPLAY_TIME).show();
-                }
-                // }
 
                 if (mListener != null) {
                     mListener.saveDraft(null);
@@ -527,8 +520,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
 	 *
 	 */
     private TwitterStatus mRetweetStatus;
-
-    public void retweetSelected(TwitterStatus status, final FinishedCallback callback) {
+    public void retweetSelected(TwitterStatus status, final FinishedCallback callback, final FinishedCallback showRTCallback) {
 
         mRetweetStatus = status;
 
@@ -542,7 +534,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
 
                     public void onClick(DialogInterface dialog, int which) {
                         callback.finished(new TwitterFetchResult(true, "CancelPressed"), null);
-
+                        showRTCallback.finished(new TwitterFetchResult(true, "NoShow"), null);
                     }
                 });
         alertDialog.setButton3(getString(R.string.quote),
@@ -551,6 +543,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         if (mRetweetStatus != null) {
                             callback.finished(new TwitterFetchResult(true, "QutotePressed"), null);
+                            showRTCallback.finished(new TwitterFetchResult(true, "NoShow"), null);
                             beginQuote(mRetweetStatus);
                             mRetweetStatus = null;
                         }
@@ -566,6 +559,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
 
                             mRetweetStatus = null;
                         }
+                        showRTCallback.finished(new TwitterFetchResult(true, "Show"), null);
                     }
                 });
         alertDialog.show();

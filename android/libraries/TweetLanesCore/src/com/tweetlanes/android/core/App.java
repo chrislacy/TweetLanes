@@ -189,11 +189,12 @@ public class App extends Application {
                 // Add extra Crittersism meta data
                 try {
                     JSONObject metadata = new JSONObject();
-                    metadata.put("Username", account.getAccountKey32Chars());
+                    metadata.put("UsernameFull", account.getAccountKey());
                     metadata.put("screenName", account.getScreenName());
                     metadata.put("Network", account.getSocialNetType().toString());
                     metadata.put("userId", account.getId());
                     Crittercism.setMetadata(metadata);
+                    Crittercism.setUsername(account.getAccountKey32Chars());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
