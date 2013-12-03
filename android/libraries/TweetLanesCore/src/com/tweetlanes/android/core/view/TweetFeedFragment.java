@@ -766,7 +766,14 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
             updateListHeading(firstVisibleItem);
 
-            getVisibleStatus();
+            Long visibleStatusId = null;
+            TwitterStatus visibleStatus = getVisibleStatus();
+            if (visibleStatus != null) {
+                visibleStatusId = visibleStatus.mId;
+            } else if (mLastTwitterStatusIdSeen != null && mLastTwitterStatusIdSeen > 0) {
+                visibleStatusId = mLastTwitterStatusIdSeen;
+            }
+            mResumeStatusId = visibleStatusId;
         }
 
         @Override
