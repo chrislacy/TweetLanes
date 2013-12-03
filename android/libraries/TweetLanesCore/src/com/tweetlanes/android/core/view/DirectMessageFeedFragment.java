@@ -796,35 +796,22 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
                             @Override
                             public void finished(boolean successful, Integer value) {
 
-                                DirectMessageActivity activity = null;
-
                                 if (!mDetached) {
-                                    activity = (DirectMessageActivity) getActivity();
+                                    DirectMessageActivity activity = (DirectMessageActivity) getActivity();
                                     activity.setDeleting(false);
                                 }
 
-                                if (successful) {
-                                    if (!mDetached) {
-                                        showToast(getString(R.string.deleted_dm_successfully));
-                                    }
-                                    if (mDirectMessages != null) {
-                                        mDirectMessages.remove(selected);
-                                    }
-                                    if (mDirectMessagesCache != null) {
-                                        mDirectMessagesCache.remove(selected);
-                                    }
-                                    TwitterManager.get().removeFromDirectMessageHashMap(selected);
-
-                                    setDirectMessages(mDirectMessages, true);
-                                    mConversationListAdapter.notifyDataSetChanged();
-                                    mConversationListView.onRefreshComplete();
-                                    updateViewVisibility(true);
-
-                                } else {
+                                if (!successful) {
                                     if (!mDetached) {
                                         showToast(getString(R.string.deleted_dm_un_successfully));
                                     }
+                                    mDirectMessages.add(selected);
+                                    setDirectMessages(mDirectMessages, true);
                                 }
+
+                                mConversationListAdapter.notifyDataSetChanged();
+                                mConversationListView.onRefreshComplete();
+                                updateViewVisibility(true);
                             }
                         };
 
@@ -837,6 +824,19 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
                     DirectMessageActivity activity = (DirectMessageActivity) getActivity();
                     activity.setDeleting(true);
                     TwitterManager.get().deleteDirectMessage(selected, callback);
+
+                    if (mDirectMessages != null) {
+                        mDirectMessages.remove(selected);
+                    }
+                    if (mDirectMessagesCache != null) {
+                        mDirectMessagesCache.remove(selected);
+                    }
+                    TwitterManager.get().removeFromDirectMessageHashMap(selected);
+
+                    setDirectMessages(mDirectMessages, true);
+                    mConversationListAdapter.notifyDataSetChanged();
+                    mConversationListView.onRefreshComplete();
+                    updateViewVisibility(true);
                 }
                 mode.finish();
 

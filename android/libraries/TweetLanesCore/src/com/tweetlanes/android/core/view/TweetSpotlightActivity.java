@@ -271,12 +271,7 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
                     boolean success = true;
 
                     if (result != null && result.isSuccessful()) {
-                        if (status != null && status.mOriginalRetweetId > 0) {
-                            mStatus.mIsRetweetedByMe = true;
-                            onGetStatus(mStatus);
-                            showToast(getString(R.string.retweeted_successfully));
-                            setIsRetweeted();
-                        } else {
+                        if (status == null || status.mOriginalRetweetId == 0) {
                             if(result.getErrorMessage()==null){
                                 success = false;
                             }else if (!result.getErrorMessage().equals("CancelPressed") && !result.getErrorMessage().equals("QutotePressed")) {
@@ -290,9 +285,23 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
                     if(!success)
                     {
                         showToast(getString(R.string.retweeted_un_successful));
+                        mStatus.mIsRetweetedByMe = false;
+                        onGetStatus(mStatus);
+                        setIsRetweeted();
                     }
                 }
 
+            };
+
+            TwitterFetchStatus.FinishedCallback showRTcallback = TwitterManager.get()
+                    .getFetchStatusInstance().new FinishedCallback() {
+
+                @Override
+                public void finished(TwitterFetchResult result, TwitterStatus status) {
+                    mStatus.mIsRetweetedByMe = true;
+                    onGetStatus(mStatus);
+                    setIsRetweeted();
+                }
             };
 
             if (mStatus.mIsRetweetedByMe) {
@@ -302,7 +311,7 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
                 boolean isDarkTheme = AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Dark || AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Light_DarkAction;
                 mRetweetMenuItem.setIcon(isDarkTheme ? R.drawable.ic_action_rt_pressed_dark : R.drawable.ic_action_rt_pressed_light);
 
-                retweetSelected(mStatus, callback);
+                retweetSelected(mStatus, callback, showRTcallback);
             }
 
             return true;
@@ -314,32 +323,30 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
                     .setIcon(isDarkTheme ? R.drawable.ic_action_star_pressed_dark
                             : R.drawable.ic_action_star_pressed_light);
 
-            TwitterModifyStatuses.FinishedCallback callback = TwitterManager
-                    .get().getSetStatusesInstance().new FinishedCallback() {
+            TwitterModifyStatuses.FinishedCallback callback =
+                    TwitterManager.get().getSetStatusesInstance().new FinishedCallback() {
 
-                @Override
-                public void finished(boolean successful,
-                                     TwitterStatuses statuses, Integer value) {
-                    if (successful && mTweetSpotlightAdapter != null) {
-                        if (statuses != null && statuses.getStatusCount() > 0) {
-                            TwitterStatus status = statuses.getStatus(0);
-                            mStatus.setFavorite(status.mIsFavorited);
-                            onGetStatus(mStatus);
+                        @Override
+                        public void finished(boolean successful, TwitterStatuses statuses, Integer value) {
+                            if (!successful) {
 
-                            showToast(getString(mStatus.mIsFavorited ? R.string.favorited_successfully : R.string
-                                    .unfavorited_successfully));
+                                showToast(getString(mStatus.mIsFavorited ? R.string.favorited_un_successfully : R.string
+                                        .unfavorited_un_successfully));
 
-                            setIsFavorited();
+                                mStatus.setFavorite(!mStatus.mIsFavorited);
+                                onGetStatus(mStatus);
+                                setIsFavorited();
+                            }
                         }
-                    } else {
-                        showToast(getString(mStatus.mIsFavorited ? R.string.unfavorited_un_successfully : R.string
-                                .favorited_un_successfully));
-                    }
-                }
 
-            };
-            TwitterManager.get().setFavorite(mStatus, !mStatus.mIsFavorited,
-                    callback);
+                    };
+
+            TwitterManager.get().setFavorite(mStatus, !mStatus.mIsFavorited, callback);
+
+            mStatus.setFavorite(!mStatus.mIsFavorited);
+            onGetStatus(mStatus);
+            setIsFavorited();
+
             return true;
         } else {
             return false;

@@ -1411,7 +1411,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
             } else if (itemId == R.id.action_retweet) {
 
-                TwitterStatus statusSelected = getFirstSelectedStatus();
+                final TwitterStatus statusSelected = getFirstSelectedStatus();
 
                 if (statusSelected.mIsRetweetedByMe) {
                     showToast(getString(R.string.cannot_unretweet));
@@ -1427,21 +1427,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                             boolean showUnsuccessful = false;
 
                             if (result != null && result.isSuccessful()) {
-                                if (status != null && status.mOriginalRetweetId > 0) {
-                                    TwitterStatuses cachedStatuses = getStatusFeed();
-                                    TwitterStatus cachedStatus = cachedStatuses.findByStatusId(status.mOriginalRetweetId);
-                                    if (cachedStatus != null) {
-                                        cachedStatus.setRetweet(true);
-                                        if (!mDetached) {
-                                            showToast(getString(R.string.retweeted_successfully));
-                                        }
-                                        setIsRetweet(true);
-                                    } else {
-                                        if (!mDetached) {
-                                            showToast(getString(R.string.retweeted_marking_un_successful));
-                                        }
-                                    }
-                                } else {
+                                if (status == null || status.mOriginalRetweetId == 0) {
                                     if (result.getErrorMessage() == null) {
                                         showUnsuccessful = true;
                                     } else if (!result.getErrorMessage().equals("CancelPressed") && !result.getErrorMessage().equals("QutotePressed")) {
@@ -1452,53 +1438,80 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                                 showUnsuccessful = true;
                             }
 
-                            if (showUnsuccessful && !mDetached) {
+                            if (showUnsuccessful) {
+                                if(!mDetached)
+                                {
                                 showToast(getString(R.string.retweeted_un_successful));
+                                }
+                                TwitterStatuses cachedStatuses = getStatusFeed();
+                                TwitterStatus cachedStatus = cachedStatuses.findByStatusId(statusSelected.mId);
+                                if (cachedStatus != null) {
+                                    cachedStatus.setRetweet(false);
+                                    setIsRetweet(false);
+                                    mTweetFeedListAdapter.notifyDataSetChanged();
+                                    updateViewVisibility(true);
+                                } else {
+                                    if (!mDetached) {
+                                        showToast(getString(R.string.retweeted_marking_un_successful));
+                                    }
+                                }
                             }
                         }
 
                     };
 
-                    getBaseLaneActivity().retweetSelected(statusSelected, callback);
+                    TwitterFetchStatus.FinishedCallback showRTcallback = TwitterManager.get()
+                            .getFetchStatusInstance().new FinishedCallback() {
+
+                        @Override
+                        public void finished(TwitterFetchResult result, TwitterStatus status) {
+                            TwitterStatuses cachedStatuses = getStatusFeed();
+                            TwitterStatus cachedStatus = cachedStatuses.findByStatusId(statusSelected.mId);
+                            if (cachedStatus != null) {
+                                cachedStatus.setRetweet(true);
+                                setIsRetweet(true);
+                                mTweetFeedListAdapter.notifyDataSetChanged();
+                                updateViewVisibility(true);
+                            } else {
+                                if (!mDetached) {
+                                    showToast(getString(R.string.retweeted_marking_un_successful));
+                                }
+                            }
+                        }
+                    };
+
+                    getBaseLaneActivity().retweetSelected(statusSelected, callback, showRTcallback);
                     mode.finish();
                 }
 
             } else if (itemId == R.id.action_favorite) {
+                final TwitterStatuses selected = getSelectedStatuses();
+                final boolean newState = getSelectedFavoriteState() != ItemSelectedState.ALL;
                 TwitterModifyStatuses.FinishedCallback callback =
                         TwitterManager.get().getSetStatusesInstance().new FinishedCallback() {
 
                             @Override
                             public void finished(boolean successful, TwitterStatuses statuses, Integer value) {
-                                if (successful) {
+                                if (!successful) {
 
                                     TwitterStatuses cachedStatuses = getStatusFeed();
 
-                                    boolean settingFavorited = true;
-
-                                    if (statuses != null && statuses.getStatusCount() > 0) {
-                                        for (int i = 0; i < statuses.getStatusCount(); i++) {
-                                            TwitterStatus updatedStatus = statuses.getStatus(i);
-                                            TwitterStatus cachedStatus =
-                                                    cachedStatuses.findByStatusId(updatedStatus.mId);
+                                    if (selected != null && selected.getStatusCount() > 0) {
+                                        for (int i = 0; i < selected.getStatusCount(); i++) {
+                                            TwitterStatus updatedStatus = selected.getStatus(i);
+                                            TwitterStatus cachedStatus = cachedStatuses.findByStatusId(updatedStatus.mId);
                                             if (cachedStatus != null) {
-                                                cachedStatus.setFavorite(updatedStatus.mIsFavorited);
-                                                if (!updatedStatus.mIsFavorited) {
-                                                    settingFavorited = false;
-                                                }
+                                                cachedStatus.setFavorite(!newState);
                                             } else {
                                                 showToast(getString(R.string.favorite_marking_un_successful));
                                             }
                                         }
-                                    }
 
-                                    if (!mDetached) {
-                                        showToast(getString(settingFavorited ? R.string.favorited_successfully : R.string
-                                                .unfavorited_successfully));
+                                        mTweetFeedListAdapter.notifyDataSetChanged();
+                                        updateViewVisibility(true);
                                     }
+                                    setIsFavorited(!newState);
 
-                                    setIsFavorited(settingFavorited);
-                                } else {
-                                    boolean newState = getSelectedFavoriteState() != ItemSelectedState.ALL;
                                     if (!mDetached) {
                                         showToast(getString(newState ? R.string.favorited_un_successfully : R.string
                                                 .unfavorited_un_successfully));
@@ -1507,9 +1520,27 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                             }
 
                         };
-                boolean newState = getSelectedFavoriteState() != ItemSelectedState.ALL;
-                showToast(getString(R.string.favorite_in_progress));
-                TwitterManager.get().setFavorite(getSelectedStatuses(), newState, callback);
+
+                TwitterManager.get().setFavorite(selected, newState, callback);
+
+                TwitterStatuses cachedStatuses = getStatusFeed();
+
+                if (selected != null && selected.getStatusCount() > 0) {
+                    for (int i = 0; i < selected.getStatusCount(); i++) {
+                        TwitterStatus updatedStatus = selected.getStatus(i);
+                        TwitterStatus cachedStatus = cachedStatuses.findByStatusId(updatedStatus.mId);
+                        if (cachedStatus != null) {
+                            cachedStatus.setFavorite(newState);
+                        } else {
+                            showToast(getString(R.string.favorite_marking_un_successful));
+                        }
+                    }
+
+                    mTweetFeedListAdapter.notifyDataSetChanged();
+                    updateViewVisibility(true);
+                }
+                setIsFavorited(newState);
+
                 mode.finish();
             } else if (itemId == R.id.action_manage_friendship) {
                 showToast(getString(R.string.functionality_not_implemented));
@@ -1522,31 +1553,36 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
                             @Override
                             public void finished(boolean successful, TwitterStatuses statuses, Integer value) {
-                                if (successful) {
+                                if (!successful) {
                                     if (!mDetached) {
-                                        showToast(getString(R.string.deleted_successfully));
+                                        showToast(getString(R.string.deleted_un_successfully));
                                     }
-                                    if (getStatusFeed() != null) {
-                                        getStatusFeed().remove(selected);
-                                    }
-                                    if (_mCachedStatusFeed != null) {
-                                        _mCachedStatusFeed.remove(selected);
-                                    }
-                                    TwitterManager.get().removeFromHashMap(selected);
 
+                                    TwitterStatuses statusFeed = getSelectedStatuses();
+                                    statusFeed.add(selected);
                                     setStatusFeed(getStatusFeed(), true);
                                     mTweetFeedListAdapter.notifyDataSetChanged();
                                     mTweetFeedListView.onRefreshComplete();
                                     updateViewVisibility(true);
-                                } else {
-                                    if (!mDetached) {
-                                        showToast(getString(R.string.deleted_un_successfully));
-                                    }
                                 }
                             }
                         };
 
                 TwitterManager.get().deleteTweet(selected, callback);
+
+                if (getStatusFeed() != null) {
+                    getStatusFeed().remove(selected);
+                }
+                if (_mCachedStatusFeed != null) {
+                    _mCachedStatusFeed.remove(selected);
+                }
+                TwitterManager.get().removeFromHashMap(selected);
+
+                setStatusFeed(getStatusFeed(), true);
+                mTweetFeedListAdapter.notifyDataSetChanged();
+                mTweetFeedListView.onRefreshComplete();
+                updateViewVisibility(true);
+
                 mode.finish();
             } else if (itemId == R.id.action_report_for_spam || itemId == R.id.action_block) {
                 AccountDescriptor account = getApp().getCurrentAccount();
@@ -1567,21 +1603,6 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
                                     @Override
                                     public void finished(TwitterFetchResult result, TwitterUsers users) {
-
-                                        getBaseLaneActivity().finishCurrentActionMode();
-
-                                        if (getStatusFeed() != null) {
-                                            getStatusFeed().remove(selected);
-                                        }
-                                        if (_mCachedStatusFeed != null) {
-                                            _mCachedStatusFeed.remove(selected);
-                                        }
-                                        TwitterManager.get().removeFromHashMap(selected);
-
-                                        setStatusFeed(getStatusFeed(), true);
-                                        mTweetFeedListAdapter.notifyDataSetChanged();
-                                        mTweetFeedListView.onRefreshComplete();
-                                        updateViewVisibility(true);
 
                                         if (result.isSuccessful() && users != null && users.getUserCount() > 0) {
                                             int userCount = users.getUserCount();
@@ -1614,6 +1635,20 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                         } else {
                             TwitterManager.get().createBlock(account.getId(), userIds, callback);
                         }
+
+                        if (getStatusFeed() != null) {
+                            getStatusFeed().remove(selected);
+                        }
+                        if (_mCachedStatusFeed != null) {
+                            _mCachedStatusFeed.remove(selected);
+                        }
+                        TwitterManager.get().removeFromHashMap(selected);
+
+                        setStatusFeed(getStatusFeed(), true);
+                        mTweetFeedListAdapter.notifyDataSetChanged();
+                        mTweetFeedListView.onRefreshComplete();
+                        updateViewVisibility(true);
+                        mode.finish();
                     }
                 }
             } else {
