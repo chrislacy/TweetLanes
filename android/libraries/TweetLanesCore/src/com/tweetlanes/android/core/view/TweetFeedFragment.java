@@ -1448,6 +1448,8 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                                 if (cachedStatus != null) {
                                     cachedStatus.setRetweet(false);
                                     setIsRetweet(false);
+                                    mTweetFeedListAdapter.notifyDataSetChanged();
+                                    updateViewVisibility(true);
                                 } else {
                                     if (!mDetached) {
                                         showToast(getString(R.string.retweeted_marking_un_successful));
@@ -1468,6 +1470,8 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                             if (cachedStatus != null) {
                                 cachedStatus.setRetweet(true);
                                 setIsRetweet(true);
+                                mTweetFeedListAdapter.notifyDataSetChanged();
+                                updateViewVisibility(true);
                             } else {
                                 if (!mDetached) {
                                     showToast(getString(R.string.retweeted_marking_un_successful));
@@ -1502,6 +1506,9 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                                                 showToast(getString(R.string.favorite_marking_un_successful));
                                             }
                                         }
+
+                                        mTweetFeedListAdapter.notifyDataSetChanged();
+                                        updateViewVisibility(true);
                                     }
                                     setIsFavorited(!newState);
 
@@ -1528,6 +1535,9 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                             showToast(getString(R.string.favorite_marking_un_successful));
                         }
                     }
+
+                    mTweetFeedListAdapter.notifyDataSetChanged();
+                    updateViewVisibility(true);
                 }
                 setIsFavorited(newState);
 
