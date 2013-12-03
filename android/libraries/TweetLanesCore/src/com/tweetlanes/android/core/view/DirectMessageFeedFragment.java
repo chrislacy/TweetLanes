@@ -973,16 +973,25 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
             } else if (position == directMessageCount) {
                 resultView = getLoadMoreView();
             } else {
-                resultView = getDirectMessageFeedItemView(position);
+                resultView = getDirectMessageFeedItemView(convertView, position);
             }
 
             return resultView;
         }
 
+        View inflateNewDirectMessageItem() {
+        	View convertView = mInflater.inflate(
+                    R.layout.direct_message_feed_item_received, null);
+        	ViewHolder holder = new ViewHolder(convertView);
+        	holder.directMessageItemView = (DirectMessageItemView) convertView
+                    .findViewById(R.id.directMessageItem);
+        	convertView.setTag(R.id.directMessageItem, holder);
+        	return convertView;
+        }
         /*
          *
          */
-        View getDirectMessageFeedItemView(int position) {
+        View getDirectMessageFeedItemView(View convertView, int position) {
 
             TwitterDirectMessage directMessage = mCurrentViewDirectMessageConversion
                     .get(position);
@@ -997,11 +1006,18 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
                 // mInflater.inflate(R.layout.direct_message_feed_item_sent,
                 // null);
             }
-            View convertView = mInflater.inflate(
-                    R.layout.direct_message_feed_item_received, null);
-
-            DirectMessageItemView directMessageItemView = (DirectMessageItemView) convertView
-                    .findViewById(R.id.directMessageItem);
+            
+            ViewHolder holder = null;
+            if (convertView != null) {
+            	holder = (ViewHolder) convertView.getTag(R.id.directMessageItem);
+            	if (holder == null) {
+            		convertView = inflateNewDirectMessageItem();
+        			holder = (ViewHolder) convertView.getTag(R.id.directMessageItem);
+            	}
+            } else {
+            	convertView = inflateNewDirectMessageItem();
+            	holder = (ViewHolder) convertView.getTag(R.id.directMessageItem);
+            }
 
             DirectMessageItemViewCallbacks callbacks = new DirectMessageItemViewCallbacks() {
 
@@ -1028,9 +1044,9 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
 
             };
 
-            directMessageItemView.configure(getScreenName(), directMessage,
+            holder.directMessageItemView.configure(getScreenName(), directMessage,
                     position + 1, messageType, otherUserId != null, callbacks);
-            return directMessageItemView;
+            return holder.directMessageItemView;
         }
 
         /*
@@ -1055,6 +1071,12 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
             return loadMoreView;
         }
 
+        class ViewHolder {
+        	public DirectMessageItemView directMessageItemView;
+        	public ViewHolder(View convertView) {
+        		directMessageItemView = (DirectMessageItemView) convertView.findViewById(R.id.directMessageItem);
+        	}
+        }
         /**
          * Remember our context so we can use it when constructing views.
          */
