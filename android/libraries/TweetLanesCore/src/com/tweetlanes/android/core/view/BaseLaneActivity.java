@@ -1372,8 +1372,7 @@ class BaseLaneActivity extends FragmentActivity implements
         }
     }
 
-    public boolean retweetSelected(TwitterStatus status, TwitterFetchStatus.FinishedCallback callback) {
-        boolean shouldShowRT = false;
+    public void retweetSelected(TwitterStatus status, TwitterFetchStatus.FinishedCallback callback, TwitterFetchStatus.FinishedCallback showRTCallback) {
         if (mComposeTweetFragment != null) {
 
             TwitterUser user = TwitterManager.get().getUser(status.mUserId);
@@ -1391,10 +1390,9 @@ class BaseLaneActivity extends FragmentActivity implements
                         });
                 alertDialogBuilder.create().show();
             } else if (mComposeTweetFragment != null) {
-                shouldShowRT = mComposeTweetFragment.retweetSelected(status, callback);
+                mComposeTweetFragment.retweetSelected(status, callback, showRTCallback);
             }
         }
-        return shouldShowRT;
     }
 
     /*

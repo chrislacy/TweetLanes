@@ -293,6 +293,17 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
 
             };
 
+            TwitterFetchStatus.FinishedCallback showRTcallback = TwitterManager.get()
+                    .getFetchStatusInstance().new FinishedCallback() {
+
+                @Override
+                public void finished(TwitterFetchResult result, TwitterStatus status) {
+                    mStatus.mIsRetweetedByMe = true;
+                    onGetStatus(mStatus);
+                    setIsRetweeted();
+                }
+            };
+
             if (mStatus.mIsRetweetedByMe) {
                 showToast(getString(R.string.cannot_unretweet));
                 setIsRetweeted();
@@ -300,13 +311,7 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
                 boolean isDarkTheme = AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Dark || AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Light_DarkAction;
                 mRetweetMenuItem.setIcon(isDarkTheme ? R.drawable.ic_action_rt_pressed_dark : R.drawable.ic_action_rt_pressed_light);
 
-                boolean shouldShowRT = retweetSelected(mStatus, callback);
-                if(shouldShowRT)
-                {
-                    mStatus.mIsRetweetedByMe = true;
-                    onGetStatus(mStatus);
-                    setIsRetweeted();
-                }
+                retweetSelected(mStatus, callback, showRTcallback);
             }
 
             return true;

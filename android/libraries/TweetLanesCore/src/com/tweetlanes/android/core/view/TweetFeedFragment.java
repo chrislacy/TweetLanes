@@ -1458,23 +1458,25 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
                     };
 
-                    boolean shouldShowRT = getBaseLaneActivity().retweetSelected(statusSelected, callback);
-                    if(shouldShowRT)
-                    {
-                        TwitterStatuses cachedStatuses = getStatusFeed();
-                        TwitterStatus cachedStatus = cachedStatuses.findByStatusId(statusSelected.mId);
-                        if (cachedStatus != null) {
-                            cachedStatus.setRetweet(true);
-                            setIsRetweet(true);
-                        } else {
-                            if (!mDetached) {
-                                showToast(getString(R.string.retweeted_marking_un_successful));
+                    TwitterFetchStatus.FinishedCallback showRTcallback = TwitterManager.get()
+                            .getFetchStatusInstance().new FinishedCallback() {
+
+                        @Override
+                        public void finished(TwitterFetchResult result, TwitterStatus status) {
+                            TwitterStatuses cachedStatuses = getStatusFeed();
+                            TwitterStatus cachedStatus = cachedStatuses.findByStatusId(statusSelected.mId);
+                            if (cachedStatus != null) {
+                                cachedStatus.setRetweet(true);
+                                setIsRetweet(true);
+                            } else {
+                                if (!mDetached) {
+                                    showToast(getString(R.string.retweeted_marking_un_successful));
+                                }
                             }
                         }
-                    }
+                    };
 
-
-
+                    getBaseLaneActivity().retweetSelected(statusSelected, callback, showRTcallback);
                     mode.finish();
                 }
 
