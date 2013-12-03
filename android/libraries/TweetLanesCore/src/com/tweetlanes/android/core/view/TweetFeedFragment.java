@@ -1411,7 +1411,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
             } else if (itemId == R.id.action_retweet) {
 
-                TwitterStatus statusSelected = getFirstSelectedStatus();
+                final TwitterStatus statusSelected = getFirstSelectedStatus();
 
                 if (statusSelected.mIsRetweetedByMe) {
                     showToast(getString(R.string.cannot_unretweet));
@@ -1427,18 +1427,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                             boolean showUnsuccessful = false;
 
                             if (result != null && result.isSuccessful()) {
-                                if (status != null && status.mOriginalRetweetId > 0) {
-                                    TwitterStatuses cachedStatuses = getStatusFeed();
-                                    TwitterStatus cachedStatus = cachedStatuses.findByStatusId(status.mOriginalRetweetId);
-                                    if (cachedStatus != null) {
-                                        cachedStatus.setRetweet(true);
-                                        setIsRetweet(true);
-                                    } else {
-                                        if (!mDetached) {
-                                            showToast(getString(R.string.retweeted_marking_un_successful));
-                                        }
-                                    }
-                                } else {
+                                if (status == null || status.mOriginalRetweetId == 0) {
                                     if (result.getErrorMessage() == null) {
                                         showUnsuccessful = true;
                                     } else if (!result.getErrorMessage().equals("CancelPressed") && !result.getErrorMessage().equals("QutotePressed")) {
@@ -1449,14 +1438,43 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                                 showUnsuccessful = true;
                             }
 
-                            if (showUnsuccessful && !mDetached) {
+                            if (showUnsuccessful) {
+                                if(!mDetached)
+                                {
                                 showToast(getString(R.string.retweeted_un_successful));
+                                }
+                                TwitterStatuses cachedStatuses = getStatusFeed();
+                                TwitterStatus cachedStatus = cachedStatuses.findByStatusId(statusSelected.mId);
+                                if (cachedStatus != null) {
+                                    cachedStatus.setRetweet(false);
+                                    setIsRetweet(false);
+                                } else {
+                                    if (!mDetached) {
+                                        showToast(getString(R.string.retweeted_marking_un_successful));
+                                    }
+                                }
                             }
                         }
 
                     };
 
-                    getBaseLaneActivity().retweetSelected(statusSelected, callback);
+                    boolean shouldShowRT = getBaseLaneActivity().retweetSelected(statusSelected, callback);
+                    if(shouldShowRT)
+                    {
+                        TwitterStatuses cachedStatuses = getStatusFeed();
+                        TwitterStatus cachedStatus = cachedStatuses.findByStatusId(statusSelected.mId);
+                        if (cachedStatus != null) {
+                            cachedStatus.setRetweet(true);
+                            setIsRetweet(true);
+                        } else {
+                            if (!mDetached) {
+                                showToast(getString(R.string.retweeted_marking_un_successful));
+                            }
+                        }
+                    }
+
+
+
                     mode.finish();
                 }
 

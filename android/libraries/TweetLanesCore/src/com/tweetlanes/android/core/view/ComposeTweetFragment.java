@@ -520,9 +520,10 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
 	 *
 	 */
     private TwitterStatus mRetweetStatus;
+    private boolean shouldShowRT;
+    public boolean retweetSelected(TwitterStatus status, final FinishedCallback callback) {
 
-    public void retweetSelected(TwitterStatus status, final FinishedCallback callback) {
-
+        shouldShowRT = false;
         mRetweetStatus = status;
 
         AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
@@ -559,9 +560,11 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
 
                             mRetweetStatus = null;
                         }
+                        shouldShowRT = true;
                     }
                 });
         alertDialog.show();
+        return shouldShowRT;
     }
 
     /*

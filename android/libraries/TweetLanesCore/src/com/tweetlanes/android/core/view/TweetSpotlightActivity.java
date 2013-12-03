@@ -271,11 +271,7 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
                     boolean success = true;
 
                     if (result != null && result.isSuccessful()) {
-                        if (status != null && status.mOriginalRetweetId > 0) {
-                            mStatus.mIsRetweetedByMe = true;
-                            onGetStatus(mStatus);
-                            setIsRetweeted();
-                        } else {
+                        if (status == null || status.mOriginalRetweetId == 0) {
                             if(result.getErrorMessage()==null){
                                 success = false;
                             }else if (!result.getErrorMessage().equals("CancelPressed") && !result.getErrorMessage().equals("QutotePressed")) {
@@ -289,6 +285,9 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
                     if(!success)
                     {
                         showToast(getString(R.string.retweeted_un_successful));
+                        mStatus.mIsRetweetedByMe = false;
+                        onGetStatus(mStatus);
+                        setIsRetweeted();
                     }
                 }
 
@@ -301,7 +300,13 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
                 boolean isDarkTheme = AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Dark || AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Light_DarkAction;
                 mRetweetMenuItem.setIcon(isDarkTheme ? R.drawable.ic_action_rt_pressed_dark : R.drawable.ic_action_rt_pressed_light);
 
-                retweetSelected(mStatus, callback);
+                boolean shouldShowRT = retweetSelected(mStatus, callback);
+                if(shouldShowRT)
+                {
+                    mStatus.mIsRetweetedByMe = true;
+                    onGetStatus(mStatus);
+                    setIsRetweeted();
+                }
             }
 
             return true;
