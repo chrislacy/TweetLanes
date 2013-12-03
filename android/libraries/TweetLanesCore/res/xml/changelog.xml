@@ -8,6 +8,7 @@
         <change>Feature - DM added to a cache to cut down on data transfer</change>
         <change>Feature - Can delete one or multiple direct messages</change>
         <change>Feature - Added some xxhdpi images for newer high def devices (Nexus 5)</change>
+        <change>Feature - Made UI more optimistic so interactions are show to happen instantly &amp; then only report failures</change>
         <change>Fix - Corrected a few Crittercism reported force close errors</change>
         <change>Fix - Corrected issue whereby visible lanes would randomly reset</change>
         <change>Fix - Screen orientation will lock whilst posting to prevent issues with status not posting correctly</change>
