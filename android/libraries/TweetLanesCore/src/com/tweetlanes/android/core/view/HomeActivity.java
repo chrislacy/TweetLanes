@@ -281,6 +281,7 @@ public class HomeActivity extends BaseLaneActivity {
                     Constant.REFRESH_LISTS_WAIT_TIME);
         }
         app.clearImageCaches();
+        app.setCrittersismMetaData();
     }
 
     /*

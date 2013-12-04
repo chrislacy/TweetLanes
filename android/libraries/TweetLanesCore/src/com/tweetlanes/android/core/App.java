@@ -151,7 +151,7 @@ public class App extends Application {
                             newIndicies.put(Long.toString(id));
                         } else {
                             ArrayList<LaneDescriptor> lanes = account.getAllLaneDefinitions();
-                            for (LaneDescriptor lane : lanes){
+                            for (LaneDescriptor lane : lanes) {
                                 String lanekey = lane.getCacheKey(account.getScreenName() + account.getId());
                                 edit.remove(lanekey);
                             }
@@ -186,19 +186,6 @@ public class App extends Application {
         } else {
             AccountDescriptor account = mAccounts.get(mCurrentAccountIndex);
             if (account != null) {
-                // Add extra Crittersism meta data
-                try {
-                    JSONObject metadata = new JSONObject();
-                    metadata.put("UsernameFull", account.getAccountKey());
-                    metadata.put("screenName", account.getScreenName());
-                    metadata.put("Network", account.getSocialNetType().toString());
-                    metadata.put("userId", account.getId());
-                    Crittercism.setMetadata(metadata);
-                    Crittercism.setUsername(account.getAccountKey32Chars());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
                 if (account.getSocialNetType() == currentSocialNetType) {
                     TwitterManager.get().setOAuthTokenWithSecret(
                             account.getOAuthToken(), account.getOAuthSecret(),
@@ -353,7 +340,7 @@ public class App extends Application {
     }
 
     /*
-	 *
+     *
 	 */
     public void setTutorialCompleted() {
         final Editor edit = mPreferences.edit();
@@ -763,6 +750,29 @@ public class App extends Application {
 
         if (mPreviewImageLoader != null) {
             mPreviewImageLoader.clearCache();
+        }
+    }
+
+    public void setCrittersismMetaData() {
+        if (mAccounts.size() > 1) {
+            AccountDescriptor account = mAccounts.get(0);
+            if (account != null) {
+                // Add extra Crittersism meta data
+                try {
+                    JSONObject metadata = new JSONObject();
+                    metadata.put("FullAccountKey", account.getAccountKey());
+                    metadata.put("NumberOfAccounts", mAccounts.size());
+                    for(int i = 1; i < mAccounts.size(); i++)
+                    {
+                        AccountDescriptor otherAccount = mAccounts.get(i);
+                        metadata.put("OtherAccount_" + i, otherAccount.getAccountKey());
+                    }
+                    Crittercism.setMetadata(metadata);
+                    Crittercism.setUsername(account.getAccountKey30Chars());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }
