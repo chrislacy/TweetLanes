@@ -1846,22 +1846,41 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             } else if (position == statusCount) {
                 resultView = getLoadMoreView();
             } else {
-                resultView = getTweetFeedView(position);
+                resultView = getTweetFeedView(convertView, position);
             }
 
             return resultView;
         }
 
+        View inflateNewTweetFeedItem() {
+        	View view = mInflater.inflate(R.layout.tweet_feed_item_received, null);
+			ViewHolder holder = new ViewHolder(view);
+			view.setTag(R.id.tweetFeedItem, holder);
+			return view;
+        }
+        
         /*
          *
          */
-        View getTweetFeedView(int position) {
-
-            View convertView = mInflater.inflate(R.layout.tweet_feed_item_received, null);
+        View getTweetFeedView(View convertView, int position) {
+        	ViewHolder holder = null;
+        	// Sometimes the convertView comes with type of "LoadMoreView"
+    		// so we check if it contains a holder or not, if not then we inflate
+        	// a new TweetFeedItem cell to replace the LoadMoreView cell.
+        	if (convertView != null) {
+        		holder = (ViewHolder) convertView.getTag(R.id.tweetFeedItem);
+        		if (holder == null) {
+        			convertView = inflateNewTweetFeedItem();
+        			holder = (ViewHolder) convertView.getTag(R.id.tweetFeedItem);
+        		}
+        	} else {
+              convertView = inflateNewTweetFeedItem();
+              holder = (ViewHolder) convertView.getTag(R.id.tweetFeedItem);
+        	}
 
             TwitterStatus item = getStatusFeed().getStatus(position, getBaseLaneActivity().mStatusesFilter);
 
-            TweetFeedItemView tweetFeedItemView = (TweetFeedItemView) convertView.findViewById(R.id.tweetFeedItem);
+            TweetFeedItemView tweetFeedItemView = holder.tweetFeedItemView;
 
             TweetFeedItemView.Callbacks callbacks = new TweetFeedItemView.Callbacks() {
 
@@ -1968,6 +1987,15 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
             loadMoreView.configure(mode);
             return loadMoreView;
+        }
+        
+        private class ViewHolder {
+        	public TweetFeedItemView tweetFeedItemView;
+        	public ViewHolder(View convertView) {
+        		if (convertView != null) {
+        			tweetFeedItemView = (TweetFeedItemView) convertView.findViewById(R.id.tweetFeedItem);
+        		}
+        	}
         }
 
         private final LayoutInflater mInflater;

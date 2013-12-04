@@ -182,8 +182,10 @@ public class TweetFeedItemView extends LinearLayout {
                     text += " " + mContext.getString(R.string.via) + " " + mTwitterStatus.mSource;
                 }
                 tweetDetailsView.setText(text);
+                tweetDetailsView.setVisibility(VISIBLE);
             } else if (showRetweetCount && twitterStatus.mRetweetCount > 0) {
                 tweetDetailsView.setText(verb + " " + twitterStatus.mRetweetCount + " times.");
+                tweetDetailsView.setVisibility(VISIBLE);
             } else {
                 if (showTweetSource) {
                     tweetDetailsView.setText(mContext.getString(R.string.via) + " " + mTwitterStatus.mSource);
@@ -198,6 +200,7 @@ public class TweetFeedItemView extends LinearLayout {
         if (mConversationToggle != null) {
 
             if (twitterStatus.mInReplyToStatusId != null) {
+            	mConversationToggle.setVisibility(VISIBLE);
                 mConversationToggle.setOnClickListener(new OnClickListener() {
 
                     @Override
@@ -214,6 +217,10 @@ public class TweetFeedItemView extends LinearLayout {
                 }
             } else {
                 mConversationToggle.setVisibility(GONE);
+                if (mConversationView != null) {
+                	removeView(mConversationView);
+                	mConversationView = null;
+                }
             }
         }
 
