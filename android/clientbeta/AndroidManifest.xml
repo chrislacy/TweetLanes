@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.tweetlanes.android.beta"
     android:versionCode="52"
-    android:versionName="1.3.0_b3">
+    android:versionName="1.3.0_b2">
 
 
 
