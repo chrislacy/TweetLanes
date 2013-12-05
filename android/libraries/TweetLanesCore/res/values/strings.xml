@@ -294,6 +294,7 @@
         <item>Context Box</item>
         <item>Multiple Selection</item>
         <item>VolScroll™</item>
+        <item>Pebble</item>
         <item>Spam Controls</item>
         <item>Thanks!</item>
     </string-array>
@@ -321,6 +322,12 @@
     </string>
     <string name="tutorial_volscroll_footer">Give VolScroll a try - I think you\'ll like it!
     </string>
+
+    <string name="tutorial_pebble_volscroll_intro">You can even use VolScroll™ with your Pebble smartwatch.</string>
+    <string name="tutorial_pebble_volscroll_reasons">Simply install the app</string>
+    <string name="tutorial_pebble_volscroll_reason1">And enable it in the settings</string>
+    <string name="tutorial_pebble_volscroll_reason2">You can now have hands free scrolling!</string>
+    <string name="tutorial_volscroll_footer">Give VolScroll a try - I think you\'ll like it!</string>
 
     <string name="tutorial_images_intro">Status updates containing media from trusted sources are
         automatically previ ewed.\n\nSo instead of this:

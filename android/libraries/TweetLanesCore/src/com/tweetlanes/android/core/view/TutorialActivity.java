@@ -45,9 +45,10 @@ public class TutorialActivity extends FragmentActivity {
     private static final int PAGE_COMPOSE_TWEET = 1;
     private static final int PAGE_MULTIPLE_SELECTION = 2;
     private static final int PAGE_VOLSCROLL = 3;
-    private static final int PAGE_SPAM_CONTROL = 4;
-    private static final int PAGE_THANKS = 5;
-    private static final int PAGE_MAX = 6;
+    private static final int PAGE_PEBBLE = 4;
+    private static final int PAGE_SPAM_CONTROL = 5;
+    private static final int PAGE_THANKS = 6;
+    private static final int PAGE_MAX = 7;
 
     /*
      *
@@ -58,7 +59,7 @@ public class TutorialActivity extends FragmentActivity {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see android.support.v4.app.FragmentActivity#onCreate(android.os.Bundle)
      */
     @Override
@@ -139,7 +140,7 @@ public class TutorialActivity extends FragmentActivity {
     }
 
     /*
-	 * 
+	 *
 	 */
     private final OnPageChangeListener mOnPageChangeListener = new OnPageChangeListener() {
 
@@ -172,7 +173,7 @@ public class TutorialActivity extends FragmentActivity {
     };
 
     /*
-	 * 
+	 *
 	 */
     public void onFinishTutorialClicked(View view) {
         // We don't want to come back here, so remove from the activity stack
@@ -188,14 +189,14 @@ public class TutorialActivity extends FragmentActivity {
     }
 
     /*
-	 * 
+	 *
 	 */
     public void onFollowCheckboxClicked(View view) {
         mDoFollow = ((CheckBox) (view)).isChecked();
     }
 
     /*
-     * 
+     *
      */
     class TutorialLaneAdapter extends FragmentPagerAdapter {
 
@@ -219,6 +220,10 @@ public class TutorialActivity extends FragmentActivity {
                 case PAGE_VOLSCROLL:
                     return InflatedLayoutFragment
                             .newInstance(R.layout.tutorial_volscroll);
+
+                case PAGE_PEBBLE:
+                    return InflatedLayoutFragment
+                            .newInstance(R.layout.tutorial_pebble);
 
                 case PAGE_COMPOSE_TWEET:
                     return InflatedLayoutFragment
