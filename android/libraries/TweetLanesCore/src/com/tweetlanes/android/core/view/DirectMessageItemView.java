@@ -51,6 +51,7 @@ public class DirectMessageItemView extends LinearLayout {
     private View mMessageBlock;
     private QuickContactDivot mAvatar;
     private boolean mFullConversation;
+    private ViewHolder mHolder;
     private final Path mPath = new Path();
     private final Paint mPaint = new Paint();
 
@@ -106,6 +107,11 @@ public class DirectMessageItemView extends LinearLayout {
                           MessageType messageType, boolean fullConversation,
                           DirectMessageItemViewCallbacks callbacks) {
 
+    	mHolder = (ViewHolder) getTag();
+    	if (mHolder == null) {
+    		mHolder = new ViewHolder(this);
+    		setTag(mHolder);
+    	}
         StatusSize statusSize = AppSettings.get().getCurrentStatusSize();
 
         mDirectMessage = directMessage;
@@ -114,7 +120,7 @@ public class DirectMessageItemView extends LinearLayout {
         mPosition = position;
         mCallbacks = callbacks;
 
-        ImageView replyIcon = (ImageView) findViewById(R.id.replyIcon);
+        ImageView replyIcon = mHolder.replyIcon;
         if (replyIcon != null) {
             if (fullConversation) {
                 replyIcon.setVisibility(GONE);
@@ -128,7 +134,7 @@ public class DirectMessageItemView extends LinearLayout {
         }
 
         AppSettings.DisplayNameFormat nameFormat = AppSettings.get().getCurrentDisplayNameFormat();
-        TextView authorScreenNameTextView = (TextView) findViewById(R.id.authorScreenName);
+        TextView authorScreenNameTextView = mHolder.authorScreenNameTextView;
         if (authorScreenNameTextView != null) {
             if (nameFormat == AppSettings.DisplayNameFormat.Both) {
                 authorScreenNameTextView.setText("@"
@@ -150,7 +156,7 @@ public class DirectMessageItemView extends LinearLayout {
             }
         }
 
-        TextView authorNameTextView = (TextView) findViewById(R.id.authorName);;
+        TextView authorNameTextView = mHolder.authorNameTextView;
         if (authorNameTextView != null) {
             if (nameFormat == AppSettings.DisplayNameFormat.Handle)
             {
@@ -165,7 +171,7 @@ public class DirectMessageItemView extends LinearLayout {
             }
         }
 
-        TextView statusTextView = (TextView) findViewById(R.id.status);
+        TextView statusTextView = mHolder.statusTextView;
         String text = directMessage.getText();
         if (text != null) {
             if (mFullConversation) {
@@ -211,12 +217,12 @@ public class DirectMessageItemView extends LinearLayout {
 
         }
 
-        TextView prettyDateTextView = (TextView) findViewById(R.id.pretty_date);
+        TextView prettyDateTextView = mHolder.prettyDateTextView;
         if (prettyDateTextView != null) {
             prettyDateTextView.setText(Util.getDisplayDate(directMessage.getCreatedAt()));
         }
 
-        mAvatar = (QuickContactDivot) findViewById(R.id.avatar);
+        mAvatar = mHolder.avatar;
         mAvatar.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -258,7 +264,7 @@ public class DirectMessageItemView extends LinearLayout {
             }
         }
 
-        mMessageBlock = findViewById(R.id.message_block);
+        mMessageBlock = mHolder.messageBlock;
 
         setOnTouchListener(mOnTouchListener);
         if (statusTextView != null) {
@@ -379,5 +385,23 @@ public class DirectMessageItemView extends LinearLayout {
         } else {
             super.dispatchDraw(c);
         }
+    }
+    private static class ViewHolder {
+    	public ImageView replyIcon;
+    	public TextView authorScreenNameTextView;
+    	public TextView authorNameTextView;
+    	public TextView statusTextView;
+    	public TextView prettyDateTextView;
+    	public QuickContactDivot avatar;
+    	public View messageBlock;
+    	public ViewHolder(View v) {
+    		replyIcon = (ImageView) v.findViewById(R.id.replyIcon);
+    		authorScreenNameTextView = (TextView) v.findViewById(R.id.authorScreenName);
+    		authorNameTextView = (TextView) v.findViewById(R.id.authorName);
+    		statusTextView = (TextView) v.findViewById(R.id.status);
+    		prettyDateTextView = (TextView) v.findViewById(R.id.pretty_date);
+    		avatar = (QuickContactDivot) v.findViewById(R.id.avatar);
+    		messageBlock = v.findViewById(R.id.message_block);
+    	}
     }
 }
