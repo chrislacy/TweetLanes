@@ -524,6 +524,14 @@
         from
     </string>
 
+    <string name="settings_pebble_toggle">Pebble VolScroll</string>
+    <string name="settings_pebble_toggle_summary">Scroll up and down using the buttons on your pebble. Only works if app is installed
+    </string>
+
+    <string name="settings_pebble_dlApp">TweetLanes Pebble app</string>
+    <string name="settings_pebble_dlApp_summary">Install the latest pebble app for TweetLanes.
+    </string>
+
     <string name="settings_image_loading">Image loading</string>
     <string name="settings_image_preview">Image preview</string>
 

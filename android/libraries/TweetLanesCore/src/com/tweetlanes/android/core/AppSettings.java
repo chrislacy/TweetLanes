@@ -25,6 +25,7 @@ public class AppSettings {
     public static final boolean DEFAULT_VOLSCROLL = true;
     public static final boolean DEFAULT_SHOW_TABLET_MARGIN = true;
     public static final boolean DEFAULT_SHOW_TWEET_SOURCE = false;
+    public static final boolean DEFAULT_PEBBLE = true;
 
     private static final String DISAPLY_TIME_RELATIVE = "Relative";
     private static final String DISAPLY_TIME_ABSOLUTE = "Absolute";
@@ -217,6 +218,11 @@ public class AppSettings {
     public boolean isVolScrollEnabled() {
         return mSharedPreferences.getBoolean(
                 SettingsActivity.KEY_VOLSCROLL_PREFERENCE, DEFAULT_VOLSCROLL);
+    }
+
+    public boolean isPebbleEnabled() {
+        return mSharedPreferences.getBoolean(
+                SettingsActivity.KEY_PEBBLE_PREFERENCE, DEFAULT_PEBBLE);
     }
 
     public boolean isShowNotificationsEnabled() {
