@@ -17,8 +17,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.ConnectivityManager;
@@ -46,7 +44,6 @@ import org.tweetalib.android.model.TwitterLists;
 import org.tweetalib.android.model.TwitterUser;
 
 import java.util.ArrayList;
-import java.util.List;
 
 // https://docs.google.com/spreadsheet/ccc?key=0Akm3k9q4H2IPdFBibVdkWVlKQ25rX01vV1dub1hjOXc
 // @ReportsCrashes(formKey = "dFBibVdkWVlKQ25rX01vV1dub1hjOXc6MQ")
@@ -54,7 +51,7 @@ public class App extends Application {
 
     private static String mAppVersionName;
     private static boolean mActionLauncherInstalled;
-
+    public static PebbleNotifier pebbleNotifications;
     public static String getAppVersionName() {
         return mAppVersionName;
     }
@@ -427,27 +424,7 @@ public class App extends Application {
                 "org.apache.commons.logging.simplelog.log.org.apache.http.headers",
                 "debug");
 
-        try {
-            PackageManager packageManager = getPackageManager();
-            PackageInfo packageInfo = packageManager.getPackageInfo(
-                    getPackageName(), 0);
-            mAppVersionName = packageInfo.versionName;
-
-            List<ApplicationInfo> apps = packageManager
-                    .getInstalledApplications(PackageManager.GET_META_DATA);
-
-            for (ApplicationInfo app : apps) {
-                if (app.packageName != null
-                        && app.packageName
-                        .equalsIgnoreCase("com.chrislacy.actionlauncher.pro")) {
-                    mActionLauncherInstalled = true;
-                    break;
-                }
-            }
-
-        } catch (NameNotFoundException e) {
-            e.printStackTrace();
-        }
+        mActionLauncherInstalled = isPackageInstalled("com.chrislacy.actionlauncher.pro", this);
 
         mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mPreferences.edit().putInt(SharedPreferencesConstants.VERSION,
@@ -484,6 +461,8 @@ public class App extends Application {
         setLaneDefinitions(socialNetType);
 
         AppSettings.initModule(this);
+
+        pebbleNotifications = new PebbleNotifier(this);
     }
 
     private void setLaneDefinitions(SocialNetConstant.Type socialNetType) {
@@ -684,6 +663,16 @@ public class App extends Application {
 
         if (mPreviewImageLoader != null) {
             mPreviewImageLoader.clearCache();
+        }
+    }
+
+    private boolean isPackageInstalled(String packagename, Context context) {
+        PackageManager pm = context.getPackageManager();
+        try {
+            pm.getPackageInfo(packagename, PackageManager.GET_ACTIVITIES);
+            return true;
+        } catch (NameNotFoundException e) {
+            return false;
         }
     }
 }

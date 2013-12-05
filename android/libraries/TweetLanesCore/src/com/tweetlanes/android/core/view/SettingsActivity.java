@@ -62,6 +62,9 @@ public class SettingsActivity extends PreferenceActivity implements
     public static final String KEY_STATUS_SIZE_PREFERENCE = "statussize_preference";
     public static final String KEY_PROFILE_IMAGE_SIZE_PREFERENCE = "profileimagesize_preference";
     public static final String KEY_VOLSCROLL_PREFERENCE = "volscroll_preference";
+    public static final String KEY_PEBBLE_NOTIFICATIONS_PREFERENCE = "pebble_preference";
+    public static final String KEY_PEBBLE_VOLSCROLL_PREFERENCE = "pebble_preference";
+    public static final String KEY_PEBBLE_DL_PREFERENCE = "preference_pebbleDL";
     public static final String KEY_DOWNLOADIMAGES_PREFERENCE = "downloadimages_preference";
     public static final String KEY_SHOW_TWEET_SOURCE_PREFERENCE = "showtweetsource_preference";
     public static final String KEY_QUOTE_TYPE_PREFERENCE = "quotetype_preference";
@@ -83,6 +86,9 @@ public class SettingsActivity extends PreferenceActivity implements
     private CheckBoxPreference mShowTweetSourcePreference;
     private ListPreference mQuoteTypePreference;
     private CheckBoxPreference mVolScrollPreference;
+    private CheckBoxPreference mPebblePreference;
+    private CheckBoxPreference mPebbleVolscrollPreference;
+    private Preference mPebbleDLPreference;
     private Preference mCreditsPreference;
     private Preference mSourceCodePreference;
     private Preference mDonatePreference;
@@ -143,6 +149,8 @@ public class SettingsActivity extends PreferenceActivity implements
                 .findPreference(KEY_PROFILE_IMAGE_SIZE_PREFERENCE);
         mDownloadImagesPreference = (CheckBoxPreference) getPreferenceScreen()
                 .findPreference(KEY_DOWNLOADIMAGES_PREFERENCE);
+        mPebbleDLPreference = (Preference) getPreferenceScreen()
+                .findPreference(KEY_PEBBLE_DL_PREFERENCE);
         Preference customizeLanesPreference = getPreferenceScreen()
                 .findPreference(KEY_CUSTOMIZE_LANES_PREFERENCE);
         customizeLanesPreference
@@ -185,6 +193,15 @@ public class SettingsActivity extends PreferenceActivity implements
 
         mVolScrollPreference = (CheckBoxPreference) getPreferenceScreen()
                 .findPreference(KEY_VOLSCROLL_PREFERENCE);
+
+        mPebblePreference = (CheckBoxPreference) getPreferenceScreen()
+                .findPreference(KEY_PEBBLE_NOTIFICATIONS_PREFERENCE);
+
+        mPebbleVolscrollPreference = (CheckBoxPreference) getPreferenceScreen()
+                .findPreference(KEY_PEBBLE_VOLSCROLL_PREFERENCE);
+
+        mSourceCodePreference = getPreferenceScreen().findPreference(
+                KEY_SOURCE_CODE_PREFERENCE);
 
         mQuoteTypePreference = (ListPreference) getPreferenceScreen()
                 .findPreference(KEY_QUOTE_TYPE_PREFERENCE);
@@ -255,6 +272,27 @@ public class SettingsActivity extends PreferenceActivity implements
         boolean volScroll = sharedPreferences.getBoolean(
                 KEY_VOLSCROLL_PREFERENCE, AppSettings.DEFAULT_VOLSCROLL);
         mVolScrollPreference.setChecked(volScroll);
+
+        boolean pebbleNotification = sharedPreferences.getBoolean(
+                KEY_PEBBLE_NOTIFICATIONS_PREFERENCE, AppSettings.PEBBLE_NOTIFICATIONS);
+        mPebblePreference.setChecked(pebbleNotification);
+
+        boolean pebbleVolscroll = sharedPreferences.getBoolean(
+                KEY_PEBBLE_VOLSCROLL_PREFERENCE, AppSettings.PEBBLE_VOLSCROLL);
+        mPebbleVolscrollPreference.setChecked(pebbleVolscroll);
+
+        mPebbleVolscrollPreference.setEnabled(false);
+        mPebbleDLPreference.setEnabled(false);
+        mPebbleDLPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("http://www.pebble.com"));
+                startActivity(browserIntent);
+                return true;
+            }
+        });
 
         if (mQuoteTypePreference.getEntry() == null) {
             mQuoteTypePreference.setValueIndex(0);

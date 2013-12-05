@@ -1,0 +1,81 @@
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/profile_scroll_view"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_weight="1"
+    android:fadingEdge="none"
+    android:layout_height="match_parent"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/tutorial_horizontal_padding"
+        android:paddingRight="@dimen/tutorial_horizontal_padding"
+        android:paddingTop="@dimen/tutorial_vertical_padding"
+        android:paddingBottom="@dimen/tutorial_vertical_padding"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:paddingBottom="6dp"
+            android:text="@string/tutorial_pebble_volscroll_intro"
+            android:textSize="@dimen/tutorial_text_size" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="265dp"
+            android:layout_height="159dp"
+            android:adjustViewBounds="true"
+            android:background="@drawable/attachment_selector"
+            android:src="@drawable/pebble_lightflow1" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:text="@string/tutorial_pebble_volscroll_reasons"
+            android:textSize="@dimen/tutorial_text_size" />
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:background="@drawable/attachment_selector"
+            android:src="@drawable/pebble_install_app" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="6dp"
+            android:paddingTop="@dimen/tutorial_line_break_height"
+            android:text="@string/tutorial_pebble_volscroll_reason1"
+            android:textSize="@dimen/tutorial_text_size" />
+
+        <ImageView
+            android:id="@+id/ImageView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:background="@drawable/attachment_selector"
+            android:src="@drawable/pebble_activate_volscroll" />
+
+        <TextView
+            android:id="@+id/TextView4"
+            android:layout_width="284dp"
+            android:layout_height="wrap_content"
+            android:paddingBottom="6dp"
+            android:paddingTop="@dimen/tutorial_line_break_height"
+            android:text="@string/tutorial_pebble_volscroll_reason2"
+            android:textSize="@dimen/tutorial_text_size" />
+
+    </LinearLayout>
+
+</ScrollView>
