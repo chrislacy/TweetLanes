@@ -104,6 +104,10 @@
             android:key="pebble_preference"
             android:title="@string/settings_pebble_toggle"
             android:summary="@string/settings_pebble_toggle_summary"/>
+        <CheckBoxPreference
+            android:key="pebble_volscroll_preference"
+            android:title="@string/settings_pebble_volscroll_toggle"
+            android:summary="@string/settings_pebble_volscroll_summary"/>
         <Preference
             android:key="preference_pebbleDL"
             android:title="@string/settings_pebble_dlApp"

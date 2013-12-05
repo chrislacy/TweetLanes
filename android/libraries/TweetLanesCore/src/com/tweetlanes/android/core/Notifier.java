@@ -31,6 +31,14 @@ public class Notifier {
                 .setContentText(text)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(bigText));
 
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        boolean isActive = AppSettings.get().isPebbleNotificationsEnabled();
+        if(isActive == true){
+            App.pebbleNotifications.notify(title,text);
+            //  App.pebbleNotifications.notify(title, text);
+        }
+
         if (AppSettings.get().isNotificationVibrationEnabled()) {
             long[] pattern = {200, 500, 200};
             builder.setVibrate(pattern);

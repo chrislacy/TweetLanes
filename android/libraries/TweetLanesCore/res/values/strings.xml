@@ -523,9 +523,12 @@
         update originated
         from
     </string>
+    <string name="settings_pebble_toggle">Pebble Notifications</string>
+    <string name="settings_pebble_toggle_summary">Get a notification every time you are mentioned.
+    </string>
 
-    <string name="settings_pebble_toggle">Pebble VolScroll</string>
-    <string name="settings_pebble_toggle_summary">Scroll up and down using the buttons on your pebble. Only works if app is installed
+    <string name="settings_pebble_volscroll_toggle">Pebble VolScroll</string>
+    <string name="settings_pebble_volscroll_summary">Scroll up and down using the buttons on your pebble. Only works if app is installed
     </string>
 
     <string name="settings_pebble_dlApp">TweetLanes Pebble app</string>
