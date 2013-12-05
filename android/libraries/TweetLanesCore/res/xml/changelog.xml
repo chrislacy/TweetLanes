@@ -12,6 +12,7 @@
         <change>Feature - Can delete one or multiple direct messages</change>
         <change>Feature - Added some xxhdpi images for newer high def devices (Nexus 5)</change>
         <change>Feature - Made UI more optimistic so interactions are show to happen instantly &amp; then only report failures</change>
+        <change>Feature - Added Options for showing display names and handles</change>
         <change>Fix - Corrected a few Crittercism reported force close errors</change>
         <change>Fix - Corrected issue whereby visible lanes would randomly reset</change>
         <change>Fix - Screen orientation will lock whilst posting to prevent issues with status not posting correctly</change>
@@ -21,6 +22,9 @@
         <change>Fix - DM last message correctly passed back to the summary page (without need to refresh)</change>
         <change>Fix - Make it clear that the summary DM is actually your reply</change>
         <change>Fix - Improved performance when scrolling</change>
+        <change>Fix - Improved performance for status display</change>
+        <change>Fix - Split Names/Handles on multiple lines to support longer text</change>
+        <change>Fix - Updated DM to show the same format names as standard statuses</change>
         <change>Other - Updated version of crittersim for better app tracking</change>
     </release>
 	<release version="1.2.1" versioncode="51">

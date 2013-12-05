@@ -53,31 +53,6 @@
                         >
 
                     <TextView
-                            android:id="@+id/authorScreenName"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingLeft="@dimen/message_item_text_padding_left_right"
-                            android:paddingRight="3dip"
-                            android:paddingTop="@dimen/message_item_text_padding_top"
-                            android:text="\@rioferdy5"
-                            android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:textSize="16sp"
-                            android:textStyle="bold"
-                            android:layout_alignParentTop="true"
-                            android:layout_alignParentLeft="true"/>
-
-                    <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/replyIcon"
-                            android:src="@drawable/ic_action_reply"
-                            android:paddingTop="@dimen/message_item_text_padding_top"
-                            android:layout_alignParentTop="true"
-                            android:layout_toRightOf="@+id/authorScreenName"
-                            android:layout_alignBottom="@+id/authorScreenName"
-                            android:layout_marginLeft="-10dp"/>
-
-                    <TextView
                             android:id="@+id/pretty_date"
                             android:paddingTop="@dimen/message_item_text_padding_top"
                             android:paddingRight="@dimen/message_item_text_padding_left_right"
@@ -91,6 +66,54 @@
                             android:text="2m"
                             android:textSize="12sp"
                             />
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".92"
+                            android:orientation="vertical"
+                            android:id="@+id/authorNames"
+                            android:layout_alignParentLeft="true">
+
+                        <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="fill_parent">
+
+                            <TextView
+                                    android:id="@+id/authorName"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingLeft="@dimen/message_item_text_padding_left_right"
+                                    android:paddingTop="@dimen/message_item_text_padding_top"
+                                    android:text="Rio Ferdinand"
+                                    android:textAppearance="?android:attr/textAppearanceSmall"
+                                    android:textSize="15sp"
+                                    android:textStyle="bold"/>
+
+                            <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:id="@+id/replyIcon"
+                                    android:src="@drawable/ic_action_reply"
+                                    android:layout_alignWithParentIfMissing="false"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_centerHorizontal="true"
+                                    android:layout_alignBottom="@+id/pretty_date"
+                                    android:layout_alignParentLeft="false"
+                                    />
+                        </LinearLayout>
+
+                        <TextView
+                                android:id="@+id/authorScreenName"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingLeft="@dimen/message_item_text_padding_left_right"
+                                android:text="\@rioferdy5"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:textColor="@color/text_hairline"
+                                android:textSize="12sp"/>
+                    </LinearLayout>
 
                 </RelativeLayout>
 

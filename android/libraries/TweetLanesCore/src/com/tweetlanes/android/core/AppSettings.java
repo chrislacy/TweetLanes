@@ -32,6 +32,11 @@ public class AppSettings {
     private static final String DISAPLY_TIME_MIXED = "Mixed";
     private static final String DISAPLY_TIME_DEFAULT = DISAPLY_TIME_RELATIVE;
 
+    private static final String DISAPLY_NAME_BOTH = "Both";
+    private static final String DISAPLY_NAME_NAME = "Name";
+    private static final String DISAPLY_NAME_HANDLE = "Handle";
+    private static final String DISAPLY_NAME_DEFAULT = DISAPLY_NAME_BOTH;
+
     private static final String STATUS_SIZE_EXTRA_SMALL = "Extra Small";
     private static final String STATUS_SIZE_SMALL = "Small";
     private static final String STATUS_SIZE_MEDIUM = "Medium";
@@ -100,6 +105,10 @@ public class AppSettings {
         Relative, Absolute, Mixed,
     }
 
+    public enum DisplayNameFormat {
+        Both, Name, Handle,
+    }
+
     /*
 	 *
 	 */
@@ -113,6 +122,7 @@ public class AppSettings {
     private ProfileImageSize mProfileImageSize;
     private QuoteType mQuoteType;
     private DisplayTimeFormat mDisplayTimeFormat;
+    private DisplayNameFormat mDisplayNameFormat;
 
     /*
 	 *
@@ -141,6 +151,7 @@ public class AppSettings {
         StatusSize oldStatusSize = mStatusSize;
         ProfileImageSize oldProfileImageSize = mProfileImageSize;
         DisplayTimeFormat oldDisplayTimeFormat = mDisplayTimeFormat;
+        DisplayNameFormat oldDisplayNameFormat = mDisplayNameFormat;
 
         mSharedPreferences = PreferenceManager
                 .getDefaultSharedPreferences(mContext);
@@ -171,13 +182,21 @@ public class AppSettings {
                 PROFILE_IMAGE_SIZE_DEFAULT);
         setCurrentProfileImageSize(profileImageSize);
 
+        String displayNameFormat = mSharedPreferences.getString(
+                SettingsActivity.KEY_DISPLAY_NAME_PREFERENCE,
+                DISAPLY_NAME_DEFAULT);
+        setDisplayNameFormat(displayNameFormat);
+
         String quoteType = mSharedPreferences.getString(
                 SettingsActivity.KEY_QUOTE_TYPE_PREFERENCE, QUOTE_TYPE_DEFAULT);
         setCurrentQuoteType(quoteType);
 
         if (mRefreshCount > 0) {
-            if (oldTheme != mCurrentTheme || oldStatusSize != mStatusSize
-                    || oldProfileImageSize != mProfileImageSize || oldDisplayTimeFormat != mDisplayTimeFormat) {
+            if (    oldTheme != mCurrentTheme ||
+                    oldStatusSize != mStatusSize ||
+                    oldProfileImageSize != mProfileImageSize ||
+                    oldDisplayTimeFormat != mDisplayTimeFormat ||
+                    oldDisplayNameFormat != mDisplayNameFormat) {
                 mIsDirty = true;
             } else if (preferenceKey != null) {
                 if (preferenceKey
@@ -335,6 +354,18 @@ public class AppSettings {
         }
     }
 
+    void setDisplayNameFormat(String displayNameFormat) {
+        if(displayNameFormat!= null){
+            if(displayNameFormat.equals(DISAPLY_NAME_BOTH)){
+                mDisplayNameFormat = DisplayNameFormat.Both;
+            } else if(displayNameFormat.equals(DISAPLY_NAME_NAME)){
+                mDisplayNameFormat = DisplayNameFormat.Name;
+            } else if(displayNameFormat.equals(DISAPLY_NAME_HANDLE)){
+                mDisplayNameFormat = DisplayNameFormat.Handle;
+            }
+        }
+    }
+
     /*
 	 *
 	 */
@@ -370,6 +401,10 @@ public class AppSettings {
 
     public DisplayTimeFormat getCurrentDisplayTimeFormat() {
         return mDisplayTimeFormat;
+    }
+
+    public DisplayNameFormat getCurrentDisplayNameFormat() {
+        return mDisplayNameFormat;
     }
 
     /*

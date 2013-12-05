@@ -24,6 +24,18 @@
         <item>Большой</item>
     </string-array>
 
+    <string-array name="displayname_list_preference">
+        <item>Имя и ручки</item>
+        <item>Имя только</item>
+        <item>Ручка только</item>
+    </string-array>
+
+    <string-array name="displayname_values_list_preference">
+        <item>Both</item>
+        <item>Name</item>
+        <item>Handle</item>
+    </string-array>
+
     <string-array name="theme_list_preference">
         <item>Holo Light</item>
         <item>Holo Light w/ Dark Bar</item>

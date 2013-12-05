@@ -56,6 +56,7 @@ public class TwitterDirectMessage implements Comparable<TwitterDirectMessage> {
         mOtherUserId = otherUser.getId();
         mRecipientUserId = message.getRecipientId();
         mOtherUserScreenName = otherUser.getScreenName();
+        mOtherUserName = otherUser.getName();
         mOtherUserProfileImageOriginalUrl = otherUser.getOriginalProfileImageURL();
         mOtherUserProfileImageMiniUrl = otherUser.getMiniProfileImageURL();
         mOtherUserProfileImageNormalUrl = otherUser.getProfileImageURL();
@@ -105,8 +106,12 @@ public class TwitterDirectMessage implements Comparable<TwitterDirectMessage> {
 
             mMessageType = mRecipientUserId == mOtherUserId ? MessageType.SENT : MessageType.RECEIVED;
 
+            if (object.has(KEY_OTHER_USER_SCREEN_NAME)) {
+                mOtherUserScreenName = object.getString(KEY_OTHER_USER_SCREEN_NAME);
+            }
+
             if (object.has(KEY_OTHER_USER_NAME)) {
-                mOtherUserScreenName = object.getString(KEY_OTHER_USER_NAME);
+                mOtherUserName = object.getString(KEY_OTHER_USER_NAME);
             }
 
             if (object.has(KEY_PROFILE_IMAGE_OTHER_USER_ORIGINAL_URL)) {
@@ -180,7 +185,8 @@ public class TwitterDirectMessage implements Comparable<TwitterDirectMessage> {
             object.put(KEY_CREATED_AT, mCreatedAt.getTime());
             object.put(KEY_RECIPIENT_USER_ID, mRecipientUserId);
             object.put(KEY_OTHER_USER_ID, mOtherUserId);
-            object.put(KEY_OTHER_USER_NAME, mOtherUserScreenName);
+            object.put(KEY_OTHER_USER_SCREEN_NAME, mOtherUserScreenName);
+            object.put(KEY_OTHER_USER_NAME, mOtherUserName);
 
             if (mOtherUserProfileImageOriginalUrl != null) {
                 String url = mOtherUserProfileImageOriginalUrl;
@@ -229,7 +235,8 @@ public class TwitterDirectMessage implements Comparable<TwitterDirectMessage> {
     private final String KEY_CREATED_AT = "mCreatedAt";
     private final String KEY_OTHER_USER_ID = "mOtherUserId";
     private final String KEY_RECIPIENT_USER_ID = "mRecipientUserId";
-    private final String KEY_OTHER_USER_NAME = "mOtherUserScreenName";
+    private final String KEY_OTHER_USER_SCREEN_NAME = "mOtherUserScreenName";
+    private final String KEY_OTHER_USER_NAME = "mOtherUserName";
     private final String KEY_PROFILE_IMAGE_OTHER_USER_ORIGINAL_URL = "mOtherUserProfileImageOriginalUrl";
     private final String KEY_PROFILE_IMAGE_OTHER_USER_MINI_URL = "mOtherUserProfileImageMiniUrl";
     private final String KEY_PROFILE_IMAGE_OTHER_USER_NORMAL_URL = "mOtherUserProfileImageNormalUrl";
@@ -265,6 +272,10 @@ public class TwitterDirectMessage implements Comparable<TwitterDirectMessage> {
 
     public String getOtherUserScreenName() {
         return mOtherUserScreenName;
+    }
+
+    public String getOtherUserName(){
+        return mOtherUserName;
     }
 
     public String getOtherUserProfileImageUrl(TwitterManager.ProfileImageSize size) {
@@ -308,6 +319,7 @@ public class TwitterDirectMessage implements Comparable<TwitterDirectMessage> {
     private long mRecipientUserId;
     private long mOtherUserId;
     private String mOtherUserScreenName;
+    private String mOtherUserName;
     private String mOtherUserProfileImageOriginalUrl;
     private String mOtherUserProfileImageMiniUrl;
     private String mOtherUserProfileImageNormalUrl;

@@ -30,6 +30,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -68,6 +69,7 @@ public class TweetFeedItemView extends LinearLayout {
     private View mMessageBlock;
     private QuickContactDivot mAvatar;
     private boolean mIsConversationItem;
+    private ViewHolder mHolder;
     private final Path mPath = new Path();
     private final Paint mPaint = new Paint();
 
@@ -130,6 +132,11 @@ public class TweetFeedItemView extends LinearLayout {
                           boolean showRetweetCount, boolean showConversationView, boolean isConversationItem, boolean resize,
                           final SocialNetConstant.Type socialNetType, final String currentAccountKey) {
 
+    	mHolder = (ViewHolder) getTag();
+    	if (mHolder == null) {
+    		mHolder = new ViewHolder(this);
+    		setTag(mHolder);
+    	}
         StatusSize statusSize = AppSettings.get().getCurrentStatusSize();
 
         mTwitterStatus = twitterStatus;
@@ -137,29 +144,43 @@ public class TweetFeedItemView extends LinearLayout {
         mPosition = position;
         mCallbacks = callbacks;
 
-        TextView authorScreenNameTextView = (TextView) findViewById(R.id.authorScreenName);
+        AppSettings.DisplayNameFormat nameFormat = AppSettings.get().getCurrentDisplayNameFormat();
+        TextView authorScreenNameTextView = mHolder.authorScreenNameTextView;
         if (authorScreenNameTextView != null) {
-            authorScreenNameTextView.setText("@"
-                    + twitterStatus.getAuthorScreenName());
+            if (nameFormat == AppSettings.DisplayNameFormat.Both)
+            {
+                authorScreenNameTextView.setText("@" + twitterStatus.getAuthorScreenName());
 
-            if (resize) {
-                Integer textSize = null;
-                if (statusSize == StatusSize.Small) {
-                    textSize = 14;
-                }
+                if (resize) {
+                    Integer textSize = null;
+                    if (statusSize == StatusSize.Small) {
+                        textSize = 14;
+                    }
 
-                if (textSize != null) {
-                    authorScreenNameTextView.setTextSize(
-                            TypedValue.COMPLEX_UNIT_SP, textSize);
+                    if (textSize != null) {
+                        authorScreenNameTextView.setTextSize(
+                                TypedValue.COMPLEX_UNIT_SP, textSize);
+                    }
                 }
             }
+            else
+            {
+                authorScreenNameTextView.setVisibility(GONE);
+            }
         }
-        TextView authorNameTextView = (TextView) findViewById(R.id.authorName);
+        TextView authorNameTextView = mHolder.authorNameTextView;
         if (authorNameTextView != null) {
-            authorNameTextView.setText(twitterStatus.getAuthorName());
+            if (nameFormat == AppSettings.DisplayNameFormat.Handle)
+            {
+                authorNameTextView.setText("@" + twitterStatus.getAuthorScreenName());
+            }
+            else
+            {
+                authorNameTextView.setText(twitterStatus.getAuthorName());
+            }
         }
 
-        TextView tweetDetailsView = (TextView) findViewById(R.id.tweet_details);
+        TextView tweetDetailsView = mHolder.tweetDetailsView;
         if (tweetDetailsView != null) {
 
             boolean showTweetSource = AppSettings.get().showTweetSource();
@@ -196,7 +217,7 @@ public class TweetFeedItemView extends LinearLayout {
         }
 
         mConversationExpanded = showConversationView;
-        mConversationToggle = (ImageView) findViewById(R.id.conversationToggle);
+        mConversationToggle = mHolder.conversationToggle;
         if (mConversationToggle != null) {
 
             if (twitterStatus.mInReplyToStatusId != null) {
@@ -224,7 +245,7 @@ public class TweetFeedItemView extends LinearLayout {
             }
         }
 
-        mStatusTextView = (TextView) findViewById(R.id.status);
+        mStatusTextView = mHolder.statusTextView;
 
         Integer textSize = null;
         switch (statusSize) {
@@ -269,18 +290,18 @@ public class TweetFeedItemView extends LinearLayout {
             mStatusTextView.setMovementMethod(LinkMovementMethod.getInstance());
         }
 
-        TextView prettyDateTextView = (TextView) findViewById(R.id.pretty_date);
+        TextView prettyDateTextView = mHolder.prettyDateTextView;
         if (prettyDateTextView != null) {
             prettyDateTextView.setText(Util.getDisplayDate(mTwitterStatus.mCreatedAt));
         }
 
-        TextView fullDateTextView = (TextView) findViewById(R.id.full_date);
+        TextView fullDateTextView = mHolder.fullDateTextView;
         if (fullDateTextView != null) {
             fullDateTextView.setText(Util
                     .getFullDate(mTwitterStatus.mCreatedAt));
         }
 
-        ImageView statusIndicatorImageView = (ImageView) findViewById(R.id.status_indicator);
+        ImageView statusIndicatorImageView = mHolder.statusIndicatorImageView;
         if (statusIndicatorImageView != null) {
             if (mTwitterStatus.mIsFavorited && mTwitterStatus.mIsRetweetedByMe) {
                 statusIndicatorImageView.setImageDrawable(getResources()
@@ -310,7 +331,7 @@ public class TweetFeedItemView extends LinearLayout {
          * }
          */
 
-        mAvatar = (QuickContactDivot) findViewById(R.id.avatar);
+        mAvatar = mHolder.avatar;
         if (mAvatar != null) {
 
             if (resize) {
@@ -348,6 +369,8 @@ public class TweetFeedItemView extends LinearLayout {
 
                         profileImageLoader.displayImage(profileImageUrl, mAvatar);
                     }
+                } else {
+                	mAvatar.setImageResource(R.drawable.ic_contact_picture);
                 }
 
                 mAvatar.setOnClickListener(new OnClickListener() {
@@ -361,7 +384,7 @@ public class TweetFeedItemView extends LinearLayout {
 
         }
 
-        mMessageBlock = findViewById(R.id.message_block);
+        mMessageBlock = mHolder.messageBlock;
 
         //
         // Configure the onTouchListeners so that selection/deselection of the
@@ -398,80 +421,81 @@ public class TweetFeedItemView extends LinearLayout {
      *
      */
     void setPreviewImage(TwitterMediaEntity mediaEntity, AdnMedia adnMedia, Callbacks callbacks) {
-
-        RelativeLayout previewImageContainer = (RelativeLayout) findViewById(R.id.preview_image_container);
-
-        if ((mediaEntity == null && adnMedia == null) || !AppSettings.get().downloadFeedImages()) {
-            if (previewImageContainer != null) {
-                previewImageContainer.setVisibility(View.GONE);
-            }
-            return;
-        }
-
-        String mediaUrl = adnMedia != null ? adnMedia.mUrl : mediaEntity.getMediaUrl(Size.LARGE);
-        String thumbUrl = adnMedia != null ? adnMedia.mThumbnailUrl : mediaEntity.getMediaUrl(Size.THUMB);
-        TwitterMediaEntity.Source source = adnMedia != null ? null : mediaEntity.getSource();
-
-        if (previewImageContainer != null) {
-            final boolean isVideo = source == TwitterMediaEntity.Source.YOUTUBE;
-
-            previewImageContainer.setVisibility(View.VISIBLE);
-            ImageView previewImageView = (ImageView) findViewById(R.id.preview_image_view);
-            if (previewImageView == null) {
-                previewImageView = (ImageView) findViewById(R.id.preview_large_image_view);
-                UrlImageViewHelper.setUrlDrawable(previewImageView, mediaUrl, new UrlImageViewCallback() {
-
-                    @Override
-                    public void onLoaded(ImageView imageView, Drawable loadedDrawable, String url,
-                                         boolean loadedFromCache) {
-                        //Chris's code did nothing special in this case, yo I've left it like that for now.
-                        if (loadedDrawable == null) {
-                        }
-
-                    }
-                });
-
-            } else {
-                LazyImageLoader previewImageLoader = callbacks.getPreviewImageLoader();
-                if (previewImageLoader != null) {
-                    previewImageLoader.displayImage(thumbUrl, previewImageView);
-                }
-            }
-
-            previewImageView.setVisibility(VISIBLE);
-            previewImageView.setOnClickListener(new OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-
-                    String url = mTwitterStatus.mAdnMedia != null ? mTwitterStatus.mAdnMedia.mUrl :
-                            mTwitterStatus.mMediaEntity.getMediaUrl(Size.LARGE);
-                    String expandedUrl = mTwitterStatus.mAdnMedia != null ? mTwitterStatus.mAdnMedia.mExpandedUrl :
-                            mTwitterStatus.mMediaEntity.getExpandedUrl();
-
-                    if (mTwitterStatus != null) {
-                        if (isVideo) {
-                            Intent viewIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(expandedUrl));
-                            mCallbacks.getActivity().startActivity(viewIntent);
-                        } else {
-                            ImageViewActivity.createAndStartActivity(mCallbacks.getActivity(), url, expandedUrl,
-                                    mTwitterStatus.getAuthorScreenName());
-                        }
-                    }
-                }
-            });
-
-            ImageView previewPlayImageView = (ImageView) findViewById(R.id.preview_image_play_view);
-            if (previewPlayImageView != null) {
-                previewPlayImageView.setVisibility(isVideo ? View.VISIBLE
-                        : View.GONE);
-            }
-
-            // Bit of hack, but reduce the status right padding element when
-            // displaying an image
-            mStatusTextView.setPadding(mStatusTextView.getPaddingLeft(), mStatusTextView.getPaddingTop(),
-                    (int) Util.convertDpToPixel(6, mContext), mStatusTextView.getPaddingRight());
-        }
+    	if (mHolder != null) {
+	        RelativeLayout previewImageContainer = mHolder.previewImageContainer;
+	
+	        if ((mediaEntity == null && adnMedia == null) || !AppSettings.get().downloadFeedImages()) {
+	            if (previewImageContainer != null) {
+	                previewImageContainer.setVisibility(View.GONE);
+	            }
+	            return;
+	        }
+	
+	        String mediaUrl = adnMedia != null ? adnMedia.mUrl : mediaEntity.getMediaUrl(Size.LARGE);
+	        String thumbUrl = adnMedia != null ? adnMedia.mThumbnailUrl : mediaEntity.getMediaUrl(Size.THUMB);
+	        TwitterMediaEntity.Source source = adnMedia != null ? null : mediaEntity.getSource();
+	
+	        if (previewImageContainer != null) {
+	            final boolean isVideo = source == TwitterMediaEntity.Source.YOUTUBE;
+	
+	            previewImageContainer.setVisibility(View.VISIBLE);
+	            ImageView previewImageView = mHolder.previewImageView;
+	            if (previewImageView == null) {
+	                previewImageView = (ImageView) findViewById(R.id.preview_large_image_view);
+	                UrlImageViewHelper.setUrlDrawable(previewImageView, mediaUrl, new UrlImageViewCallback() {
+	
+	                    @Override
+	                    public void onLoaded(ImageView imageView, Drawable loadedDrawable, String url,
+	                                         boolean loadedFromCache) {
+	                        //Chris's code did nothing special in this case, yo I've left it like that for now.
+	                        if (loadedDrawable == null) {
+	                        }
+	
+	                    }
+	                });
+	
+	            } else {
+	                LazyImageLoader previewImageLoader = callbacks.getPreviewImageLoader();
+	                if (previewImageLoader != null) {
+	                    previewImageLoader.displayImage(thumbUrl, previewImageView);
+	                }
+	            }
+	
+	            previewImageView.setVisibility(VISIBLE);
+	            previewImageView.setOnClickListener(new OnClickListener() {
+	
+	                @Override
+	                public void onClick(View v) {
+	
+	                    String url = mTwitterStatus.mAdnMedia != null ? mTwitterStatus.mAdnMedia.mUrl :
+	                            mTwitterStatus.mMediaEntity.getMediaUrl(Size.LARGE);
+	                    String expandedUrl = mTwitterStatus.mAdnMedia != null ? mTwitterStatus.mAdnMedia.mExpandedUrl :
+	                            mTwitterStatus.mMediaEntity.getExpandedUrl();
+	
+	                    if (mTwitterStatus != null) {
+	                        if (isVideo) {
+	                            Intent viewIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(expandedUrl));
+	                            mCallbacks.getActivity().startActivity(viewIntent);
+	                        } else {
+	                            ImageViewActivity.createAndStartActivity(mCallbacks.getActivity(), url, expandedUrl,
+	                                    mTwitterStatus.getAuthorScreenName());
+	                        }
+	                    }
+	                }
+	            });
+	
+	            ImageView previewPlayImageView = mHolder.previewPlayImageView;
+	            if (previewPlayImageView != null) {
+	                previewPlayImageView.setVisibility(isVideo ? View.VISIBLE
+	                        : View.GONE);
+	            }
+	
+	            // Bit of hack, but reduce the status right padding element when
+	            // displaying an image
+	            mStatusTextView.setPadding(mStatusTextView.getPaddingLeft(), mStatusTextView.getPaddingTop(),
+	                    (int) Util.convertDpToPixel(6, mContext), mStatusTextView.getPaddingRight());
+	        }
+    	}
     }
 
     /*
@@ -681,6 +705,39 @@ public class TweetFeedItemView extends LinearLayout {
         } else {
             super.dispatchDraw(c);
         }
+    }
+    
+    private static class ViewHolder {
+    	public QuickContactDivot avatar;
+    	public TextView authorScreenNameTextView;
+    	public TextView authorNameTextView;
+    	public TextView tweetDetailsView;
+    	public ImageView conversationToggle;
+    	public TextView statusTextView;
+    	public TextView prettyDateTextView;
+    	public TextView fullDateTextView;
+    	public ImageView statusIndicatorImageView;
+    	public View messageBlock;
+    	public RelativeLayout previewImageContainer;
+    	public ImageView previewImageView;
+    	public ImageView previewPlayImageView;
+    	public ViewHolder(View v) {
+            avatar = (QuickContactDivot) v.findViewById(R.id.avatar);
+    		authorScreenNameTextView = (TextView) v.findViewById(R.id.authorScreenName);
+    		authorNameTextView = (TextView) v.findViewById(R.id.authorName);
+    		tweetDetailsView = (TextView) v.findViewById(R.id.tweet_details);
+    		conversationToggle = (ImageView) v.findViewById(R.id.conversationToggle);
+    		statusTextView = (TextView) v.findViewById(R.id.status);
+    		prettyDateTextView = (TextView) v.findViewById(R.id.pretty_date);
+    		fullDateTextView = (TextView) v.findViewById(R.id.full_date);
+    		statusIndicatorImageView = (ImageView) v.findViewById(R.id.status_indicator);
+    		messageBlock = v.findViewById(R.id.message_block);
+    		previewImageContainer = (RelativeLayout) v.findViewById(R.id.preview_image_container);
+    		if (previewImageContainer != null) {
+    			previewImageView = (ImageView) previewImageContainer.findViewById(R.id.preview_image_view);
+    			previewPlayImageView = (ImageView) previewImageContainer.findViewById(R.id.preview_image_play_view);
+    		}
+    	}
     }
 
 }

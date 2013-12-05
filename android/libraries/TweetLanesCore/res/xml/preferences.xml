@@ -53,6 +53,15 @@
                 android:defaultValue="medium"
                 />
 
+        <ListPreference
+                android:key="displayname_preference"
+                android:title="@string/title_displayname_preference"
+                android:entries="@array/displayname_list_preference"
+                android:entryValues="@array/displayname_values_list_preference"
+                android:dialogTitle="@string/dialog_title_displayname_preference"
+                android:defaultValue="both"
+                />
+
         <CheckBoxPreference
                 android:key="showtweetsource_preference"
                 android:title="@string/title_showtweetsource_preference"
