@@ -348,6 +348,8 @@ public class TweetFeedItemView extends LinearLayout {
 
                         profileImageLoader.displayImage(profileImageUrl, mAvatar);
                     }
+                } else {
+                	mAvatar.setImageResource(R.drawable.ic_contact_picture);
                 }
 
                 mAvatar.setOnClickListener(new OnClickListener() {
