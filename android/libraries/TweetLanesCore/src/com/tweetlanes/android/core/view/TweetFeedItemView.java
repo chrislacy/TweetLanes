@@ -30,6 +30,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -143,26 +144,40 @@ public class TweetFeedItemView extends LinearLayout {
         mPosition = position;
         mCallbacks = callbacks;
 
+        AppSettings.DisplayNameFormat nameFormat = AppSettings.get().getCurrentDisplayNameFormat();
         TextView authorScreenNameTextView = mHolder.authorScreenNameTextView;
         if (authorScreenNameTextView != null) {
-            authorScreenNameTextView.setText("@"
-                    + twitterStatus.getAuthorScreenName());
+            if (nameFormat == AppSettings.DisplayNameFormat.Both)
+            {
+                authorScreenNameTextView.setText("@" + twitterStatus.getAuthorScreenName());
 
-            if (resize) {
-                Integer textSize = null;
-                if (statusSize == StatusSize.Small) {
-                    textSize = 14;
-                }
+                if (resize) {
+                    Integer textSize = null;
+                    if (statusSize == StatusSize.Small) {
+                        textSize = 14;
+                    }
 
-                if (textSize != null) {
-                    authorScreenNameTextView.setTextSize(
-                            TypedValue.COMPLEX_UNIT_SP, textSize);
+                    if (textSize != null) {
+                        authorScreenNameTextView.setTextSize(
+                                TypedValue.COMPLEX_UNIT_SP, textSize);
+                    }
                 }
+            }
+            else
+            {
+                authorScreenNameTextView.setVisibility(GONE);
             }
         }
         TextView authorNameTextView = mHolder.authorNameTextView;
         if (authorNameTextView != null) {
-            authorNameTextView.setText(twitterStatus.getAuthorName());
+            if (nameFormat == AppSettings.DisplayNameFormat.Handle)
+            {
+                authorNameTextView.setText("@" + twitterStatus.getAuthorScreenName());
+            }
+            else
+            {
+                authorNameTextView.setText(twitterStatus.getAuthorName());
+            }
         }
 
         TextView tweetDetailsView = mHolder.tweetDetailsView;

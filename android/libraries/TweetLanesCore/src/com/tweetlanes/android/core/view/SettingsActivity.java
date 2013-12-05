@@ -69,6 +69,7 @@ public class SettingsActivity extends PreferenceActivity implements
     public static final String KEY_REMOVE_ACCOUNT_PREFERENCE = "removeaccount_preference";
     public static final String KEY_SHOW_TABLET_MARGIN_PREFERENCE = "showtabletmargin_preference";
     public static final String KEY_DISPLAY_TIME_PREFERENCE = "displaytime_preference";
+    public static final String KEY_DISPLAY_NAME_PREFERENCE = "displayname_preference";
     public static final String KEY_STATUS_SIZE_PREFERENCE = "statussize_preference";
     public static final String KEY_PROFILE_IMAGE_SIZE_PREFERENCE = "profileimagesize_preference";
     public static final String KEY_VOLSCROLL_PREFERENCE = "volscroll_preference";
@@ -89,6 +90,7 @@ public class SettingsActivity extends PreferenceActivity implements
     private CheckBoxPreference mShowTabletMarginPreference;
     private ListPreference mStatusSizePreference;
     private ListPreference mDisplayTimePreference;
+    private ListPreference mDisplayNamePreference;
     private ListPreference mProfileImageSizePreference;
     private CheckBoxPreference mDownloadImagesPreference;
     private CheckBoxPreference mShowTweetSourcePreference;
@@ -150,6 +152,8 @@ public class SettingsActivity extends PreferenceActivity implements
 
         mDisplayTimePreference = (ListPreference) getPreferenceScreen()
                 .findPreference(KEY_DISPLAY_TIME_PREFERENCE);
+        mDisplayNamePreference = (ListPreference) getPreferenceScreen()
+                .findPreference(KEY_DISPLAY_NAME_PREFERENCE);
         mStatusSizePreference = (ListPreference) getPreferenceScreen()
                 .findPreference(KEY_STATUS_SIZE_PREFERENCE);
         mProfileImageSizePreference = (ListPreference) getPreferenceScreen()
@@ -280,7 +284,10 @@ public class SettingsActivity extends PreferenceActivity implements
         }
         mDisplayTimePreference.setSummary(mDisplayTimePreference.getEntry());
 
-
+        if (mDisplayNamePreference.getEntry() == null) {
+            mDisplayNamePreference.setValueIndex(0);
+        }
+        mDisplayNamePreference.setSummary(mDisplayNamePreference.getEntry());
 
         if (mStatusSizePreference.getEntry() == null) {
             mStatusSizePreference.setValueIndex(2);
