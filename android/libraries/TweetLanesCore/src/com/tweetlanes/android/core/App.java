@@ -97,6 +97,11 @@ public class App extends Application {
         return account != null ? account.getScreenName() : null;
     }
 
+    public String getCurrentAccountName() {
+        AccountDescriptor account = getCurrentAccount();
+        return account != null ? account.getName() : null;
+    }
+
     public boolean getAccountDescriptorsDirty() {
         return mAccountDescriptorsDirty;
     }

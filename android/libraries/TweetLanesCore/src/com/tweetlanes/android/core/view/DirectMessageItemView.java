@@ -17,16 +17,12 @@ import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.text.Layout;
-import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
-import android.text.style.ClickableSpan;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewConfiguration;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -105,7 +101,7 @@ public class DirectMessageItemView extends LinearLayout {
     /*
      *
 	 */
-    public void configure(String userScreenName,
+    public void configure(String userScreenName, String userName,
                           TwitterDirectMessage directMessage, int position,
                           MessageType messageType, boolean fullConversation,
                           DirectMessageItemViewCallbacks callbacks) {
@@ -131,21 +127,41 @@ public class DirectMessageItemView extends LinearLayout {
             }
         }
 
+        AppSettings.DisplayNameFormat nameFormat = AppSettings.get().getCurrentDisplayNameFormat();
         TextView authorScreenNameTextView = (TextView) findViewById(R.id.authorScreenName);
         if (authorScreenNameTextView != null) {
-            authorScreenNameTextView.setText("@"
-                    + (messageType == MessageType.SENT ? userScreenName
-                    : directMessage.getOtherUserScreenName()));
+            if (nameFormat == AppSettings.DisplayNameFormat.Both) {
+                authorScreenNameTextView.setText("@"
+                        + (messageType == MessageType.SENT ? userScreenName
+                        : directMessage.getOtherUserScreenName()));
 
-            Integer textSize = null;
-            if (statusSize == StatusSize.Small) {
-                textSize = 14;
-            } else if (statusSize == StatusSize.Large) {
-                textSize = 18;
+                Integer textSize = null;
+                if (statusSize == StatusSize.Small) {
+                    textSize = 14;
+                } else if (statusSize == StatusSize.Large) {
+                    textSize = 18;
+                }
+                if (textSize != null) {
+                    authorScreenNameTextView.setTextSize(
+                            TypedValue.COMPLEX_UNIT_SP, textSize);
+                }
+            } else {
+                authorScreenNameTextView.setVisibility(GONE);
             }
-            if (textSize != null) {
-                authorScreenNameTextView.setTextSize(
-                        TypedValue.COMPLEX_UNIT_SP, textSize);
+        }
+
+        TextView authorNameTextView = (TextView) findViewById(R.id.authorName);;
+        if (authorNameTextView != null) {
+            if (nameFormat == AppSettings.DisplayNameFormat.Handle)
+            {
+                authorNameTextView.setText("@"
+                        + (messageType == MessageType.SENT ? userScreenName
+                        : directMessage.getOtherUserScreenName()));
+            }
+            else
+            {
+                authorNameTextView.setText(messageType == MessageType.SENT ? userName
+                        : directMessage.getOtherUserName());
             }
         }
 
@@ -255,7 +271,7 @@ public class DirectMessageItemView extends LinearLayout {
     }
 
     /*
-	 *
+     *
 	 */
     private final OnTouchListener mOnTouchListener = new OnTouchListener() {
 

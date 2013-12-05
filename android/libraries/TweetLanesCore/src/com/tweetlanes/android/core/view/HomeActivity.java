@@ -677,6 +677,7 @@ public class HomeActivity extends BaseLaneActivity {
             AccountDescriptor account = getApp().getCurrentAccount();
             if (account != null) {
                 String screenName = account.getScreenName();
+                String name = account.getName();
                 LaneDescriptor laneDescriptor = account
                         .getDisplayedLaneDefinition(position);
                 switch (laneDescriptor.getLaneType()) {
@@ -713,7 +714,7 @@ public class HomeActivity extends BaseLaneActivity {
 
                     case DIRECT_MESSAGES:
                         result = DirectMessageFeedFragment.newInstance(position,
-                                laneDescriptor.getContentHandleBase(), screenName,
+                                laneDescriptor.getContentHandleBase(), screenName,name,
                                 Long.toString(account.getId()), null, getApp().getCurrentAccountKey(), null);
                         break;
 

@@ -248,7 +248,7 @@ public class DirectMessageActivity extends BaseLaneActivity {
         public Fragment getItem(int position) {
             TwitterContentHandle contentHandle = getContentHandle();
             DirectMessageFeedFragment fragment = DirectMessageFeedFragment.newInstance(position,
-                    contentHandle, contentHandle.getScreenName(),
+                    contentHandle, getApp().getCurrentAccountScreenName(), getApp().getCurrentAccountName(),
                     contentHandle.getIdentifier(), getOtherUserId(), getApp().getCurrentAccountKey(), getCachedMessages());
 
             directMessageFeedFragments.add(fragment);

@@ -73,7 +73,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
      *
 	 */
     public static DirectMessageFeedFragment newInstance(int laneIndex,
-                                                        final TwitterContentHandleBase handleBase, final String screenName,
+                                                        final TwitterContentHandleBase handleBase, final String screenName, final String userName,
                                                         final String laneIdentifier, final Long otherUserId, final String currentAccountKey,
                                                         final String cachedMessages) {
 
@@ -91,6 +91,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
                         // TODO: serializing is a slow way of doing this...
                         args.putSerializable("handleBase", handleBase);
                         args.putString("screenName", screenName);
+                        args.putString("userName", userName);
                         args.putString("laneIdentifier", laneIdentifier);
                         if (otherUserId != null) {
                             args.putLong("otherUserId", otherUserId);
@@ -306,6 +307,10 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
 
     private String getScreenName() {
         return getArguments().getString("screenName");
+    }
+
+    private String getName() {
+        return getArguments().getString("userName");
     }
 
     private String getLaneIdentifier() {
@@ -1044,7 +1049,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
 
             };
 
-            holder.directMessageItemView.configure(getScreenName(), directMessage,
+            holder.directMessageItemView.configure(getScreenName(),getName(), directMessage,
                     position + 1, messageType, otherUserId != null, callbacks);
             return holder.directMessageItemView;
         }
