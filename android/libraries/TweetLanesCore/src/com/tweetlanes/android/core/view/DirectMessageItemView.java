@@ -44,6 +44,43 @@ import org.tweetalib.android.widget.URLSpanNoUnderline;
 
 public class DirectMessageItemView extends LinearLayout {
 
+    private final Path mPath = new Path();
+    private final Paint mPaint = new Paint();
+    /*
+     *
+	 */
+    private final OnTouchListener mOnTouchListener = new OnTouchListener() {
+
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            return mGestureDetector.onTouchEvent(event);
+        }
+    };
+    /*
+     *
+	 */
+    private final GestureDetector mGestureDetector = new GestureDetector(
+            new GestureDetector.SimpleOnGestureListener() {
+
+                @Override
+                public boolean onSingleTapConfirmed(MotionEvent e) {
+                    return mCallbacks != null && mCallbacks.onSingleTapConfirmed(DirectMessageItemView.this, mPosition);
+                }
+
+                @Override
+                public void onLongPress(MotionEvent e) {
+                    if (mCallbacks != null) {
+                        mCallbacks.onLongPress(DirectMessageItemView.this,
+                                mPosition);
+                    }
+                    // return true;
+                }
+
+                @Override
+                public boolean onDown(MotionEvent e) {
+                    return true;
+                }
+            });
     private Context mContext;
     private int mPosition;
     private TwitterDirectMessage mDirectMessage;
@@ -52,25 +89,9 @@ public class DirectMessageItemView extends LinearLayout {
     private QuickContactDivot mAvatar;
     private boolean mFullConversation;
     private ViewHolder mHolder;
-    private final Path mPath = new Path();
-    private final Paint mPaint = new Paint();
 
     /*
-     * 
-     */
-    public interface DirectMessageItemViewCallbacks {
-
-        public boolean onSingleTapConfirmed(View view, int position);
-
-        public void onLongPress(View view, int position);
-
-        public Activity getActivity();
-
-        public LazyImageLoader getProfileImageLoader();
-    }
-
-    /*
-     * 
+     *
      */
     public DirectMessageItemView(Context context) {
         super(context);
@@ -259,6 +280,8 @@ public class DirectMessageItemView extends LinearLayout {
             if (imageLoader != null) {
                 imageLoader.displayImage(imageUrl, mAvatar);
             }
+        } else {
+            mAvatar.setImageResource(R.drawable.ic_contact_picture);
         }
 
         mMessageBlock = mHolder.messageBlock;
@@ -272,43 +295,6 @@ public class DirectMessageItemView extends LinearLayout {
             authorScreenNameTextView.setOnTouchListener(mOnTouchListener);
         }
     }
-
-    /*
-     *
-	 */
-    private final OnTouchListener mOnTouchListener = new OnTouchListener() {
-
-        @Override
-        public boolean onTouch(View v, MotionEvent event) {
-            return mGestureDetector.onTouchEvent(event);
-        }
-    };
-
-    /*
-     *
-	 */
-    private final GestureDetector mGestureDetector = new GestureDetector(
-            new GestureDetector.SimpleOnGestureListener() {
-
-                @Override
-                public boolean onSingleTapConfirmed(MotionEvent e) {
-                    return mCallbacks != null && mCallbacks.onSingleTapConfirmed(DirectMessageItemView.this, mPosition);
-                }
-
-                @Override
-                public void onLongPress(MotionEvent e) {
-                    if (mCallbacks != null) {
-                        mCallbacks.onLongPress(DirectMessageItemView.this,
-                                mPosition);
-                    }
-                    // return true;
-                }
-
-                @Override
-                public boolean onDown(MotionEvent e) {
-                    return true;
-                }
-            });
 
     public TwitterDirectMessage getDirectMessage() {
         return mDirectMessage;
@@ -382,6 +368,20 @@ public class DirectMessageItemView extends LinearLayout {
         } else {
             super.dispatchDraw(c);
         }
+    }
+
+    /*
+     *
+     */
+    public interface DirectMessageItemViewCallbacks {
+
+        public boolean onSingleTapConfirmed(View view, int position);
+
+        public void onLongPress(View view, int position);
+
+        public Activity getActivity();
+
+        public LazyImageLoader getProfileImageLoader();
     }
 
     private static class ViewHolder {
