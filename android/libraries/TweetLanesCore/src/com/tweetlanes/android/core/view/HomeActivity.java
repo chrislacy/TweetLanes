@@ -226,43 +226,46 @@ public class HomeActivity extends BaseLaneActivity {
 
         Bundle extras = intent.getExtras();
 
-        if (intent.getAction() == Intent.ACTION_SEND) {
+        if(extras != null)
+        {
+            if (intent.getAction() == Intent.ACTION_SEND) {
 
-            String type = intent.getType();
-            if (type.equals("text/plain") && extras.containsKey(Intent.EXTRA_TEXT)) {
+                String type = intent.getType();
+                if (type.equals("text/plain") && extras.containsKey(Intent.EXTRA_TEXT)) {
 
-                String shareString = extras.getString(Intent.EXTRA_TEXT);
-                if (extras.containsKey(Intent.EXTRA_SUBJECT)) {
-                    shareString = extras.getString(Intent.EXTRA_SUBJECT) + " "
-                            + shareString;
-                }
-                beginShareStatus(shareString);
+                    String shareString = extras.getString(Intent.EXTRA_TEXT);
+                    if (extras.containsKey(Intent.EXTRA_SUBJECT)) {
+                        shareString = extras.getString(Intent.EXTRA_SUBJECT) + " "
+                                + shareString;
+                    }
+                    beginShareStatus(shareString);
 
-                turnSoftKeyboardOff = false;
+                    turnSoftKeyboardOff = false;
 
-            } else if (type.contains("image/")) {
-                // From http://stackoverflow.com/a/2641363/328679
-                if (extras.containsKey(Intent.EXTRA_STREAM)) {
-                    Uri uri = extras.getParcelable(Intent.EXTRA_STREAM);
-                    String scheme = uri.getScheme();
-                    if (scheme.equals("content")) {
-                        ContentResolver contentResolver = getContentResolver();
-                        Cursor cursor = contentResolver.query(uri, null, null,
-                                null, null);
-                        cursor.moveToFirst();
-                        try {
-                            String imagePath = cursor.getString(cursor
-                                    .getColumnIndexOrThrow(Images.Media.DATA));
-                            beginShareImage(imagePath);
-                        } catch (java.lang.IllegalArgumentException e) {
-                            Toast.makeText(this, R.string.picture_attach_error,
-                                    Toast.LENGTH_SHORT).show();
-                        } finally {
-                            cursor.close();
-                            cursor = null;
+                } else if (type.contains("image/")) {
+                    // From http://stackoverflow.com/a/2641363/328679
+                    if (extras.containsKey(Intent.EXTRA_STREAM)) {
+                        Uri uri = extras.getParcelable(Intent.EXTRA_STREAM);
+                        String scheme = uri.getScheme();
+                        if (scheme.equals("content")) {
+                            ContentResolver contentResolver = getContentResolver();
+                            Cursor cursor = contentResolver.query(uri, null, null,
+                                    null, null);
+                            cursor.moveToFirst();
+                            try {
+                                String imagePath = cursor.getString(cursor
+                                        .getColumnIndexOrThrow(Images.Media.DATA));
+                                beginShareImage(imagePath);
+                            } catch (java.lang.IllegalArgumentException e) {
+                                Toast.makeText(this, R.string.picture_attach_error,
+                                        Toast.LENGTH_SHORT).show();
+                            } finally {
+                                cursor.close();
+                                cursor = null;
+                            }
+
+                            turnSoftKeyboardOff = false;
                         }
-
-                        turnSoftKeyboardOff = false;
                     }
                 }
             }

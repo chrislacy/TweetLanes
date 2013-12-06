@@ -88,6 +88,7 @@ public class BootActivity extends Activity {
                 Uri uriData = getIntent().getData();
                 if (uriData != null) {
                     String host = uriData.getHost();
+                    String urlPath = uriData.getPath();
                     boolean urlValid = false;
                     finish();
 
@@ -96,11 +97,12 @@ public class BootActivity extends Activity {
                             changeToFirstAccountOfType(SocialNetConstant.Type.Twitter);
                         }
 
-                        if (uriData.getPath().contains("/status/")) {
+
+                        if (urlPath.contains("/status/")) {
                             String statusId = getUriPartAfterText(uriData, "status");
                             startTweetSpotlight(statusId);
                             urlValid = true;
-                        } else if (uriData.getPath().contains("/intent/tweet")) {
+                        } else if (urlPath.contains("/intent/tweet")) {
                             String statusText = uriData.getQueryParameter("text");
                             if (uriData.getQueryParameterNames().contains("url")) {
                                 statusText = statusText + " " + uriData.getQueryParameter("url");
@@ -113,15 +115,29 @@ public class BootActivity extends Activity {
                             }
                             startHomeActivity(statusText);
                             urlValid = true;
+                        } else if (urlPath.contains("/intent/follow")) {
+                            String userName = uriData.getQueryParameter("screen_name");
+                            startProfileSpotlight(userName);
+                            urlValid = true;
+                        } else if (urlPath.lastIndexOf("/") == 0 ||
+                                (urlPath.indexOf("/") == 0 && urlPath.lastIndexOf("/") == urlPath.length() && CountInstancesOfChar(urlPath, '/') == 2)) {
+                            String userName = urlPath.substring(1);
+                            startProfileSpotlight(userName);
+                            urlValid = true;
                         }
                     } else if (host.contains("app.net")) {
                         if (getApp().getCurrentAccount().getSocialNetType() != SocialNetConstant.Type.Appdotnet) {
                             changeToFirstAccountOfType(SocialNetConstant.Type.Appdotnet);
                         }
 
-                        if (uriData.getPath().contains("/post/")) {
+                        if (urlPath.contains("/post/")) {
                             String statusId = getUriPartAfterText(uriData, "post");
                             startTweetSpotlight(statusId);
+                            urlValid = true;
+                        } else if (urlPath.lastIndexOf("/") == 0 ||
+                                (urlPath.indexOf("/") == 0 && urlPath.lastIndexOf("/") == urlPath.length() && CountInstancesOfChar(urlPath, '/') == 2)) {
+                            String userName = urlPath.substring(1);
+                            startProfileSpotlight(userName);
                             urlValid = true;
                         }
                     }
@@ -155,6 +171,16 @@ public class BootActivity extends Activity {
             }
         }
 
+    }
+
+    private int CountInstancesOfChar(String testString, Character CharInstance) {
+        int counter = 0;
+        for (int i = 0; i < testString.length(); i++) {
+            if (testString.charAt(i) == CharInstance) {
+                counter++;
+            }
+        }
+        return counter;
     }
 
     private String getUriPartAfterText(Uri uriData, String partBefore) {
