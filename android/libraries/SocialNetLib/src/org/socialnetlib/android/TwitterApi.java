@@ -36,7 +36,7 @@ public class TwitterApi extends SocialNetApi {
     private OAuthAuthorization mOAuth;
 
     public TwitterApi(SocialNetConstant.Type type, String consumerKey,
-            String consumerSecret, String currentAccountKey) {
+                      String consumerSecret, String currentAccountKey) {
         super(type, consumerKey, consumerSecret, currentAccountKey);
     }
 
@@ -86,7 +86,7 @@ public class TwitterApi extends SocialNetApi {
                     .setOAuthAccessToken(mCurrentOAuthToken)
                     .setOAuthAccessTokenSecret(mCurrentOAuthSecret)
                     .setMediaProvider("TWITTER")
-                    // .setJSONStoreEnabled(true)
+                            // .setJSONStoreEnabled(true)
                     .setIncludeEntitiesEnabled(true);
 
             Configuration configuration = configurationBuilder.build();
@@ -116,6 +116,6 @@ public class TwitterApi extends SocialNetApi {
                 .generateOAuthSignatureHttpParams("GET", verifyCredentialsUrl);
         return "OAuth realm=\"https://api.twitter.com/\","
                 + OAuthAuthorization.encodeParameters(oauthSignatureParams,
-                        ",", true);
+                ",", true);
     }
 }

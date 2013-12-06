@@ -124,7 +124,7 @@ public class AdnPost {
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject link = jsonArray.getJSONObject(i);
                         if (link.has("text") && link.has("url")) {
-                            URLEntity url = new AdnUrl(link.getString("text"),link.getString("url"));
+                            URLEntity url = new AdnUrl(link.getString("text"), link.getString("url"));
                             mUrls[i] = url;
                         }
                     }

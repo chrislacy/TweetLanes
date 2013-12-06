@@ -200,7 +200,7 @@ public class UserFeedFragment extends BaseLaneFragment {
     }
 
     /*
-	 *
+     *
 	 */
     private void setUserFeed(TwitterUsers users) {
 

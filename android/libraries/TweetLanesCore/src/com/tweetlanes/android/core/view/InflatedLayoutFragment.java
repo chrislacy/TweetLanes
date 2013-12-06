@@ -42,7 +42,7 @@ public class InflatedLayoutFragment extends Fragment {
     }
 
     /*
-	 * 
+     *
 	 */
     public static InflatedLayoutFragment newInstance(int layoutResourceId,
                                                      Callback callback) {

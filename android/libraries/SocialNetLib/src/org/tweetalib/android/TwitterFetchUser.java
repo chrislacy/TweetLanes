@@ -49,7 +49,7 @@ public class TwitterFetchUser {
     }
 
     /*
-	 *
+     *
 	 */
     public interface FetchUserWorkerCallbacks {
 

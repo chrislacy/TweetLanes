@@ -139,7 +139,7 @@ public class TutorialActivity extends FragmentActivity {
     }
 
     /*
-	 * 
+     *
 	 */
     private final OnPageChangeListener mOnPageChangeListener = new OnPageChangeListener() {
 

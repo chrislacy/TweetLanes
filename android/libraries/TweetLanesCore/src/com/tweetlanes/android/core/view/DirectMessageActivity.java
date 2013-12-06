@@ -30,7 +30,6 @@ import com.tweetlanes.android.core.R;
 import com.tweetlanes.android.core.widget.viewpagerindicator.TitleProvider;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.tweetalib.android.TwitterContentHandle;
 import org.tweetalib.android.model.TwitterDirectMessage;
 
@@ -39,7 +38,7 @@ import java.util.ArrayList;
 public class DirectMessageActivity extends BaseLaneActivity {
 
     private DirectMessageLaneAdapter mDirectMessageLaneAdapter;
-    private boolean mDeleting= false;
+    private boolean mDeleting = false;
     private boolean mHasDoneDelete = false;
 
     private static final String KEY_HANDLE_BASE = "handleBase";
@@ -102,7 +101,7 @@ public class DirectMessageActivity extends BaseLaneActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
 
-                if(mDeleting){
+                if (mDeleting) {
                     showNoBackToast();
                     return false;
                 }
@@ -202,13 +201,12 @@ public class DirectMessageActivity extends BaseLaneActivity {
 
         if (keyCode == KeyEvent.KEYCODE_BACK) {
 
-            if(mDeleting){
+            if (mDeleting) {
                 showNoBackToast();
                 return false;
             }
 
-            if(event.getRepeatCount() == 0)
-            {
+            if (event.getRepeatCount() == 0) {
                 Intent returnIntent = new Intent();
                 returnIntent.putExtra("statusDelete", mHasDoneDelete);
                 setResult(RESULT_OK, returnIntent);
@@ -220,15 +218,15 @@ public class DirectMessageActivity extends BaseLaneActivity {
         return super.onKeyDown(keyCode, event);
     }
 
-    private void showNoBackToast(){
+    private void showNoBackToast() {
         Toast.makeText(getApplicationContext(), R.string.delete_dm_noback,
                 Constant.DEFAULT_TOAST_DISPLAY_TIME).show();
     }
 
     public void setDeleting(boolean newDeletingValue) {
         mDeleting = newDeletingValue;
-        if(mDeleting==true && mHasDoneDelete == false){
-            mHasDoneDelete=mDeleting;
+        if (mDeleting == true && mHasDoneDelete == false) {
+            mHasDoneDelete = mDeleting;
         }
     }
 

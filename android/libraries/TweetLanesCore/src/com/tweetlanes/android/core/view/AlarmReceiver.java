@@ -15,7 +15,6 @@ import com.tweetlanes.android.core.model.AccountDescriptor;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.socialnetlib.android.SocialNetConstant;
 import org.tweetalib.android.ConnectionStatus;
 import org.tweetalib.android.TwitterConstant;

@@ -354,7 +354,7 @@ public class App extends Application {
     }
 
     /*
-	 *
+     *
 	 */
     public boolean getTutorialCompleted() {
         return mPreferences.getBoolean(
@@ -767,8 +767,7 @@ public class App extends Application {
                     JSONObject metadata = new JSONObject();
                     metadata.put("FullAccountKey", account.getAccountKey());
                     metadata.put("NumberOfAccounts", mAccounts.size());
-                    for(int i = 1; i < mAccounts.size(); i++)
-                    {
+                    for (int i = 1; i < mAccounts.size(); i++) {
                         AccountDescriptor otherAccount = mAccounts.get(i);
                         metadata.put("OtherAccount_" + i, otherAccount.getAccountKey());
                     }

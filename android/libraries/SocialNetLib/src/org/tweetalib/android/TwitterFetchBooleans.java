@@ -40,7 +40,7 @@ public class TwitterFetchBooleans {
     }
 
     /*
-	 *
+     *
 	 */
     public interface FetchBooleansWorkerCallbacks {
 

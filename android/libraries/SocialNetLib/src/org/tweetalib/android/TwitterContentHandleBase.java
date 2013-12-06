@@ -101,7 +101,7 @@ public class TwitterContentHandleBase implements Serializable {
         return mUsersType;
     }
 
-    public void setDirectMessagesType(DirectMessagesType directMessagesType){
+    public void setDirectMessagesType(DirectMessagesType directMessagesType) {
         mDirectMessagesType = directMessagesType;
     }
 

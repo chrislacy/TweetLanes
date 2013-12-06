@@ -84,7 +84,7 @@ public abstract class SocialNetApi {
     private ConnectionStatus mConnectionStatus;
 
     SocialNetApi(SocialNetConstant.Type type, String consumerKey,
-            String consumerSecret, String currentAccountKey) {
+                 String consumerSecret, String currentAccountKey) {
 
         mType = type;
         mAppConsumerKey = consumerKey;
@@ -109,7 +109,7 @@ public abstract class SocialNetApi {
     }
 
     /*
-	 *
+     *
 	 */
     private void initFetchStatus() {
 
@@ -230,7 +230,7 @@ public abstract class SocialNetApi {
 
             @Override
             public TwitterUser verifyCredentials(String accessToken,
-                    String accessTokenSecret) {
+                                                 String accessTokenSecret) {
                 return verifyCredentialsSync(accessToken, accessTokenSecret);
             }
 
@@ -426,28 +426,27 @@ public abstract class SocialNetApi {
 	 *
 	 */
     public void setOAuthTokenWithSecret(String oAuthToken, String oAuthSecret,
-            boolean cancelPending) {
+                                        boolean cancelPending) {
 
         if (oAuthToken == null && mCurrentOAuthToken == null) {
             return;
         } else if (oAuthToken != null && mCurrentOAuthToken != null
                 && oAuthToken.equals(mCurrentOAuthToken)) {
             return;
-        }
-        else if (oAuthSecret != null && mCurrentOAuthSecret != null
+        } else if (oAuthSecret != null && mCurrentOAuthSecret != null
                 && oAuthSecret.equals(mCurrentOAuthSecret)) {
             return;
         }
 
         if (cancelPending) {
-                mFetchBooleans.clearCallbacks();
-                mFetchLists.clearCallbacks();
-                mFetchDirectMessages.clearCallbacks();
-                mFetchStatus.clearCallbacks();
-                mFetchStatuses.clearCallbacks();
-                mFetchUser.clearCallbacks();
-                mFetchUsers.clearCallbacks();
-                mModifyStatuses.clearCallbacks();
+            mFetchBooleans.clearCallbacks();
+            mFetchLists.clearCallbacks();
+            mFetchDirectMessages.clearCallbacks();
+            mFetchStatus.clearCallbacks();
+            mFetchStatuses.clearCallbacks();
+            mFetchUser.clearCallbacks();
+            mFetchUsers.clearCallbacks();
+            mModifyStatuses.clearCallbacks();
         }
 
         mCurrentOAuthToken = oAuthToken;
@@ -496,8 +495,8 @@ public abstract class SocialNetApi {
     }
 
     public void getOAuthAccessToken(RequestToken requestToken,
-            String oauthVerifier,
-            TwitterSignIn.GetOAuthAccessTokenCallback callback) {
+                                    String oauthVerifier,
+                                    TwitterSignIn.GetOAuthAccessTokenCallback callback) {
         mSignIn.getOAuthAccessToken(requestToken, oauthVerifier, callback);
     }
 
@@ -509,13 +508,13 @@ public abstract class SocialNetApi {
     }
 
     public TwitterUser getUser(Long userId,
-            TwitterFetchUser.FinishedCallback callback) {
+                               TwitterFetchUser.FinishedCallback callback) {
         return mFetchUser.getUser(userId, callback,
                 mConnectionStatus);
     }
 
     public TwitterUser getUser(String screenName,
-            TwitterFetchUser.FinishedCallback callback) {
+                               TwitterFetchUser.FinishedCallback callback) {
         return mFetchUser.getUser(screenName, callback,
                 mConnectionStatus);
     }
@@ -528,12 +527,12 @@ public abstract class SocialNetApi {
 	 *
 	 */
     public TwitterUsers getUsers(TwitterContentHandle contentHandle,
-            TwitterPaging paging) {
+                                 TwitterPaging paging) {
         return mFetchUsers.getUsers(contentHandle, paging);
     }
 
     public TwitterUsers getUsers(TwitterContentHandle contentHandle,
-            TwitterPaging paging, TwitterFetchUsers.FinishedCallback callback) {
+                                 TwitterPaging paging, TwitterFetchUsers.FinishedCallback callback) {
         return mFetchUsers.getUsers(contentHandle, paging,
                 callback, mConnectionStatus);
     }
@@ -562,9 +561,9 @@ public abstract class SocialNetApi {
     }
 
     public void sendDirectMessage(long userId, String recipientScreenName,
-            String statusText,
-            TwitterContentHandle contentHandle,
-            TwitterFetchDirectMessagesFinishedCallback callback) {
+                                  String statusText,
+                                  TwitterContentHandle contentHandle,
+                                  TwitterFetchDirectMessagesFinishedCallback callback) {
         mFetchDirectMessages.sendDirectMessage(userId, recipientScreenName,
                 statusText, contentHandle, callback, mConnectionStatus);
     }
@@ -573,42 +572,42 @@ public abstract class SocialNetApi {
 	 *
 	 */
     public void updateFriendship(String currentUserScreenName,
-            TwitterUser userToUpdate, boolean create,
-            TwitterFetchUsers.FinishedCallback callback) {
+                                 TwitterUser userToUpdate, boolean create,
+                                 TwitterFetchUsers.FinishedCallback callback) {
         mFetchUsers.updateFriendshipUser(currentUserScreenName, userToUpdate,
                 create, callback, mConnectionStatus);
     }
 
     public void updateFriendship(String currentUserScreenName,
-            TwitterUsers usersToUpdate, boolean create,
-            TwitterFetchUsers.FinishedCallback callback) {
+                                 TwitterUsers usersToUpdate, boolean create,
+                                 TwitterFetchUsers.FinishedCallback callback) {
         mFetchUsers.updateFriendshipUsers(currentUserScreenName, usersToUpdate,
                 create, callback, mConnectionStatus);
     }
 
     public void updateFriendshipScreenName(String currentUserScreenName,
-            String screenNameToUpdate, boolean create,
-            TwitterFetchUsers.FinishedCallback callback) {
+                                           String screenNameToUpdate, boolean create,
+                                           TwitterFetchUsers.FinishedCallback callback) {
         mFetchUsers.updateFriendshipScreenName(currentUserScreenName,
                 screenNameToUpdate, create, callback, mConnectionStatus);
     }
 
     public void updateFriendshipScreenNames(String currentUserScreenName,
-            ArrayList<String> screenNamesToUpdate, boolean create,
-            TwitterFetchUsers.FinishedCallback callback) {
+                                            ArrayList<String> screenNamesToUpdate, boolean create,
+                                            TwitterFetchUsers.FinishedCallback callback) {
         mFetchUsers.updateFriendshipScreenNames(currentUserScreenName,
                 screenNamesToUpdate, create, callback, mConnectionStatus);
     }
 
     public void updateFriendshipUserId(long currentUserId, long userIdToUpdate,
-            boolean create, TwitterFetchUsers.FinishedCallback callback) {
+                                       boolean create, TwitterFetchUsers.FinishedCallback callback) {
         mFetchUsers.updateFriendshipUserId(currentUserId, userIdToUpdate,
                 create, callback, mConnectionStatus);
     }
 
     public void updateFriendshipUserIds(long currentUserId,
-            ArrayList<Long> userIdsToUpdate, boolean create,
-            TwitterFetchUsers.FinishedCallback callback) {
+                                        ArrayList<Long> userIdsToUpdate, boolean create,
+                                        TwitterFetchUsers.FinishedCallback callback) {
         mFetchUsers.updateFriendshipUserIds(currentUserId, userIdsToUpdate,
                 create, callback, mConnectionStatus);
     }
@@ -617,13 +616,13 @@ public abstract class SocialNetApi {
 	 *
 	 */
     public void createBlock(long currentUserId, Long userId,
-            TwitterFetchUsers.FinishedCallback callback) {
+                            TwitterFetchUsers.FinishedCallback callback) {
         mFetchUsers.createBlock(currentUserId, userId, callback,
                 mConnectionStatus);
     }
 
     public void createBlock(long currentUserId, ArrayList<Long> userIds,
-            TwitterFetchUsers.FinishedCallback callback) {
+                            TwitterFetchUsers.FinishedCallback callback) {
         mFetchUsers.createBlock(currentUserId, userIds, callback,
                 mConnectionStatus);
     }
@@ -632,24 +631,24 @@ public abstract class SocialNetApi {
 	 *
 	 */
     public void reportSpam(long currentUserId, Long userId,
-            TwitterFetchUsers.FinishedCallback callback) {
+                           TwitterFetchUsers.FinishedCallback callback) {
         mFetchUsers.reportSpam(currentUserId, userId, callback,
                 mConnectionStatus);
     }
 
     public void reportSpam(long currentUserId, ArrayList<Long> userIds,
-            TwitterFetchUsers.FinishedCallback callback) {
+                           TwitterFetchUsers.FinishedCallback callback) {
         mFetchUsers.reportSpam(currentUserId, userIds, callback,
                 mConnectionStatus);
     }
 
     public TwitterLists getLists(int userId,
-            TwitterFetchLists.FinishedCallback callback) {
+                                 TwitterFetchLists.FinishedCallback callback) {
         return mFetchLists.getLists(userId, callback);
     }
 
     public TwitterLists getLists(String screenName,
-            TwitterFetchLists.FinishedCallback callback) {
+                                 TwitterFetchLists.FinishedCallback callback) {
         return mFetchLists.getLists(screenName, callback);
     }
 
@@ -657,7 +656,7 @@ public abstract class SocialNetApi {
 	 *
 	 */
     public TwitterStatus getStatus(long statusId,
-            TwitterFetchStatus.FinishedCallback callback) {
+                                   TwitterFetchStatus.FinishedCallback callback) {
         return mFetchStatus.getStatus(statusId, callback, mConnectionStatus);
     }
 
@@ -665,7 +664,7 @@ public abstract class SocialNetApi {
 	 *
 	 */
     public void setStatus(TwitterStatusUpdate statusUpdate,
-            TwitterFetchStatus.FinishedCallback callback) {
+                          TwitterFetchStatus.FinishedCallback callback) {
         mFetchStatus.setStatus(statusUpdate, callback, mConnectionStatus);
     }
 
@@ -673,7 +672,7 @@ public abstract class SocialNetApi {
 	 *
 	 */
     public void setRetweet(long statusId,
-            TwitterFetchStatus.FinishedCallback callback) {
+                           TwitterFetchStatus.FinishedCallback callback) {
         mFetchStatus.setRetweet(statusId, callback, mConnectionStatus);
     }
 
@@ -681,12 +680,12 @@ public abstract class SocialNetApi {
 	 *
 	 */
     public void setFavorite(TwitterStatus status, boolean isFavorite,
-            TwitterModifyStatuses.FinishedCallback callback) {
+                            TwitterModifyStatuses.FinishedCallback callback) {
         mModifyStatuses.setFavorite(status, isFavorite, callback);
     }
 
     public void setFavorite(TwitterStatuses statuses, boolean isFavorite,
-            TwitterModifyStatuses.FinishedCallback callback) {
+                            TwitterModifyStatuses.FinishedCallback callback) {
         mModifyStatuses.setFavorite(statuses, isFavorite, callback);
     }
 
@@ -703,8 +702,8 @@ public abstract class SocialNetApi {
 	 *
 	 */
     public void triggerFetchStatuses(TwitterContentHandle contentHandle,
-            TwitterPaging paging,
-            TwitterFetchStatusesFinishedCallback callback, int priorityOffset) {
+                                     TwitterPaging paging,
+                                     TwitterFetchStatusesFinishedCallback callback, int priorityOffset) {
         mFetchStatuses.trigger(contentHandle, paging, callback,
                 mConnectionStatus, priorityOffset);
     }
@@ -721,8 +720,8 @@ public abstract class SocialNetApi {
 	 *
 	 */
     public void getFriendshipExists(String userScreenName,
-            String userScreenNameToCheck,
-            TwitterFetchBooleans.FinishedCallback callback) {
+                                    String userScreenNameToCheck,
+                                    TwitterFetchBooleans.FinishedCallback callback) {
         mFetchBooleans.getFriendshipExists(userScreenName,
                 userScreenNameToCheck, callback, mConnectionStatus);
     }

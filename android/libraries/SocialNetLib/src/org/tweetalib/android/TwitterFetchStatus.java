@@ -44,7 +44,7 @@ public class TwitterFetchStatus {
     }
 
     /*
-	 *
+     *
 	 */
     public interface FetchStatusWorkerCallbacks {
 

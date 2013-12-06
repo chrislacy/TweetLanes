@@ -42,7 +42,7 @@ public class LaneDescriptor {
     }
 
     /*
-	 * 
+     *
 	 */
     public Constant.LaneType getLaneType() {
         return mLaneType;

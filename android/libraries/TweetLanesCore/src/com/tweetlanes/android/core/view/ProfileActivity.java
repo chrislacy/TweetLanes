@@ -73,7 +73,6 @@ public class ProfileActivity extends BaseLaneActivity {
         }
 
 
-
         if (mScreenName == null) {
             restartApp();
             return;
@@ -207,7 +206,7 @@ public class ProfileActivity extends BaseLaneActivity {
     }
 
     /*
-	 *
+     *
 	 */
     @Override
     public boolean configureOptionsMenu(Menu menu) {

@@ -113,7 +113,7 @@ public class TwitterDirectMessages {
         }
 
         /*
-		 * 
+         *
 		 */
         void sort() {
             Collections.sort(mMessages);
@@ -154,8 +154,7 @@ public class TwitterDirectMessages {
 
         public void remove(ArrayList<TwitterDirectMessage> searchMessages) {
 
-            for (TwitterDirectMessage message : searchMessages)
-            {
+            for (TwitterDirectMessage message : searchMessages) {
                 TwitterDirectMessage toRemove = null;
                 for (TwitterDirectMessage conversationMessage : getMessages()) {
                     if (conversationMessage.getId() == message.getId()) {
@@ -201,8 +200,7 @@ public class TwitterDirectMessages {
             ResponseList<DirectMessage> directMessages = i == 0 ? sentDirectMessages
                     : receivedDirectMessages;
 
-            if(directMessages != null)
-            {
+            if (directMessages != null) {
                 for (DirectMessage directMessage : directMessages) {
 
                     User otherUser = getOtherParty(directMessage);
@@ -268,12 +266,12 @@ public class TwitterDirectMessages {
 
         for (Conversation conversation : mConversations) {
             conversation.remove(directMessages.getAllMessages());
-            if(conversation.mMessages.size() == 0){
+            if (conversation.mMessages.size() == 0) {
                 removeConversations.add(conversation);
             }
         }
 
-        for (Conversation conversation : removeConversations){
+        for (Conversation conversation : removeConversations) {
             mConversations.remove(conversation);
         }
     }
@@ -303,8 +301,7 @@ public class TwitterDirectMessages {
         Conversation fullConvo = getConversationForMessage(message);
         ArrayList<TwitterDirectMessage> allMessages = new ArrayList<TwitterDirectMessage>();
 
-        if(fullConvo!=null)
-        {
+        if (fullConvo != null) {
             allMessages = fullConvo.mMessages;
         }
 
