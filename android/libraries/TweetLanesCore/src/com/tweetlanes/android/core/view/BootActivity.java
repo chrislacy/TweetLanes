@@ -101,6 +101,22 @@ public class BootActivity extends Activity {
                             String statusId = getUriPartAfterText(uriData, "status");
                             startTweetSpotlight(statusId);
                             urlValid = true;
+                        } else if (uriData.getPath().contains("/intent/tweet")) {
+                            String statusText = uriData.getQueryParameter("text");
+                            if(uriData.getQueryParameterNames().contains("url"))
+                            {
+                                statusText = statusText + " " + uriData.getQueryParameter("url");
+                            }
+                            if(uriData.getQueryParameterNames().contains("hashtags"))
+                            {
+                                String[] hashtags = uriData.getQueryParameter("hashtags").split(",");
+                                for(String hashtag : hashtags)
+                                {
+                                    statusText = statusText + " #" + hashtag;
+                                }
+                            }
+                            startHomeActivity(statusText);
+                            urlValid = true;
                         }
                     }
                     else if (host.contains("app.net")) {
@@ -182,19 +198,21 @@ public class BootActivity extends Activity {
     }
 
     private void startHomeActivity(String composeText) {
-        Intent tweetSpotlightIntent = new Intent(this, HomeActivity.class);
+        Intent homeIntent = new Intent(this, HomeActivity.class);
+        homeIntent.setAction(Intent.ACTION_SEND);
+        homeIntent.setType("text/plain");
         if(!composeText.isEmpty()){
-            tweetSpotlightIntent.putExtra("composeText", composeText);
+            homeIntent.putExtra(Intent.EXTRA_TEXT, composeText);
         }
         overridePendingTransition(0, 0);
-        startActivity(tweetSpotlightIntent);
+        startActivity(homeIntent);
     }
 
     private void startProfileSpotlight(String userName) {
-        Intent tweetSpotlightIntent = new Intent(this, ProfileActivity.class);
-        tweetSpotlightIntent.putExtra("userScreenName", userName);
-        tweetSpotlightIntent.putExtra("clearCompose", "true");
+        Intent profileIntent = new Intent(this, ProfileActivity.class);
+        profileIntent.putExtra("userScreenName", userName);
+        profileIntent.putExtra("clearCompose", "true");
         overridePendingTransition(0, 0);
-        startActivity(tweetSpotlightIntent);
+        startActivity(profileIntent);
     }
 }
