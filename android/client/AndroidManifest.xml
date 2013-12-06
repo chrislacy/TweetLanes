@@ -7,7 +7,6 @@
     <uses-sdk android:targetSdkVersion="17"
         android:minSdkVersion="14" />
 
-
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.VIBRATE"/>
@@ -16,7 +15,6 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="com.android.vending.BILLING" />
 	<uses-feature android:name="android.permission.CAMERA" android:required="false" />
-	<!-- <uses-permission android:name="android.permission.READ_LOGS"/>	-->
 
     <application
         android:label="@string/app_launcher_name"
