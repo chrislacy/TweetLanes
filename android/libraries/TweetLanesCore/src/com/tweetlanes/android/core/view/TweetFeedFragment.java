@@ -1565,9 +1565,9 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                                         showToast(getString(R.string.deleted_un_successfully));
                                     }
 
-                                    TwitterStatuses statusFeed = getSelectedStatuses();
+                                    TwitterStatuses statusFeed = getStatusFeed();
                                     statusFeed.add(selected);
-                                    setStatusFeed(getStatusFeed(), true);
+                                    setStatusFeed(statusFeed, true);
                                     mTweetFeedListAdapter.notifyDataSetChanged();
                                     mTweetFeedListView.onRefreshComplete();
                                     updateViewVisibility(true);
