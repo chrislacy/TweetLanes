@@ -29,14 +29,12 @@ import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
-import android.support.v4.app.FragmentActivity;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -218,9 +216,9 @@ public class SettingsActivity extends PreferenceActivity implements
                                 .setCancelable(false)
                                 .setPositiveButton(R.string.done,
                                         new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog,int id) {
+                                            public void onClick(DialogInterface dialog, int id) {
                                                 AppSettings.get().refresh(
-                                                                KEY_REMOVE_ACCOUNT_PREFERENCE);
+                                                        KEY_REMOVE_ACCOUNT_PREFERENCE);
                                             }
                                         });
 
@@ -565,7 +563,7 @@ public class SettingsActivity extends PreferenceActivity implements
         private final ArrayList<AccountDescriptor> mAccountDescriptors;
 
         public AccountRemovalAdapter(Context context,
-                                        ArrayList<AccountDescriptor> accountDescriptors) {
+                                     ArrayList<AccountDescriptor> accountDescriptors) {
             super(context, R.layout.account_row, accountDescriptors);
             mContext = context;
             mAccountDescriptors = accountDescriptors;
@@ -609,12 +607,10 @@ public class SettingsActivity extends PreferenceActivity implements
                 @Override
                 public void onClick(View v) {
 
-                    if(getApp().getCurrentAccount().getAccountKey().equals(account.getAccountKey())){
+                    if (getApp().getCurrentAccount().getAccountKey().equals(account.getAccountKey())) {
                         Toast.makeText(SettingsActivity.this, R.string.alert_remove_account_active, Toast.LENGTH_LONG).show();
                         AppSettings.get().refresh(KEY_REMOVE_ACCOUNT_PREFERENCE);
-                    }
-                    else
-                    {
+                    } else {
                         new AlertDialog.Builder(getContext())
                                 .setTitle(R.string.alert_remove_account_title)
                                 .setMessage(R.string.alert_remove_account_sure)

@@ -44,6 +44,25 @@ public class AppdotnetApi extends SocialNetApi {
         super(type, consumerKey, consumerSecret, currentAccountKey);
     }
 
+    private static byte[] readFile(File file) throws IOException {
+        // Open file
+        RandomAccessFile f = new RandomAccessFile(file, "r");
+
+        try {
+            // Get and check length
+            long longlength = f.length();
+            int length = (int) longlength;
+            if (length != longlength) throw new IOException("File size >= 2 GB");
+
+            // Read file and return data
+            byte[] data = new byte[length];
+            f.readFully(data);
+            return data;
+        } finally {
+            f.close();
+        }
+    }
+
     @Override
     public void init() {
         // TODO Auto-generated method stub
@@ -102,7 +121,6 @@ public class AppdotnetApi extends SocialNetApi {
     String doPost(String path, JSONObject json, String fileToken) {
         return doPost(path + "?file_token=" + fileToken, json);
     }
-
 
     /*
      * (non-Javadoc)
@@ -202,14 +220,14 @@ public class AppdotnetApi extends SocialNetApi {
     }
 
     /*
-	 *
+     *
 	 */
     public AdnPosts getAdnStream(AdnPaging paging) {
         return getPosts("/stream/0/posts/stream", null, paging);
     }
 
     /*
-	 *
+     *
 	 */
     public AdnPosts getAdnGlobalStream(AdnPaging paging) {
         return getPosts("/stream/0/posts/stream/global", null, paging);
@@ -439,7 +457,6 @@ public class AppdotnetApi extends SocialNetApi {
         return null;
     }
 
-
     public AdnUser setAdnFollow(String username, boolean follow) {
         if (follow) {
             return followUser(username);
@@ -507,24 +524,5 @@ public class AppdotnetApi extends SocialNetApi {
 
     public SocialNetConstant.Type getSocialNetType() {
         return SocialNetConstant.Type.Appdotnet;
-    }
-
-    private static byte[] readFile(File file) throws IOException {
-        // Open file
-        RandomAccessFile f = new RandomAccessFile(file, "r");
-
-        try {
-            // Get and check length
-            long longlength = f.length();
-            int length = (int) longlength;
-            if (length != longlength) throw new IOException("File size >= 2 GB");
-
-            // Read file and return data
-            byte[] data = new byte[length];
-            f.readFully(data);
-            return data;
-        } finally {
-            f.close();
-        }
     }
 }

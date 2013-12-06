@@ -12,13 +12,11 @@
 package com.tweetlanes.android.core.view;
 
 import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -157,12 +155,12 @@ public class ImageViewActivity extends FragmentActivity {
                         toastMessage = getString(R.string.unknown_error);
                         try {
                             File dir = new File(Environment.getExternalStorageDirectory() + "/TweetLanes");
-                            if(!dir.exists()){
+                            if (!dir.exists()) {
                                 dir.mkdirs();
                             }
                             File f = new File(dir, UrlImageViewHelper.getJpgFilenameForUrl(mediaUrl));
                             copy(existingFile, f);
-                            sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, Uri.parse("file://" +  Environment.getExternalStorageDirectory())));
+                            sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, Uri.parse("file://" + Environment.getExternalStorageDirectory())));
                             toastMessage = getString(R.string.image_save_success);
                         } catch (FileNotFoundException e) {
                             e.printStackTrace();

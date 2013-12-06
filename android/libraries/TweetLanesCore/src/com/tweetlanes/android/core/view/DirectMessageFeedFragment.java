@@ -594,12 +594,9 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
 
         TwitterPaging paging = null;
         if (getOtherUserId() != null || !fullRefresh) {
-            if(mNewestDirectMessageId != null)
-            {
+            if (mNewestDirectMessageId != null) {
                 paging = TwitterPaging.createGetNewerWithPageSize(mNewestDirectMessageId, pageSize);
-            }
-            else
-            {
+            } else {
                 paging = TwitterPaging.createGetMostRecent();
             }
             mRefreshCallback = new TwitterFetchDirectMessagesFinishedCallback() {
@@ -749,8 +746,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
                 mSelectedItems.add(directMessageItemView);
             }
 
-            if(getSelectedStatuses() != null)
-            {
+            if (getSelectedStatuses() != null) {
                 mConversationListView.getRefreshableView().setItemChecked(position, !isChecked);
             }
         }
@@ -820,8 +816,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
                             }
                         };
 
-                if(selected != null)
-                {
+                if (selected != null) {
                     if (selected.getAllMessages().size() > 1) {
                         showToast(getString(R.string.delete_dm_multiple));
                     }
@@ -874,12 +869,9 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
             }
 
             final int checkedCount = mConversationListView.getRefreshableView().getCheckedItemCount();
-            if(getSelectedStatuses() == null)
-            {
+            if (getSelectedStatuses() == null) {
                 mode.setSubtitle(null);
-            }
-            else
-            {
+            } else {
                 switch (checkedCount) {
                     case 0:
                         mode.setSubtitle(null);
@@ -985,14 +977,15 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
         }
 
         View inflateNewDirectMessageItem() {
-        	View convertView = mInflater.inflate(
+            View convertView = mInflater.inflate(
                     R.layout.direct_message_feed_item_received, null);
-        	ViewHolder holder = new ViewHolder(convertView);
-        	holder.directMessageItemView = (DirectMessageItemView) convertView
+            ViewHolder holder = new ViewHolder(convertView);
+            holder.directMessageItemView = (DirectMessageItemView) convertView
                     .findViewById(R.id.directMessageItem);
-        	convertView.setTag(R.id.directMessageItem, holder);
-        	return convertView;
+            convertView.setTag(R.id.directMessageItem, holder);
+            return convertView;
         }
+
         /*
          *
          */
@@ -1011,17 +1004,17 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
                 // mInflater.inflate(R.layout.direct_message_feed_item_sent,
                 // null);
             }
-            
+
             ViewHolder holder = null;
             if (convertView != null) {
-            	holder = (ViewHolder) convertView.getTag(R.id.directMessageItem);
-            	if (holder == null) {
-            		convertView = inflateNewDirectMessageItem();
-        			holder = (ViewHolder) convertView.getTag(R.id.directMessageItem);
-            	}
+                holder = (ViewHolder) convertView.getTag(R.id.directMessageItem);
+                if (holder == null) {
+                    convertView = inflateNewDirectMessageItem();
+                    holder = (ViewHolder) convertView.getTag(R.id.directMessageItem);
+                }
             } else {
-            	convertView = inflateNewDirectMessageItem();
-            	holder = (ViewHolder) convertView.getTag(R.id.directMessageItem);
+                convertView = inflateNewDirectMessageItem();
+                holder = (ViewHolder) convertView.getTag(R.id.directMessageItem);
             }
 
             DirectMessageItemViewCallbacks callbacks = new DirectMessageItemViewCallbacks() {
@@ -1049,7 +1042,7 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
 
             };
 
-            holder.directMessageItemView.configure(getScreenName(),getName(), directMessage,
+            holder.directMessageItemView.configure(getScreenName(), getName(), directMessage,
                     position + 1, messageType, otherUserId != null, callbacks);
             return holder.directMessageItemView;
         }
@@ -1077,11 +1070,13 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
         }
 
         class ViewHolder {
-        	public DirectMessageItemView directMessageItemView;
-        	public ViewHolder(View convertView) {
-        		directMessageItemView = (DirectMessageItemView) convertView.findViewById(R.id.directMessageItem);
-        	}
+            public DirectMessageItemView directMessageItemView;
+
+            public ViewHolder(View convertView) {
+                directMessageItemView = (DirectMessageItemView) convertView.findViewById(R.id.directMessageItem);
+            }
         }
+
         /**
          * Remember our context so we can use it when constructing views.
          */

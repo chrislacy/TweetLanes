@@ -103,10 +103,9 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
                         }
                     } else {
                         Intent returnIntent = new Intent();
-                        if(mStatus!=null){
+                        if (mStatus != null) {
                             returnIntent.putExtra("status", mStatus.toString());
-                        }
-                        else{
+                        } else {
                             returnIntent.putExtra("status", "");
                         }
                         setResult(RESULT_OK, returnIntent);
@@ -141,8 +140,7 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
             Intent returnIntent = new Intent();
-            if (mStatus != null)
-            {
+            if (mStatus != null) {
                 returnIntent.putExtra("status", mStatus.toString());
             }
             setResult(RESULT_OK, returnIntent);
@@ -221,7 +219,7 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
     }
 
     /*
-	 *
+     *
 	 */
     private void updateViewVisibility() {
 
@@ -272,9 +270,9 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
 
                     if (result != null && result.isSuccessful()) {
                         if (status == null || status.mOriginalRetweetId == 0) {
-                            if(result.getErrorMessage()==null){
+                            if (result.getErrorMessage() == null) {
                                 success = false;
-                            }else if (!result.getErrorMessage().equals("CancelPressed") && !result.getErrorMessage().equals("QutotePressed")) {
+                            } else if (!result.getErrorMessage().equals("CancelPressed") && !result.getErrorMessage().equals("QutotePressed")) {
                                 success = false;
                             }
                         }
@@ -282,8 +280,7 @@ public class TweetSpotlightActivity extends BaseLaneActivity {
                         success = false;
                     }
 
-                    if(!success)
-                    {
+                    if (!success) {
                         showToast(getString(R.string.retweeted_un_successful));
                         mStatus.mIsRetweetedByMe = false;
                         onGetStatus(mStatus);

@@ -554,7 +554,7 @@ public class TweetFeedItemView extends LinearLayout {
     };
 
     /*
-	 *
+     *
 	 */
     private final OnTouchListener mOnTouchListener = new OnTouchListener() {
 

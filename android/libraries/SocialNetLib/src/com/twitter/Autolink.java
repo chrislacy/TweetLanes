@@ -70,7 +70,7 @@ public class Autolink {
         extractor.setExtractURLWithoutProtocol(false);
     }
 
-    public void setExtractURLWithoutProtocol(boolean newValue){
+    public void setExtractURLWithoutProtocol(boolean newValue) {
         extractor.setExtractURLWithoutProtocol(newValue);
     }
 
@@ -184,11 +184,9 @@ public class Autolink {
 
         Map<String, String> attrs = new LinkedHashMap<String, String>();
 
-        if(urlEntity != null && urlEntity.getExpandedURL() != null){
+        if (urlEntity != null && urlEntity.getExpandedURL() != null) {
             attrs.put("href", urlEntity.getExpandedURL());
-        }
-        else
-        {
+        } else {
             attrs.put("href", url.toString());
         }
 

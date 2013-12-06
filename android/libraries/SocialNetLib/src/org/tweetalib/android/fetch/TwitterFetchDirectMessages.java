@@ -70,7 +70,7 @@ public class TwitterFetchDirectMessages {
     }
 
     /*
-	 *
+     *
 	 */
     public TwitterFetchDirectMessages() {
         mFinishedCallbackMap = new HashMap<Integer, TwitterFetchDirectMessagesFinishedCallback>();
@@ -305,9 +305,9 @@ public class TwitterFetchDirectMessages {
                         switch (input.mContentHandle.getDirectMessagesType()) {
                             case RECIEVED_MESSAGES:
                             case ALL_MESSAGES:
-                            case ALL_MESSAGES_FRESH:{
+                            case ALL_MESSAGES_FRESH: {
 
-                                if(input.mContentHandle.getDirectMessagesType()== TwitterConstant.DirectMessagesType.ALL_MESSAGES_FRESH){
+                                if (input.mContentHandle.getDirectMessagesType() == TwitterConstant.DirectMessagesType.ALL_MESSAGES_FRESH) {
                                     mMessagesHashMap.remove(input.mContentHandle.getKey());
                                 }
 
@@ -322,9 +322,8 @@ public class TwitterFetchDirectMessages {
                                         .getDirectMessages(paging);
 
                                 ResponseList<DirectMessage> sentDirectMessages = null;
-                                if(input.mContentHandle.getDirectMessagesType()== TwitterConstant.DirectMessagesType.ALL_MESSAGES ||
-                                        input.mContentHandle.getDirectMessagesType()== TwitterConstant.DirectMessagesType.ALL_MESSAGES_FRESH)
-                                {
+                                if (input.mContentHandle.getDirectMessagesType() == TwitterConstant.DirectMessagesType.ALL_MESSAGES ||
+                                        input.mContentHandle.getDirectMessagesType() == TwitterConstant.DirectMessagesType.ALL_MESSAGES_FRESH) {
                                     Log.d("api-call", "getSendDirectMessages");
                                     sentDirectMessages = twitter
                                             .getSentDirectMessages(paging);

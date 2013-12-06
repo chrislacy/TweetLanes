@@ -19,15 +19,12 @@ package org.tweetalib.android.model;
 import android.text.Html;
 import android.text.Spanned;
 
-import org.appdotnet4j.model.AdnMedia;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.tweetalib.android.TwitterManager;
 import org.tweetalib.android.TwitterUtil;
 import org.tweetalib.android.widget.URLSpanNoUnderline;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 import twitter4j.DirectMessage;
@@ -45,7 +42,7 @@ public class TwitterDirectMessage implements Comparable<TwitterDirectMessage> {
     }
 
     /*
-	 * 
+     *
 	 */
     public TwitterDirectMessage(DirectMessage message, User otherUser) {
         mId = message.getId();
@@ -84,9 +81,7 @@ public class TwitterDirectMessage implements Comparable<TwitterDirectMessage> {
 
             if (object.has(KEY_STATUS_MARKUP)) {
                 mStatusFullMarkup = object.getString(KEY_STATUS_MARKUP);
-            }
-            else
-            {
+            } else {
                 mStatusFullMarkup = TwitterUtil.getStatusMarkup(mText, new MediaEntity[0], new URLEntity[0]);
             }
             mTextSpanned = URLSpanNoUnderline.stripUnderlines(Html.fromHtml(mStatusFullMarkup.replace("\n", "<br/>") + " "));
@@ -274,7 +269,7 @@ public class TwitterDirectMessage implements Comparable<TwitterDirectMessage> {
         return mOtherUserScreenName;
     }
 
-    public String getOtherUserName(){
+    public String getOtherUserName() {
         return mOtherUserName;
     }
 

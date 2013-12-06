@@ -153,8 +153,7 @@ public final class TweetSpotlightFragment extends BaseLaneFragment {
                                 };
 
                                 mStatus = status;
-                                if(mStatus != null)
-                                {
+                                if (mStatus != null) {
                                     TwitterManager.get().getStatus(mStatus.mOriginalRetweetId, mGetStatusCallback);
                                 }
                             } else {

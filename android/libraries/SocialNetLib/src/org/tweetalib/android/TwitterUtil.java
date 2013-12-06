@@ -39,8 +39,7 @@ public class TwitterUtil {
 
     private static void initCommon() {
 
-        if(mAllowReInit)
-        {
+        if (mAllowReInit) {
             if (mAutoLink == null) {
                 mAutoLink = new Autolink();
             }
@@ -70,7 +69,7 @@ public class TwitterUtil {
     }
 
     /*
-	 * 
+     *
 	 */
     public static String getStatusMarkup(AdnPost post) {
 
@@ -78,7 +77,7 @@ public class TwitterUtil {
         mAutoLink.setExtractURLWithoutProtocol(true);
         mAllowReInit = false;
 
-        String statusMarkup =  getStatusMarkup(post.mText, null, post.mUrls);
+        String statusMarkup = getStatusMarkup(post.mText, null, post.mUrls);
         mAllowReInit = true;
 
         return statusMarkup;

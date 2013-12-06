@@ -70,7 +70,7 @@ public abstract class BaseLaneFragment extends Fragment {
     private static final String KEY_IDENTIFIER = "blf_identifier";
 
     /*
-	 * 
+     *
 	 */
     public boolean configureOptionsMenu(MenuInflater inflater, Menu menu) {
         return false;
@@ -83,7 +83,8 @@ public abstract class BaseLaneFragment extends Fragment {
         return getArguments().getInt(KEY_LANE_INDEX);
     }
 
-    public void fetchNewestTweets(){}
+    public void fetchNewestTweets() {
+    }
 
     /*
 	 * 

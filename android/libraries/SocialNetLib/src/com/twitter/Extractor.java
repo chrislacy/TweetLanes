@@ -253,7 +253,7 @@ public class Extractor {
      *
      * @param text of the tweet from which to extract the replied to username
      * @return username referenced, if any (without the leading @ sign). Returns
-     *         null if this is not a reply.
+     * null if this is not a reply.
      */
     public String extractReplyScreenname(String text) {
         if (text == null) {
@@ -553,7 +553,7 @@ public class Extractor {
         /**
          * @param charIndex Index into the string measured in code units.
          * @return The code point index that corresponds to the specified
-         *         character index.
+         * character index.
          */
         int codeUnitsToCodePoints(int charIndex) {
             if (charIndex < this.charIndex) {
@@ -579,7 +579,7 @@ public class Extractor {
         /**
          * @param codePointIndex Index into the string measured in code points.
          * @return the code unit index that corresponds to the specified code
-         *         point index.
+         * point index.
          */
         int codePointsToCodeUnits(int codePointIndex) {
             // Note that offsetByCodePoints accepts negative indices.

@@ -107,11 +107,11 @@ public class DirectMessageItemView extends LinearLayout {
                           MessageType messageType, boolean fullConversation,
                           DirectMessageItemViewCallbacks callbacks) {
 
-    	mHolder = (ViewHolder) getTag();
-    	if (mHolder == null) {
-    		mHolder = new ViewHolder(this);
-    		setTag(mHolder);
-    	}
+        mHolder = (ViewHolder) getTag();
+        if (mHolder == null) {
+            mHolder = new ViewHolder(this);
+            setTag(mHolder);
+        }
         StatusSize statusSize = AppSettings.get().getCurrentStatusSize();
 
         mDirectMessage = directMessage;
@@ -158,14 +158,11 @@ public class DirectMessageItemView extends LinearLayout {
 
         TextView authorNameTextView = mHolder.authorNameTextView;
         if (authorNameTextView != null) {
-            if (nameFormat == AppSettings.DisplayNameFormat.Handle)
-            {
+            if (nameFormat == AppSettings.DisplayNameFormat.Handle) {
                 authorNameTextView.setText("@"
                         + (messageType == MessageType.SENT ? userScreenName
                         : directMessage.getOtherUserScreenName()));
-            }
-            else
-            {
+            } else {
                 authorNameTextView.setText(messageType == MessageType.SENT ? userName
                         : directMessage.getOtherUserName());
             }
@@ -288,7 +285,7 @@ public class DirectMessageItemView extends LinearLayout {
     };
 
     /*
-	 *
+     *
 	 */
     private final GestureDetector mGestureDetector = new GestureDetector(
             new GestureDetector.SimpleOnGestureListener() {
@@ -386,22 +383,24 @@ public class DirectMessageItemView extends LinearLayout {
             super.dispatchDraw(c);
         }
     }
+
     private static class ViewHolder {
-    	public ImageView replyIcon;
-    	public TextView authorScreenNameTextView;
-    	public TextView authorNameTextView;
-    	public TextView statusTextView;
-    	public TextView prettyDateTextView;
-    	public QuickContactDivot avatar;
-    	public View messageBlock;
-    	public ViewHolder(View v) {
-    		replyIcon = (ImageView) v.findViewById(R.id.replyIcon);
-    		authorScreenNameTextView = (TextView) v.findViewById(R.id.authorScreenName);
-    		authorNameTextView = (TextView) v.findViewById(R.id.authorName);
-    		statusTextView = (TextView) v.findViewById(R.id.status);
-    		prettyDateTextView = (TextView) v.findViewById(R.id.pretty_date);
-    		avatar = (QuickContactDivot) v.findViewById(R.id.avatar);
-    		messageBlock = v.findViewById(R.id.message_block);
-    	}
+        public ImageView replyIcon;
+        public TextView authorScreenNameTextView;
+        public TextView authorNameTextView;
+        public TextView statusTextView;
+        public TextView prettyDateTextView;
+        public QuickContactDivot avatar;
+        public View messageBlock;
+
+        public ViewHolder(View v) {
+            replyIcon = (ImageView) v.findViewById(R.id.replyIcon);
+            authorScreenNameTextView = (TextView) v.findViewById(R.id.authorScreenName);
+            authorNameTextView = (TextView) v.findViewById(R.id.authorName);
+            statusTextView = (TextView) v.findViewById(R.id.status);
+            prettyDateTextView = (TextView) v.findViewById(R.id.pretty_date);
+            avatar = (QuickContactDivot) v.findViewById(R.id.avatar);
+            messageBlock = v.findViewById(R.id.message_block);
+        }
     }
 }

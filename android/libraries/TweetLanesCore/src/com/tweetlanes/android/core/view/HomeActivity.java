@@ -555,8 +555,7 @@ public class HomeActivity extends BaseLaneActivity {
             clearFragmentsCache();
 
             app.setCurrentAccount(selectedAccount.getId());
-            if(mHomeLaneAdapter != null)
-            {
+            if (mHomeLaneAdapter != null) {
                 mHomeLaneAdapter.notifyDataSetChanged();
             }
 
@@ -708,7 +707,7 @@ public class HomeActivity extends BaseLaneActivity {
 
                     case DIRECT_MESSAGES:
                         result = DirectMessageFeedFragment.newInstance(position,
-                                laneDescriptor.getContentHandleBase(), screenName,name,
+                                laneDescriptor.getContentHandleBase(), screenName, name,
                                 Long.toString(account.getId()), null, getApp().getCurrentAccountKey(), null);
                         break;
 

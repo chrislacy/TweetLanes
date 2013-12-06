@@ -141,7 +141,7 @@ public class ConversationView extends LinearLayout {
     }
 
     /*
-	 *
+     *
 	 */
     private void updateViewVisibility(boolean loadHasFinished) {
 

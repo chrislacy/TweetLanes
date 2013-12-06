@@ -11,7 +11,6 @@
 
 package com.tweetlanes.android.core.view;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
@@ -24,10 +23,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.tweetlanes.android.core.AppSettings;
-import com.tweetlanes.android.core.Constant;
 import com.tweetlanes.android.core.R;
 import com.tweetlanes.android.core.model.ComposeTweetDefault;
 import com.tweetlanes.android.core.util.Util;
@@ -92,15 +89,14 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
     }
 
     /*
-	 *
+     *
 	 */
     @Override
     protected void updateComposeTweetDefault() {
 
         String currentStatus = mEditText.getText().toString();
 
-        if (Util.isValidString(currentStatus))
-        {
+        if (Util.isValidString(currentStatus)) {
             ComposeTweetDefault composeTweetDefault = new ComposeTweetDefault(getApp()
                     .getCurrentAccountScreenName(), currentStatus,
                     getInReplyToId(), getMediaFilePath());
@@ -120,18 +116,14 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
             if (result != null && !result.equals("")) {
                 return result;
             }
-        }
-        else
-        {
+        } else {
             if (mListener != null) {
                 String draftAsJsonString = mListener.getDraft();
-                if (draftAsJsonString != null  && !draftAsJsonString.equals(""))
-                {
+                if (draftAsJsonString != null && !draftAsJsonString.equals("")) {
                     return draftAsJsonString;
                 }
             }
         }
-
 
 
         return null;
@@ -286,11 +278,10 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
     protected void onSendClick(String status) {
         if (status != null) {
             int statusLength = mStatusValidator.getTweetLength(status);
-            if (statusLength == 0){
+            if (statusLength == 0) {
                 showSimpleAlert(getApp().getCurrentAccount().getSocialNetType() == SocialNetConstant.Type.Twitter ? R
                         .string.alert_status_empty : R.string.alert_status_empty_adn);
-            }
-            else if (!mStatusValidator.isValidTweet(status, getMaxPostLength())) {
+            } else if (!mStatusValidator.isValidTweet(status, getMaxPostLength())) {
                 showSimpleAlert(mStatusValidator.getTweetLength(status) <= getMaxPostLength() ? R.string.alert_status_invalid
                         : (getApp().getCurrentAccount().getSocialNetType() == SocialNetConstant.Type.Twitter ? R
                         .string.alert_status_too_long : R.string.alert_status_too_long_adn));
@@ -334,7 +325,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
 
         if (composeTweetDefault != null && getApp() != null) {
             String lastStatus = composeTweetDefault.getStatus();
-            if (lastStatus != null && lastStatus != "" ) {
+            if (lastStatus != null && lastStatus != "") {
                 lastStatus = Util.trimLeftRight(lastStatus);
                 if (composeTweetDefault.getInReplyToStatusId() != null) {
                     hint = getString(R.string.compose_tweet_reply_to) + " "
@@ -502,7 +493,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
 	 */
     public void beginQuote(TwitterStatus statusToQuote) {
         String statusString = getDefaultQuoteStatus(statusToQuote);
-        setComposeTweetDefault(new ComposeTweetDefault(getApp().getCurrentAccountScreenName(),statusString));
+        setComposeTweetDefault(new ComposeTweetDefault(getApp().getCurrentAccountScreenName(), statusString));
 
         showCompose(statusString);
     }
@@ -511,7 +502,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
 	 *
 	 */
     public void beginShare(String initialShareString) {
-        setComposeTweetDefault(new ComposeTweetDefault(getApp().getCurrentAccountScreenName(),initialShareString));
+        setComposeTweetDefault(new ComposeTweetDefault(getApp().getCurrentAccountScreenName(), initialShareString));
 
         showCompose(initialShareString);
     }
@@ -520,6 +511,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
 	 *
 	 */
     private TwitterStatus mRetweetStatus;
+
     public void retweetSelected(TwitterStatus status, final FinishedCallback callback, final FinishedCallback showRTCallback) {
 
         mRetweetStatus = status;

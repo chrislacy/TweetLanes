@@ -28,7 +28,7 @@ public class TwitterUsers {
     }
 
     /*
-	 * 
+     *
 	 */
     public TwitterUsers(TwitterUsers another) {
         mUsers = new ArrayList<TwitterUser>(another.mUsers);

@@ -58,22 +58,18 @@ public final class Util {
         return formatted.format(date);
     }
 
-    public static String getDisplayDate(Date date)
-    {
+    public static String getDisplayDate(Date date) {
         AppSettings.DisplayTimeFormat displayTimeFormat = AppSettings.get().getCurrentDisplayTimeFormat();
-        if(displayTimeFormat== AppSettings.DisplayTimeFormat.Relative){
+        if (displayTimeFormat == AppSettings.DisplayTimeFormat.Relative) {
             return Util.getPrettyDate(date);
-        }else if(displayTimeFormat== AppSettings.DisplayTimeFormat.Absolute){
+        } else if (displayTimeFormat == AppSettings.DisplayTimeFormat.Absolute) {
             return getPrettyFullDate(date);
-        } else{
+        } else {
             Date currentDate = new Date();
-            int diffInMinutes = (int)((currentDate.getTime() - date.getTime()) / (1000 * 60));
-            if(diffInMinutes > 59)
-            {
+            int diffInMinutes = (int) ((currentDate.getTime() - date.getTime()) / (1000 * 60));
+            if (diffInMinutes > 59) {
                 return getPrettyFullDate(date);
-            }
-            else
-            {
+            } else {
                 return Util.getPrettyDate(date);
             }
         }
@@ -88,31 +84,24 @@ public final class Util {
     }
 
 
-    public static String getPrettyFullDate(Date date)
-    {
+    public static String getPrettyFullDate(Date date) {
         Date currentDate = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         int diffInDays = sdf.format(currentDate).compareTo(sdf.format(date));
 
-        if(diffInDays > 0)
-        {
-            if(diffInDays > 300)
-            {
+        if (diffInDays > 0) {
+            if (diffInDays > 300) {
                 return Util.getShortDateYear(date);
-            }
-            else
-            {
+            } else {
                 return Util.getShortDate(date);
             }
-        }
-        else
-        {
+        } else {
             return Util.getTimeOnly(date);
         }
     }
 
     /*
-	 * 
+     *
 	 */
     public static String getPrettyDate(Date createdAt) {
 
@@ -181,7 +170,7 @@ public final class Util {
      *                to convert into pixels
      * @param context Context to get resources and device specific display metrics
      * @return A float value to represent Pixels equivalent to dp according to
-     *         device
+     * device
      */
     public static float convertDpToPixel(float dp, Context context) {
         Resources resources = context.getResources();
@@ -325,7 +314,7 @@ public final class Util {
 
     /**
      * Close the {@link Closeable} ignoring any {@link IOException}
-     * 
+     *
      * @param closeable The {@link Closeable} to close
      */
     public static void closeQuietly(Closeable closeable) {

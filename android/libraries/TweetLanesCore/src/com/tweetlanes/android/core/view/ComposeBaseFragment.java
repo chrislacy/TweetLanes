@@ -188,7 +188,7 @@ abstract class ComposeBaseFragment extends Fragment {
     }
 
     /*
-	 *
+     *
 	 */
     void showToast(String message) {
         if (getActivity() != null
@@ -605,6 +605,7 @@ abstract class ComposeBaseFragment extends Fragment {
             getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
         }
     }
+
     /*
 	 *
 	 */
@@ -615,9 +616,9 @@ abstract class ComposeBaseFragment extends Fragment {
             lockScreenRotation();
 
             String status = mEditText.getText().toString();
-            if (status==null || status.equals("")){
+            if (status == null || status.equals("")) {
                 ComposeTweetDefault composeTweetDefault = getComposeTweetDefault();
-                if(composeTweetDefault!= null){
+                if (composeTweetDefault != null) {
                     status = composeTweetDefault.getStatus();
                 }
             }

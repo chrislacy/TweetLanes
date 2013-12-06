@@ -23,7 +23,6 @@ import org.tweetalib.android.TwitterConstant.StatusesType;
 import org.tweetalib.android.model.TwitterDirectMessage;
 import org.tweetalib.android.model.TwitterDirectMessages;
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -92,7 +91,7 @@ public class TwitterModifyDirectMessages {
     }
 
     /*
-	 *
+     *
 	 */
 
     /*
@@ -140,7 +139,7 @@ public class TwitterModifyDirectMessages {
     class ModifyDirectMessagesTaskInput {
 
         public ModifyDirectMessagesTaskInput(Integer callbackHandle, StatusesType statusesType, TwitterDirectMessages messages,
-                                       Integer value) {
+                                             Integer value) {
             mCallbackHandle = callbackHandle;
             mStatusesType = statusesType;
             mMessages = new TwitterDirectMessages(0);
@@ -160,7 +159,7 @@ public class TwitterModifyDirectMessages {
     class ModifyDirectMessagesTaskOutput {
 
         ModifyDirectMessagesTaskOutput(TwitterFetchResult result, Integer callbackHandle,
-                                 Integer outputValue) {
+                                       Integer outputValue) {
             mCallbackHandle = callbackHandle;
             mValue = outputValue;
             mResult = result;
@@ -192,17 +191,14 @@ public class TwitterModifyDirectMessages {
                                 ArrayList<TwitterDirectMessage> messages = input.mMessages.getAllMessages();
                                 for (int i = 0; i < input.mMessages.getAllMessages().size(); i++) {
                                     TwitterDirectMessage directMessage = messages.get(i);
-                                    try
-                                    {
+                                    try {
                                         twitter.directMessages().destroyDirectMessage(directMessage.getId());
                                     } catch (TwitterException e) {
                                         String errorMessage = e.getErrorMessage();
                                         Log.d("api-call", errorMessage);
-                                        if(errorMessage.toLowerCase().equals("sorry, that page does not exist")){
+                                        if (errorMessage.toLowerCase().equals("sorry, that page does not exist")) {
                                             Log.d("api-call", "Delete found page doesn't exist, just carry on.");
-                                        }
-                                        else
-                                        {
+                                        } else {
                                             throw e;
                                         }
                                     }
