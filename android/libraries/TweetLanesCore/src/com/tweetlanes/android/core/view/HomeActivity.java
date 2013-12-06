@@ -209,7 +209,7 @@ public class HomeActivity extends BaseLaneActivity {
             if (type.equals("text/plain")) {
 
                 String shareString = extras.getString(Intent.EXTRA_TEXT);
-                if (extras.containsKey(Intent.EXTRA_TEXT)) {
+                if (extras.containsKey(Intent.EXTRA_SUBJECT)) {
                     shareString = extras.getString(Intent.EXTRA_SUBJECT) + " "
                             + shareString;
                 }

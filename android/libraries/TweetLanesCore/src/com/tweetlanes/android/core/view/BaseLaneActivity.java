@@ -1414,7 +1414,16 @@ class BaseLaneActivity extends FragmentActivity implements
                             : R.drawable.ic_action_share_light);
             // TODO: The order these buttons are set looks wrong, but appears
             // correctly. Have to ensure this is consistent on other devices.
-            alertDialog.setButton2(getString(R.string.share_tweet_link),
+            alertDialog.setButton(DialogInterface.BUTTON_POSITIVE,getString(R.string.share_tweet),
+                    new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog,
+                                            int which) {
+                            shareText(statusText);
+                        }
+                    });
+
+            alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE,getString(R.string.share_tweet_link),
                     new DialogInterface.OnClickListener() {
 
                         public void onClick(DialogInterface dialog, int which) {
@@ -1423,16 +1432,7 @@ class BaseLaneActivity extends FragmentActivity implements
                     });
 
             if (urls != null && urls.size() > 0) {
-                alertDialog.setButton3(getString(R.string.share_tweet),
-                        new DialogInterface.OnClickListener() {
-
-                            public void onClick(DialogInterface dialog,
-                                                int which) {
-                                shareText(statusText);
-                            }
-                        });
-
-                alertDialog.setButton(
+                alertDialog.setButton(DialogInterface.BUTTON_NEUTRAL,
                         getString(urls.size() == 1 ? R.string.share_link
                                 : R.string.share_first_link),
                         new DialogInterface.OnClickListener() {
@@ -1440,15 +1440,6 @@ class BaseLaneActivity extends FragmentActivity implements
                             public void onClick(DialogInterface dialog,
                                                 int which) {
                                 shareText(urls.get(0));
-                            }
-                        });
-            } else {
-                alertDialog.setButton(getString(R.string.share_tweet),
-                        new DialogInterface.OnClickListener() {
-
-                            public void onClick(DialogInterface dialog,
-                                                int which) {
-                                shareText(statusText);
                             }
                         });
             }
