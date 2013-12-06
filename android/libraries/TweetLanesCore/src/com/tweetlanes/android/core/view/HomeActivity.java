@@ -72,6 +72,35 @@ import java.util.List;
 
 public class HomeActivity extends BaseLaneActivity {
 
+    /*
+     * Hanlder for refreshing a user's lists
+     */
+    private final Handler mRefreshListsHandler = new Handler();
+    private final Runnable mRefreshListsTask = new Runnable() {
+
+        public void run() {
+
+            mFetchListsCallback = TwitterManager.get().getFetchListsInstance().new FinishedCallback() {
+
+                @Override
+                public void finished(boolean successful, TwitterLists lists) {
+                    mFetchListsCallback = null;
+
+                    if (successful) {
+                        boolean modified = getApp().onUserListsRefresh(lists);
+                        if (modified) {
+                            onLaneDataSetChanged();
+                        }
+                    }
+                }
+            };
+
+            AccountDescriptor account = getApp().getCurrentAccount();
+            if (account != null) {
+                TwitterManager.get().getLists(account.getScreenName(), mFetchListsCallback);
+            }
+        }
+    };
     private HomeLaneAdapter mHomeLaneAdapter;
     private SpinnerAdapter mSpinnerAdapter;
     private ViewSwitcher mViewSwitcher;
@@ -196,49 +225,47 @@ public class HomeActivity extends BaseLaneActivity {
         Intent intent = getIntent();
 
         Bundle extras = intent.getExtras();
-        if (extras != null) {
-            String composeText = extras.getString("composeText");
-            if(composeText!= null && !composeText.isEmpty()){
-                beginShareStatus(composeText);
-            }
-        }
 
-        if (intent.getAction() == Intent.ACTION_SEND) {
+        if(extras != null)
+        {
+            if (intent.getAction() == Intent.ACTION_SEND) {
 
-            String type = intent.getType();
-            if (type.equals("text/plain")) {
+                String type = intent.getType();
+                if (type.equals("text/plain") && extras.containsKey(Intent.EXTRA_TEXT)) {
 
-                String shareString = extras.getString(Intent.EXTRA_TEXT);
-                if (extras.containsKey(Intent.EXTRA_TEXT)) {
-                    shareString = extras.getString(Intent.EXTRA_SUBJECT) + " "
-                            + shareString;
-                }
-                beginShareStatus(shareString);
+                    String shareString = extras.getString(Intent.EXTRA_TEXT);
+                    if (extras.containsKey(Intent.EXTRA_SUBJECT)) {
+                        shareString = extras.getString(Intent.EXTRA_SUBJECT) + " "
+                                + shareString;
+                    }
+                    beginShareStatus(shareString);
 
-                turnSoftKeyboardOff = false;
-            } else if (type.contains("image/")) {
-                // From http://stackoverflow.com/a/2641363/328679
-                if (extras.containsKey(Intent.EXTRA_STREAM)) {
-                    Uri uri = extras.getParcelable(Intent.EXTRA_STREAM);
-                    String scheme = uri.getScheme();
-                    if (scheme.equals("content")) {
-                        ContentResolver contentResolver = getContentResolver();
-                        Cursor cursor = contentResolver.query(uri, null, null,
-                                null, null);
-                        cursor.moveToFirst();
-                        try {
-                            String imagePath = cursor.getString(cursor
-                                    .getColumnIndexOrThrow(Images.Media.DATA));
-                            beginShareImage(imagePath);
-                        } catch (java.lang.IllegalArgumentException e) {
-                            Toast.makeText(this, R.string.picture_attach_error,
-                                    Toast.LENGTH_SHORT).show();
-                        } finally {
-                            cursor.close();
-                            cursor = null;
+                    turnSoftKeyboardOff = false;
+
+                } else if (type.contains("image/")) {
+                    // From http://stackoverflow.com/a/2641363/328679
+                    if (extras.containsKey(Intent.EXTRA_STREAM)) {
+                        Uri uri = extras.getParcelable(Intent.EXTRA_STREAM);
+                        String scheme = uri.getScheme();
+                        if (scheme.equals("content")) {
+                            ContentResolver contentResolver = getContentResolver();
+                            Cursor cursor = contentResolver.query(uri, null, null,
+                                    null, null);
+                            cursor.moveToFirst();
+                            try {
+                                String imagePath = cursor.getString(cursor
+                                        .getColumnIndexOrThrow(Images.Media.DATA));
+                                beginShareImage(imagePath);
+                            } catch (java.lang.IllegalArgumentException e) {
+                                Toast.makeText(this, R.string.picture_attach_error,
+                                        Toast.LENGTH_SHORT).show();
+                            } finally {
+                                cursor.close();
+                                cursor = null;
+                            }
+
+                            turnSoftKeyboardOff = false;
                         }
-
-                        turnSoftKeyboardOff = false;
                     }
                 }
             }
@@ -561,8 +588,7 @@ public class HomeActivity extends BaseLaneActivity {
             clearFragmentsCache();
 
             app.setCurrentAccount(selectedAccount.getId());
-            if(mHomeLaneAdapter != null)
-            {
+            if (mHomeLaneAdapter != null) {
                 mHomeLaneAdapter.notifyDataSetChanged();
             }
 
@@ -621,37 +647,6 @@ public class HomeActivity extends BaseLaneActivity {
         }, null);
     }
 
-    /*
-     * Hanlder for refreshing a user's lists
-     */
-    private final Handler mRefreshListsHandler = new Handler();
-    private final Runnable mRefreshListsTask = new Runnable() {
-
-        public void run() {
-
-            mFetchListsCallback = TwitterManager.get().getFetchListsInstance().new FinishedCallback() {
-
-                @Override
-                public void finished(boolean successful, TwitterLists lists) {
-                    mFetchListsCallback = null;
-
-                    if (successful) {
-                        boolean modified = getApp().onUserListsRefresh(lists);
-                        if (modified) {
-                            onLaneDataSetChanged();
-                        }
-                    }
-                }
-            };
-
-            AccountDescriptor account = getApp().getCurrentAccount();
-            if (account != null) {
-                TwitterManager.get().getLists(account.getScreenName(), mFetchListsCallback);
-            }
-        }
-    };
-
-
     void onLaneDataSetChanged() {
         if (mHomeLaneAdapter != null) {
             mHomeLaneAdapter.notifyDataSetChanged();
@@ -661,7 +656,6 @@ public class HomeActivity extends BaseLaneActivity {
         }
         getApp().getCurrentAccount().setDisplayedLaneDefinitionsDirty(false);
     }
-
 
     class HomeLaneAdapter extends FragmentStatePagerAdapter implements
             TitleProvider {
@@ -714,7 +708,7 @@ public class HomeActivity extends BaseLaneActivity {
 
                     case DIRECT_MESSAGES:
                         result = DirectMessageFeedFragment.newInstance(position,
-                                laneDescriptor.getContentHandleBase(), screenName,name,
+                                laneDescriptor.getContentHandleBase(), screenName, name,
                                 Long.toString(account.getId()), null, getApp().getCurrentAccountKey(), null);
                         break;
 
@@ -853,27 +847,6 @@ public class HomeActivity extends BaseLaneActivity {
             return row;
         }
 
-        class AccountData {
-            public AccountData(long id, String screenName, SocialNetConstant.Type serviceType, String avatarImageUrl) {
-                Id = id;
-                ScreenName = screenName;
-                AvatarImageUrl = avatarImageUrl;
-                ServiceType = serviceType;
-            }
-
-            public final String AvatarImageUrl;
-            public final SocialNetConstant.Type ServiceType;
-            public final String ScreenName;
-            public final long Id;
-        }
-
-        public class AccountHolder {
-            public ImageView AvatarImage;
-            public ImageView ServiceImage;
-            public TextView ScreenName;
-            public TextView Filler;
-        }
-
         private void setProfileImage(String profileImageUrl, SocialNetConstant.Type serviceType, ImageView avatar, ImageView service) {
             if (profileImageUrl != null) {
                 service.setVisibility(View.VISIBLE);
@@ -897,6 +870,27 @@ public class HomeActivity extends BaseLaneActivity {
                 avatar.setImageResource(resource);
                 service.setVisibility(View.GONE);
             }
+        }
+
+        class AccountData {
+            public final String AvatarImageUrl;
+            public final SocialNetConstant.Type ServiceType;
+            public final String ScreenName;
+            public final long Id;
+
+            public AccountData(long id, String screenName, SocialNetConstant.Type serviceType, String avatarImageUrl) {
+                Id = id;
+                ScreenName = screenName;
+                AvatarImageUrl = avatarImageUrl;
+                ServiceType = serviceType;
+            }
+        }
+
+        public class AccountHolder {
+            public ImageView AvatarImage;
+            public ImageView ServiceImage;
+            public TextView ScreenName;
+            public TextView Filler;
         }
     }
 }

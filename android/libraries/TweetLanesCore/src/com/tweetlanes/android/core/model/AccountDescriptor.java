@@ -125,7 +125,7 @@ public class AccountDescriptor {
     }
 
     /*
-	 *
+     *
 	 */
     private void initCommon(ArrayList<String> displayedLanes) {
 
@@ -198,8 +198,7 @@ public class AccountDescriptor {
                             TwitterConstant.DirectMessagesType.ALL_MESSAGES)));
 
             // Add lists
-            synchronized (mLists)
-            {
+            synchronized (mLists) {
                 for (List list : mLists) {
                     if (list.mId != null) {
                         mLaneDefinitions
@@ -297,8 +296,8 @@ public class AccountDescriptor {
 
         if (changed) {
             ArrayList<String> activeLanes = new ArrayList<String>();
-            for (LaneDescriptor lane : mLaneDefinitions){
-                if (lane.getDisplay()){
+            for (LaneDescriptor lane : mLaneDefinitions) {
+                if (lane.getDisplay()) {
                     activeLanes.add(lane.getLaneTitle());
                 }
             }
@@ -362,11 +361,9 @@ public class AccountDescriptor {
     }
 
     public String getName() {
-        if(mName == null){
+        if (mName == null) {
             return getScreenName();
-        }
-        else
-        {
+        } else {
             return mName;
         }
     }
@@ -394,14 +391,13 @@ public class AccountDescriptor {
 
     public String getAccountKey30Chars() {
         String key = (getSocialNetType() == SocialNetConstant.Type.Twitter ? "t" :
-                "a")  + "_" +  mScreenName.toLowerCase();
+                "a") + "_" + mScreenName.toLowerCase();
 
         int length = 30;
-        if (key.length() < length)
-        {
+        if (key.length() < length) {
             length = key.length();
         }
-        return key.substring(0,length);
+        return key.substring(0, length);
     }
 
     /*

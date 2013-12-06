@@ -7,7 +7,7 @@ public class AdnUrl implements URLEntity {
     private String text;
     private String url;
 
-    public AdnUrl(String text, String url){
+    public AdnUrl(String text, String url) {
         this.text = text;
         this.url = url;
     }

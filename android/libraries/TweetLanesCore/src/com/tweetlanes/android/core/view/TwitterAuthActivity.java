@@ -105,7 +105,7 @@ public class TwitterAuthActivity extends Activity {
     }
 
     /*
-	 *
+     *
 	 */
     void getAuthUrlCallback(String url, RequestToken requestToken) {
 

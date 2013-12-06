@@ -186,7 +186,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         if (getLaneIndex() == getApp().getCurrentAccount().getCurrentLaneIndex(Constant.LaneType.USER_MENTIONS)) {
 
@@ -216,13 +216,12 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             }
         }
 
-        if(AppSettings.get().isAutoRefreshEnabled())
-        {
+        if (AppSettings.get().isAutoRefreshEnabled()) {
             Calendar cal = Calendar.getInstance();
             cal.add(Calendar.MINUTE, -2);
-            if(mLastRefreshTime == null){
+            if (mLastRefreshTime == null) {
                 fetchNewestTweets();
-            }else if(mLastRefreshTime.before(cal)){
+            } else if (mLastRefreshTime.before(cal)) {
                 fetchNewestTweets();
             }
         }
@@ -504,7 +503,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             if (visibleStatusId != null) {
                 if (statuses.getStatusIndex(visibleStatusId) == null) {
                     Integer index = feed.getStatusIndex(visibleStatusId);
-                    if(index != null){
+                    if (index != null) {
                         statuses.add(feed.getStatus(index.intValue()));
                     }
                 }
@@ -933,7 +932,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     }
 
     /*
-	 *
+     *
 	 */
     private TwitterStatus getVisibleStatus() {
 
@@ -1210,7 +1209,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         }
 
         if (addCachedStatuses && _mCachedStatusFeed != null && _mCachedStatusFeed.getStatusCount() > 0) {
-            if(_mStatusFeed == null){
+            if (_mStatusFeed == null) {
                 _mStatusFeed = new TwitterStatuses();
             }
             _mStatusFeed.insert(_mCachedStatusFeed);
@@ -1446,9 +1445,8 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                             }
 
                             if (showUnsuccessful) {
-                                if(!mDetached)
-                                {
-                                showToast(getString(R.string.retweeted_un_successful));
+                                if (!mDetached) {
+                                    showToast(getString(R.string.retweeted_un_successful));
                                 }
                                 TwitterStatuses cachedStatuses = getStatusFeed();
                                 TwitterStatus cachedStatus = cachedStatuses.findByStatusId(statusSelected.mId);
@@ -1565,9 +1563,9 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                                         showToast(getString(R.string.deleted_un_successfully));
                                     }
 
-                                    TwitterStatuses statusFeed = getSelectedStatuses();
+                                    TwitterStatuses statusFeed = getStatusFeed();
                                     statusFeed.add(selected);
-                                    setStatusFeed(getStatusFeed(), true);
+                                    setStatusFeed(statusFeed, true);
                                     mTweetFeedListAdapter.notifyDataSetChanged();
                                     mTweetFeedListView.onRefreshComplete();
                                     updateViewVisibility(true);
@@ -1853,30 +1851,30 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         }
 
         View inflateNewTweetFeedItem() {
-        	View view = mInflater.inflate(R.layout.tweet_feed_item_received, null);
-			ViewHolder holder = new ViewHolder(view);
-			view.setTag(R.id.tweetFeedItem, holder);
-			return view;
+            View view = mInflater.inflate(R.layout.tweet_feed_item_received, null);
+            ViewHolder holder = new ViewHolder(view);
+            view.setTag(R.id.tweetFeedItem, holder);
+            return view;
         }
-        
+
         /*
          *
          */
         View getTweetFeedView(View convertView, int position) {
-        	ViewHolder holder = null;
-        	// Sometimes the convertView comes with type of "LoadMoreView"
-    		// so we check if it contains a holder or not, if not then we inflate
-        	// a new TweetFeedItem cell to replace the LoadMoreView cell.
-        	if (convertView != null) {
-        		holder = (ViewHolder) convertView.getTag(R.id.tweetFeedItem);
-        		if (holder == null) {
-        			convertView = inflateNewTweetFeedItem();
-        			holder = (ViewHolder) convertView.getTag(R.id.tweetFeedItem);
-        		}
-        	} else {
-              convertView = inflateNewTweetFeedItem();
-              holder = (ViewHolder) convertView.getTag(R.id.tweetFeedItem);
-        	}
+            ViewHolder holder = null;
+            // Sometimes the convertView comes with type of "LoadMoreView"
+            // so we check if it contains a holder or not, if not then we inflate
+            // a new TweetFeedItem cell to replace the LoadMoreView cell.
+            if (convertView != null) {
+                holder = (ViewHolder) convertView.getTag(R.id.tweetFeedItem);
+                if (holder == null) {
+                    convertView = inflateNewTweetFeedItem();
+                    holder = (ViewHolder) convertView.getTag(R.id.tweetFeedItem);
+                }
+            } else {
+                convertView = inflateNewTweetFeedItem();
+                holder = (ViewHolder) convertView.getTag(R.id.tweetFeedItem);
+            }
 
             TwitterStatus item = getStatusFeed().getStatus(position, getBaseLaneActivity().mStatusesFilter);
 
@@ -1988,14 +1986,15 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             loadMoreView.configure(mode);
             return loadMoreView;
         }
-        
+
         private class ViewHolder {
-        	public TweetFeedItemView tweetFeedItemView;
-        	public ViewHolder(View convertView) {
-        		if (convertView != null) {
-        			tweetFeedItemView = (TweetFeedItemView) convertView.findViewById(R.id.tweetFeedItem);
-        		}
-        	}
+            public TweetFeedItemView tweetFeedItemView;
+
+            public ViewHolder(View convertView) {
+                if (convertView != null) {
+                    tweetFeedItemView = (TweetFeedItemView) convertView.findViewById(R.id.tweetFeedItem);
+                }
+            }
         }
 
         private final LayoutInflater mInflater;

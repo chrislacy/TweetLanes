@@ -174,7 +174,7 @@ public class ProfileFragment extends BaseLaneFragment {
     }
 
     /*
-	 * 
+     *
 	 */
     void configureView() {
 

@@ -302,7 +302,7 @@ class BaseLaneActivity extends FragmentActivity implements
     };
 
     /*
-	 *
+     *
 	 */
     void setCurrentComposeFragment(int type) {
         boolean share = false;
@@ -559,7 +559,7 @@ class BaseLaneActivity extends FragmentActivity implements
             mShareImagePath = null;
             int position = getApp().getCurrentAccount().getInitialLaneIndex();
             BaseLaneFragment fragment = getFragmentAtIndex(position);
-            if(fragment!=null){
+            if (fragment != null) {
                 fragment.fetchNewestTweets();
             }
         }
@@ -661,11 +661,11 @@ class BaseLaneActivity extends FragmentActivity implements
             setComposeDefault();
             int position = getApp().getCurrentAccount().getInitialLaneIndex();
             BaseLaneFragment fragment = getFragmentAtIndex(position);
-            if(fragment==null){
+            if (fragment == null) {
                 fragment = getFragmentAtIndex(0);
             }
-            
-            if(fragment!=null){
+
+            if (fragment != null) {
                 fragment.fetchNewestTweets();
             }
         }
@@ -812,10 +812,10 @@ class BaseLaneActivity extends FragmentActivity implements
 
     /**
      * Get a temporary file with a fixed (=known in advance) file name
-     * 
+     *
      * @param context activity context
      * @return a temp file in the external storage in a package-specific
-     *         directory
+     * directory
      */
     private static File getFixedTempFile(Context context) {
         final File path = new File(Environment.getExternalStorageDirectory(),
@@ -833,7 +833,7 @@ class BaseLaneActivity extends FragmentActivity implements
      *
      * @param context activity context
      * @return a temp file in the external storage in a package-specific
-     *         directory
+     * directory
      */
     private static File getTempFile(Context context) {
         final File path = new File(Environment.getExternalStorageDirectory(),
@@ -1055,8 +1055,7 @@ class BaseLaneActivity extends FragmentActivity implements
                     }
                 }
                 String statusAsString = data.getStringExtra("status");
-                if(!statusAsString.isEmpty())
-                {
+                if (!statusAsString.isEmpty()) {
                     TwitterStatus status = new TwitterStatus(statusAsString);
                     BaseLaneFragment fragment = mLaneFragmentHashMap
                             .get(getCurrentLaneIndex());
@@ -1079,7 +1078,7 @@ class BaseLaneActivity extends FragmentActivity implements
             if (data != null) {
 
                 boolean statusDelete = data.getBooleanExtra("statusDelete", false);
-                DirectMessageFeedFragment fragment = (DirectMessageFeedFragment)mLaneFragmentHashMap
+                DirectMessageFeedFragment fragment = (DirectMessageFeedFragment) mLaneFragmentHashMap
                         .get(getCurrentLaneIndex());
 
                 if (fragment != null) {
@@ -1262,15 +1261,12 @@ class BaseLaneActivity extends FragmentActivity implements
                     mComposeDirectMessageView.setVisibility(View.GONE);
                 }
 
-                if(!hasFocus)
-                {
+                if (!hasFocus) {
                     if (mCurrentComposeFragment == mComposeDirectMessageFragment) {
                         if (mComposeDirectMessageView != null) {
                             mComposeDirectMessageView.setVisibility(View.VISIBLE);
                         }
-                    }
-                    else
-                    {
+                    } else {
                         if (mComposeTweetView != null) {
                             mComposeTweetView.setVisibility(View.VISIBLE);
                         }
@@ -1414,7 +1410,16 @@ class BaseLaneActivity extends FragmentActivity implements
                             : R.drawable.ic_action_share_light);
             // TODO: The order these buttons are set looks wrong, but appears
             // correctly. Have to ensure this is consistent on other devices.
-            alertDialog.setButton2(getString(R.string.share_tweet_link),
+            alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.share_tweet),
+                    new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog,
+                                            int which) {
+                            shareText(statusText);
+                        }
+                    });
+
+            alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.share_tweet_link),
                     new DialogInterface.OnClickListener() {
 
                         public void onClick(DialogInterface dialog, int which) {
@@ -1423,16 +1428,7 @@ class BaseLaneActivity extends FragmentActivity implements
                     });
 
             if (urls != null && urls.size() > 0) {
-                alertDialog.setButton3(getString(R.string.share_tweet),
-                        new DialogInterface.OnClickListener() {
-
-                            public void onClick(DialogInterface dialog,
-                                                int which) {
-                                shareText(statusText);
-                            }
-                        });
-
-                alertDialog.setButton(
+                alertDialog.setButton(DialogInterface.BUTTON_NEUTRAL,
                         getString(urls.size() == 1 ? R.string.share_link
                                 : R.string.share_first_link),
                         new DialogInterface.OnClickListener() {
@@ -1440,15 +1436,6 @@ class BaseLaneActivity extends FragmentActivity implements
                             public void onClick(DialogInterface dialog,
                                                 int which) {
                                 shareText(urls.get(0));
-                            }
-                        });
-            } else {
-                alertDialog.setButton(getString(R.string.share_tweet),
-                        new DialogInterface.OnClickListener() {
-
-                            public void onClick(DialogInterface dialog,
-                                                int which) {
-                                shareText(statusText);
                             }
                         });
             }

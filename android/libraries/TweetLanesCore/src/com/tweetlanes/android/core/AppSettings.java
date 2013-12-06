@@ -88,7 +88,7 @@ public class AppSettings {
     }
 
     /*
-	 *
+     *
 	 */
     public enum ProfileImageSize {
         Small, Medium, Large,
@@ -192,7 +192,7 @@ public class AppSettings {
         setCurrentQuoteType(quoteType);
 
         if (mRefreshCount > 0) {
-            if (    oldTheme != mCurrentTheme ||
+            if (oldTheme != mCurrentTheme ||
                     oldStatusSize != mStatusSize ||
                     oldProfileImageSize != mProfileImageSize ||
                     oldDisplayTimeFormat != mDisplayTimeFormat ||
@@ -343,24 +343,24 @@ public class AppSettings {
     }
 
     void setDisplayTimeFormat(String displayTimeFormat) {
-        if(displayTimeFormat!= null){
-            if(displayTimeFormat.equals(DISAPLY_TIME_RELATIVE)){
+        if (displayTimeFormat != null) {
+            if (displayTimeFormat.equals(DISAPLY_TIME_RELATIVE)) {
                 mDisplayTimeFormat = DisplayTimeFormat.Relative;
-            } else if(displayTimeFormat.equals(DISAPLY_TIME_ABSOLUTE)){
+            } else if (displayTimeFormat.equals(DISAPLY_TIME_ABSOLUTE)) {
                 mDisplayTimeFormat = DisplayTimeFormat.Absolute;
-            } else if(displayTimeFormat.equals(DISAPLY_TIME_MIXED)){
+            } else if (displayTimeFormat.equals(DISAPLY_TIME_MIXED)) {
                 mDisplayTimeFormat = DisplayTimeFormat.Mixed;
             }
         }
     }
 
     void setDisplayNameFormat(String displayNameFormat) {
-        if(displayNameFormat!= null){
-            if(displayNameFormat.equals(DISAPLY_NAME_BOTH)){
+        if (displayNameFormat != null) {
+            if (displayNameFormat.equals(DISAPLY_NAME_BOTH)) {
                 mDisplayNameFormat = DisplayNameFormat.Both;
-            } else if(displayNameFormat.equals(DISAPLY_NAME_NAME)){
+            } else if (displayNameFormat.equals(DISAPLY_NAME_NAME)) {
                 mDisplayNameFormat = DisplayNameFormat.Name;
-            } else if(displayNameFormat.equals(DISAPLY_NAME_HANDLE)){
+            } else if (displayNameFormat.equals(DISAPLY_NAME_HANDLE)) {
                 mDisplayNameFormat = DisplayNameFormat.Handle;
             }
         }

@@ -83,7 +83,7 @@ public class ComposeTweetDefault {
     }
 
     /*
-	 * 
+     *
 	 */
     public ComposeTweetDefault(String userScreenName, String defaultStatus,
                                Long inReplyToStatusId, String mediaFilePath) {

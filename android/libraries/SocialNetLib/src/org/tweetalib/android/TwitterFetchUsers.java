@@ -67,7 +67,7 @@ public class TwitterFetchUsers {
     }
 
     /*
-	 *
+     *
 	 */
     public interface FinishedCallbackInterface {
 

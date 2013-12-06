@@ -135,7 +135,7 @@ public class TwitterFetchStatuses {
     }
 
     /*
-	 *
+     *
 	 */
     TwitterStatuses setStatuses(TwitterContentHandle contentHandle, ResponseList<twitter4j.Status> statuses) {
         TwitterStatuses feed = getStatuses(contentHandle);
@@ -183,8 +183,7 @@ public class TwitterFetchStatuses {
 
         if (posts != null && posts.mPosts != null && posts.mPosts.size() > 0) {
             feed.add(posts, addUserCallback);
-        }
-        else {
+        } else {
             feed.setFeedFullyRefreshed();
         }
         return feed;
@@ -194,7 +193,7 @@ public class TwitterFetchStatuses {
 	 *
 	 */
     public TwitterStatuses setStatuses(TwitterContentHandle contentHandle, TwitterStatuses statuses,
-                                boolean resetExisting) {
+                                       boolean resetExisting) {
         TwitterStatuses feed = getStatuses(contentHandle);
         if (resetExisting) {
             feed.reset();
@@ -221,10 +220,10 @@ public class TwitterFetchStatuses {
         return null;
     }
 
-    public void removeFromHashMap(TwitterStatuses removeStatuses){
+    public void removeFromHashMap(TwitterStatuses removeStatuses) {
         if (mStatusesHashMap != null) {
 
-            for(String key: mStatusesHashMap.keySet()){
+            for (String key : mStatusesHashMap.keySet()) {
                 TwitterStatuses feed = mStatusesHashMap.get(key);
                 feed.remove(removeStatuses);
             }
@@ -499,8 +498,8 @@ public class TwitterFetchStatuses {
                                     ResponseList<twitter4j.Status> statuses = twitter.getUserListStatuses(listId, paging);
                                     contentFeed = setStatuses(input.mContentHandle, statuses);
                                 } catch (NumberFormatException e) {
-                                }catch (OutOfMemoryError e) {
-                                    errorDescription="There was an out of memory doing that!";
+                                } catch (OutOfMemoryError e) {
+                                    errorDescription = "There was an out of memory doing that!";
                                 }
                                 break;
                             }
@@ -581,11 +580,11 @@ public class TwitterFetchStatuses {
                             errorDescription += "\nTry again in " + e.getRateLimitStatus().getSecondsUntilReset()
                                     + " " + "seconds";
                         }
-                    } catch (OutOfMemoryError e){
+                    } catch (OutOfMemoryError e) {
                         e.printStackTrace();
                         errorDescription = e.getMessage();
                         Log.e("api-call", errorDescription, e);
-                    } catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                         errorDescription = e.getMessage();
                         Log.e("api-call", errorDescription, e);

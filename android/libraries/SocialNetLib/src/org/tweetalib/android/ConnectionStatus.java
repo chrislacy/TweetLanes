@@ -28,18 +28,7 @@ public class ConnectionStatus {
     }
 
     /*
-	 * 
-	 */
-    public interface Callbacks {
-        public boolean isOnline();
-
-        public String getErrorMessageNoConnection();
-
-        public void handleError(TwitterFetchResult fetchResult);
-    }
-
-    /*
-	 * 
+     *
 	 */
     public boolean isOnline() {
         return mCallbacks.isOnline();
@@ -51,5 +40,16 @@ public class ConnectionStatus {
 
     public void handleError(TwitterFetchResult fetchResult) {
         mCallbacks.handleError(fetchResult);
+    }
+
+    /*
+     *
+	 */
+    public interface Callbacks {
+        public boolean isOnline();
+
+        public String getErrorMessageNoConnection();
+
+        public void handleError(TwitterFetchResult fetchResult);
     }
 }

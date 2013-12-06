@@ -27,7 +27,7 @@ public class TwitterDirectMessagesHandle {
     }
 
     /*
-	 * 
+     *
 	 */
     String getKey() {
         String key = mUserId.toString();

@@ -199,8 +199,7 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout {
      * By default the Widget disabled scrolling on the Refreshable View while
      * refreshing. This method can change this behaviour.
      *
-     * @param disableScrollingWhileRefreshing
-     *         - true if you want to disable scrolling while refreshing
+     * @param disableScrollingWhileRefreshing - true if you want to disable scrolling while refreshing
      */
     final void setDisableScrollingWhileRefreshing(
             boolean disableScrollingWhileRefreshing) {
@@ -473,7 +472,7 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout {
      * where the user can Pull to Refresh by scrolling down.
      *
      * @return true if the View is currently the correct state (for example, top
-     *         of a ListView)
+     * of a ListView)
      */
     protected abstract boolean isReadyForPullDown();
 
@@ -482,7 +481,7 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout {
      * where the user can Pull to Refresh by scrolling up.
      *
      * @return true if the View is currently in the correct state (for example,
-     *         bottom of a ListView)
+     * bottom of a ListView)
      */
     protected abstract boolean isReadyForPullUp();
 
@@ -651,7 +650,7 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout {
      * Actions a Pull Event
      *
      * @return true if the Event has been handled, false if there has been no
-     *         change
+     * change
      */
     private boolean pullEvent() {
 

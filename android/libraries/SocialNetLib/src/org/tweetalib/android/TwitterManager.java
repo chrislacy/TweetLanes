@@ -96,7 +96,7 @@ public class TwitterManager {
 
 
     /*
-	 *
+     *
 	 */
     public void setOAuthTokenWithSecret(String oAuthToken, String oAuthSecret,
                                         boolean cancelPending) {
@@ -265,7 +265,7 @@ public class TwitterManager {
     public TwitterDirectMessages setDirectMessages(
             TwitterContentHandle contentHandle, TwitterDirectMessages newMessages) {
         return mApi
-                .setDirectMessages(contentHandle,newMessages);
+                .setDirectMessages(contentHandle, newMessages);
     }
 
     public TwitterDirectMessages getDirectMessages(
