@@ -24,6 +24,7 @@
         <change>Fix - Improved performance for status display</change>
         <change>Fix - Split Names/Handles on multiple lines to support longer text</change>
         <change>Fix - Updated DM to show the same format names as standard statuses</change>
+        <change>Fix - Image saving on KitKat devices</change>
         <change>Other - Updated version of crittersim for better app tracking</change>
     </release>
 	<release version="1.2.1" versioncode="51">

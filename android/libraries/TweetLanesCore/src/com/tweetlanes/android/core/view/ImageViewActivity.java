@@ -31,6 +31,7 @@ import com.crittercism.app.Crittercism;
 import com.tweetlanes.android.core.Constant;
 import com.tweetlanes.android.core.ConsumerKeyConstants;
 import com.tweetlanes.android.core.R;
+import com.tweetlanes.android.core.util.SingleMediaScanner;
 import com.tweetlanes.android.core.widget.gestureimageview.GestureImageView;
 import com.tweetlanes.android.core.widget.urlimageviewhelper.UrlImageViewCallback;
 import com.tweetlanes.android.core.widget.urlimageviewhelper.UrlImageViewHelper;
@@ -160,7 +161,7 @@ public class ImageViewActivity extends FragmentActivity {
                             }
                             File f = new File(dir, UrlImageViewHelper.getJpgFilenameForUrl(mediaUrl));
                             copy(existingFile, f);
-                            sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, Uri.parse("file://" + Environment.getExternalStorageDirectory())));
+                            new SingleMediaScanner(this, f);
                             toastMessage = getString(R.string.image_save_success);
                         } catch (FileNotFoundException e) {
                             e.printStackTrace();
