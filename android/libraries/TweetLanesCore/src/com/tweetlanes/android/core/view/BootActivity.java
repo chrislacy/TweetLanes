@@ -103,19 +103,30 @@ public class BootActivity extends Activity {
                             startTweetSpotlight(statusId);
                             urlValid = true;
                         } else if (urlPath.contains("/intent/tweet")) {
-                            String statusText = uriData.getQueryParameter("text");
                             if (uriData.getQueryParameterNames().contains("url")) {
-                                statusText = statusText + " " + uriData.getQueryParameter("url");
+                                String statusId = uriData.getQueryParameter("in_reply_to");
+                                startTweetSpotlight(statusId);
                             }
-                            if (uriData.getQueryParameterNames().contains("hashtags")) {
-                                String[] hashtags = uriData.getQueryParameter("hashtags").split(",");
-                                for (String hashtag : hashtags) {
-                                    statusText = statusText + " #" + hashtag;
+                            else
+                            {
+                                String statusText = uriData.getQueryParameter("text");
+                                if (uriData.getQueryParameterNames().contains("url")) {
+                                    statusText = statusText + " " + uriData.getQueryParameter("url");
                                 }
+                                if (uriData.getQueryParameterNames().contains("hashtags")) {
+                                    String[] hashtags = uriData.getQueryParameter("hashtags").split(",");
+                                    for (String hashtag : hashtags) {
+                                        statusText = statusText + " #" + hashtag;
+                                    }
+                                }
+                                startHomeActivity(statusText);
                             }
-                            startHomeActivity(statusText);
                             urlValid = true;
-                        } else if (urlPath.contains("/intent/follow")) {
+                        } else if (urlPath.contains("/intent/retweet") || urlPath.contains("/intent/favorite")) {
+                            String statusId = uriData.getQueryParameter("tweet_id");
+                            startTweetSpotlight(statusId);
+                            urlValid = true;
+                        } else if (urlPath.contains("/intent/follow") || urlPath.contains("/intent/user")) {
                             String userName = uriData.getQueryParameter("screen_name");
                             startProfileSpotlight(userName);
                             urlValid = true;

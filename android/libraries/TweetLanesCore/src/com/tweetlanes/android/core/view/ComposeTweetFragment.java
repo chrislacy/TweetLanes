@@ -526,7 +526,6 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
 
                     public void onClick(DialogInterface dialog, int which) {
                         callback.finished(new TwitterFetchResult(true, "CancelPressed"), null);
-                        showRTCallback.finished(new TwitterFetchResult(true, "NoShow"), null);
                     }
                 });
         alertDialog.setButton3(getString(R.string.quote),
@@ -535,7 +534,6 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         if (mRetweetStatus != null) {
                             callback.finished(new TwitterFetchResult(true, "QutotePressed"), null);
-                            showRTCallback.finished(new TwitterFetchResult(true, "NoShow"), null);
                             beginQuote(mRetweetStatus);
                             mRetweetStatus = null;
                         }
