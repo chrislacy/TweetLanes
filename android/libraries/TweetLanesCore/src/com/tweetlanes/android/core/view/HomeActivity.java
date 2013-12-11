@@ -14,8 +14,10 @@ package com.tweetlanes.android.core.view;
 import android.app.ActionBar;
 import android.app.ActionBar.OnNavigationListener;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -126,6 +128,7 @@ public class HomeActivity extends BaseLaneActivity {
             String notificationType = extras.getString("notification_type");
             long notificationPostId = extras.getLong("notification_post_id");
             String laneName = extras.getString("lane");
+            final String urlToLoad = extras.getString("urlToLoad");
 
             if (accountKey != null) {
                 getIntent().removeExtra("account_key");
@@ -154,6 +157,25 @@ public class HomeActivity extends BaseLaneActivity {
                 if (index > -1) {
                     mDefaultLaneOverride = index;
                 }
+            } else if(urlToLoad != null)
+            {
+                getIntent().removeExtra("urlToLoad");
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+                alertDialogBuilder.setMessage(getString(R.string.unknown_intent));
+                alertDialogBuilder.setPositiveButton(getString(R.string.yes),
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                Intent viewIntent = new Intent("android.intent.action.VIEW",Uri.parse(urlToLoad.trim()));
+                                startActivity(viewIntent);
+                            }
+                        });
+                alertDialogBuilder.setNegativeButton(getString(R.string.no),
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+                alertDialogBuilder.create().show();
             }
         }
 

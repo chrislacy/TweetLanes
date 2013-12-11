@@ -268,7 +268,7 @@
     </string>
 
     <string name="unknown_error">Произошла неизвестная ошибка</string>
-    <string name="unknown_intent">Произошла ошибка при обработке URL</string>
+    <string name="unknown_intent">К сожалению, этот URL не отформатирована, как мы ожидали! \ NВы хотите, чтобы загрузить URL в другом приложении?</string>
 
     <string name="image_not_loaded">Нельзя сохранить изображение, пока оно загружается</string>
     <string name="image_save_success">Изображение успешно сохранено</string>

@@ -276,7 +276,7 @@
     </string>
 
     <string name="unknown_error">An unknown error has occurred</string>
-    <string name="unknown_intent">An error occured processing URL</string>
+    <string name="unknown_intent">Sorry, this URL is not formatted how we expected!\nWould you like to load the URL in another application?</string>
 
     <string name="image_not_loaded">Unable to save image until it has finished downloading</string>
     <string name="image_save_success">Successfully saved image</string>
