@@ -15,6 +15,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -186,7 +188,7 @@ abstract class ComposeBaseFragment extends Fragment {
     }
 
     /*
-	 *
+     *
 	 */
     void showToast(String message) {
         if (getActivity() != null
@@ -585,6 +587,25 @@ abstract class ComposeBaseFragment extends Fragment {
         }
     }
 
+    protected void lockScreenRotation() {
+        if (getActivity() != null) {
+            switch (getActivity().getResources().getConfiguration().orientation) {
+                case Configuration.ORIENTATION_PORTRAIT:
+                    getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                    break;
+                case Configuration.ORIENTATION_LANDSCAPE:
+                    getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                    break;
+            }
+        }
+    }
+
+    protected void resetScreenRotation() {
+        if (getActivity() != null) {
+            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+        }
+    }
+
     /*
 	 *
 	 */
@@ -592,13 +613,16 @@ abstract class ComposeBaseFragment extends Fragment {
 
         @Override
         public void onClick(View v) {
+            lockScreenRotation();
+
             String status = mEditText.getText().toString();
-            if (status==null || status.equals("")){
+            if (status == null || status.equals("")) {
                 ComposeTweetDefault composeTweetDefault = getComposeTweetDefault();
-                if(composeTweetDefault!= null){
+                if (composeTweetDefault != null) {
                     status = composeTweetDefault.getStatus();
                 }
             }
+
             onSendClick(status);
         }
     };

@@ -27,6 +27,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
+import com.crittercism.app.Crittercism;
 import com.tweetlanes.android.core.Constant.SystemEvent;
 import com.tweetlanes.android.core.model.AccountDescriptor;
 import com.tweetlanes.android.core.model.LaneDescriptor;
@@ -35,6 +36,7 @@ import com.tweetlanes.android.core.widget.urlimageviewhelper.UrlImageViewHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.socialnetlib.android.SocialNetConstant;
 import org.tweetalib.android.ConnectionStatus;
 import org.tweetalib.android.TwitterConstant;
@@ -64,6 +66,7 @@ public class App extends Application {
     }
 
     private ArrayList<AccountDescriptor> mAccounts;
+    private boolean mAccountDescriptorsDirty = false;
     private Integer mCurrentAccountIndex;
 
     private ArrayList<LaneDescriptor> mProfileLaneDefinitions = null;
@@ -94,6 +97,22 @@ public class App extends Application {
         return account != null ? account.getScreenName() : null;
     }
 
+    public String getCurrentAccountName() {
+        AccountDescriptor account = getCurrentAccount();
+        return account != null ? account.getName() : null;
+    }
+
+    public boolean getAccountDescriptorsDirty() {
+        return mAccountDescriptorsDirty;
+    }
+
+    /*
+     *
+	 */
+    public void setAccountDescriptorsDirty(boolean value) {
+        mAccountDescriptorsDirty = value;
+    }
+
     public int getAccountCount() {
         return mAccounts.size();
     }
@@ -115,6 +134,52 @@ public class App extends Application {
         }
 
         return null;
+    }
+
+    public void removeAccount(String accountKey) {
+        final Editor edit = mPreferences.edit();
+        String accountIndices = mPreferences.getString(SharedPreferencesConstants.ACCOUNT_INDICES, null);
+        if (accountIndices != null) {
+            try {
+                JSONArray jsonArray = new JSONArray(accountIndices);
+                JSONArray newIndicies = new JSONArray();
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    Long id = jsonArray.getLong(i);
+
+                    String key = getAccountDescriptorKey(id);
+                    String jsonAsString = mPreferences.getString(key, null);
+                    if (jsonAsString != null) {
+                        AccountDescriptor account = new AccountDescriptor(this,
+                                jsonAsString);
+
+                        if (!account.getAccountKey().equals(accountKey)) {
+                            newIndicies.put(Long.toString(id));
+                        } else {
+                            ArrayList<LaneDescriptor> lanes = account.getAllLaneDefinitions();
+                            for (LaneDescriptor lane : lanes) {
+                                String lanekey = lane.getCacheKey(account.getScreenName() + account.getId());
+                                edit.remove(lanekey);
+                            }
+
+                            edit.remove(key);
+                            mAccounts.remove(account);
+                        }
+                    }
+                }
+
+                accountIndices = newIndicies.toString();
+                edit.putString(SharedPreferencesConstants.ACCOUNT_INDICES,
+                        accountIndices);
+
+                edit.commit();
+
+            } catch (JSONException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+
+        updateTwitterAccountCount();
     }
 
     public void setCurrentAccount(Long id) {
@@ -280,7 +345,7 @@ public class App extends Application {
     }
 
     /*
-	 *
+     *
 	 */
     public void setTutorialCompleted() {
         final Editor edit = mPreferences.edit();
@@ -289,7 +354,7 @@ public class App extends Application {
     }
 
     /*
-	 *
+     *
 	 */
     public boolean getTutorialCompleted() {
         return mPreferences.getBoolean(
@@ -322,6 +387,12 @@ public class App extends Application {
 	 */
     public String getCachedData(String key) {
         return mPreferences.getString(key, null);
+    }
+
+    public void removeCachedData(String key) {
+        final Editor edit = mPreferences.edit();
+        edit.remove(key);
+        edit.commit();
     }
 
     /*
@@ -684,6 +755,28 @@ public class App extends Application {
 
         if (mPreviewImageLoader != null) {
             mPreviewImageLoader.clearCache();
+        }
+    }
+
+    public void setCrittersismMetaData() {
+        if (mAccounts.size() > 1) {
+            AccountDescriptor account = mAccounts.get(0);
+            if (account != null) {
+                // Add extra Crittersism meta data
+                try {
+                    JSONObject metadata = new JSONObject();
+                    metadata.put("FullAccountKey", account.getAccountKey());
+                    metadata.put("NumberOfAccounts", mAccounts.size());
+                    for (int i = 1; i < mAccounts.size(); i++) {
+                        AccountDescriptor otherAccount = mAccounts.get(i);
+                        metadata.put("OtherAccount_" + i, otherAccount.getAccountKey());
+                    }
+                    Crittercism.setMetadata(metadata);
+                    Crittercism.setUsername(account.getAccountKey30Chars());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }

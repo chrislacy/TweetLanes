@@ -67,7 +67,7 @@ public class TwitterFetchUsers {
     }
 
     /*
-	 *
+     *
 	 */
     public interface FinishedCallbackInterface {
 
@@ -735,7 +735,7 @@ public class TwitterFetchUsers {
                             //Establish ids for this batch
                             for (int i = start; i < finish; i++) {
 
-                                if (ids.length - 1 == i) {
+                                if (ids.length == 0 || ids.length - 1 == i) {
                                     check = false;
                                     break;
                                 }

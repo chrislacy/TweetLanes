@@ -19,9 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import com.tweetlanes.android.core.Constant;
 import com.tweetlanes.android.core.R;
 import com.tweetlanes.android.core.model.AccountDescriptor;
 import com.tweetlanes.android.core.model.ComposeTweetDefault;
@@ -94,7 +92,7 @@ public class ComposeDirectMessageFragment extends ComposeBaseFragment {
     }
 
     /*
-	 *
+     *
 	 */
     @Override
     protected void updateComposeTweetDefault() {
@@ -151,14 +149,6 @@ public class ComposeDirectMessageFragment extends ComposeBaseFragment {
             if (result.isSuccessful()) {
                 releaseFocus(false);
 
-                if (getActivity() != null
-                        && getActivity().getApplicationContext() != null) {
-                    Toast.makeText(getActivity().getApplicationContext(),
-                            getString(R.string.direct_message_posted_success),
-                            Constant.DEFAULT_TOAST_DISPLAY_TIME).show();
-                }
-                // }
-
                 if (mListener != null) {
                     mListener.saveDraft(null);
                     mListener.onStatusUpdateSuccess();
@@ -167,6 +157,8 @@ public class ComposeDirectMessageFragment extends ComposeBaseFragment {
             }
 
             updateStatusHint();
+
+            resetScreenRotation();
         }
     };
 

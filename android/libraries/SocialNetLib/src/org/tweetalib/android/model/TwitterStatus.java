@@ -72,7 +72,7 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
     }
 
     /*
-	 *
+     *
 	 */
     /*
      * public TwitterStatus(Status tweet) { mId = tweet.getId(); mUserId =
@@ -175,8 +175,7 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
         mInReplyToStatusId = post.mInReplyTo;
 
         mSource = post.mSource;
-        if(post.mUser != null)
-        {
+        if (post.mUser != null) {
             mUserId = post.mUser.mId;
             mUserName = post.mUser.mName;
             mUserScreenName = post.mUser.mUserName;
@@ -481,7 +480,7 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
     public boolean mIsFavorited;
     public boolean mIsRetweet;
     public boolean mIsRetweetedByMe;
-    public long mRetweetCount;
+    public int mRetweetCount;
     public String mStatus;
     // public String mStatusSlimMarkup; // 'Slim' has the first media link
     // removed from the text

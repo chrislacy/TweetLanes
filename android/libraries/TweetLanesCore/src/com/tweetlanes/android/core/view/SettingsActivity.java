@@ -12,6 +12,7 @@
 package com.tweetlanes.android.core.view;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -36,8 +37,10 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.crittercism.app.Crittercism;
 import com.inscription.ChangeLogDialog;
@@ -48,7 +51,11 @@ import com.tweetlanes.android.core.Constant.LaneType;
 import com.tweetlanes.android.core.ConsumerKeyConstants;
 import com.tweetlanes.android.core.Notifier;
 import com.tweetlanes.android.core.R;
+import com.tweetlanes.android.core.model.AccountDescriptor;
 import com.tweetlanes.android.core.model.LaneDescriptor;
+import com.tweetlanes.android.core.util.LazyImageLoader;
+
+import org.socialnetlib.android.SocialNetConstant;
 
 import java.util.ArrayList;
 
@@ -57,8 +64,10 @@ public class SettingsActivity extends PreferenceActivity implements
 
     public static final String KEY_THEME_PREFERENCE = "theme_preference";
     public static final String KEY_CUSTOMIZE_LANES_PREFERENCE = "customizelanes_preference";
+    public static final String KEY_REMOVE_ACCOUNT_PREFERENCE = "removeaccount_preference";
     public static final String KEY_SHOW_TABLET_MARGIN_PREFERENCE = "showtabletmargin_preference";
     public static final String KEY_DISPLAY_TIME_PREFERENCE = "displaytime_preference";
+    public static final String KEY_DISPLAY_NAME_PREFERENCE = "displayname_preference";
     public static final String KEY_STATUS_SIZE_PREFERENCE = "statussize_preference";
     public static final String KEY_PROFILE_IMAGE_SIZE_PREFERENCE = "profileimagesize_preference";
     public static final String KEY_VOLSCROLL_PREFERENCE = "volscroll_preference";
@@ -73,22 +82,26 @@ public class SettingsActivity extends PreferenceActivity implements
     public static final String KEY_NOTIFICATION_TIME_PREFERENCE = "notificationtime_preference";
     public static final String KEY_NOTIFICATION_TYPE_PREFERENCE = "notificationtype_preference";
     public static final String KEY_NOTIFICATION_VIBRATION = "notificationvibration_preference";
+    public static final String KEY_AUTO_REFRESH_PREFERENCE = "autorefresh_preference";
 
     private ListPreference mThemePreference;
     private CheckBoxPreference mShowTabletMarginPreference;
     private ListPreference mStatusSizePreference;
     private ListPreference mDisplayTimePreference;
+    private ListPreference mDisplayNamePreference;
     private ListPreference mProfileImageSizePreference;
     private CheckBoxPreference mDownloadImagesPreference;
     private CheckBoxPreference mShowTweetSourcePreference;
     private ListPreference mQuoteTypePreference;
     private CheckBoxPreference mVolScrollPreference;
+    private CheckBoxPreference mAutoRefreshPreference;
     private Preference mCreditsPreference;
     private Preference mSourceCodePreference;
     private Preference mDonatePreference;
     private Preference mVersionPreference;
     private ListPreference mNotificationTimePreference;
     private ListPreference mNotificationTypePreference;
+    private AlertDialog mRemoveAccountDialog;
 
     /*
      *
@@ -106,7 +119,7 @@ public class SettingsActivity extends PreferenceActivity implements
     protected void onCreate(Bundle savedInstanceState) {
 
         if (Constant.ENABLE_CRASH_TRACKING) {
-            Crittercism.init(getApplicationContext(),
+            Crittercism.initialize(getApplicationContext(),
                     ConsumerKeyConstants.CRITTERCISM_APP_ID);
         }
 
@@ -137,6 +150,8 @@ public class SettingsActivity extends PreferenceActivity implements
 
         mDisplayTimePreference = (ListPreference) getPreferenceScreen()
                 .findPreference(KEY_DISPLAY_TIME_PREFERENCE);
+        mDisplayNamePreference = (ListPreference) getPreferenceScreen()
+                .findPreference(KEY_DISPLAY_NAME_PREFERENCE);
         mStatusSizePreference = (ListPreference) getPreferenceScreen()
                 .findPreference(KEY_STATUS_SIZE_PREFERENCE);
         mProfileImageSizePreference = (ListPreference) getPreferenceScreen()
@@ -180,11 +195,47 @@ public class SettingsActivity extends PreferenceActivity implements
                     }
                 });
 
+        Preference removeAccountPreference = getPreferenceScreen()
+                .findPreference(KEY_REMOVE_ACCOUNT_PREFERENCE);
+        removeAccountPreference
+                .setOnPreferenceClickListener(new OnPreferenceClickListener() {
+
+                    @Override
+                    public boolean onPreferenceClick(Preference preference) {
+
+                        final ArrayList<AccountDescriptor> accountDescriptors = getApp().getAccounts();
+                        AccountRemovalAdapter adapter = new AccountRemovalAdapter(SettingsActivity.this, accountDescriptors);
+                        ListView listView = new ListView(SettingsActivity.this);
+                        listView.setAdapter(adapter);
+
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                                SettingsActivity.this);
+                        alertDialogBuilder
+                                .setTitle(R.string.alert_remove_account_title)
+                                .setView(listView)
+                                .setCancelable(false)
+                                .setPositiveButton(R.string.done,
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                AppSettings.get().refresh(
+                                                        KEY_REMOVE_ACCOUNT_PREFERENCE);
+                                            }
+                                        });
+
+                        mRemoveAccountDialog = alertDialogBuilder.create();
+                        mRemoveAccountDialog.show();
+                        return true;
+                    }
+                });
+
         mShowTweetSourcePreference = (CheckBoxPreference) getPreferenceScreen()
                 .findPreference(KEY_SHOW_TWEET_SOURCE_PREFERENCE);
 
         mVolScrollPreference = (CheckBoxPreference) getPreferenceScreen()
                 .findPreference(KEY_VOLSCROLL_PREFERENCE);
+
+        mAutoRefreshPreference = (CheckBoxPreference) getPreferenceScreen()
+                .findPreference(KEY_AUTO_REFRESH_PREFERENCE);
 
         mQuoteTypePreference = (ListPreference) getPreferenceScreen()
                 .findPreference(KEY_QUOTE_TYPE_PREFERENCE);
@@ -231,6 +282,11 @@ public class SettingsActivity extends PreferenceActivity implements
         }
         mDisplayTimePreference.setSummary(mDisplayTimePreference.getEntry());
 
+        if (mDisplayNamePreference.getEntry() == null) {
+            mDisplayNamePreference.setValueIndex(0);
+        }
+        mDisplayNamePreference.setSummary(mDisplayNamePreference.getEntry());
+
         if (mStatusSizePreference.getEntry() == null) {
             mStatusSizePreference.setValueIndex(2);
         }
@@ -255,6 +311,10 @@ public class SettingsActivity extends PreferenceActivity implements
         boolean volScroll = sharedPreferences.getBoolean(
                 KEY_VOLSCROLL_PREFERENCE, AppSettings.DEFAULT_VOLSCROLL);
         mVolScrollPreference.setChecked(volScroll);
+
+        boolean autoRefresh = sharedPreferences.getBoolean(
+                KEY_AUTO_REFRESH_PREFERENCE, AppSettings.DEFAULT_AUTO_REFRESH);
+        mAutoRefreshPreference.setChecked(autoRefresh);
 
         if (mQuoteTypePreference.getEntry() == null) {
             mQuoteTypePreference.setValueIndex(0);
@@ -494,6 +554,123 @@ public class SettingsActivity extends PreferenceActivity implements
             }
 
             return view;
+        }
+    }
+
+    public class AccountRemovalAdapter extends ArrayAdapter<AccountDescriptor> {
+
+        private final Context mContext;
+        private final ArrayList<AccountDescriptor> mAccountDescriptors;
+
+        public AccountRemovalAdapter(Context context,
+                                     ArrayList<AccountDescriptor> accountDescriptors) {
+            super(context, R.layout.account_row, accountDescriptors);
+            mContext = context;
+            mAccountDescriptors = accountDescriptors;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View row = convertView;
+            AccountHolder holder;
+            final AccountDescriptor account = mAccountDescriptors.get(position);
+
+            if (row == null) {
+                LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
+                row = inflater.inflate(R.layout.account_row, parent, false);
+
+                holder = new AccountHolder();
+                holder.AvatarImage = (ImageView) row.findViewById(R.id.accountAvatar);
+                holder.ServiceImage = (ImageView) row.findViewById(R.id.serviceImage);
+                holder.ScreenName = (TextView) row.findViewById(R.id.accountScreenName);
+                holder.Filler = (TextView) row.findViewById(R.id.filler);
+
+                row.setTag(holder);
+            } else {
+                holder = (AccountHolder) row.getTag();
+            }
+
+            if (account == null) {
+                return row;
+            }
+
+            holder.ScreenName.setText("@" + account.getScreenName(), TextView.BufferType.NORMAL);
+            if (AppSettings.get().getCurrentThemeStyle() == R.style.Theme_TweetLanes_Light_DarkActionBar) {
+                holder.ScreenName.setTextColor(getResources().getColor(R.color.black));
+            }
+
+            setProfileImage(account.getProfileImageUrl(), account.getSocialNetType(), holder.AvatarImage, holder.ServiceImage);
+            holder.Filler.setVisibility(View.GONE);
+
+            OnClickListener onClickListener = new OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+
+                    if (getApp().getCurrentAccount().getAccountKey().equals(account.getAccountKey())) {
+                        Toast.makeText(SettingsActivity.this, R.string.alert_remove_account_active, Toast.LENGTH_LONG).show();
+                        AppSettings.get().refresh(KEY_REMOVE_ACCOUNT_PREFERENCE);
+                    } else {
+                        new AlertDialog.Builder(getContext())
+                                .setTitle(R.string.alert_remove_account_title)
+                                .setMessage(R.string.alert_remove_account_sure)
+                                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        getApp().removeAccount(account.getAccountKey());
+                                        getApp().setAccountDescriptorsDirty(true);
+                                        AppSettings.get().refresh(KEY_REMOVE_ACCOUNT_PREFERENCE);
+                                        mRemoveAccountDialog.dismiss();
+                                    }
+                                })
+                                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        AppSettings.get().refresh(KEY_REMOVE_ACCOUNT_PREFERENCE);
+                                    }
+                                })
+                                .show();
+
+
+                    }
+                }
+
+            };
+
+            row.setOnClickListener(onClickListener);
+
+            return row;
+        }
+
+    }
+
+    public class AccountHolder {
+        public ImageView AvatarImage;
+        public ImageView ServiceImage;
+        public TextView ScreenName;
+        public TextView Filler;
+    }
+
+    private void setProfileImage(String profileImageUrl, SocialNetConstant.Type serviceType, ImageView avatar, ImageView service) {
+        if (profileImageUrl != null) {
+            service.setVisibility(View.VISIBLE);
+            service.setImageResource(serviceType == SocialNetConstant.Type.Twitter ? R.drawable.twitter_logo_small : R.drawable.adn_logo_small);
+            LazyImageLoader profileImageLoader = getApp().getProfileImageLoader();
+            if (profileImageLoader != null) {
+
+                profileImageLoader.displayImage(profileImageUrl, avatar);
+            }
+        } else {
+            int resource;
+            if (AppSettings.get().getCurrentThemeStyle() == R.style.Theme_TweetLanes_Light_DarkActionBar) {
+                resource = R.drawable.ic_action_user_add_dark;
+            } else {
+                resource = AppSettings.get().getCurrentThemeStyle() ==
+                        R.style.Theme_TweetLanes_Light ?
+                        R.drawable.ic_action_user_add :
+                        R.drawable.ic_action_user_add_dark;
+            }
+
+            avatar.setImageResource(resource);
+            service.setVisibility(View.GONE);
         }
     }
 }

@@ -45,7 +45,7 @@ public class TwitterStatuses {
     }
 
     /*
-	 * 
+     *
 	 */
     public TwitterStatuses() {
         _mStatuses = new ArrayList<TwitterStatus>();
@@ -446,10 +446,10 @@ public class TwitterStatuses {
                 high = middle - 1;
             } else if (statusId < status.mId) {
                 low = middle + 1;
-            } else if (statusId == status.mId){
+            } else if (statusId == status.mId) {
                 // The element has been found
                 return middle;
-            } else{
+            } else {
                 // Couldn't find the element
                 break;
             }
@@ -486,7 +486,7 @@ public class TwitterStatuses {
 
     private TwitterStatus get(int index) {
 
-        if(index >= _mStatuses.size()){
+        if (index >= _mStatuses.size()) {
             return null;
         }
 

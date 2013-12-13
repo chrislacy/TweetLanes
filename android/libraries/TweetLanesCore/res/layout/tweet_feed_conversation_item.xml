@@ -62,17 +62,15 @@
             <LinearLayout
                     android:id="@+id/status_header"
                     android:layout_width="fill_parent"
-                    android:layout_height="26dp"
-                    android:layout_toRightOf="@id/avatar"
-                    android:minHeight="@dimen/avatar_width_height_medium"
+                    android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:weightSum="1">
 
                 <LinearLayout
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight=".92"
-                        android:orientation="horizontal">
+                        android:orientation="vertical">
 
                     <TextView
                             android:id="@+id/authorName"
@@ -89,13 +87,11 @@
                             android:id="@+id/authorScreenName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:paddingLeft="4dp"
-                            android:paddingRight="3dip"
-                            android:paddingTop="@dimen/message_item_text_padding_top"
                             android:text="\@rioferdy5"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:textColor="@color/text_hairline"
-                            android:textSize="13sp"/>
+                            android:textSize="11sp"
+                            android:paddingLeft="@dimen/message_item_text_padding_left_right"/>
                 </LinearLayout>
 
                 <TextView
@@ -103,9 +99,9 @@
                         android:paddingTop="3dp"
                         android:paddingRight="@dimen/message_item_text_padding_left_right"
                         android:layout_weight=".08"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_width="wrap_content"
-                        android:layout_gravity="center_vertical|right"
+                        android:layout_gravity="center_vertical|right|top"
                         android:gravity="right"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="@color/text_hairline"

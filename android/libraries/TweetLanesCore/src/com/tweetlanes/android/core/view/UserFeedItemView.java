@@ -30,14 +30,14 @@ import org.tweetalib.android.model.TwitterUser;
 
 public class UserFeedItemView extends LinearLayout {
 
+    private final Path mPath = new Path();
+    private final Paint mPaint = new Paint();
     private Context mContext;
     private TwitterUser mUser;
     private long mUserId;
     private String mUserScreenName;
     private View mMessageBlock;
     private QuickContactDivot mAvatar;
-    private final Path mPath = new Path();
-    private final Paint mPaint = new Paint();
 
     public UserFeedItemView(Context context) {
         super(context);
@@ -74,15 +74,14 @@ public class UserFeedItemView extends LinearLayout {
         mAvatar = (QuickContactDivot) findViewById(R.id.avatar);
         if (AppSettings.get().downloadFeedImages()) {
             String imageUrl = user.getProfileImageUrl(TwitterManager.ProfileImageSize.BIGGER);
-            // UrlImageViewHelper.setUrlDrawable(avatar, imageUrl,
-            // R.drawable.ic_contact_picture);
-            // avatar.setImageURL(imageUrl);
 
             LazyImageLoader profileImageLoader = callbacks
                     .getProfileImageLoader();
             if (profileImageLoader != null) {
                 profileImageLoader.displayImage(imageUrl, mAvatar);
             }
+        } else {
+            mAvatar.setImageResource(R.drawable.ic_contact_picture);
         }
 
         mMessageBlock = findViewById(R.id.message_block);

@@ -35,7 +35,7 @@ public class TwitterFetchResult {
     }
 
     /*
-	 *
+     *
 	 */
     public boolean isSuccessful() {
         return mSuccessful;

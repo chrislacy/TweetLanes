@@ -24,6 +24,18 @@
         <item>Large</item>
     </string-array>
 
+    <string-array name="displayname_list_preference">
+        <item>Name And Handle</item>
+        <item>Name Only</item>
+        <item>Handle Only</item>
+    </string-array>
+
+    <string-array name="displayname_values_list_preference">
+        <item>Both</item>
+        <item>Name</item>
+        <item>Handle</item>
+    </string-array>
+
     <string-array name="theme_list_preference">
         <item>Holo Light</item>
         <item>Holo Light w/ Dark Bar</item>

@@ -53,6 +53,15 @@
                 android:defaultValue="medium"
                 />
 
+        <ListPreference
+                android:key="displayname_preference"
+                android:title="@string/title_displayname_preference"
+                android:entries="@array/displayname_list_preference"
+                android:entryValues="@array/displayname_values_list_preference"
+                android:dialogTitle="@string/dialog_title_displayname_preference"
+                android:defaultValue="both"
+                />
+
         <CheckBoxPreference
                 android:key="showtweetsource_preference"
                 android:title="@string/title_showtweetsource_preference"
@@ -101,6 +110,11 @@
     <PreferenceCategory
             android:title="@string/other_preferences">
 
+        <Preference
+                android:key="removeaccount_preference"
+                android:title="@string/title_removeaccount_preference"
+                android:summary="@string/summary_removeaccount_preference"/>
+
         <CheckBoxPreference
                 android:key="volscroll_preference"
                 android:title="@string/title_volscroll_preference"
@@ -119,6 +133,11 @@
                 android:key="downloadimages_preference"
                 android:title="@string/title_downloadimages_preference"
                 android:summary="@string/summary_downloadimages_preference"/>
+
+        <CheckBoxPreference
+                android:key="autorefresh_preference"
+                android:title="@string/title_autorefresh_preference"
+                android:summary="@string/summary_autorefresh_preference"/>
 
 
     </PreferenceCategory>

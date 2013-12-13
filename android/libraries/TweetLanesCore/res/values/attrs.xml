@@ -88,6 +88,7 @@
         <attr name="ic_action_save" format="reference"/>
         <attr name="ic_action_search" format="reference"/>
         <attr name="ic_action_select_image" format="reference"/>
+        <attr name="ic_action_reply" format="reference"/>
         <attr name="ic_action_send" format="reference"/>
         <attr name="ic_action_share" format="reference"/>
         <attr name="ic_action_star_on" format="reference"/>

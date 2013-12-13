@@ -34,6 +34,7 @@ public class AccountDescriptor {
 
     private static final String KEY_ID = "id";
     private static final String KEY_SCREEN_NAME = "screenName";
+    private static final String KEY_NAME = "name";
     private static final String KEY_OAUTH_TOKEN = "oAuthToken";
     private static final String KEY_OAUTH_SECRET = "oAuthSecret";
     private static final String KEY_INITIAL_LANE_INDEX = "lastLaneIndex";
@@ -51,6 +52,7 @@ public class AccountDescriptor {
                              String oAuthSecret, SocialNetConstant.Type oSocialNetType, String oprofileImageUrl) {
         mId = user.getId();
         mScreenName = user.getScreenName();
+        mName = user.getName();
         mOAuthToken = oAuthToken;
         mOAuthSecret = oAuthSecret;
         mInitialLaneIndex = null;
@@ -72,6 +74,9 @@ public class AccountDescriptor {
             JSONObject object = new JSONObject(jsonAsString);
             mId = object.getLong(KEY_ID);
             mScreenName = object.getString(KEY_SCREEN_NAME);
+            if (object.has(KEY_NAME)) {
+                mName = object.getString(KEY_NAME);
+            }
             mOAuthToken = object.getString(KEY_OAUTH_TOKEN);
             if (object.has(KEY_OAUTH_SECRET)) {
                 mOAuthSecret = object.getString(KEY_OAUTH_SECRET);
@@ -120,7 +125,7 @@ public class AccountDescriptor {
     }
 
     /*
-	 *
+     *
 	 */
     private void initCommon(ArrayList<String> displayedLanes) {
 
@@ -193,8 +198,7 @@ public class AccountDescriptor {
                             TwitterConstant.DirectMessagesType.ALL_MESSAGES)));
 
             // Add lists
-            synchronized (mLists)
-            {
+            synchronized (mLists) {
                 for (List list : mLists) {
                     if (list.mId != null) {
                         mLaneDefinitions
@@ -291,7 +295,14 @@ public class AccountDescriptor {
         }
 
         if (changed) {
-            configureLaneDefinitions(null);
+            ArrayList<String> activeLanes = new ArrayList<String>();
+            for (LaneDescriptor lane : mLaneDefinitions) {
+                if (lane.getDisplay()) {
+                    activeLanes.add(lane.getLaneTitle());
+                }
+            }
+
+            configureLaneDefinitions(activeLanes);
         }
 
         return changed;
@@ -307,6 +318,7 @@ public class AccountDescriptor {
         try {
             object.put(KEY_ID, mId);
             object.put(KEY_SCREEN_NAME, mScreenName);
+            object.put(KEY_NAME, mName);
             object.put(KEY_OAUTH_TOKEN, mOAuthToken);
             object.put(KEY_OAUTH_SECRET, mOAuthSecret);
             object.put(KEY_INITIAL_LANE_INDEX, mInitialLaneIndex);
@@ -348,6 +360,14 @@ public class AccountDescriptor {
         return mScreenName;
     }
 
+    public String getName() {
+        if (mName == null) {
+            return getScreenName();
+        } else {
+            return mName;
+        }
+    }
+
     public String getOAuthToken() {
         return mOAuthToken;
     }
@@ -367,6 +387,17 @@ public class AccountDescriptor {
     public String getAccountKey() {
         return mScreenName.toLowerCase() + "_" + (getSocialNetType() == SocialNetConstant.Type.Twitter ? "twitter" :
                 "appdotet");
+    }
+
+    public String getAccountKey30Chars() {
+        String key = (getSocialNetType() == SocialNetConstant.Type.Twitter ? "t" :
+                "a") + "_" + mScreenName.toLowerCase();
+
+        int length = 30;
+        if (key.length() < length) {
+            length = key.length();
+        }
+        return key.substring(0, length);
     }
 
     /*
@@ -478,6 +509,7 @@ public class AccountDescriptor {
 	 */
     private long mId;
     private String mScreenName;
+    private String mName;
     private String mOAuthToken;
     private String mOAuthSecret;
     private ArrayList<LaneDescriptor> mLaneDefinitions;

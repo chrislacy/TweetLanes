@@ -40,51 +40,98 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:background="@drawable/feed_item_selector"
+                    android:minHeight="@dimen/avatar_width_height_medium"
+                    android:paddingBottom="@dimen/message_item_text_padding_bottom"
                     >
 
-                <TextView
-                        android:id="@+id/authorScreenName"
-                        android:layout_width="wrap_content"
+                <RelativeLayout
+                        android:id="@+id/author_block"
+                        android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="@dimen/message_item_text_padding_left_right"
-                        android:paddingRight="3dip"
-                        android:paddingTop="@dimen/message_item_text_padding_top"
-                        android:text="\@rioferdy5"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textSize="16sp"
-                        android:textStyle="bold"/>
+                        android:orientation="horizontal"
+                        >
+
+                    <TextView
+                            android:id="@+id/pretty_date"
+                            android:paddingTop="@dimen/message_item_text_padding_top"
+                            android:paddingRight="@dimen/message_item_text_padding_left_right"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_gravity="center_vertical|right"
+                            android:gravity="right"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@color/text_hairline"
+                            android:text="2m"
+                            android:textSize="12sp"
+                            />
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".92"
+                            android:orientation="vertical"
+                            android:id="@+id/authorNames"
+                            android:layout_alignParentLeft="true">
+
+                        <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="fill_parent">
+
+                            <TextView
+                                    android:id="@+id/authorName"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingLeft="@dimen/message_item_text_padding_left_right"
+                                    android:paddingTop="@dimen/message_item_text_padding_top"
+                                    android:text="Rio Ferdinand"
+                                    android:textAppearance="?android:attr/textAppearanceSmall"
+                                    android:textSize="15sp"
+                                    android:textStyle="bold"/>
+
+                            <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:id="@+id/replyIcon"
+                                    android:src="@drawable/ic_action_reply"
+                                    android:layout_alignWithParentIfMissing="false"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_centerHorizontal="true"
+                                    android:layout_alignBottom="@+id/pretty_date"
+                                    android:layout_alignParentLeft="false"
+                                    />
+                        </LinearLayout>
+
+                        <TextView
+                                android:id="@+id/authorScreenName"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingLeft="@dimen/message_item_text_padding_left_right"
+                                android:text="\@rioferdy5"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:textColor="@color/text_hairline"
+                                android:textSize="12sp"/>
+                    </LinearLayout>
+
+                </RelativeLayout>
 
                 <TextView
-                        android:id="@+id/pretty_date"
-                        android:paddingTop="@dimen/message_item_text_padding_top"
+                        android:id="@+id/status"
+                        android:paddingBottom="@dimen/message_item_text_padding_bottom"
+                        android:paddingLeft="@dimen/message_item_text_padding_left_right"
                         android:paddingRight="@dimen/message_item_text_padding_left_right"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toRightOf="@id/authorScreenName"
-                        android:layout_alignParentRight="true"
-                        android:layout_gravity="center_vertical|right"
-                        android:gravity="right"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textColor="@color/text_hairline"
-                        android:text="2m"
-                        android:textSize="12sp"/>
+                        style="?attr/themeOppositeText"
+                        android:textSize="15sp"
+                        android:text="Here be a DM. Have you ever noticed that Tuesday comes after Monday? It really, really does. Amazing isn't it? This is a real #truestory"
+                        android:layout_below="@+id/author_block"
+                        android:layout_alignParentLeft="true"/>
 
             </RelativeLayout>
-
-
-            <TextView
-                    android:id="@+id/status"
-                    android:layout_marginTop="6dip"
-                    android:paddingBottom="@dimen/message_item_text_padding_bottom"
-                    android:paddingLeft="@dimen/message_item_text_padding_left_right"
-                    android:paddingRight="@dimen/message_item_text_padding_left_right"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    style="?attr/themeOppositeText"
-                    android:textSize="15sp"
-                    android:text="Here be a DM. Have you ever noticed that Tuesday comes after Monday? It really, really does. Amazing isn't it? This is a real #truestory"/>
-
         </LinearLayout>
 
     </RelativeLayout>

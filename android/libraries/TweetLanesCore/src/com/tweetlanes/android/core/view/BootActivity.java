@@ -12,10 +12,11 @@
 package com.tweetlanes.android.core.view;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import com.crittercism.app.Crittercism;
 import com.tweetlanes.android.core.App;
@@ -41,7 +42,7 @@ public class BootActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         if (Constant.ENABLE_CRASH_TRACKING) {
-            Crittercism.init(getApplicationContext(),
+            Crittercism.initialize(getApplicationContext(),
                     ConsumerKeyConstants.CRITTERCISM_APP_ID);
         }
 
@@ -85,46 +86,13 @@ public class BootActivity extends Activity {
         } else {
             if (TwitterManager.get().hasValidTwitterInstance()) {
 
-                Uri uriData = getIntent().getData();
+                final Uri uriData = getIntent().getData();
                 if (uriData != null) {
-                    String host = uriData.getHost();
-                    boolean urlValid = false;
-                    finish();
 
-                    if (host.contains("twitter")) {
-                        if (getApp().getCurrentAccount().getSocialNetType() != SocialNetConstant.Type.Twitter) {
-                            changeToFirstAccountOfType(SocialNetConstant.Type.Twitter);
-                        }
-
-                        if(uriData.getPath().contains("/status/"))
-                        {
-                            String statusId = getUriPartAfterText(uriData, "status");
-                            startTweetSpotlight(statusId);
-                            urlValid = true;
-                        }
+                    if (!ReadUrl(uriData, false)) {
+                        startHomeActivity("", uriData.toString());
                     }
-                    else if (host.contains("app.net")) {
-                        if (getApp().getCurrentAccount().getSocialNetType() != SocialNetConstant.Type.Appdotnet) {
-                            changeToFirstAccountOfType(SocialNetConstant.Type.Appdotnet);
-                        }
-
-                        if(uriData.getPath().contains("/post/"))
-                        {
-                            String statusId = getUriPartAfterText(uriData, "post");
-                            startTweetSpotlight(statusId);
-                            urlValid = true;
-                        }
-                    }
-
-                    if(!urlValid)
-                    {
-                        Toast.makeText(getApplicationContext(), getString(R.string.unknown_intent),
-                                Constant.DEFAULT_TOAST_DISPLAY_TIME).show();
-
-                        startHomeActivity("");
-                    }
-                }
-                else if (mLastStartedClass != HomeActivity.class) {
+                } else if (mLastStartedClass != HomeActivity.class) {
                     mLastStartedClass = HomeActivity.class;
                     // We don't want to come back here, so remove from the
                     // activity stack
@@ -149,14 +117,97 @@ public class BootActivity extends Activity {
 
     }
 
-    private String getUriPartAfterText(Uri uriData, String partBefore)
-    {
+    private boolean ReadUrl(Uri uriData, boolean recuse) {
+        String host = uriData.getHost();
+        String urlPath = uriData.getPath();
+        boolean urlValid = false;
+        finish();
+
+        if (host.contains("twitter"))
+        {
+            if (getApp().getCurrentAccount().getSocialNetType() != SocialNetConstant.Type.Twitter) {
+                changeToFirstAccountOfType(SocialNetConstant.Type.Twitter);
+            }
+
+
+            if (urlPath.contains("/status/")) {
+                String statusId = getUriPartAfterText(uriData, "status");
+                startTweetSpotlight(statusId);
+                urlValid = true;
+            } else if (urlPath.contains("/intent/tweet")) {
+                if (uriData.getQueryParameterNames().contains("url")) {
+                    String statusId = uriData.getQueryParameter("in_reply_to");
+                    startTweetSpotlight(statusId);
+                } else {
+                    String statusText = uriData.getQueryParameter("text");
+                    if (uriData.getQueryParameterNames().contains("url")) {
+                        statusText = statusText + " " + uriData.getQueryParameter("url");
+                    }
+                    if (uriData.getQueryParameterNames().contains("hashtags")) {
+                        String[] hashtags = uriData.getQueryParameter("hashtags").split(",");
+                        for (String hashtag : hashtags) {
+                            statusText = statusText + " #" + hashtag;
+                        }
+                    }
+                    startHomeActivity(statusText, "");
+                }
+                urlValid = true;
+            } else if (urlPath.contains("/i/redirect") && recuse == false) {
+                String innerUrl = uriData.getQueryParameter("url");
+                urlValid = ReadUrl(Uri.parse(innerUrl), true);
+            } else if (urlPath.contains("/intent/follow") || urlPath.contains("/intent/user")) {
+                String userName = uriData.getQueryParameter("screen_name");
+                startProfileSpotlight(userName);
+                urlValid = true;
+            } else if (urlPath.contains("/intent/follow") || urlPath.contains("/intent/user")) {
+                String userName = uriData.getQueryParameter("screen_name");
+                startProfileSpotlight(userName);
+                urlValid = true;
+            } else if (urlPath.lastIndexOf("/") == 0 ||
+                    (urlPath.indexOf("/") == 0 && urlPath.lastIndexOf("/") == urlPath.length() && CountInstancesOfChar(urlPath, '/') == 2)) {
+                String userName = urlPath.substring(1);
+                startProfileSpotlight(userName);
+                urlValid = true;
+            }
+        }
+        else if (host.contains("app.net"))
+        {
+            if (getApp().getCurrentAccount().getSocialNetType() != SocialNetConstant.Type.Appdotnet) {
+                changeToFirstAccountOfType(SocialNetConstant.Type.Appdotnet);
+            }
+
+            if (urlPath.contains("/post/")) {
+                String statusId = getUriPartAfterText(uriData, "post");
+                startTweetSpotlight(statusId);
+                urlValid = true;
+            } else if (urlPath.lastIndexOf("/") == 0 ||
+                    (urlPath.indexOf("/") == 0 && urlPath.lastIndexOf("/") == urlPath.length() && CountInstancesOfChar(urlPath, '/') == 2)) {
+                String userName = urlPath.substring(1);
+                startProfileSpotlight(userName);
+                urlValid = true;
+            }
+        }
+
+        return urlValid;
+    }
+
+    private int CountInstancesOfChar(String testString, Character CharInstance) {
+        int counter = 0;
+        for (int i = 0; i < testString.length(); i++) {
+            if (testString.charAt(i) == CharInstance) {
+                counter++;
+            }
+        }
+        return counter;
+    }
+
+    private String getUriPartAfterText(Uri uriData, String partBefore) {
         boolean nextPartStatus = false;
-        for (String uriPart : uriData.getPathSegments()){
-            if(nextPartStatus==true){
+        for (String uriPart : uriData.getPathSegments()) {
+            if (nextPartStatus == true) {
                 return uriPart;
             }
-            if(uriPart.toLowerCase().equals(partBefore)){
+            if (uriPart.toLowerCase().equals(partBefore)) {
                 nextPartStatus = true;
             }
         }
@@ -181,20 +232,25 @@ public class BootActivity extends Activity {
         startActivity(tweetSpotlightIntent);
     }
 
-    private void startHomeActivity(String composeText) {
-        Intent tweetSpotlightIntent = new Intent(this, HomeActivity.class);
-        if(!composeText.isEmpty()){
-            tweetSpotlightIntent.putExtra("composeText", composeText);
+    private void startHomeActivity(String composeText, String urlToLoad) {
+        Intent homeIntent = new Intent(this, HomeActivity.class);
+        homeIntent.setAction(Intent.ACTION_SEND);
+        homeIntent.setType("text/plain");
+        if (!composeText.isEmpty()) {
+            homeIntent.putExtra(Intent.EXTRA_TEXT, composeText);
+        }
+        if (!urlToLoad.isEmpty()) {
+            homeIntent.putExtra("urlToLoad", urlToLoad);
         }
         overridePendingTransition(0, 0);
-        startActivity(tweetSpotlightIntent);
+        startActivity(homeIntent);
     }
 
     private void startProfileSpotlight(String userName) {
-        Intent tweetSpotlightIntent = new Intent(this, ProfileActivity.class);
-        tweetSpotlightIntent.putExtra("userScreenName", userName);
-        tweetSpotlightIntent.putExtra("clearCompose", "true");
+        Intent profileIntent = new Intent(this, ProfileActivity.class);
+        profileIntent.putExtra("userScreenName", userName);
+        profileIntent.putExtra("clearCompose", "true");
         overridePendingTransition(0, 0);
-        startActivity(tweetSpotlightIntent);
+        startActivity(profileIntent);
     }
 }

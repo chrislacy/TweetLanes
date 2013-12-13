@@ -1,0 +1,536 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <!-- Simple strings. -->
+    <string name="app_name">Tweet Lanes</string>
+    <string name="app_launcher_name">Tweet Lanes</string>
+    <string name="beta_launcher_name">Tweet Lanes Beta</string>
+    <string name="app_tweet_spotlight_activity_name">Tweet</string>
+    <string name="back">Назад</string>
+    <string name="clear">Очистить</string>
+    <string name="share">Поделиться</string>
+    <string name="menu_settings">Настройки</string>
+    <string name="details">Подробности</string>
+    <string name="location">Расположение</string>
+    <string name="link">Ссылка</string>
+    <string name="more">Подробнее</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="done">Готово</string>
+    <string name="follows_you">
+        <i>ваши читатели</i>
+    </string>
+
+    <string name="credits_oss_heading">Tweet Lanes использует следующее программное обеспечение с открытым исходным кодом:</string>
+    <string name="credits_oss_items"><a href="https://github.com/chrisbanes/Android-PullToRefresh">
+        Android-PullToRefresh</a>, Copyright 2013 Chris Banes.\n
+        <a href="https://plus.google.com/117064558166627683075/posts">AOSP</a>, Copyright 2008-2013,
+        Android Open Source Project.\n<a href="https://github.com/jasonpolites/gesture-imageview">
+            GestureImageView</a>, Copyright 2012 Jason Polites.\n
+        <a href="https://github.com/DHuckaby/Prime">Prime</a>, Copyright 2012 Daniel Huckaby.\n
+        <a href="https://github.com/koush/UrlImageViewHelper">UrlImageViewHelper</a>, Copyright 2013
+        Koushik Dutta.\n<a href="https://github.com/JakeWharton/Android-ViewPagerIndicator">
+            ViewPagerIndicator</a>, Copyright 2012 Jake Wharton.\n
+        <a href="https://github.com/MartinvanZ/Inscription">Inscription</a>,
+        Copyright 2012 Martin van Zuilekom.\n
+    </string>
+    <string name="credits_art_items">Логотип и рекламное изображение создали
+        <a href="https://plus.google.com/107629610345558527193/posts">Bruno Rime</a> и
+        <a href="https://twitter.com/retareq">@retareq</a>. Используется с разрешением авторов.
+    </string>
+    <string name="credits_app_copyright">Copyright 2013, Chris Lacy.</string>
+
+    <string name="credits_lacy_name">Chris Lacy</string>
+    <string name="credits_lacy_networks">
+        Twitter: <a href="https://twitter.com/chrismlacy">@chrismlacy</a>\n
+        App.net: <a href="https://alpha.app.net/chrismlacy">@chrismlacy</a>\n
+        GitHub: <a href="https://github.com/chrislacy">@chrislacy</a></string>
+
+    <string name="credits_fammy_name">Jason Famularo</string>
+    <string name="credits_fammy_networks">
+        Twitter: <a href="https://twitter.com/splodn">@splodn</a>\n
+        App.net: <a href="https://alpha.app.net/fam">@fam</a>\n
+        GitHub: <a href="https://github.com/Fammy">@Fammy</a></string>
+
+    <string name="credits_duffy_name">James Duffy</string>
+    <string name="credits_duffy_networks">
+        Twitter: <a href="https://twitter.com/duffy0">@duffy0</a>\n
+        App.net: <a href="https://alpha.app.net/dffy">@dffy</a>\n
+        GitHub: <a href="https://github.com/jamesduffy">@jamesduffy</a></string>
+
+    <string name="credits_blythmeister_name">Chris Blyth</string>
+    <string name="credits_blythmeister_networks">
+        Twitter: <a href="https://twitter.com/BlythMeister">@BlythMeister</a>\n
+        App.net: <a href="https://alpha.app.net/BlythMeister">@BlythMeister</a>\n
+        GitHub: <a href="https://github.com/BlythMeister">@BlythMeister</a></string>
+
+
+    <string name="authorize_twitter_account">Вход в Twitter аккаунт</string>
+    <string name="authorize_appdotnet_account">Вход в App.net аккаунт</string>
+
+    <string name="action_follow">Читать</string>
+    <string name="action_unfollow">Отписаться</string>
+    <string name="action_share">Поделиться</string>
+    <string name="action_manage_friendship">Manage Friendship</string> <!-- TODO -->
+    <string name="action_favorite">Избранное</string>
+    <string name="action_unfavorite">Удалить из избранного</string>
+    <string name="action_retweet_unset">Удалить из избранного</string>
+    <string name="action_block">Заблокировать пользователя</string>
+    <string name="action_report_for_spam">Сообщить о спаме</string>
+    <string name="action_delete_status">Удалить</string>
+    <string name="action_retweet">Ретвитнуть</string>
+    <string name="action_reply">Ответить</string>
+    <string name="action_message">Сообщение</string>
+    <string name="action_use_location">Использовать геолокацию</string>
+    <string name="action_take_photo">Сделать фото</string>
+    <string name="action_pick_photo">Выбрать фото</string>
+    <string name="action_save_to_gallery">Сохранить фото в галерею</string>
+    <string name="action_website">Просмотреть на сайте</string>
+    <string name="action_next">Следующая</string>
+    <string name="action_previous">Предыдущая</string>
+    <string name="action_show_replies">Показать ответы</string>
+    <string name="action_hide_replies">Скрыть ответы</string>
+    <string name="action_show_retweets">Показать ретвиты</string>
+    <string name="action_hide_retweets">Скрыть ретвиты</string>
+    <string name="action_show_retweets_adn">Показать репосты</string>
+    <string name="action_hide_retweets_adn">Скрыть репосты</string>
+
+    <string name="action_bar_tweet_compose_title">Новый твит</string>
+    <string name="action_bar_tweet_compose_title_adn">Новое сообщение</string>
+    <string name="action_bar_tweet_reply_compose_title">Ответить</string>
+    <string name="action_bar_direct_message_compose_title">Новое личное сообщение</string>
+    <string name="action_bar_search_title">Поиск</string>
+
+    <string name="title_settings">Настройки</string>
+
+    <string name="loading">Загрузка</string>
+    <string name="via">via</string>
+
+    <string name="new_tweet">Новый твит</string>
+    <string name="new_tweets">Новых твитов</string>
+    <string name="new_post">Новое сообщение</string>
+    <string name="new_posts">Новых сообщений</string>
+
+    <string name="no_more_content">~</string>
+    <string name="load_more">Нажмите, чтобы загрузить больше</string>
+    <string name="no_content_found">В данный момент контент не загружен.</string>
+
+    <string name="compose_tweet_default_hint">Что происходит, @</string>
+    <string name="compose_tweet_to_user_hint">Твит для</string>
+    <string name="compose_tweet_to_user_hint_adn">Сообщение для</string>
+    <string name="compose_tweet_reply_to">Ответить</string>
+    <string name="compose_tweet_finish">Отправить твит:</string>
+    <string name="compose_tweet_finish_adn">Отправить сообщение:</string>
+
+    <string name="compose_direct_message_default_hint">Новое личное сообщение</string>
+    <string name="compose_direct_message_finish">Отправить личное сообщение:</string>
+
+    <string name="separator_more">Подробнее</string>
+    <string name="add_account">Добавить аккаунт</string>
+
+    <string name="lane_user_home">Лента</string>
+    <string name="lane_user_tweets">Мои твиты</string>
+    <string name="lane_user_tweets_adn">Мои сообщения</string>
+    <string name="lane_user_retweets_of_me">Ретвиты меня</string>
+    <string name="lane_user_retweets_of_me_adn">Взаимодействия</string>
+    <string name="lane_user_favorites">Избранное</string>
+    <string name="lane_user_profile">Мой профиль</string>
+    <string name="lane_user_mentions">\@ Упоминания</string>
+    <string name="lane_user_global_feed">Глобальная лента</string>
+    <string name="lane_direct_messages">Личные сообщения</string>
+    <string name="lane_followers">Читатели</string>
+    <string name="lane_friends">Читаемые</string>
+
+    <string name="lane_profile_profile">Профиль</string>
+    <string name="lane_profile_tweets">Твиты</string>
+    <string name="lane_profile_tweets_adn">Сообщения</string>
+    <string name="lane_profile_mentions">\@ Упоминания</string>
+    <string name="lane_profile_favorites">Избранное</string>
+
+    <string name="lane_search_tweets">Твиты</string>
+    <string name="lane_search_tweets_adn">Сообщения</string>
+    <string name="lane_search_people">Люди</string>
+
+    <string name="lane_tweet_status">Твит</string>
+    <string name="lane_tweet_status_adn">Сообщение</string>
+    <string name="lane_tweet_conversation">Переписка</string>
+    <string name="lane_tweet_favorited_by">В избранное</string>
+    <string name="lane_tweet_retweeted_by">Ретвитнули</string>
+    <string name="lane_tweet_retweeted_by_adn">Репостили</string>
+
+    <string name="status_count">Твиты</string>
+    <string name="posts_count">Сообщения</string>
+    <string name="friends_count">Читаемые</string>
+    <string name="following_count">Читатели</string>
+    <string name="favorites_count">Избранное</string>
+
+    <string name="load_more_label">Нажмите, чтобы загрузить больше</string>
+    <string name="pull_to_refresh_pull_label">Потяните для обновления&#8230;</string>
+    <string name="pull_to_refresh_release_label">Отпустите для обновления&#8230;</string>
+    <string name="pull_to_refresh_refreshing_label">Загрузка&#8230;</string>
+    <string name="pull_to_refresh_tap_label">Нажмите для обновления&#8230;</string>
+
+    <string name="tweet_posted_error">Проблема при отправке твита</string>
+    <string name="posting_tweet">Отправка</string>
+    <string name="posting_tweet_ongoing">Отправка &#8230;</string>
+    <string name="lost_position">Прогресс прочтения ленты был потерян</string>
+    <string name="pottential_lost_position">Обновление было остановлено, чтобы не потерять прогресс прочтения ленты</string>
+
+    <string name="share_tweet">Текст твита</string>
+    <string name="share_tweet_link">Ссылка на твит</string>
+    <string name="share_link">Ссылка в твите</string>
+    <string name="share_first_link">Ссылка в твите</string>
+
+    <string name="dm_title">DMs with @</string> <!-- TODO -->
+    <string name="dm_username_hint">Имя пользователя</string>
+
+    <string name="direct_message_posted_error">Ошибка при отправке личного сообщения</string>
+    <string name="posting_direct_message">Отправка личного сообщения</string>
+    <string name="posting_direct_message_ongoing">Отправка личного сообщения&#8230;</string>
+
+    <string name="alert_share_title">Поделиться</string>
+    <string name="alert_share_message">\nКак вы хотите поделиться этим твитом?\n</string>
+    <string name="alert_status_too_long">Ваш твит превышает допустимое количество символов.\n\nТвиты должны содержать
+        не более 140 символов.
+    </string>
+    <string name="alert_status_too_long_adn">Ваше сообщение превышает допустимое количество символов.\n\Сообщения должны содержать
+        не более 256 символов.
+    </string>
+    <string name="alert_status_invalid">Ваше сообщение не может быть отправлено, так как оно содержит недопустимые символы.
+    </string>
+    <string name="alert_status_empty">Twitter doesn\'t know how to read silence.</string> <!-- TODO -->
+    <string name="alert_status_empty_adn">App.net doesn\'t know how to read silence.</string> <!-- TODO -->
+    <string name="alert_direct_message_no_recipient">Please enter the Twitter username of the person
+        to message.
+    </string> <!-- TODO -->
+    <string name="alert_direct_message_too_long">Ваше личное сообщение превышает допустимое количество символов.\n\
+        Сообщения должны содержать не более 140 символов.
+    </string>
+    <string name="alert_direct_message_empty">Got nothin\' to say do ya?</string> <!-- TODO -->
+    <string name="alert_direct_message_invalid">Ваше личное сообщение не может быть отправлено, т.к. содержит недопустимые символы.
+    </string>
+    <string name="alert_retweet_options">\nРассказать об этом вашим читателям?\n</string>
+    <string name="alert_retweet_private">\nИзвините, но вы не можете ретвитить сообщения из приватного аккаунта.\n
+    </string>
+    <string name="alert_accept_tos">&lt;br&gt;Перед тем, как продолжить, подтвердите, что вы принимаете
+        &lt;a href=\"http://www.tweetlanes.com/termsofservice\"&gt;Условия использования&lt;/a&gt;
+        and &lt;a href=\"http://www.tweetlanes.com/privacy\"&gt;Политику конфиденциальности
+        &lt;/a&gt; Tweet Lanes.&lt;br&gt;</string>
+
+    <string name="alert_empty_image_cache_title">Очистить кэш изображений?</string>
+    <string name="alert_empty_image_cache_message">\nВсе изображения, сохраненные локально
+        и в оперативной памяти, будут стерты и повторно загружены.\n
+    </string>
+
+    <string name="alert_customize_lanes_title">Настройка полос</string>
+    <string name="alert_remove_account_title">Удалить учетную запись</string>
+    <string name="alert_remove_account_sure">Вы уверены, что хотите удалить эту запись?</string>
+    <string name="alert_remove_account_active">Вы не можете удалить активный счет</string>
+
+    <string name="functionality_not_implemented">Извините, но эта функция ещё не готова. Но скоро будет, я обещаю!
+    </string>
+    <string name="deleted_un_successfully">Ошибка при удалении сообщения</string>
+    <string name="favorited_un_successfully">Ошибка добавления в избранное</string>
+    <string name="unfavorited_un_successfully">Ошибка удаления из избранного</string>
+    <string name="favorite_marking_un_successful">Невозможно изменить Любимые маркера</string>
+    <string name="retweeted_un_successful">Ошибка при отправке ретвита</string>
+    <string name="retweeted_marking_un_successful">Невозможно пометить как Retweet</string>
+    <string name="cannot_unretweet">Нельзя отменить reweet с помощью этого приложения</string>
+
+    <string name="deleted_dm_un_successfully">Прямое сообщение об удалении не удалось</string>
+    <string name="delete_dm_multiple">Несколько удаление может занять некоторое время!</string>
+    <string name="delete_dm_noback">Не могу вернуться вист удаление!</string>
+
+    <string name="retweet">Ретвитнуть</string>
+    <string name="quote">Цитата</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Отмена</string>
+    <string name="i_agree">Я согласен</string>
+
+    <string name="promote_conditions">Вам нравится использовать Tweet Lanes? Вам нравится, что Tweet
+        Lanes является открытым программным обеспечением? Если это так, помогите с его распространением!
+        \n\nНажав на
+        <i>Согласен!</i>
+        вы подпишитесь на @TweetLanes и меня (@chrismlacy). Этот твит будет отправлен от вашего имени:
+    </string>
+    <string name="promote_status_display">Я использую @TweetLanes, Twitter с открытым исходным кодом для Android.
+        Выглядит очень интересно. bit.ly/tweetlanes
+    </string>
+    <string name="promote_status_text">Я использую @TweetLanes, Twitter с открытым исходным кодом для Android.
+        Выглядит очень интересно.
+        https://play.google.com/store/apps/details?id=com.tweetlanes.android.core
+    </string>
+
+    <string name="free_for_life_success">\nВы успешно подписались на получение всех обновлений
+        Tweet Lanes\n\nБольшое спасибо за вашу поддержку.\n
+    </string>
+    <string name="free_for_life_error">\nИзвините, произошла неизвестная ошибка. Попробуйте ещё раз через пару минут.\n
+    </string>
+
+    <string name="unknown_error">Произошла неизвестная ошибка</string>
+    <string name="unknown_intent">К сожалению, этот URL не отформатирована, как мы ожидали! \ NВы хотите, чтобы загрузить URL в другом приложении?</string>
+
+    <string name="image_not_loaded">Нельзя сохранить изображение, пока оно загружается</string>
+    <string name="image_save_success">Изображение успешно сохранено</string>
+
+    <string name="picture_attach_error">Не удалось загрузить выбранное изображение</string>
+
+    <string name="ptr_pull_to_refresh">Потяните для обновления</string>
+    <string name="ptr_release_to_refresh">Отпустите для обновления</string>
+    <string name="ptr_refreshing">Обновление</string>
+
+    <string name="tutorial_title">Добро пожаловать</string>
+
+    <string-array name="tutorial_titles">
+        <item>Добро пожаловать</item>
+        <item>Быстрая панель</item>
+        <item>Множественное выделение</item>
+        <item>VolScroll™</item>
+        <item>Спам контроль</item>
+        <item>Спасибо!</item>
+    </string-array>
+    <string name="tutorial_thanks_title">- спасибо!</string>
+
+    <string name="tutorial_welcome_intro">Добро пожаловать в Tweet Lanes!</string>
+    <string name="tutorial_welcome_middle">"Tweet Lanes содержит некоторые улучшения по сравнению с любым
+        Twitter или App.net клиентом, который вы использовали ранее.\n\nДавайте пробежимся по наиболее значимым особенностям приложения."
+    </string>
+    <string name="tutorial_welcome_swipe">
+        <i>« Свайп для продолжения</i>
+    </string>
+
+    <string name="tutorial_volscroll_intro">В дополнение к традиционному способу перемотки ленты, Tweet Lanes
+        представляет новый способ навигации - <i>VolScroll™</i>.\n\nС помощью аппаратных кнопок на вашем устройстве "Громче/Тише"
+        осуществляйте более удобную перемотку вашей ленты сообщений.
+    </string>
+    <string name="tutorial_volscroll_reasons">Это потрясающее, потому что:</string>
+    <string name="tutorial_volscroll_reason1">Использование клавиш громкости быстрее, чем перелистывание.
+    </string>
+    <string name="tutorial_volscroll_reason2">Чтобы читать ленту и держать устройство можно использовать только одну руку.
+    </string>
+    <string name="tutorial_volscroll_footer">Попробуйте VolScroll - я уверен, вам понравится!
+    </string>
+
+    <string name="tutorial_images_intro">Status updates containing media from trusted sources are
+        automatically previ ewed.\n\nSo instead of this:
+    </string><!-- TODO -->
+    <string name="tutorial_images_middle">You see this (much more helpful!):</string><!-- TODO -->
+    <string name="tutorial_images_footer">\nNote that the media URL is also hidden to increase the
+        legibility of the Tweet.
+    </string><!-- TODO -->
+    <string name="tutorial_images_sources">Preview images are displayed for:</string><!-- TODO -->
+
+    <string name="tutorial_compose_tweet_intro">Отсутствуют отдельные окна для отправки сообщений и ответов.
+    </string>
+    <string name="tutorial_compose_tweet_context_sensitive">Вместо этого, используется глобальная <i>Быстрая панель</i>:
+    </string>
+    <string name="tutorial_compose_tweet_hint">\n<i>Быстрая панель</i>
+        представляет собой новую концепцию в создании приложений, но не нужно волноваться.
+        Вы очень быстро поймёте, насколько проще теперь отправлять сообщения!
+    </string>
+    <string name="tutorial_compose_tweet_footer">\n(Посмотрите на подсказку, если не уверены)
+    </string>
+
+    <string name="tutorial_multiple_selection_intro1">Tweet Lanes позволяет вам взаимодействовать одновременно с несколькими сообщениями.
+    </string>
+    <string name="tutorial_multiple_selection_intro2">Рассмотрим случай, когда 2 человека задают вам одинаковый вопрос.
+    </string>
+    <string name="tutorial_multiple_selection_intro3">Чтобы ответить, выберите сообщения&#8230;</string>
+    <string name="tutorial_multiple_selection_reply">&#8230;и в
+        <i>Быстрой панели</i>
+        ответьте обоим людям!
+    </string>
+
+    <string name="tutorial_spam_control_intro">Все ненавидят спам.</string>
+    <string name="tutorial_spam_control_instruction1">Tweet Lanes позволяет гораздо быстрее разобраться со спамерами.
+    </string>
+    <string name="tutorial_spam_control_instruction2">Просто выделите плохие сообщения и сообщите о спаме!
+    </string>
+
+    <string name="tutorial_thanks_intro">Благодарим за ваше намерение опробовать Tweet Lanes!\n\nЕсли вам понравилось приложение,
+        пожалуйста, нажмите кнопку
+        <i>Пожертвовать</i>
+        для помощи нам в продвижении Tweet Lanes в массы!
+    </string>
+    <string name="tutorial_thanks_feedback">\nTweet Lanes это приложение с открытым исходным кодом, так что
+        если вы хотите внести свой вклад в разработку, то не стесняйтесь!\n\nБольшое спасибо,
+    </string>
+    <string name="tutorial_thanks_signature">\nChris Lacy\n@chrismlacy\nAuthor, Tweet Lanes</string>
+    <string name="tutorial_thanks_follow_checkbox">Читать @chrismlacy и @TweetLanes</string>
+    <string name="tutorial_thanks_tos">Продолжая, вы соглашаетесь с
+        <a href="http://www.tweetlanes.com/termsofservice">Условиями использования</a>
+        и <a href="http://www.tweetlanes.com/privacy">Политикой конфиденциальности</a> Tweet Lanes.
+    </string>
+    <string name="tutorial_thanks_done_button">Перейти в приложение</string>
+
+
+    <!-- ================================= -->
+    <!--  error messages  -->
+    <!-- ================================= -->
+
+    <string name="error_no_connection">Отсутствует подключение к интернету.</string>
+    <string name="error_downloading_image">Произошла ошибка при попытке скачивания изображения.\n\n.
+        Нажмите на кнопку "Просмотреть на сайте", чтобы попытаться просмотреть в вашем браузере.
+    </string>
+
+    <!-- ================================= -->
+    <!--  app/action bar examples strings  -->
+    <!-- ================================= -->
+
+    <string name="action_bar_mechanics">App/Action Bar/Action Bar Mechanics</string> <!-- TODO -->
+    <string name="action_bar_usage">App/Action Bar/Action Bar Usage</string> <!-- TODO -->
+    <string name="action_bar_tabs">App/Action Bar/Action Bar Tabs</string> <!-- TODO -->
+    <string name="action_bar_settings_action_provider">App/Action Bar/Action Provider/Settings
+        Action Provider
+    </string> <!-- TODO -->
+    <string name="action_bar_share_action_provider">App/Action Bar/Action Provider/Share Action
+        Provider
+    </string> <!-- TODO -->
+    <string name="action_bar_settings_action_provider_no_handling">Handling in onOptionsItemSelected
+        avoided
+    </string> <!-- TODO -->
+
+    <string name="action_bar_search">Поиск</string>
+    <string name="action_bar_add">Добавить</string>
+    <string name="action_bar_edit">Редактировать</string>
+    <string name="action_bar_share">Поделиться</string>
+    <string name="action_bar_sort">Сортировать</string>
+    <string name="action_bar_sort_alpha">По алфавиту</string>
+    <string name="action_bar_sort_size">По размеру</string>
+    <string name="action_bar_settings">Настройки</string>
+    <string name="action_bar_filter_feed">Фильтр ленты</string>
+    <string name="action_bar_promote">Расскажите о нас!</string>
+    <string name="action_bar_send_feedback">Отправить отзыв</string>
+    <string name="action_bar_buy_alp">Скачать Action Launcher!</string>
+
+
+    <!-- ============================== -->
+    <!--  preference examples strings     -->
+    <!-- ============================== -->
+
+    <string name="display_preferences">Внешний вид</string>
+    <string name="other_preferences">Прочее</string>
+    <string name="help_preferences">Помощь</string>
+
+    <string name="title_theme_preference">Тема</string>
+    <string name="dialog_title_theme_preference">Тема</string>
+
+    <string name="title_customizelanes_preference">Управление дорожками</string>
+    <string name="summary_customizelanes_preference">Показывать/скрывать отдельные дорожки</string>
+
+    <string name="title_removeaccount_preference">Удалить учетную запись</string>
+    <string name="summary_removeaccount_preference">Выбрать и удалить учетную запись</string>
+
+    <string name="title_diplaytime_preference">Формат отображения времени</string>
+    <string name="dialog_title_diplaytime_preference">Формат отображения времени</string>
+
+    <string name="title_statussize_preference">Размер шрифта</string>
+    <string name="dialog_title_statussize_preference">Размер шрифта</string>
+
+    <string name="title_profileimagesize_preference">Размер изображения профиля</string>
+    <string name="dialog_title_profileimagesize_preference">Размер изображения профиля</string>
+
+    <string name="title_displayname_preference">Дисплей Название Формат</string>
+    <string name="dialog_title_displayname_preference">Дисплей Название Формат</string>
+
+    <string name="title_namedisplay_preference">Формат отображения имени</string>
+    <string name="dialog_title_namedisplay_preference">Формат отображения имени</string>
+
+    <string name="title_showtabletmargin_preference">Отступ между дорожками</string>
+
+    <string name="title_downloadimages_preference">Загрузка изображений</string>
+    <string name="summary_downloadimages_preference">Будут загружаться изображения профилей и превью изображений.
+    </string>
+
+    <string name="title_autorefresh_preference">Обновлять автоматически</string>
+    <string name="summary_autorefresh_preference">Скачать новые статусы, когда приложение загружает
+    </string>
+
+    <string name="title_volscroll_preference">VolScroll</string>
+    <string name="summary_volscroll_preference">Прокрутка ленты с помощью клавиш громкости
+    </string>
+
+    <string name="title_quote_preference">Вид цитирования</string>
+    <string name="dialog_title_quote_preference">Вид цитирования</string>
+
+    <string name="title_dimscreen_preference">Затемнение экрана</string>
+    <string name="summary_dimscreen_preference">Экран будет затухать после определённого периода бездействия.
+    </string>
+
+    <string name="title_freeforlife_preference">Свободно для жизни</string>
+    <string name="summary_freeforlife_preference_yes">Успешно зарегистрирован</string>
+    <string name="summary_freeforlife_preference_no">Не зарегистрирован</string>
+
+    <string name="title_version_preference">Версия Tweet Lanes</string>
+    <string name="summary_version_preference"></string>
+
+    <string name="title_help_preference">Где получить помощь?</string>
+    <string name="summary_help_preference">Отправьте нам твит или сообщение в App.net.\nНас (@TweetLanes) в обеих сетях.</string>
+
+    <string name="notification_preferences">Уведомления</string>
+
+    <string name="notification_time_preference">Интервал обновлений</string>
+    <string name="dialog_title_notificationtime_preference">Интервал обновлений</string>
+
+    <string name="notification_type_preference">О чём уведомлять</string>
+    <string name="dialog_title_notificationtype_preference">Выберите, о каких действиях вы хотите узнавать</string>
+
+    <string name="ringtone_preference">Рингтон</string>
+    <string name="summary_ringtone_preference">Звук, который будет воспроизводиться при получении уведомлений.</string>
+
+    <string name="vibration_preference">Вибрация</string>
+    <string name="summary_vibration_preference">При получении нового сообщения ваше устройство будет вибрировать.</string>
+
+    <string name="settings_never">Никогда</string>
+    <string name="settings_always">Всегда</string>
+    <string name="settings_wifi">Только по Wifi</string>
+    <string name="settings_data">Использоовать отправку пакетных данных</string>
+
+    <string name="settings_small">Маленький</string>
+    <string name="settings_medium">Средний</string>
+    <string name="settings_large">Большой</string>
+
+    <string name="settings_credits_title">Разработчики</string>
+
+    <string name="settings_status_font_size">Размер шрифта сообщений</string>
+    <string name="settings_status_font_size_dialog_title">Выбор размера шрифта для сообщений</string>
+
+    <string name="settings_volume_controls">VolScroll</string>
+    <string name="settings_volume_controls_summary">Прокрутка ленты с помощью клавиш громкости
+    </string>
+
+    <string name="title_showtweetsource_preference">Источник</string>
+    <string name="summary_showtweetsource_preference">Отображение приложения, из которого было отправлено сообщение.
+    </string>
+
+    <string name="settings_image_loading">Загрузка изображения</string>
+    <string name="settings_image_preview">Предворительный просмотр изображения</string>
+
+    <string name="settings_image_uploads">Сжатие картинок при отправке</string>
+
+    <string name="settings_source_title">Исходный код</string>
+    <string name="settings_source_summary">Форкайте Tweet Lanes на GitHub!</string>
+
+    <string name="settings_donate_title">Пожертвования</string>
+
+    <string name="tutorial_no_tweet_description">В Tweet Lanes нет кнопки "Новый твит".
+    </string>
+    <string name="tutorial_compose_tweet_new_description">Чтобы отправить твит, нажите на "Быструю панель"
+    </string>
+
+    <string name="description_permission_access_service">Tweet Lanes service</string><!-- TODO -->
+    <string name="label_permission_access_service">Tweet Lanes service</string><!-- TODO -->
+    <string name="label_backend_service">Tweet Lanes Notifications</string><!-- TODO -->
+    <string name="extension_title">Tweet Lanes</string>
+    <string name="extension_description">Непрочитанные упоминания и личные сообщения</string>
+    <string name="select_account_type">Какой тип учетной записи вы хотели бы добавить?</string>
+    <string name="new_account_intro">Tweet Lanes поддерживает две социальные сети: Twitter и App.net.
+    </string>
+    <string name="new_account_intro2">Для добавления аккаунта войдите в один из сервисов:
+    </string>
+    <string name="new_account_twitter">Twitter</string>
+    <string name="new_account_adn">App.net</string>
+
+    <string name="title_changelog">Список изменений</string>
+    <string name="changelog_close">Закрыть</string>
+</resources>

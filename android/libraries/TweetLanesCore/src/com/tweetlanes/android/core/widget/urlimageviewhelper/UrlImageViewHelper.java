@@ -202,6 +202,10 @@ public final class UrlImageViewHelper {
         return url.hashCode() + ".urlimage";
     }
 
+    public static String getJpgFilenameForUrl(final String url) {
+        return url.hashCode() + ".jpg";
+    }
+
     /**
      * Clear out cached images.
      *

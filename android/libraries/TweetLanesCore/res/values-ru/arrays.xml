@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <string-array name="diplaytime_list_preference">
+        <item>Относительный</item>
+        <item>Абсолютный</item>
+        <item>Смешанный</item>
+    </string-array>
+
+    <string-array name="statussize_list_preference">
+        <item>Очень мелкий</item>
+        <item>Мелкий</item>
+        <item>Обычный</item>
+        <item>Крупный</item>
+        <item>Очень крупный</item>
+        <item>Очень-очень крупный</item>
+        <item>Гигантский</item>
+    </string-array>
+
+    <string-array name="profileimagesize_list_preference">
+        <item>Мелкий</item>
+        <item>Обычный</item>
+        <item>Большой</item>
+    </string-array>
+
+    <string-array name="displayname_list_preference">
+        <item>Имя и ручки</item>
+        <item>Имя только</item>
+        <item>Ручка только</item>
+    </string-array>
+
+    <string-array name="displayname_values_list_preference">
+        <item>Both</item>
+        <item>Name</item>
+        <item>Handle</item>
+    </string-array>
+
+    <string-array name="theme_list_preference">
+        <item>Holo Light</item>
+        <item>Holo Light w/ Dark Bar</item>
+        <item>Holo Dark</item>
+    </string-array>
+
+    <string-array name="quote_list_preference">
+        <item>Обычное цитирование</item>
+        <item>RT с комментарием</item>
+        <item>via @username</item>
+    </string-array>
+
+    <string-array name="quotevalues_list_preference">
+        <item>Обычно</item>
+        <item>rt</item>
+        <item>via</item>
+    </string-array>
+
+    <string-array name="namedisplay_list_preference">
+        <item>\@username</item>
+        <item>Имя</item>
+        <item>\@username, Имя</item>
+        <item>Имя, \@username</item>
+    </string-array>
+
+    <string-array name="notificationtime_list_preference">
+        <item>Никогда</item>
+        <item>2 минуты\n(Возможны ошибки)</item>
+        <item>3 минуты\n(Возможны ошибки)</item>
+        <item>5 минут</item>
+        <item>15 минут (Рекомендуем)</item>
+        <item>30 минут</item>
+        <item>1 час</item>
+        <item>4 часа</item>
+        <item>12 часов</item>
+    </string-array>
+
+    <string-array name="notificationtimevalues_list_preference">
+        <item>0m</item>
+        <item>2m</item>
+        <item>3m</item>
+        <item>5m</item>
+        <item>15m</item>
+        <item>30m</item>
+        <item>1h</item>
+        <item>4h</item>
+        <item>12h</item>
+    </string-array>
+
+    <string-array name="notificationtype_list_preference">
+        <item>Упоминания и личные сообщения</item>
+        <item>Только упоминания</item>
+        <item>Личные сообщения</item>
+    </string-array>
+
+    <string-array name="notificationtypevalues_list_preference">
+        <item>m,d</item>
+        <item>m</item>
+        <item>d</item>
+    </string-array>
+
+</resources>

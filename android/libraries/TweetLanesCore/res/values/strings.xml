@@ -170,7 +170,6 @@
     <string name="pull_to_refresh_refreshing_label">Loading&#8230;</string>
     <string name="pull_to_refresh_tap_label">Tap to refresh&#8230;</string>
 
-    <string name="tweet_posted_success">Status posted</string>
     <string name="tweet_posted_error">Failed to post status</string>
     <string name="posting_tweet">Posting</string>
     <string name="posting_tweet_ongoing">Posting &#8230;</string>
@@ -185,7 +184,6 @@
     <string name="dm_title">DMs with @</string>
     <string name="dm_username_hint">Username</string>
 
-    <string name="direct_message_posted_success">Direct Message sent</string>
     <string name="direct_message_posted_error">Failed to post Direct Message</string>
     <string name="posting_direct_message">Sending Direct Message</string>
     <string name="posting_direct_message_ongoing">Sending Direct Message&#8230;</string>
@@ -229,29 +227,31 @@
     </string>
 
     <string name="alert_customize_lanes_title">Customize Lanes</string>
+    <string name="alert_remove_account_title">Remove Account</string>
+    <string name="alert_remove_account_sure">Are you sure you want to remove this account?</string>
+    <string name="alert_remove_account_active">You cannot remove the active account</string>
+
 
     <string name="functionality_not_implemented">Sorry, but this feature isn\'t ready just yet.
         It\'s coming very soon though, I promise!
     </string>
-    <string name="deleted_successfully">Status deleted successfully</string>
     <string name="deleted_un_successfully">Status delete failed</string>
-    <string name="favorited_successfully">Favorited successfully</string>
-    <string name="unfavorited_successfully">Unfavorited successfully</string>
     <string name="favorited_un_successfully">Favorited failed</string>
-    <string name="favorite_in_progress">Favorite being marked</string>
     <string name="unfavorited_un_successfully">Unfavorited failed</string>
     <string name="favorite_marking_un_successful">Unable to change Favorite marker</string>
-    <string name="retweeted_successfully">Retweeted successfully</string>
     <string name="retweeted_un_successful">Retweet failed</string>
     <string name="retweeted_marking_un_successful">Unable to mark as Retweet</string>
     <string name="cannot_unretweet">Cannot un-reweet using this app</string>
+
+    <string name="deleted_dm_un_successfully">Direct message delete failed</string>
+    <string name="delete_dm_multiple">Multiple deletes may take some time!</string>
+    <string name="delete_dm_noback">Cannot go back whist deleting!</string>
 
     <string name="retweet">Retweet</string>
     <string name="quote">Quote</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="i_agree">I agree</string>
-    <string name="success">Success!</string>
 
     <string name="promote_conditions">Do you like using Tweet Lanes? Do you love the fact that Tweet
         Lanes is completely open source? If so, please help me spread the word about it!
@@ -276,7 +276,7 @@
     </string>
 
     <string name="unknown_error">An unknown error has occurred</string>
-    <string name="unknown_intent">An error occured processing URL</string>
+    <string name="unknown_intent">Sorry, this URL is not formatted how we expected!\nWould you like to load the URL in another application?</string>
 
     <string name="image_not_loaded">Unable to save image until it has finished downloading</string>
     <string name="image_save_success">Successfully saved image</string>
@@ -438,6 +438,9 @@
     <string name="title_customizelanes_preference">Customize Lanes</string>
     <string name="summary_customizelanes_preference">Show/hide specific lanes</string>
 
+    <string name="title_removeaccount_preference">Remove Account</string>
+    <string name="summary_removeaccount_preference">Choose &amp; Remove An Account</string>
+
     <string name="title_diplaytime_preference">Time Format/Display</string>
     <string name="dialog_title_diplaytime_preference">Time Format/Display</string>
 
@@ -447,6 +450,9 @@
     <string name="title_profileimagesize_preference">Profile Image Size</string>
     <string name="dialog_title_profileimagesize_preference">Profile Image Size</string>
 
+    <string name="title_displayname_preference">Display Name Format</string>
+    <string name="dialog_title_displayname_preference">Display Name Format</string>
+
     <string name="title_namedisplay_preference">Name Display Format</string>
     <string name="dialog_title_namedisplay_preference">Name Display Format</string>
 
@@ -455,6 +461,10 @@
     <string name="title_downloadimages_preference">Download Images</string>
     <string name="summary_downloadimages_preference">Profile images and media thumbnail previews
         will be downloaded
+    </string>
+
+    <string name="title_autorefresh_preference">Auto Refresh</string>
+    <string name="summary_autorefresh_preference">Download new statuses when app loads
     </string>
 
     <string name="title_volscroll_preference">VolScroll</string>
