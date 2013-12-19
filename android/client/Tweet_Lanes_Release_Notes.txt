@@ -2,6 +2,12 @@
 
 Note: To report bugs or make feature requests, either contact the official Twitter @TweetLanes or click the "Send Feedback" button in the app.
 
+Version 1.3.0 Onwards
+=================================
+
+Release notes can be found at: 
+And in the app as per 1.1.1 onwards.
+
 Version 1.1.1 Onwards
 =================================
 Change Log for version 1.1.1 onwards can be found in the app under settings.
