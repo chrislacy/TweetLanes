@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="1.4.0" versioncode="56">
+
+    </release>
     <release version="1.3.0" versioncode="55">
         <change>Feature - Added account remover in settings</change>
         <change>Feature - Mention &amp; DM notification status load into timeline without second refresh</change>
