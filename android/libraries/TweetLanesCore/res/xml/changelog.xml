@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
     <release version="1.4.0" versioncode="56">
-
+        <change>Fix - Update remaining characters as soon as media attached</change>
+        <change>Fix - Various errors reported by fatal crashes</change>
     </release>
     <release version="1.3.0" versioncode="55">
         <change>Feature - Added account remover in settings</change>

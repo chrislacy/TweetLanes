@@ -786,10 +786,8 @@ abstract class ComposeBaseFragment extends Fragment {
             int length = mStatusValidator.getTweetLength(string);
             if (length > 0) {
                 int remaining = getMaxPostLength() - length;
-                if (_mComposeDefault != null
-                        && _mComposeDefault.getMediaFilePath() != null) {
-                    int SHORT_URL_LENGTH_HTTPS = 23;
-                    remaining -= SHORT_URL_LENGTH_HTTPS - 1;
+                if (_mComposeDefault != null && _mComposeDefault.getMediaFilePath() != null) {
+                    remaining -= 22;
                 }
 
                 mCharacterCountTextView.setText("" + remaining);
