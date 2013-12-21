@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
     <release version="1.4.0" versioncode="56">
+        <change>Fix - Set VolScroll to be defaulted off</change>
         <change>Fix - Update remaining characters as soon as media attached</change>
         <change>Fix - Various errors reported by fatal crashes</change>
     </release>

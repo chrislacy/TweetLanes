@@ -22,7 +22,7 @@ import com.tweetlanes.android.core.view.SettingsActivity;
 public class AppSettings {
 
     public static final boolean DEFAULT_DOWNLOAD_IMAGES = true;
-    public static final boolean DEFAULT_VOLSCROLL = true;
+    public static final boolean DEFAULT_VOLSCROLL = false;
     public static final boolean DEFAULT_AUTO_REFRESH = false;
     public static final boolean DEFAULT_SHOW_TABLET_MARGIN = true;
     public static final boolean DEFAULT_SHOW_TWEET_SOURCE = false;
