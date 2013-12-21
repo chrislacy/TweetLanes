@@ -288,7 +288,10 @@ public class DirectMessageFeedFragment extends BaseLaneFragment {
             for (int i = 0; i < jsonArray.length(); i++) {
                 String statusString = jsonArray.getString(i);
                 TwitterDirectMessage status = new TwitterDirectMessage(statusString);
-                mDirectMessagesCache.add(status);
+                if(status.getText() != null)
+                {
+                    mDirectMessagesCache.add(status);
+                }
             }
 
             setDirectMessages(mDirectMessagesCache, false);
