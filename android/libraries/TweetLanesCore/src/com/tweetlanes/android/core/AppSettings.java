@@ -23,6 +23,7 @@ public class AppSettings {
 
     public static final boolean DEFAULT_DOWNLOAD_IMAGES = true;
     public static final boolean DEFAULT_VOLSCROLL = false;
+    public static final boolean DEFAULT_DISPLAY_URL = true;
     public static final boolean DEFAULT_AUTO_REFRESH = false;
     public static final boolean DEFAULT_SHOW_TABLET_MARGIN = true;
     public static final boolean DEFAULT_SHOW_TWEET_SOURCE = false;
@@ -123,6 +124,7 @@ public class AppSettings {
     private QuoteType mQuoteType;
     private DisplayTimeFormat mDisplayTimeFormat;
     private DisplayNameFormat mDisplayNameFormat;
+    private Boolean mDisplayUrl;
 
     /*
 	 *
@@ -152,6 +154,7 @@ public class AppSettings {
         ProfileImageSize oldProfileImageSize = mProfileImageSize;
         DisplayTimeFormat oldDisplayTimeFormat = mDisplayTimeFormat;
         DisplayNameFormat oldDisplayNameFormat = mDisplayNameFormat;
+        Boolean oldDisplayUrl = mDisplayUrl;
 
         mSharedPreferences = PreferenceManager
                 .getDefaultSharedPreferences(mContext);
@@ -166,6 +169,10 @@ public class AppSettings {
         } else {
             setCurrentTheme(Theme.Holo_Light_DarkAction);
         }
+
+        Boolean displayUrl =  mSharedPreferences.getBoolean(
+                SettingsActivity.KEY_DISPLAY_URL_PREFERENCE, DEFAULT_DISPLAY_URL);
+        setDisplayUrl(displayUrl);
 
         String displayTimeFormat = mSharedPreferences.getString(
                 SettingsActivity.KEY_DISPLAY_TIME_PREFERENCE,
@@ -196,7 +203,8 @@ public class AppSettings {
                     oldStatusSize != mStatusSize ||
                     oldProfileImageSize != mProfileImageSize ||
                     oldDisplayTimeFormat != mDisplayTimeFormat ||
-                    oldDisplayNameFormat != mDisplayNameFormat) {
+                    oldDisplayNameFormat != mDisplayNameFormat ||
+                    oldDisplayUrl != mDisplayUrl) {
                 mIsDirty = true;
             } else if (preferenceKey != null) {
                 if (preferenceKey
@@ -340,6 +348,14 @@ public class AppSettings {
 	 */
     private void setCurrentTheme(Theme theme) {
         mCurrentTheme = theme;
+    }
+
+    private void setDisplayUrl(boolean displayUrl){
+        mDisplayUrl = displayUrl;
+    }
+
+    public boolean showFullDisplayUrl() {
+        return mDisplayUrl;
     }
 
     void setDisplayTimeFormat(String displayTimeFormat) {

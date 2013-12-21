@@ -64,6 +64,7 @@ import com.tweetlanes.android.core.widget.viewpagerindicator.TabPageIndicator.Ta
 import org.socialnetlib.android.SocialNetConstant;
 import org.tweetalib.android.TwitterFetchStatus;
 import org.tweetalib.android.TwitterManager;
+import org.tweetalib.android.TwitterUtil;
 import org.tweetalib.android.model.TwitterStatus;
 import org.tweetalib.android.model.TwitterStatusesFilter;
 import org.tweetalib.android.model.TwitterUser;
@@ -257,6 +258,8 @@ class BaseLaneActivity extends FragmentActivity implements
     @Override
     protected void onResume() {
         super.onResume();
+
+        TwitterUtil.setShowFullUrl(AppSettings.get().showFullDisplayUrl());
 
         if (AppSettings.get().isDirty()) {
             restartActivity();

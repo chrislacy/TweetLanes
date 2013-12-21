@@ -527,6 +527,10 @@
         from
     </string>
 
+    <string name="title_displayurl_preference">Display URL</string>
+    <string name="summary_displayurl_preference">Show the full URL in tweets rather than trimmed with "..."
+    </string>
+
     <string name="settings_image_loading">Image loading</string>
     <string name="settings_image_preview">Image preview</string>
 

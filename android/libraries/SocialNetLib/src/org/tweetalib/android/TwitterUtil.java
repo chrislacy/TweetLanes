@@ -35,6 +35,7 @@ import twitter4j.UserMentionEntity;
 public class TwitterUtil {
 
     private static Autolink mAutoLink;
+    private static boolean showFullUrl = true;
     private static boolean mAllowReInit = true;
 
     private static void initCommon() {
@@ -48,6 +49,11 @@ public class TwitterUtil {
         }
     }
 
+    public static void setShowFullUrl(boolean newValue)
+    {
+        showFullUrl = newValue;
+    }
+
     /*
      *
 	 */
@@ -57,7 +63,7 @@ public class TwitterUtil {
     }
 
     public static String getTextMarkup(String text, URLEntity[] urlEntities) {
-        return getStatusMarkup(text, null, urlEntities);
+        return getStatusMarkup(text, null, urlEntities, showFullUrl);
     }
 
     /*
@@ -65,7 +71,7 @@ public class TwitterUtil {
      * visible links
      */
     public static String getStatusMarkup(Status status) {
-        return getStatusMarkup(status.getText(), status.getMediaEntities(), status.getURLEntities());
+        return getStatusMarkup(status.getText(), status.getMediaEntities(), status.getURLEntities(), showFullUrl);
     }
 
     /*
@@ -77,21 +83,27 @@ public class TwitterUtil {
         mAutoLink.setExtractURLWithoutProtocol(true);
         mAllowReInit = false;
 
-        String statusMarkup = getStatusMarkup(post.mText, null, post.mUrls);
+        String statusMarkup = getStatusMarkup(post.mText, null, post.mUrls, showFullUrl);
         mAllowReInit = true;
 
         return statusMarkup;
     }
 
-    /*
-	 * 
-	 */
     public static String getStatusMarkup(String statusText, MediaEntity[] mediaEntities,
                                          URLEntity[] urlEntities) {
 
+        return getStatusMarkup(statusText, mediaEntities, urlEntities, showFullUrl);
+    }
+
+    /*
+	 * 
+	 */
+    private static String getStatusMarkup(String statusText, MediaEntity[] mediaEntities,
+                                         URLEntity[] urlEntities, boolean showFullUrl) {
+
         initCommon();
 
-        return mAutoLink.autoLinkAll(statusText, mediaEntities, urlEntities);
+        return mAutoLink.autoLinkAll(statusText, mediaEntities, urlEntities, showFullUrl);
     }
 
     /*
