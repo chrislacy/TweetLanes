@@ -122,14 +122,6 @@
                         android:adjustViewBounds="true"
                         android:orientation="vertical">
 
-                    <ImageView
-                            android:id="@+id/conversationToggle"
-                            android:layout_width="40dp"
-                            android:layout_height="wrap_content"
-                            android:paddingRight="4dp"
-                            android:layout_gravity="right|bottom"
-                            style="?attr/ic_action_expand"/>
-
                     <RelativeLayout
                             android:id="@+id/preview_image_container"
                             android:layout_width="@dimen/image_preview_width"
@@ -154,6 +146,14 @@
                                 />
 
                     </RelativeLayout>
+
+                    <ImageView
+                            android:id="@+id/conversationToggle"
+                            android:layout_width="40dp"
+                            android:layout_height="wrap_content"
+                            android:paddingRight="4dp"
+                            android:layout_gravity="right|bottom"
+                            style="?attr/ic_action_expand"/>
 
                 </LinearLayout>
 
