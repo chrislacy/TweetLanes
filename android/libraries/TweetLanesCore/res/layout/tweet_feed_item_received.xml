@@ -122,6 +122,14 @@
                         android:adjustViewBounds="true"
                         android:orientation="vertical">
 
+                    <ImageView
+                            android:id="@+id/conversationToggle"
+                            android:layout_width="40dp"
+                            android:layout_height="wrap_content"
+                            android:paddingRight="4dp"
+                            android:layout_gravity="right|bottom"
+                            style="?attr/ic_action_expand"/>
+
                     <RelativeLayout
                             android:id="@+id/preview_image_container"
                             android:layout_width="@dimen/image_preview_width"
@@ -147,21 +155,40 @@
 
                     </RelativeLayout>
 
-                    <ImageView
-                            android:id="@+id/conversationToggle"
-                            android:layout_width="40dp"
-                            android:layout_height="wrap_content"
-                            android:paddingRight="4dp"
-                            android:layout_gravity="right|bottom"
-                            style="?attr/ic_action_expand"/>
-
                 </LinearLayout>
+
+                <RelativeLayout
+                        android:id="@+id/preview_image_container_large"
+                        android:layout_below="@id/status"
+                        android:layout_alignParentLeft="true"
+                        android:layout_toLeftOf="@+id/interactColumn"
+                        android:layout_width="fill_parent"
+                        android:layout_height="@dimen/image_preview_height_large"
+                        android:layout_gravity="center"
+                        xmlns:android="http://schemas.android.com/apk/res/android">
+
+                    <ImageView
+                            android:id="@+id/preview_image_view_large"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:scaleType="centerCrop"
+                            />
+
+                    <ImageView
+                            android:id="@+id/preview_image_play_view_large"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/ic_play_over_video"
+                            />
+
+                </RelativeLayout>
 
                 <TextView
                         android:id="@+id/tweet_details"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/status"
+                        android:layout_below="@id/preview_image_container_large"
                         android:layout_alignParentLeft="true"
                         android:layout_toLeftOf="@+id/interactColumn"
                         android:autoLink="all"

@@ -70,6 +70,7 @@ public class SettingsActivity extends PreferenceActivity implements
     public static final String KEY_DISPLAY_NAME_PREFERENCE = "displayname_preference";
     public static final String KEY_STATUS_SIZE_PREFERENCE = "statussize_preference";
     public static final String KEY_PROFILE_IMAGE_SIZE_PREFERENCE = "profileimagesize_preference";
+    public static final String KEY_MEDIA_IMAGE_SIZE_PREFERENCE = "mediaimagesize_preference";
     public static final String KEY_VOLSCROLL_PREFERENCE = "volscroll_preference";
     public static final String KEY_DOWNLOADIMAGES_PREFERENCE = "downloadimages_preference";
     public static final String KEY_SHOW_TWEET_SOURCE_PREFERENCE = "showtweetsource_preference";
@@ -91,6 +92,7 @@ public class SettingsActivity extends PreferenceActivity implements
     private ListPreference mDisplayTimePreference;
     private ListPreference mDisplayNamePreference;
     private ListPreference mProfileImageSizePreference;
+    private ListPreference mMediaImageSizePreference;
     private CheckBoxPreference mDownloadImagesPreference;
     private CheckBoxPreference mShowTweetSourcePreference;
     private ListPreference mQuoteTypePreference;
@@ -158,6 +160,8 @@ public class SettingsActivity extends PreferenceActivity implements
                 .findPreference(KEY_STATUS_SIZE_PREFERENCE);
         mProfileImageSizePreference = (ListPreference) getPreferenceScreen()
                 .findPreference(KEY_PROFILE_IMAGE_SIZE_PREFERENCE);
+        mMediaImageSizePreference = (ListPreference) getPreferenceScreen()
+                .findPreference(KEY_MEDIA_IMAGE_SIZE_PREFERENCE);
         mDownloadImagesPreference = (CheckBoxPreference) getPreferenceScreen()
                 .findPreference(KEY_DOWNLOADIMAGES_PREFERENCE);
         Preference customizeLanesPreference = getPreferenceScreen()
@@ -301,6 +305,12 @@ public class SettingsActivity extends PreferenceActivity implements
             mProfileImageSizePreference.setValueIndex(1);
         }
         mProfileImageSizePreference.setSummary(mProfileImageSizePreference
+                .getEntry());
+
+        if (mMediaImageSizePreference.getEntry() == null) {
+            mMediaImageSizePreference.setValueIndex(1);
+        }
+        mMediaImageSizePreference.setSummary(mMediaImageSizePreference
                 .getEntry());
 
         boolean showTweetSource = sharedPreferences.getBoolean(

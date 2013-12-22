@@ -72,6 +72,15 @@
                 android:title="@string/title_displayurl_preference"
                 android:summary="@string/summary_displayurl_preference"/>
 
+        <ListPreference
+                android:key="mediaimagesize_preference"
+                android:title="@string/title_mediaimagesize_preference"
+                android:entries="@array/mediaimagesize_list_preference"
+                android:entryValues="@array/mediaimagesize_values_list_preference"
+                android:dialogTitle="@string/dialog_title_mediaimagesize_preference"
+                android:defaultValue="Small"
+                />
+
     </PreferenceCategory>
 
     <PreferenceCategory
