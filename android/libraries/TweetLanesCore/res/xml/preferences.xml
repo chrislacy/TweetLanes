@@ -67,6 +67,11 @@
                 android:title="@string/title_showtweetsource_preference"
                 android:summary="@string/summary_showtweetsource_preference"/>
 
+        <CheckBoxPreference
+                android:key="displayurl_preference"
+                android:title="@string/title_displayurl_preference"
+                android:summary="@string/summary_displayurl_preference"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory

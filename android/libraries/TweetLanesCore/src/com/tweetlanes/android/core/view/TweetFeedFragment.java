@@ -20,6 +20,7 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.ActionMode;
@@ -1251,11 +1252,15 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         if (mSelectedItems.size() == 0) {
             TweetFeedItemView tweetFeedItemView = (TweetFeedItemView) (view);
             TwitterStatus status = tweetFeedItemView.getTwitterStatus();
-            Intent tweetSpotlightIntent = new Intent(getActivity(), TweetSpotlightActivity.class);
-            tweetSpotlightIntent.putExtra("statusId", Long.toString(status.mId));
-            tweetSpotlightIntent.putExtra("status", status.toString());
-            tweetSpotlightIntent.putExtra("clearCompose", "true");
-            getActivity().startActivityForResult(tweetSpotlightIntent, Constant.REQUEST_CODE_SPOTLIGHT);
+            FragmentActivity activity = getActivity();
+            if(activity!= null)
+            {
+                Intent tweetSpotlightIntent = new Intent(activity, TweetSpotlightActivity.class);
+                tweetSpotlightIntent.putExtra("statusId", Long.toString(status.mId));
+                tweetSpotlightIntent.putExtra("status", status.toString());
+                tweetSpotlightIntent.putExtra("clearCompose", "true");
+                activity.startActivityForResult(tweetSpotlightIntent, Constant.REQUEST_CODE_SPOTLIGHT);
+            }
         } else {
             onTweetFeedItemLongPress(view, position);
         }

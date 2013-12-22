@@ -503,6 +503,10 @@
     <string name="summary_showtweetsource_preference">Отображение приложения, из которого было отправлено сообщение.
     </string>
 
+    <string name="title_displayurl_preference">Показать URL</string>
+    <string name="summary_displayurl_preference">Показать полный адрес в твитов, а не отделан "..."
+    </string>
+
     <string name="settings_image_loading">Загрузка изображения</string>
     <string name="settings_image_preview">Предворительный просмотр изображения</string>
 

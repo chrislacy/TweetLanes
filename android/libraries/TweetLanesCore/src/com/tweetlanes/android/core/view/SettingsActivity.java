@@ -83,6 +83,7 @@ public class SettingsActivity extends PreferenceActivity implements
     public static final String KEY_NOTIFICATION_TYPE_PREFERENCE = "notificationtype_preference";
     public static final String KEY_NOTIFICATION_VIBRATION = "notificationvibration_preference";
     public static final String KEY_AUTO_REFRESH_PREFERENCE = "autorefresh_preference";
+    public static final String KEY_DISPLAY_URL_PREFERENCE = "displayurl_preference";
 
     private ListPreference mThemePreference;
     private CheckBoxPreference mShowTabletMarginPreference;
@@ -95,6 +96,7 @@ public class SettingsActivity extends PreferenceActivity implements
     private ListPreference mQuoteTypePreference;
     private CheckBoxPreference mVolScrollPreference;
     private CheckBoxPreference mAutoRefreshPreference;
+    private CheckBoxPreference mDisplayUrlPreference;
     private Preference mCreditsPreference;
     private Preference mSourceCodePreference;
     private Preference mDonatePreference;
@@ -237,6 +239,9 @@ public class SettingsActivity extends PreferenceActivity implements
         mAutoRefreshPreference = (CheckBoxPreference) getPreferenceScreen()
                 .findPreference(KEY_AUTO_REFRESH_PREFERENCE);
 
+        mDisplayUrlPreference = (CheckBoxPreference) getPreferenceScreen()
+                .findPreference(KEY_DISPLAY_URL_PREFERENCE);
+
         mQuoteTypePreference = (ListPreference) getPreferenceScreen()
                 .findPreference(KEY_QUOTE_TYPE_PREFERENCE);
         mCreditsPreference = getPreferenceScreen().findPreference(
@@ -315,6 +320,10 @@ public class SettingsActivity extends PreferenceActivity implements
         boolean autoRefresh = sharedPreferences.getBoolean(
                 KEY_AUTO_REFRESH_PREFERENCE, AppSettings.DEFAULT_AUTO_REFRESH);
         mAutoRefreshPreference.setChecked(autoRefresh);
+
+        boolean displayUrl = sharedPreferences.getBoolean(
+                KEY_DISPLAY_URL_PREFERENCE, AppSettings.DEFAULT_DISPLAY_URL);
+        mDisplayUrlPreference.setChecked(displayUrl);
 
         if (mQuoteTypePreference.getEntry() == null) {
             mQuoteTypePreference.setValueIndex(0);

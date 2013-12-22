@@ -399,6 +399,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
         }
 
         setMediaPreviewVisibility();
+        updateStatusHint();
     }
 
     /*
@@ -407,8 +408,7 @@ public class ComposeTweetFragment extends ComposeBaseFragment {
     public void setMediaPreviewVisibility() {
         mAttachImagePreview.setVisibility(View.GONE);
 
-        if (_mComposeDefault != null
-                && _mComposeDefault.getMediaFilePath() != null) {
+        if (_mComposeDefault != null && _mComposeDefault.getMediaFilePath() != null) {
             File imgFile = new File(_mComposeDefault.getMediaFilePath());
             if (imgFile.exists()) {
                 try {

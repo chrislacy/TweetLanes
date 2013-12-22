@@ -250,9 +250,9 @@ public class HomeActivity extends BaseLaneActivity {
 
         if(extras != null)
         {
-            if (intent.getAction() == Intent.ACTION_SEND) {
+            String type = intent.getType();
+            if (intent.getAction() == Intent.ACTION_SEND && type != null) {
 
-                String type = intent.getType();
                 if (type.equals("text/plain") && extras.containsKey(Intent.EXTRA_TEXT)) {
 
                     String shareString = extras.getString(Intent.EXTRA_TEXT);
