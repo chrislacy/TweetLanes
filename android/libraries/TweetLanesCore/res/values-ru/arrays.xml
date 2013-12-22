@@ -30,6 +30,18 @@
         <item>Ручка только</item>
     </string-array>
 
+    <string-array name="mediaimagesize_list_preference">
+        <item>небольшой</item>
+        <item>большой</item>
+        <item>от</item>
+    </string-array>
+
+    <string-array name="mediaimagesize_values_list_preference">
+        <item>Small</item>
+        <item>Large</item>
+        <item>Off</item>
+    </string-array>
+
     <string-array name="displayname_values_list_preference">
         <item>Both</item>
         <item>Name</item>

@@ -36,6 +36,18 @@
         <item>Handle</item>
     </string-array>
 
+    <string-array name="mediaimagesize_list_preference">
+        <item>Small</item>
+        <item>Large</item>
+        <item>Off</item>
+    </string-array>
+
+    <string-array name="mediaimagesize_values_list_preference">
+        <item>Small</item>
+        <item>Large</item>
+        <item>Off</item>
+    </string-array>
+
     <string-array name="theme_list_preference">
         <item>Holo Light</item>
         <item>Holo Light w/ Dark Bar</item>

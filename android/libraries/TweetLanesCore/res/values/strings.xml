@@ -453,6 +453,9 @@
     <string name="title_displayname_preference">Display Name Format</string>
     <string name="dialog_title_displayname_preference">Display Name Format</string>
 
+    <string name="title_mediaimagesize_preference">Display Media Size</string>
+    <string name="dialog_title_mediaimagesize_preference">Display Media Size</string>
+
     <string name="title_namedisplay_preference">Name Display Format</string>
     <string name="dialog_title_namedisplay_preference">Name Display Format</string>
 

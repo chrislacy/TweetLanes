@@ -410,24 +410,56 @@ public class TweetFeedItemView extends LinearLayout {
      */
     void setPreviewImage(TwitterMediaEntity mediaEntity, AdnMedia adnMedia, Callbacks callbacks) {
         if (mHolder != null) {
-            RelativeLayout previewImageContainer = mHolder.previewImageContainer;
+            RelativeLayout previewImageContainerSmall = mHolder.previewImageContainer;
+            RelativeLayout previewImageContainerLarge = mHolder.previewImageContainerLarge;
 
-            if ((mediaEntity == null && adnMedia == null) || !AppSettings.get().downloadFeedImages()) {
-                if (previewImageContainer != null) {
-                    previewImageContainer.setVisibility(View.GONE);
+            AppSettings.MediaImageSize mediaImageSize = AppSettings.get().getCurrentMediaImageSize();
+
+            if ((mediaEntity == null && adnMedia == null) || !AppSettings.get().downloadFeedImages() || mediaImageSize == AppSettings.MediaImageSize.Off) {
+                if (previewImageContainerSmall != null) {
+                    previewImageContainerSmall.setVisibility(View.GONE);
+                }
+                if (previewImageContainerLarge != null) {
+                    previewImageContainerLarge.setVisibility(View.GONE);
                 }
                 return;
             }
 
+            RelativeLayout previewImageContainer;
+            ImageView previewImageView;
+            ImageView previewPlayImageView;
+            boolean useLarge = mediaImageSize == AppSettings.MediaImageSize.Large;
+            if(useLarge)
+            {
+                previewImageContainer = previewImageContainerLarge;
+                previewImageView = mHolder.previewImageViewLarge;
+                previewPlayImageView = mHolder.previewPlayImageViewLarge;
+                if (previewImageContainerSmall != null) {
+                    previewImageContainerSmall.setVisibility(View.GONE);
+                }
+            }
+            else
+            {
+                previewImageContainer = previewImageContainerSmall;
+                previewImageView = mHolder.previewImageView;
+                previewPlayImageView = mHolder.previewPlayImageView;
+                if (previewImageContainerLarge != null) {
+                    previewImageContainerLarge.setVisibility(View.GONE);
+                }
+            }
+
             String mediaUrl = adnMedia != null ? adnMedia.mUrl : mediaEntity.getMediaUrl(Size.LARGE);
-            String thumbUrl = adnMedia != null ? adnMedia.mThumbnailUrl : mediaEntity.getMediaUrl(Size.THUMB);
+            String thumbUrl = mediaUrl;
+            if(!useLarge)
+            {
+                thumbUrl = adnMedia != null ? adnMedia.mThumbnailUrl : mediaEntity.getMediaUrl(Size.THUMB);
+            }
             TwitterMediaEntity.Source source = adnMedia != null ? null : mediaEntity.getSource();
 
             if (previewImageContainer != null) {
                 final boolean isVideo = source == TwitterMediaEntity.Source.YOUTUBE;
 
                 previewImageContainer.setVisibility(View.VISIBLE);
-                ImageView previewImageView = mHolder.previewImageView;
                 if (previewImageView == null) {
                     previewImageView = (ImageView) findViewById(R.id.preview_large_image_view);
                     UrlImageViewHelper.setUrlDrawable(previewImageView, mediaUrl, new UrlImageViewCallback() {
@@ -479,7 +511,6 @@ public class TweetFeedItemView extends LinearLayout {
                     }
                 });
 
-                ImageView previewPlayImageView = mHolder.previewPlayImageView;
                 if (previewPlayImageView != null) {
                     previewPlayImageView.setVisibility(isVideo ? View.VISIBLE
                             : View.GONE);
@@ -716,6 +747,9 @@ public class TweetFeedItemView extends LinearLayout {
         public RelativeLayout previewImageContainer;
         public ImageView previewImageView;
         public ImageView previewPlayImageView;
+        public RelativeLayout previewImageContainerLarge;
+        public ImageView previewImageViewLarge;
+        public ImageView previewPlayImageViewLarge;
 
         public ViewHolder(View v) {
             avatar = (QuickContactDivot) v.findViewById(R.id.avatar);
@@ -732,6 +766,11 @@ public class TweetFeedItemView extends LinearLayout {
             if (previewImageContainer != null) {
                 previewImageView = (ImageView) previewImageContainer.findViewById(R.id.preview_image_view);
                 previewPlayImageView = (ImageView) previewImageContainer.findViewById(R.id.preview_image_play_view);
+            }
+            previewImageContainerLarge = (RelativeLayout) v.findViewById(R.id.preview_image_container_large);
+            if (previewImageContainerLarge != null) {
+                previewImageViewLarge = (ImageView) previewImageContainerLarge.findViewById(R.id.preview_image_view_large);
+                previewPlayImageViewLarge = (ImageView) previewImageContainerLarge.findViewById(R.id.preview_image_play_view_large);
             }
         }
     }

@@ -199,7 +199,7 @@ abstract class ComposeBaseFragment extends Fragment {
     }
 
     /*
-	 *
+     *
 	 */
     void showSimpleAlert(int stringID) {
         AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
@@ -215,21 +215,21 @@ abstract class ComposeBaseFragment extends Fragment {
     }
 
     /*
-	 *
+     *
 	 */
     public boolean hasFocus() {
         return mHasFocus;
     }
 
     /*
-	 *
+     *
 	 */
     void setComposeTweetListener(ComposeListener listener) {
         mListener = listener;
     }
 
     /*
-	 *
+     *
 	 */
     public void releaseFocus(boolean saveCurrentTweet) {
 
@@ -336,12 +336,23 @@ abstract class ComposeBaseFragment extends Fragment {
             return;
         }
 
-        int spaceIndex = text.lastIndexOf(" ");
-        int dotIndex = text.lastIndexOf(".");
+        int currentStart = editText.getSelectionStart();
+        int currentEnd = editText.getSelectionEnd();
+        int currentPosition = text.length() - 1;
+        if (currentStart == currentEnd) {
+            currentPosition = currentStart;
+        }
+        if (currentPosition < 0) currentPosition = 0;
 
-        int index = Math.max(spaceIndex, dotIndex);
+        String lastWholeWord = "";
 
-        String lastWholeWord = text.substring(index + 1).toLowerCase();
+        for (int i = currentPosition; i > 0; i--) {
+            String nextChar = text.substring(i-1,i).toLowerCase();
+            if (nextChar.equals(" ") || nextChar.equals(".")) {
+                break;
+            }
+            lastWholeWord = nextChar + lastWholeWord;
+        }
 
         if (lastWholeWord.startsWith("@")) {
             List<TwitterUser> autoCompleteMentions = getAutoCompleteMentions(lastWholeWord);
@@ -585,6 +596,7 @@ abstract class ComposeBaseFragment extends Fragment {
             String s2 = (String) o2;
             return s1.toLowerCase().compareTo(s2.toLowerCase());
         }
+
     }
 
     protected void lockScreenRotation() {
@@ -607,8 +619,8 @@ abstract class ComposeBaseFragment extends Fragment {
     }
 
     /*
-	 *
-	 */
+     *
+     */
     private final OnClickListener mOnSendTweetClickListener = new OnClickListener() {
 
         @Override
@@ -632,7 +644,7 @@ abstract class ComposeBaseFragment extends Fragment {
     protected abstract void setMediaPreviewVisibility();
 
     /*
-	 */
+     */
     private final EditClearTextListener mEditClearTextListener = new EditClearTextListener() {
 
         @Override
@@ -749,8 +761,8 @@ abstract class ComposeBaseFragment extends Fragment {
     }
 
     /*
-	 *
-	 */
+     *
+     */
     ComposeTweetDefault _mComposeDefault;
 
     ComposeTweetDefault getComposeTweetDefault() {

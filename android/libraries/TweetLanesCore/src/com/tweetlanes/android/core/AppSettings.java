@@ -52,6 +52,11 @@ public class AppSettings {
     private static final String PROFILE_IMAGE_SIZE_LARGE = "Large";
     private static final String PROFILE_IMAGE_SIZE_DEFAULT = PROFILE_IMAGE_SIZE_MEDIUM;
 
+    private static final String MEDIA_IMAGE_SIZE_SMALL = "Small";
+    private static final String MEDIA_IMAGE_SIZE_LARGE = "Large";
+    private static final String MEDIA_IMAGE_SIZE_OFF = "Off";
+    private static final String MEDIA_IMAGE_SIZE_DEFAULT = MEDIA_IMAGE_SIZE_SMALL;
+
     private static final String THEME_LIGHT = "Holo Light";
     private static final String THEME_DARK = "Holo Dark";
     private static final String THEME_DEFAULT = THEME_LIGHT;
@@ -96,6 +101,13 @@ public class AppSettings {
     }
 
     /*
+     *
+	 */
+    public enum MediaImageSize {
+        Small, Large, Off,
+    }
+
+    /*
 	 *
 	 */
     public enum QuoteType {
@@ -121,6 +133,7 @@ public class AppSettings {
     private Theme mCurrentTheme;
     private StatusSize mStatusSize;
     private ProfileImageSize mProfileImageSize;
+    private MediaImageSize mMediaImageSize;
     private QuoteType mQuoteType;
     private DisplayTimeFormat mDisplayTimeFormat;
     private DisplayNameFormat mDisplayNameFormat;
@@ -152,6 +165,7 @@ public class AppSettings {
         Theme oldTheme = mCurrentTheme;
         StatusSize oldStatusSize = mStatusSize;
         ProfileImageSize oldProfileImageSize = mProfileImageSize;
+        MediaImageSize oldMediaImageSize = mMediaImageSize;
         DisplayTimeFormat oldDisplayTimeFormat = mDisplayTimeFormat;
         DisplayNameFormat oldDisplayNameFormat = mDisplayNameFormat;
         Boolean oldDisplayUrl = mDisplayUrl;
@@ -189,6 +203,11 @@ public class AppSettings {
                 PROFILE_IMAGE_SIZE_DEFAULT);
         setCurrentProfileImageSize(profileImageSize);
 
+        String mediaImageSize = mSharedPreferences.getString(
+                SettingsActivity.KEY_MEDIA_IMAGE_SIZE_PREFERENCE,
+                MEDIA_IMAGE_SIZE_DEFAULT);
+        setCurrentMediaImageSize(mediaImageSize);
+
         String displayNameFormat = mSharedPreferences.getString(
                 SettingsActivity.KEY_DISPLAY_NAME_PREFERENCE,
                 DISAPLY_NAME_DEFAULT);
@@ -202,6 +221,7 @@ public class AppSettings {
             if (oldTheme != mCurrentTheme ||
                     oldStatusSize != mStatusSize ||
                     oldProfileImageSize != mProfileImageSize ||
+                    oldMediaImageSize != mMediaImageSize ||
                     oldDisplayTimeFormat != mDisplayTimeFormat ||
                     oldDisplayNameFormat != mDisplayNameFormat ||
                     oldDisplayUrl != mDisplayUrl) {
@@ -440,11 +460,29 @@ public class AppSettings {
         }
     }
 
+    void setCurrentMediaImageSize(String currentMediaImageSize) {
+        if (currentMediaImageSize != null) {
+            if (currentMediaImageSize.equals(MEDIA_IMAGE_SIZE_SMALL)) {
+                mMediaImageSize = MediaImageSize.Small;
+            } else if (currentMediaImageSize.equals(MEDIA_IMAGE_SIZE_LARGE)) {
+                mMediaImageSize = MediaImageSize.Large;
+            } else if (currentMediaImageSize.equals(MEDIA_IMAGE_SIZE_OFF)) {
+                mMediaImageSize = MediaImageSize.Off;
+            } else {
+                mMediaImageSize = MediaImageSize.Small;
+            }
+        }
+    }
+
     /*
 	 *
 	 */
     public ProfileImageSize getCurrentProfileImageSize() {
         return mProfileImageSize;
+    }
+
+    public MediaImageSize getCurrentMediaImageSize() {
+        return mMediaImageSize;
     }
 
     /*
