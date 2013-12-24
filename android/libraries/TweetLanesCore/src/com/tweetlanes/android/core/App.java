@@ -727,6 +727,7 @@ public class App extends Application {
             if(mediaImageSize== AppSettings.MediaImageSize.Large){
                 preview_image_height = getResources()
                         .getDimensionPixelSize(R.dimen.image_preview_height_large);
+                preview_image_width = 1024;
             }
 
             mPreviewImageLoader = new LazyImageLoader(this,
