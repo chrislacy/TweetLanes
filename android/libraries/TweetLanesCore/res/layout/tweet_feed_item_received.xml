@@ -166,6 +166,7 @@
                         android:layout_height="@dimen/image_preview_height_large"
                         android:layout_gravity="center"
                         android:paddingLeft="@dimen/message_item_text_padding_left_right"
+                        android:paddingRight="@dimen/message_item_text_padding_left_right"
                         xmlns:android="http://schemas.android.com/apk/res/android">
 
                     <ImageView

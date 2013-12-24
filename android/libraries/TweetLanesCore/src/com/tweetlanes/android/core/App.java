@@ -717,10 +717,18 @@ public class App extends Application {
 
     public LazyImageLoader getPreviewImageLoader() {
         if (mPreviewImageLoader == null) {
-            final int preview_image_width = getResources()
+            AppSettings.MediaImageSize mediaImageSize = AppSettings.get().getCurrentMediaImageSize();
+
+            int preview_image_width = getResources()
                     .getDimensionPixelSize(R.dimen.image_preview_width);
-            final int preview_image_height = getResources()
+            int preview_image_height = getResources()
                     .getDimensionPixelSize(R.dimen.image_preview_height);
+
+            if(mediaImageSize== AppSettings.MediaImageSize.Large){
+                preview_image_height = getResources()
+                        .getDimensionPixelSize(R.dimen.image_preview_height_large);
+            }
+
             mPreviewImageLoader = new LazyImageLoader(this,
                     Constant.DIR_NAME_CACHED_THUMBNAILS, R.drawable.white,
                     preview_image_width, preview_image_height, 30);

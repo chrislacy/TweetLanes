@@ -449,8 +449,12 @@ public class TweetFeedItemView extends LinearLayout {
             }
 
             String mediaUrl = adnMedia != null ? adnMedia.mUrl : mediaEntity.getMediaUrl(Size.LARGE);
-            String thumbUrl = mediaUrl;
-            if(!useLarge)
+            String thumbUrl;
+            if(useLarge)
+            {
+                thumbUrl = adnMedia != null ? adnMedia.mUrl : mediaEntity.getMediaUrl(Size.SMALL);
+            }
+            else
             {
                 thumbUrl = adnMedia != null ? adnMedia.mThumbnailUrl : mediaEntity.getMediaUrl(Size.THUMB);
             }

@@ -353,7 +353,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                             fetchNewestTweets(sinceStatusId, feed.getNewStatusesMaxId());
                         }
                     } else {
-                        onRefreshFinished(null);
+                        onRefreshFinished(feed);
                     }
                 }
             };
@@ -989,12 +989,14 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             return;
         }
 
+        if (feed == null || feed.getStatusCount() == 0) {
+            return;
+        }
+
         mLastRefreshTime = Calendar.getInstance();
         TwitterStatus visibleStatus = getVisibleStatus();
 
-        if (feed != null && feed.getStatusCount() > 0) {
-            setStatusFeed(feed, true);
-        }
+        setStatusFeed(feed, true);
 
         mTweetFeedListView.onRefreshComplete();
         mTweetFeedListAdapter.notifyDataSetChanged();
