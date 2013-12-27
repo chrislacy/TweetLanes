@@ -353,7 +353,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                             fetchNewestTweets(sinceStatusId, feed.getNewStatusesMaxId());
                         }
                     } else {
-                        onRefreshFinished(feed);
+                        onRefreshFinished(null);
                     }
                 }
             };
@@ -361,6 +361,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             if (mLastTwitterStatusIdSeen == null || mLastTwitterStatusIdSeen == 0) {
                 showToast(getString(R.string.pottential_lost_position));
                 onRefreshFinished(null);
+
             }
 
             mTimesFetchCalled++;
