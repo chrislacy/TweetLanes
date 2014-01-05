@@ -234,7 +234,7 @@ public class AppdotnetApi extends SocialNetApi {
     }
 
     /*
-	 *
+     *
 	 */
     public AdnPosts getAdnMentions(int userId, AdnPaging paging) {
         return getPosts("/stream/0/users/" + userId + "/mentions", null, paging);
@@ -335,25 +335,24 @@ public class AppdotnetApi extends SocialNetApi {
         JSONObject post;
         String fileToken = null;
         try {
-
             post = new JSONObject()
                     .put("text", compose.mText)
                     .put("reply_to", compose.mInReplyTo);
 
-
             if (compose.mMediaFile != null) {
                 AdnFile file = setAdnFile(compose.mMediaFile);
-
-                JSONObject ann = new JSONObject();
-                ann.put("type", "net.app.core.oembed");
-                ann.put("value", new JSONObject()
-                        .put("+net.app.core.file", new JSONObject()
-                                .put("file_id", file.mId)
-                                .put("file_token", file.mFileToken)
-                                .put("format", "oembed")
-                        )
-                );
-                post.put("annotations", new JSONArray().put(ann));
+                if (file != null) {
+                    JSONObject ann = new JSONObject();
+                    ann.put("type", "net.app.core.oembed");
+                    ann.put("value", new JSONObject()
+                            .put("+net.app.core.file", new JSONObject()
+                                    .put("file_id", file.mId)
+                                    .put("file_token", file.mFileToken)
+                                    .put("format", "oembed")
+                            )
+                    );
+                    post.put("annotations", new JSONArray().put(ann));
+                }
             }
 
         } catch (JSONException e) {

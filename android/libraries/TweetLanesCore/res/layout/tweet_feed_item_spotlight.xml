@@ -134,28 +134,28 @@
             android:text="Retweeted by @WayneRooney"/>
 
     <RelativeLayout
-            android:id="@+id/preview_image_container"
+            android:id="@+id/preview_spotlight_image_container"
             android:layout_width="fill_parent"
             android:layout_height="200dp"
             android:layout_gravity="center"
             xmlns:android="http://schemas.android.com/apk/res/android">
 
         <ImageView
-                android:id="@+id/preview_large_image_view"
+                android:id="@+id/preview_spotlight_image_view"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:paddingRight="@dimen/message_item_text_padding_left_right"
 
                 />
-        <!--
+
         <ImageView
-            android:id="@+id/preview_image_play_view"
+            android:id="@+id/preview_spotlight_image_play_view"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_centerInParent="true"
             android:src="@drawable/ic_play_over_video"
              />
-              -->
+
 
     </RelativeLayout>
 

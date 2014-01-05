@@ -362,7 +362,7 @@ public class App extends Application {
     }
 
     /*
-	 *
+     *
 	 */
     public void saveUpdatedAccountDescriptor(AccountDescriptor account) {
         final Editor edit = mPreferences.edit();
@@ -717,13 +717,24 @@ public class App extends Application {
 
     public LazyImageLoader getPreviewImageLoader() {
         if (mPreviewImageLoader == null) {
-            final int preview_image_width = getResources()
+            AppSettings.MediaImageSize mediaImageSize = AppSettings.get().getCurrentMediaImageSize();
+
+            boolean noScale = false;
+
+            int preview_image_width = getResources()
                     .getDimensionPixelSize(R.dimen.image_preview_width);
-            final int preview_image_height = getResources()
+            int preview_image_height = getResources()
                     .getDimensionPixelSize(R.dimen.image_preview_height);
+
+            if (mediaImageSize == AppSettings.MediaImageSize.Large) {
+                preview_image_height = 0;
+                preview_image_width = 0;
+                noScale = true;
+            }
+
             mPreviewImageLoader = new LazyImageLoader(this,
                     Constant.DIR_NAME_CACHED_THUMBNAILS, R.drawable.white,
-                    preview_image_width, preview_image_height, 30);
+                    preview_image_width, preview_image_height, noScale, 30);
         }
         return mPreviewImageLoader;
     }
@@ -738,7 +749,7 @@ public class App extends Application {
             mProfileImageLoader = new LazyImageLoader(this,
                     Constant.DIR_NAME_PROFILE_IMAGES,
                     R.drawable.ic_contact_picture, profile_image_size,
-                    profile_image_size, 60);
+                    profile_image_size, false, 60);
         }
         return mProfileImageLoader;
     }
