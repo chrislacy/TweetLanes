@@ -411,6 +411,10 @@ public class TweetFeedItemView extends LinearLayout {
             ImageView previewImageView;
             ImageView previewPlayImageView;
 
+            if(mHolder.previewImageContainer != null) mHolder.previewImageContainer.setVisibility(GONE);
+            if(mHolder.previewImageContainerLarge != null) mHolder.previewImageContainerLarge.setVisibility(GONE);
+            if(mHolder.previewImageContainerSpotlight != null) mHolder.previewImageContainerSpotlight.setVisibility(GONE);
+
             AppSettings.MediaImageSize mediaImageSize = AppSettings.get().getCurrentMediaImageSize();
 
             if ((mediaEntity == null && adnMedia == null) || !AppSettings.get().downloadFeedImages()) {
@@ -740,19 +744,16 @@ public class TweetFeedItemView extends LinearLayout {
             messageBlock = v.findViewById(R.id.message_block);
             previewImageContainer = (RelativeLayout) v.findViewById(R.id.preview_image_container);
             if (previewImageContainer != null) {
-                previewImageContainer.setVisibility(GONE);
                 previewImageView = (ImageView) previewImageContainer.findViewById(R.id.preview_image_view);
                 previewPlayImageView = (ImageView) previewImageContainer.findViewById(R.id.preview_image_play_view);
             }
             previewImageContainerLarge = (RelativeLayout) v.findViewById(R.id.preview_image_container_large);
             if (previewImageContainerLarge != null) {
-                previewImageContainerLarge.setVisibility(GONE);
                 previewImageViewLarge = (ImageView) previewImageContainerLarge.findViewById(R.id.preview_image_view_large);
                 previewPlayImageViewLarge = (ImageView) previewImageContainerLarge.findViewById(R.id.preview_image_play_view_large);
             }
             previewImageContainerSpotlight = (RelativeLayout) v.findViewById(R.id.preview_spotlight_image_container);
             if (previewImageContainerSpotlight != null) {
-                previewImageContainerSpotlight.setVisibility(GONE);
                 previewImageViewSpotlight = (ImageView) previewImageContainerSpotlight.findViewById(R.id.preview_spotlight_image_view);
                 previewPlayImageViewSpotlight = (ImageView) previewImageContainerSpotlight.findViewById(R.id.preview_spotlight_image_play_view);
             }
