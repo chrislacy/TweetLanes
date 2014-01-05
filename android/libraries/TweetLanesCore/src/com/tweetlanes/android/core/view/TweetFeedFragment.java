@@ -120,6 +120,8 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     private final ArrayList<Long> mConverstaionViewIds = new ArrayList<Long>();
     private MultipleTweetSelectionCallback mMultipleTweetSelectionCallback;
 
+
+
     private Long mNewestTweetId;
     private Long mOldestTweetId;
     private Long mRefreshingOldestTweetId;
@@ -240,6 +242,15 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
         state.putInt("NewStatuses", mNewStatuses);
         state.putBoolean("HidingListHeading", mHidingListHeading);
+
+        mSelectedItems.clear();
+        android.util.SparseBooleanArray items =  mTweetFeedListView.getRefreshableView().getCheckedItemPositions();
+        for(int i = 0; i<items.size();i++)
+        {
+            int key = items.keyAt(i);
+            mTweetFeedListView.getRefreshableView().setItemChecked(key, false);
+        }
+
     }
 
     @Override
@@ -1419,6 +1430,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             }
 
             final int itemId = item.getItemId();
+
             if (itemId == R.id.action_share) {
                 getBaseLaneActivity().shareSelected(getFirstSelectedStatus());
                 mode.finish();
