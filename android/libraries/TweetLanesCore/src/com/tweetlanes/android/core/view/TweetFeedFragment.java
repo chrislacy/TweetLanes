@@ -304,10 +304,10 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         if (getActivity() != null) {
             switch (getActivity().getResources().getConfiguration().orientation) {
                 case Configuration.ORIENTATION_PORTRAIT:
-                    getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                    getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
                     break;
                 case Configuration.ORIENTATION_LANDSCAPE:
-                    getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                    getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
                     break;
             }
         }
@@ -357,7 +357,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                             doneGettingStatus = false;
                         }
 
-                        if (doneGettingStatus) {
+                        if (doneGettingStatus || mTimesFetchCalled > 8) {
                             beginListHeadingCount();
                             onRefreshFinished(feed);
                         } else {
@@ -1002,6 +1002,10 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         }
 
         if (feed == null || feed.getStatusCount() == 0) {
+            mTweetFeedListView.onRefreshComplete();
+            mTweetFeedListAdapter.notifyDataSetChanged();
+            mTweetDataRefreshCallback = null;
+            resetScreenRotation();
             return;
         }
 
