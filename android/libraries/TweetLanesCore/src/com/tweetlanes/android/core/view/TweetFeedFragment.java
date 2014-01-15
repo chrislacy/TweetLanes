@@ -357,7 +357,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                             doneGettingStatus = false;
                         }
 
-                        if (doneGettingStatus) {
+                        if (doneGettingStatus || mTimesFetchCalled > 8) {
                             beginListHeadingCount();
                             onRefreshFinished(feed);
                         } else {
@@ -1002,6 +1002,10 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         }
 
         if (feed == null || feed.getStatusCount() == 0) {
+            mTweetFeedListView.onRefreshComplete();
+            mTweetFeedListAdapter.notifyDataSetChanged();
+            mTweetDataRefreshCallback = null;
+            resetScreenRotation();
             return;
         }
 
