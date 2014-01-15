@@ -533,11 +533,28 @@ abstract class ComposeBaseFragment extends Fragment {
 
             String autoCompleteText = String.valueOf(textView.getText());
             String editText = String.valueOf(mAutocompleteTarget.getText());
-            int index = editText.lastIndexOf(" ");
+            int currentStart = mAutocompleteTarget.getSelectionStart();
+            int currentEnd = mAutocompleteTarget.getSelectionEnd();
+            int currentPosition = editText.length() - 1;
+            if (currentStart == currentEnd) {
+                currentPosition = currentStart;
+            }
+            if (currentPosition < 0) currentPosition = 0;
 
-            String newText = editText.substring(0, index + 1) + autoCompleteText;
-            mAutocompleteTarget.setText(newText + " ");
-            mAutocompleteTarget.setSelection(newText.length() + 1);
+            int autoCompleteStart = 0;
+
+            for (int i = currentPosition; i > 0; i--) {
+                String nextChar = editText.substring(i-1,i).toLowerCase();
+                if (nextChar.equals(" ") || nextChar.equals(".")) {
+                    break;
+                }
+                autoCompleteStart = i-1;
+            }
+
+
+            String newText = editText.substring(0,autoCompleteStart) + autoCompleteText + " " + editText.substring(currentPosition);
+            mAutocompleteTarget.setText(newText);
+            mAutocompleteTarget.setSelection(autoCompleteStart + autoCompleteText.length());
 
             mAutocompleteListView.setVisibility(View.GONE);
         }
