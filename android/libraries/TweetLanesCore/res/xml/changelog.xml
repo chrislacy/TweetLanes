@@ -8,7 +8,6 @@
         <change>Fix - Update remaining characters as soon as media attached</change>
         <change>Fix - Rotate flip on landscape refresh</change>
         <change>Fix - Prevent infinite refresh loop</change>
-        <change>Fix - Auto complete mid status bug fix</change>
         <change>Fix - Various errors reported by fatal crashes</change>
     </release>
     <release version="1.3.0" versioncode="55">
