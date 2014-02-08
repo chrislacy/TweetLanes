@@ -178,6 +178,7 @@
 
     <string name="share_tweet">Текст твита</string>
     <string name="share_tweet_link">Ссылка на твит</string>
+    <string name="share_tweet_post">Ссылка на твит</string>
     <string name="share_link">Ссылка в твите</string>
     <string name="share_first_link">Ссылка в твите</string>
 

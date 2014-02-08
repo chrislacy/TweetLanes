@@ -178,6 +178,7 @@
 
     <string name="share_tweet">Tweet Text</string>
     <string name="share_tweet_link">Link to Tweet</string>
+    <string name="share_tweet_post">Link to Post</string>
     <string name="share_link">Link in Tweet</string>
     <string name="share_first_link">Link in Tweet</string>
 

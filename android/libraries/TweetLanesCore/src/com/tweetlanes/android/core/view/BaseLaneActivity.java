@@ -53,6 +53,7 @@ import com.tweetlanes.android.core.Constant;
 import com.tweetlanes.android.core.Constant.SystemEvent;
 import com.tweetlanes.android.core.ConsumerKeyConstants;
 import com.tweetlanes.android.core.R;
+import com.tweetlanes.android.core.model.AccountDescriptor;
 import com.tweetlanes.android.core.model.ComposeTweetDefault;
 import com.tweetlanes.android.core.util.Util;
 import com.tweetlanes.android.core.view.BaseLaneFragment.InitialDownloadState;
@@ -1401,7 +1402,21 @@ class BaseLaneActivity extends FragmentActivity implements
 
         if (status != null) {
 
-            final String statusUrl = status.getTwitterComStatusUrl();
+            App application = (App) getApplication();
+            AccountDescriptor currentAccount =  application.getCurrentAccount();
+
+            String url;
+            String shareText;
+            if(currentAccount.getSocialNetType() == SocialNetConstant.Type.Twitter){
+                url = status.getTwitterComStatusUrl();
+                shareText = getString(R.string.share_tweet_link);
+            }
+            else
+            {
+                url = status.getAdnStatusUrl();
+                shareText = getString(R.string.share_tweet_post);
+            }
+            final String statusUrl = url;
             final String statusText = status.mStatus;
             final ArrayList<String> urls = Util.getUrlsInString(status.mStatus);
 
@@ -1422,7 +1437,7 @@ class BaseLaneActivity extends FragmentActivity implements
                         }
                     });
 
-            alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.share_tweet_link),
+            alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, shareText,
                     new DialogInterface.OnClickListener() {
 
                         public void onClick(DialogInterface dialog, int which) {

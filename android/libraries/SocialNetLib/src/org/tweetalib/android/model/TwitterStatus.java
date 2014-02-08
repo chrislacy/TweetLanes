@@ -537,6 +537,10 @@ public class TwitterStatus implements Comparable<TwitterStatus> {
         return "https://twitter.com/" + getAuthorScreenName() + "/status/" + mId;
     }
 
+    public String getAdnStatusUrl() {
+        return "https://alpha.app.net/" + getAuthorScreenName() + "/post/" + mId;
+    }
+
     /*
      * (non-Javadoc)
      *
