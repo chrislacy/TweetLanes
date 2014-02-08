@@ -55,7 +55,7 @@ public class AppSettings {
     private static final String MEDIA_IMAGE_SIZE_SMALL = "Small";
     private static final String MEDIA_IMAGE_SIZE_LARGE = "Large";
     private static final String MEDIA_IMAGE_SIZE_OFF = "Off";
-    private static final String MEDIA_IMAGE_SIZE_DEFAULT = MEDIA_IMAGE_SIZE_SMALL;
+    private static final String MEDIA_IMAGE_SIZE_DEFAULT = MEDIA_IMAGE_SIZE_LARGE;
 
     private static final String THEME_LIGHT = "Holo Light";
     private static final String THEME_DARK = "Holo Dark";
