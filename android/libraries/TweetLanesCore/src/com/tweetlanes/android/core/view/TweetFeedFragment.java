@@ -491,8 +491,8 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             // mTweetFeedListAdapter.getCount()));
             int endIndex = Math.min(visibleIndex + 10, feed.getStatusCount());
 
-            if (endIndex > 100) {
-                startIndex = endIndex - 100;
+            if (endIndex > 300) {
+                startIndex = endIndex - 300;
             }
 
             TwitterStatuses statuses = new TwitterStatuses();
