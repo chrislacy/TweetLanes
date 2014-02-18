@@ -66,6 +66,20 @@
         <item>via</item>
     </string-array>
 
+    <string-array name="cachesize_list_preference">
+        <item>100 Statuses</item>
+        <item>200 Statuses</item>
+        <item>300 Statuses</item>
+        <item>Unlimited</item>
+    </string-array>
+
+    <string-array name="cachesizevalues_list_preference">
+        <item>100</item>
+        <item>200</item>
+        <item>300</item>
+        <item>0</item>
+    </string-array>
+
     <string-array name="namedisplay_list_preference">
         <item>\@username</item>
         <item>Name</item>

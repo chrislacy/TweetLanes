@@ -27,6 +27,7 @@ public class AppSettings {
     public static final boolean DEFAULT_AUTO_REFRESH = false;
     public static final boolean DEFAULT_SHOW_TABLET_MARGIN = true;
     public static final boolean DEFAULT_SHOW_TWEET_SOURCE = false;
+    public static final int DEFAULT_CACHE_SIZE = 100;
 
     private static final String DISAPLY_TIME_RELATIVE = "Relative";
     private static final String DISAPLY_TIME_ABSOLUTE = "Absolute";
@@ -78,7 +79,6 @@ public class AppSettings {
     private static final String NOTIFICATION_TIME_DEFAULT = NOTIFICATION_TIME_0M;
 
     private static final String NOTIFICATION_TYPE_DEFAULT = "m,d";
-
     /*
      *
 	 */
@@ -257,6 +257,12 @@ public class AppSettings {
         return mSharedPreferences.getBoolean(
                 SettingsActivity.KEY_SHOW_TWEET_SOURCE_PREFERENCE,
                 DEFAULT_SHOW_TWEET_SOURCE);
+    }
+
+    public int getCacheSize() {
+        return mSharedPreferences.getInt(
+                SettingsActivity.KEY_CACHE_SIZE_PREFERENCE,
+                DEFAULT_CACHE_SIZE);
     }
 
     /*

@@ -74,6 +74,7 @@ public class SettingsActivity extends PreferenceActivity implements
     public static final String KEY_VOLSCROLL_PREFERENCE = "volscroll_preference";
     public static final String KEY_DOWNLOADIMAGES_PREFERENCE = "downloadimages_preference";
     public static final String KEY_SHOW_TWEET_SOURCE_PREFERENCE = "showtweetsource_preference";
+    public static final String KEY_CACHE_SIZE_PREFERENCE = "cachesize_preference";
     public static final String KEY_QUOTE_TYPE_PREFERENCE = "quotetype_preference";
     private static final String KEY_CREDITS_PREFERENCE = "preference_credits";
     private static final String KEY_SOURCE_CODE_PREFERENCE = "preference_source";
@@ -93,6 +94,7 @@ public class SettingsActivity extends PreferenceActivity implements
     private ListPreference mDisplayNamePreference;
     private ListPreference mProfileImageSizePreference;
     private ListPreference mMediaImageSizePreference;
+    private ListPreference mCacheSizePreference;
     private CheckBoxPreference mDownloadImagesPreference;
     private CheckBoxPreference mShowTweetSourcePreference;
     private ListPreference mQuoteTypePreference;
@@ -162,6 +164,8 @@ public class SettingsActivity extends PreferenceActivity implements
                 .findPreference(KEY_PROFILE_IMAGE_SIZE_PREFERENCE);
         mMediaImageSizePreference = (ListPreference) getPreferenceScreen()
                 .findPreference(KEY_MEDIA_IMAGE_SIZE_PREFERENCE);
+        mCacheSizePreference = (ListPreference) getPreferenceScreen()
+                .findPreference(KEY_CACHE_SIZE_PREFERENCE);
         mDownloadImagesPreference = (CheckBoxPreference) getPreferenceScreen()
                 .findPreference(KEY_DOWNLOADIMAGES_PREFERENCE);
         Preference customizeLanesPreference = getPreferenceScreen()
@@ -311,6 +315,12 @@ public class SettingsActivity extends PreferenceActivity implements
             mMediaImageSizePreference.setValueIndex(1);
         }
         mMediaImageSizePreference.setSummary(mMediaImageSizePreference
+                .getEntry());
+
+        if (mCacheSizePreference.getEntry() == null) {
+            mCacheSizePreference.setValueIndex(1);
+        }
+        mCacheSizePreference.setSummary(mCacheSizePreference
                 .getEntry());
 
         boolean showTweetSource = sharedPreferences.getBoolean(

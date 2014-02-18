@@ -479,6 +479,9 @@
     <string name="title_quote_preference">Quote Format</string>
     <string name="dialog_title_quote_preference">Quote Format</string>
 
+    <string name="title_cachesize_preference">Cache Size</string>
+    <string name="dialog_title_cachesize_preference">Number of statuses to keep in cache</string>
+
     <string name="title_dimscreen_preference">Dim Screen</string>
     <string name="summary_dimscreen_preference">The screen will dim after a period of inactivity.
     </string>

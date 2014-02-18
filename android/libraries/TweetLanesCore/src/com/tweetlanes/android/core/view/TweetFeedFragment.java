@@ -121,7 +121,6 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     private MultipleTweetSelectionCallback mMultipleTweetSelectionCallback;
 
 
-
     private Long mNewestTweetId;
     private Long mOldestTweetId;
     private Long mRefreshingOldestTweetId;
@@ -244,9 +243,8 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         state.putBoolean("HidingListHeading", mHidingListHeading);
 
         mSelectedItems.clear();
-        android.util.SparseBooleanArray items =  mTweetFeedListView.getRefreshableView().getCheckedItemPositions();
-        for(int i = 0; i<items.size();i++)
-        {
+        android.util.SparseBooleanArray items = mTweetFeedListView.getRefreshableView().getCheckedItemPositions();
+        for (int i = 0; i < items.size(); i++) {
             int key = items.keyAt(i);
             mTweetFeedListView.getRefreshableView().setItemChecked(key, false);
         }
@@ -491,8 +489,12 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             // mTweetFeedListAdapter.getCount()));
             int endIndex = Math.min(visibleIndex + 10, feed.getStatusCount());
 
-            if (endIndex > 300) {
-                startIndex = endIndex - 300;
+            int cacheSize = AppSettings.get().getCacheSize();
+
+            if (cacheSize > 0) {
+                if (endIndex > cacheSize) {
+                    startIndex = endIndex - cacheSize;
+                }
             }
 
             TwitterStatuses statuses = new TwitterStatuses();
@@ -993,7 +995,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     }
 
     /*
-	 *
+     *
 	 */
     private void onRefreshFinished(TwitterStatuses feed) {
 
@@ -1271,8 +1273,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             TweetFeedItemView tweetFeedItemView = (TweetFeedItemView) (view);
             TwitterStatus status = tweetFeedItemView.getTwitterStatus();
             FragmentActivity activity = getActivity();
-            if(activity!= null)
-            {
+            if (activity != null) {
                 Intent tweetSpotlightIntent = new Intent(activity, TweetSpotlightActivity.class);
                 tweetSpotlightIntent.putExtra("statusId", Long.toString(status.mId));
                 tweetSpotlightIntent.putExtra("status", status.toString());

@@ -457,6 +457,9 @@
     <string name="title_quote_preference">Вид цитирования</string>
     <string name="dialog_title_quote_preference">Вид цитирования</string>
 
+    <string name="title_cachesize_preference">Размер кэша</string>
+    <string name="dialog_title_cachesize_preference">Количество статусов, чтобы держать в кэше</string>
+
     <string name="title_dimscreen_preference">Затемнение экрана</string>
     <string name="summary_dimscreen_preference">Экран будет затухать после определённого периода бездействия.
     </string>

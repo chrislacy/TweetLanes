@@ -153,7 +153,14 @@
                 android:title="@string/title_autorefresh_preference"
                 android:summary="@string/summary_autorefresh_preference"/>
 
-
+        <ListPreference
+                android:key="cachesize_preference"
+                android:title="@string/title_cachesize_preference"
+                android:entries="@array/cachesize_list_preference"
+                android:entryValues="@array/cachesizevalues_list_preference"
+                android:dialogTitle="@string/dialog_title_cachesize_preference"
+                android:defaultValue="100"
+                />
     </PreferenceCategory>
 
     <PreferenceCategory
