@@ -27,7 +27,7 @@ public class AppSettings {
     public static final boolean DEFAULT_AUTO_REFRESH = false;
     public static final boolean DEFAULT_SHOW_TABLET_MARGIN = true;
     public static final boolean DEFAULT_SHOW_TWEET_SOURCE = false;
-    public static final int DEFAULT_CACHE_SIZE = 100;
+    public static final String DEFAULT_CACHE_SIZE = "100";
 
     private static final String DISAPLY_TIME_RELATIVE = "Relative";
     private static final String DISAPLY_TIME_ABSOLUTE = "Absolute";
@@ -260,9 +260,11 @@ public class AppSettings {
     }
 
     public int getCacheSize() {
-        return mSharedPreferences.getInt(
+        String value =  mSharedPreferences.getString(
                 SettingsActivity.KEY_CACHE_SIZE_PREFERENCE,
                 DEFAULT_CACHE_SIZE);
+
+        return Integer.parseInt(value);
     }
 
     /*
