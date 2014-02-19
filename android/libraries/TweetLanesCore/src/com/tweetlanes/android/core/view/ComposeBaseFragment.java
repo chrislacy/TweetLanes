@@ -199,7 +199,7 @@ abstract class ComposeBaseFragment extends Fragment {
     }
 
     /*
-	 *
+     *
 	 */
     void showSimpleAlert(int stringID) {
         AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
@@ -215,21 +215,21 @@ abstract class ComposeBaseFragment extends Fragment {
     }
 
     /*
-	 *
+     *
 	 */
     public boolean hasFocus() {
         return mHasFocus;
     }
 
     /*
-	 *
+     *
 	 */
     void setComposeTweetListener(ComposeListener listener) {
         mListener = listener;
     }
 
     /*
-	 *
+     *
 	 */
     public void releaseFocus(boolean saveCurrentTweet) {
 
@@ -336,12 +336,23 @@ abstract class ComposeBaseFragment extends Fragment {
             return;
         }
 
-        int spaceIndex = text.lastIndexOf(" ");
-        int dotIndex = text.lastIndexOf(".");
+        int currentStart = editText.getSelectionStart();
+        int currentEnd = editText.getSelectionEnd();
+        int currentPosition = text.length() - 1;
+        if (currentStart == currentEnd) {
+            currentPosition = currentStart;
+        }
+        if (currentPosition < 0) currentPosition = 0;
 
-        int index = Math.max(spaceIndex, dotIndex);
+        String lastWholeWord = "";
 
-        String lastWholeWord = text.substring(index + 1).toLowerCase();
+        for (int i = currentPosition; i > 0; i--) {
+            String nextChar = text.substring(i-1,i).toLowerCase();
+            if (nextChar.equals(" ") || nextChar.equals(".")) {
+                break;
+            }
+            lastWholeWord = nextChar + lastWholeWord;
+        }
 
         if (lastWholeWord.startsWith("@")) {
             List<TwitterUser> autoCompleteMentions = getAutoCompleteMentions(lastWholeWord);
@@ -522,11 +533,28 @@ abstract class ComposeBaseFragment extends Fragment {
 
             String autoCompleteText = String.valueOf(textView.getText());
             String editText = String.valueOf(mAutocompleteTarget.getText());
-            int index = editText.lastIndexOf(" ");
+            int currentStart = mAutocompleteTarget.getSelectionStart();
+            int currentEnd = mAutocompleteTarget.getSelectionEnd();
+            int currentPosition = editText.length() - 1;
+            if (currentStart == currentEnd) {
+                currentPosition = currentStart;
+            }
+            if (currentPosition < 0) currentPosition = 0;
 
-            String newText = editText.substring(0, index + 1) + autoCompleteText;
-            mAutocompleteTarget.setText(newText + " ");
-            mAutocompleteTarget.setSelection(newText.length() + 1);
+            int autoCompleteStart = 0;
+
+            for (int i = currentPosition; i > 0; i--) {
+                String nextChar = editText.substring(i-1,i).toLowerCase();
+                if (nextChar.equals(" ") || nextChar.equals(".")) {
+                    break;
+                }
+                autoCompleteStart = i-1;
+            }
+
+
+            String newText = editText.substring(0,autoCompleteStart) + autoCompleteText + " " + editText.substring(currentPosition);
+            mAutocompleteTarget.setText(newText);
+            mAutocompleteTarget.setSelection(autoCompleteStart + autoCompleteText.length());
 
             mAutocompleteListView.setVisibility(View.GONE);
         }
@@ -585,6 +613,7 @@ abstract class ComposeBaseFragment extends Fragment {
             String s2 = (String) o2;
             return s1.toLowerCase().compareTo(s2.toLowerCase());
         }
+
     }
 
     protected void lockScreenRotation() {
@@ -607,8 +636,8 @@ abstract class ComposeBaseFragment extends Fragment {
     }
 
     /*
-	 *
-	 */
+     *
+     */
     private final OnClickListener mOnSendTweetClickListener = new OnClickListener() {
 
         @Override
@@ -632,7 +661,7 @@ abstract class ComposeBaseFragment extends Fragment {
     protected abstract void setMediaPreviewVisibility();
 
     /*
-	 */
+     */
     private final EditClearTextListener mEditClearTextListener = new EditClearTextListener() {
 
         @Override
@@ -749,8 +778,8 @@ abstract class ComposeBaseFragment extends Fragment {
     }
 
     /*
-	 *
-	 */
+     *
+     */
     ComposeTweetDefault _mComposeDefault;
 
     ComposeTweetDefault getComposeTweetDefault() {
@@ -786,10 +815,8 @@ abstract class ComposeBaseFragment extends Fragment {
             int length = mStatusValidator.getTweetLength(string);
             if (length > 0) {
                 int remaining = getMaxPostLength() - length;
-                if (_mComposeDefault != null
-                        && _mComposeDefault.getMediaFilePath() != null) {
-                    int SHORT_URL_LENGTH_HTTPS = 23;
-                    remaining -= SHORT_URL_LENGTH_HTTPS - 1;
+                if (_mComposeDefault != null && _mComposeDefault.getMediaFilePath() != null) {
+                    remaining -= 22;
                 }
 
                 mCharacterCountTextView.setText("" + remaining);

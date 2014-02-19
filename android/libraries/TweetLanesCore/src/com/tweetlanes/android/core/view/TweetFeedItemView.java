@@ -17,7 +17,6 @@ import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.text.Layout;
 import android.text.Spanned;
@@ -41,8 +40,6 @@ import com.tweetlanes.android.core.Constant;
 import com.tweetlanes.android.core.R;
 import com.tweetlanes.android.core.util.LazyImageLoader;
 import com.tweetlanes.android.core.util.Util;
-import com.tweetlanes.android.core.widget.urlimageviewhelper.UrlImageViewCallback;
-import com.tweetlanes.android.core.widget.urlimageviewhelper.UrlImageViewHelper;
 
 import org.appdotnet4j.model.AdnMedia;
 import org.socialnetlib.android.SocialNetConstant;
@@ -122,7 +119,7 @@ public class TweetFeedItemView extends LinearLayout {
     /*
      *
 	 */
-    public void configure(TwitterStatus twitterStatus, int position, Callbacks callbacks, boolean loadsTweetSpotlight,
+    public void configure(TwitterStatus twitterStatus, int position, Callbacks callbacks, boolean tweetFeedItem,
                           boolean showRetweetCount, boolean showConversationView, boolean isConversationItem, boolean resize,
                           final SocialNetConstant.Type socialNetType, final String currentAccountKey) {
 
@@ -390,7 +387,7 @@ public class TweetFeedItemView extends LinearLayout {
             authorNameTextView.setOnTouchListener(mOnTouchListener);
         }
 
-        setPreviewImage(twitterStatus.mMediaEntity, twitterStatus.mAdnMedia, callbacks);
+        setPreviewImage(twitterStatus.mMediaEntity, twitterStatus.mAdnMedia, callbacks, tweetFeedItem);
     }
 
     /*
@@ -408,45 +405,57 @@ public class TweetFeedItemView extends LinearLayout {
     /*
      *
      */
-    void setPreviewImage(TwitterMediaEntity mediaEntity, AdnMedia adnMedia, Callbacks callbacks) {
+    void setPreviewImage(TwitterMediaEntity mediaEntity, AdnMedia adnMedia, Callbacks callbacks, boolean tweetFeedItem) {
         if (mHolder != null) {
-            RelativeLayout previewImageContainer = mHolder.previewImageContainer;
+            RelativeLayout previewImageContainer;
+            ImageView previewImageView;
+            ImageView previewPlayImageView;
+
+            if(mHolder.previewImageContainer != null) mHolder.previewImageContainer.setVisibility(GONE);
+            if(mHolder.previewImageContainerLarge != null) mHolder.previewImageContainerLarge.setVisibility(GONE);
+            if(mHolder.previewImageContainerSpotlight != null) mHolder.previewImageContainerSpotlight.setVisibility(GONE);
+
+            AppSettings.MediaImageSize mediaImageSize = AppSettings.get().getCurrentMediaImageSize();
 
             if ((mediaEntity == null && adnMedia == null) || !AppSettings.get().downloadFeedImages()) {
-                if (previewImageContainer != null) {
-                    previewImageContainer.setVisibility(View.GONE);
-                }
+                return;
+            } else if (mediaImageSize == AppSettings.MediaImageSize.Off && tweetFeedItem) {
                 return;
             }
 
-            String mediaUrl = adnMedia != null ? adnMedia.mUrl : mediaEntity.getMediaUrl(Size.LARGE);
-            String thumbUrl = adnMedia != null ? adnMedia.mThumbnailUrl : mediaEntity.getMediaUrl(Size.THUMB);
+            boolean useLarge = true;
+            if (tweetFeedItem) {
+                useLarge = mediaImageSize == AppSettings.MediaImageSize.Large;
+                if (useLarge) {
+                    previewImageContainer = mHolder.previewImageContainerLarge;
+                    previewImageView = mHolder.previewImageViewLarge;
+                    previewPlayImageView = mHolder.previewPlayImageViewLarge;
+                } else {
+                    previewImageContainer = mHolder.previewImageContainer;
+                    previewImageView = mHolder.previewImageView;
+                    previewPlayImageView = mHolder.previewPlayImageView;
+                }
+            } else {
+                previewImageContainer = mHolder.previewImageContainerSpotlight;
+                previewImageView = mHolder.previewImageViewSpotlight;
+                previewPlayImageView = mHolder.previewPlayImageViewSpotlight;
+            }
+
+            String thumbUrl;
+            if (useLarge) {
+                thumbUrl = adnMedia != null ? adnMedia.mUrl : mediaEntity.getMediaUrl(Size.MEDIUM);
+            } else {
+                thumbUrl = adnMedia != null ? adnMedia.mThumbnailUrl : mediaEntity.getMediaUrl(Size.THUMB);
+            }
             TwitterMediaEntity.Source source = adnMedia != null ? null : mediaEntity.getSource();
 
             if (previewImageContainer != null) {
                 final boolean isVideo = source == TwitterMediaEntity.Source.YOUTUBE;
 
                 previewImageContainer.setVisibility(View.VISIBLE);
-                ImageView previewImageView = mHolder.previewImageView;
-                if (previewImageView == null) {
-                    previewImageView = (ImageView) findViewById(R.id.preview_large_image_view);
-                    UrlImageViewHelper.setUrlDrawable(previewImageView, mediaUrl, new UrlImageViewCallback() {
-
-                        @Override
-                        public void onLoaded(ImageView imageView, Drawable loadedDrawable, String url,
-                                             boolean loadedFromCache) {
-                            //Chris's code did nothing special in this case, yo I've left it like that for now.
-                            if (loadedDrawable == null) {
-                            }
-
-                        }
-                    });
-
-                } else {
-                    LazyImageLoader previewImageLoader = callbacks.getPreviewImageLoader();
-                    if (previewImageLoader != null) {
-                        previewImageLoader.displayImage(thumbUrl, previewImageView);
-                    }
+                LazyImageLoader previewImageLoader = callbacks.getPreviewImageLoader();
+                if (previewImageLoader != null) {
+                    previewImageLoader.displayImage(thumbUrl, previewImageView);
                 }
 
                 previewImageView.setVisibility(VISIBLE);
@@ -479,7 +488,6 @@ public class TweetFeedItemView extends LinearLayout {
                     }
                 });
 
-                ImageView previewPlayImageView = mHolder.previewPlayImageView;
                 if (previewPlayImageView != null) {
                     previewPlayImageView.setVisibility(isVideo ? View.VISIBLE
                             : View.GONE);
@@ -565,7 +573,7 @@ public class TweetFeedItemView extends LinearLayout {
     };
 
     /*
-	 *
+     *
 	 */
     private final GestureDetector mGestureDetector = new GestureDetector(
             new GestureDetector.SimpleOnGestureListener() {
@@ -595,7 +603,7 @@ public class TweetFeedItemView extends LinearLayout {
     }
 
     /*
-	 *
+     *
 	 */
     void onProfileImageClick() {
         Intent profileIntent = new Intent(mContext, ProfileActivity.class);
@@ -716,6 +724,12 @@ public class TweetFeedItemView extends LinearLayout {
         public RelativeLayout previewImageContainer;
         public ImageView previewImageView;
         public ImageView previewPlayImageView;
+        public RelativeLayout previewImageContainerLarge;
+        public ImageView previewImageViewLarge;
+        public ImageView previewPlayImageViewLarge;
+        public RelativeLayout previewImageContainerSpotlight;
+        public ImageView previewImageViewSpotlight;
+        public ImageView previewPlayImageViewSpotlight;
 
         public ViewHolder(View v) {
             avatar = (QuickContactDivot) v.findViewById(R.id.avatar);
@@ -732,6 +746,16 @@ public class TweetFeedItemView extends LinearLayout {
             if (previewImageContainer != null) {
                 previewImageView = (ImageView) previewImageContainer.findViewById(R.id.preview_image_view);
                 previewPlayImageView = (ImageView) previewImageContainer.findViewById(R.id.preview_image_play_view);
+            }
+            previewImageContainerLarge = (RelativeLayout) v.findViewById(R.id.preview_image_container_large);
+            if (previewImageContainerLarge != null) {
+                previewImageViewLarge = (ImageView) previewImageContainerLarge.findViewById(R.id.preview_image_view_large);
+                previewPlayImageViewLarge = (ImageView) previewImageContainerLarge.findViewById(R.id.preview_image_play_view_large);
+            }
+            previewImageContainerSpotlight = (RelativeLayout) v.findViewById(R.id.preview_spotlight_image_container);
+            if (previewImageContainerSpotlight != null) {
+                previewImageViewSpotlight = (ImageView) previewImageContainerSpotlight.findViewById(R.id.preview_spotlight_image_view);
+                previewPlayImageViewSpotlight = (ImageView) previewImageContainerSpotlight.findViewById(R.id.preview_spotlight_image_play_view);
             }
         }
     }

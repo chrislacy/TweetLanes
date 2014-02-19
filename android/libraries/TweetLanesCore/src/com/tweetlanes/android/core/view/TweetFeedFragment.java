@@ -20,6 +20,7 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.ActionMode;
@@ -118,6 +119,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     private final ArrayList<TweetFeedItemView> mSelectedItems = new ArrayList<TweetFeedItemView>();
     private final ArrayList<Long> mConverstaionViewIds = new ArrayList<Long>();
     private MultipleTweetSelectionCallback mMultipleTweetSelectionCallback;
+
 
     private Long mNewestTweetId;
     private Long mOldestTweetId;
@@ -239,6 +241,14 @@ public final class TweetFeedFragment extends BaseLaneFragment {
 
         state.putInt("NewStatuses", mNewStatuses);
         state.putBoolean("HidingListHeading", mHidingListHeading);
+
+        mSelectedItems.clear();
+        android.util.SparseBooleanArray items = mTweetFeedListView.getRefreshableView().getCheckedItemPositions();
+        for (int i = 0; i < items.size(); i++) {
+            int key = items.keyAt(i);
+            mTweetFeedListView.getRefreshableView().setItemChecked(key, false);
+        }
+
     }
 
     @Override
@@ -292,10 +302,10 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         if (getActivity() != null) {
             switch (getActivity().getResources().getConfiguration().orientation) {
                 case Configuration.ORIENTATION_PORTRAIT:
-                    getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                    getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
                     break;
                 case Configuration.ORIENTATION_LANDSCAPE:
-                    getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                    getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
                     break;
             }
         }
@@ -345,7 +355,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                             doneGettingStatus = false;
                         }
 
-                        if (doneGettingStatus) {
+                        if (doneGettingStatus || mTimesFetchCalled > 8) {
                             beginListHeadingCount();
                             onRefreshFinished(feed);
                         } else {
@@ -360,6 +370,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             if (mLastTwitterStatusIdSeen == null || mLastTwitterStatusIdSeen == 0) {
                 showToast(getString(R.string.pottential_lost_position));
                 onRefreshFinished(null);
+
             }
 
             mTimesFetchCalled++;
@@ -478,8 +489,12 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             // mTweetFeedListAdapter.getCount()));
             int endIndex = Math.min(visibleIndex + 10, feed.getStatusCount());
 
-            if (endIndex > 100) {
-                startIndex = endIndex - 100;
+            int cacheSize = AppSettings.get().getCacheSize();
+
+            if (cacheSize > 0) {
+                if (endIndex > cacheSize) {
+                    startIndex = endIndex - cacheSize;
+                }
             }
 
             TwitterStatuses statuses = new TwitterStatuses();
@@ -980,7 +995,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
     }
 
     /*
-	 *
+     *
 	 */
     private void onRefreshFinished(TwitterStatuses feed) {
 
@@ -988,12 +1003,18 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             return;
         }
 
+        if (feed == null || feed.getStatusCount() == 0) {
+            mTweetFeedListView.onRefreshComplete();
+            mTweetFeedListAdapter.notifyDataSetChanged();
+            mTweetDataRefreshCallback = null;
+            resetScreenRotation();
+            return;
+        }
+
         mLastRefreshTime = Calendar.getInstance();
         TwitterStatus visibleStatus = getVisibleStatus();
 
-        if (feed != null && feed.getStatusCount() > 0) {
-            setStatusFeed(feed, true);
-        }
+        setStatusFeed(feed, true);
 
         mTweetFeedListView.onRefreshComplete();
         mTweetFeedListAdapter.notifyDataSetChanged();
@@ -1251,11 +1272,14 @@ public final class TweetFeedFragment extends BaseLaneFragment {
         if (mSelectedItems.size() == 0) {
             TweetFeedItemView tweetFeedItemView = (TweetFeedItemView) (view);
             TwitterStatus status = tweetFeedItemView.getTwitterStatus();
-            Intent tweetSpotlightIntent = new Intent(getActivity(), TweetSpotlightActivity.class);
-            tweetSpotlightIntent.putExtra("statusId", Long.toString(status.mId));
-            tweetSpotlightIntent.putExtra("status", status.toString());
-            tweetSpotlightIntent.putExtra("clearCompose", "true");
-            getActivity().startActivityForResult(tweetSpotlightIntent, Constant.REQUEST_CODE_SPOTLIGHT);
+            FragmentActivity activity = getActivity();
+            if (activity != null) {
+                Intent tweetSpotlightIntent = new Intent(activity, TweetSpotlightActivity.class);
+                tweetSpotlightIntent.putExtra("statusId", Long.toString(status.mId));
+                tweetSpotlightIntent.putExtra("status", status.toString());
+                tweetSpotlightIntent.putExtra("clearCompose", "true");
+                activity.startActivityForResult(tweetSpotlightIntent, Constant.REQUEST_CODE_SPOTLIGHT);
+            }
         } else {
             onTweetFeedItemLongPress(view, position);
         }
@@ -1411,6 +1435,7 @@ public final class TweetFeedFragment extends BaseLaneFragment {
             }
 
             final int itemId = item.getItemId();
+
             if (itemId == R.id.action_share) {
                 getBaseLaneActivity().shareSelected(getFirstSelectedStatus());
                 mode.finish();

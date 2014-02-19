@@ -36,6 +36,18 @@
         <item>Handle</item>
     </string-array>
 
+    <string-array name="mediaimagesize_list_preference">
+        <item>Small</item>
+        <item>Large</item>
+        <item>Off</item>
+    </string-array>
+
+    <string-array name="mediaimagesize_values_list_preference">
+        <item>Small</item>
+        <item>Large</item>
+        <item>Off</item>
+    </string-array>
+
     <string-array name="theme_list_preference">
         <item>Holo Light</item>
         <item>Holo Light w/ Dark Bar</item>
@@ -52,6 +64,20 @@
         <item>standard</item>
         <item>rt</item>
         <item>via</item>
+    </string-array>
+
+    <string-array name="cachesize_list_preference">
+        <item>100 Statuses</item>
+        <item>200 Statuses</item>
+        <item>300 Statuses</item>
+        <item>Unlimited</item>
+    </string-array>
+
+    <string-array name="cachesizevalues_list_preference">
+        <item>100</item>
+        <item>200</item>
+        <item>300</item>
+        <item>0</item>
     </string-array>
 
     <string-array name="namedisplay_list_preference">

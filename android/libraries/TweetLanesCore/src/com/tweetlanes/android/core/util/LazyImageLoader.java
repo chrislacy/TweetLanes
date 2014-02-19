@@ -67,34 +67,32 @@ import static android.os.Environment.getExternalStorageState;
 public class LazyImageLoader {
 
     private final MemoryCache mMemoryCache;
-    private final Context mContext;
     private final FileCache mFileCache;
     private final Map<ImageView, URL> mImageViews = Collections
             .synchronizedMap(new WeakHashMap<ImageView, URL>());
     private final ExecutorService mExecutorService;
     private final int mFallbackRes;
     private final int mRequiredWidth, mRequiredHeight;
+    private final boolean mNoScale;
+    private final Context mContext;
     private Proxy mProxy;
-
-    // private final SharedPreferences mPreferences;
 
     public LazyImageLoader(Context context, String cache_dir_name,
                            int fallback_image_res, int required_width, int required_height,
-                           int mem_cache_capacity) {
+                           boolean noScale, int mem_cache_capacity) {
         mContext = context;
+
         mMemoryCache = new MemoryCache(mem_cache_capacity);
-        mFileCache = new FileCache(context, cache_dir_name);
+        mFileCache = new FileCache(mContext, cache_dir_name);
         mExecutorService = Executors.newFixedThreadPool(5);
         mFallbackRes = fallback_image_res;
         mRequiredWidth = required_width % 2 == 0 ? required_width
                 : required_width + 1;
         mRequiredHeight = required_height % 2 == 0 ? required_height
                 : required_height + 1;
-        // mPreferences = mContext.getSharedPreferences(SHARED_PREFERENCES_NAME,
-        // Context.MODE_PRIVATE);
-        mProxy = Util.getProxy(context);
-        // mIgnoreSSLError =
-        // mPreferences.getBoolean(PREFERENCE_KEY_IGNORE_SSL_ERROR, false);
+        mNoScale = noScale;
+        mProxy = Util.getProxy(mContext);
+
     }
 
     public void clearCache() {
@@ -151,13 +149,16 @@ public class LazyImageLoader {
             BitmapFactory.decodeStream(enter, null, options);
 
             // Find the correct scale value. It should be the power of 2.
-            int width_tmp = options.outWidth, height_tmp = options.outHeight;
             int scale = 1;
-            while (width_tmp / 2 >= mRequiredWidth
-                    || height_tmp / 2 >= mRequiredHeight) {
-                width_tmp /= 2;
-                height_tmp /= 2;
-                scale *= 2;
+            if(!mNoScale)
+            {
+                int width_tmp = options.outWidth, height_tmp = options.outHeight;
+                while (width_tmp / 2 >= mRequiredWidth
+                        || height_tmp / 2 >= mRequiredHeight) {
+                    width_tmp /= 2;
+                    height_tmp /= 2;
+                    scale *= 2;
+                }
             }
 
             // decode with inSampleSize

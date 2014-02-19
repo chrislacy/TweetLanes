@@ -22,10 +22,12 @@ import com.tweetlanes.android.core.view.SettingsActivity;
 public class AppSettings {
 
     public static final boolean DEFAULT_DOWNLOAD_IMAGES = true;
-    public static final boolean DEFAULT_VOLSCROLL = true;
+    public static final boolean DEFAULT_VOLSCROLL = false;
+    public static final boolean DEFAULT_DISPLAY_URL = true;
     public static final boolean DEFAULT_AUTO_REFRESH = false;
     public static final boolean DEFAULT_SHOW_TABLET_MARGIN = true;
     public static final boolean DEFAULT_SHOW_TWEET_SOURCE = false;
+    public static final String DEFAULT_CACHE_SIZE = "100";
 
     private static final String DISAPLY_TIME_RELATIVE = "Relative";
     private static final String DISAPLY_TIME_ABSOLUTE = "Absolute";
@@ -51,6 +53,11 @@ public class AppSettings {
     private static final String PROFILE_IMAGE_SIZE_LARGE = "Large";
     private static final String PROFILE_IMAGE_SIZE_DEFAULT = PROFILE_IMAGE_SIZE_MEDIUM;
 
+    private static final String MEDIA_IMAGE_SIZE_SMALL = "Small";
+    private static final String MEDIA_IMAGE_SIZE_LARGE = "Large";
+    private static final String MEDIA_IMAGE_SIZE_OFF = "Off";
+    private static final String MEDIA_IMAGE_SIZE_DEFAULT = MEDIA_IMAGE_SIZE_LARGE;
+
     private static final String THEME_LIGHT = "Holo Light";
     private static final String THEME_DARK = "Holo Dark";
     private static final String THEME_DEFAULT = THEME_LIGHT;
@@ -72,7 +79,6 @@ public class AppSettings {
     private static final String NOTIFICATION_TIME_DEFAULT = NOTIFICATION_TIME_0M;
 
     private static final String NOTIFICATION_TYPE_DEFAULT = "m,d";
-
     /*
      *
 	 */
@@ -92,6 +98,13 @@ public class AppSettings {
 	 */
     public enum ProfileImageSize {
         Small, Medium, Large,
+    }
+
+    /*
+     *
+	 */
+    public enum MediaImageSize {
+        Small, Large, Off,
     }
 
     /*
@@ -120,9 +133,11 @@ public class AppSettings {
     private Theme mCurrentTheme;
     private StatusSize mStatusSize;
     private ProfileImageSize mProfileImageSize;
+    private MediaImageSize mMediaImageSize;
     private QuoteType mQuoteType;
     private DisplayTimeFormat mDisplayTimeFormat;
     private DisplayNameFormat mDisplayNameFormat;
+    private Boolean mDisplayUrl;
 
     /*
 	 *
@@ -150,8 +165,10 @@ public class AppSettings {
         Theme oldTheme = mCurrentTheme;
         StatusSize oldStatusSize = mStatusSize;
         ProfileImageSize oldProfileImageSize = mProfileImageSize;
+        MediaImageSize oldMediaImageSize = mMediaImageSize;
         DisplayTimeFormat oldDisplayTimeFormat = mDisplayTimeFormat;
         DisplayNameFormat oldDisplayNameFormat = mDisplayNameFormat;
+        Boolean oldDisplayUrl = mDisplayUrl;
 
         mSharedPreferences = PreferenceManager
                 .getDefaultSharedPreferences(mContext);
@@ -166,6 +183,10 @@ public class AppSettings {
         } else {
             setCurrentTheme(Theme.Holo_Light_DarkAction);
         }
+
+        Boolean displayUrl =  mSharedPreferences.getBoolean(
+                SettingsActivity.KEY_DISPLAY_URL_PREFERENCE, DEFAULT_DISPLAY_URL);
+        setDisplayUrl(displayUrl);
 
         String displayTimeFormat = mSharedPreferences.getString(
                 SettingsActivity.KEY_DISPLAY_TIME_PREFERENCE,
@@ -182,6 +203,11 @@ public class AppSettings {
                 PROFILE_IMAGE_SIZE_DEFAULT);
         setCurrentProfileImageSize(profileImageSize);
 
+        String mediaImageSize = mSharedPreferences.getString(
+                SettingsActivity.KEY_MEDIA_IMAGE_SIZE_PREFERENCE,
+                MEDIA_IMAGE_SIZE_DEFAULT);
+        setCurrentMediaImageSize(mediaImageSize);
+
         String displayNameFormat = mSharedPreferences.getString(
                 SettingsActivity.KEY_DISPLAY_NAME_PREFERENCE,
                 DISAPLY_NAME_DEFAULT);
@@ -195,8 +221,10 @@ public class AppSettings {
             if (oldTheme != mCurrentTheme ||
                     oldStatusSize != mStatusSize ||
                     oldProfileImageSize != mProfileImageSize ||
+                    oldMediaImageSize != mMediaImageSize ||
                     oldDisplayTimeFormat != mDisplayTimeFormat ||
-                    oldDisplayNameFormat != mDisplayNameFormat) {
+                    oldDisplayNameFormat != mDisplayNameFormat ||
+                    oldDisplayUrl != mDisplayUrl) {
                 mIsDirty = true;
             } else if (preferenceKey != null) {
                 if (preferenceKey
@@ -229,6 +257,14 @@ public class AppSettings {
         return mSharedPreferences.getBoolean(
                 SettingsActivity.KEY_SHOW_TWEET_SOURCE_PREFERENCE,
                 DEFAULT_SHOW_TWEET_SOURCE);
+    }
+
+    public int getCacheSize() {
+        String value =  mSharedPreferences.getString(
+                SettingsActivity.KEY_CACHE_SIZE_PREFERENCE,
+                DEFAULT_CACHE_SIZE);
+
+        return Integer.parseInt(value);
     }
 
     /*
@@ -342,6 +378,14 @@ public class AppSettings {
         mCurrentTheme = theme;
     }
 
+    private void setDisplayUrl(boolean displayUrl){
+        mDisplayUrl = displayUrl;
+    }
+
+    public boolean showFullDisplayUrl() {
+        return mDisplayUrl;
+    }
+
     void setDisplayTimeFormat(String displayTimeFormat) {
         if (displayTimeFormat != null) {
             if (displayTimeFormat.equals(DISAPLY_TIME_RELATIVE)) {
@@ -424,11 +468,29 @@ public class AppSettings {
         }
     }
 
+    void setCurrentMediaImageSize(String currentMediaImageSize) {
+        if (currentMediaImageSize != null) {
+            if (currentMediaImageSize.equals(MEDIA_IMAGE_SIZE_SMALL)) {
+                mMediaImageSize = MediaImageSize.Small;
+            } else if (currentMediaImageSize.equals(MEDIA_IMAGE_SIZE_LARGE)) {
+                mMediaImageSize = MediaImageSize.Large;
+            } else if (currentMediaImageSize.equals(MEDIA_IMAGE_SIZE_OFF)) {
+                mMediaImageSize = MediaImageSize.Off;
+            } else {
+                mMediaImageSize = MediaImageSize.Small;
+            }
+        }
+    }
+
     /*
 	 *
 	 */
     public ProfileImageSize getCurrentProfileImageSize() {
         return mProfileImageSize;
+    }
+
+    public MediaImageSize getCurrentMediaImageSize() {
+        return mMediaImageSize;
     }
 
     /*
