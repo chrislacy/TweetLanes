@@ -4,6 +4,7 @@
         <change>Feature - Large media previews &amp; option to turn off media previews</change>
         <change>Feature - Added option to use display urls rather than full URLs</change>
         <change>Feature - Added auto complete mid status rather than needing to be the last word in compose box</change>
+        <change>Feature - Added configuration for tweet cache size</change>
         <change>Fix - Set VolScroll to be defaulted off</change>
         <change>Fix - Update remaining characters as soon as media attached</change>
         <change>Fix - Rotate flip on landscape refresh</change>
