@@ -203,7 +203,17 @@ public class TweetFeedItemView extends LinearLayout {
 
         mConversationExpanded = showConversationView;
         mConversationToggle = mHolder.conversationToggle;
+
         if (mConversationToggle != null) {
+            mConversationToggle.setVisibility(GONE);
+            if (mConversationView != null) {
+                removeView(mConversationView);
+                mConversationView = null;
+            }
+            int drawable = AppSettings.get().getCurrentTheme() == AppSettings.Theme.Holo_Dark ? R.drawable.ic_action_expand_dark
+                    : R.drawable.ic_action_expand_light;
+            mConversationToggle.setImageDrawable(getResources().getDrawable(
+                    drawable));
 
             if (twitterStatus.mInReplyToStatusId != null) {
                 mConversationToggle.setVisibility(VISIBLE);
@@ -220,12 +230,6 @@ public class TweetFeedItemView extends LinearLayout {
                     insertConversationView();
                     mConversationView.setVisibility(GONE);
                     configureConversationView(socialNetType, currentAccountKey);
-                }
-            } else {
-                mConversationToggle.setVisibility(GONE);
-                if (mConversationView != null) {
-                    removeView(mConversationView);
-                    mConversationView = null;
                 }
             }
         }
