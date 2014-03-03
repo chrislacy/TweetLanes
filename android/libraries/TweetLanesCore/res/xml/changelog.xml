@@ -10,6 +10,7 @@
         <change>Fix - Rotate flip on landscape refresh</change>
         <change>Fix - Prevent infinite refresh loop</change>
         <change>Fix - Correct issue with conversations appearing under the wrong statuses</change>
+        <change>Fix - Favorites now correctly get sent to twitter</change>
         <change>Fix - Various errors reported by fatal crashes</change>
     </release>
     <release version="1.3.0" versioncode="55">
