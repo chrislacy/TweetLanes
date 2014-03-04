@@ -81,10 +81,14 @@ public class TwitterDirectMessage implements Comparable<TwitterDirectMessage> {
 
             if (object.has(KEY_STATUS_MARKUP)) {
                 mStatusFullMarkup = object.getString(KEY_STATUS_MARKUP);
-            } else {
+            } else if(mText != null) {
                 mStatusFullMarkup = TwitterUtil.getStatusMarkup(mText, new MediaEntity[0], new URLEntity[0]);
             }
-            mTextSpanned = URLSpanNoUnderline.stripUnderlines(Html.fromHtml(mStatusFullMarkup.replace("\n", "<br/>") + " "));
+
+            if(mStatusFullMarkup!= null)
+            {
+                mTextSpanned = URLSpanNoUnderline.stripUnderlines(Html.fromHtml(mStatusFullMarkup.replace("\n", "<br/>") + " "));
+            }
 
             if (object.has(KEY_CREATED_AT)) {
                 long createdAt = object.getLong(KEY_CREATED_AT);

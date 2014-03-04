@@ -123,7 +123,7 @@ public class TwitterModifyStatuses {
 	 */
 
     /*
-	 *
+     *
 	 */
     FinishedCallback getModifyStatusesCallback(Integer callbackHandle) {
         return mFinishedCallbackMap.get(callbackHandle);
@@ -258,14 +258,13 @@ public class TwitterModifyStatuses {
                         if (input.mStatuses != null) {
                             for (int i = 0; i < input.mStatuses.getStatusCount(); i++) {
                                 TwitterStatus twitterStatus = input.mStatuses.getStatus(i);
-                                if (twitterStatus.mIsFavorited != favorite) {
-                                    AdnPost post = appdotnetApi.setAdnFavorite(twitterStatus.mId, favorite);
 
-                                    if (post != null) {
-                                        twitterStatus = new TwitterStatus(post);
-                                        twitterStatus.setFavorite(favorite);
-                                        contentFeed.add(twitterStatus);
-                                    }
+                                AdnPost post = appdotnetApi.setAdnFavorite(twitterStatus.mId, favorite);
+
+                                if (post != null) {
+                                    twitterStatus = new TwitterStatus(post);
+                                    twitterStatus.setFavorite(favorite);
+                                    contentFeed.add(twitterStatus);
                                 }
                             }
                         }
@@ -292,27 +291,27 @@ public class TwitterModifyStatuses {
                             if (input.mStatuses != null) {
                                 for (int i = 0; i < input.mStatuses.getStatusCount(); i++) {
                                     TwitterStatus twitterStatus = input.mStatuses.getStatus(i);
-                                    if (twitterStatus.mIsFavorited != favorite) {
-                                        try {
-                                            twitter4j.Status status;
-                                            if (favorite) {
-                                                status = twitter.createFavorite(twitterStatus.mId);
-                                            } else {
-                                                status = twitter.destroyFavorite(twitterStatus.mId);
-                                            }
+                                    try {
+                                        twitter4j.Status status;
+                                        if (favorite) {
+                                            status = twitter.createFavorite(twitterStatus.mId);
+                                        } else {
+                                            status = twitter.destroyFavorite(twitterStatus.mId);
+                                        }
 
-                                            // Yuck: See the comment for
-                                            // TwitterStatus.setFavorite() for
-                                            // reasons for this
-                                            twitterStatus = new TwitterStatus(status);
-                                            twitterStatus.setFavorite(favorite);
+                                        // Yuck: See the comment for
+                                        // TwitterStatus.setFavorite() for
+                                        // reasons for this
+                                        twitterStatus = new TwitterStatus(status);
+                                        twitterStatus.setFavorite(favorite);
 
-                                            contentFeed.add(twitterStatus);
-                                        } catch (TwitterException e) {
-                                            // we might get errors setting the favorite
-                                            // state to the same
-                                            // value again.
-                                            // Just ignore those ones...
+                                        contentFeed.add(twitterStatus);
+                                    } catch (TwitterException e) {
+                                        e.printStackTrace();
+                                        errorDescription = e.getErrorMessage();
+                                        Log.e("api-call", errorDescription, e);
+                                        if (e.getRateLimitStatus() != null && e.getRateLimitStatus().getRemaining() <= 0) {
+                                            throw e;
                                         }
                                     }
                                 }

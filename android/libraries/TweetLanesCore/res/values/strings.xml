@@ -178,6 +178,7 @@
 
     <string name="share_tweet">Tweet Text</string>
     <string name="share_tweet_link">Link to Tweet</string>
+    <string name="share_tweet_post">Link to Post</string>
     <string name="share_link">Link in Tweet</string>
     <string name="share_first_link">Link in Tweet</string>
 
@@ -453,6 +454,9 @@
     <string name="title_displayname_preference">Display Name Format</string>
     <string name="dialog_title_displayname_preference">Display Name Format</string>
 
+    <string name="title_mediaimagesize_preference">Display Media Size</string>
+    <string name="dialog_title_mediaimagesize_preference">Display Media Size</string>
+
     <string name="title_namedisplay_preference">Name Display Format</string>
     <string name="dialog_title_namedisplay_preference">Name Display Format</string>
 
@@ -474,6 +478,9 @@
 
     <string name="title_quote_preference">Quote Format</string>
     <string name="dialog_title_quote_preference">Quote Format</string>
+
+    <string name="title_cachesize_preference">Cache Size</string>
+    <string name="dialog_title_cachesize_preference">Number of statuses to keep in cache</string>
 
     <string name="title_dimscreen_preference">Dim Screen</string>
     <string name="summary_dimscreen_preference">The screen will dim after a period of inactivity.
@@ -525,6 +532,10 @@
     <string name="summary_showtweetsource_preference">Display the name of the application the status
         update originated
         from
+    </string>
+
+    <string name="title_displayurl_preference">Display URL</string>
+    <string name="summary_displayurl_preference">Show the full URL in tweets rather than trimmed with "..."
     </string>
 
     <string name="settings_image_loading">Image loading</string>

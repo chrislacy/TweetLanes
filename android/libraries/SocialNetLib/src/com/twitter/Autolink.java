@@ -166,11 +166,11 @@ public class Autolink {
     }
 
     void linkToURL(Entity entity, String text, StringBuilder builder,
-                   URLEntity urlEntity) {
+                   URLEntity urlEntity, boolean showFullUrl) {
         CharSequence url = entity.getValue();
         String linkText = escapeHTML(url).toString();
 
-        if (urlEntity != null && urlEntity.getExpandedURL() != null) {
+        if (urlEntity != null && urlEntity.getExpandedURL() != null && showFullUrl) {
             linkText = urlEntity.getExpandedURL();
         } else if (urlEntity != null && urlEntity.getDisplayURL() != null) {
             linkText = urlEntity.getDisplayURL();
@@ -194,7 +194,7 @@ public class Autolink {
     }
 
     String autoLinkEntities(String text, List<Entity> entities,
-                            MediaEntity[] mediaEntities, URLEntity[] urlEntities) {
+                            MediaEntity[] mediaEntities, URLEntity[] urlEntities, boolean showFullUrl) {
         StringBuilder builder = new StringBuilder(text.length() * 2);
         int beginIndex = 0;
 
@@ -225,7 +225,7 @@ public class Autolink {
                         }
                     }
 
-                    linkToURL(entity, text, builder, urlEntity);
+                    linkToURL(entity, text, builder, urlEntity, showFullUrl);
                     break;
                 case HASHTAG:
                     linkToHashtag(entity, text, builder);
@@ -245,12 +245,12 @@ public class Autolink {
     }
 
     public String autoLinkAll(String text, MediaEntity[] mediaEntities,
-                              URLEntity[] urlEntities) {
+                              URLEntity[] urlEntities, boolean showFullUrl) {
         text = escapeBrackets(text);
 
         // extract entities
         List<Entity> entities = extractor.extractEntitiesWithIndices(text);
         return autoLinkEntities(text, entities,
-                mediaEntities, urlEntities);
+                mediaEntities, urlEntities, showFullUrl);
     }
 }

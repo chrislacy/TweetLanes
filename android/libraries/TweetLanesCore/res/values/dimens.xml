@@ -40,6 +40,7 @@ All Rights Reserved. -->
 
     <dimen name="image_preview_width">80dp</dimen>
     <dimen name="image_preview_height">80dp</dimen>
+    <dimen name="image_preview_height_large">140dp</dimen>
 
     <dimen name="feed_side_padding">0dp</dimen>
     <dimen name="lane_content_width">0dp</dimen>

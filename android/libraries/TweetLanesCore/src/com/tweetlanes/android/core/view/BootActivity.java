@@ -92,6 +92,7 @@ public class BootActivity extends Activity {
                     if (!ReadUrl(uriData, false)) {
                         startHomeActivity("", uriData.toString());
                     }
+                    getIntent().setData(null);
                 } else if (mLastStartedClass != HomeActivity.class) {
                     mLastStartedClass = HomeActivity.class;
                     // We don't want to come back here, so remove from the

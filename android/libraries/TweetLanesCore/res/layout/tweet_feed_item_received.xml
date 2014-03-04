@@ -157,11 +157,40 @@
 
                 </LinearLayout>
 
+                <RelativeLayout
+                        android:id="@+id/preview_image_container_large"
+                        android:layout_below="@id/status"
+                        android:layout_alignParentLeft="true"
+                        android:layout_toLeftOf="@+id/interactColumn"
+                        android:layout_width="fill_parent"
+                        android:layout_height="@dimen/image_preview_height_large"
+                        android:layout_gravity="center"
+                        android:paddingLeft="@dimen/message_item_text_padding_left_right"
+                        android:paddingRight="@dimen/message_item_text_padding_left_right"
+                        xmlns:android="http://schemas.android.com/apk/res/android">
+
+                    <ImageView
+                            android:id="@+id/preview_image_view_large"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:scaleType="centerCrop"
+                            />
+
+                    <ImageView
+                            android:id="@+id/preview_image_play_view_large"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/ic_play_over_video"
+                            />
+
+                </RelativeLayout>
+
                 <TextView
                         android:id="@+id/tweet_details"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/status"
+                        android:layout_below="@id/preview_image_container_large"
                         android:layout_alignParentLeft="true"
                         android:layout_toLeftOf="@+id/interactColumn"
                         android:autoLink="all"

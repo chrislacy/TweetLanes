@@ -329,7 +329,7 @@ public final class TweetSpotlightFragment extends BaseLaneFragment {
 
                 @Override
                 public LazyImageLoader getPreviewImageLoader() {
-                    return null;
+                    return getApp().getPreviewImageLoader();
                 }
 
             };

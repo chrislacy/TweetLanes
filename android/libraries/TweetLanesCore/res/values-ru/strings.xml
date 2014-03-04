@@ -178,6 +178,7 @@
 
     <string name="share_tweet">Текст твита</string>
     <string name="share_tweet_link">Ссылка на твит</string>
+    <string name="share_tweet_post">Ссылка на твит</string>
     <string name="share_link">Ссылка в твите</string>
     <string name="share_first_link">Ссылка в твите</string>
 
@@ -430,8 +431,11 @@
     <string name="title_profileimagesize_preference">Размер изображения профиля</string>
     <string name="dialog_title_profileimagesize_preference">Размер изображения профиля</string>
 
-    <string name="title_displayname_preference">Дисплей Название Формат</string>
-    <string name="dialog_title_displayname_preference">Дисплей Название Формат</string>
+    <string name="title_mediaimagesize_preference">Дисплей Название Формат</string>
+    <string name="dialog_title_mediaimagesize_preference">Дисплей Название Формат</string>
+
+    <string name="title_displaymedia_preference">Дисплей Размер Media</string>
+    <string name="dialog_title_displaymedia_preference">Дисплей Размер Media</string>
 
     <string name="title_namedisplay_preference">Формат отображения имени</string>
     <string name="dialog_title_namedisplay_preference">Формат отображения имени</string>
@@ -452,6 +456,9 @@
 
     <string name="title_quote_preference">Вид цитирования</string>
     <string name="dialog_title_quote_preference">Вид цитирования</string>
+
+    <string name="title_cachesize_preference">Размер кэша</string>
+    <string name="dialog_title_cachesize_preference">Количество статусов, чтобы держать в кэше</string>
 
     <string name="title_dimscreen_preference">Затемнение экрана</string>
     <string name="summary_dimscreen_preference">Экран будет затухать после определённого периода бездействия.
@@ -501,6 +508,10 @@
 
     <string name="title_showtweetsource_preference">Источник</string>
     <string name="summary_showtweetsource_preference">Отображение приложения, из которого было отправлено сообщение.
+    </string>
+
+    <string name="title_displayurl_preference">Показать URL</string>
+    <string name="summary_displayurl_preference">Показать полный адрес в твитов, а не отделан "..."
     </string>
 
     <string name="settings_image_loading">Загрузка изображения</string>

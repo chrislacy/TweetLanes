@@ -70,9 +70,11 @@ public class SettingsActivity extends PreferenceActivity implements
     public static final String KEY_DISPLAY_NAME_PREFERENCE = "displayname_preference";
     public static final String KEY_STATUS_SIZE_PREFERENCE = "statussize_preference";
     public static final String KEY_PROFILE_IMAGE_SIZE_PREFERENCE = "profileimagesize_preference";
+    public static final String KEY_MEDIA_IMAGE_SIZE_PREFERENCE = "mediaimagesize_preference";
     public static final String KEY_VOLSCROLL_PREFERENCE = "volscroll_preference";
     public static final String KEY_DOWNLOADIMAGES_PREFERENCE = "downloadimages_preference";
     public static final String KEY_SHOW_TWEET_SOURCE_PREFERENCE = "showtweetsource_preference";
+    public static final String KEY_CACHE_SIZE_PREFERENCE = "cachesize_preference";
     public static final String KEY_QUOTE_TYPE_PREFERENCE = "quotetype_preference";
     private static final String KEY_CREDITS_PREFERENCE = "preference_credits";
     private static final String KEY_SOURCE_CODE_PREFERENCE = "preference_source";
@@ -83,6 +85,7 @@ public class SettingsActivity extends PreferenceActivity implements
     public static final String KEY_NOTIFICATION_TYPE_PREFERENCE = "notificationtype_preference";
     public static final String KEY_NOTIFICATION_VIBRATION = "notificationvibration_preference";
     public static final String KEY_AUTO_REFRESH_PREFERENCE = "autorefresh_preference";
+    public static final String KEY_DISPLAY_URL_PREFERENCE = "displayurl_preference";
 
     private ListPreference mThemePreference;
     private CheckBoxPreference mShowTabletMarginPreference;
@@ -90,11 +93,14 @@ public class SettingsActivity extends PreferenceActivity implements
     private ListPreference mDisplayTimePreference;
     private ListPreference mDisplayNamePreference;
     private ListPreference mProfileImageSizePreference;
+    private ListPreference mMediaImageSizePreference;
+    private ListPreference mCacheSizePreference;
     private CheckBoxPreference mDownloadImagesPreference;
     private CheckBoxPreference mShowTweetSourcePreference;
     private ListPreference mQuoteTypePreference;
     private CheckBoxPreference mVolScrollPreference;
     private CheckBoxPreference mAutoRefreshPreference;
+    private CheckBoxPreference mDisplayUrlPreference;
     private Preference mCreditsPreference;
     private Preference mSourceCodePreference;
     private Preference mDonatePreference;
@@ -156,6 +162,10 @@ public class SettingsActivity extends PreferenceActivity implements
                 .findPreference(KEY_STATUS_SIZE_PREFERENCE);
         mProfileImageSizePreference = (ListPreference) getPreferenceScreen()
                 .findPreference(KEY_PROFILE_IMAGE_SIZE_PREFERENCE);
+        mMediaImageSizePreference = (ListPreference) getPreferenceScreen()
+                .findPreference(KEY_MEDIA_IMAGE_SIZE_PREFERENCE);
+        mCacheSizePreference = (ListPreference) getPreferenceScreen()
+                .findPreference(KEY_CACHE_SIZE_PREFERENCE);
         mDownloadImagesPreference = (CheckBoxPreference) getPreferenceScreen()
                 .findPreference(KEY_DOWNLOADIMAGES_PREFERENCE);
         Preference customizeLanesPreference = getPreferenceScreen()
@@ -237,6 +247,9 @@ public class SettingsActivity extends PreferenceActivity implements
         mAutoRefreshPreference = (CheckBoxPreference) getPreferenceScreen()
                 .findPreference(KEY_AUTO_REFRESH_PREFERENCE);
 
+        mDisplayUrlPreference = (CheckBoxPreference) getPreferenceScreen()
+                .findPreference(KEY_DISPLAY_URL_PREFERENCE);
+
         mQuoteTypePreference = (ListPreference) getPreferenceScreen()
                 .findPreference(KEY_QUOTE_TYPE_PREFERENCE);
         mCreditsPreference = getPreferenceScreen().findPreference(
@@ -298,6 +311,18 @@ public class SettingsActivity extends PreferenceActivity implements
         mProfileImageSizePreference.setSummary(mProfileImageSizePreference
                 .getEntry());
 
+        if (mMediaImageSizePreference.getEntry() == null) {
+            mMediaImageSizePreference.setValueIndex(1);
+        }
+        mMediaImageSizePreference.setSummary(mMediaImageSizePreference
+                .getEntry());
+
+        if (mCacheSizePreference.getEntry() == null) {
+            mCacheSizePreference.setValueIndex(1);
+        }
+        mCacheSizePreference.setSummary(mCacheSizePreference
+                .getEntry());
+
         boolean showTweetSource = sharedPreferences.getBoolean(
                 KEY_SHOW_TWEET_SOURCE_PREFERENCE,
                 AppSettings.DEFAULT_SHOW_TWEET_SOURCE);
@@ -315,6 +340,10 @@ public class SettingsActivity extends PreferenceActivity implements
         boolean autoRefresh = sharedPreferences.getBoolean(
                 KEY_AUTO_REFRESH_PREFERENCE, AppSettings.DEFAULT_AUTO_REFRESH);
         mAutoRefreshPreference.setChecked(autoRefresh);
+
+        boolean displayUrl = sharedPreferences.getBoolean(
+                KEY_DISPLAY_URL_PREFERENCE, AppSettings.DEFAULT_DISPLAY_URL);
+        mDisplayUrlPreference.setChecked(displayUrl);
 
         if (mQuoteTypePreference.getEntry() == null) {
             mQuoteTypePreference.setValueIndex(0);
