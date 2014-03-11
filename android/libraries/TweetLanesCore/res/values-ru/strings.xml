@@ -78,6 +78,7 @@
     <string name="action_block">Заблокировать пользователя</string>
     <string name="action_report_for_spam">Сообщить о спаме</string>
     <string name="action_delete_status">Удалить</string>
+    <string name="action_copy_status_text">Copy Text</string>
     <string name="action_retweet">Ретвитнуть</string>
     <string name="action_reply">Ответить</string>
     <string name="action_message">Сообщение</string>

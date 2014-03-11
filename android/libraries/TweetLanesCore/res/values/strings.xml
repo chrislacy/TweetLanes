@@ -78,6 +78,7 @@
     <string name="action_block">Block User</string>
     <string name="action_report_for_spam">Report User for Spam</string>
     <string name="action_delete_status">Delete</string>
+    <string name="action_copy_status_text">Copy Text</string>
     <string name="action_retweet">Retweet</string>
     <string name="action_reply">Reply</string>
     <string name="action_message">Message</string>

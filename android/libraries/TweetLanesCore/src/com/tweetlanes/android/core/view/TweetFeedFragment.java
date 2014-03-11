@@ -13,6 +13,8 @@ package com.tweetlanes.android.core.view;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -1612,6 +1614,14 @@ public final class TweetFeedFragment extends BaseLaneFragment {
                 mTweetFeedListAdapter.notifyDataSetChanged();
                 mTweetFeedListView.onRefreshComplete();
                 updateViewVisibility(true);
+
+                mode.finish();
+            } else if (itemId == R.id.action_copy_status_text) {
+
+                ClipboardManager clipboard = (ClipboardManager) getApp().getSystemService(Context.CLIPBOARD_SERVICE);
+                TwitterStatuses selected = getSelectedStatuses();
+                ClipData clip = ClipData.newPlainText("stausText",selected.getStatus(0).mStatus);
+                clipboard.setPrimaryClip(clip);
 
                 mode.finish();
             } else if (itemId == R.id.action_report_for_spam || itemId == R.id.action_block) {
