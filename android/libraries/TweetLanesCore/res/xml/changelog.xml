@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="1.5.0" versioncode="57">
+        <change>Feature - Added logic to set Gzip Enabled in twitter4j usage</change>
+        <change>Feature - Added "Copy Text" option to menu when 1 status is selected</change>
+    </release>
     <release version="1.4.0" versioncode="56">
         <change>Feature - Large media previews &amp; option to turn off media previews</change>
         <change>Feature - Added option to use display urls rather than full URLs</change>

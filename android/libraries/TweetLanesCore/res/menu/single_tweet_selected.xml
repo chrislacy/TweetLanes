@@ -41,6 +41,11 @@
                     android:id="@+id/action_delete_status"
                     android:title="@string/action_delete_status"
                     android:showAsAction="never"/>
+
+            <item
+                    android:id="@+id/action_copy_status_text"
+                    android:title="@string/action_copy_status_text"
+                    android:showAsAction="never"/>
         </menu>
     </item>
 

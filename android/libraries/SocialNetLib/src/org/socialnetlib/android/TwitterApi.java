@@ -87,7 +87,8 @@ public class TwitterApi extends SocialNetApi {
                     .setOAuthAccessTokenSecret(mCurrentOAuthSecret)
                     .setMediaProvider("TWITTER")
                             // .setJSONStoreEnabled(true)
-                    .setIncludeEntitiesEnabled(true);
+                    .setIncludeEntitiesEnabled(true)
+                    .setGZIPEnabled(true);
 
             Configuration configuration = configurationBuilder.build();
             mSocNetApi = new TwitterFactory(configuration).getInstance();
