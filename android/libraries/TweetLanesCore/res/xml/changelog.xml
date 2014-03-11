@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
     <release version="1.5.0" versioncode="57">
+        <change>Feature - Added logic to set Gzip Enabled in twitter4j usage</change>
     </release>
     <release version="1.4.0" versioncode="56">
         <change>Feature - Large media previews &amp; option to turn off media previews</change>
