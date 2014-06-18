@@ -11,16 +11,18 @@
 
 package com.tweetlanes.android.core.view;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.tweetlanes.android.core.R;
@@ -49,19 +51,15 @@ public class ProfileFragment extends BaseLaneFragment {
      *
 	 */
     public static ProfileFragment newInstance(int laneIndex, final Long userId) {
-
         ProfileFragment fragment = new ProfileFragment();
-
         fragment.configureBaseLaneFragment(laneIndex, "Profile",
                 new ConfigureBundleListener() {
-
                     @Override
                     public void addValues(Bundle args) {
                         if (userId != null) {
                             args.putString("userId", userId.toString());
                         }
                     }
-
                 });
 
         return fragment;
@@ -72,19 +70,15 @@ public class ProfileFragment extends BaseLaneFragment {
 	 */
     public static ProfileFragment newInstance(int laneIndex,
                                               final String screenName) {
-
         ProfileFragment fragment = new ProfileFragment();
-
         fragment.configureBaseLaneFragment(laneIndex, "Profile",
                 new ConfigureBundleListener() {
-
                     @Override
                     public void addValues(Bundle args) {
                         if (screenName != null) {
                             args.putString("screenName", screenName);
                         }
                     }
-
                 });
 
         return fragment;
@@ -96,7 +90,6 @@ public class ProfileFragment extends BaseLaneFragment {
     private Boolean mLoggedInUserFollows;
     private FinishedCallback mFriendshipCallback;
     private Button mFriendshipButton;
-    private View mFriendshipDivider;
 
     /*
      * (non-Javadoc)
@@ -111,20 +104,20 @@ public class ProfileFragment extends BaseLaneFragment {
 
         super.onCreateView(inflater, container, savedInstanceState);
 
-        SocialNetConstant.Type socialNetType = SocialNetConstant.Type.Twitter;
+//        SocialNetConstant.Type socialNetType = SocialNetConstant.Type.Twitter;
 
         if (getArguments().getString("userId") != null) {
             Long userId = Long.parseLong(getArguments().getString("userId"));
             mUser = TwitterManager.get().getUser(userId);
-            if (mUser != null) {
-                socialNetType = mUser.getSocialNetType();
-            }
+//            if (mUser != null) {
+//                socialNetType = mUser.getSocialNetType();
+//            }
         }
 
-        mProfileView = inflater
-                .inflate(
-                        socialNetType == SocialNetConstant.Type.Appdotnet ? R.layout.profile_adn
-                                : R.layout.profile, null);
+        mProfileView = inflater.inflate(R.layout.profile, null);
+//                socialNetType == SocialNetConstant.Type.Appdotnet
+//                        ? R.layout.profile_adn : R.layout.profile, null
+//        );
 
         if (mFollowsLoggedInUser == null && mUser != null
                 && mFriendshipCallback == null) {
@@ -146,7 +139,7 @@ public class ProfileFragment extends BaseLaneFragment {
                             TextView followingTextView = (TextView) mProfileView
                                     .findViewById(R.id.followState);
                             if (mFollowsLoggedInUser != null
-                                    && mFollowsLoggedInUser.booleanValue()) {
+                                    && mFollowsLoggedInUser) {
                                 followingTextView.setText(R.string.follows_you);
                             } else {
                                 followingTextView.setText(null);
@@ -177,13 +170,21 @@ public class ProfileFragment extends BaseLaneFragment {
      *
 	 */
     void configureView() {
-
+        Log.d("TweetLanes", "0");
         TextView fullNameTextView = (TextView) mProfileView
                 .findViewById(R.id.fullNameTextView);
         TextView followingTextView = (TextView) mProfileView
                 .findViewById(R.id.followState);
         TextView descriptionTextView = (TextView) mProfileView
                 .findViewById(R.id.bioTextView);
+        TextView link = (TextView) mProfileView
+                .findViewById(R.id.link);
+        mFriendshipButton = (Button) mProfileView
+                .findViewById(R.id.friendship_button);
+        TextView location = (TextView) mProfileView.findViewById(R.id.location);
+
+        TableLayout detailsLayout = (TableLayout) mProfileView
+                .findViewById(R.id.details_table_layout);
         TextView tweetCount = (TextView) mProfileView
                 .findViewById(R.id.tweetCountLabel);
         TextView followingCount = (TextView) mProfileView
@@ -192,52 +193,55 @@ public class ProfileFragment extends BaseLaneFragment {
                 .findViewById(R.id.followersCountLabel);
         TextView favoritesCount = (TextView) mProfileView
                 .findViewById(R.id.favorites_count);
-        LinearLayout linkLayout = (LinearLayout) mProfileView
-                .findViewById(R.id.linkLayout);
-        TextView link = (TextView) mProfileView.findViewById(R.id.link);
-        LinearLayout locationLayout = (LinearLayout) mProfileView
-                .findViewById(R.id.locationLayout);
-        TextView location = (TextView) mProfileView.findViewById(R.id.location);
-        LinearLayout detailsLayout = (LinearLayout) mProfileView
-                .findViewById(R.id.detailsLayout);
-        ImageView privateAccountImage = (ImageView) mProfileView
-                .findViewById(R.id.private_account_image);
-        mFriendshipButton = (Button) mProfileView
-                .findViewById(R.id.friendship_button);
-        mFriendshipDivider = mProfileView.findViewById(R.id.friendship_divider);
+
 
         if (mUser != null) {
+            // user photo
             ImageView avatar = (ImageView) mProfileView
                     .findViewById(R.id.profileImage);
-            // String imageUrl =
-            // TwitterManager.getProfileImageUrl(mUser.getScreenName(),
-            // TwitterManager.ProfileImageSize.ORIGINAL);
             String imageUrl = mUser
-                    .getProfileImageUrl(TwitterManager.ProfileImageSize.ORIGINAL);
+                    .getProfileImageUrl(
+                            TwitterManager.ProfileImageSize.ORIGINAL);
             UrlImageViewHelper.setUrlDrawable(avatar, imageUrl,
                     R.drawable.ic_contact_picture);
-            // avatar.setImageURL(imageUrl);
 
-            ImageView coverImage = (ImageView) mProfileView
-                    .findViewById(R.id.coverImage);
-            if (coverImage != null) {
-                String url = mUser.getCoverImageUrl();
-                if (url != null) {
-                    UrlImageViewHelper.setUrlDrawable(coverImage, url,
-                            R.drawable.ic_contact_picture);
+//            // cover image (app.net)
+//            ImageView coverImage = (ImageView) mProfileView
+//                    .findViewById(R.id.coverImage);
+//            if (coverImage != null) {
+//                String url = mUser.getCoverImageUrl();
+//                if (url != null) {
+//                    UrlImageViewHelper.setUrlDrawable(coverImage, url,
+//                            R.drawable.ic_contact_picture);
+//                }
+//            }
+
+            // full name
+            fullNameTextView.setText(mUser.getName());
+            // verified account?
+            if (mUser.getVerified()) {
+                if (android.os.Build.VERSION.SDK_INT
+                        >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                    fullNameTextView
+                            .setCompoundDrawablesRelativeWithIntrinsicBounds(
+                                    R.drawable.ic_verified, 0, 0, 0);
+                } else {
+                    fullNameTextView
+                            .setCompoundDrawablesWithIntrinsicBounds(
+                                    R.drawable.ic_verified, 0, 0, 0);
                 }
             }
 
-            fullNameTextView.setText(mUser.getName());
-            if (mFollowsLoggedInUser != null
-                    && mFollowsLoggedInUser.booleanValue()) {
+            // follows me?
+            if (mFollowsLoggedInUser != null && mFollowsLoggedInUser) {
                 followingTextView.setText(R.string.follows_you);
             } else {
                 followingTextView.setText(null);
             }
 
-            String description = mUser.getDescription();
+            // biography
             URLEntity[] urlEntities = mUser.getUrlEntities();
+            String description = mUser.getDescription();
             if (description != null) {
                 String descriptionMarkup = TwitterUtil.getTextMarkup(description, urlEntities);
                 descriptionTextView.setText(Html.fromHtml(descriptionMarkup
@@ -245,23 +249,29 @@ public class ProfileFragment extends BaseLaneFragment {
                 descriptionTextView.setMovementMethod(LinkMovementMethod
                         .getInstance());
                 URLSpanNoUnderline.stripUnderlines(descriptionTextView);
+            } else {
+                descriptionTextView.setVisibility(View.GONE);
             }
 
+            // link
             if (mUser.getUrl() != null) {
-                linkLayout.setVisibility(View.VISIBLE);
                 String urlMarkup = TwitterUtil.getTextMarkup(mUser.getUrl(), urlEntities);
                 link.setText(Html.fromHtml(urlMarkup + ""));
                 link.setMovementMethod(LinkMovementMethod.getInstance());
                 URLSpanNoUnderline.stripUnderlines(link);
             } else {
-                linkLayout.setVisibility(View.GONE);
+                link.setVisibility(View.GONE);
             }
 
-            detailsLayout.setVisibility(View.VISIBLE);
-            privateAccountImage
-                    .setVisibility(mUser.getProtected() ? View.VISIBLE
-                            : View.GONE);
+            // location
+            if (mUser.getLocation() != null) {
+                location.setText(mUser.getLocation());
+            } else {
+                location.setVisibility(View.GONE);
+            }
 
+            // twitter stats
+            detailsLayout.setVisibility(View.VISIBLE);
             tweetCount.setText(Util.getPrettyCount(mUser.getStatusesCount()));
             followingCount
                     .setText(Util.getPrettyCount(mUser.getFriendsCount()));
@@ -272,14 +282,7 @@ public class ProfileFragment extends BaseLaneFragment {
                         .getFavoritesCount()));
             }
 
-            if (mUser.getLocation() != null) {
-                locationLayout.setVisibility(View.VISIBLE);
-                location.setText(mUser.getLocation());
-            } else {
-                locationLayout.setVisibility(View.GONE);
-            }
-
-
+            // follow/unfollow button
             configureFriendshipButtonVisibility(mLoggedInUserFollows);
 
         } else {
@@ -288,25 +291,17 @@ public class ProfileFragment extends BaseLaneFragment {
             descriptionTextView.setText(null);
 
             detailsLayout.setVisibility(View.GONE);
-            linkLayout.setVisibility(View.GONE);
-            locationLayout.setVisibility(View.GONE);
+            location.setVisibility(View.GONE);
             mFriendshipButton.setVisibility(View.GONE);
-            mFriendshipDivider.setVisibility(View.GONE);
-            privateAccountImage.setVisibility(View.GONE);
         }
     }
 
-    /*
-	 * 
-	 */
     private void configureFriendshipButtonVisibility(Boolean loggedInUserFollows) {
 
         if (loggedInUserFollows == null) {
             mFriendshipButton.setVisibility(View.GONE);
-            mFriendshipDivider.setVisibility(View.GONE);
         } else {
             mFriendshipButton.setVisibility(View.VISIBLE);
-            mFriendshipDivider.setVisibility(View.VISIBLE);
             mFriendshipButton
                     .setText(loggedInUserFollows ? R.string.action_unfollow
                             : R.string.action_follow);
@@ -314,9 +309,6 @@ public class ProfileFragment extends BaseLaneFragment {
         }
     }
 
-    /*
-	 * 
-	 */
     private final OnClickListener mFrienshipButtonListener = new OnClickListener() {
 
         @Override
@@ -327,7 +319,7 @@ public class ProfileFragment extends BaseLaneFragment {
                 String loggedInUserScreenName = getBaseLaneActivity().getApp()
                         .getCurrentAccountScreenName();
 
-                final boolean willCreateFriendship = mLoggedInUserFollows != null && !mLoggedInUserFollows;
+                final boolean willCreateFriendship = !mLoggedInUserFollows;
                 configureFriendshipButtonVisibility(willCreateFriendship);
 
                 mUpdateFriendshipFinishedCallback = TwitterManager.get()
@@ -356,11 +348,11 @@ public class ProfileFragment extends BaseLaneFragment {
     private TwitterFetchUsers.FinishedCallback mUpdateFriendshipFinishedCallback;
 
     /*
-         * (non-Javadoc)
-         *
-         * @see
-         * com.tweetlanes.android.core.view.BaseLaneFragment#triggerInitialDownload()
-         */
+     * (non-Javadoc)
+     *
+     * @see
+     * com.tweetlanes.android.core.view.BaseLaneFragment#triggerInitialDownload()
+     */
     @Override
     public void triggerInitialDownload() {
 

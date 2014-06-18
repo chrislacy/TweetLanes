@@ -68,8 +68,8 @@
     <string name="authorize_twitter_account">Authorize Twitter Account</string>
     <string name="authorize_appdotnet_account">Authorize App.net Account</string>
 
-    <string name="action_follow">Follow</string>
-    <string name="action_unfollow">Unfollow</string>
+    <string name="action_follow">+ Follow</string>
+    <string name="action_unfollow">– Unfollow</string>
     <string name="action_share">Share</string>
     <string name="action_manage_friendship">Manage Friendship</string>
     <string name="action_favorite">Favorite</string>

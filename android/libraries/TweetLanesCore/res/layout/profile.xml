@@ -1,287 +1,233 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/profile_scroll_view"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_weight="1"
-        android:fadingEdge="none"
         android:layout_height="match_parent"
-        >
+        android:layout_weight="1"
+        android:fadingEdge="none">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                  xmlns:titleFlow="http://schemas.android.com/apk/res/com.tweetlanes.android.core"
-                  android:layout_width="fill_parent"
-                  android:layout_height="fill_parent"
-                  android:orientation="vertical">
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-        <RelativeLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="fill_parent"
-                android:layout_height="250dp"
-                android:orientation="vertical">
-
-            <ImageView
-                    android:id="@+id/profileImage"
-                    android:layout_width="match_parent"
-                    android:layout_height="fill_parent"
-                    android:src="@drawable/ic_contact_picture"/>
-
-            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                            android:layout_width="fill_parent"
-                            android:layout_height="40dp"
-                            android:background="#77000000"
-                            android:layout_alignParentBottom="true"
-                            android:layout_alignParentLeft="true"
-                            android:layout_alignParentRight="true">
-
-                <ImageView
-                        android:id="@+id/private_account_image"
-                        android:layout_width="24dp"
-                        android:layout_height="fill_parent"
-                        android:src="@drawable/ic_secure"/>
-
-                <TextView
-                        android:id="@+id/fullNameTextView"
-                        android:layout_height="40dp"
-                        android:layout_width="wrap_content"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="@dimen/message_item_text_padding_left_right"
-                        android:text="Name of account"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:textColor="#fff"
-                        android:layout_toRightOf="@id/private_account_image"
-                        />
-
-                <TextView
-                        android:id="@+id/followState"
-                        android:layout_height="30dp"
-                        android:layout_width="wrap_content"
-                        android:gravity="center_vertical"
-                        android:layout_toRightOf="@id/fullNameTextView"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="6dp"
-                        android:paddingTop="14dp"
-                        android:text="follows you"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textSize="13sp"
-                        android:textColor="#fff"/>
-
-                <RelativeLayout
-                        android:layout_width="86dp"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentRight="true">
-
-                    <View
-                            android:id="@+id/friendship_divider"
-                            android:layout_width="1dip"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentTop="true"
-                            android:layout_alignParentBottom="true"
-                            android:layout_marginBottom="4dip"
-                            android:layout_marginTop="4dip"
-                            android:background="#fff"
-                            />
-
-                    <Button
-                            android:id="@+id/friendship_button"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_alignParentRight="true"
-                            android:layout_alignParentTop="true"
-                            android:background="?android:attr/selectableItemBackground"
-                            android:text="@string/action_unfollow"
-                            android:textColor="#fff"
-                            android:layout_alignParentBottom="true"
-                            android:layout_toRightOf="@+id/friendship_divider"/>
-                </RelativeLayout>
-
-            </RelativeLayout>
-        </RelativeLayout>
-
-        <TextView
-                android:id="@+id/bioTextView"
-                android:paddingTop="10dip"
-                android:paddingBottom="12dip"
-                android:paddingLeft="20dip"
-                android:paddingRight="20dip"
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Loading bio..."
-                android:linksClickable="true"
-                />
-
-        <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:id="@+id/detailsLayout">
+                android:background="#333"
+                android:padding="12dp">
 
-            <TextView
-                    style="?android:attr/listSeparatorTextViewStyle"
-                    android:text="@string/details"
-                    android:layout_marginTop="5dip"
-                    />
-
-            <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                         android:id="@+id/details_table_layout"
-                         android:layout_width="fill_parent"
-                         android:layout_height="fill_parent">
-
-                <TableRow
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="20dip"
-                        android:paddingRight="20dip"
-                        android:paddingTop="5dp"
-                        android:paddingBottom="5dp"
-                        >
-
-                    <TextView
-                            android:text="@string/status_count"
-                            android:layout_width="fill_parent"
-                            android:layout_height="fill_parent"
-                            android:layout_weight=".7"
-                            />
-
-                    <TextView
-                            android:id="@+id/tweetCountLabel"
-                            android:text="777"
-                            android:layout_gravity="center_vertical|right"
-                            android:layout_width="fill_parent"
-                            android:layout_height="fill_parent"
-                            />
-                </TableRow>
-
-                <TableRow
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="20dip"
-                        android:paddingRight="20dip"
-                        android:paddingTop="5dp"
-                        android:paddingBottom="5dp"
-                        >
-
-                    <TextView
-                            android:text="@string/friends_count"
-                            android:layout_width="fill_parent"
-                            android:layout_height="fill_parent"
-                            android:layout_weight=".7"
-                            />
-
-                    <TextView
-                            android:id="@+id/followingCountLabel"
-                            android:text="888"
-                            android:layout_gravity="center_vertical|right"
-                            android:layout_width="fill_parent"
-                            android:layout_height="fill_parent"
-                            />
-                </TableRow>
-
-                <TableRow
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="20dip"
-                        android:paddingRight="20dip"
-                        android:paddingTop="5dp"
-                        android:paddingBottom="5dp"
-                        >
-
-                    <TextView
-                            android:text="@string/following_count"
-                            android:layout_width="fill_parent"
-                            android:layout_height="fill_parent"
-                            android:layout_weight=".7"
-                            />
-
-                    <TextView
-                            android:id="@+id/followersCountLabel"
-                            android:text="54455"
-                            android:layout_gravity="center_vertical|right"
-                            android:layout_width="fill_parent"
-                            android:layout_height="fill_parent"
-                            />
-                </TableRow>
-
-                <TableRow
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="20dip"
-                        android:paddingRight="20dip"
-                        android:paddingTop="5dp"
-                        android:paddingBottom="5dp"
-                        >
-
-                    <TextView
-                            android:text="@string/favorites_count"
-                            android:layout_width="fill_parent"
-                            android:layout_height="fill_parent"
-                            android:layout_weight=".7"
-
-                            />
-
-                    <TextView
-                            android:id="@+id/favorites_count"
-                            android:text="45"
-                            android:layout_gravity="center_vertical|right"
-                            android:layout_width="fill_parent"
-                            android:layout_height="fill_parent"
-                            />
-                </TableRow>
-
-            </TableLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:id="@+id/locationLayout">
-
-            <TextView
-                    style="?android:attr/listSeparatorTextViewStyle"
-                    android:text="@string/location"
-                    android:layout_marginTop="5dip"
-                    />
-
-            <TextView
-                    android:id="@+id/location"
-                    android:layout_width="fill_parent"
+            <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
-                    android:paddingLeft="20dip"
-                    android:paddingRight="20dip"
-                    android:text="Manchester, UK"
-                    />
-        </LinearLayout>
+                    android:orientation="horizontal"
+                    android:padding="12dp">
 
-        <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:id="@+id/linkLayout">
+                <ImageView
+                        android:id="@+id/profileImage"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_contact_picture"
+                        android:layout_marginEnd="20dp" />
+
+                <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                    <TextView
+                            android:textColor="#fff"
+                            android:id="@+id/fullNameTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical|start"
+                            android:text="Android Central"
+                            android:drawablePadding="5dp"
+                            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                    <TextView
+                            android:textColor="#fff"
+                            android:id="@+id/followState"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/follows_you"
+                            android:alpha="0.5"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textSize="13sp" />
+
+                    <Button
+                            android:textColor="#fff"
+                            android:id="@+id/friendship_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/action_unfollow" />
+                </LinearLayout>
+            </LinearLayout>
+
 
             <TextView
-                    style="?android:attr/listSeparatorTextViewStyle"
-                    android:text="@string/link"
-                    android:layout_marginTop="5dip"
-                    />
-
-            <TextView
-                    android:id="@+id/link"
-                    android:layout_width="fill_parent"
+                    android:textColor="#fff"
+                    android:id="@+id/bioTextView"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
-                    android:paddingLeft="20dip"
-                    android:paddingRight="20dip"
-                    android:text="http://www.twitter.com"
+                    android:text="Loading bio..."
+                    android:alpha="0.8"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
                     android:linksClickable="true"
-                    />
+                    android:layout_margin="12dp" />
+
+            <TextView
+                    android:textColor="#fff"
+                    android:id="@+id/link"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="androidcentral.com"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:linksClickable="true"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="12dp" />
+
+
+            <TextView
+                    android:textColor="#fff"
+                    android:id="@+id/location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Manchester, UK"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="12dp" />
+
         </LinearLayout>
+
+        <TableLayout
+                android:id="@+id/details_table_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="12dp"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp">
+
+            <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp">
+
+                <TextView
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center_vertical|start"
+                        android:layout_weight=".5"
+                        android:gravity="start"
+                        android:textAlignment="viewStart"
+                        android:text="@string/status_count" />
+
+                <TextView
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center_vertical|end"
+                        android:layout_weight=".5"
+                        android:gravity="end"
+                        android:textAlignment="viewEnd"
+                        android:id="@+id/tweetCountLabel"
+                        android:text="777" />
+            </TableRow>
+
+            <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp">
+
+                <TextView
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center_vertical|start"
+                        android:layout_weight=".5"
+                        android:gravity="start"
+                        android:textAlignment="viewStart"
+                        android:text="@string/friends_count" />
+
+                <TextView
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center_vertical|end"
+                        android:layout_weight=".5"
+                        android:gravity="end"
+                        android:textAlignment="viewEnd"
+                        android:id="@+id/followingCountLabel"
+                        android:text="888" />
+            </TableRow>
+
+            <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp">
+
+                <TextView
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center_vertical|start"
+                        android:layout_weight=".5"
+                        android:gravity="start"
+                        android:textAlignment="viewStart"
+                        android:text="@string/following_count" />
+
+                <TextView
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center_vertical|end"
+                        android:layout_weight=".5"
+                        android:gravity="end"
+                        android:textAlignment="viewEnd"
+                        android:id="@+id/followersCountLabel"
+                        android:text="54455" />
+            </TableRow>
+
+            <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp">
+
+                <TextView
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center_vertical|start"
+                        android:layout_weight=".5"
+                        android:gravity="start"
+                        android:textAlignment="viewStart"
+                        android:text="@string/favorites_count" />
+
+                <TextView
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center_vertical|end"
+                        android:layout_weight=".5"
+                        android:gravity="end"
+                        android:textAlignment="viewEnd"
+                        android:id="@+id/favorites_count"
+                        android:text="45" />
+            </TableRow>
+
+        </TableLayout>
+
 
     </LinearLayout>
 </ScrollView>
