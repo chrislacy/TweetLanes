@@ -70,6 +70,8 @@
 
 
     <style name="Theme.TweetLanes" parent="android:Theme.Holo">
+        <item name="android:windowBackground">@color/black</item>
+
         <item name="vpiListTabPageIndicatorStyle">@style/Widget.ListTabPageIndicator</item>
         <item name="vpiTabPageIndicatorStyle">@style/Widget.TabPageIndicator</item>
         <item name="vpiTabTextStyle">@style/Widget.TabPageIndicator.Text</item>
@@ -109,11 +111,11 @@
     </style>
 
     <style name="lane_background_light">
-        <item name="android:background">@drawable/lane_background_light</item>
+        <item name="android:background">@color/shadow_light</item>
     </style>
 
     <style name="lane_background_dark">
-        <item name="android:background">@drawable/lane_background_dark</item>
+        <item name="android:background">@color/shadow_light_invert</item>
     </style>
 
     <style name="background_light">

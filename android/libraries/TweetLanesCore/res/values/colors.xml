@@ -24,6 +24,8 @@
     <color name="red">#f00</color>
     <color name="white">#fff</color>
     <color name="black">#000</color>
+    <color name="shadow_light">#11000000</color>
+    <color name="shadow_light_invert">#11ffffff</color>
 
     <!-- Retrieved via Resources.getDrawable() and friends. -->
     <drawable name="semi_black">#80000000</drawable>
