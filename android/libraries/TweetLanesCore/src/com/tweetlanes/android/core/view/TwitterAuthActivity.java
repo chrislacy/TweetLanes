@@ -113,11 +113,6 @@ public class TwitterAuthActivity extends Activity {
 
         setContentView(R.layout.twitter_auth_signin);
 
-        CookieSyncManager.createInstance(this);
-        CookieManager cookieManager = CookieManager.getInstance();
-        cookieManager.removeAllCookie();
-        cookieManager.setAcceptCookie(false);
-
         WebView webView = (WebView) findViewById(R.id.twitter_auth_signin_webview);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setWebViewClient(new WebViewClient() {
