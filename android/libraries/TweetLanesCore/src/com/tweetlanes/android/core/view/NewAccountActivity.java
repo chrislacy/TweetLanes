@@ -27,8 +27,15 @@ public class NewAccountActivity extends Activity {
             Crittercism.initialize(getApplicationContext(), ConsumerKeyConstants.CRITTERCISM_APP_ID);
         }
 
-        setTheme(AppSettings.get().getCurrentThemeStyle());
-        setContentView(R.layout.new_account);
+        if (Constant.ENABLE_APP_DOT_NET) {
+            setTheme(AppSettings.get().getCurrentThemeStyle());
+            setContentView(R.layout.new_account);
+        } else {
+            Intent intent = new Intent(getApplicationContext(), TwitterAuthActivity.class);
+            overridePendingTransition(0, 0);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivity(intent);
+        }
     }
 
     public void accountClick(View view) {

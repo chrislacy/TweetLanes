@@ -15,6 +15,10 @@ import android.widget.Toast;
 
 public class Constant {
 
+    // My App.net account is due to expire and I'm not going to keep paying it forever, so adding flag
+    // to not use App.net in the app.
+    public static final boolean ENABLE_APP_DOT_NET = false;
+
     /*
      * App Version info
      */

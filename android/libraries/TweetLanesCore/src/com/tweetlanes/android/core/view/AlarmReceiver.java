@@ -8,6 +8,7 @@ import android.preference.PreferenceManager;
 
 import com.tweetlanes.android.core.App;
 import com.tweetlanes.android.core.AppSettings;
+import com.tweetlanes.android.core.Constant;
 import com.tweetlanes.android.core.ConsumerKeyConstants;
 import com.tweetlanes.android.core.Notifier;
 import com.tweetlanes.android.core.SharedPreferencesConstants;
@@ -259,6 +260,10 @@ public class AlarmReceiver extends BroadcastReceiver {
                     String jsonAsString = preferences.getString(key, null);
                     if (jsonAsString != null) {
                         AccountDescriptor account = new AccountDescriptor(context, jsonAsString);
+                        if (Constant.ENABLE_APP_DOT_NET == false
+                            && account.getSocialNetType() == SocialNetConstant.Type.Appdotnet) {
+                            continue;
+                        }
                         accounts.add(account);
                     }
                 }

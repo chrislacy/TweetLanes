@@ -269,6 +269,10 @@ public class App extends Application {
                     if (jsonAsString != null) {
                         AccountDescriptor account = new AccountDescriptor(this,
                                 jsonAsString);
+                        if (Constant.ENABLE_APP_DOT_NET == false
+                                && account.getSocialNetType() == SocialNetConstant.Type.Appdotnet) {
+                            continue;
+                        }
                         mAccounts.add(account);
 
                         if (currentAccountId != -1

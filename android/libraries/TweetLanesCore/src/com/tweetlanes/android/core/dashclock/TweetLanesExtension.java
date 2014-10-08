@@ -8,6 +8,7 @@ import android.preference.PreferenceManager;
 import com.google.android.apps.dashclock.api.DashClockExtension;
 import com.google.android.apps.dashclock.api.ExtensionData;
 import com.tweetlanes.android.core.App;
+import com.tweetlanes.android.core.Constant;
 import com.tweetlanes.android.core.R;
 import com.tweetlanes.android.core.SharedPreferencesConstants;
 import com.tweetlanes.android.core.model.AccountDescriptor;
@@ -15,6 +16,7 @@ import com.tweetlanes.android.core.view.HomeActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.socialnetlib.android.SocialNetConstant;
 
 import java.util.ArrayList;
 
@@ -103,6 +105,10 @@ public class TweetLanesExtension extends DashClockExtension {
                     String jsonAsString = preferences.getString(key, null);
                     if (jsonAsString != null) {
                         AccountDescriptor account = new AccountDescriptor(context, jsonAsString);
+                        if (Constant.ENABLE_APP_DOT_NET == false
+                                && account.getSocialNetType() == SocialNetConstant.Type.Appdotnet) {
+                            continue;
+                        }
                         accounts.add(account);
                     }
                 }
