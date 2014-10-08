@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="1.4.1" versioncode="57">
+        <change>Fix - Issue preventing users from logging in for the first time.</change>
+        <change>Removed - App.net support. Given Tweet Lanes is a free app, I unfortunately can no longer justify
+            continuing to pay for an App.net developer account.</change>
+    </release>
     <release version="1.4.0" versioncode="56">
         <change>Feature - Large media previews &amp; option to turn off media previews</change>
         <change>Feature - Added option to use display urls rather than full URLs</change>
