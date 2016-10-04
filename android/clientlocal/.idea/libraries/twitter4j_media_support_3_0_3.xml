@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="twitter4j-media-support-3.0.3">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../libraries/SocialNetLib/libs/twitter4j-media-support-3.0.3.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

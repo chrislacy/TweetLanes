@@ -1,0 +1,15 @@
+<component name="ArtifactManager">
+  <artifact type="apk" name="TweetLanesLocal">
+    <output-path>$PROJECT_DIR$/../clientbeta/out/artifacts/TweetLanesLocal</output-path>
+    <properties id="android-properties">
+      <options>
+        <option name="includeSystemProGuardCfgFile" value="true" />
+        <option name="keyStoreUrl" value="file://" />
+        <option name="proGuardCfgFileUrl" value="file://" />
+      </options>
+    </properties>
+    <root id="archive" name="TweetLanesLocal.apk">
+      <element id="android-final-package" facet="TweetLanesLocal/android/Android" />
+    </root>
+  </artifact>
+</component>
