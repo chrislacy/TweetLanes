@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -822,7 +823,8 @@ class BaseLaneActivity extends FragmentActivity implements
      * directory
      */
     private static File getFixedTempFile(Context context) {
-        final File path = new File(Environment.getExternalStorageDirectory(),
+        final File path = new File(Build.VERSION.SDK_INT > Build.VERSION_CODES.M
+                ? Environment.getExternalStorageDirectory() : Environment.getDataDirectory(),
                 "temp/images/Tweet Lanes");
         path.mkdirs();
 
