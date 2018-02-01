@@ -13,5 +13,7 @@ R.java
 tests
 *.apk
 */.idea
-android/client/.idea/workspace.xml
-android/clientbeta/.idea/workspace.xml
+build
+.gradle/
+local.properties
+*.iml
