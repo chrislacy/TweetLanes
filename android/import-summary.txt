@@ -1,0 +1,73 @@
+ECLIPSE ANDROID PROJECT IMPORT SUMMARY
+======================================
+
+Ignored Files:
+--------------
+The following files were *not* copied into the new Gradle project; you
+should evaluate whether these are still needed in your project and if
+so manually move them:
+
+From TL-SocialNetLib:
+* .gitignore
+* SocialNetLib.iml
+* TL-SocialNetLib.iml
+* build.xml
+* proguard-project.txt
+From TweetLanesCore:
+* TweetLanes.iml
+* TweetLanesCore.iml
+* ant.properties
+* build.xml
+* proguard-project.txt
+* proguard.cfg
+
+Replaced Jars with Dependencies:
+--------------------------------
+The importer recognized the following .jar files as third party
+libraries and replaced them with Gradle dependencies instead. This has
+the advantage that more explicit version information is known, and the
+libraries can be updated automatically. However, it is possible that
+the .jar file in your project was of an older version than the
+dependency we picked, which could render the project not compileable.
+You can disable the jar replacement in the import wizard and try again:
+
+android-support-v4.jar => com.android.support:support-v4:18.0.0
+
+Moved Files:
+------------
+Android Gradle projects use a different directory structure than ADT
+Eclipse projects. Here's how the projects were restructured:
+
+In TL-SocialNetLib:
+* AndroidManifest.xml => tLSocialNetLib/src/main/AndroidManifest.xml
+* libs/basic-http-client-android-0.88.jar => tLSocialNetLib/libs/basic-http-client-android-0.88.jar
+* libs/twitter4j-core-3.0.6-SNAPSHOT.jar => tLSocialNetLib/libs/twitter4j-core-3.0.6-SNAPSHOT.jar
+* libs/twitter4j-media-support-3.0.6-SNAPSHOT.jar => tLSocialNetLib/libs/twitter4j-media-support-3.0.6-SNAPSHOT.jar
+* lint.xml => tLSocialNetLib/lint.xml
+* res/ => tLSocialNetLib/src/main/res/
+* src/ => tLSocialNetLib/src/main/java/
+In TweetLanesCore:
+* AndroidManifest.xml => tweetLanesCore/src/main/AndroidManifest.xml
+* assets/ => tweetLanesCore/src/main/assets/
+* libs/basic-http-client-android-0.88.jar => tweetLanesCore/libs/basic-http-client-android-0.88.jar
+* libs/crittercism_v4_3_0_sdkonly.jar => tweetLanesCore/libs/crittercism_v4_3_0_sdkonly.jar
+* libs/dashclock-api-r1.1.jar => tweetLanesCore/libs/dashclock-api-r1.1.jar
+* libs/prime-0.6.1.jar => tweetLanesCore/libs/prime-0.6.1.jar
+* lint.xml => tweetLanesCore/lint.xml
+* res/ => tweetLanesCore/src/main/res/
+* src/ => tweetLanesCore/src/main/java/
+
+Next Steps:
+-----------
+You can now build the project. The Gradle project needs network
+connectivity to download dependencies.
+
+Bugs:
+-----
+If for some reason your project does not build, and you determine that
+it is due to a bug or limitation of the Eclipse to Gradle importer,
+please file a bug at http://b.android.com with category
+Component-Tools.
+
+(This import summary is for your information only, and can be deleted
+after import once you are satisfied with the results.)

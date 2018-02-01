@@ -1,0 +1,30 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 18
+    buildToolsVersion "26.0.2"
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 18
+
+        multiDexEnabled false
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+}
+
+dependencies {
+    implementation 'com.android.support:support-v4:18.0.0'
+    implementation files('libs/basic-http-client-android-0.88.jar')
+    implementation files('libs/crittercism_v4_3_0_sdkonly.jar')
+    implementation files('libs/dashclock-api-r1.1.jar')
+    implementation files('libs/prime-0.6.1.jar')
+    implementation files('libs/twitter4j-core-3.0.6-SNAPSHOT.jar')
+    implementation files('libs/twitter4j-media-support-3.0.6-SNAPSHOT.jar')
+}
