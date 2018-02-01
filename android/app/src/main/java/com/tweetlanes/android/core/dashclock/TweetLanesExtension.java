@@ -64,7 +64,7 @@ public class TweetLanesExtension extends DashClockExtension {
             } else if (dmCount > 0) {
                 title += ", " + dmCount + " new direct mentions";
             }
-            publishUpdate(new ExtensionData().visible(true).icon(R.drawable.ic_launcher).status(String.valueOf(mentionCount + dmCount))
+            publishUpdate(new ExtensionData().visible(true).icon(R.drawable.ic_logo).status(String.valueOf(mentionCount + dmCount))
                     .expandedTitle(title).expandedBody(body).clickIntent(getHomeIntent(accountKey, mentionCount > 0 ? SharedPreferencesConstants.NOTIFICATION_TYPE_MENTION : SharedPreferencesConstants.NOTIFICATION_TYPE_DIRECT_MESSAGE)));
         } else {
             publishUpdate(null);
