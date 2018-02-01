@@ -21,7 +21,7 @@ android {
 }
 
 dependencies {
-    implementation 'com.android.support:support-v4:18.0.0'
+    implementation 'com.android.support:appcompat-v7:27.0.2'
     implementation files('libs/basic-http-client-android-0.88.jar')
     implementation files('libs/dashclock-api-r1.1.jar')
     implementation files('libs/prime-0.6.1.jar')

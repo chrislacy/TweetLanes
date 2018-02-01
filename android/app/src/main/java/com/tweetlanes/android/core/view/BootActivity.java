@@ -33,9 +33,10 @@ public class BootActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(AppSettings.get().getCurrentThemeStyle());
+
         super.onCreate(savedInstanceState);
 
-        setTheme(AppSettings.get().getCurrentThemeStyle());
         // LocalBroadcastManager.getInstance(this).registerReceiver(mOAuthLoginStateChangeReceiver,
         // new IntentFilter("" + SystemEvent.OAuthLoginStateChange));
     }
@@ -65,7 +66,6 @@ public class BootActivity extends Activity {
      *
 	 */
     void jumpToNext() {
-
         int accountCount = getApp().getAccountCount();
         if (accountCount == 0) {
             Intent intent = new Intent(getApplicationContext(), NewAccountActivity.class);
@@ -84,10 +84,6 @@ public class BootActivity extends Activity {
                     getIntent().setData(null);
                 } else if (mLastStartedClass != HomeActivity.class) {
                     mLastStartedClass = HomeActivity.class;
-                    // We don't want to come back here, so remove from the
-                    // activity stack
-                    finish();
-
 
                     Class<?> nextClass = HomeActivity.class;
                     if (!getApp().getTutorialCompleted()) {
@@ -99,6 +95,10 @@ public class BootActivity extends Activity {
 
                     overridePendingTransition(0, 0);
                     startActivity(intent);
+
+                    // We don't want to come back here, so remove from the
+                    // activity stack
+                    finish();
                 }
             } else {
                 // TODO: Handle this case

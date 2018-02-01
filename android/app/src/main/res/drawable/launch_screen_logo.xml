@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" android:opacity="opaque">
+    <item android:drawable="@color/launch_color"/>
+    <item
+        android:height="@dimen/adaptivezoom_image_size_dp"
+        android:width="@dimen/adaptivezoom_image_size_dp"
+        android:gravity="center">
+
+        <bitmap
+            android:src="@mipmap/ic_launcher_foreground"
+            android:gravity="fill_horizontal|fill_vertical"/>
+    </item>
+</layer-list>
