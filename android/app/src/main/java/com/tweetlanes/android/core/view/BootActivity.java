@@ -12,18 +12,12 @@
 package com.tweetlanes.android.core.view;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
-import com.crittercism.app.Crittercism;
 import com.tweetlanes.android.core.App;
 import com.tweetlanes.android.core.AppSettings;
-import com.tweetlanes.android.core.Constant;
-import com.tweetlanes.android.core.ConsumerKeyConstants;
-import com.tweetlanes.android.R;
 import com.tweetlanes.android.core.model.AccountDescriptor;
 
 import org.socialnetlib.android.SocialNetConstant;
@@ -40,11 +34,6 @@ public class BootActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (Constant.ENABLE_CRASH_TRACKING) {
-            Crittercism.initialize(getApplicationContext(),
-                    ConsumerKeyConstants.CRITTERCISM_APP_ID);
-        }
 
         setTheme(AppSettings.get().getCurrentThemeStyle());
         // LocalBroadcastManager.getInstance(this).registerReceiver(mOAuthLoginStateChangeReceiver,

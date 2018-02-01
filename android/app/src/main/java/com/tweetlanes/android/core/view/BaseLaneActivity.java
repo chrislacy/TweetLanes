@@ -47,7 +47,6 @@ import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.Toast;
 
-import com.crittercism.app.Crittercism;
 import com.tweetlanes.android.core.App;
 import com.tweetlanes.android.core.AppSettings;
 import com.tweetlanes.android.core.Constant;
@@ -111,11 +110,6 @@ class BaseLaneActivity extends FragmentActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (Constant.ENABLE_CRASH_TRACKING) {
-            Crittercism.initialize(getApplicationContext(),
-                    ConsumerKeyConstants.CRITTERCISM_APP_ID);
-        }
 
         PagerAdapter pagerAdapter = getAdapterForViewPager();
         if (pagerAdapter != null) {

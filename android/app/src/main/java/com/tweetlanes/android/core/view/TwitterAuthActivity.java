@@ -15,17 +15,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.webkit.CookieManager;
-import android.webkit.CookieSyncManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.crittercism.app.Crittercism;
+import com.tweetlanes.android.R;
 import com.tweetlanes.android.core.App;
 import com.tweetlanes.android.core.AppSettings;
-import com.tweetlanes.android.core.Constant;
 import com.tweetlanes.android.core.ConsumerKeyConstants;
-import com.tweetlanes.android.R;
 
 import org.socialnetlib.android.SocialNetConstant;
 import org.tweetalib.android.TwitterManager;
@@ -47,10 +43,6 @@ public class TwitterAuthActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (Constant.ENABLE_CRASH_TRACKING) {
-            Crittercism.initialize(getApplicationContext(), ConsumerKeyConstants.CRITTERCISM_APP_ID);
-        }
 
         setTheme(AppSettings.get().getCurrentThemeStyle());
 

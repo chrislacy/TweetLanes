@@ -27,7 +27,6 @@ import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
-import com.crittercism.app.Crittercism;
 import com.tweetlanes.android.R;
 import com.tweetlanes.android.core.Constant.SystemEvent;
 import com.tweetlanes.android.core.model.AccountDescriptor;
@@ -37,7 +36,6 @@ import com.tweetlanes.android.core.widget.urlimageviewhelper.UrlImageViewHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.socialnetlib.android.SocialNetConstant;
 import org.tweetalib.android.ConnectionStatus;
 import org.tweetalib.android.TwitterConstant;
@@ -771,28 +769,6 @@ public class App extends Application {
 
         if (mPreviewImageLoader != null) {
             mPreviewImageLoader.clearCache();
-        }
-    }
-
-    public void setCrittersismMetaData() {
-        if (mAccounts.size() > 1) {
-            AccountDescriptor account = mAccounts.get(0);
-            if (account != null) {
-                // Add extra Crittersism meta data
-                try {
-                    JSONObject metadata = new JSONObject();
-                    metadata.put("FullAccountKey", account.getAccountKey());
-                    metadata.put("NumberOfAccounts", mAccounts.size());
-                    for (int i = 1; i < mAccounts.size(); i++) {
-                        AccountDescriptor otherAccount = mAccounts.get(i);
-                        metadata.put("OtherAccount_" + i, otherAccount.getAccountKey());
-                    }
-                    Crittercism.setMetadata(metadata);
-                    Crittercism.setUsername(account.getAccountKey30Chars());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
         }
     }
 }
