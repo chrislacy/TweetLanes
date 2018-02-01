@@ -46,4 +46,7 @@ All Rights Reserved. -->
     <dimen name="lane_content_width">0dp</dimen>
     <dimen name="account_row_size">16sp</dimen>
 
+    <dimen name="adaptivezoom_image_size">160</dimen>
+    <dimen name="adaptivezoom_image_size_dp">160dp</dimen>
+
 </resources>

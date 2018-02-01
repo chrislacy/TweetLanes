@@ -109,12 +109,11 @@ class BaseLaneActivity extends FragmentActivity implements
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(AppSettings.get().getCurrentThemeStyle());
         super.onCreate(savedInstanceState);
 
         PagerAdapter pagerAdapter = getAdapterForViewPager();
         if (pagerAdapter != null) {
-
-            setTheme(AppSettings.get().getCurrentThemeStyle());
             setContentView(R.layout.default_lanes_layout);
 
             /*

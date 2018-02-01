@@ -2,6 +2,12 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <style name="DefaultTheme" parent="android:style/Theme.NoTitleBar"/>
+
+    <style name="AppLaunchTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:windowBackground">@drawable/launch_screen_logo</item>
+    </style>
+
     <style name="Theme.TweetLanes.Light" parent="android:Theme.Holo.Light">
         <item name="vpiListTabPageIndicatorStyle">@style/Widget.ListTabPageIndicator</item>
         <item name="vpiTabPageIndicatorStyle">@style/Widget.TabPageIndicator</item>

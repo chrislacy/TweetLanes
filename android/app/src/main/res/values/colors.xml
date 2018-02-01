@@ -72,4 +72,6 @@
     <color name="feed_seperator_color_dark">#ff00ff00</color>
 	-->
 
+    <color name="launch_color">#ededed</color>
+
 </resources>

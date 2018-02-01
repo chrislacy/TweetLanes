@@ -13,12 +13,13 @@
 
     <application
         android:label="@string/app_name"
-        android:theme="@android:style/Theme.NoTitleBar"
         android:icon="@drawable/ic_logo"
+        android:theme="@style/DefaultTheme"
         android:name="com.tweetlanes.android.core.App">
 
         <activity
             android:name="com.tweetlanes.android.core.view.BootActivity"
+            android:theme="@style/AppLaunchTheme"
             android:icon="@mipmap/ic_launcher">
 
             <intent-filter android:label="@string/app_launcher_name">
