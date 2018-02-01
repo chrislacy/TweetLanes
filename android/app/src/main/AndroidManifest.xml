@@ -98,6 +98,14 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="https" android:host="www.alpha.app.net"  />
             </intent-filter>
+
+            <meta-data android:name="com.actionlauncher.adaptivezoom.reveal_color"
+                       android:value="#ededed" />
+            <meta-data android:name="com.actionlauncher.adaptivezoom.reveal_drawable"
+                       android:resource="@mipmap/ic_launcher_foreground" />
+            <meta-data android:name="com.actionlauncher.adaptivezoom.reveal_image_size_dp"
+                       android:value="@dimen/adaptivezoom_image_size" />
+
         </activity>
 
         <activity
