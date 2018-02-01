@@ -229,17 +229,6 @@
                 android:value="@string/extension_description" />
         </service>
 
-        <!-- Start of Crittercism.com Code -->
-        <activity android:name="com.crittercism.NewFeedbackSpringboardActivity" android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" android:screenOrientation="portrait"></activity>
-        <activity android:name="com.crittercism.NewFeedbackIssueListActivity" android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" android:screenOrientation="portrait"></activity>
-        <activity android:name="com.crittercism.NewFeedbackQuestionListActivity" android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" android:screenOrientation="portrait"></activity>
-        <activity android:name="com.crittercism.NewFeedbackItemDetailsActivity" android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" android:screenOrientation="portrait"></activity>
-        <activity android:name="com.crittercism.NewFeedbackCreateActivity" android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" android:screenOrientation="portrait"></activity>
-        <activity android:name="com.crittercism.NotificationActivity" android:screenOrientation="portrait"/>
-        <!-- End of Crittercism.com Code -->
-
-
-
     </application>
 
 

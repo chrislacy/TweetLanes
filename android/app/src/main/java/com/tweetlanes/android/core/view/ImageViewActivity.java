@@ -27,10 +27,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.crittercism.app.Crittercism;
-import com.tweetlanes.android.core.Constant;
-import com.tweetlanes.android.core.ConsumerKeyConstants;
 import com.tweetlanes.android.R;
+import com.tweetlanes.android.core.Constant;
 import com.tweetlanes.android.core.util.SingleMediaScanner;
 import com.tweetlanes.android.core.widget.gestureimageview.GestureImageView;
 import com.tweetlanes.android.core.widget.urlimageviewhelper.UrlImageViewCallback;
@@ -70,11 +68,6 @@ public class ImageViewActivity extends FragmentActivity {
      */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (Constant.ENABLE_CRASH_TRACKING) {
-            Crittercism.initialize(getApplicationContext(),
-                    ConsumerKeyConstants.CRITTERCISM_APP_ID);
-        }
 
         String imageUrl = getMediaUrl();
         if (imageUrl == null) {
