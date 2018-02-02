@@ -27,7 +27,7 @@ public class Constant {
     /*
      * Configuration values
      */
-    public static final int CACHE_VERSION = 4;
+    public static final int CACHE_VERSION = 5;
     public static final boolean ENABLE_STATUS_CACHING = true;
     public static final boolean UPDATE_CACHED_STATUSES = true;
 
