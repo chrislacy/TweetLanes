@@ -433,9 +433,6 @@
     <string name="title_mediaimagesize_preference">Дисплей Название Формат</string>
     <string name="dialog_title_mediaimagesize_preference">Дисплей Название Формат</string>
 
-    <string name="title_displaymedia_preference">Дисплей Размер Media</string>
-    <string name="dialog_title_displaymedia_preference">Дисплей Размер Media</string>
-
     <string name="title_namedisplay_preference">Формат отображения имени</string>
     <string name="dialog_title_namedisplay_preference">Формат отображения имени</string>
 
