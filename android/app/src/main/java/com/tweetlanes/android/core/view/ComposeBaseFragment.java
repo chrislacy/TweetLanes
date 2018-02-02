@@ -58,6 +58,8 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
+import static com.twitter.Validator.MAX_TWEET_LENGTH;
+
 abstract class ComposeBaseFragment extends Fragment {
 
     /*
@@ -174,16 +176,16 @@ abstract class ComposeBaseFragment extends Fragment {
 
     int getMaxPostLength() {
         if (getApp() == null) {
-            return 140;
+            return MAX_TWEET_LENGTH;
         }
 
         AccountDescriptor account = getApp().getCurrentAccount();
 
         if (account == null) {
-            return 140;
+            return MAX_TWEET_LENGTH;
             //best to use the lower number in case
         } else {
-            return account.getSocialNetType() == SocialNetConstant.Type.Appdotnet ? 256 : 140;
+            return account.getSocialNetType() == SocialNetConstant.Type.Appdotnet ? 256 : MAX_TWEET_LENGTH;
         }
     }
 
