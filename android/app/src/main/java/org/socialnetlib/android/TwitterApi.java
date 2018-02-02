@@ -20,13 +20,13 @@ import org.tweetalib.android.model.TwitterUser;
 
 import java.util.List;
 
+import twitter4j.HttpParameter;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.auth.OAuthAuthorization;
 import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
-import twitter4j.internal.http.HttpParameter;
 
 public class TwitterApi extends SocialNetApi {
 
@@ -87,7 +87,8 @@ public class TwitterApi extends SocialNetApi {
                     .setOAuthAccessTokenSecret(mCurrentOAuthSecret)
                     .setMediaProvider("TWITTER")
                             // .setJSONStoreEnabled(true)
-                    .setIncludeEntitiesEnabled(true);
+                    .setIncludeEntitiesEnabled(true)
+                    .setTweetModeExtended(true);
 
             Configuration configuration = configurationBuilder.build();
             mSocNetApi = new TwitterFactory(configuration).getInstance();

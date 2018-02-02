@@ -536,7 +536,7 @@ public class AccountDescriptor {
         List(String jsonAsString) {
             try {
                 JSONObject object = new JSONObject(jsonAsString);
-                mId = object.getInt(KEY_LIST_ID);
+                mId = object.getLong(KEY_LIST_ID);
                 mName = object.getString(KEY_LIST_NAME);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -554,7 +554,7 @@ public class AccountDescriptor {
             return object.toString();
         }
 
-        Integer mId;
+        Long mId;
         String mName;
     }
 }

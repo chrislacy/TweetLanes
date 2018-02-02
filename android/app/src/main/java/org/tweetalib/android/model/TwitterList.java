@@ -31,7 +31,7 @@ public class TwitterList implements Comparable<TwitterList> {
         mSubscriberCount = list.getSubscriberCount();
     }
 
-    public int getId() {
+    public long getId() {
         return mId;
     }
 
@@ -63,7 +63,7 @@ public class TwitterList implements Comparable<TwitterList> {
         return mSubscriberCount;
     }
 
-    private final int mId;
+    private final long mId;
     private final String mName;
     private final String mFullName;
     private final String mDescription;
