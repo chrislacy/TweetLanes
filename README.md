@@ -35,7 +35,7 @@ To build and use the app, you'll need to create your own Twitter application (an
 	* Make sure _Allow this application to be used to Sign in with Twitter_ is checked
 	* Set the _Access_ to Read, Write and Access direct messages
 
-* Now that you have the Twitter app configured, open the java file: [android/client/src/com/tweetlanes/android/ConsumerKeyConstants.java](https://github.com/chrislacy/TweetLanes/blob/master/android/client/src/com/tweetlanes/android/ConsumerKeyConstants.java) and modify your _TWITTER_CONSUMER_KEY_ and _TWITTER_CONSUMER_SECRET_ variables with the ones from your Twitter app.
+* Now that you have the Twitter app configured, open the java file: [android/app/src/main/java/com/tweetlanes/android/core/ConsumerKeyConstants.java](https://github.com/chrislacy/TweetLanes/blob/master/android/app/src/main/java/com/tweetlanes/android/core/ConsumerKeyConstants.java) and modify your _TWITTER_CONSUMER_KEY_ and _TWITTER_CONSUMER_SECRET_ variables with the ones from your Twitter app.
 
 ### App.net
 
@@ -45,7 +45,7 @@ App.net usage requires a similar set of steps.
 * Don't worry about the callback url, just put a valid http url.
 * Once you create it, go to it's settings.
 * Add the following callback URL: tweetlanes-auth-callback:///
-* Now that you have the App.net app configured, open the java file: [android/client/src/com/tweetlanes/android/ConsumerKeyConstants.java](https://github.com/chrislacy/TweetLanes/blob/master/android/client/src/com/tweetlanes/android/ConsumerKeyConstants.java) and modify your _APPDOTNET_CONSUMER_KEY_ and _APPDOTNET_CONSUMER_SECRET_ variables with the ones from your app.
+* Now that you have the App.net app configured, open the java file: [android/app/src/main/java/com/tweetlanes/android/core/ConsumerKeyConstants.java](https://github.com/chrislacy/TweetLanes/blob/master/android/app/src/main/java/com/tweetlanes/android/core/ConsumerKeyConstants.java) and modify your _APPDOTNET_CONSUMER_KEY_ and _APPDOTNET_CONSUMER_SECRET_ variables with the ones from your app.
 
 
 ## Developed By
