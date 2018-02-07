@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="1.5.1" versioncode="1510">
+        <change>Fix crash when tapping image preview.</change>
+    </release>
+
     <release version="1.5.0" versioncode="1500">
         <change>Add adaptive icon.</change>
         <change>Fix - crash when accessing the camera.</change>
