@@ -241,7 +241,8 @@ public class TwitterSignIn {
                     mCallbacks.getConsumerSecret());
             // String callbackURL =
             // App.getContext().getString(R.string.twitter_callback);
-            String callbackUrl = "tweetlanes-auth-callback:///";
+            // must be a HTTP-URL, and entered exactly as put down in the APP settings of your Twitter dev account.
+            String callbackUrl = "http://www.tweetlanes.com/tweetlanes-auth-callback"; 
             try {
                 requestToken = twitter.getOAuthRequestToken(callbackUrl);
                 url = requestToken.getAuthorizationURL();
